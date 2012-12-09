@@ -97,12 +97,12 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Shop_.urls'
+ROOT_URLCONF = 'proj.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Shop_.wsgi.application'
+WSGI_APPLICATION = 'proj.wsgi.application'
 
-TEMPLATE_DIRS = ('C:/Shop_/templates',)
+TEMPLATE_DIRS = ('C:/proj/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
