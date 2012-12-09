@@ -1,4 +1,4 @@
-# Django settings for Shop_ project.
+# Django settings for Shop project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
