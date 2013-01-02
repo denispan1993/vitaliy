@@ -97,8 +97,8 @@ class Product(models.Model):
 
 class Photo(models.Model):
     from django.contrib.contenttypes.models import ContentType
-    content_type = models.ForeignKey(ContentType, )
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, related_name='related_Photo', )
+    object_id = models.PositiveIntegerField(db_index=True, )
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
     main = models.NullBooleanField(verbose_name=u'Признак главной фотографии',
