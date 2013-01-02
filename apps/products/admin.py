@@ -1,7 +1,7 @@
 # coding=utf-8
 __author__ = 'Админ'
 
-from proj.apps.products.models import Poll, Choice
+from apps.products.models import Poll, Choice
 from django.contrib import admin
 
 class ChoiceInline(admin.TabularInline):

@@ -7,7 +7,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'proj.views.home', name='home'),
-    url(r'^$', "proj.apps.root.views.root", name='root_page'),
+    url(r'^$', "apps.root.views.root",
+        {'template_name': 'news/all_news_all_rubric.html'},
+        name='root_page'),
     # url(r'^proj/', include('proj.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
