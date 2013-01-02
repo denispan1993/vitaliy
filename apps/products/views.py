@@ -31,4 +31,4 @@ def show_product(request,
                  id,
                  template_name=u'product/show_product.jinja2.html',
                 ):
-    return render_to_response(request, 'pruduct/show_product.html', locals(), )
+    return render_to_response(request, 'pruduct/show_product.jinja2.html', locals(), )
