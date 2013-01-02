@@ -14,7 +14,7 @@ def render_to_response(filename, context={}, mimetype=default_mimetype, ):
 #    return x > 50
 #env.tests['gtf'] = greater_than_fifty
 
-def root(request, ):
+def root(request, template_name='root.jinja2.html', ):
 #    import math, random
 #    n = int(math.floor(100 * random.random()), )
 #    y = 50

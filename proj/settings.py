@@ -1,3 +1,4 @@
+# coding=utf-8
 # Django settings for Shop project.
 
 DEBUG = True
@@ -189,7 +190,7 @@ DEBUG_TOOLBAR_PANELS = (
 )
 
 DEBUG_TOOLBAR_CONFIG = {
-    'EXCLUDE_URLS': ('/admin/', ),
+    'EXCLUDE_URLS': ('/admin/', ), # данная опция находится в разработке
     'INTERCEPT_REDIRECTS': False,
 }
 
