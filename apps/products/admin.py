@@ -1,18 +1,41 @@
 # coding=utf-8
 __author__ = 'Админ'
 
-from apps.products.models import Poll, Choice
+from apps.products.models import Category, Product, Photo
 from django.contrib import admin
 
-class ChoiceInline(admin.TabularInline):
-    model = Choice
+from django.contrib.contenttypes import generic
+class PhotoInline(generic.GenericTabularInline):
+    model = Photo
     extra = 3
 
-class PollAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['question']}),
-        ('Date information', {'fields': ['pub_date'],'classes': ['collapse']})
+        (None,               {'fields': ['parent', 'url', 'title', 'name', 'description', ]}),
+        ('Meta information', {'fields': ['meta_title', 'meta_description', 'meta_keywords', ], 'classes': ['collapse']}),
+        ('Additional information', {'fields': ['template', 'visibility', ], 'classes': ['collapse']})
     ]
-    inlines = [ChoiceInline]
+    prepopulated_fields = {'url' : ('title',), }
 
-admin.site.register(Poll, PollAdmin)
+    inlines = [
+        PhotoInline,
+    ]
+
+class ProductAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['parent', 'url', 'title', 'name', 'description', ]}),
+        ('Meta information', {'fields': ['meta_title', 'meta_description', 'meta_keywords', ], 'classes': ['collapse']}),
+        ('Additional information', {'fields': ['template', 'visibility', ], 'classes': ['collapse']})
+    ]
+    prepopulated_fields = {'url' : ('title',), }
+
+    inlines = [
+        PhotoInline,
+    ]
+
+class PhotoAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Category, CategoryAdmin, )
+admin.site.register(Product, ProductAdmin, )
+admin.site.register(Photo, PhotoAdmin, )
