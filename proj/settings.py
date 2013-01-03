@@ -46,7 +46,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -58,16 +58,19 @@ MEDIA_URL = '/media/'
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = ''
+#STATIC_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin/static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+#    "C:/Python27/Lib/site-packages/django/contrib/admin",
+#    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+#    # Always use forward slashes, even on Windows.
+#    # Don't forget to use absolute paths, not relative paths.
 )
 
 # List of finder classes that know how to find static files in
@@ -75,7 +78,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -83,13 +86,13 @@ SECRET_KEY = '^p()7zbza81@&amp;!bra3fvugv$=+zf*7&amp;$c)e(wpkl7=qg!vfx@$'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
+#    ('django.template.loaders.cached.Loader', (
         'django_jinja.loaders.AppLoader',
         'django_jinja.loaders.FileSystemLoader',
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-        'django.template.loaders.eggs.Loader',
-    ), ),
+#        'django.template.loaders.filesystem.Loader',
+#        'django.template.loaders.app_directories.Loader',
+#        'django.template.loaders.eggs.Loader',
+#    ), ),
 )
 
 DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2.html'
@@ -99,6 +102,12 @@ DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2.html'
 #    'django.template.loaders.app_directories.Loader',
 ##     'django.template.loaders.eggs.Loader',
 #)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+#    'django.core.context_processors.csrf',
+    'django.contrib.auth.context_processors.auth',
+    'proj.context_processors.context',
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -140,6 +149,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django_jinja',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'apps.root',

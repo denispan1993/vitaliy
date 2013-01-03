@@ -11,9 +11,9 @@ class PhotoInline(generic.GenericTabularInline):
 
 class CategoryAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['parent', 'url', 'title', 'name', 'description', ]}),
-        ('Meta information', {'fields': ['meta_title', 'meta_description', 'meta_keywords', ], 'classes': ['collapse']}),
-        ('Additional information', {'fields': ['template', 'visibility', ], 'classes': ['collapse']})
+        (None,               {'classes': ['wide'], 'fields': ['parent', 'url', 'title', 'name', 'description', ], }),
+        ('Meta information', {'classes': ['collapse'], 'fields': ['meta_title', 'meta_description', 'meta_keywords', ], }),
+        ('Additional information', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
     prepopulated_fields = {'url' : ('title',), }
 
@@ -23,11 +23,13 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['parent', 'url', 'title', 'name', 'description', ]}),
-        ('Meta information', {'fields': ['meta_title', 'meta_description', 'meta_keywords', ], 'classes': ['collapse']}),
-        ('Additional information', {'fields': ['template', 'visibility', ], 'classes': ['collapse']})
+        (None,               {'classes': ['wide'], 'fields': ['category', 'url', 'title', 'name', 'description', ], }),
+        ('Meta information', {'classes': ['collapse'], 'fields': ['meta_title', 'meta_description', 'meta_keywords', ], }),
+        ('Additional information', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
     prepopulated_fields = {'url' : ('title',), }
+    filter_horizontal = ('category', )
+
 
     inlines = [
         PhotoInline,

@@ -37,8 +37,8 @@ class Category(models.Model):
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
-#    def get_absolute_url(self, ):
-#        return '/news/rubric/%s/' % self.url
+    def get_absolute_url(self, ):
+        return u'/%s/c%.6d/' % (self.url, self.id, )
 
     def __unicode__(self):
         return u'Категория:%s' % (self.title, )
