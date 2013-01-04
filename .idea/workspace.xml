@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="Commit">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,19 +54,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/product/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="276" column="17" selection-start="11991" selection-end="11991" vertical-scroll-proportion="0.030411448">
+            <state line="276" column="17" selection-start="11991" selection-end="11991" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thumbs.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="thumbs.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="4" selection-start="0" selection-end="5773" vertical-scroll-proportion="0.0">
+            <state line="13" column="22" selection-start="340" selection-end="340" vertical-scroll-proportion="0.1486014">
               <folding />
             </state>
           </provider>
@@ -77,7 +75,7 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -143,8 +141,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/proj/apps/root/admin.py" />
-        <option value="$PROJECT_DIR$/proj/apps/root/views.py" />
         <option value="$PROJECT_DIR$/apps/root/aaa.py" />
         <option value="$PROJECT_DIR$/apps/root/views.py" />
         <option value="$PROJECT_DIR$/proj/context_processors.py" />
@@ -159,6 +155,8 @@
         <option value="$PROJECT_DIR$/apps/products/views.py" />
         <option value="$PROJECT_DIR$/apps/products/models.py" />
         <option value="$PROJECT_DIR$/apps/product/models.py" />
+        <option value="$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py" />
+        <option value="$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py" />
       </list>
     </option>
   </component>
@@ -757,7 +755,11 @@
       <created>1357291219905</created>
       <updated>1357291219905</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Commit">
+      <created>1357337268009</created>
+      <updated>1357337268009</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -803,6 +805,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="1" side_tool="true" content_ui="tabs" />
@@ -814,7 +817,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -961,23 +963,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/product/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="276" column="17" selection-start="11991" selection-end="11991" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="4" selection-start="0" selection-end="5773" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="276" column="17" selection-start="11991" selection-end="11991" vertical-scroll-proportion="0.030411448">
+        <state line="13" column="22" selection-start="340" selection-end="340" vertical-scroll-proportion="0.1486014">
           <folding />
         </state>
       </provider>
