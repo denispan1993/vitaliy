@@ -1,7 +1,7 @@
 # coding=utf-8
 __author__ = 'Админ'
 
-from apps.products.models import Category, Product, Photo
+from apps.product.models import Category, Product, Photo
 from django.contrib import admin
 
 from django.contrib.contenttypes import generic

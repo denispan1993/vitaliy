@@ -1,7 +1,7 @@
 # coding=utf-8
 __author__ = 'Sergey'
 
-from apps.products.models import Category
+from apps.product.models import Category
 
 def context(request):
     try:

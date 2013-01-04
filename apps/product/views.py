@@ -26,6 +26,23 @@ def show_category(request,
                   id,
                   template_name=u'category/show_category.jinja2.html',
                   ):
+    try:
+        from apps.product.models import Category
+        current_category_ = Category.objects.get(pk=id, url=category_url, )
+    except Category.DoesNotExist:
+        current_category_ = None
+
+    try:
+        categories_at_current_category_ = current_category_.children.all()
+    except Category.DoesNotExist:
+        categories_at_current_category_ = None
+
+    try:
+        from apps.product.models import Product
+        current_products_ = current_category_.products.all()
+    except Product.DoesNotExist:
+        current_products_ = None
+
     return render_to_response(u'category/show_category.jinja2.html',
         locals(),
         context_instance=RequestContext(request, ), )

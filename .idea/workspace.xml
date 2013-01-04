@@ -2,18 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/proj/context_processors.py" />
-      <change type="DELETED" beforePath="C:\Shop\apps\root\admin.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\apps\root\models.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\apps\root\tests.py" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/compat/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/product/show_product.jinja2.html" />
+      <change type="DELETED" beforePath="C:\Shop\templates\pruduct\show_product.jinja2.html" afterPath="" />
+      <change type="MOVED" beforePath="C:\Shop\apps\products\__init__.py" afterPath="$PROJECT_DIR$/apps/product/__init__.py" />
+      <change type="MOVED" beforePath="C:\Shop\apps\products\admin.py" afterPath="$PROJECT_DIR$/apps/product/admin.py" />
+      <change type="MOVED" beforePath="C:\Shop\apps\products\models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
+      <change type="MOVED" beforePath="C:\Shop\apps\products\tests.py" afterPath="$PROJECT_DIR$/apps/product/tests.py" />
+      <change type="MOVED" beforePath="C:\Shop\apps\products\views.py" afterPath="$PROJECT_DIR$/apps/product/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/products/admin.py" afterPath="$PROJECT_DIR$/apps/products/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/products/models.py" afterPath="$PROJECT_DIR$/apps/products/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/products/views.py" afterPath="$PROJECT_DIR$/apps/products/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/views.py" afterPath="$PROJECT_DIR$/apps/root/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/context_processors.py" afterPath="$PROJECT_DIR$/proj/context_processors.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/settings.py" afterPath="$PROJECT_DIR$/proj/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/urls.py" afterPath="$PROJECT_DIR$/proj/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/templates/root.jinja2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/category/show_category.jinja2.html" afterPath="$PROJECT_DIR$/templates/category/show_category.jinja2.html" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,24 +49,58 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admin.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/products/admin.py">
+      <file leaf-file-name="show_product.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/product/show_product.jinja2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#37#94#0" expanded="true" />
-              </folding>
+            <state line="6" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="-3.9230769">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show_category.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/category/show_category.jinja2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="7" selection-start="81" selection-end="81" vertical-scroll-proportion="-5.230769">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/products/models.py">
+        <entry file="file://$PROJECT_DIR$/apps/product/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="25" selection-start="2208" selection-end="2208" vertical-scroll-proportion="0.0">
+            <state line="110" column="16" selection-start="5532" selection-end="5532" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="thumbs.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding>
-                <marker date="1357228205400" expanded="true" signature="2182:2235" placeholder="..." />
+                <element signature="e#81#120#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compat/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -73,17 +109,15 @@
         <entry file="file://$PROJECT_DIR$/apps/root/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#47#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/products/views.py">
+        <entry file="file://$PROJECT_DIR$/apps/product/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="21" selection-start="941" selection-end="941" vertical-scroll-proportion="0.0">
+            <state line="41" column="60" selection-start="1497" selection-end="1497" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#747#794#0" expanded="true" />
               </folding>
@@ -91,55 +125,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/proj/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="66" selection-start="970" selection-end="970" vertical-scroll-proportion="0.5244755">
+            <state line="12" column="48" selection-start="424" selection-end="424" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="extensions.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/site-packages/django_jinja/builtins/extensions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="26" selection-start="2833" selection-end="2836" vertical-scroll-proportion="-18.4">
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="filters.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/site-packages/django_jinja/builtins/filters.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="42" selection-start="461" selection-end="461" vertical-scroll-proportion="-12.24">
-              <folding>
-                <element signature="e#25#87#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="loaders.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/site-packages/django_jinja/loaders.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="53" selection-start="968" selection-end="968" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#24#56#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/site-packages/django_jinja/base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#25#55#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -168,13 +158,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/proj/apps/products/models.py" />
-        <option value="$PROJECT_DIR$/proj/apps/products/admin.py" />
-        <option value="$PROJECT_DIR$/proj/apps/root/models.py" />
         <option value="$PROJECT_DIR$/proj/apps/root/admin.py" />
         <option value="$PROJECT_DIR$/proj/apps/root/views.py" />
         <option value="$PROJECT_DIR$/apps/root/aaa.py" />
-        <option value="$PROJECT_DIR$/apps/products/views.py" />
         <option value="$PROJECT_DIR$/apps/root/views.py" />
         <option value="$PROJECT_DIR$/proj/context_processors.py" />
         <option value="$PROJECT_DIR$/apps/products/admin.py" />
@@ -182,16 +168,20 @@
         <option value="C:/Python27/Lib/site-packages/django_jinja/builtins/global_context.py" />
         <option value="C:/Python27/Lib/site-packages/django_jinja/builtins/filters.py" />
         <option value="$PROJECT_DIR$/templates/root.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/products/models.py" />
         <option value="$PROJECT_DIR$/proj/urls.py" />
+        <option value="$PROJECT_DIR$/templates/category/show_category.jinja2.html" />
+        <option value="$PROJECT_DIR$/templates/product/show_product.jinja2.html" />
+        <option value="$PROJECT_DIR$/apps/products/views.py" />
+        <option value="$PROJECT_DIR$/apps/products/models.py" />
+        <option value="$PROJECT_DIR$/apps/product/models.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-4" />
     <option name="y" value="-4" />
-    <option name="width" value="1288" />
-    <option name="height" value="764" />
+    <option name="width" value="1688" />
+    <option name="height" value="1014" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -219,24 +209,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Default">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Shop">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT=".idea">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -244,80 +216,6 @@
               <option name="myItemId" value="Shop" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="django_jinja" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="django_jinja" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="builtins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -357,7 +255,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="pruduct" />
+              <option name="myItemId" value="product" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -390,6 +288,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="proj" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="compat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="compat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ImageWithThumbs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -439,8 +369,26 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="products" />
+              <option name="myItemId" value="product" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Default">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Shop">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT=".idea">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -453,7 +401,7 @@
     <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="recentsLimit" value="5" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="Q:/proj/mk_mk_ua" />
+    <property name="last_opened_file_path" value="R:/proj/centr_mk_ua" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="Database.TableEditor.Splitter" value="0.9" />
@@ -461,9 +409,9 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -478,6 +426,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Shop\compat" />
       <recent name="C:\Shop\proj\apps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -523,10 +472,6 @@
       <option name="CUSTOM_SETTINGS" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="DBProgramDebugSession" factoryName="DB-Program">
-      <compile-dependencies value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="tests" factoryName="py.test">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -548,6 +493,10 @@
       <option name="params" value="" />
       <option name="USE_PARAM" value="false" />
       <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DBProgramDebugSession" factoryName="DB-Program">
+      <compile-dependencies value="true" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Nosetests">
@@ -585,6 +534,25 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="Shop" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -604,25 +572,6 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="Shop" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -815,7 +764,11 @@
       <created>1357141827810</created>
       <updated>1357141827810</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Commit">
+      <created>1357242073374</created>
+      <updated>1357242073374</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -851,7 +804,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1288" height="764" extended-state="6" />
+    <frame x="-4" y="-4" width="1688" height="1014" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -862,17 +815,17 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3508914" sideWeight="0.53808755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26988983" sideWeight="0.67012686" order="0" side_tool="false" content_ui="combo" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46191248" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -940,101 +893,57 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/pruduct/show_product.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/category/show_category.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proj/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="10" selection-start="652" selection-end="652" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proj/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="8" selection-start="5271" selection-end="5271" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Python27/Lib/site-packages/django/core/urlresolvers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="421" column="4" selection-start="17184" selection-end="17184" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python27/Lib/site-packages/django_jinja/builtins/global_context.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="57" selection-start="518" selection-end="518" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#25#87#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="17" column="57" selection-start="518" selection-end="518" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/site-packages/django_jinja/loaders.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="53" selection-start="968" selection-end="968" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#24#56#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/site-packages/django_jinja/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#25#55#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/site-packages/django_jinja/builtins/extensions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="26" selection-start="2833" selection-end="2836" vertical-scroll-proportion="-18.4">
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
+        <state line="91" column="26" selection-start="2833" selection-end="2836" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/site-packages/django_jinja/builtins/filters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="42" selection-start="461" selection-end="461" vertical-scroll-proportion="-12.24">
-          <folding>
-            <element signature="e#25#87#0" expanded="true" />
-          </folding>
+        <state line="18" column="42" selection-start="461" selection-end="461" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/products/admin.py">
+    <entry file="file://$PROJECT_DIR$/apps/product/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#37#94#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proj/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="48" selection-start="424" selection-end="424" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1045,28 +954,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/products/models.py">
+    <entry file="file://$PROJECT_DIR$/templates/category/show_category.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="25" selection-start="2208" selection-end="2208" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1357228205400" expanded="true" signature="2182:2235" placeholder="..." />
-          </folding>
+        <state line="8" column="7" selection-start="81" selection-end="81" vertical-scroll-proportion="-5.230769">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/products/views.py">
+    <entry file="file://$PROJECT_DIR$/templates/product/show_product.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="21" selection-start="941" selection-end="941" vertical-scroll-proportion="0.0">
+        <state line="6" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="-3.9230769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compat/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/product/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="60" selection-start="1497" selection-end="1497" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#747#794#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/proj/urls.py">
+    <entry file="file://$PROJECT_DIR$/apps/product/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="66" selection-start="970" selection-end="970" vertical-scroll-proportion="0.5244755">
+        <state line="110" column="16" selection-start="5532" selection-end="5532" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#81#120#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

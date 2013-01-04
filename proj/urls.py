@@ -4,7 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 from apps.root.views import root_page
-from apps.products.views import show_category, show_product
+from apps.product.views import show_category, show_product
 
 urlpatterns = patterns('',
     # Examples:

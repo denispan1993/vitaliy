@@ -51,7 +51,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ManyToManyField(Category, verbose_name=u'Категории',
-        related_name=u'products', null=False, blank=False, )
+        related_name=u'product', null=False, blank=False, )
     url = models.SlugField(verbose_name=u'URL адрес продукта', max_length=128,
         null=False, blank=False, )
     title = models.CharField(verbose_name=u'Заголовок продукта', max_length=256,
@@ -83,8 +83,8 @@ class Product(models.Model):
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
-#    def get_absolute_url(self, ):
-#        return '/news/rubric/%s/' % self.url
+    def get_absolute_url(self, ):
+        return u'/%s/p%.6d/' % (self.url, self.id, )
 
     def __unicode__(self):
         return u'Продукт:%s' % (self.title, )
@@ -103,6 +103,14 @@ class Photo(models.Model):
     parent = generic.GenericForeignKey('content_type', 'object_id', )
     main = models.NullBooleanField(verbose_name=u'Признак главной фотографии',
         null=False, blank=False, default=False, )
+    def set_path_photo(self, filename):
+        return 'photo/news/%.6d/images/%s' % (
+#            self.product.pub_datetime.year,
+            self.object_id,
+            filename)
+    from compat.ImageWithThumbs.thumbs import ImageWithThumbsField
+    photo = ImageWithThumbsField(verbose_name=u'Фото', upload_to=set_path_photo, sizes=((90,95),(205,190),(345,370),(700,500),),
+                                 blank=False, null=False, )
     title = models.CharField(verbose_name=u'Заголовок фотографии', max_length=256,
         null=False, blank=False, )
     name = models.CharField(verbose_name=u'Наименование фотографии', max_length=256,
