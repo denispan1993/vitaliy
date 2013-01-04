@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="Commit">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compat/__init__.py" afterPath="$PROJECT_DIR$/compat/__init__.py" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,7 +33,7 @@
       <file leaf-file-name="root.jinja2.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="79" selection-start="245" selection-end="245" vertical-scroll-proportion="0.0">
+            <state line="9" column="79" selection-start="245" selection-end="245" vertical-scroll-proportion="-0.65384614">
               <folding />
             </state>
           </provider>
@@ -66,8 +69,10 @@
       <file leaf-file-name="thumbs.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="22" selection-start="340" selection-end="340" vertical-scroll-proportion="0.1486014">
-              <folding />
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#92#131#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -75,16 +80,7 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compat/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="1" column="1" selection-start="16" selection-end="16" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -102,7 +98,16 @@
       <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/product/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="60" selection-start="1497" selection-end="1497" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/product/admin.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="36" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -155,8 +160,8 @@
         <option value="$PROJECT_DIR$/apps/products/views.py" />
         <option value="$PROJECT_DIR$/apps/products/models.py" />
         <option value="$PROJECT_DIR$/apps/product/models.py" />
-        <option value="$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py" />
         <option value="$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py" />
+        <option value="$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py" />
       </list>
     </option>
   </component>
@@ -413,10 +418,11 @@
       <recent name="C:\Shop\proj\apps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Shop\compat\ImageWithThumbs" />
+      <recent name="C:\Shop\compat\" />
       <recent name="C:\Shop\templates\pruduct" />
       <recent name="C:\Shop\templates\category" />
       <recent name="C:\Shop" />
-      <recent name="C:\Shop\proj" />
     </key>
   </component>
   <component name="RunManager" selected="Django server.Shop">
@@ -648,9 +654,9 @@
       <method />
     </configuration>
     <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Python.manage" />
-      <item index="1" class="java.lang.String" itemvalue="Django server.Shop" />
-      <item index="2" class="java.lang.String" itemvalue="Python's test.Doctests in C:\Shop" />
+      <item index="0" class="java.lang.String" itemvalue="Django server.Shop" />
+      <item index="1" class="java.lang.String" itemvalue="Python's test.Doctests in C:\Shop" />
+      <item index="2" class="java.lang.String" itemvalue="Python.manage" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -759,7 +765,11 @@
       <created>1357337268009</created>
       <updated>1357337268009</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Commit">
+      <created>1357337912740</created>
+      <updated>1357337912740</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -909,11 +919,6 @@
         <state line="18" column="42" selection-start="461" selection-end="461" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -930,7 +935,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="79" selection-start="245" selection-end="245" vertical-scroll-proportion="0.0">
+        <state line="9" column="79" selection-start="245" selection-end="245" vertical-scroll-proportion="-0.65384614">
           <folding />
         </state>
       </provider>
@@ -949,16 +954,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/__init__.py">
+    <entry file="file://$PROJECT_DIR$/apps/product/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/views.py">
+    <entry file="file://$PROJECT_DIR$/apps/product/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="60" selection-start="1497" selection-end="1497" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="36" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="1" selection-start="16" selection-end="16" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -970,17 +982,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/compat/ImageWithThumbs/thumbs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="22" selection-start="340" selection-end="340" vertical-scroll-proportion="0.1486014">
-          <folding />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#92#131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
