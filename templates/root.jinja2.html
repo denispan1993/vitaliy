@@ -7,6 +7,7 @@
     Проверка связи<br />
     Категории верхнего уровня:
     {% for cat in categories_first_level_ %}
+{#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
         <li></a><a href='{{ cat.get_absolute_url() }}'>{{ cat.title }}</a></li>
     {% endfor %}
 </body>
