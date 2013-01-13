@@ -1,13 +1,13 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-def root_page(request, template_name='root.jinja2.html', ):
+def root_page(request, template_name=u'root.jinja2.html', ):
     try:
         from apps.product.models import Category
         categories_first_level_ = Category.objects.first_level()
     except Category.DoesNotExist:
         categories_first_level_ = None
 
-    return render_to_response('root.jinja2.html',
+    return render_to_response(u'root.jinja2.html',
         locals(),
         context_instance=RequestContext(request, ), )
