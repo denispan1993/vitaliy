@@ -10,6 +10,8 @@ class PhotoInline(generic.GenericTabularInline):
     extra = 3
 
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'url', 'title', 'parent', ]
+    list_display_links = ['pk', 'url', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['parent', 'url', 'title', 'name', 'description', ], }),
         ('Meta information', {'classes': ['collapse'], 'fields': ['meta_title', 'meta_description', 'meta_keywords', ], }),

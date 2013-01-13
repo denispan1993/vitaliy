@@ -4,7 +4,7 @@ from django.template import RequestContext
 def root_page(request, template_name=u'root.jinja2.html', ):
     try:
         from apps.product.models import Category
-        categories_first_level_ = Category.objects.first_level()
+        categories_first_level_ = Category.man.first_level()
     except Category.DoesNotExist:
         categories_first_level_ = None
 
