@@ -34,6 +34,9 @@ class Category(models.Model):
                                 help_text=u'Пример: "news/reklama.html". Если не указано, система будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
 
+    from apps.product.managers import Manager
+    objects = Manager()
+
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 

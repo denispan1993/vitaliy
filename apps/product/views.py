@@ -53,6 +53,6 @@ def show_product(request,
                  id,
                  template_name=u'product/show_product.jinja2.html',
                 ):
-    return render_to_response(u'pruduct/show_product.jinja2.html',
+    return render_to_response(u'product/show_product.jinja2.html',
         locals(),
         context_instance=RequestContext(request, ), )
