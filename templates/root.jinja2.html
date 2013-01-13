@@ -1,10 +1,13 @@
 {% extends "base.jinja2.html" %}
 {% block content %}
-    Проверка связи<br />
-    Категории верхнего уровня:
-    {% for cat in categories_first_level_ %}
+    <p>Проверка связи</p><br />
+    <p>Категории верхнего уровня:</p>
+    {% for cat in categories_ %}
 {#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
-        <li></a><a href='{{ cat.get_absolute_url() }}'>{{ cat.title }}</a></li>
+        {% if not cat.parent %}
+        <p style='display:inline;'>Категория первого уровня:</p>
+        <li><a href='{{ cat.get_absolute_url() }}'>{{ cat.title }}</a></li>
+        {% endif %}
     {% else %}
         Каталог пуст
     {% endfor %}

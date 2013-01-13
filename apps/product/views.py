@@ -31,11 +31,11 @@ def show_category(request,
         current_category_ = Category.objects.get(pk=id, url=category_url, )
     except Category.DoesNotExist:
         current_category_ = None
-
-    try:
-        categories_at_current_category_ = current_category_.children.all()
-    except Category.DoesNotExist:
         categories_at_current_category_ = None
+    else:
+        categories_at_current_category_ = current_category_.category_set.all()
+
+
 
     try:
         from apps.product.models import Product

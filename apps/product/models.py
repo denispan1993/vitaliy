@@ -1,11 +1,19 @@
 # coding=utf-8
 from django.db import models
 
+class Manager(models.Manager):
+
+    def published(self):
+        return self.filter(visibility=True, ).order_by('-created_at')
+
+    def first_level(self):
+        return self.filter(parent__isnull=True, )
+
 # Create your models here.
 
 class Category(models.Model):
     parent = models.ForeignKey(u'Category', verbose_name=u'Вышестоящая категория',
-        related_name=u'children', null=True, blank=True, )
+        null=True, blank=True, ) #related_name=u'children',
     url = models.SlugField(verbose_name=u'URL адрес категории.', max_length=128,
         null=False, blank=False, )
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=256,
@@ -34,8 +42,11 @@ class Category(models.Model):
                                 help_text=u'Пример: "news/reklama.html". Если не указано, система будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
 
-    from apps.product.managers import Manager
-    objects = Manager()
+#    from apps.product.managers import Manager
+#    objects = Manager()
+
+    objects = models.Manager()
+    man = Manager()
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
@@ -47,10 +58,10 @@ class Category(models.Model):
         return u'Категория:%s' % (self.title, )
 
     class Meta:
-        db_table = 'Category'
-        ordering = ['-created_at']
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        db_table = u'Category'
+        ordering = [u'-created_at']
+        verbose_name = u'Категория'
+        verbose_name_plural = u'Категории'
 
 class Product(models.Model):
     is_active = models.BooleanField(verbose_name=u'Показывать', default=True,
@@ -62,7 +73,7 @@ class Product(models.Model):
     is_featured = models.BooleanField(verbose_name=u'Ожидается', default=False,
                                    help_text=u'Если мы знаем, что продукт будет доступен на складе через некоторое время, ставим данное поле в True.')
     category = models.ManyToManyField(Category, verbose_name=u'Категории',
-        related_name=u'product', null=False, blank=False, )
+        related_name=u'products', null=False, blank=False, )
     url = models.SlugField(verbose_name=u'URL адрес продукта', max_length=128,
         null=False, blank=False, )
     title = models.CharField(verbose_name=u'Заголовок продукта', max_length=256,
@@ -322,3 +333,4 @@ class Photo(models.Model):
         ordering = ['-created_at']
         verbose_name = "Фотография"
         verbose_name_plural = "Фотографии"
+
