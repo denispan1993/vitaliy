@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/admin.py" afterPath="$PROJECT_DIR$/apps/product/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/managers.py" afterPath="$PROJECT_DIR$/apps/product/managers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" afterPath="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/views.py" afterPath="$PROJECT_DIR$/apps/product/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/views.py" afterPath="$PROJECT_DIR$/apps/root/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/context_processors.py" afterPath="$PROJECT_DIR$/proj/context_processors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/templates/root.jinja2.html" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -754,7 +745,11 @@
       <created>1358092360112</created>
       <updated>1358092360112</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Commit">
+      <created>1358100378509</created>
+      <updated>1358100378509</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
