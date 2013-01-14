@@ -1,6 +1,5 @@
 __author__ = 'user'
 
-
 def resolution(request, ):
     if request.is_ajax():
         if request.method == 'POST':
@@ -26,8 +25,8 @@ def resolution(request, ):
             from django.http import HttpResponse
             return HttpResponse(data, mimetype, )
         elif request.method == 'GET':
-            return HttpResponse(status=400)
+            return HttpResponse(status=400, )
         else:
-            return HttpResponse(status=400)
+            return HttpResponse(status=400, )
     else:
-        return HttpResponse(status=400)
+        return HttpResponse(status=400, )
