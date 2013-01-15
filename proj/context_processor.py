@@ -9,4 +9,9 @@ def context(request):
     except Category.DoesNotExist:
         categories_ = None
 
-    return dict(request=request, categories_=categories_, )
+#    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
+
+    return dict(request=request,
+        categories_=categories_,
+#        ajax_resolution_=ajax_resolution_,
+    )

@@ -46,7 +46,9 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin'
+#MEDIA_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin'
+MEDIA_ROOT = '/home/user/Media',
+
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -67,7 +69,10 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-#    "C:/Python27/Lib/site-packages/django/contrib/admin",
+    'C:/Python27/Lib/site-packages/django/contrib/admin',
+    '/home/user/Proj/Shop/Media',
+    '/home/user/Proj/Media',
+    '/home/user/Proj/Shop/Media',
 #    # Put strings here, like "/home/html/static" or "C:/www/django/static".
 #    # Always use forward slashes, even on Windows.
 #    # Don't forget to use absolute paths, not relative paths.
@@ -106,7 +111,8 @@ DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2.html'
 TEMPLATE_CONTEXT_PROCESSORS = (
 #    'django.core.context_processors.csrf',
     'django.contrib.auth.context_processors.auth',
-    'proj.context_processors.context',
+#Мой context processor
+    'proj.context_processor.context',
 )
 
 MIDDLEWARE_CLASSES = (

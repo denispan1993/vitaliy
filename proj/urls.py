@@ -21,16 +21,24 @@ urlpatterns = patterns('',
         {'template_name': u'product/show_product.jinja2.html', },
         name='show_product', ),
 
-    url(r'^resolution/$', resolution,
+    url(r'^ajax/resolution/$', resolution,
 #        {'template_name': u'product/show_product.jinja2.html', },
         name='ajax_resolution', ),
 
 
     # Uncomment the admin/doc line below to enable admin documentation:
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
 
     # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls, ), ),
+)
+
+from django.conf import settings
+if settings.DEBUG:
+    urlpatterns += patterns('django.views.static',
+        url(r'^media/(?P<path>.*)$', 'serve',
+            {'document_root': '/home/user/Proj/Shop/Media',
+             'show_indexes': True, }, ),
 )
 
 #urlpatterns += patterns('',

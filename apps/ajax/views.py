@@ -8,19 +8,28 @@ def resolution(request, ):
                 try:
                     width = int(width, )
                 except ValueError:
-                    response = {u'result': u'Bad', }
+                    response = {'result': 'Bad', }
                     request.session[u'width'] = 1024
                 else:
-                    response = {u'result': u'Ok', }
+                    response = {'result': 'Ok', }
                     request.session[u'width'] = width
             else:
-                response = {u'result': u'Bad', }
+                response = {'result': 'Bad', }
                 request.session[u'width'] = 1024
             from datetime import datetime
-            request.session[u'datetime_width'] = datetime.now()
-            format = 'json'
-            from django.core import serializers
-            data = serializers.serialize(format, response, )
+            request.session[u'ajax_resolution_datetime'] = datetime.now()
+# 1
+#            import json
+#            data = json.dumps(response, )
+# 2
+#            format = 'json'
+#            from django.core import serializers
+#            data = serializers.serialize(format, response, )
+# 3
+#            from django.utils import simplejson
+#            data = simplejson.dumps({'a': 1})
+            from django.utils.simplejson import dumps
+            data = dumps(response, )
             mimetype = 'application/javascript'
             from django.http import HttpResponse
             return HttpResponse(data, mimetype, )

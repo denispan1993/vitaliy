@@ -29,8 +29,10 @@ class Process_SessionIDMiddleware(object):
         # ajax_resolution
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
         from datetime import datetime, timedelta
-        if ajax_resolution_datetime < (datetime.now() - timedelta(7)):
-            pass
+        if not ajax_resolution_datetime or ajax_resolution_datetime < (datetime.now() - timedelta(hours=1, )):
+            request.session[u'ajax_resolution'] = True
+        else:
+            request.session[u'ajax_resolution'] = False
 ##        cartid = _cart_id(request)
 #        CHANGED_ = False
 #        AUTH_ = False

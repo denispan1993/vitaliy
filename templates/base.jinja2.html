@@ -2,6 +2,25 @@
 <html>
 <head>
     <title></title>
+<script type="text/javascript" src="/media/js/jquery/jquery.js"></script>
+{% block ajax_resolution %}
+{% if request.session.ajax_resolution %}
+<script type="text/javascript">
+    try{
+        $(document).ready(function(e) {
+            $.post("/ajax/resolution/", {
+                    width: "512",
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                function(data) {
+                    alert(data);
+                }
+            );
+        });
+    }catch(e){ alert(e) }
+</script>
+{% endif %}
+{% endblock %}
 </head>
 <body>
 {% block content %}
