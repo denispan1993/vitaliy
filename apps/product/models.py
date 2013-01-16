@@ -120,6 +120,18 @@ class Product(models.Model):
         verbose_name = u'Продукт'
         verbose_name_plural = u'Продукты'
 
+class Additional_Information(models.Model):
+    product = models.ForeignKey(Product, verbose_name=u'Продукт',
+        related_name=u'information', null=False, blank=False, )
+    title = models.CharField(verbose_name=u'Заголовок', null=False, blank=False, max_length=256, )
+    information = models.ManyToManyField(u'Information', verbose_name=u'Информация',
+        related_name=u'informations', null=False, blank=False, )
+
+class Information(models.Model):
+    information = models.CharField(verbose_name=u'Информация', null=False, blank=False, max_length=256, )
+
+class Discount(models.Model):
+    pass
 #=================================================================================================================================================================================
 # -*- encoding: utf-8 -*-
 """
