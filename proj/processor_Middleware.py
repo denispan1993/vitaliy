@@ -33,6 +33,8 @@ class Process_SessionIDMiddleware(object):
             request.session[u'ajax_resolution'] = True
         else:
             request.session[u'ajax_resolution'] = False
+        # curent_category
+
 ##        cartid = _cart_id(request)
 #        CHANGED_ = False
 #        AUTH_ = False

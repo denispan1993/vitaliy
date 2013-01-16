@@ -33,6 +33,7 @@ def show_category(request,
         current_category_ = None
         categories_at_current_category_ = None
     else:
+        request.session[u'current_category'] = current_category_.pk
         categories_at_current_category_ = current_category_.category_set.all()
 
 
@@ -53,6 +54,15 @@ def show_product(request,
                  id,
                  template_name=u'product/show_product.jinja2.html',
                 ):
+    current_category = request.session.get(u'current_category', None, )
+
+    try:
+        from apps.product.models import Product
+        product_ = Product.objects.get(pk=id, url=product_url, )
+    except Product.DoesNotExist:
+        product_ = None
+
+
     return render_to_response(u'product/show_product.jinja2.html',
         locals(),
         context_instance=RequestContext(request, ), )
