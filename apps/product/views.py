@@ -36,8 +36,6 @@ def show_category(request,
         request.session[u'current_category'] = current_category_.pk
         categories_at_current_category_ = current_category_.category_set.all()
 
-
-
     try:
         from apps.product.models import Product
         current_products_ = current_category_.products.all()
@@ -62,6 +60,13 @@ def show_product(request,
     except Product.DoesNotExist:
         product_ = None
 
+    if product_ and current_category:
+        product_in_categories = product_.category.all()
+        for cat in product_in_categories:
+            if int(current_category) == cat.pk:
+                break
+        else:
+            request.session[u'current_category'] = product_in_categories[0].pk
 
     return render_to_response(u'product/show_product.jinja2.html',
         locals(),
