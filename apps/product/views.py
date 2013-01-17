@@ -54,19 +54,24 @@ def show_product(request,
                 ):
     current_category = request.session.get(u'current_category', None, )
 
-    try:
-        from apps.product.models import Product
-        product_ = Product.objects.get(pk=id, url=product_url, )
-    except Product.DoesNotExist:
-        product_ = None
+    if request.method == 'POST':
+        if request.session.test_cookie_worked():
+            pass
+    else:
+        request.session.set_test_cookie()
+        try:
+            from apps.product.models import Product
+            product_ = Product.objects.get(pk=id, url=product_url, )
+        except Product.DoesNotExist:
+            product_ = None
 
-    if product_ and current_category:
-        product_in_categories = product_.category.all()
-        for cat in product_in_categories:
-            if int(current_category) == cat.pk:
-                break
-        else:
-            request.session[u'current_category'] = product_in_categories[0].pk
+        if product_ and current_category:
+            product_in_categories = product_.category.all()
+            for cat in product_in_categories:
+                if int(current_category) == cat.pk:
+                    break
+            else:
+                request.session[u'current_category'] = product_in_categories[0].pk
 
     return render_to_response(u'product/show_product.jinja2.html',
         locals(),

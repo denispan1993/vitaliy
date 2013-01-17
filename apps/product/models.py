@@ -86,7 +86,7 @@ class Product(models.Model):
         null=True, blank=True, )
     weight = models.DecimalField(verbose_name=u'Предположительный вес', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
 
-    #Дата создания и дата обновления новости. Устанавливаются автоматически.
+    #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
     #Описание и ключевые слова для поисковиков
@@ -124,14 +124,34 @@ class Additional_Information(models.Model):
     product = models.ForeignKey(Product, verbose_name=u'Продукт',
         related_name=u'information', null=False, blank=False, )
     title = models.CharField(verbose_name=u'Заголовок', null=False, blank=False, max_length=256, )
-    information = models.ManyToManyField(u'Information', verbose_name=u'Информация',
-        related_name=u'informations', null=False, blank=False, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Дополнительная информация:%s' % (self.title, )
+
+    class Meta:
+        db_table = 'Additional_Information'
+        ordering = ['-created_at']
+        verbose_name = u'Дополнительная информация'
+        verbose_name_plural = u'Дополнительная информация'
 
 class Information(models.Model):
+    additional_information = models.ForeignKey(Additional_Information, verbose_name=u'Дополнительное описание',
+        null=False, blank=False, )
     information = models.CharField(verbose_name=u'Информация', null=False, blank=False, max_length=256, )
 
 class Discount(models.Model):
-    pass
+    product = models.ForeignKey(Product, verbose_name=u'Продукт',
+        related_name=u'information', null=False, blank=False, )
+    quantity = models.PositiveSmallIntegerField(verbose_name=u'Количество продуктов', null=False, blank=False, )
+    price = models.PositiveSmallIntegerField(verbose_name=u'Цена в зависимости от количества', null=True, blank=True, )
+    percent = models.PositiveSmallIntegerField(verbose_name=u'Процент скидки', null=True, blank=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
 #=================================================================================================================================================================================
 # -*- encoding: utf-8 -*-
 """
