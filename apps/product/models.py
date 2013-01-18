@@ -86,6 +86,11 @@ class Product(models.Model):
         null=True, blank=True, )
     weight = models.DecimalField(verbose_name=u'Предположительный вес', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
 
+    old_price = models.DecimalField(verbose_name=u'Старая цена', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
+    price = models.DecimalField(verbose_name=u'Цена', max_digits=8, decimal_places=2, default=0, blank=False, null=False, )
+
+    datetime_pub = models.DateTimeField(verbose_name=u'Дата публикации', null=True, blank=True, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -110,6 +115,9 @@ class Product(models.Model):
 
     def get_absolute_url(self, ):
         return u'/%s/p%.6d/' % (self.url, self.id, )
+
+    def cache_key(self):
+        return u'%s-%.6d' % (self.slug, self.id, )
 
     def __unicode__(self):
         return u'Продукт:%s' % (self.title, )
@@ -143,15 +151,64 @@ class Information(models.Model):
         null=False, blank=False, )
     information = models.CharField(verbose_name=u'Информация', null=False, blank=False, max_length=256, )
 
-class Discount(models.Model):
-    product = models.ForeignKey(Product, verbose_name=u'Продукт',
-        related_name=u'information', null=False, blank=False, )
-    quantity = models.PositiveSmallIntegerField(verbose_name=u'Количество продуктов', null=False, blank=False, )
-    price = models.PositiveSmallIntegerField(verbose_name=u'Цена в зависимости от количества', null=True, blank=True, )
-    percent = models.PositiveSmallIntegerField(verbose_name=u'Процент скидки', null=True, blank=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Информационніе поля:%s' % (self.information, )
+
+    class Meta:
+        db_table = 'Information'
+        ordering = ['-created_at']
+        verbose_name = u'Информационное поле'
+        verbose_name_plural = u'Информационные поля'
+
+class Unit_of_Measurement(models.Model):
+    name = models.CharField(verbose_name=u'Единица измерения', max_length=64, default=u'шт.',
+        null=False, blank=False, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Единица измерения:%s' % (self.name, )
+
+    class Meta:
+        db_table = u'Unit_of_Measurement'
+        ordering = ['-created_at']
+        verbose_name = u'Единица измерения'
+        verbose_name_plural = u'Единицы измерения'
+
+class Discount(models.Model):
+    product = models.ForeignKey(Product, verbose_name=u'Продукт',
+        related_name=u'information', null=False, blank=False, )
+    quantity = models.DecimalField(verbose_name=u'Количество продуктов', max_digits=8, decimal_places=2,
+            default=0, blank=False, null=False, )
+    price = models.DecimalField(verbose_name=u'Цена в зависимости от количества', max_digits=8, decimal_places=2,
+        default=0, blank=True, null=True, )
+    unit_of_measurement = models.ForeignKey(Unit_of_Measurement, verbose_name=u'Единицы измерения',
+        null=False, blank=False, )
+    percent = models.PositiveSmallIntegerField(verbose_name=u'Процент скидки', null=True, blank=True, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Цены и скидки от количества:%s, количество:%d' % (self.product, self.quantity, )
+
+    class Meta:
+        db_table = 'Discount'
+        ordering = ['-created_at']
+        verbose_name = u'Цена и скидка'
+        verbose_name_plural = u'Цены и скидки'
+
 #=================================================================================================================================================================================
 # -*- encoding: utf-8 -*-
 """
