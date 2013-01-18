@@ -86,7 +86,7 @@ class Product(models.Model):
         null=True, blank=True, )
     weight = models.DecimalField(verbose_name=u'Предположительный вес', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
 
-    old_price = models.DecimalField(verbose_name=u'Старая цена', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
+    regular_price = models.DecimalField(verbose_name=u'Обычная цена', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
     price = models.DecimalField(verbose_name=u'Цена', max_digits=8, decimal_places=2, default=0, blank=False, null=False, )
 
     datetime_pub = models.DateTimeField(verbose_name=u'Дата публикации', null=True, blank=True, )
@@ -183,7 +183,7 @@ class Unit_of_Measurement(models.Model):
 
 class Discount(models.Model):
     product = models.ForeignKey(Product, verbose_name=u'Продукт',
-        related_name=u'information', null=False, blank=False, )
+        related_name=u'discount', null=False, blank=False, )
     quantity = models.DecimalField(verbose_name=u'Количество продуктов', max_digits=8, decimal_places=2,
             default=0, blank=False, null=False, )
     price = models.DecimalField(verbose_name=u'Цена в зависимости от количества', max_digits=8, decimal_places=2,

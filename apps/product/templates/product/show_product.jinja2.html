@@ -1,5 +1,44 @@
 {% extends 'base.jinja2.html' %}
 {% block title %}Страница продукта{% endblok %}
+{% block body_javascript %}
+<script type="text/javascript">
+function calculate(){
+	var price=0.00;
+	var total=0.00;
+	var Qut = $("#quantity").val();
+	$("#quantity_order").val(Qut);
+	$("#errorMsg").html('');
+	if(checknumber(Qut)||Qut<1){
+		$("#quantity").val(1);
+		$("#quantity_order").val(1);
+		calculate();
+		$("#errorMsg").html('Please input a integer.');
+		return;
+	}
+	if(Qut>999){
+		$("#quantity").val(999);
+		$("#quantity_order").val(999);
+		calculate();
+		$("#errorMsg").html('quantity can not more than 999!');
+		return;
+	}
+	$("#cart_quant").html(Qut);
+}
+function checknumber(String){
+	var Letters = "1234567890";
+	var i;
+	var c;
+	for( i = 0; i < String.length; i ++ ){
+		c = String.charAt( i );
+		if (Letters.indexOf( c ) == -1){
+			return true;
+        }
+	}
+	return false;
+}
+</script>
+{% endblock %}
+
 {% block content %}
     {% if not current_category_.parent %}
     <a href="/">Home</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
@@ -16,11 +55,57 @@
     {% endif %}
     {{ current_category_ }}
     {{ product_ }}
+    {% if product.regular_price != 0 %}
+        <p style="line-height:25px; margin:0px; padding:0px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px;">
+            Обычная цена:
+            <span style="text-decoration:line-through"> {{ product.regular_price|formatted_float }} грн.</span>
+        </p>
+    {% endif %}
+    <p class="dashed">Цена продажи:<span class="product_box_right_pirce_red"> {{ product.price|formatted_float }} грн.</span></p>
+    <p class="pirce_total" style="margin:0; padding:6px 0px; text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">
+    <span id="cart_quant" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ quantity }}</span>
+    &nbsp;шт.&nbsp;×&nbsp;&nbsp;
+    <span id="one_piece_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ price_per_piece|formatted_float }}</span>
+    &nbsp;грн.&nbsp;=&nbsp;&nbsp;
+    <span id="current_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
+    &nbsp;грн.&nbsp;
+    </p>
     <form method="POST" action=".">
+        <ul class="quantity">
+    		<li>Количество:</li>
+    		<li>
+    			<a href="javascript:void(0)">
+    				<img src="/media/img/minus.gif"
+    					onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
+				</a>
+			</li>
+			<li>
+				<input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity }}"
+					onkeyup='setTimeout("calculate()", 1500);' type="text" />
+			</li>
+			<li>
+				<a href="javascript:void(0)">
+					<img src="/media/img/plus.gif"
+						onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
+				</a>
+			</li>
+				<span id="errorMsg" style="text-align:center;color:#FF0000"></span>
+		</ul>
+		<br class="clearFloat" />
+
         <input type="hidden" name="product_pk" value="{{ product_.pk }}" />
     	<input type="hidden" name="product_slug" value="{{ product_.slug }}" />
     	<input type="hidden" name="action" value="addtocard" />
 
         <input type="submit" value="Добавить в корзину" />
     </form>
+    <form method="POST" action=".">
+    	<input type="hidden" name="quantity" value="{{ quantity }}" id="quantity_order" />
+		<input type="hidden" name="product_pk" value="{{ product_.pk }}" />
+		<input type="hidden" name="product_slug" value="{{ product_.slug }}" />
+		<input type="hidden" name="action" value="makeanorder" />
+
+		<input type="submit" value="Купить" />
+	</form>
+
 {% endblock %}

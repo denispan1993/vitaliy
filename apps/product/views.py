@@ -56,7 +56,14 @@ def show_product(request,
 
     if request.method == 'POST':
         if request.session.test_cookie_worked():
-            pass
+            action = request.POST.get(u'action', None, )
+            if action == u'addtocard':
+                pass
+            elif action == u'makeanorder':
+                pass
+            else:
+                from django.http import Http404
+                raise Http404
     else:
         request.session.set_test_cookie()
         try:
