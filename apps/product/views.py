@@ -52,7 +52,7 @@ def show_product(request,
                  id,
                  template_name=u'product/show_product.jinja2.html',
                 ):
-    current_category = request.session.get(u'current_category', None, )
+    current_category_ = request.session.get(u'current_category', None, )
 
     if request.method == 'POST':
         if request.session.test_cookie_worked():
@@ -65,10 +65,10 @@ def show_product(request,
         except Product.DoesNotExist:
             product_ = None
 
-        if product_ and current_category:
+        if product_ and current_category_:
             product_in_categories = product_.category.all()
             for cat in product_in_categories:
-                if int(current_category) == cat.pk:
+                if int(current_category_) == cat.pk:
                     break
             else:
                 request.session[u'current_category'] = product_in_categories[0].pk

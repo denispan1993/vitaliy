@@ -196,10 +196,6 @@ class Discount(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
-
     def __unicode__(self):
         return u'Цены и скидки от количества:%s, количество:%d' % (self.product, self.quantity, )
 
