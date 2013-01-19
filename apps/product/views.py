@@ -61,11 +61,26 @@ def show_product(request,
             action = request.POST.get(u'action', None, )
             if action == u'addtocard':
                 if current_category_:
+                    product_pk = request.POST.get(u'product_pk', None, )
+                    product_url = request.POST.get(u'product_url', None, )
+                    quantity = request.POST.get(u'quantity', None, )
+                    try:
+                        from apps.product.models import Product
+                        product = Product.objects.get(pk=product_pk, url=product_url, )
+                    except Product.DoesNotExist:
+                        from django.http import Http404
+                        raise Http404
+                    else:
+                        if request.
+                        try:
+                            from apps.cart.models import Cart
+                            cart = Cart.objects.get(sessionid=, )
                     try:
                         from apps.product.models import Category
                         current_category_ = Category.objects.get(pk=int(current_category_, ), )
                     except Category.DoesNotExist:
-                        current_category_ = None
+                        from django.http import Http404
+                        raise Http404
                     else:
                         from django.http import HttpResponseRedirect
                         return HttpResponseRedirect(current_category_.get_absolute_url(), )
@@ -80,7 +95,8 @@ def show_product(request,
             from apps.product.models import Product
             product_ = Product.objects.get(pk=id, url=product_url, )
         except Product.DoesNotExist:
-            product_ = None
+            from django.http import Http404
+            raise Http404
         else:
             categories_of_product = product_.category.all()
             if current_category_:
