@@ -32,15 +32,17 @@ def show_category(request,
     except Category.DoesNotExist:
         current_category_ = None
         categories_at_current_category_ = None
+        current_products_ = None
+        from django.http import Http404
+        raise Http404
     else:
         request.session[u'current_category'] = current_category_.pk
         categories_at_current_category_ = current_category_.category_set.all()
-
-    try:
-        from apps.product.models import Product
-        current_products_ = current_category_.products.all()
-    except Product.DoesNotExist:
-        current_products_ = None
+        try:
+            from apps.product.models import Product
+            current_products_ = current_category_.products.all()
+        except Product.DoesNotExist:
+            current_products_ = None
 
     return render_to_response(u'category/show_category.jinja2.html',
         locals(),
@@ -58,7 +60,15 @@ def show_product(request,
         if request.session.test_cookie_worked():
             action = request.POST.get(u'action', None, )
             if action == u'addtocard':
-                pass
+                if current_category_:
+                    try:
+                        from apps.product.models import Category
+                        current_category_ = Category.objects.get(pk=int(current_category_, ), )
+                    except Category.DoesNotExist:
+                        current_category_ = None
+                    else:
+                        from django.http import HttpResponseRedirect
+                        return HttpResponseRedirect(current_category_.get_absolute_url(), )
             elif action == u'makeanorder':
                 pass
             else:
@@ -71,14 +81,20 @@ def show_product(request,
             product_ = Product.objects.get(pk=id, url=product_url, )
         except Product.DoesNotExist:
             product_ = None
-
-        if product_ and current_category_:
-            product_in_categories = product_.category.all()
-            for cat in product_in_categories:
-                if int(current_category_) == cat.pk:
-                    break
+        else:
+            categories_of_product = product_.category.all()
+            if current_category_:
+                for cat in categories_of_product:
+                    if int(current_category_) == cat.pk:
+                        current_category_ = categories_of_product[0]
+                        break
+                else:
+                    current_category_ = categories_of_product[0]
+                    request.session[u'current_category'] = current_category_.pk
             else:
-                request.session[u'current_category'] = product_in_categories[0].pk
+                current_category_ = categories_of_product[0]
+                request.session[u'current_category'] = current_category_.pk
+        quantity_ = 1
 
     return render_to_response(u'product/show_product.jinja2.html',
         locals(),

@@ -14,7 +14,7 @@ class Manager(models.Manager):
 class Category(models.Model):
     parent = models.ForeignKey(u'Category', verbose_name=u'Вышестоящая категория',
         null=True, blank=True, ) #related_name=u'children',
-    url = models.SlugField(verbose_name=u'URL адрес категории.', max_length=128,
+    url = models.SlugField(verbose_name=u'URL адрес категории.', max_length=256,
         null=False, blank=False, )
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=256,
         null=False, blank=False, )
@@ -53,6 +53,13 @@ class Category(models.Model):
 
     def get_absolute_url(self, ):
         return u'/%s/c%.6d/' % (self.url, self.id, )
+
+    def save(self, *args, **kwargs):
+        print(u'test1')
+        self.title += u'1'
+        if self.url == u'':
+            self.url = self.title.replace(' ', '-', )
+        super(Category, self, ).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'Категория:%s' % (self.title, )

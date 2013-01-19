@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
@@ -14,10 +15,10 @@ urlpatterns = patterns('',
         {'template_name': u'root.jinja2.html', },
         name='root_page', ),
     # url(r'^proj/', include('proj.foo.urls')),
-    url(r'^(?P<category_url>\w+)/c(?P<id>\d{6})/$', show_category,
+    url(ur'^(?P<category_url>[а-яa-z0-9_.-]+)/[кc](?P<id>\d{6})/$', show_category,
         {'template_name': u'category/show_category.jinja2.html', },
         name='show_category', ),
-    url(r'^(?P<product_url>\w+)/p(?P<id>\d{6})/$', show_product,
+    url(ur'^(?P<product_url>[а-яa-z0-9_.-]+)/[пp](?P<id>\d{6})/$', show_product,
         {'template_name': u'product/show_product.jinja2.html', },
         name='show_product', ),
 
@@ -36,10 +37,10 @@ from django.conf import settings
 if settings.DEBUG:
     urlpatterns += patterns('django.views.static',
         url(r'^media/(?P<path>.*)$', 'serve',
-            {'document_root': 'C:/Shop/Media',
-             'show_indexes': True, }, ),
-#            {'document_root': '/home/user/Proj/Shop/Media',
+#            {'document_root': 'C:/Shop/Media',
 #             'show_indexes': True, }, ),
+            {'document_root': '/home/user/Proj/Shop/Media',
+             'show_indexes': True, }, ),
     )
 
 #urlpatterns += patterns('',

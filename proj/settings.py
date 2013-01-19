@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'apps.root',
     'apps.product',
+    'apps.cart',
     'debug_toolbar',
 )
 

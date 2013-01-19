@@ -11,18 +11,23 @@ class PhotoInLine(generic.GenericTabularInline):
 
 from apps.product.models import Category
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'url', 'title', 'parent', ]
-    list_display_links = ['pk', 'url', ]
+    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
+    list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['parent', 'url', 'title', 'name', 'description', ], }),
         ('Meta information', {'classes': ['collapse'], 'fields': ['meta_title', 'meta_description', 'meta_keywords', ], }),
         ('Additional information', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
-    prepopulated_fields = {'url' : ('title',), }
+#    readonly_fields = (u'url', )
+    #    prepopulated_fields = {u'url' : (u'title',), }
+
+#    prepopulated_fields = {'url' : ('title',), }
 
     inlines = [
         PhotoInLine,
     ]
+    save_as = True
+    save_on_top = True
 
 from apps.product.models import Information
 class InformationInLine(admin.TabularInline):
@@ -51,13 +56,16 @@ class ProductAdmin(admin.ModelAdmin):
         ('Meta information', {'classes': ['collapse'], 'fields': ['meta_title', 'meta_description', 'meta_keywords', ], }),
         ('Additional information', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
-    prepopulated_fields = {'url' : ('title',), }
+#    readonly_fields = u'url'
+#    prepopulated_fields = {u'url' : (u'title',), }
     filter_horizontal = ('category', )
 
     inlines = [
         Additional_InformationInLine,
         PhotoInLine,
     ]
+    save_as = True
+    save_on_top = True
 
 class InformationAdmin(admin.ModelAdmin):
     pass

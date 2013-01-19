@@ -1,5 +1,5 @@
 {% extends 'base.jinja2.html' %}
-{% block title %}Страница категорий{% endblok %}
+{% block title %}{{ current_category_.title }}{% endblock %}
 {% block content %}
     {% if not current_category_.parent %}
     <a href="/">Home</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
@@ -13,6 +13,8 @@
     <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
     {% elif not current_category_.parent.parent.parent.parent.parent.parent %}
     <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+    {% elif not current_category_.parent.parent.parent.parent.parent.parent.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
     {% endif %}
     {% if categories_at_current_category_ %}
     <br>
@@ -23,4 +25,7 @@
     {% else %}
         <p>Подкатегории в этой категории отсутсвуют</p>
     {% endif %}
+    {% for product in current_category_.products.all() %}
+        <a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
+    {% endfor %}
 {% endblock %}
