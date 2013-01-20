@@ -6,7 +6,7 @@ from django.contrib import admin
 admin.autodiscover()
 from apps.root.views import root_page
 from apps.product.views import show_category, show_product
-from apps.ajax.views import resolution
+from apps.ajax.views import resolution, cookie
 
 urlpatterns = patterns('',
     # Examples:
@@ -25,6 +25,8 @@ urlpatterns = patterns('',
     url(r'^ajax/resolution/$', resolution,
 #        {'template_name': u'product/show_product.jinja2.html', },
         name='ajax_resolution', ),
+    url(r'^ajax/cookie/$', cookie,
+        name='ajax_cookie', ),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),

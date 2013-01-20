@@ -70,11 +70,11 @@ def show_product(request,
                     except Product.DoesNotExist:
                         from django.http import Http404
                         raise Http404
-                    else:
-                        if request.
-                        try:
-                            from apps.cart.models import Cart
-                            cart = Cart.objects.get(sessionid=, )
+#                    else:
+#                        if request.
+#                        try:
+#                            from apps.cart.models import Cart
+#                            cart = Cart.objects.get(sessionid=, )
                     try:
                         from apps.product.models import Category
                         current_category_ = Category.objects.get(pk=int(current_category_, ), )
@@ -90,7 +90,7 @@ def show_product(request,
                 from django.http import Http404
                 raise Http404
     else:
-        request.session.set_test_cookie()
+#        request.session.set_test_cookie()
         try:
             from apps.product.models import Product
             product_ = Product.objects.get(pk=id, url=product_url, )

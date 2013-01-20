@@ -25,14 +25,35 @@
 
 class Process_SessionIDMiddleware(object):
     def process_request(self, request):
-        request.session.set_test_cookie()
         # ajax_resolution
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
         from datetime import datetime, timedelta
-        if not ajax_resolution_datetime or ajax_resolution_datetime < (datetime.now() - timedelta(hours=1, )):
+        if not ajax_resolution_datetime or ajax_resolution_datetime < (datetime.now() - timedelta(seconds=60, )):
             request.session[u'ajax_resolution'] = True
         else:
             request.session[u'ajax_resolution'] = False
+        # ajax_cookie
+        if not "cookie" in request.session:
+            request.session[u'ajax_cookie'] = True
+            request.session.set_test_cookie()
+        else:
+            if "ajax_cookie" in request.session:
+                request.session.delete_test_cookie()
+                del request.session['ajax_cookie']
+
+        if "sessionid" in request.COOKIES:
+            SESSIONID_COOKIES_ = request.COOKIES['sessionid']
+        else:
+            SESSIONID_COOKIES_ = None
+
+        request.SESSIONID_COOKIES_ = SESSIONID_COOKIES_
+
+            #        ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
+#        from datetime import datetime, timedelta
+#        if not ajax_resolution_datetime or ajax_resolution_datetime < (datetime.now() - timedelta(hours=1, )):
+#            request.session[u'ajax_resolution'] = True
+#        else:
+#            request.session[u'ajax_resolution'] = False
         # curent_category
 
 ##        cartid = _cart_id(request)
