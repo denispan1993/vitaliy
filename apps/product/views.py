@@ -115,3 +115,43 @@ def show_product(request,
     return render_to_response(u'product/show_product.jinja2.html',
         locals(),
         context_instance=RequestContext(request, ), )
+
+def get_cart(request, ):
+    if request.user.is_authenticated() and request.user.is_active:
+        from apps.cart.models import Cart
+        cart, created = Cart.objects.get_or_create(user=request.user_object_, sessionid=None, )
+    else:
+        cart, created = Cart.objects.get_or_create(user=None, sessionid=request.SESSIONID_COOKIES_, )
+    return cart, created
+
+def add_to_cart(request):
+    postdata = request.POST.copy()
+    # get product slug from post data, return blank if empty
+    product_pk = int(postdata.get('product_pk', None, ), )
+    product_url = postdata.get('product_url', None, )
+    product_cache_key = request.path
+    # try to get product from cache
+    from django.core.cache import cache
+    from proj.settings import CACHE_TIMEOUT
+    product = cache.get(product_cache_key)
+    # if a cache miss, fall back on db query
+    if not product:
+        # fetch the product or return a missing page error
+        from django.shortcuts import render_to_response, get_object_or_404
+        from apps.product.models import Product
+        product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
+        # store item in cache for next time
+        cache.set(product_cache_key, product, CACHE_TIMEOUT)
+        # get quantity added, return 1 if empty
+    quantity = int(postdata.get('quantity', 1, ), )
+    #get cart
+    product_cart = get_cart(request, )
+    try:
+        exist_cart_option = product_cart.cart.get(color=Color_object, size=Size_object, )
+        exist_cart_option.update_quantity(quantity) # quantity += exist_cart_option.quantity
+        exist_cart_option.update_price_per_piece()
+    #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
+    except More_Options_Carts.DoesNotExist:
+    #        price_per_piece = views_price_per_piece(product, quantity, )
+        More_Options_Carts.objects.create(cart=product_cart, price_per_piece=product_cart.product.sale_price(quantity, ), quantity=quantity, color=Color_object, size=Size_object, )
+    return None
