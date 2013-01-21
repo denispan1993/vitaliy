@@ -125,8 +125,17 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 31622400 # 3600 * 24 * 366
+SESSION_COOKIE_DOMAIN = u'.shop.mk.ua'
+#SESSION_ENGINE = 'cache_db'
+#SESSION_ENGINE = 'db'
+#SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 CACHES = {
     'default': {
