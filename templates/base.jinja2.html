@@ -12,9 +12,7 @@
                     width: "512",
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
-                function(data) {
-                    alert(data);
-                }
+                function(data) { alert(data); }
             );
         });
     }catch(e){ alert(e) }
@@ -27,9 +25,7 @@
             $.post("/ajax/cookie/", {
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
-                function(data) {
-                    alert(data);
-                }
+                function(data) { alert(data); }
             );
         });
     }catch(e){ alert(e) }

@@ -240,9 +240,9 @@ INTERNAL_IPS = ('192.168.3.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.2
 AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.twitter.TwitterBackend',
     # 'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuthBackend',
+    # 'social_auth.backends.google.GoogleOAuthBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
+    # 'social_auth.backends.google.GoogleBackend',
     # 'social_auth.backends.yahoo.YahooBackend',
     # 'social_auth.backends.browserid.BrowserIDBackend',
     # 'social_auth.backends.contrib.linkedin.LinkedinBackend',
@@ -252,10 +252,10 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.contrib.foursquare.FoursquareBackend',
     # 'social_auth.backends.contrib.github.GithubBackend',
     'social_auth.backends.contrib.yandex.YandexOAuth2Backend',
-    'social_auth.backends.contrib.yandex.YandexBackend',
-    'social_auth.backends.contrib.yandex.YaruBackend',
+    # 'social_auth.backends.contrib.yandex.YandexBackend',
+    # 'social_auth.backends.contrib.yandex.YaruBackend',
     'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiBackend',
-    'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiAppBackend',
+    # 'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiAppBackend',
     'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
     # 'social_auth.backends.contrib.vkontakte.VKontakteBackend',
     # 'social_auth.backends.contrib.live.LiveBackend',
@@ -287,20 +287,20 @@ GOOGLE_OAUTH2_CLIENT_ID = '442207703537.apps.googleusercontent.com'
 GOOGLE_OAUTH2_CLIENT_SECRET = 'R6RYIo1b6w8oQvtR-duuGRPo'
 GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
 #
-SOCIAL_AUTH_CREATE_USERS          = True
+SOCIAL_AUTH_CREATE_USERS = True
 SOCIAL_AUTH_FORCE_RANDOM_USERNAME = True
-SOCIAL_AUTH_DEFAULT_USERNAME      = 'socialauth_user'
-SOCIAL_AUTH_COMPLETE_URL_NAME     = 'socialauth_complete'
-LOGIN_ERROR_URL                   = '/login/error/'
+SOCIAL_AUTH_DEFAULT_USERNAME = 'socialauth_user'
+SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
+LOGIN_ERROR_URL = '/login/error/'
 #OpenAPI
 VKONTAKTE_APP_ID = '' # '3474809'
 VKONTAKTE_APP_SECRET = '' # 'BapEJeIg9oRgfXRQABor'
 # Usage for applications auth: {'key': application_key, 'user_mode': 0 (default) | 1 (check) | 2 (online check) }
 # 0 means is_app_user request parameter is ignored, 1 - must be = 1, 2 - checked via VK API request (useful when user
 # connects to your application on app page and you reload the iframe)
-VKONTAKTE_APP_AUTH                = None
-ODNOKLASSNIKI_OAUTH2_CLIENT_KEY   = '163445760'
-ODNOKLASSNIKI_OAUTH2_APP_KEY      = 'CBANPOLKABABABABA'
+VKONTAKTE_APP_AUTH = None
+ODNOKLASSNIKI_OAUTH2_CLIENT_KEY = '163445760'
+ODNOKLASSNIKI_OAUTH2_APP_KEY = 'CBANPOLKABABABABA'
 ODNOKLASSNIKI_OAUTH2_CLIENT_SECRET = '5E0652D81620317290DED086'
 MAILRU_OAUTH2_CLIENT_KEY   		  = ''
 MAILRU_OAUTH2_APP_KEY      		  = ''
@@ -313,12 +313,12 @@ FOURSQUARE_CONSUMER_KEY           = ''
 FOURSQUARE_CONSUMER_SECRET        = ''
 DOUBAN_CONSUMER_KEY               = ''
 DOUBAN_CONSUMER_SECRET            = ''
-YANDEX_OAUTH2_CLIENT_KEY          = '9827973f694743c493d9d3b0ca75ef9a'
-YANDEX_OAUTH2_CLIENT_SECRET       = '9fd1bd404b25435b951b95a28ed96ed6'
-YANDEX_OAUTH2_API_URL             = 'https://api-yaru.yandex.ru/me/' # http://api.moikrug.ru/v1/my/ for Moi Krug
+YANDEX_OAUTH2_CLIENT_KEY = '9827973f694743c493d9d3b0ca75ef9a'
+YANDEX_OAUTH2_CLIENT_SECRET = '9fd1bd404b25435b951b95a28ed96ed6'
+YANDEX_OAUTH2_API_URL = 'https://api-yaru.yandex.ru/me/' # http://api.moikrug.ru/v1/my/ for Moi Krug
 DAILYMOTION_OAUTH2_KEY            = ''
 DAILYMOTION_OAUTH2_SECRET         = ''
-SHOPIFY_APP_API_KEY                 = ''
+SHOPIFY_APP_API_KEY               = ''
 SHOPIFY_SHARED_SECRET             = ''
 STOCKTWITS_CONSUMER_KEY           = ''
 STOCKTWITS_CONSUMER_SECRET        = ''
@@ -326,8 +326,8 @@ READABILITY_CONSUMER_KEY          = ''
 READABILITY_CONSUMER_SECRET       = ''
 
 # Backward compatibility
-YANDEX_APP_ID = YANDEX_OAUTH2_CLIENT_KEY
-YANDEX_API_SECRET = YANDEX_OAUTH2_CLIENT_SECRET
+#YANDEX_APP_ID = YANDEX_OAUTH2_CLIENT_KEY
+#YANDEX_API_SECRET = YANDEX_OAUTH2_CLIENT_SECRET
 
 #OAuth2
 VK_APP_ID = '3474809'

@@ -2,24 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/social_index.jinja2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/proj/social_settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Shop.iml" afterPath="$PROJECT_DIR$/.idea/Shop.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.jinja2.html" afterPath="$PROJECT_DIR$/templates/base.jinja2.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/settings.py" afterPath="$PROJECT_DIR$/proj/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/social_index.jinja2.html" afterPath="$PROJECT_DIR$/templates/social_index.jinja2.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/urls.py" afterPath="$PROJECT_DIR$/proj/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/views.py" afterPath="$PROJECT_DIR$/apps/product/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/views.py" afterPath="$PROJECT_DIR$/apps/root/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363953416644" ignored="false" />
-    <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363965450043" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363972773841" ignored="false" />
+    <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363970614662" ignored="false" />
     <file path="C:/Python27/Lib/site-packages/django/http/request.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174363" ignored="false" />
     <file path="C:/Python27/Lib/site-packages/django/db/models/manager.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174363" ignored="false" />
     <file path="C:/Python27/Lib/site-packages/django/db/models/options.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174363" ignored="false" />
@@ -29,10 +21,11 @@
     <file path="C:/Python27/Lib/site-packages/django/contrib/auth/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174364" ignored="false" />
     <file path="/social_settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363962836605" ignored="false" />
     <file path="C:/django-social-auth/example/example/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363962842315" ignored="false" />
-    <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363963268005" ignored="false" />
+    <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363972081063" ignored="false" />
     <file path="/social_index.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363964141579" ignored="false" />
     <file path="/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363963408767" ignored="false" />
     <file path="/vkontakte.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363965718788" ignored="false" />
+    <file path="/base.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363972322123" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,22 +47,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="urls.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/proj/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="1766" selection-end="1766" vertical-scroll-proportion="0.75598085">
+            <state line="42" column="12" selection-start="1598" selection-end="1598" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="root.jinja2.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="0" selection-end="101" vertical-scroll-proportion="-1.9615384">
-              <folding>
-                <marker date="1358780812528" expanded="false" signature="423:438" placeholder="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -77,49 +59,12 @@
       <file leaf-file-name="social_index.jinja2.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/social_index.jinja2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="48" selection-start="193" selection-end="193" vertical-scroll-proportion="-2.6153846">
+            <state line="15" column="14" selection-start="578" selection-end="578" vertical-scroll-proportion="-9.807693">
               <folding>
                 <element signature="e#121#143#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="decorators.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/site-packages/social_auth/decorators.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="50" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/site-packages/social_auth/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="25" selection-start="325" selection-end="325" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/product/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/root/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="43" selection-start="389" selection-end="389" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#47#0" expanded="true" />
+                <element signature="e#230#252#0" expanded="true" />
+                <element signature="e#340#362#0" expanded="true" />
+                <element signature="e#450#472#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -128,16 +73,63 @@
       <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/proj/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="335" column="0" selection-start="12609" selection-end="12609" vertical-scroll-proportion="0.0">
+            <state line="256" column="70" selection-start="9153" selection-end="9153" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="social_settings.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proj/social_settings.py">
+      <file leaf-file-name="yandex.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/contrib/yandex.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="62" selection-start="0" selection-end="5119" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="odnoklassniki.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/contrib/odnoklassniki.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="90" column="58" selection-start="3710" selection-end="3710" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.jinja2.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="37" selection-start="858" selection-end="858" vertical-scroll-proportion="0.5">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Media/js/jquery/jquery.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="0" selection-start="64367" selection-end="64367" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/ajax/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="17" selection-start="532" selection-end="532" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="google.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/google.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="254" column="18" selection-start="9559" selection-end="9559" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -179,8 +171,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_user" />
-        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_group" />
         <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_group_permissions" />
         <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_permission" />
         <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_admin_log" />
@@ -190,11 +180,13 @@
         <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Photo" />
         <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Unit_of_Measurement" />
         <option value="$PROJECT_DIR$/apps/root/views.py" />
-        <option value="$PROJECT_DIR$/templates/social_index.jinja2.html" />
         <option value="$PROJECT_DIR$/proj/social_settings.py" />
         <option value="C:/Python27/Lib/site-packages/social_auth/backends/contrib/vkontakte.py" />
+        <option value="$PROJECT_DIR$/templates/social_index.jinja2.html" />
         <option value="$PROJECT_DIR$/proj/settings.py" />
         <option value="$PROJECT_DIR$/proj/urls.py" />
+        <option value="$PROJECT_DIR$/Media/js/jquery/jquery.js" />
+        <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
       </list>
     </option>
   </component>
@@ -735,6 +727,14 @@
               <option name="myItemId" value="Media" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jquery" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1186,7 +1186,11 @@
       <created>1358546081449</created>
       <updated>1358546081449</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Commit">
+      <created>1363966861433</created>
+      <updated>1363966861433</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1226,23 +1230,23 @@
     <frame x="-4" y="-4" width="1688" height="1014" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.8513825" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22705019" sideWeight="0.75230414" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22705019" sideWeight="0.6705069" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24769585" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24769585" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1288,7 +1292,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit&#10;Начал подключать social-auth" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1308,6 +1312,7 @@
     <MESSAGE value="Add admin file in products" />
     <MESSAGE value="First root applicaton" />
     <MESSAGE value="Commit" />
+    <MESSAGE value="Commit&#10;Начал подключать social-auth" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1315,71 +1320,11 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_site">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Unit_of_Measurement">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Photo">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_session">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_content_type">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_user">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.097606">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="0" selection-start="0" selection-end="101" vertical-scroll-proportion="-1.9615384">
           <folding>
-            <marker date="1358780812528" expanded="false" signature="423:438" placeholder="..." />
+            <marker date="1358780812528" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1423,15 +1368,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/social_index.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="48" selection-start="193" selection-end="193" vertical-scroll-proportion="-2.6153846">
-          <folding>
-            <element signature="e#121#143#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/contrib/vkontakte.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="157" column="53" selection-start="5471" selection-end="5484" vertical-scroll-proportion="-7.32">
@@ -1439,16 +1375,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/google.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="254" column="18" selection-start="9559" selection-end="9559" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/social_index.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="14" selection-start="578" selection-end="578" vertical-scroll-proportion="-9.807693">
+          <folding>
+            <element signature="e#121#143#0" expanded="true" />
+            <element signature="e#230#252#0" expanded="true" />
+            <element signature="e#340#362#0" expanded="true" />
+            <element signature="e#450#472#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/contrib/yandex.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/proj/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="335" column="0" selection-start="12609" selection-end="12609" vertical-scroll-proportion="0.0">
+        <state line="256" column="70" selection-start="9153" selection-end="9153" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/contrib/odnoklassniki.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="58" selection-start="3710" selection-end="3710" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/proj/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1766" selection-end="1766" vertical-scroll-proportion="0.75598085">
+        <state line="42" column="12" selection-start="1598" selection-end="1598" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Media/js/jquery/jquery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="64367" selection-end="64367" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/ajax/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="17" selection-start="532" selection-end="532" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="37" selection-start="858" selection-end="858" vertical-scroll-proportion="0.5">
           <folding />
         </state>
       </provider>

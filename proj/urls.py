@@ -39,10 +39,10 @@ from django.conf import settings
 if settings.DEBUG:
     urlpatterns += patterns('django.views.static',
         url(r'^media/(?P<path>.*)$', 'serve',
-            # {'document_root': 'C:/Shop/Media',
+            {'document_root': 'C:/Shop/Media',
+            'show_indexes': True, }, ),
+            # {'document_root': '/home/user/Proj/Shop/Media',
             # 'show_indexes': True, }, ),
-            {'document_root': '/home/user/Proj/Shop/Media',
-             'show_indexes': True, }, ),
     )
 
 urlpatterns += patterns('',
