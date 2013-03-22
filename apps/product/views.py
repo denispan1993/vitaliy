@@ -21,6 +21,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+
 def show_category(request,
                   category_url,
                   id,
@@ -118,17 +119,21 @@ def show_product(request,
 
 def get_cart(request, ):
     if request.user.is_authenticated() and request.user.is_active:
+        user_id_ = request.session.get(u'_auth_user_id', None, )
+        from django.contrib.auth.models import User
+        user_object_ = User.objects.get(pk=user_id_)
         from apps.cart.models import Cart
-        cart, created = Cart.objects.get_or_create(user=request.user_object_, sessionid=None, )
+        cart, created = Cart.objects.get_or_create(user=user_object_, sessionid=None, )
     else:
-        cart, created = Cart.objects.get_or_create(user=None, sessionid=request.SESSIONID_COOKIES_, )
+        sessionid = request.COOKIES.get(u'sessionid', None, )
+        cart, created = Cart.objects.get_or_create(user=None, sessionid=sessionid, )
     return cart, created
 
 def add_to_cart(request):
     postdata = request.POST.copy()
     # get product slug from post data, return blank if empty
-    product_pk = int(postdata.get('product_pk', None, ), )
-    product_url = postdata.get('product_url', None, )
+    product_pk = int(postdata.get(u'product_pk', None, ), )
+    product_url = postdata.get(u'product_url', None, )
     product_cache_key = request.path
     # try to get product from cache
     from django.core.cache import cache

@@ -1,0 +1,16 @@
+{% extends "base.jinja2.html" %}
+{% block title %}Страница ИНДЕКСА социальных сетей{% endblock %}
+{% block content %}
+<p style="margin: 0.4em;">
+    <a href="{{ url('socialauth_begin', 'vkontakte-oauth2') }}">Enter VK</a>
+</p>
+{# <p style="margin: 0.4em;">
+    <a href="{% url socialauth_begin 'google-oauth2' %}">Enter Google</a>
+</p>
+<p style="margin: 0.4em;">
+    <a href="{% url socialauth_begin 'yandex-oauth2' %}">Enter Yandex</a>
+</p>
+<p style="margin: 0.4em;">
+    <a href="{% url socialauth_begin 'odnoklassniki' %}">Enter Odnoklassniki</a>
+</p> #}
+{% endblock %}

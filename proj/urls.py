@@ -39,12 +39,18 @@ from django.conf import settings
 if settings.DEBUG:
     urlpatterns += patterns('django.views.static',
         url(r'^media/(?P<path>.*)$', 'serve',
-#            {'document_root': 'C:/Shop/Media',
-#             'show_indexes': True, }, ),
+            # {'document_root': 'C:/Shop/Media',
+            # 'show_indexes': True, }, ),
             {'document_root': '/home/user/Proj/Shop/Media',
              'show_indexes': True, }, ),
     )
 
+urlpatterns += patterns('',
+    url(r'social/index/$', root_page,
+            {'template_name': u'social_index.jinja2.html', },
+            name='root_page', ),
+    url(r'social/', include('social_auth.urls')),
+)
 #urlpatterns += patterns('',
 #    url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
 #        {'document_root': 'C:/Python27/Lib/site-packages/django/contrib/admin'}),

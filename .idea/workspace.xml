@@ -2,12 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/social_index.jinja2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/proj/social_settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Shop.iml" afterPath="$PROJECT_DIR$/.idea/Shop.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/settings.py" afterPath="$PROJECT_DIR$/proj/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/urls.py" afterPath="$PROJECT_DIR$/proj/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/views.py" afterPath="$PROJECT_DIR$/apps/product/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/views.py" afterPath="$PROJECT_DIR$/apps/root/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363953416644" ignored="false" />
+    <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363965450043" ignored="false" />
+    <file path="C:/Python27/Lib/site-packages/django/http/request.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174363" ignored="false" />
+    <file path="C:/Python27/Lib/site-packages/django/db/models/manager.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174363" ignored="false" />
+    <file path="C:/Python27/Lib/site-packages/django/db/models/options.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174363" ignored="false" />
+    <file path="C:/Python27/Lib/site-packages/django/db/models/base.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174364" ignored="false" />
+    <file path="C:/Python27/Lib/site-packages/django/db/models/fields/files.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174364" ignored="false" />
+    <file path="C:/Python27/Lib/site-packages/django/contrib/admin/sites.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363957802066" ignored="false" />
+    <file path="C:/Python27/Lib/site-packages/django/contrib/auth/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363956174364" ignored="false" />
+    <file path="/social_settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363962836605" ignored="false" />
+    <file path="C:/django-social-auth/example/example/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363962842315" ignored="false" />
+    <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363963268005" ignored="false" />
+    <file path="/social_index.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363964141579" ignored="false" />
+    <file path="/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363963408767" ignored="false" />
+    <file path="/vkontakte.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1363965718788" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,10 +54,99 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="models.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="urls.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/proj/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="0" selection-start="1766" selection-end="1766" vertical-scroll-proportion="0.75598085">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="root.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="0" selection-start="0" selection-end="101" vertical-scroll-proportion="-1.9615384">
+              <folding>
+                <marker date="1358780812528" expanded="false" signature="423:438" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="social_index.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/social_index.jinja2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="48" selection-start="193" selection-end="193" vertical-scroll-proportion="-2.6153846">
+              <folding>
+                <element signature="e#121#143#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="decorators.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/site-packages/social_auth/decorators.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="50" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/site-packages/social_auth/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="25" selection-start="325" selection-end="325" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/product/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="251" selection-end="251" vertical-scroll-proportion="0.3253796">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/root/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="43" selection-start="389" selection-end="389" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/proj/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="335" column="0" selection-start="12609" selection-end="12609" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="social_settings.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/proj/social_settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="62" selection-start="0" selection-end="5119" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vkontakte.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/contrib/vkontakte.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="157" column="53" selection-start="5471" selection-end="5484" vertical-scroll-proportion="-7.32">
               <folding />
             </state>
           </provider>
@@ -58,37 +172,37 @@
   </component>
   <component name="GitLogSettings">
     <option name="myStructureFilterPaths" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/proj/wsgi.py" root0="FORCE_HIGHLIGHTING" />
+    <option name="myDateState">
+      <MyDateState />
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/media/js/jquery/jquery.js" />
-        <option value="$PROJECT_DIR$/Media/js/jquery/jquery.js" />
-        <option value="$PROJECT_DIR$/proj/context_processor.py" />
-        <option value="$PROJECT_DIR$/apps/cart/models.py" />
-        <option value="$PROJECT_DIR$/templates/root.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/product/templatetags/filters.py" />
-        <option value="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/product/admin.py" />
-        <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/ajax/views.py" />
-        <option value="$PROJECT_DIR$/proj/urls.py" />
-        <option value="$PROJECT_DIR$/apps/product/views.py" />
-        <option value="$PROJECT_DIR$/proj/processor_Middleware.py" />
-        <option value="$PROJECT_DIR$/apps/product/models.py" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_user" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_group" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_group_permissions" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_permission" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_admin_log" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_content_type" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_session" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_site" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Photo" />
+        <option value="dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Unit_of_Measurement" />
+        <option value="$PROJECT_DIR$/apps/root/views.py" />
+        <option value="$PROJECT_DIR$/templates/social_index.jinja2.html" />
+        <option value="$PROJECT_DIR$/proj/social_settings.py" />
+        <option value="C:/Python27/Lib/site-packages/social_auth/backends/contrib/vkontakte.py" />
         <option value="$PROJECT_DIR$/proj/settings.py" />
+        <option value="$PROJECT_DIR$/proj/urls.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1215" />
-    <option name="height" value="776" />
+    <option name="x" value="-4" />
+    <option name="y" value="-4" />
+    <option name="width" value="1688" />
+    <option name="height" value="1014" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -140,6 +254,296 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="Shop" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="social_auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="social_auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backends" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="social_auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backends" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="contrib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Python27" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Python27" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Python27" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Python27" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="social_auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Python27" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="social_auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backends" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.2 (C:/Python27/python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Python27" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="social_auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backends" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="contrib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -208,7 +612,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="product" />
+              <option name="myItemId" value="root" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -227,10 +631,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="product" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templatetags" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -322,6 +722,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Media" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Media" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="img" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -332,7 +764,7 @@
     <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="recentsLimit" value="5" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="C:/PycharmProjects/untitled5" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="Database.TableEditor.Splitter" value="0.9" />
@@ -357,17 +789,17 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/apps/product/templatetags" />
-      <recent name="$PROJECT_DIR$/apps/ajax" />
+      <recent name="C:\Shop\proj" />
+      <recent name="C:\Shop\apps\cart" />
       <recent name="C:\Shop\compat" />
       <recent name="C:\Shop\proj\apps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Media" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/apps/product/templates" />
+      <recent name="C:\Shop\compat\ImageWithThumbs" />
+      <recent name="C:\Shop\compat\" />
       <recent name="C:\Shop\templates\pruduct" />
       <recent name="C:\Shop\templates\category" />
+      <recent name="C:\Shop" />
     </key>
   </component>
   <component name="RunManager" selected="Django server.Shop">
@@ -404,6 +836,8 @@
       <option name="TARGET" value="" />
       <option name="SETTINGS_FILE" value="" />
       <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="py.test">
@@ -481,6 +915,8 @@
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
       <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
@@ -522,7 +958,7 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
       <JSDebuggerConfigurationSettings>
         <option name="engineId" value="embedded" />
         <option name="fileUrl" />
@@ -557,11 +993,11 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="0" />
+        <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:/Python27/python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <module name="Shop" />
       <option name="launchJavascriptDebuger" value="false" />
       <option name="port" value="8000" />
@@ -596,7 +1032,7 @@
     </configuration>
     <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Django server.Shop" />
-      <item index="1" class="java.lang.String" itemvalue="Python's test.Doctests in C:\Shop" />
+      <item index="1" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Shop" />
       <item index="2" class="java.lang.String" itemvalue="Python.manage" />
     </list>
     <recent_temporary>
@@ -703,70 +1139,59 @@
       <updated>1357291219905</updated>
     </task>
     <task id="LOCAL-00019" summary="Commit">
-      <created>1358020720195</created>
-      <updated>1358020720195</updated>
+      <created>1357337268009</created>
+      <updated>1357337268009</updated>
     </task>
     <task id="LOCAL-00020" summary="Commit">
-      <created>1358092230416</created>
-      <updated>1358092230416</updated>
+      <created>1357337912740</created>
+      <updated>1357337912740</updated>
     </task>
     <task id="LOCAL-00021" summary="Commit">
-      <created>1358092360112</created>
-      <updated>1358092360112</updated>
+      <created>1357338174875</created>
+      <updated>1357338174875</updated>
     </task>
     <task id="LOCAL-00022" summary="Commit">
-      <created>1358100378509</created>
-      <updated>1358100378509</updated>
+      <created>1357338192178</created>
+      <updated>1357338192178</updated>
     </task>
     <task id="LOCAL-00023" summary="Commit">
-      <created>1358100391227</created>
-      <updated>1358100391227</updated>
+      <created>1358019186012</created>
+      <updated>1358019186012</updated>
     </task>
     <task id="LOCAL-00024" summary="Commit">
-      <created>1358118015804</created>
-      <updated>1358118015804</updated>
+      <created>1358180683189</created>
+      <updated>1358180683189</updated>
     </task>
     <task id="LOCAL-00025" summary="Commit">
-      <created>1358119029520</created>
-      <updated>1358119029520</updated>
+      <created>1358350185741</created>
+      <updated>1358350185741</updated>
     </task>
     <task id="LOCAL-00026" summary="Commit">
-      <created>1358271174464</created>
-      <updated>1358271174464</updated>
+      <created>1358350709442</created>
+      <updated>1358350709442</updated>
     </task>
     <task id="LOCAL-00027" summary="Commit">
-      <created>1358271682180</created>
-      <updated>1358271682180</updated>
+      <created>1358440284885</created>
+      <updated>1358440284885</updated>
     </task>
     <task id="LOCAL-00028" summary="Commit">
-      <created>1358362815470</created>
-      <updated>1358362815470</updated>
+      <created>1358494644006</created>
+      <updated>1358494644006</updated>
     </task>
-    <task id="LOCAL-00029" summary="Commit now">
-      <created>1358368731375</created>
-      <updated>1358368731375</updated>
+    <task id="LOCAL-00029" summary="Commit">
+      <created>1358496336947</created>
+      <updated>1358496336947</updated>
     </task>
-    <task id="LOCAL-00030" summary="Commit now">
-      <created>1358617201881</created>
-      <updated>1358617201881</updated>
+    <task id="LOCAL-00030" summary="Commit">
+      <created>1358546081449</created>
+      <updated>1358546081449</updated>
     </task>
-    <task id="LOCAL-00031" summary="Commit now">
-      <created>1358638294876</created>
-      <updated>1358638294876</updated>
-    </task>
-    <task id="LOCAL-00032" summary="Commit now snova">
-      <created>1358676538493</created>
-      <updated>1358676538493</updated>
-    </task>
-    <task id="LOCAL-00033" summary="Commit now snova">
-      <created>1358705843260</created>
-      <updated>1358705843260</updated>
-    </task>
-    <option name="localTasksCounter" value="34" />
+    <option name="localTasksCounter" value="31" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
         <password>dfdddfcbdfd8dfc4dfc3dfc4dfcddf9bdf98df99</password>
+        <option name="loginAnonymously" value="false" />
         <option name="repoAuthor" value="AlexStarov" />
         <option name="repoName" value="Shop" />
         <option name="shouldFormatCommitMessage" value="false" />
@@ -798,20 +1223,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1215" height="776" extended-state="6" />
+    <frame x="-4" y="-4" width="1688" height="1014" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36042944" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297546" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961375" sideWeight="0.7714724" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26094422" sideWeight="0.7377301" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.8513825" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28755364" sideWeight="0.7714724" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22705019" sideWeight="0.75230414" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2285276" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24769585" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -858,9 +1283,12 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
+    <option name="LIMIT_HISTORY" value="true" />
+    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit now snova" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -880,97 +1308,147 @@
     <MESSAGE value="Add admin file in products" />
     <MESSAGE value="First root applicaton" />
     <MESSAGE value="Commit" />
-    <MESSAGE value="Commit now" />
-    <MESSAGE value="Commit now snova" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="1" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/product/templatetags/filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1315" selection-end="1315" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="0" selection-start="7109" selection-end="7109" vertical-scroll-proportion="-0.65217394" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/cart/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0">
+    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_site">
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="974" selection-end="974" vertical-scroll-proportion="-13.652174" />
+      <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
+        <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/ajax/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="36" selection-start="1970" selection-end="1970" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="0" selection-start="5075" selection-end="5075" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proj/processor_Middleware.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="0" selection-start="2581" selection-end="2581" vertical-scroll-proportion="0.9273608" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proj/context_processor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="38" selection-end="38" vertical-scroll-proportion="0.094936706" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proj/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="1074" selection-end="1074" vertical-scroll-proportion="0.835443" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proj/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="1" selection-start="4916" selection-end="4916" vertical-scroll-proportion="0.0">
+    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Unit_of_Measurement">
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/f4160bc5/e87eacc5-fa6b-495d-aa2a-41b94626f838/shop_mk_ua..auth_user">
       <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
         <state />
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/f4160bc5/e87eacc5-fa6b-495d-aa2a-41b94626f838/shop_mk_ua..django_admin_log">
+    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..Photo">
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
       <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
         <state />
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/f4160bc5/e87eacc5-fa6b-495d-aa2a-41b94626f838/shop_mk_ua..django_site">
+    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_session">
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
       <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
         <state />
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/f4160bc5/e87eacc5-fa6b-495d-aa2a-41b94626f838/shop_mk_ua..django_session">
+    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..django_content_type">
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
       <provider selected="true" editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
         <state />
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/4072577b/fb4b36e9-f9bf-4d72-9212-fd63fb66d8cd/shop_mk_ua..auth_user">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.097606">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.DatabaseTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="0" selection-end="101" vertical-scroll-proportion="-1.9615384">
+          <folding>
+            <marker date="1358780812528" expanded="false" signature="423:438" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/root/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="43" selection-start="389" selection-end="389" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/social_auth/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="25" selection-start="325" selection-end="325" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/product/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="251" selection-end="251" vertical-scroll-proportion="0.3253796">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/social_auth/decorators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="50" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proj/social_settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="62" selection-start="0" selection-end="5119" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/social_index.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="48" selection-start="193" selection-end="193" vertical-scroll-proportion="-2.6153846">
+          <folding>
+            <element signature="e#121#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/social_auth/backends/contrib/vkontakte.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="157" column="53" selection-start="5471" selection-end="5484" vertical-scroll-proportion="-7.32">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proj/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="335" column="0" selection-start="12609" selection-end="12609" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proj/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="0" selection-start="1766" selection-end="1766" vertical-scroll-proportion="0.75598085">
           <folding />
         </state>
       </provider>

@@ -13,7 +13,7 @@ class Manager(models.Manager):
 
 class Category(models.Model):
     parent = models.ForeignKey(u'Category', verbose_name=u'Вышестоящая категория',
-        null=True, blank=True, ) #related_name=u'children',
+        null=True, blank=True, )                                            # related_name=u'children',
     url = models.SlugField(verbose_name=u'URL адрес категории.', max_length=256,
         null=False, blank=False, )
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=256,
@@ -104,17 +104,17 @@ class Product(models.Model):
     #Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'Заголовок продукта', max_length=190,
         null=True, blank=True,
-                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения страницы в поиске.', )
+        help_text=u'Данный заголовок читают поисковые системы для правильного расположения страницы в поиске.', )
     meta_description = models.CharField(verbose_name=u'Описание продукта', max_length=190,
         null=True, blank=True,
-                                   help_text=u'Данное описание читают поисковые системы для правильного расположения страницы в поиске.', )
+        help_text=u'Данное описание читают поисковые системы для правильного расположения страницы в поиске.', )
     meta_keywords = models.CharField(verbose_name=u'Клчевые слова продукта', max_length=160,
         null=True, blank=True,
-                                help_text=u'Ключевые слова для поисковых систем.', )
+        help_text=u'Ключевые слова для поисковых систем.', )
     #Расширенные настройки
     template = models.CharField(verbose_name=u'Имя шаблона', max_length=70,
         null=True, blank=True,
-                                help_text=u'Пример: "news/reklama.html". Если не указано, система будет использовать "news/default.html".', )
+        help_text=u'Пример: "news/reklama.html". Если не указано, система будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости продукта', default=True, )
 
 #    question = models.CharField(max_length=200)

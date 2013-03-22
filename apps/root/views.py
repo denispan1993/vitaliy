@@ -8,6 +8,6 @@ def root_page(request, template_name=u'root.jinja2.html', ):
     except Category.DoesNotExist:
         categories_first_level_ = None
 
-    return render_to_response(u'root.jinja2.html',
+    return render_to_response(template_name,
         locals(),
         context_instance=RequestContext(request, ), )
