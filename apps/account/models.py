@@ -18,8 +18,9 @@ class Profile(UserenaLanguageBaseProfile):
     NONE = 0
     MALE = 1
     FEMALE = 2
-    from enum import Enum
-    gender_CHOICES = Enum(
+#    from enum import Enum
+#    gender_CHOICES = Enum(
+    gender_CHOICES = (
         NONE, _('unknown'),
         MALE, _('male'),
         FEMALE, _('female'),
