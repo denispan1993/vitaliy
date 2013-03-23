@@ -12,6 +12,6 @@ def context(request):
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
 
     return dict(request=request,
-        categories_=categories_,
-#        ajax_resolution_=ajax_resolution_,
-    )
+                categories_=categories_,
+                # ajax_resolution_=ajax_resolution_,
+                )

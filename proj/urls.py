@@ -64,9 +64,11 @@ urlpatterns += patterns('',
                         url(r'social/', include('social_auth.urls'),
                             ),
                         )
-#!!!===================== Django Userena - Accounts ======================
+#!!!===================== Django Userena - Accounts - uMessages======================
 urlpatterns += patterns('',
                         url(r'^accounts/', include('userena.urls'),
+                            ),
+                        url(r'^messages/', include('userena.contrib.umessages.urls'),
                             ),
                         )
 #urlpatterns += patterns('',

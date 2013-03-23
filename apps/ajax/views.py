@@ -1,5 +1,6 @@
 __author__ = 'user'
 
+
 def resolution(request, ):
     if request.is_ajax():
         if request.method == 'POST':
@@ -40,15 +41,18 @@ def resolution(request, ):
     else:
         return HttpResponse(status=400, )
 
+
 def cookie(request, ):
     if request.is_ajax():
         if request.method == 'POST':
             if request.session.test_cookie_worked():
                 response = {'result': 'Ok', }
                 request.session[u'cookie'] = True
+                request.session.delete_test_cookie()
             else:
                 response = {'result': 'Please enable cookies and try again.', }
                 request.session[u'cookie'] = False
+                request.session.delete_test_cookie()
             from django.utils.simplejson import dumps
             data = dumps(response, )
             mimetype = 'application/javascript'

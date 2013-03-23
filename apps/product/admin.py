@@ -5,11 +5,15 @@ from django.contrib import admin
 
 from apps.product.models import Photo
 from django.contrib.contenttypes import generic
+
+
 class PhotoInLine(generic.GenericTabularInline):
     model = Photo
     extra = 3
 
 from apps.product.models import Category
+
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['pk', 'url', 'title', 'parent', 'name', ]
     list_display_links = ['pk', 'url', 'title', ]
@@ -30,26 +34,35 @@ class CategoryAdmin(admin.ModelAdmin):
     save_on_top = True
 
 from apps.product.models import Information
+
+
 class InformationInLine(admin.TabularInline):
     model = Information
     extra = 5
 
 from apps.product.models import Additional_Information
+
+
 class Additional_InformationAdmin(admin.ModelAdmin):
     inlines = [
         InformationInLine,
     ]
+
 
 class Additional_InformationInLine(admin.TabularInline):
     model = Additional_Information
     extra = 2
 
 from apps.product.models import Discount
+
+
 class DiscountInLine(admin.TabularInline):
     model = Discount
     extra = 5
 
 from apps.product.models import Product
+
+
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'url', 'title', 'name', 'description', 'regular_price', 'price', ], }),
@@ -67,15 +80,20 @@ class ProductAdmin(admin.ModelAdmin):
     save_as = True
     save_on_top = True
 
+
 class InformationAdmin(admin.ModelAdmin):
     pass
 
 from apps.product.models import Unit_of_Measurement
+
+
 class Unit_of_MeasurementAdmin(admin.ModelAdmin):
     pass
 
+
 class DiscountAdmin(admin.ModelAdmin):
     pass
+
 
 class PhotoAdmin(admin.ModelAdmin):
     pass

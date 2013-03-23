@@ -384,4 +384,6 @@ EMAIL_HOST_PASSWORD = 'yourgmailpassword'
 INSTALLED_APPS += (
     'userena.contrib.umessages',
 )
+ANONYMOUS_USER_ID = -1
 
+AUTH_PROFILE_MODULE = 'accounts.MyProfile'

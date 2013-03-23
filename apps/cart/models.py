@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.db import models
-
 # Create your models here.
+
 
 class Cart(models.Model):
     from django.contrib.auth.models import User
@@ -20,6 +20,7 @@ class Cart(models.Model):
         ordering = [u'-created_at']
         verbose_name = u'Корзина'
         verbose_name_plural = u'Корзины'
+
 
 class Product(models.Model):
     cart = models.ForeignKey(Cart, verbose_name=u'Корзина', null=False, blank=False, )

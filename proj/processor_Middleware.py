@@ -23,6 +23,7 @@
 #from Manufacturers.models import Manufacturers, Countrys
 #from database_products.models import Rubrics, Categories, database_products, Views, Colors_m2m, Colors, Sizes_m2m, Sizes
 
+
 class Process_SessionIDMiddleware(object):
     def process_request(self, request):
         # ajax_resolution
