@@ -20,11 +20,15 @@ class Profile(UserenaLanguageBaseProfile):
     FEMALE = 2
 #    from enum import Enum
 #    gender_CHOICES = Enum(
+#    gender_CHOICES = (
+#        NONE, _('unknown'),
+#        MALE, _('male'),
+#        FEMALE, _('female'),
+#    )
     gender_CHOICES = (
-        NONE, _('unknown'),
-        MALE, _('male'),
-        FEMALE, _('female'),
-
+        (NONE, 'Неизвестно'),
+        (MALE, 'Мужчина'),
+        (FEMALE, 'Женсчина'),
     )
     gender = models.PositiveSmallIntegerField(choices=gender_CHOICES,
                                               verbose_name=_('gender'),
