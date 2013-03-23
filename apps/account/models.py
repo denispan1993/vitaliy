@@ -15,15 +15,19 @@ class Profile(UserenaLanguageBaseProfile):
                                 related_name='profile', )
 #    favourite_snack = models.CharField(_('favourite snack'),
 #                                       max_length=5)
-    gender_CHOICES = (
-        0, _('unknown'),
-        1, _('male'),
-        2, _('female'),
+    NONE = 0
+    MALE = 1
+    FEMALE = 2
+    from enum import Enum
+    gender_CHOICES = Enum(
+        NONE, _('unknown'),
+        MALE, _('male'),
+        FEMALE, _('female'),
 
     )
     gender = models.PositiveSmallIntegerField(choices=gender_CHOICES,
                                               verbose_name=_('gender'),
-                                              default=0, )
+                                              default=NONE, )
     phone = models.CharField(max_length=19,
                              verbose_name=_('phone'), )
     # Отчество
