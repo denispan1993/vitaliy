@@ -131,7 +131,6 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 SESSION_SAVE_EVERY_REQUEST = True
@@ -179,8 +178,6 @@ INSTALLED_APPS = (
     'apps.root',
     'apps.product',
     'apps.cart',
-    'debug_toolbar',
-    'social_auth',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -212,6 +209,15 @@ LOGGING = {
     }
 }
 
+#!!!=============== Django Social Auth =========================
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+INSTALLED_APPS += (
+    'debug_toolbar',
+)
+
 DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.version.VersionDebugPanel',
     'debug_toolbar.panels.timer.TimerDebugPanel',
@@ -231,6 +237,10 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 INTERNAL_IPS = ('192.168.3.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
+#!!!=============== Django Social Auth =========================
+INSTALLED_APPS += (
+    'social_auth',
+)
 
 #try:
 #    from proj.social_settings import *
@@ -265,7 +275,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.OpenIDBackend',
     # 'userena.backends.UserenaAuthenticationBackend',
     # 'guardian.backends.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -338,16 +348,40 @@ VK_EXTRA_DATA = ['city', 'country', 'contacts', 'home_phone', 'mobile_phone', ]
 #VK_API_SECRET = VKONTAKTE_APP_SECRET
 # VKONTAKTE_APP_AUTH={'key':'iframe_app_secret_key', 'user_mode': 2, 'id':'iframe_app_id'}
 
-SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
+#SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
-    'social_auth.backends.pipeline.associate.associate_by_email',
-    'social_auth.backends.pipeline.misc.save_status_to_session',
-#    'app.pipeline.redirect_to_form',
-#    'app.pipeline.username',
+    # 'social_auth.backends.pipeline.associate.associate_by_email',
+    'social_auth.backends.pipeline.user.get_username',
+    # 'social_auth.backends.pipeline.misc.save_status_to_session',
+    # 'app.pipeline.redirect_to_form',
+    # 'app.pipeline.username',
     'social_auth.backends.pipeline.user.create_user',
     'social_auth.backends.pipeline.social.associate_user',
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
 )
+#!!!=============== Django Userena =========================
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    # 'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+INSTALLED_APPS += (
+    'apps.account',
+)
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'yourgmailaccount@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourgmailpassword'
+#!!!=============== Django Userena =========================
+INSTALLED_APPS += (
+    'userena.contrib.umessages',
+)
+

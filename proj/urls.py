@@ -9,8 +9,8 @@ from apps.product.views import show_category, show_product
 from apps.ajax.views import resolution, cookie
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'proj.views.home', name='home'),
+# Examples:
+# url(r'^$', 'proj.views.home', name='home'),
     url(r'^$', root_page,
         {'template_name': u'root.jinja2.html', },
         name='root_page', ),
@@ -23,7 +23,7 @@ urlpatterns = patterns('',
         name='show_product', ),
 
     url(r'^ajax/resolution/$', resolution,
-#        {'template_name': u'product/show_product.jinja2.html', },
+#       {'template_name': u'product/show_product.jinja2.html', },
         name='ajax_resolution', ),
     url(r'^ajax/cookie/$', cookie,
         name='ajax_cookie', ),
@@ -35,22 +35,40 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls, ), ),
 )
 
+#!!!===================== Static media ======================
 from django.conf import settings
 if settings.DEBUG:
-    urlpatterns += patterns('django.views.static',
-        url(r'^media/(?P<path>.*)$', 'serve',
-            {'document_root': 'C:/Shop/Media',
-            'show_indexes': True, }, ),
-            # {'document_root': '/home/user/Proj/Shop/Media',
-            # 'show_indexes': True, }, ),
-    )
-
+    import sys
+    if sys.platform == 'win32':
+        urlpatterns += patterns('django.views.static',
+                                url(r'^media/(?P<path>.*)$', 'serve',
+                                    {'document_root': 'C:/Shop/Media',
+                                     'show_indexes': True, },
+                                    ),
+                                )
+    elif sys.platform == 'linux2':
+        urlpatterns += patterns('django.views.static',
+                                url(r'^media/(?P<path>.*)$', 'serve',
+                                    {'document_root': '/home/user/Proj/Shop/Media',
+                                    'show_indexes': True, },
+                                    ),
+                                )
+#!!!===================== Django Social Auth ======================
 urlpatterns += patterns('',
-    url(r'social/index/$', root_page,
-            {'template_name': u'social_index.jinja2.html', },
-            name='root_page', ),
-    url(r'social/', include('social_auth.urls')),
-)
+                        url(r'social/index/$', root_page,
+                            {'template_name': u'social_index.jinja2.html', },
+                            name='social_index_page', ),
+                        url(r'login/error/$', root_page,
+                            {'template_name': u'login_error.jinja2.html', },
+                            name='login_error', ),
+                        url(r'social/', include('social_auth.urls'),
+                            ),
+                        )
+#!!!===================== Django Userena - Accounts ======================
+urlpatterns += patterns('',
+                        url(r'^accounts/', include('userena.urls'),
+                            ),
+                        )
 #urlpatterns += patterns('',
 #    url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
 #        {'document_root': 'C:/Python27/Lib/site-packages/django/contrib/admin'}),
