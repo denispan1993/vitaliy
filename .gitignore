@@ -1,6 +1,7 @@
 *.log
 *.pot
 *.pyc
+.idea/
 .idea/*.*
 .idea/Shop.iml
 .idea/dataSources.xml
