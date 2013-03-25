@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229679285" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229864053" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364071150045" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364227360797" ignored="false" />
@@ -15,6 +15,7 @@
     <file path="/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364227845918" ignored="false" />
     <file path="/admin.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364073721626" ignored="false" />
     <file path="/.gitignore" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229834754" ignored="false" />
+    <file path="/manage.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229912055" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +40,7 @@
       <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/proj/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="364" column="0" selection-start="13523" selection-end="13523" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -110,11 +111,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="9" selection-start="27" selection-end="27" vertical-scroll-proportion="0.08239096">
+            <state line="3" column="9" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manage.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/manage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="5" selection-start="27" selection-end="27" vertical-scroll-proportion="0.02746365">
+              <folding>
+                <element signature="e#37#46#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -149,7 +161,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/apps/product/templatetags/filters.py" />
         <option value="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" />
         <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
         <option value="$PROJECT_DIR$/apps/product/views.py" />
@@ -165,6 +176,7 @@
         <option value="$PROJECT_DIR$/apps/ajax/views.py" />
         <option value="$PROJECT_DIR$/proj/settings.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/manage.py" />
       </list>
     </option>
   </component>
@@ -723,7 +735,11 @@
       <created>1364229687380</created>
       <updated>1364229687380</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Editing .gitignore file ;-)">
+      <created>1364229865565</created>
+      <updated>1364229865565</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -825,7 +841,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Editing Profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Editing .gitignore file ;-)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -849,6 +865,7 @@
     <MESSAGE value="Commit now snova" />
     <MESSAGE value="Commit &#10;Userena&#10;uMessages" />
     <MESSAGE value="Editing Profile" />
+    <MESSAGE value="Editing .gitignore file ;-)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -930,13 +947,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/proj/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="364" column="0" selection-start="13523" selection-end="13523" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/account/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="14" selection-start="1252" selection-end="1252" vertical-scroll-proportion="0.0">
@@ -946,8 +956,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="9" selection-start="27" selection-end="27" vertical-scroll-proportion="0.08239096">
+        <state line="3" column="9" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proj/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="5" selection-start="27" selection-end="27" vertical-scroll-proportion="0.02746365">
+          <folding>
+            <element signature="e#37#46#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
