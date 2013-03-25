@@ -9,7 +9,7 @@
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364230716805" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364230734646" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364071150045" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364227360797" ignored="false" />
@@ -761,7 +761,11 @@
       <created>1364230718332</created>
       <updated>1364230718332</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Editing .gitignore file ;-)">
+      <created>1364230736800</created>
+      <updated>1364230736800</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
