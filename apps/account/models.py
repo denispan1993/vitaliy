@@ -20,16 +20,16 @@ class Profile(UserenaLanguageBaseProfile):
     FEMALE = 2
 #    from enum import Enum
 #    gender_CHOICES = Enum(
-#    gender_CHOICES = (
-#        NONE, _('unknown'),
-#        MALE, _('male'),
-#        FEMALE, _('female'),
-#    )
     gender_CHOICES = (
-        (NONE, 'Неизвестно'),
-        (MALE, 'Мужчина'),
-        (FEMALE, 'Женсчина'),
+        (NONE, _('unknown')),
+        (MALE, _('male')),
+        (FEMALE, _('female')),
     )
+#    gender_CHOICES = (
+#        (NONE, 'Неизвестно'),
+#        (MALE, 'Мужчина'),
+#        (FEMALE, 'Женсчина'),
+#    )
     gender = models.PositiveSmallIntegerField(choices=gender_CHOICES,
                                               verbose_name=_('gender'),
                                               default=NONE, )
@@ -40,11 +40,12 @@ class Profile(UserenaLanguageBaseProfile):
                                   verbose_name=_('patronymic'), )
     # Перевозчик
     carrier_CHOICES = (
-        0, _(u'УкрПочта'),
-        1, _(u'Новая почта'),
-        2, _(u'Деливери'),
-        3, _(u'ИнТайм'),
-        4, _(u'Ночной Экспресс'),
+        (0, _(u'Самовывоз')),
+        (1, _(u'Новая почта')),
+        (2, _(u'УкрПочта')),
+        (3, _(u'Деливери')),
+        (4, _(u'ИнТайм')),
+        (5, _(u'Ночной Экспресс')),
     )
     carrier = models.PositiveSmallIntegerField(choices=carrier_CHOICES,
                                                verbose_name=_(u'Перевозчик'),

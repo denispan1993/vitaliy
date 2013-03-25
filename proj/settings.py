@@ -267,7 +267,7 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiBackend',
     # 'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiAppBackend',
     'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
-    # 'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    'social_auth.backends.contrib.vkontakte.VKontakteBackend',
     # 'social_auth.backends.contrib.live.LiveBackend',
     # 'social_auth.backends.contrib.skyrock.SkyrockBackend',
     # 'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
@@ -363,7 +363,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.user.update_user_details',
 )
 #!!!=============== Django Userena =========================
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS += (
     'userena.backends.UserenaAuthenticationBackend',
     # 'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -386,4 +386,6 @@ INSTALLED_APPS += (
 )
 ANONYMOUS_USER_ID = -1
 
-AUTH_PROFILE_MODULE = 'accounts.MyProfile'
+AUTH_PROFILE_MODULE = 'account.Profile'
+
+USERENA_DEFAULT_PRIVACY = 'closed'
