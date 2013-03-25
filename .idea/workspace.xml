@@ -2,18 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Shop\proj\social_settings.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229367942" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229679285" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364071150045" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364227360797" ignored="false" />
     <file path="/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364225906819" ignored="false" />
     <file path="/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364227845918" ignored="false" />
     <file path="/admin.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364073721626" ignored="false" />
+    <file path="/.gitignore" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229834754" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +113,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="6" selection-start="24" selection-end="24" vertical-scroll-proportion="0.08239096">
+            <state line="3" column="9" selection-start="27" selection-end="27" vertical-scroll-proportion="0.08239096">
               <folding />
             </state>
           </provider>
@@ -148,7 +149,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
         <option value="$PROJECT_DIR$/apps/product/templatetags/filters.py" />
         <option value="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" />
         <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
@@ -164,6 +164,7 @@
         <option value="$PROJECT_DIR$/apps/account/models.py" />
         <option value="$PROJECT_DIR$/apps/ajax/views.py" />
         <option value="$PROJECT_DIR$/proj/settings.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -718,7 +719,11 @@
       <created>1364229375276</created>
       <updated>1364229375276</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Editing Profile">
+      <created>1364229687380</created>
+      <updated>1364229687380</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -941,7 +946,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="24" selection-end="24" vertical-scroll-proportion="0.08239096">
+        <state line="3" column="9" selection-start="27" selection-end="27" vertical-scroll-proportion="0.08239096">
           <folding />
         </state>
       </provider>
