@@ -370,6 +370,7 @@ AUTHENTICATION_BACKENDS += (
 )
 
 INSTALLED_APPS += (
+    'userena',
     'apps.account',
 )
 

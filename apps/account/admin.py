@@ -1,12 +1,12 @@
 # coding=utf-8
 __author__ = 'Админ'
 
-from django.contrib import admin
-from apps.account.models import Profile
+#from django.contrib import admin
+#from apps.account.models import Profile
 
 
-class ProfileAdmin(admin.ModelAdmin):
-    pass
+#class ProfileAdmin(admin.ModelAdmin):
+#    pass
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]
 #    fieldsets = [
@@ -34,4 +34,4 @@ class ProfileAdmin(admin.ModelAdmin):
 #    extra = 5
 
 
-admin.site.register(Profile, ProfileAdmin, )
+#admin.site.register(Profile, ProfileAdmin, )
