@@ -47,8 +47,7 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 #MEDIA_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin'
-MEDIA_ROOT = '/home/user/Media',
-
+MEDIA_ROOT = '/home/user/Media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -74,9 +73,9 @@ STATICFILES_DIRS = (
     '/home/user/Proj/Shop/Media',
     '/home/user/Proj/Media',
     '/home/user/Proj/Shop/Media',
-#    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-#    # Always use forward slashes, even on Windows.
-#    # Don't forget to use absolute paths, not relative paths.
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
 )
 
 # List of finder classes that know how to find static files in
@@ -125,7 +124,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-#Мой middleware
+    # Мой middleware
     'proj.processor_Middleware.Process_SessionIDMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
@@ -208,7 +207,6 @@ LOGGING = {
         },
     }
 }
-
 #!!!=============== Django Social Auth =========================
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -363,17 +361,15 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.user.update_user_details',
 )
 #!!!=============== Django Userena =========================
-AUTHENTICATION_BACKENDS += (
-    'userena.backends.UserenaAuthenticationBackend',
-    # 'guardian.backends.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
 INSTALLED_APPS += (
     'userena',
     'apps.account',
 )
-
+AUTHENTICATION_BACKENDS += (
+    'userena.backends.UserenaAuthenticationBackend',
+#    # 'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 EMAIL_USE_TLS = True
@@ -382,9 +378,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yourgmailaccount@gmail.com'
 EMAIL_HOST_PASSWORD = 'yourgmailpassword'
 #!!!=============== Django Userena =========================
-INSTALLED_APPS += (
-    'userena.contrib.umessages',
-)
+#INSTALLED_APPS += (
+#    'userena.contrib.umessages',
+#)
 ANONYMOUS_USER_ID = -1
 
 AUTH_PROFILE_MODULE = 'account.Profile'
