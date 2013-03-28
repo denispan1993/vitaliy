@@ -174,28 +174,14 @@ class Product(models.Model):
         verbose_name = u'Продукт'
         verbose_name_plural = u'Продукты'
 
-class Additional_Information(models.Model):
-    product = models.ForeignKey(Product, verbose_name=u'Продукт',
-        related_name=u'information', null=False, blank=False, )
-    title = models.CharField(verbose_name=u'Заголовок', null=False, blank=False, max_length=256, )
-
-    #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
-
-    def __unicode__(self):
-        return u'Дополнительная информация:%s' % (self.title, )
-
-    class Meta:
-        db_table = 'Additional_Information'
-        ordering = ['-created_at']
-        verbose_name = u'Дополнительная информация'
-        verbose_name_plural = u'Дополнительная информация'
 
 class Information(models.Model):
-    additional_information = models.ForeignKey(Additional_Information, verbose_name=u'Дополнительное описание',
-        null=False, blank=False, )
-    information = models.CharField(verbose_name=u'Информация', null=False, blank=False, max_length=256, )
+#    additional_information = models.ForeignKey(Additional_Information, verbose_name=u'Дополнительное описание',
+#        null=False, blank=False, )
+    information = models.CharField(verbose_name=u'Информация',
+                                   null=False,
+                                   blank=False,
+                                   max_length=256, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
@@ -209,6 +195,30 @@ class Information(models.Model):
         ordering = ['-created_at']
         verbose_name = u'Информационное поле'
         verbose_name_plural = u'Информационные поля'
+
+
+class Additional_Information(models.Model):
+    product = models.ForeignKey(Product, verbose_name=u'Продукт',
+        related_name=u'information', null=False, blank=False, )
+    title = models.CharField(verbose_name=u'Заголовок', null=False, blank=False, max_length=256, )
+
+    informations = models.ManyToManyField(Information,
+                                          verbose_name=_(u'Информационные поля'),
+                                          blank=False,
+                                          null=False, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Дополнительная информация:%s' % (self.title, )
+
+    class Meta:
+        db_table = 'Additional_Information'
+        ordering = ['-created_at']
+        verbose_name = u'Дополнительная информация'
+        verbose_name_plural = u'Дополнительная информация'
 
 class Unit_of_Measurement(models.Model):
     name = models.CharField(verbose_name=u'Единица измерения', max_length=64, default=u'шт.',
