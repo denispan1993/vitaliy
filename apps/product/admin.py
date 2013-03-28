@@ -9,7 +9,7 @@ from django.contrib.contenttypes import generic
 
 class PhotoInLine(generic.GenericTabularInline):
     model = Photo
-    extra = 3
+    extra = 1
 
 from apps.product.models import Category
 
@@ -23,7 +23,7 @@ class CategoryAdmin(admin.ModelAdmin):
         ('Additional information', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = (u'url', )
-    #    prepopulated_fields = {u'url' : (u'title',), }
+    prepopulated_fields = {u'url' : (u'title',), }
 
 #    prepopulated_fields = {'url' : ('title',), }
 
@@ -49,9 +49,12 @@ class Additional_InformationAdmin(admin.ModelAdmin):
     ]
 
 
-class Additional_InformationInLine(admin.TabularInline):
+class Additional_InformationInLine(admin.StackedInline):
     model = Additional_Information
-    extra = 2
+    inlines = [
+        InformationInLine,
+    ]
+    extra = 1
 
 from apps.product.models import Discount
 
@@ -74,8 +77,10 @@ class ProductAdmin(admin.ModelAdmin):
     filter_horizontal = ('category', )
 
     inlines = [
+        # InformationInLine,
         Additional_InformationInLine,
-        PhotoInLine,
+#        PhotoInLine,
+#        DiscountInLine,
     ]
     save_as = True
     save_on_top = True

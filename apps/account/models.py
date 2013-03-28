@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 from userena.models import UserenaBaseProfile, UserenaLanguageBaseProfile
 
 
-class Profile(UserenaBaseProfile):
+class Profile(UserenaLanguageBaseProfile):
     # Пользователь
     user = models.OneToOneField(User,
                                 unique=True,
@@ -57,12 +57,12 @@ class Profile(UserenaBaseProfile):
     # Область
     area = models.CharField(max_length=32,
                             verbose_name=_(u'Область'),
-                            default=u'Украина',
                             blank=True,
                             null=True, )
     # Страна
     country = models.CharField(max_length=32,
                                verbose_name=_(u'Страна'),
+                               default=u'Украина',
                                blank=True,
                                null=True, )
     # Перевозчик

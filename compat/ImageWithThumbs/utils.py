@@ -1,7 +1,5 @@
 # coding=utf-8
 __author__ = 'Sergey'
-
-# -*- encoding: utf-8 -*-
 """
 django-thumbs by Antonio Melé
 http://django.es

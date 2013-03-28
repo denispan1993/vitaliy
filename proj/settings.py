@@ -114,6 +114,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
+    'django.core.context_processors.request',
+    # 'django.core.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     # Мой context processor
     'proj.context_processor.context',
@@ -124,6 +126,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'userena.middleware.UserenaLocaleMiddleware',
     # Мой middleware
     'proj.processor_Middleware.Process_SessionIDMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -347,7 +350,7 @@ VK_EXTRA_DATA = ['city', 'country', 'contacts', 'home_phone', 'mobile_phone', ]
 # VKONTAKTE_APP_AUTH={'key':'iframe_app_secret_key', 'user_mode': 2, 'id':'iframe_app_id'}
 
 #SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
-
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
     # 'social_auth.backends.pipeline.associate.associate_by_email',
@@ -363,13 +366,25 @@ SOCIAL_AUTH_PIPELINE = (
 #!!!=============== Django Userena =========================
 INSTALLED_APPS += (
     'userena',
+    'guardian',
+    'easy_thumbnails',
     'apps.account',
 )
 AUTHENTICATION_BACKENDS += (
-    'userena.backends.UserenaAuthenticationBackend',
-#    # 'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
 )
+USERENA_DISABLE_PROFILE_LIST = True
+ANONYMOUS_USER_ID = -1
+AUTH_PROFILE_MODULE = 'account.Profile'
+USERENA_DEFAULT_PRIVACY = 'closed'
+#USERENA_SIGNIN_REDIRECT_URL = '/accounts/%(username)s/signin/'
+USERENA_SIGNIN_REDIRECT_URL = '/'
+#LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 EMAIL_USE_TLS = True
@@ -377,12 +392,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yourgmailaccount@gmail.com'
 EMAIL_HOST_PASSWORD = 'yourgmailpassword'
-#!!!=============== Django Userena =========================
-#INSTALLED_APPS += (
-#    'userena.contrib.umessages',
-#)
-ANONYMOUS_USER_ID = -1
-
-AUTH_PROFILE_MODULE = 'account.Profile'
-
-USERENA_DEFAULT_PRIVACY = 'closed'
+#!!!=============== Django Userena uMessages =========================
+INSTALLED_APPS += (
+    'userena.contrib.umessages',
+)
+USERENA_USE_MESSAGES = True
