@@ -172,7 +172,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nested_inlines',
+    # 'nested_inlines', -> Вместо это установка пропатченого django
+    # https://github.com/stefanklug/django/tree/nested-inline-support-1.5.x
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'django_jinja',
