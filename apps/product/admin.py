@@ -5,113 +5,106 @@ from django.contrib import admin
 
 from apps.product.models import Photo
 from django.contrib.contenttypes import generic
+#from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
 
-class PhotoInLine(generic.GenericStackedInline):
+class GenericStacked_Photo_InLine(generic.GenericStackedInline, ): # generic.GenericStackedInline, NestedStackedInline,
     model = Photo
-    extra = 1
+    extra = 2
 
 from apps.product.models import Category
 
 
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'url', 'title', 'parent', 'name', ]
     list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['parent', 'url', 'title', 'name', 'description', ], }),
-        ('Meta information', {'classes': ['collapse'], 'fields': ['meta_title', 'meta_description', 'meta_keywords', ], }),
-        ('Additional information', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
+        (None,               {'classes': ['wide'], 'fields': ['parent', 'is_active', 'disclose_product', 'url',
+                                                              'title', 'name', 'description', ], }),
+        (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
+                                                                                              'meta_description',
+                                                                                              'meta_keywords', ], }),
+        (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = (u'url', )
-    prepopulated_fields = {u'url' : (u'title',), }
+#    prepopulated_fields = {u'url' : (u'title',), }
 
 #    prepopulated_fields = {'url' : ('title',), }
 
     inlines = [
-        PhotoInLine,
+        GenericStacked_Photo_InLine,
     ]
     save_as = True
     save_on_top = True
 
-#from apps.product.models import Information
+from apps.product.models import Information
 
 
-#class InformationInLine(admin.StackedInline):
-#    model = Information
-#    extra = 5
+class Stacked_Information_InLine(admin.TabularInline, ):
+    model = Information
+    extra = 3
 
 from apps.product.models import Additional_Information
 
 
-class Additional_InformationInLine(admin.StackedInline):
+class Stacked_Additional_Information_InLine(admin.StackedInline, ):
     model = Additional_Information
-#    inlines = [
-#        InformationInLine,
-#    ]
+    inlines = [
+        Stacked_Information_InLine,
+    ]
+#    filter_horizontal = ('informations', )
+#    filter_vertical = ('informations', )
     extra = 1
 
 
-#class Additional_InformationAdmin(admin.ModelAdmin):
-#    inlines = [
-#        InformationInLine,
-#    ]
-
-
-class ProductAdmin(admin.ModelAdmin):
-    inlines = [Additional_InformationInLine, ]
-
+class Additional_Information_Admin(admin.ModelAdmin, ):
+#    fieldsets = (
+#                (None, {'fields': ('product', 'title', 'informations', )}),
+#        )
+#    filter_horizontal = ('informations', )
+    inlines = [
+        Stacked_Information_InLine,
+    ]
 
 from apps.product.models import Discount
 
 
-class DiscountInLine(admin.TabularInline):
+class Tabular_Discount_InLine(admin.TabularInline, ):
     model = Discount
-    extra = 5
+    extra = 3
 
 from apps.product.models import Product
 
 
-#class ProductAdmin(admin.ModelAdmin):
-#    fieldsets = [
-#        (None,               {'classes': ['wide'], 'fields': ['category', 'url', 'title', 'name', 'description', 'regular_price', 'price', ], }),
-#        ('Meta information', {'classes': ['collapse'], 'fields': ['meta_title', 'meta_description', 'meta_keywords', ], }),
-#        ('Additional information', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
-#    ]
-##    readonly_fields = u'url'
-##    prepopulated_fields = {u'url' : (u'title',), }
-#    filter_horizontal = ('category', )
-#
-#    inlines = [
-#        # InformationInLine,
-#        Additional_InformationInLine,
-##        PhotoInLine,
-##        DiscountInLine,
-#    ]
-#    save_as = True
-#    save_on_top = True
+class ProductAdmin(admin.ModelAdmin, ):
+    fieldsets = [
+        (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
+                                                              'title', 'name', 'description', 'regular_price',
+                                                              'price', ], }),
+        (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
+                                                                                           'meta_description',
+                                                                                           'meta_keywords', ], }),
+        (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
+    ]
+#    readonly_fields = u'url'
+#    prepopulated_fields = {u'url' : (u'title',), }
+    filter_horizontal = ('category', )
 
-
-class InformationAdmin(admin.ModelAdmin):
-    pass
+    inlines = [
+        Tabular_Discount_InLine,
+        Stacked_Additional_Information_InLine,
+        GenericStacked_Photo_InLine,
+    ]
+    save_as = True
+    save_on_top = True
 
 from apps.product.models import Unit_of_Measurement
 
 
-class Unit_of_MeasurementAdmin(admin.ModelAdmin):
-    pass
-
-
-class DiscountAdmin(admin.ModelAdmin):
-    pass
-
-
-class PhotoAdmin(admin.ModelAdmin):
-    pass
-
 admin.site.register(Category, CategoryAdmin, )
 admin.site.register(Product, ProductAdmin, )
-admin.site.register(Additional_Information, Additional_InformationAdmin, )
-admin.site.register(Information, InformationAdmin, )
-admin.site.register(Unit_of_Measurement, Unit_of_MeasurementAdmin, )
-admin.site.register(Discount, DiscountAdmin, )
-admin.site.register(Photo, PhotoAdmin, )
+admin.site.register(Additional_Information, Additional_Information_Admin, )
+admin.site.register(Information, admin.ModelAdmin, )
+admin.site.register(Unit_of_Measurement, admin.ModelAdmin, )
+admin.site.register(Discount, admin.ModelAdmin, )
+admin.site.register(Photo, admin.ModelAdmin, )

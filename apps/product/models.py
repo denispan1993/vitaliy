@@ -20,6 +20,16 @@ class Category(models.Model):
                                verbose_name=u'Вышестоящая категория',
                                null=True,
                                blank=True, )
+    is_active = models.BooleanField(verbose_name=_(u'Показывать'),
+                                    default=True,
+                                    blank=False,
+                                    null=False,
+                                    help_text=u'Если мы хотим чтобы категория нигде не показывалась, ставим данное поле в False.')
+    disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'),
+                                           default=True,
+                                           blank=False,
+                                           null=False,
+                                           help_text=u'Если мы хотим чтобы пользователь входил в товар со страницы категории, то ставим в True.')
     url = models.SlugField(verbose_name=u'URL адрес категории.',
                            max_length=256,
                            null=False,
@@ -68,12 +78,18 @@ class Category(models.Model):
     def get_absolute_url(self, ):
         return u'/%s/c%.6d/' % (self.url, self.id, )
 
-#    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
 #        print(u'test1')
 #        self.title += u'1'
-#        if self.url == u'':
-#            self.url = self.title.replace(' ', '-', )
-#        super(Category, self, ).save(*args, **kwargs)
+        if self.url == u'':
+            self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
+#            try:
+#                existing_category = Category.objects.filter(url=self.url, )
+#            except Category.DoesNotExist:
+#                super(Category, self, ).save(*args, **kwargs)
+#            else:
+#                self.url += '1'
+            super(Category, self, ).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'Категория: %s' % (self.title, )
@@ -89,7 +105,12 @@ class Product(models.Model):
                                     default=True,
                                     blank=False,
                                     null=False,
-                                    help_text=u'Если мы хотим чтобы продукт нигде не показывался ставим данное поле в False.')
+                                    help_text=u'Если мы хотим чтобы товар нигде не показывался, ставим данное поле в False.')
+    disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'),
+                                           default=True,
+                                           blank=False,
+                                           null=False,
+                                           help_text=u'Если мы хотим чтобы пользователь входил в товар со страницы категории, то ставим в True.')
     in_main_page = models.BooleanField(verbose_name=_(u'На главной странице'),
                                        default=False,
                                        blank=False,
@@ -165,6 +186,19 @@ class Product(models.Model):
     def cache_key(self):
         return u'%s-%.6d' % (self.slug, self.id, )
 
+    def save(self, *args, **kwargs):
+#        print(u'test1')
+#        self.title += u'1'
+        if self.url == u'':
+            self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
+#            try:
+#                existing_pruduct = Product.objects.filter(url=self.url, )
+#            except Category.DoesNotExist:
+#                super(Product, self, ).save(*args, **kwargs)
+#            else:
+#                self.url += '1'
+            super(Product, self, ).save(*args, **kwargs)
+
     def __unicode__(self):
         return u'Продукт:%s' % (self.title, )
 
@@ -175,9 +209,40 @@ class Product(models.Model):
         verbose_name_plural = u'Продукты'
 
 
+class Additional_Information(models.Model):
+    product = models.ForeignKey(Product,
+                                verbose_name=_(u'Продукт'),
+                                related_name=u'information',
+                                null=False,
+                                blank=False, )
+    title = models.CharField(verbose_name=_(u'Заголовок'),
+                             null=False,
+                             blank=False,
+                             max_length=256, )
+#    informations = models.ManyToManyField(Information,
+#                                          verbose_name=_(u'Информационные поля'),
+#                                          blank=False,
+#                                          null=False, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Дополнительная информация:%s' % (self.title, )
+
+    class Meta:
+        db_table = 'Additional_Information'
+        ordering = ['-created_at']
+        verbose_name = u'Дополнительная информация'
+        verbose_name_plural = u'Дополнительная информация'
+
+
 class Information(models.Model):
-#    additional_information = models.ForeignKey(Additional_Information, verbose_name=u'Дополнительное описание',
-#        null=False, blank=False, )
+    additional_information = models.ForeignKey(Additional_Information,
+                                               verbose_name=u'Дополнительное описание',
+                                               null=False,
+                                               blank=False, )
     information = models.CharField(verbose_name=u'Информация',
                                    null=False,
                                    blank=False,
@@ -196,29 +261,6 @@ class Information(models.Model):
         verbose_name = u'Информационное поле'
         verbose_name_plural = u'Информационные поля'
 
-
-class Additional_Information(models.Model):
-    product = models.ForeignKey(Product, verbose_name=u'Продукт',
-        related_name=u'information', null=False, blank=False, )
-    title = models.CharField(verbose_name=u'Заголовок', null=False, blank=False, max_length=256, )
-
-    informations = models.ManyToManyField(Information,
-                                          verbose_name=_(u'Информационные поля'),
-                                          blank=False,
-                                          null=False, )
-
-    #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
-
-    def __unicode__(self):
-        return u'Дополнительная информация:%s' % (self.title, )
-
-    class Meta:
-        db_table = 'Additional_Information'
-        ordering = ['-created_at']
-        verbose_name = u'Дополнительная информация'
-        verbose_name_plural = u'Дополнительная информация'
 
 class Unit_of_Measurement(models.Model):
     name = models.CharField(verbose_name=u'Единица измерения', max_length=64, default=u'шт.',

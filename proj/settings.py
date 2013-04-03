@@ -172,6 +172,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'nested_inlines',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'django_jinja',
