@@ -1,0 +1,58 @@
+{% if not current_category_.parent %}
+<a href="/">Home</a>&nbsp;
+    <a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+{% elif not current_category_.parent.parent %}
+<a href="/">Home</a>&nbsp;
+    <a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>
+    &nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+{% elif not current_category_.parent.parent.parent %}
+<a href="/">Home</a>&nbsp;
+    <a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>
+    &nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+{% elif not current_category_.parent.parent.parent.parent %}
+<a href="/">Home</a>&nbsp;
+    <a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>
+    &nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+{% elif not current_category_.parent.parent.parent.parent.parent %}
+<a href="/">Home</a>&nbsp;
+    <a href="{{ current_category_.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>
+    &nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+{% elif not current_category_.parent.parent.parent.parent.parent.parent %}
+<a href="/">Home</a>&nbsp;
+    <a href="{{ current_category_.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>
+    &nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+{% elif not current_category_.parent.parent.parent.parent.parent.parent.parent %}
+<a href="/">Home</a>&nbsp;
+    <a href="{{ current_category_.parent.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>
+    &nbsp;
+    <a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>
+    &nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>
+{% endif %}

@@ -29,19 +29,19 @@ def show_category(request,
                   ):
     try:
         from apps.product.models import Category
-        current_category_ = Category.objects.get(pk=id, url=category_url, )
+        current_category = Category.objects.get(pk=id, url=category_url, )
     except Category.DoesNotExist:
-        current_category_ = None
-        categories_at_current_category_ = None
-        current_products_ = None
+        current_category = None
+        categories_at_current_category = None
+        current_products = None
         from django.http import Http404
         raise Http404
     else:
-        request.session[u'current_category'] = current_category_.pk
-        categories_at_current_category_ = current_category_.category_set.all()
+        request.session[u'current_category'] = current_category.pk
+        categories_at_current_category_ = current_category.category_set.all()
         try:
             from apps.product.models import Product
-            current_products_ = current_category_.products.all()
+            current_products_ = current_category.products.all()
         except Product.DoesNotExist:
             current_products_ = None
 

@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-{% block block_title %}<title>{% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}</title>{% endblock %}
+{% block block_title %}
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+{% endblock %}
+<link rel="stylesheet" href="/media/css/base_style.css" />
+{% block header_css %}{% endblock %}
 <script type="text/javascript" src="/media/js/jquery/jquery.js"></script>
-{% block ajax_resolution %}
+{% block ajax %}
 {% if request.session.ajax_resolution %}
 <script type="text/javascript">
-    try{
-        $(document).ready(function(e) {
-            var browserWindow = $(window);
-            var width = browserWindow.width();
-            var height = browserWindow.height();
-            $.post("/ajax/resolution/", {
-                    width: width,
-                    height: height,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                function(data) { alert(data); }
-            );
-        });
-    }catch(e){ alert(e) }
+try{
+    $(document).ready(function(e) {
+        var browserWindow = $(window);
+        var width = browserWindow.width();
+        var height = browserWindow.height();
+        $.post("/ajax/resolution/", {
+                width: width,
+                height: height,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            function(data) { alert(data); }
+        );
+    });
+}catch(e){ alert(e) }
 </script>
 {% endif %}
 {% if request.session.ajax_cookie %}

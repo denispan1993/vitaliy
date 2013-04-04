@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from libxml2mod import name
+#from libxml2mod import name
 
 __author__ = 'user'
 

@@ -79,7 +79,8 @@ from apps.product.models import Product
 class ProductAdmin(admin.ModelAdmin, ):
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
-                                                              'title', 'name', 'description', 'regular_price',
+                                                              'title', 'name', 'description', 'minimal_quantity',
+                                                              'weight', 'unit_of_measurement', 'regular_price',
                                                               'price', ], }),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',

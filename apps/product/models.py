@@ -75,8 +75,12 @@ class Category(models.Model):
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
+    @models.permalink
     def get_absolute_url(self, ):
-        return u'/%s/c%.6d/' % (self.url, self.id, )
+        return ('show_category', (),
+                {'category_url': self.url,
+                 'id': self.pk, }, )
+#        return u'/%s/c%.6d/' % (self.url, self.id, )
 
     def save(self, *args, **kwargs):
 #        print(u'test1')
@@ -143,16 +147,26 @@ class Product(models.Model):
     name = models.CharField(verbose_name=u'Наименование продукта', max_length=256,
         null=True, blank=True, )
     # Описание продукта
-    item_description = models.CharField(verbose_name=u'Краткое описание продукта', max_length=64)
+    item_description = models.CharField(verbose_name=u'Краткое описание продукта',
+                                        max_length=64)
     description = models.TextField(verbose_name=u'Полное писание продукта',
-        null=True, blank=True, )
+                                   null=True,
+                                   blank=True, )
     # Минимальное количество заказа
-    minimal = models.PositiveSmallIntegerField(verbose_name=_(u'Минимальное количество заказа'),
-                                               default=1,
-                                               blank=False,
-                                               null=False, )
-    weight = models.DecimalField(verbose_name=u'Предположительный вес', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
-
+    minimal_quantity = models.PositiveSmallIntegerField(verbose_name=_(u'Минимальное количество заказа'),
+                                                        default=1,
+                                                        blank=False,
+                                                        null=False, )
+    weight = models.DecimalField(verbose_name=u'Вес',
+                                 max_digits=8,
+                                 decimal_places=2,
+                                 default=0,
+                                 blank=True,
+                                 null=True, )
+    unit_of_measurement = models.ForeignKey('Unit_of_Measurement',
+                                            verbose_name=u'Единицы измерения',
+                                            null=False,
+                                            blank=False, )
     regular_price = models.DecimalField(verbose_name=u'Обычная цена', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
     price = models.DecimalField(verbose_name=u'Цена', max_digits=8, decimal_places=2, default=0, blank=False, null=False, )
 
@@ -180,8 +194,13 @@ class Product(models.Model):
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
+    @models.permalink
     def get_absolute_url(self, ):
-        return u'/%s/p%.6d/' % (self.url, self.id, )
+        return ('show_product', (),
+                {'product_url': self.url,
+                 'id': self.pk, }, )
+#    def get_absolute_url(self, ):
+#        return u'/%s/p%.6d/' % (self.url, self.id, )
 
     def cache_key(self):
         return u'%s-%.6d' % (self.slug, self.id, )
@@ -271,7 +290,7 @@ class Unit_of_Measurement(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     def __unicode__(self):
-        return u'Единица измерения:%s' % (self.name, )
+        return u'%s' % (self.name, )
 
     class Meta:
         db_table = u'Unit_of_Measurement'
@@ -286,8 +305,6 @@ class Discount(models.Model):
             default=0, blank=False, null=False, )
     price = models.DecimalField(verbose_name=u'Цена в зависимости от количества', max_digits=8, decimal_places=2,
         default=0, blank=True, null=True, )
-    unit_of_measurement = models.ForeignKey(Unit_of_Measurement, verbose_name=u'Единицы измерения',
-        null=False, blank=False, )
     percent = models.PositiveSmallIntegerField(verbose_name=u'Процент скидки', null=True, blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
