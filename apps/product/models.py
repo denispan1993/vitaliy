@@ -153,8 +153,9 @@ class Product(models.Model):
                                       blank=False,
                                       null=False, )
     url = models.SlugField(verbose_name=u'URL адрес продукта',
-                           max_length=128,
-                           null=False, blank=False, )
+                           max_length=255,
+                           null=True,
+                           blank=True, )
     title = models.CharField(verbose_name=u'Заголовок продукта',
                              max_length=255,
                              null=False,
@@ -193,9 +194,11 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
     #Описание и ключевые слова для поисковиков
-    meta_title = models.CharField(verbose_name=u'Заголовок продукта', max_length=190,
-        null=True, blank=True,
-        help_text=u'Данный заголовок читают поисковые системы для правильного расположения страницы в поиске.', )
+    meta_title = models.CharField(verbose_name=u'Заголовок продукта',
+                                  max_length=190,
+                                  null=True,
+                                  blank=True,
+                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения страницы в поиске.', )
     meta_description = models.CharField(verbose_name=u'Описание продукта', max_length=190,
         null=True, blank=True,
         help_text=u'Данное описание читают поисковые системы для правильного расположения страницы в поиске.', )
@@ -227,13 +230,18 @@ class Product(models.Model):
 #        self.title += u'1'
         if self.url == u'':
             self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
-#            try:
-#                existing_pruduct = Product.objects.filter(url=self.url, )
-#            except Category.DoesNotExist:
-#                super(Product, self, ).save(*args, **kwargs)
-#            else:
-#                self.url += '1'
+            try:
+                existing_pruduct = Product.objects.get(url=self.url, )
+            except Product.DoesNotExist:
+                super(Product, self, ).save(*args, **kwargs)
+                return
+            else:
+                self.url += '1'
+                super(Product, self, ).save(*args, **kwargs)
+                return
+        else:
             super(Product, self, ).save(*args, **kwargs)
+            return
 
     def __unicode__(self):
         return u'Продукт:%s' % (self.title, )
