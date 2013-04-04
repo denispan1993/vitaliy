@@ -31,15 +31,15 @@ class Category(models.Model):
                                            null=False,
                                            help_text=u'Если мы хотим чтобы пользователь входил в товар со страницы категории, то ставим в True.')
     url = models.SlugField(verbose_name=u'URL адрес категории.',
-                           max_length=256,
-                           null=False,
-                           blank=False, )
+                           max_length=128,
+                           null=True,
+                           blank=True, )
     title = models.CharField(verbose_name=u'Заголовок категории',
-                             max_length=256,
+                             max_length=255,
                              null=False,
                              blank=False, )
     name = models.CharField(verbose_name=u'Наименование категории',
-                            max_length=256,
+                            max_length=255,
                             null=True,
                             blank=True, )
     description = models.TextField(verbose_name=u'Описание категории',
@@ -87,13 +87,24 @@ class Category(models.Model):
 #        self.title += u'1'
         if self.url == u'':
             self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
-#            try:
-#                existing_category = Category.objects.filter(url=self.url, )
-#            except Category.DoesNotExist:
-#                super(Category, self, ).save(*args, **kwargs)
-#            else:
-#                self.url += '1'
+            try:
+                existing_category = Category.objects.get(url=self.url, )
+            except Category.DoesNotExist:
+#                print(u'test2')
+                super(Category, self, ).save(*args, **kwargs)
+#                print(u'test3')
+                return
+#                print(u'test4')
+            else:
+                self.url += '1'
+#                print(u'test5')
+                super(Category, self, ).save(*args, **kwargs)
+                return
+        else:
+#            print(u'test6')
             super(Category, self, ).save(*args, **kwargs)
+#            print(u'test7')
+            return
 
     def __unicode__(self):
         return u'Категория: %s' % (self.title, )
@@ -103,6 +114,7 @@ class Category(models.Model):
         ordering = [u'-created_at']
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
+
 
 class Product(models.Model):
     is_active = models.BooleanField(verbose_name=_(u'Показывать'),
@@ -140,12 +152,17 @@ class Product(models.Model):
                                       verbose_name=_(u'Категории'),
                                       blank=False,
                                       null=False, )
-    url = models.SlugField(verbose_name=u'URL адрес продукта', max_length=128,
-        null=False, blank=False, )
-    title = models.CharField(verbose_name=u'Заголовок продукта', max_length=256,
-        null=False, blank=False, )
-    name = models.CharField(verbose_name=u'Наименование продукта', max_length=256,
-        null=True, blank=True, )
+    url = models.SlugField(verbose_name=u'URL адрес продукта',
+                           max_length=128,
+                           null=False, blank=False, )
+    title = models.CharField(verbose_name=u'Заголовок продукта',
+                             max_length=255,
+                             null=False,
+                             blank=False, )
+    name = models.CharField(verbose_name=u'Наименование продукта',
+                            max_length=255,
+                            null=True,
+                            blank=True, )
     # Описание продукта
     item_description = models.CharField(verbose_name=u'Краткое описание продукта',
                                         max_length=64)
@@ -237,7 +254,7 @@ class Additional_Information(models.Model):
     title = models.CharField(verbose_name=_(u'Заголовок'),
                              null=False,
                              blank=False,
-                             max_length=256, )
+                             max_length=255, )
 #    informations = models.ManyToManyField(Information,
 #                                          verbose_name=_(u'Информационные поля'),
 #                                          blank=False,
@@ -265,7 +282,7 @@ class Information(models.Model):
     information = models.CharField(verbose_name=u'Информация',
                                    null=False,
                                    blank=False,
-                                   max_length=256, )
+                                   max_length=255, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
@@ -282,9 +299,11 @@ class Information(models.Model):
 
 
 class Unit_of_Measurement(models.Model):
-    name = models.CharField(verbose_name=u'Единица измерения', max_length=64, default=u'шт.',
-        null=False, blank=False, )
-
+    name = models.CharField(verbose_name=u'Единица измерения',
+                            max_length=64,
+                            default=u'шт.',
+                            null=False,
+                            blank=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -297,6 +316,7 @@ class Unit_of_Measurement(models.Model):
         ordering = ['-created_at']
         verbose_name = u'Единица измерения'
         verbose_name_plural = u'Единицы измерения'
+
 
 class Discount(models.Model):
     product = models.ForeignKey(Product, verbose_name=u'Продукт',
@@ -323,6 +343,7 @@ class Discount(models.Model):
 #==================================================================================================================================
 from django.db.models import ImageField
 from compat.ImageWithThumbs.fields import ImageWithThumbsFieldFile
+
 
 class ImageWithThumbsField(ImageField):
     attr_class = ImageWithThumbsFieldFile
@@ -377,6 +398,7 @@ class ImageWithThumbsField(ImageField):
         super(ImageField, self).__init__(**kwargs)
 #==================================================================================================================================
 
+
 class Photo(models.Model):
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Photo', )
@@ -395,15 +417,17 @@ class Photo(models.Model):
 #    from compat.ImageWithThumbs.fields import ImageWithThumbsField
     photo = ImageWithThumbsField(verbose_name=u'Фото',
                                  upload_to=set_path_photo,
-                                 sizes=((90,95),(205,190),(345,370),(700,500),),
+                                 sizes=((90, 95), (205, 190), (345, 370), (700, 500), ),
                                  blank=False,
                                  null=False, )
     title = models.CharField(verbose_name=u'Заголовок фотографии',
                              max_length=256,
                              null=False,
                              blank=False, )
-    name = models.CharField(verbose_name=u'Наименование фотографии', max_length=256,
-        null=True, blank=True, )
+    name = models.CharField(verbose_name=u'Наименование фотографии',
+                            max_length=256,
+                            null=True,
+                            blank=True, )
     sign = models.CharField(verbose_name=u'Подпись sign', max_length=128, blank=True, null=True,
                             help_text=u'Подпись фотографии которая буде написана под фотографией.')
     description = models.TextField(verbose_name=u'Описание фотографии',
