@@ -74,6 +74,14 @@ class Tabular_Discount_InLine(admin.TabularInline, ):
     extra = 3
 
 from apps.product.models import Product
+from django import forms
+
+
+class ProductAdminForm(forms.ModelForm, ):
+    class Meta:
+        models = Product
+
+from compat.ruslug import patch_admin_form
 
 
 class ProductAdmin(admin.ModelAdmin, ):
@@ -88,7 +96,8 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = u'url'
-#    prepopulated_fields = {u'url' : (u'title',), }
+    form = patch_admin_form(ProductAdminForm, )
+    prepopulated_fields = {u'url' : (u'title',), }
     filter_horizontal = ('category', )
 
     inlines = [

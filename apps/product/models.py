@@ -30,10 +30,8 @@ class Category(models.Model):
                                            blank=False,
                                            null=False,
                                            help_text=u'Если мы хотим чтобы пользователь входил в товар со страницы категории, то ставим в True.')
-    url = models.SlugField(verbose_name=u'URL адрес категории.',
-                           max_length=128,
-                           null=True,
-                           blank=True, )
+    from compat.ruslug.models import RuSlugField
+    url = RuSlugField(verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True, )
     title = models.CharField(verbose_name=u'Заголовок категории',
                              max_length=255,
                              null=False,
@@ -149,10 +147,8 @@ class Product(models.Model):
                                       verbose_name=_(u'Категории'),
                                       blank=False,
                                       null=False, )
-    url = models.SlugField(verbose_name=u'URL адрес продукта',
-                           max_length=255,
-                           null=True,
-                           blank=True, )
+    from compat.ruslug.models import RuSlugField
+    url = RuSlugField(verbose_name=u'URL адрес продукта', max_length=255, null=True, blank=True, )
     title = models.CharField(verbose_name=u'Заголовок продукта',
                              max_length=255,
                              null=False,
