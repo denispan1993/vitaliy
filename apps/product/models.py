@@ -117,11 +117,8 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    is_active = models.BooleanField(verbose_name=_(u'Показывать'),
-                                    default=True,
-                                    blank=False,
-                                    null=False,
-                                    help_text=u'Если мы хотим чтобы товар нигде не показывался, ставим данное поле в False.')
+    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
+                                    help_text=u'Если мы хотим чтобы товар был пасивный, убираем галочку.')
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'),
                                            default=True,
                                            blank=False,
@@ -185,9 +182,18 @@ class Product(models.Model):
                                             verbose_name=u'Единицы измерения',
                                             null=False,
                                             blank=False, )
-    regular_price = models.DecimalField(verbose_name=u'Обычная цена', max_digits=8, decimal_places=2, default=0, blank=True, null=True, )
-    price = models.DecimalField(verbose_name=u'Цена', max_digits=8, decimal_places=2, default=0, blank=False, null=False, )
-
+    regular_price = models.DecimalField(verbose_name=u'Обычная цена',
+                                        max_digits=8,
+                                        decimal_places=2,
+                                        default=0,
+                                        blank=True,
+                                        null=True, )
+    price = models.DecimalField(verbose_name=u'Цена',
+                                max_digits=8,
+                                decimal_places=2,
+                                default=0,
+                                blank=False,
+                                null=False, )
     datetime_pub = models.DateTimeField(verbose_name=u'Дата публикации', null=True, blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
