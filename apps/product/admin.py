@@ -81,7 +81,7 @@ class ProductAdminForm(forms.ModelForm, ):
     class Meta:
         models = Product
 
-from compat.ruslug import patch_admin_form
+#from compat.ruslug import patch_admin_form
 
 
 class ProductAdmin(admin.ModelAdmin, ):
@@ -96,7 +96,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = u'url'
-    form = patch_admin_form(ProductAdminForm, )
+#    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title',), }
     filter_horizontal = ('category', )
 

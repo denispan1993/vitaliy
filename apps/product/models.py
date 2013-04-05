@@ -13,6 +13,65 @@ class Manager(models.Manager):
 
 # Create your models here.
 
+#================================
+#from django.utils.translation import ugettext_lazy as _
+#from django.db import models
+import re
+
+from compat.ruslug.forms import RuSlugFormField
+
+from django.forms import CharField as FormCharField
+#from django.core import validators
+from django.core.validators import RegexValidator
+
+slug_re = re.compile(r'^[-a-zA-Zа-яА-Я0-9_.]+$')
+validate_slug = RegexValidator(slug_re,
+                               _("Enter a valid 'slug' consisting of letters, numbers,"
+                                 " underscores or hyphens."),
+                               'invalid')
+
+
+class FormSlugField(FormCharField, ):
+    default_error_messages = {
+        'invalid': _("Enter a valid 'slug' consisting of letters, numbers,"
+                     " underscores or hyphens."),
+        }
+#    default_validators = [validators.validate_slug]
+    default_validators = [validate_slug]
+
+
+class ModelSlugField(models.CharField, ):
+    description = _("Slug (up to %(max_length)s)")
+
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = kwargs.get('max_length', 50)
+        # Set db_index=True unless it's been set manually.
+        if 'db_index' not in kwargs:
+            kwargs['db_index'] = True
+        super(ModelSlugField, self).__init__(*args, **kwargs)
+
+    def get_internal_type(self):
+        return "SlugField"
+
+    def formfield(self, **kwargs):
+        defaults = {'form_class': FormSlugField}
+        defaults.update(kwargs)
+        return super(ModelSlugField, self).formfield(**defaults)
+
+
+class RuSlugField(models.CharField, ):
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': RuSlugFormField,
+            'error_messages': {
+                'invalid': _(u"Enter a valid 'slug' consisting of letters, numbers,"
+                             u" underscores or hyphens."),
+                }
+        }
+        defaults.update(kwargs)
+        return super(RuSlugField, self).formfield(**defaults)
+#===================================================================================
+
 
 class Category(models.Model):
     parent = models.ForeignKey(u'Category',
@@ -20,18 +79,17 @@ class Category(models.Model):
                                verbose_name=u'Вышестоящая категория',
                                null=True,
                                blank=True, )
-    is_active = models.BooleanField(verbose_name=_(u'Показывать'),
-                                    default=True,
-                                    blank=False,
-                                    null=False,
-                                    help_text=u'Если мы хотим чтобы категория нигде не показывалась, ставим данное поле в False.')
+    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
+                                    help_text=u'Если мы хотим чтобы категория нигде не показывалась,'
+                                              u' ставим данное поле в False.')
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'),
                                            default=True,
                                            blank=False,
                                            null=False,
-                                           help_text=u'Если мы хотим чтобы пользователь входил в товар со страницы категории, то ставим в True.')
-    from compat.ruslug.models import RuSlugField
-    url = RuSlugField(verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True, )
+                                           help_text=u'Если мы хотим чтобы пользователь входил в товар со'
+                                                     u' страницы категории, то ставим в True.')
+#    from compat.ruslug.models import RuSlugField
+    url = ModelSlugField(verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True, )
     title = models.CharField(verbose_name=u'Заголовок категории',
                              max_length=255,
                              null=False,
@@ -51,17 +109,26 @@ class Category(models.Model):
                                   max_length=190,
                                   null=True,
                                   blank=True,
-                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения страницы в поиске.', )
-    meta_description = models.CharField(verbose_name=u'Описание категории', max_length=190,
-        null=True, blank=True,
-                                   help_text=u'Данное описание читают поисковые системы для правильного расположения страницы в поиске.', )
-    meta_keywords = models.CharField(verbose_name=u'Клчевые слова категории', max_length=160,
-        null=True, blank=True,
-                                help_text=u'Ключевые слова для поисковых систем.', )
+                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения'
+                                            u' страницы в поиске.', )
+    meta_description = models.CharField(verbose_name=u'Описание категории',
+                                        max_length=190,
+                                        null=True,
+                                        blank=True,
+                                        help_text=u'Данное описание читают поисковые системы для правильного'
+                                                  u' расположения страницы в поиске.', )
+    meta_keywords = models.CharField(verbose_name=u'Клчевые слова категории',
+                                     max_length=160,
+                                     null=True,
+                                     blank=True,
+                                     help_text=u'Ключевые слова для поисковых систем.', )
     #Расширенные настройки
-    template = models.CharField(verbose_name=u'Имя шаблона', max_length=70,
-        null=True, blank=True,
-                                help_text=u'Пример: "news/reklama.html". Если не указано, система будет использовать "news/default.html".', )
+    template = models.CharField(verbose_name=u'Имя шаблона',
+                                max_length=70,
+                                null=True,
+                                blank=True,
+                                help_text=u'Пример: "news/reklama.html". Если не указано, система'
+                                          u' будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
 
 #    from apps.product.managers import Manager
@@ -80,29 +147,29 @@ class Category(models.Model):
                  'id': self.pk, }, )
 #        return u'/%s/c%.6d/' % (self.url, self.id, )
 
-    def save(self, *args, **kwargs):
-#        print(u'test1')
-#        self.title += u'1'
-        if self.url == u'':
-            self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
-            try:
-                existing_category = Category.objects.get(url=self.url, )
-            except Category.DoesNotExist:
-#                print(u'test2')
-                super(Category, self, ).save(*args, **kwargs)
-#                print(u'test3')
-                return
-#                print(u'test4')
-            else:
-                self.url += '1'
-#                print(u'test5')
-                super(Category, self, ).save(*args, **kwargs)
-                return
-        else:
-#            print(u'test6')
-            super(Category, self, ).save(*args, **kwargs)
-#            print(u'test7')
-            return
+#    def save(self, *args, **kwargs):
+##        print(u'test1')
+##        self.title += u'1'
+#        if self.url == u'':
+#            self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
+#            try:
+#                existing_category = Category.objects.get(url=self.url, )
+#            except Category.DoesNotExist:
+##                print(u'test2')
+#                super(Category, self, ).save(*args, **kwargs)
+##                print(u'test3')
+#                return
+##                print(u'test4')
+#            else:
+#                self.url += '1'
+##                print(u'test5')
+#                super(Category, self, ).save(*args, **kwargs)
+#                return
+#        else:
+##            print(u'test6')
+#            super(Category, self, ).save(*args, **kwargs)
+##            print(u'test7')
+#            return
 
     def __unicode__(self):
         return u'Категория: %s' % (self.title, )
@@ -121,34 +188,39 @@ class Product(models.Model):
                                            default=True,
                                            blank=False,
                                            null=False,
-                                           help_text=u'Если мы хотим чтобы пользователь входил в товар со страницы категории, то ставим в True.')
+                                           help_text=u'Если мы хотим чтобы пользователь входил в товар со страницы'
+                                                     u' категории, то ставим в True.')
     in_main_page = models.BooleanField(verbose_name=_(u'На главной странице'),
                                        default=False,
                                        blank=False,
                                        null=False,
-                                       help_text=u'Если мы хотим чтобы продукт показывался на главной странице ставим данное поле в True.')
+                                       help_text=u'Если мы хотим чтобы продукт показывался на главной странице ставим'
+                                                 u' данное поле в True.')
     is_bestseller = models.BooleanField(verbose_name=_(u'Магазин рекомендует'),
                                         default=False,
                                         blank=False,
                                         null=False,
-                                        help_text=u'Данное поле сделано на будеющее, если вдруг когданибуть понадобится.')
+                                        help_text=u'Данное поле сделано на будеющее, если вдруг когданибуть'
+                                                  u' понадобится.')
     is_availability = models.BooleanField(verbose_name=_(u'В наличии'),
                                           default=True,
                                           blank=False,
                                           null=False,
-                                          help_text=u'Если мы знаем, что продукт отсутсвует на складе, ставим данное поле в False.', )
+                                          help_text=u'Если мы знаем, что продукт отсутсвует на складе, ставим данное'
+                                                    u' поле в False.', )
     is_featured = models.BooleanField(verbose_name=_(u'Ожидается'),
                                       default=False,
                                       blank=False,
                                       null=False,
-                                      help_text=u'Если мы знаем, что продукт будет доступен на складе через некоторое время, ставим данное поле в True.', )
+                                      help_text=u'Если мы знаем, что продукт будет доступен на складе через некоторое'
+                                                u' время, ставим данное поле в True.', )
     category = models.ManyToManyField(Category,
                                       related_name=u'products',
                                       verbose_name=_(u'Категории'),
                                       blank=False,
                                       null=False, )
-    from compat.ruslug.models import RuSlugField
-    url = RuSlugField(verbose_name=u'URL адрес продукта', max_length=255, null=True, blank=True, )
+    # from compat.ruslug.models import RuSlugField
+    url = ModelSlugField(verbose_name=u'URL адрес продукта', max_length=255, null=True, blank=True, )
     title = models.CharField(verbose_name=u'Заголовок продукта',
                              max_length=255,
                              null=False,
@@ -200,18 +272,28 @@ class Product(models.Model):
                                   max_length=190,
                                   null=True,
                                   blank=True,
-                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения страницы в поиске.', )
-    meta_description = models.CharField(verbose_name=u'Описание продукта', max_length=190,
-        null=True, blank=True,
-        help_text=u'Данное описание читают поисковые системы для правильного расположения страницы в поиске.', )
-    meta_keywords = models.CharField(verbose_name=u'Клчевые слова продукта', max_length=160,
-        null=True, blank=True,
-        help_text=u'Ключевые слова для поисковых систем.', )
+                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения'
+                                            u' страницы в поиске.', )
+    meta_description = models.CharField(verbose_name=u'Описание продукта',
+                                        max_length=190,
+                                        null=True,
+                                        blank=True,
+                                        help_text=u'Данное описание читают поисковые системы для правильного'
+                                                  u' расположения страницы в поиске.', )
+    meta_keywords = models.CharField(verbose_name=u'Клчевые слова продукта',
+                                     max_length=160,
+                                     null=True,
+                                     blank=True,
+                                     help_text=u'Ключевые слова для поисковых систем.', )
     #Расширенные настройки
-    template = models.CharField(verbose_name=u'Имя шаблона', max_length=70,
-        null=True, blank=True,
-        help_text=u'Пример: "news/reklama.html". Если не указано, система будет использовать "news/default.html".', )
-    visibility = models.BooleanField(verbose_name=u'Признак видимости продукта', default=True, )
+    template = models.CharField(verbose_name=u'Имя шаблона',
+                                max_length=70,
+                                null=True,
+                                blank=True,
+                                help_text=u'Пример: "news/reklama.html". Если не указано, система будет использовать'
+                                          u' "news/default.html".', )
+    visibility = models.BooleanField(verbose_name=u'Признак видимости продукта',
+                                     default=True, )
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
@@ -227,23 +309,23 @@ class Product(models.Model):
     def cache_key(self):
         return u'%s-%.6d' % (self.slug, self.id, )
 
-    def save(self, *args, **kwargs):
-#        print(u'test1')
-#        self.title += u'1'
-        if self.url == u'':
-            self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
-            try:
-                existing_pruduct = Product.objects.get(url=self.url, )
-            except Product.DoesNotExist:
-                super(Product, self, ).save(*args, **kwargs)
-                return
-            else:
-                self.url += '1'
-                super(Product, self, ).save(*args, **kwargs)
-                return
-        else:
-            super(Product, self, ).save(*args, **kwargs)
-            return
+#    def save(self, *args, **kwargs):
+##        print(u'test1')
+##        self.title += u'1'
+#        if self.url == u'':
+#            self.url = self.title.replace(' ', '_', ).replace('$', '-', ).replace('/', '_', )
+#            try:
+#                existing_pruduct = Product.objects.get(url=self.url, )
+#            except Product.DoesNotExist:
+#                super(Product, self, ).save(*args, **kwargs)
+#                return
+#            else:
+#                self.url += '1'
+#                super(Product, self, ).save(*args, **kwargs)
+#                return
+#        else:
+#            super(Product, self, ).save(*args, **kwargs)
+#            return
 
     def __unicode__(self):
         return u'Продукт:%s' % (self.title, )
@@ -330,11 +412,21 @@ class Unit_of_Measurement(models.Model):
 
 class Discount(models.Model):
     product = models.ForeignKey(Product, verbose_name=u'Продукт',
-        related_name=u'discount', null=False, blank=False, )
-    quantity = models.DecimalField(verbose_name=u'Количество продуктов', max_digits=8, decimal_places=2,
-            default=0, blank=False, null=False, )
-    price = models.DecimalField(verbose_name=u'Цена в зависимости от количества', max_digits=8, decimal_places=2,
-        default=0, blank=True, null=True, )
+                                related_name=u'discount',
+                                null=False,
+                                blank=False, )
+    quantity = models.DecimalField(verbose_name=u'Количество продуктов',
+                                   max_digits=8,
+                                   decimal_places=2,
+                                   default=0,
+                                   blank=False,
+                                   null=False, )
+    price = models.DecimalField(verbose_name=u'Цена в зависимости от количества',
+                                max_digits=8,
+                                decimal_places=2,
+                                default=0,
+                                blank=True,
+                                null=True, )
     percent = models.PositiveSmallIntegerField(verbose_name=u'Процент скидки', null=True, blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
@@ -400,10 +492,10 @@ class ImageWithThumbsField(ImageField):
 
     """
     def __init__(self, verbose_name=None, name=None, width_field=None, height_field=None, sizes=None, **kwargs):
-        self.verbose_name=verbose_name
-        self.name=name
-        self.width_field=width_field
-        self.height_field=height_field
+        self.verbose_name = verbose_name
+        self.name = name
+        self.width_field = width_field
+        self.height_field = height_field
         self.sizes = sizes
         super(ImageField, self).__init__(**kwargs)
 #==================================================================================================================================
