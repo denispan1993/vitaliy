@@ -97,7 +97,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     ]
 #    readonly_fields = u'url'
     form = patch_admin_form(ProductAdminForm, )
-    prepopulated_fields = {u'url' : (u'title',), }
+    prepopulated_fields = {u'url': (u'title',), }
     filter_horizontal = ('category', )
 
     inlines = [
