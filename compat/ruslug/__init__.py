@@ -3,7 +3,7 @@
 from django.conf import settings
 import urlparse
 
-ALLOWED_SLUG_CHARS = u'1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ-'
+ALLOWED_SLUG_CHARS = u'1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ-ёЁїЇіІґҐ'
 
 
 def patch_admin_form(form):
