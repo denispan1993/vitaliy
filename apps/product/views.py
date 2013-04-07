@@ -1,8 +1,8 @@
 # Create your views here.
-#from django.conf import settings
-#from jinja2 import Environment, FileSystemLoader
-#template_dirs = getattr(settings,'TEMPLATE_DIRS', )
-#env = Environment(loader=FileSystemLoader(template_dirs, ), )
+from django.conf import settings
+from jinja2 import Environment, FileSystemLoader
+template_dirs = getattr(settings, 'TEMPLATE_DIRS', )
+env = Environment(loader=FileSystemLoader(template_dirs, ), )
 
 #default_mimetype = getattr(settings, 'DEFAULT_CONTENT_TYPE', )
 #def render_to_response(request, filename, context={}, mimetype=default_mimetype, ):
@@ -18,9 +18,7 @@
 #    return x > 50
 #env.tests['gtf'] = greater_than_fifty
 
-#from coffin.shortcuts import render_to_response
-#from django.shortcuts import render_to_response
-from compat.coffin_render import render_to_response
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 
@@ -29,8 +27,8 @@ def show_category(request,
                   id,
                   template_name=u'category/show_category.jinja2.html',
                   ):
+    from apps.product.models import Category
     try:
-        from apps.product.models import Category
         current_category = Category.objects.get(pk=id, url=category_url, )
     except Category.DoesNotExist:
         current_category = None
@@ -41,16 +39,16 @@ def show_category(request,
     else:
         request.session[u'current_category'] = current_category.pk
         categories_at_current_category_ = current_category.children.all()
+        from apps.product.models import Product
         try:
-            from apps.product.models import Product
             current_products_ = current_category.products.all()
         except Product.DoesNotExist:
             current_products_ = None
 
     return render_to_response(u'category/show_category.jinja2.html',
                               locals(),
-                              # request=request, )
-                              context_instance=RequestContext(request, ), )
+                              context_instance=RequestContext(request, ),
+                              )
 
 
 def show_product(request, product_url, id,
@@ -66,8 +64,8 @@ def show_product(request, product_url, id,
                     product_pk = request.POST.get(u'product_pk', None, )
                     product_url = request.POST.get(u'product_url', None, )
                     quantity = request.POST.get(u'quantity', None, )
+                    from apps.product.models import Product
                     try:
-                        from apps.product.models import Product
                         product = Product.objects.get(pk=product_pk, url=product_url, )
                     except Product.DoesNotExist:
                         from django.http import Http404
@@ -77,8 +75,8 @@ def show_product(request, product_url, id,
 #                        try:
 #                            from apps.cart.models import Cart
 #                            cart = Cart.objects.get(sessionid=, )
+                    from apps.product.models import Category
                     try:
-                        from apps.product.models import Category
                         current_category = Category.objects.get(pk=int(current_category, ), )
                     except Category.DoesNotExist:
                         from django.http import Http404
@@ -93,8 +91,8 @@ def show_product(request, product_url, id,
                 raise Http404
     else:
 #        request.session.set_test_cookie()
+        from apps.product.models import Product
         try:
-            from apps.product.models import Product
             product = Product.objects.get(pk=id, url=product_url, )
         except Product.DoesNotExist:
             from django.http import Http404
@@ -114,9 +112,10 @@ def show_product(request, product_url, id,
                 request.session[u'current_category'] = current_category.pk
         quantity_ = 1
 
-    return render_to_response(u'product/show_product.jinja2.html', locals(),
-                              request=request, )
-#                              context_instance=RequestContext(request, ), )
+    return render_to_response(u'product/show_product.jinja2.html',
+                              locals(),
+                              context_instance=RequestContext(request, ),
+                              )
 
 
 def get_cart(request, ):

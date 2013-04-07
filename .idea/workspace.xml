@@ -2,29 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/compat/coffin_render/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Media/js/admin/aaa.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/apps/cart/templates/show_cart.jinja2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/apps/cart/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/admin.py" afterPath="$PROJECT_DIR$/apps/product/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.jinja2.html" afterPath="$PROJECT_DIR$/templates/base.jinja2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html" afterPath="$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templatetags/header_category.py" afterPath="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/templates/root.jinja2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js" afterPath="$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/settings.py" afterPath="$PROJECT_DIR$/proj/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" afterPath="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" afterPath="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/urls.py" afterPath="$PROJECT_DIR$/proj/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/views.py" afterPath="$PROJECT_DIR$/apps/product/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/views.py" afterPath="$PROJECT_DIR$/apps/root/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365357369011" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365367002892" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365335198839" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347493303" ignored="false" />
@@ -32,7 +21,7 @@
     <file path="/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365357481114" ignored="false" />
     <file path="/admin.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365190616734" ignored="false" />
     <file path="/.gitignore" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229834754" ignored="false" />
-    <file path="/manage.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229912055" ignored="false" />
+    <file path="/manage.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365367130134" ignored="false" />
     <file path="/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365171522809" ignored="false" />
     <file path="/fields.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364383524451" ignored="false" />
     <file path="/base.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365088298061" ignored="false" />
@@ -69,9 +58,9 @@
     <file path="R:/projs/centr_mk_ua/apps/personal_account/templates/login.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364830169015" ignored="false" />
     <file path="R:/projs/centr_mk_ua/apps/news/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365021382492" ignored="false" />
     <file path="/filters.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365085373960" ignored="false" />
-    <file path="/header_category.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365290385984" ignored="false" />
+    <file path="/header_category.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365369570507" ignored="false" />
     <file path="/header_category.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365086282405" ignored="false" />
-    <file path="/show_category.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365283097165" ignored="false" />
+    <file path="/show_category.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365369631580" ignored="false" />
     <file path="/forms.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365158829259" ignored="false" />
     <file path="/ruslug-urlify.js" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365272525606" ignored="false" />
     <file path="/defaultfilters.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365275366711" ignored="false" />
@@ -83,7 +72,7 @@
     <file path="$USER_HOME$/PycharmProjects/untitled3/templates/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342980027" ignored="false" />
     <file path="$USER_HOME$/PycharmProjects/untitled3/abab/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342893561" ignored="false" />
     <file path="/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342965738" ignored="false" />
-    <file path="/root.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365359005052" ignored="false" />
+    <file path="/root.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365367230245" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/core/cache/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/base.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/auth/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
@@ -111,58 +100,31 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proj/settings.py">
+      <file leaf-file-name="show_category.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="149" column="7" selection-start="5148" selection-end="5148" vertical-scroll-proportion="0.0">
+            <state line="5" column="6" selection-start="202" selection-end="202" vertical-scroll-proportion="-3.2608695">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="root.jinja2.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
+      <file leaf-file-name="header_category.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="12" selection-start="582" selection-end="582" vertical-scroll-proportion="-6.521739">
+            <state line="56" column="57" selection-start="3992" selection-end="3992" vertical-scroll-proportion="2.3047338">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manage.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/manage.py">
+      <file leaf-file-name="header_category.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/product/templatetags/header_category.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.18292683">
+            <state line="20" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#38#47#0" expanded="true" />
+                <element signature="e#76#116#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.jinja2.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="0" selection-start="134" selection-end="134" vertical-scroll-proportion="-5.2173915">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/product/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="0" selection-start="5790" selection-end="5790" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/product/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="941" selection-end="941" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -197,22 +159,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/product/models.py" />
         <option value="$PROJECT_DIR$/apps/product/admin.py" />
         <option value="$PROJECT_DIR$/apps/cart/views.py" />
         <option value="$PROJECT_DIR$/apps/cart/templates/show_cart.jinja2.html" />
         <option value="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
         <option value="$PROJECT_DIR$/proj/urls.py" />
         <option value="/usr/local/lib/python2.7/dist-packages/coffin/template/loaders.py" />
         <option value="$PROJECT_DIR$/compat/coffin_render/__init__.py" />
         <option value="$PROJECT_DIR$/proj/settings.py" />
-        <option value="$PROJECT_DIR$/apps/root/views.py" />
-        <option value="$PROJECT_DIR$/apps/product/views.py" />
-        <option value="$PROJECT_DIR$/templates/root.jinja2.html" />
         <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
         <option value="$PROJECT_DIR$/manage.py" />
+        <option value="$PROJECT_DIR$/apps/root/views.py" />
+        <option value="$PROJECT_DIR$/templates/root.jinja2.html" />
+        <option value="$PROJECT_DIR$/apps/product/views.py" />
+        <option value="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
+        <option value="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
+        <option value="$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html" />
       </list>
     </option>
   </component>
@@ -513,6 +475,102 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="product" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templatetags" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="product" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templatetags_header_category" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="product" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="product" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="category" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -531,9 +589,9 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -658,27 +716,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -698,6 +735,27 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -791,9 +849,9 @@
       <method />
     </configuration>
     <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Django server.Shop" />
-      <item index="1" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Shop" />
-      <item index="2" class="java.lang.String" itemvalue="Python.manage" />
+      <item index="0" class="java.lang.String" itemvalue="Python.manage" />
+      <item index="1" class="java.lang.String" itemvalue="Django server.Shop" />
+      <item index="2" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Shop" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -1066,7 +1124,11 @@
       <created>1365183004847</created>
       <updated>1365183004847</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Commit">
+      <created>1365363742140</created>
+      <updated>1365363742140</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1112,7 +1174,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4247246" sideWeight="0.74367815" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26094422" sideWeight="0.7377301" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28699186" sideWeight="0.71648693" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29268292" sideWeight="0.71648693" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
@@ -1205,21 +1267,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/jinja2/loaders.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="47" selection-start="2769" selection-end="2773" vertical-scroll-proportion="0.4353562" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/coffin/template/loader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="1184" selection-end="1184" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/coffin/template/loaders.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="28" selection-start="3164" selection-end="3164" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="41" column="19" selection-start="913" selection-end="913" vertical-scroll-proportion="0.025728988" />
@@ -1239,73 +1286,94 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compat/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compat/coffin_render/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0726979" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#38#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/product/templatetags/header_category.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#76#116#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="14" selection-start="705" selection-end="705" vertical-scroll-proportion="0.56149733">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/proj/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="149" column="7" selection-start="5148" selection-end="5148" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compat/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compat/coffin_render/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0726979">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="134" selection-end="134" vertical-scroll-proportion="-5.2173915">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="0" selection-start="5790" selection-end="5790" vertical-scroll-proportion="0.0">
+        <state line="149" column="7" selection-start="5148" selection-end="5148" vertical-scroll-proportion="0.037783377">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="23" selection-start="558" selection-end="558" vertical-scroll-proportion="0.5487805">
+        <state line="14" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.5121951">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="134" selection-end="134" vertical-scroll-proportion="0.03875969">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/product/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="126" column="0" selection-start="5790" selection-end="5790" vertical-scroll-proportion="0.035545025">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/product/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="941" selection-end="941" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="12" selection-start="582" selection-end="582" vertical-scroll-proportion="-6.521739">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.18292683">
+        <state line="18" column="0" selection-start="704" selection-end="704" vertical-scroll-proportion="0.63981044">
           <folding>
-            <element signature="e#38#47#0" expanded="true" />
+            <element signature="e#26#58#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="6" selection-start="202" selection-end="202" vertical-scroll-proportion="-3.2608695">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="57" selection-start="3992" selection-end="3992" vertical-scroll-proportion="2.3047338">
+          <folding />
         </state>
       </provider>
     </entry>
