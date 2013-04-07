@@ -91,14 +91,33 @@ SECRET_KEY = '^p()7zbza81@&amp;!bra3fvugv$=+zf*7&amp;$c)e(wpkl7=qg!vfx@$'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django_jinja.loaders.AppLoader',
-        'django_jinja.loaders.FileSystemLoader',
-        # 'django.template.loaders.filesystem.Loader',
-        # 'django.template.loaders.app_directories.Loader',
-        # 'django.template.loaders.eggs.Loader',
-    ), ),
+    # ('coffin.template.loaders.JinjaCachedLoader',
+    ('django.template.loaders.cached.Loader',
+     (
+         'django_jinja.loaders.AppLoader',
+         'django_jinja.loaders.FileSystemLoader',
+         # 'django.template.loaders.app_directories.Loader',
+         # 'django.template.loaders.filesystem.Loader',
+         # 'django.template.loaders.filesystem.Loader',
+         # 'django.template.loaders.app_directories.Loader',
+         # 'django.template.loaders.eggs.Loader',
+     ),
+     ),
 )
+
+#JINJA2_TEMPLATE_LOADERS = (
+#    ('django.template.loaders.cached.Loader',
+#     (
+#         'django.template.loaders.app_directories.Loader',
+#         'django.template.loaders.filesystem.Loader',
+#     ),
+#    ),
+#)
+
+#TEMPLATE_LOADERS = (
+#    'coffin.template.loaders.JinjaCachedLoader',
+#)
+
 
 DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2.html'
 
@@ -120,6 +139,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     # Мой context processor
     'proj.context_processor.context',
 )
+
+JINJA2_EXTENSIONS = [
+    'compressor.contrib.jinja2ext.CompressorExtension',
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -148,10 +171,10 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': [
             '127.0.0.1:11211',
-#            '172.19.26.240:11211',
-#            '172.19.26.242:11211',
-#            '172.19.26.244:11213',
-#            'LOCATION': 'unix:/tmp/memcached.sock',
+            # '172.19.26.240:11211',
+            # '172.19.26.242:11211',
+            # '172.19.26.244:11213',
+            # 'LOCATION': 'unix:/tmp/memcached.sock',
         ]
     }
 }
@@ -179,6 +202,7 @@ INSTALLED_APPS = (
     'django_jinja',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    # 'coffin',
     'apps.root',
     'apps.product',
     'apps.cart',

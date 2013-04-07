@@ -1,5 +1,5 @@
 {% extends 'base.jinja2.html' %}
-{% block title %}{{ product_.title }}{% endblock %}
+{% block title %}{{ product.title }}{% endblock %}
 {% block body_javascript %}
 <script type="text/javascript">
 function calculate(){
@@ -40,30 +40,30 @@ function checknumber(String){
 {% endblock %}
 
 {% block content %}
-    {% if not current_category_.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>&nbsp;<a href="{{ product_.get_absolute_url() }}">{{ product_.title }}</a>
-    {% elif not current_category_.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>&nbsp;<a href="{{ product_.get_absolute_url() }}">{{ product_.title }}</a>
-    {% elif not current_category_.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>&nbsp;<a href="{{ product_.get_absolute_url() }}">{{ product_.title }}</a>
-    {% elif not current_category_.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>&nbsp;<a href="{{ product_.get_absolute_url() }}">{{ product_.title }}</a>
-    {% elif not current_category_.parent.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>&nbsp;<a href="{{ product_.get_absolute_url() }}">{{ product_.title }}</a>
-    {% elif not current_category_.parent.parent.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>&nbsp;<a href="{{ product_.get_absolute_url() }}">{{ product_.title }}</a>
-    {% elif not current_category_.parent.parent.parent.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.parent.get_absolute_url() }}">{{ current_category_.parent.parent.title }}</a>&nbsp;<a href="{{ current_category_.parent.get_absolute_url() }}">{{ current_category_.parent.title }}</a>&nbsp;<a href="{{ current_category_.get_absolute_url() }}">{{ current_category_.title }}</a>&nbsp;<a href="{{ product_.get_absolute_url() }}">{{ product_.title }}</a>
+    {% if not current_category.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
+    {% elif not current_category.parent.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
+    {% elif not current_category.parent.parent.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
+    {% elif not current_category.parent.parent.parent.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
+    {% elif not current_category.parent.parent.parent.parent.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
+    {% elif not current_category.parent.parent.parent.parent.parent.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
+    {% elif not current_category.parent.parent.parent.parent.parent.parent.parent %}
+    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
     {% endif %}
-    <p>Текущая категория: {{ current_category_ }}</p>
-    <p>Текуший продукт: {{ product_ }}</p>
-    {% if product_.regular_price %}
+    <p>Текущая категория: {{ current_category }}</p>
+    <p>Текуший продукт: {{ product }}</p>
+    {% if product.regular_price %}
         <p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
             Обычная цена:
-            <span style="text-decoration:line-through"> {{ product_.regular_price|formatted_float }} грн.</span>
+            <span style="text-decoration:line-through"> {{ product.regular_price|formatted_float }} грн.</span>
         </p>
     {% endif %}
-    <p class="dashed">Цена продажи:<span class="product_box_right_pirce_red"> {{ product_.price|formatted_float }} грн.</span></p>
+    <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|formatted_float }} грн.</span></p>
     <p class="pirce_total" style="margin:0; padding:6px 0px; text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">
     <span id="cart_quant" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ quantity }}</span>
     &nbsp;шт.&nbsp;×&nbsp;&nbsp;
@@ -95,8 +95,8 @@ function checknumber(String){
 		</ul>
 		<br class="clearFloat" />
 
-        <input type="hidden" name="product_pk" value="{{ product_.pk }}" />
-    	<input type="hidden" name="product_url" value="{{ product_.url }}" />
+        <input type="hidden" name="productpk" value="{{ product.pk }}" />
+    	<input type="hidden" name="producturl" value="{{ product.url }}" />
     	<input type="hidden" name="action" value="addtocard" />
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
@@ -104,8 +104,8 @@ function checknumber(String){
     </form>
     <form method="POST" action=".">
     	<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
-		<input type="hidden" name="product_pk" value="{{ product_.pk }}" />
-		<input type="hidden" name="product_url" value="{{ product_.url }}" />
+		<input type="hidden" name="productpk" value="{{ product.pk }}" />
+		<input type="hidden" name="producturl" value="{{ product.url }}" />
 		<input type="hidden" name="action" value="makeanorder" />
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 

@@ -1,4 +1,5 @@
 {% extends "base.jinja2.html" %}
+{# {% load header_category %} #}
 {% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}
 {% block content %}
     <p>Категории верхнего уровня:</p>
@@ -6,7 +7,10 @@
 {#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
         {% if not cat.parent %}
         <p style='display:inline;'>Категория первого уровня:</p>
-        <li><a href='{{ cat.get_absolute_url() }}'>{{ cat.title }}</a></li>
+        <li>{{ cat.title }}
+            <a
+                href='{{ cat.get_absolute_url() }}'>
+            {{ cat.title }}</a></li>
         {% endif %}
     {% else %}
         Каталог пуст

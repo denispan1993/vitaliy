@@ -2,19 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/compat/coffin_render/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Media/js/admin/aaa.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/apps/cart/templates/show_cart.jinja2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/apps/cart/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/admin.py" afterPath="$PROJECT_DIR$/apps/product/admin.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.jinja2.html" afterPath="$PROJECT_DIR$/templates/base.jinja2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templatetags/header_category.py" afterPath="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/templates/root.jinja2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js" afterPath="$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/settings.py" afterPath="$PROJECT_DIR$/proj/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" afterPath="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" afterPath="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/urls.py" afterPath="$PROJECT_DIR$/proj/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/views.py" afterPath="$PROJECT_DIR$/apps/product/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/views.py" afterPath="$PROJECT_DIR$/apps/root/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365173521390" ignored="false" />
-    <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364828842849" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365357369011" ignored="false" />
+    <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365335198839" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
-    <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365021797376" ignored="false" />
-    <file path="/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365178686031" ignored="false" />
-    <file path="/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364830077992" ignored="false" />
-    <file path="/admin.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365178910556" ignored="false" />
+    <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347493303" ignored="false" />
+    <file path="/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365287107149" ignored="false" />
+    <file path="/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365357481114" ignored="false" />
+    <file path="/admin.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365190616734" ignored="false" />
     <file path="/.gitignore" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229834754" ignored="false" />
     <file path="/manage.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364229912055" ignored="false" />
     <file path="/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365171522809" ignored="false" />
@@ -53,10 +69,27 @@
     <file path="R:/projs/centr_mk_ua/apps/personal_account/templates/login.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364830169015" ignored="false" />
     <file path="R:/projs/centr_mk_ua/apps/news/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365021382492" ignored="false" />
     <file path="/filters.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365085373960" ignored="false" />
-    <file path="/header_category.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365085650897" ignored="false" />
+    <file path="/header_category.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365290385984" ignored="false" />
     <file path="/header_category.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365086282405" ignored="false" />
-    <file path="/show_category.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365086565980" ignored="false" />
+    <file path="/show_category.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365283097165" ignored="false" />
     <file path="/forms.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365158829259" ignored="false" />
+    <file path="/ruslug-urlify.js" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365272525606" ignored="false" />
+    <file path="/defaultfilters.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365275366711" ignored="false" />
+    <file path="/show_cart.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365287858396" ignored="false" />
+    <file path="$USER_HOME$/PycharmProjects/untitled3/untitled3/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342691189" ignored="false" />
+    <file path="$USER_HOME$/PycharmProjects/untitled3/untitled3/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365335787416" ignored="false" />
+    <file path="$USER_HOME$/PycharmProjects/untitled3/abab/rendered.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365333908449" ignored="false" />
+    <file path="/rendered.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365333903798" ignored="false" />
+    <file path="$USER_HOME$/PycharmProjects/untitled3/templates/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342980027" ignored="false" />
+    <file path="$USER_HOME$/PycharmProjects/untitled3/abab/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342893561" ignored="false" />
+    <file path="/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342965738" ignored="false" />
+    <file path="/root.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365359005052" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/core/cache/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/base.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/auth/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/http/request.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104127" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/conf/urls/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104127" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,100 +111,58 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/proj/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="149" column="7" selection-start="5148" selection-end="5148" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="root.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="12" selection-start="582" selection-end="582" vertical-scroll-proportion="-6.521739">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manage.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/manage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.18292683">
+              <folding>
+                <element signature="e#38#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="0" selection-start="134" selection-end="134" vertical-scroll-proportion="-5.2173915">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/product/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="0" selection-start="3588" selection-end="3588" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#15#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/product/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="126" column="0" selection-start="5790" selection-end="5790" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="validators.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python2.7/dist-packages/django/core/validators.py">
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/product/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="540" selection-end="540" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forms.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python2.7/dist-packages/django/forms/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="25" column="0" selection-start="941" selection-end="941" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fields.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python2.7/dist-packages/django/forms/fields.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="336" selection-end="371" vertical-scroll-proportion="-2.1525424">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="admin.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/product/admin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="0" selection-start="2622" selection-end="2622" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/compat/ruslug/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="258" selection-end="258" vertical-scroll-proportion="0.22670025">
-              <folding>
-                <element signature="e#48#80#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python2.7/dist-packages/django/db/models/base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="264" column="0" selection-start="12042" selection-end="12042" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HowToUse.wiki" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compat/ruslug/HowToUse.wiki">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="0" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="644" column="0" selection-start="24621" selection-end="24621" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -206,22 +197,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/templates/root.jinja2.html" />
-        <option value="$PROJECT_DIR$/apps/product/templatetags/filters.py" />
-        <option value="$PROJECT_DIR$/apps/product/templates/templatetag_header_category/header_category.html" />
-        <option value="$PROJECT_DIR$/apps/product/views.py" />
-        <option value="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
-        <option value="$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html" />
-        <option value="$PROJECT_DIR$/apps/product/templates/category/html.save.html" />
         <option value="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
-        <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
-        <option value="$PROJECT_DIR$/compat/ruslug/models.py" />
-        <option value="$PROJECT_DIR$/compat/ruslug/tests.py" />
-        <option value="$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js" />
-        <option value="$PROJECT_DIR$/compat/ruslug/forms.py" />
-        <option value="$PROJECT_DIR$/compat/ruslug/__init__.py" />
         <option value="$PROJECT_DIR$/apps/product/models.py" />
         <option value="$PROJECT_DIR$/apps/product/admin.py" />
+        <option value="$PROJECT_DIR$/apps/cart/views.py" />
+        <option value="$PROJECT_DIR$/apps/cart/templates/show_cart.jinja2.html" />
+        <option value="$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html" />
+        <option value="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
+        <option value="$PROJECT_DIR$/proj/urls.py" />
+        <option value="/usr/local/lib/python2.7/dist-packages/coffin/template/loaders.py" />
+        <option value="$PROJECT_DIR$/compat/coffin_render/__init__.py" />
+        <option value="$PROJECT_DIR$/proj/settings.py" />
+        <option value="$PROJECT_DIR$/apps/root/views.py" />
+        <option value="$PROJECT_DIR$/apps/product/views.py" />
+        <option value="$PROJECT_DIR$/templates/root.jinja2.html" />
+        <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
+        <option value="$PROJECT_DIR$/manage.py" />
       </list>
     </option>
   </component>
@@ -256,6 +247,24 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Default">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Shop">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT=".idea">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -309,6 +318,58 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="django" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.3 (/usr/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="django" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.3 (/usr/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="django" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="template" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -412,25 +473,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="compat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ruslug" />
+              <option name="myItemId" value="apps" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -445,6 +488,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="root" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -464,114 +511,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="product" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="img" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Default">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Shop">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT=".idea">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -609,11 +548,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/compat/coffin_render" />
+      <recent name="$PROJECT_DIR$/apps/cart/templates" />
+      <recent name="$PROJECT_DIR$/apps/cart" />
+      <recent name="$PROJECT_DIR$/Media/js/admin" />
       <recent name="C:\Shop\Media\js\admin" />
-      <recent name="C:\Shop\compat\ruslug" />
-      <recent name="C:\Shop\compat\ImageWithThumbs" />
-      <recent name="C:\Shop\compat" />
-      <recent name="$PROJECT_DIR$/apps/account" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Shop\Media" />
@@ -726,7 +665,7 @@
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
-      <module name="Shop" />
+      <module name="" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
@@ -852,9 +791,9 @@
       <method />
     </configuration>
     <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Python.manage" />
-      <item index="1" class="java.lang.String" itemvalue="Django server.Shop" />
-      <item index="2" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Shop" />
+      <item index="0" class="java.lang.String" itemvalue="Django server.Shop" />
+      <item index="1" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Shop" />
+      <item index="2" class="java.lang.String" itemvalue="Python.manage" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -1123,7 +1062,11 @@
       <created>1365173526440</created>
       <updated>1365173526440</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Commit">
+      <created>1365183004847</created>
+      <updated>1365183004847</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1164,22 +1107,22 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.359447" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4247246" sideWeight="0.74367815" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297546" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4247246" sideWeight="0.74367815" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26094422" sideWeight="0.7377301" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2495935" sideWeight="0.71648693" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28699186" sideWeight="0.71648693" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2835131" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32873562" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1258,34 +1201,38 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/proj/settings.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/jinja2/loaders.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="1983" selection-end="1983" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="80" column="47" selection-start="2769" selection-end="2773" vertical-scroll-proportion="0.4353562" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/ruslug/tests.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/coffin/template/loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="245" selection-end="245" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="36" column="0" selection-start="1184" selection-end="1184" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/ruslug/forms.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/coffin/template/loaders.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="186" selection-end="186" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="84" column="28" selection-start="3164" selection-end="3164" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/ruslug/coming-soon.py">
+    <entry file="file://$PROJECT_DIR$/apps/product/templates/product/show_product.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="41" column="19" selection-start="913" selection-end="913" vertical-scroll-proportion="0.025728988" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/cart/templates/show_cart.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="126" selection-end="126" vertical-scroll-proportion="0.10067114" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proj/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="12" selection-start="21" selection-end="27" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1297,89 +1244,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/ruslug/models.py">
+    <entry file="file://$PROJECT_DIR$/proj/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="48" selection-end="615" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#48#103#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/db/models/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="264" column="0" selection-start="12042" selection-end="12042" vertical-scroll-proportion="0.0">
+        <state line="149" column="7" selection-start="5148" selection-end="5148" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/ruslug/HowToUse.wiki">
+    <entry file="file://$PROJECT_DIR$/compat/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/forms/forms.py">
+    <entry file="file://$PROJECT_DIR$/compat/coffin_render/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="3" column="0" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0726979">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/forms/fields.py">
+    <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="336" selection-end="371" vertical-scroll-proportion="-2.1525424">
+        <state line="8" column="0" selection-start="134" selection-end="134" vertical-scroll-proportion="-5.2173915">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/core/validators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="540" selection-end="540" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="644" column="0" selection-start="24621" selection-end="24621" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/product/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="0" selection-start="3588" selection-end="3588" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#15#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="126" column="0" selection-start="5790" selection-end="5790" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/product/admin.py">
+    <entry file="file://$PROJECT_DIR$/apps/root/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="0" selection-start="2622" selection-end="2622" vertical-scroll-proportion="0.0">
+        <state line="15" column="23" selection-start="558" selection-end="558" vertical-scroll-proportion="0.5487805">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compat/ruslug/__init__.py">
+    <entry file="file://$PROJECT_DIR$/apps/product/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="258" selection-end="258" vertical-scroll-proportion="0.22670025">
+        <state line="25" column="0" selection-start="941" selection-end="941" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/root.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="12" selection-start="582" selection-end="582" vertical-scroll-proportion="-6.521739">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="59" selection-end="59" vertical-scroll-proportion="0.18292683">
           <folding>
-            <element signature="e#48#80#0" expanded="true" />
+            <element signature="e#38#47#0" expanded="true" />
           </folding>
         </state>
       </provider>

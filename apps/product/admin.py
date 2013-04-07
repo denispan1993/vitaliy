@@ -37,6 +37,9 @@ class CategoryAdmin(admin.ModelAdmin, ):
     save_as = True
     save_on_top = True
 
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
+
 from apps.product.models import Information
 
 
@@ -88,11 +91,11 @@ class ProductAdmin(admin.ModelAdmin, ):
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
                                                               'title', 'name', 'description', 'minimal_quantity',
-                                                              'weight', 'unit_of_measurement', 'regular_price',
-                                                              'price', ], }),
+                                                              'quantity_of_complete', 'weight', 'unit_of_measurement',
+                                                              'regular_price', 'price', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
-                                                                                           'meta_keywords', ], }),
+                                                                                           'meta_keywords', ], }, ),
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = u'url'
@@ -107,6 +110,10 @@ class ProductAdmin(admin.ModelAdmin, ):
     ]
     save_as = True
     save_on_top = True
+
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
+
 
 from apps.product.models import Unit_of_Measurement
 
