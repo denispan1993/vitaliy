@@ -1,15 +1,30 @@
 {% extends "base.jinja2.html" %}
 {# {% load header_category %} #}
 {% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}
+{% block header_js %}
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    jQuery('#accordion').dcAccordion();
+});
+</script>
+{% endblock %}
 {% block content %}
     <p>Категории верхнего уровня:</p>
-    {% for cat in categories_ %}
+{#     {% for cat in categories_ %} #}
 {#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
-        {% if not cat.parent %}
+{#         {% if not cat.parent %}
         <p style='display:inline;'>Категория первого уровня:</p>
         <li><a href='{{ cat.get_absolute_url() }}'>{{ cat.title }}</a></li>
         {% endif %}
     {% else %}
         Каталог пуст
-    {% endfor %}
+    {% endfor %} #}
+    <ul id='accordion' class="menu">
+        {%- for cat in all_categories_ recursive %}
+            <li><a href="{{ cat.slug|e }}" alt='{{ cat.name }}'>{{ cat.title }}</a>
+                {%- if cat.parent -%}
+                    <ul class="submenu">{{ loop(cat.parent) }}</ul>
+                {%- endif %}</li>
+        {%- endfor %}
+    </ul>
 {% endblock %}

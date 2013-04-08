@@ -114,7 +114,7 @@ class Category(models.Model):
 #    objects = Manager()
 
     objects = models.Manager()
-    man = Manager()
+    manager = Manager()
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')

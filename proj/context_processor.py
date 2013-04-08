@@ -3,15 +3,15 @@ __author__ = 'Sergey'
 
 
 def context(request):
+    from apps.product.models import Category
     try:
-        from apps.product.models import Category
-        categories_ = Category.man.published()
+        all_categories_ = Category.manager.published()
     except Category.DoesNotExist:
-        categories_ = None
+        all_categories_ = None
 
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
 
     return dict(request=request,
-                categories_=categories_,
+                all_categories_=all_categories_,
                 # ajax_resolution_=ajax_resolution_,
                 )
