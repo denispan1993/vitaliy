@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'proj.views.home', name='home'),
     url(r'^$', root_page,
-        {'template_name': u'../apps/root/templates/root.jinja2.html', },
+        {'template_name': u'root.jinja2.html', },
         name='root_page', ),
     # url(r'^proj/', include('proj.foo.urls')),
     url(ur'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$', show_category,

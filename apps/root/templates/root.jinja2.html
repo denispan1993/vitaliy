@@ -2,13 +2,16 @@
 {# {% load header_category %} #}
 {% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}
 {% block header_js %}
+<script type="text/javascript" src="/media/js/jquery/dcjqaccordion/cookie.js"></script>
+<script type="text/javascript" src="/media/js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
+<script type="text/javascript" src="/media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function($) {
     jQuery('#accordion').dcAccordion();
 });
 </script>
 {% endblock %}
-{% block content %}
+{% block content -%}
     <p>Категории верхнего уровня:</p>
 {#     {% for cat in categories_ %} #}
 {#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
@@ -21,10 +24,13 @@ jQuery(document).ready(function($) {
     {% endfor %} #}
     <ul id='accordion' class="menu">
         {%- for cat in all_categories_ recursive %}
-            <li><a href="{{ cat.slug|e }}" alt='{{ cat.name }}'>{{ cat.title }}</a>
-                {%- if cat.parent -%}
-                    <ul class="submenu">{{ loop(cat.parent) }}</ul>
+            <li>
+                <a href="{{ cat.get_absolute_url() }}"
+                   alt='{{ cat.name }}'
+                   title="{{ cat.title }}">{{ cat.title }}</a>
+                {%- if cat.children -%}
+                    <ul class="submenu">{{ loop(cat.children) }}</ul>
                 {%- endif %}</li>
         {%- endfor %}
     </ul>
-{% endblock %}
+{%- endblock %}
