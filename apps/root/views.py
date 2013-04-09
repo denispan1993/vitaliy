@@ -5,9 +5,16 @@ from django.template import RequestContext
 def root_page(request, template_name=u'root.jinja2.html', ):
     from apps.product.models import Category
     try:
-        categories_first_level = Category.manager.first_level()
+        categories_basement = Category.manager.basement()
     except Category.DoesNotExist:
-        categories_first_level = None
+        categories_basement = None
+
+    try:
+        categories_first = Category.objects.get(pk=1)
+    except Category.DoesNotExist:
+        categories_first = None
+
+    children_categories = categories_first.children.all()
 
     return render_to_response(template_name=template_name,
                               dictionary=locals(),

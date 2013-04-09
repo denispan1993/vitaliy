@@ -18,8 +18,7 @@
 #    return x > 50
 #env.tests['gtf'] = greater_than_fifty
 
-from coffin.shortcuts import render_to_response
-#from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 

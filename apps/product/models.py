@@ -8,7 +8,7 @@ class Manager(models.Manager):
     def published(self):
         return self.filter(visibility=True, ).order_by('-created_at')
 
-    def first_level(self):
+    def basement(self):
         return self.filter(parent__isnull=True, )
 
 # Create your models here.
