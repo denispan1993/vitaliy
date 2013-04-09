@@ -68,11 +68,11 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    'C:/Shop/Media',
+    'C:/Shop/media',
     'C:/Python27/Lib/site-packages/django/contrib/admin',
-    '/home/user/Proj/Shop/Media',
-    '/home/user/Proj/Media',
-    '/home/user/Proj/Shop/Media',
+    '/home/user/Proj/Shop/media',
+    '/home/user/Proj/media',
+    '/home/user/Proj/Shop/media',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

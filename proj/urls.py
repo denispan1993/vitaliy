@@ -46,14 +46,14 @@ if settings.DEBUG:
     if sys.platform == 'win32':
         urlpatterns += patterns('django.views.static',
                                 url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': 'C:/Shop/Media',
+                                    {'document_root': 'C:/Shop/media',
                                      'show_indexes': True, },
                                     ),
                                 )
     elif sys.platform == 'linux2':
         urlpatterns += patterns('django.views.static',
                                 url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': '/home/user/Proj/Shop/Media',
+                                    {'document_root': '/home/user/Proj/Shop/media',
                                     'show_indexes': True, },
                                     ),
                                 )

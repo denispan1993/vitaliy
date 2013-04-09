@@ -41,7 +41,7 @@ class FormSlugField(FormCharField, ):
 #    default_validators = [validators.validate_slug]
     default_validators = [validate_slug, ]
 
-#    class Media:
+#    class media:
 #        js = ('/media/js/admin/ruslug-urlify.js', )
 
 
