@@ -23,53 +23,14 @@ jQuery(document).ready(function($) {
         Каталог пуст
     {% endfor %} #}
     <ul id='accordion' class="menu basement">
-        {% for basement in categories_basement_ %}
+        {%- for cat in categories_basement_ recursive %}
             <li>
-                {% if not basement.children %} # Базовый уровень НЕТ
-                    <p>not basement</p>
-                    <a href="{{ basement.get_absolute_url() }}"
-                       alt='{{ basement.name }}'
-                       title="{{ basement.title }}">{{ basement.title }}</a>
-                {% else %} # Базовый уровень ДА
-                    <p>yes basement</p>
-                    <ul class="submenu first_level">
-                        {% set basement_all = basement.children.all() %}
-                        {% for first_level in basement_all %}
-                            <li>
-                                {% if not first_level.children %} # Первый уровень НЕТ
-                                    <a href="{{ first_level.get_absolute_url() }}"
-                                       alt='{{ first_level.name }}'
-                                       title="{{ first_level.title }}">{{ first_level.title }}</a>
-                                {% else %} # Первый уровень ДА
-                                    <ul class="submenu second_level">
-                                        {% set first_level_all = first_level.children.all() %}
-                                        {% for second_level in first_level_all %}
-                                            <li>
-                                                {% if not second_level.children %} # Второй уровень НЕТ
-                                                    <a href="{{ second_level.get_absolute_url() }}"
-                                                       alt='{{ second_level.name }}'
-                                                       title="{{ second_level.title }}">{{ second_level.title }}</a>
-                                                {% else %} # Второй уровень ДА
-                                                    <ul class="submenu third_level">
-                                                        {% set second_level_all = second_level.children.all() %}
-                                                        {% for third_level in second_level_all %}
-                                                            <li>
-                                                                <a href="{{ third_level.get_absolute_url() }}"
-                                                                   alt='{{ third_level.name }}'
-                                                                   title="{{ third_level.title }}">{{ third_level.title }}</a>
-                                                            </li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                {% endif %}
-                                             </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endfor %}
+                <a href="{{ cat.get_absolute_url() }}"
+                   alt='{{ cat.name }}'
+                   title="{{ cat.title }}">{{ cat.title }}</a>
+                {%- if cat.children -%}
+                    <ul class="submenu sub_level">{{ loop(cat.children.all()) }}</ul>
+                {%- endif %}</li>
+        {%- endfor %}
     </ul>
 {%- endblock %}

@@ -2,46 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/css/base_style.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/img/minus.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/img/plus.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/admin/aaa.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/dcjqaccordion/cookie.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/dcjqaccordion/hoverIntent.minified.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.8.3.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.8.3.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.0.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.1.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.1.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/__init__.py" afterPath="$PROJECT_DIR$/media/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/css/base_style.css" afterPath="$PROJECT_DIR$/media/css/base_style.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/img/minus.gif" afterPath="$PROJECT_DIR$/media/img/minus.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/img/plus.gif" afterPath="$PROJECT_DIR$/media/img/plus.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/admin/aaa.txt" afterPath="$PROJECT_DIR$/media/js/admin/aaa.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/admin/ruslug-urlify.js" afterPath="$PROJECT_DIR$/media/js/admin/ruslug-urlify.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/dcjqaccordion/cookie.js" afterPath="$PROJECT_DIR$/media/js/jquery/dcjqaccordion/cookie.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js" afterPath="$PROJECT_DIR$/media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/dcjqaccordion/hoverIntent.minified.js" afterPath="$PROJECT_DIR$/media/js/jquery/dcjqaccordion/hoverIntent.minified.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.8.3.js" afterPath="$PROJECT_DIR$/media/js/jquery/jquery-1.8.3.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.8.3.min.js" afterPath="$PROJECT_DIR$/media/js/jquery/jquery-1.8.3.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.0.js" afterPath="$PROJECT_DIR$/media/js/jquery/jquery-1.9.0.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.0.min.js" afterPath="$PROJECT_DIR$/media/js/jquery/jquery-1.9.0.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.1.js" afterPath="$PROJECT_DIR$/media/js/jquery/jquery-1.9.1.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery-1.9.1.min.js" afterPath="$PROJECT_DIR$/media/js/jquery/jquery-1.9.1.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Media/js/jquery/jquery.js" afterPath="$PROJECT_DIR$/media/js/jquery/jquery.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/models.py" afterPath="$PROJECT_DIR$/apps/product/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/settings.py" afterPath="$PROJECT_DIR$/proj/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proj/urls.py" afterPath="$PROJECT_DIR$/proj/urls.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/apps/root/templates/aaa.save.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Shop.iml" afterPath="$PROJECT_DIR$/.idea/Shop.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365536476218" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365536562279" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365335198839" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347493303" ignored="false" />
@@ -100,7 +69,7 @@
     <file path="$USER_HOME$/PycharmProjects/untitled3/templates/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342980027" ignored="false" />
     <file path="$USER_HOME$/PycharmProjects/untitled3/abab/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342893561" ignored="false" />
     <file path="/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342965738" ignored="false" />
-    <file path="/root.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365527222880" ignored="false" />
+    <file path="/root.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365536809460" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/core/cache/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/base.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/auth/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
@@ -133,8 +102,30 @@
       <file leaf-file-name="root.jinja2.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/root/templates/root.jinja2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="0" selection-start="2775" selection-end="2775" vertical-scroll-proportion="0.948542">
+            <state line="35" column="0" selection-start="1623" selection-end="1623" vertical-scroll-proportion="0.7394541">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="aaa.save.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/root/templates/aaa.save.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="50" column="0" selection-start="3014" selection-end="3014" vertical-scroll-proportion="-24.608696">
+              <folding>
+                <marker date="1365536643389" expanded="true" signature="40:3012" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="100:2989" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="262:379" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="508:2951" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="664:2896" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="827:985" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="1110:2826" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="1324:2739" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="1521:1714" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="1870:2637" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="2134:2518" placeholder="..." />
+                <marker date="1365536643389" expanded="true" signature="2242:2456" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -169,7 +160,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/manage.py" />
         <option value="$PROJECT_DIR$/templates/root.jinja2.html" />
         <option value="$PROJECT_DIR$/apps/product/views.py" />
         <option value="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
@@ -184,6 +174,7 @@
         <option value="$PROJECT_DIR$/apps/product/models.py" />
         <option value="$PROJECT_DIR$/proj/context_processor.py" />
         <option value="$PROJECT_DIR$/apps/root/views.py" />
+        <option value="$PROJECT_DIR$/apps/root/templates/aaa.save.html" />
         <option value="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
       </list>
     </option>
@@ -402,86 +393,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="cart" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jquery" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jquery" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dcjqaccordion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -735,7 +646,7 @@
       <option name="port" value="8000" />
       <option name="host" value="localhost" />
       <option name="additionalOptions" value="" />
-      <option name="browserUrl" value="http://test.mk.ua:8000/admin/;http://test.mk.ua:8000/" />
+      <option name="browserUrl" value="http://test.mk.ua:8000/admin/" />
       <option name="runTestServer" value="false" />
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
@@ -1054,7 +965,11 @@
       <created>1365536497429</created>
       <updated>1365536497429</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Commit">
+      <created>1365536577419</created>
+      <updated>1365536577419</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1106,8 +1021,8 @@
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297546" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26094422" sideWeight="0.7377301" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3081301" sideWeight="0.67180276" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27744806" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3081301" sideWeight="0.72265023" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27734977" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1193,11 +1108,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="6" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="38" column="10" selection-start="2635" selection-end="2635" vertical-scroll-proportion="-10.695652" />
@@ -1288,9 +1198,29 @@
         <state line="3" column="0" selection-start="38" selection-end="38" vertical-scroll-proportion="0.08485857" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/root/templates/aaa.save.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="0" selection-start="3014" selection-end="3014" vertical-scroll-proportion="-24.608696">
+          <folding>
+            <marker date="1365536643389" expanded="true" signature="40:3012" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="100:2989" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="262:379" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="508:2951" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="664:2896" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="827:985" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="1110:2826" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="1324:2739" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="1521:1714" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="1870:2637" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="2134:2518" placeholder="..." />
+            <marker date="1365536643389" expanded="true" signature="2242:2456" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/templates/root.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="0" selection-start="2775" selection-end="2775" vertical-scroll-proportion="0.948542">
+        <state line="35" column="0" selection-start="1623" selection-end="1623" vertical-scroll-proportion="0.7394541">
           <folding />
         </state>
       </provider>
