@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="Commit">
-      <change type="DELETED" beforePath="C:\Shop\.idea\.name" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\Shop.iml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\cssxfire.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\dataSources.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\libraries\sass_stdlib.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\other.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\scopes\scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\testrunner.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
+    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="&#10;safasdf">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/cssxfire.xml" afterPath="$PROJECT_DIR$/.idea/cssxfire.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/sass_stdlib.xml" afterPath="$PROJECT_DIR$/.idea/libraries/sass_stdlib.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365596059192" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365596097609" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365335198839" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347493303" ignored="false" />
@@ -87,6 +76,7 @@
     <file path="/usr/local/lib/python2.7/dist-packages/django/conf/urls/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104127" ignored="false" />
     <file path="/context_processor.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365526381173" ignored="false" />
     <file path="/Django Console" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365503672219" ignored="false" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365596103525" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1063,7 +1053,11 @@
       <created>1365595595197</created>
       <updated>1365595595198</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="&#10;safasdf">
+      <created>1365596088302</created>
+      <updated>1365596088302</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1165,7 +1159,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="&#10;safasdf" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1195,6 +1189,8 @@
     <MESSAGE value="Игры с InLine формами&#10;Установка пропатченого django по мульти ИнЛайн формы" />
     <MESSAGE value="Игрался с Category.url" />
     <MESSAGE value="Commit" />
+    <MESSAGE value="&#10;" />
+    <MESSAGE value="&#10;safasdf" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
