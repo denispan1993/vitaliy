@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="Commit">
-      <change type="DELETED" beforePath="C:\Shop\.idea\.name" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\Shop.iml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\cssxfire.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\dataSources.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\libraries\sass_stdlib.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\other.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\scopes\scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\testrunner.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Shop\.idea\workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.jinja2.html" afterPath="$PROJECT_DIR$/templates/base.jinja2.html" />
+    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/cssxfire.xml" afterPath="$PROJECT_DIR$/.idea/cssxfire.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/sass_stdlib.xml" afterPath="$PROJECT_DIR$/.idea/libraries/sass_stdlib.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365595196000" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365595536694" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365335198839" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347493303" ignored="false" />
@@ -112,7 +102,7 @@
       <file leaf-file-name="root.jinja2.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/root/templates/root.jinja2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="3" selection-start="919" selection-end="919" vertical-scroll-proportion="0.65867156">
+            <state line="53" column="0" selection-start="2124" selection-end="2124" vertical-scroll-proportion="0.7490775">
               <folding />
             </state>
           </provider>
@@ -234,8 +224,8 @@
         <option value="$PROJECT_DIR$/apps/root/templates/aaa.save.html" />
         <option value="$PROJECT_DIR$/apps/product/__init__.py" />
         <option value="$PROJECT_DIR$/apps/cart/__init__.py" />
-        <option value="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
         <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
+        <option value="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
       </list>
     </option>
   </component>
@@ -1056,7 +1046,11 @@
       <created>1365537086044</created>
       <updated>1365537086044</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Commit">
+      <created>1365595548808</created>
+      <updated>1365595548808</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1096,6 +1090,7 @@
     <frame x="-4" y="-4" width="1688" height="1014" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.359447" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297546" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1112,7 +1107,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819724" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1294,7 +1288,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/templates/root.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="3" selection-start="919" selection-end="919" vertical-scroll-proportion="0.65867156">
+        <state line="53" column="0" selection-start="2124" selection-end="2124" vertical-scroll-proportion="0.7490775">
           <folding />
         </state>
       </provider>
