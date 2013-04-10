@@ -1,10 +1,4 @@
 *.log
 *.pot
 *.pyc
-/.idea/
-/.idea/*.*
-/.idea/*.xml
-/.idea/Shop.iml
-/.idea/dataSources.xml
-/.idea/misc.xml
-/.idea/workspace.xml
+.idea/
