@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/cart/__init__.py" afterPath="$PROJECT_DIR$/apps/cart/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/product/__init__.py" afterPath="$PROJECT_DIR$/apps/product/__init__.py" />
+    <list default="true" id="1f5d3786-952c-45b9-ba01-a1714b623bc3" name="Default" comment="Commit">
+      <change type="DELETED" beforePath="C:\Shop\.idea\.name" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\Shop.iml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\cssxfire.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\dataSources.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\libraries\sass_stdlib.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\other.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\scopes\scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\testrunner.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Shop\.idea\workspace.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.jinja2.html" afterPath="$PROJECT_DIR$/templates/base.jinja2.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" afterPath="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Shop.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365537075694" ignored="false" />
+    <file path="/Dummy.txt" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365595196000" ignored="false" />
     <file path="/urls.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365335198839" ignored="false" />
     <file path="/login_error.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364047432708" ignored="false" />
     <file path="/settings.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347493303" ignored="false" />
@@ -20,7 +31,7 @@
     <file path="/manage.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365367130134" ignored="false" />
     <file path="/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365171522809" ignored="false" />
     <file path="/fields.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364383524451" ignored="false" />
-    <file path="/base.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365446326813" ignored="false" />
+    <file path="/base.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365595006900" ignored="false" />
     <file path="C:/Python27/Lib/site-packages/django-nested-inlines/example/example/admin.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364549048063" ignored="false" />
     <file path="C:/Python27/Lib/site-packages/django/contrib/admin/sites.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364551501614" ignored="false" />
     <file path="C:/Python27/Lib/site-packages/django/contrib/admin/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1364549729214" ignored="false" />
@@ -68,7 +79,7 @@
     <file path="$USER_HOME$/PycharmProjects/untitled3/templates/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342980027" ignored="false" />
     <file path="$USER_HOME$/PycharmProjects/untitled3/abab/views.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342893561" ignored="false" />
     <file path="/example.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365342965738" ignored="false" />
-    <file path="/root.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365540280392" ignored="false" />
+    <file path="/root.jinja2.html" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365594945492" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/core/cache/__init__.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/base.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/auth/models.py" changelist="1f5d3786-952c-45b9-ba01-a1714b623bc3" time="1365347104126" ignored="false" />
@@ -101,7 +112,25 @@
       <file leaf-file-name="root.jinja2.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/root/templates/root.jinja2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="559" selection-end="559" vertical-scroll-proportion="0.35714287">
+            <state line="21" column="3" selection-start="919" selection-end="919" vertical-scroll-proportion="0.65867156">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.jinja2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="38" selection-start="1224" selection-end="1224" vertical-scroll-proportion="-20.692308">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="header_category.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/product/templatetags/header_category.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="14" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -155,21 +184,8 @@
       <file leaf-file-name="aaa.save.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/root/templates/aaa.save.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="0" selection-start="3014" selection-end="3014" vertical-scroll-proportion="-24.608696">
-              <folding>
-                <marker date="1365536643389" expanded="true" signature="40:3012" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="100:2989" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="262:379" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="508:2951" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="664:2896" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="827:985" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="1110:2826" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="1324:2739" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="1521:1714" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="1870:2637" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="2134:2518" placeholder="..." />
-                <marker date="1365536643389" expanded="true" signature="2242:2456" placeholder="..." />
-              </folding>
+            <state line="50" column="0" selection-start="3014" selection-end="3014" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -207,7 +223,6 @@
         <option value="$PROJECT_DIR$/apps/product/templatetags/header_category.py" />
         <option value="$PROJECT_DIR$/apps/product/templates/category/show_category.jinja2.html" />
         <option value="$PROJECT_DIR$/apps/product/templates/templatetags_header_category/header_category.html" />
-        <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
         <option value="$PROJECT_DIR$/apps/root/__init__.py" />
         <option value="$PROJECT_DIR$/proj/urls.py" />
         <option value="$PROJECT_DIR$/apps/cart/views.py" />
@@ -220,13 +235,15 @@
         <option value="$PROJECT_DIR$/apps/product/__init__.py" />
         <option value="$PROJECT_DIR$/apps/cart/__init__.py" />
         <option value="$PROJECT_DIR$/apps/root/templates/root.jinja2.html" />
+        <option value="$PROJECT_DIR$/templates/base.jinja2.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="24" />
-    <option name="width" value="1280" />
-    <option name="height" value="776" />
+    <option name="x" value="-4" />
+    <option name="y" value="-4" />
+    <option name="width" value="1688" />
+    <option name="height" value="1014" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -254,24 +271,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Default">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Shop">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT=".idea">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -436,8 +435,48 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="product" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templatetags" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="cart" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Default">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Shop">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT=".idea">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -458,9 +497,9 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -585,27 +624,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -625,6 +643,27 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -1054,26 +1093,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1280" height="776" extended-state="6" />
+    <frame x="-4" y="-4" width="1688" height="1014" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.359447" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819724" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4247246" sideWeight="0.74367815" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297546" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4247246" sideWeight="0.74367815" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26094422" sideWeight="0.7377301" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30731708" sideWeight="0.72265023" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27734977" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3115055" sideWeight="0.7235023" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.49816403" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2764977" sideWeight="0.497552" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298731" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819724" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.4959631" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1156,18 +1195,9 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="409" selection-end="480" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/product/managers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/views.py">
@@ -1208,21 +1238,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/templates/aaa.save.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="0" selection-start="3014" selection-end="3014" vertical-scroll-proportion="-24.608696">
-          <folding>
-            <marker date="1365536643389" expanded="true" signature="40:3012" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="100:2989" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="262:379" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="508:2951" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="664:2896" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="827:985" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="1110:2826" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="1324:2739" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="1521:1714" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="1870:2637" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="2134:2518" placeholder="..." />
-            <marker date="1365536643389" expanded="true" signature="2242:2456" placeholder="..." />
-          </folding>
+        <state line="50" column="0" selection-start="3014" selection-end="3014" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1261,9 +1278,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.jinja2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="38" selection-start="1224" selection-end="1224" vertical-scroll-proportion="-20.692308">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/product/templatetags/header_category.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="14" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/root/templates/root.jinja2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="559" selection-end="559" vertical-scroll-proportion="0.35714287">
+        <state line="21" column="3" selection-start="919" selection-end="919" vertical-scroll-proportion="0.65867156">
           <folding />
         </state>
       </provider>

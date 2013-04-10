@@ -6,8 +6,9 @@
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
 <script type="text/javascript">
-$(document).ready(function($){
-    $('#accordion').dcAccordion({
+try{
+    jQuery(document).ready(function($){
+        jQuery('#accordion').dcAccordion({
             eventType: 'click',
             autoClose: true,
             saveState: true,
@@ -19,6 +20,7 @@ $(document).ready(function($){
             classExpand: 'dcjq-current-parent'
     });
 });
+}catch(e){ alert(e) }
 </script>
 {% endblock %}
 {% block content -%}
