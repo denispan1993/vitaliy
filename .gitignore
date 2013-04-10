@@ -3,6 +3,7 @@
 *.pyc
 /.idea/
 /.idea/*.*
+/.idea/*.xml
 /.idea/Shop.iml
 /.idea/dataSources.xml
 /.idea/misc.xml
