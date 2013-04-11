@@ -1,0 +1,36 @@
+#header {
+    height: 330px;
+    overflow: hidden;
+    position: relative;
+}
+#static_menu-wrapper {
+    background: none repeat scroll 0 0 #1A1B1D;
+    border-radius: 0 0 26px 26px;
+    padding: 0 5px 5px;
+    position: absolute;
+    right: 200px;
+    z-index: 100;
+}
+#static_menu {
+    padding: 5px;
+    margin: 5px;
+}
+#auth {
+    background: none repeat scroll 0 0 #1A1B1D;
+    border-radius: 26px 26px 26px 26px;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    z-index: 100;
+}
+#logo {
+    background: url("/media/img/logo.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 200px;
+    left: 0;
+    position: absolute;
+    top: 20px;
+    width: 200px;
+    z-index: 100;
+}

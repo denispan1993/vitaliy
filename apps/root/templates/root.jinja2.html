@@ -1,6 +1,9 @@
 {% extends "base.jinja2.html" %}
 {# {% load header_category %} #}
 {% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}
+{% block header_css %}
+<link rel="stylesheet" href="/media/css/root_style.css" />
+{% endblock %}
 {% block header_js %}
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/cookie.js"></script>
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
@@ -23,59 +26,28 @@ try{
 }catch(e){ alert(e) }
 </script>
 {% endblock %}
-{% block content -%}
-    <style>
-        #header {
-             height: 330px;
-             overflow: hidden;
-             position: relative;
-             }
-    </style>
+{% block content %}
     <div id="header">
-        <style>
-            #static_menu-wrapper {
-                background: none repeat scroll 0 0 #1A1B1D;
-                border-radius: 0 0 26px 26px;
-                padding: 0 5px 5px;
-                position: absolute;
-                right: 0;
-                z-index: 100;
-            }
-        </style>
         <div id="static_menu-wrapper">
             <div id="static_menu">
                 <ul>
                     <li>
                         <a href="/">Главная</a>
                     </li>
+                    <li>
+                        <a href="/">Оплата</a>
+                    </li>
+                    <li>
+                        <a href="/">Доставка</a>
+                    </li>
+                    <li>
+                        <a href="/">Контакты</a>
+                    </li>
                 </ul>
             </div>
         </div>
-        <style>
-            #auth {
-                background: none repeat scroll 0 0 #1A1B1D;
-                border-radius: 26px 26px 26px 26px;
-                padding: 5px;
-                position: absolute;
-                right: 0;
-                top: 80px;
-                z-index: 100;
-            }
-        </style>
-        <div id="auth">{{ social_auth_widget() }}</div>
+        <div id="auth">Вход/Регистрация{# {{ social_auth_widget() }} #}</div>
         <div id="div_logo">
-            <style type="text/css">
-                #logo {
-                    background: url("/media/img/logo.png") no-repeat scroll 0 0 transparent;
-                    display: block;
-                    height: 200px;
-                    left: 0;
-                    position: absolute;
-                    top: 20px;
-                    width: 200px;
-                    z-index: 100;
-                }
-            </style>
             <a id="logo"
                href="/"
                title="Главная страница интернет-магазина keksik.com.ua"
@@ -86,7 +58,7 @@ try{
     <p>Категории верхнего уровня:</p>
 {#     {% for cat in categories_ %} #}
 {#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
-{#         {% if not cat.parent %}
+{#     {% if not cat.parent %}
         <p style='display:inline;'>Категория первого уровня:</p>
         <li><a href='{{ cat.get_absolute_url() }}'>{{ cat.title }}</a></li>
         {% endif %}
@@ -111,4 +83,4 @@ try{
         </li>
     </ul>
 
-{%- endblock %}
+{% endblock %}
