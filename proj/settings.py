@@ -389,6 +389,18 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
 )
+#!!!--------------- Widget ---------------------------------
+INSTALLED_APPS += (
+    'compat.social_auth_widget',
+)
+SOCIAL_AUTH_PROVIDERS = [
+    {'id': p[0], 'name': p[1], 'position': {'width': p[2][0], 'height': p[2][1], }}
+    for p in (
+        ('github', u'Login via GitHub', (0, -70), ),
+        ('facebook', u'Login via Facebook', (0, 0), ),
+        ('twitter', u'Login via Twitter', (0, -35), ),
+    )
+]
 #!!!=============== Django Userena =========================
 INSTALLED_APPS += (
     'userena',

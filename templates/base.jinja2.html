@@ -32,21 +32,30 @@ try{
 {% endif %}
 {% if request.session.ajax_cookie %}
 <script type="text/javascript">
-    try{
-        $(document).ready(function(e) {
-            $.post("/ajax/cookie/", {
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                function(data) { alert(data); }
-            );
-        });
-    }catch(e){ alert(e) }
+try{
+    jQuery(document).ready(function(e) {
+        jQuery.post("/ajax/cookie/", {
+                csrfmiddlewaretoken:'{{ csrf_token }}'
+            },
+            function(data){alert(data);}
+        );
+    });
+}catch(e){ alert(e) }
 </script>
 {% endif %}
 {% endblock %}
 </head>
 <body>
+<style>
+    #body {
+        margin: 0 auto;
+        min-height: 100%;
+        width: 980px;
+    }
+</style>
+<div id="body">
 {% block content %}
 {% endblock %}
+</div>
 </body>
 </html>

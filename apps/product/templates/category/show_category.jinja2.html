@@ -4,7 +4,7 @@
 {% block content -%}
     {# {% header_category current_category %} #}
     {{ header_category(current_category) }}
-    {% if not current_category.parent %}
+    {# {% if not current_category.parent %}
         <a href="/">Home</a>&nbsp;
         <a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>
     {% elif not current_category.parent.parent %}
@@ -61,7 +61,7 @@
         &nbsp;
         <a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>
         &nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>
-    {% endif %}
+    {% endif %} #}
     {% if current_category.children.all() %}
     <br>
         <p>Под категории в этой категории</p>

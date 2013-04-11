@@ -10,7 +10,7 @@ from django.contrib.contenttypes import generic
 
 class GenericStacked_Photo_InLine(generic.GenericStackedInline, ): # generic.GenericStackedInline, NestedStackedInline,
     model = Photo
-    extra = 2
+    extra = 1
 
 from apps.product.models import Category
 
@@ -27,7 +27,7 @@ class CategoryAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = (u'url', )
-#    prepopulated_fields = {u'url' : (u'title',), }
+    prepopulated_fields = {u'url' : (u'title',), }
 
 #    prepopulated_fields = {'url' : ('title',), }
 
