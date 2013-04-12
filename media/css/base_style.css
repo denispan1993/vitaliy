@@ -2,8 +2,15 @@
     padding: 0px;
     margin: 0px;
 }
+ul li {
+    list-style: none outside none;
+}
 #body {
     margin: 0 auto;
     min-height: 100%;
     width: 980px;
+    color: #999999;
+    font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    line-height: 18px;
 }

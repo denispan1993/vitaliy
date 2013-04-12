@@ -1,5 +1,5 @@
 #header {
-    height: 330px;
+    height: 250px;
     overflow: hidden;
     position: relative;
 }
@@ -8,16 +8,39 @@
     border-radius: 0 0 26px 26px;
     padding: 0 5px 5px;
     position: absolute;
-    right: 200px;
+    right: 180px;
     z-index: 100;
 }
 #static_menu {
-    padding: 5px;
-    margin: 5px;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color #FFFFFF #FFFFFF;
+    border-image: none;
+    border-radius: 0 0 22px 22px;
+    border-right: 1px solid #FFFFFF;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    padding: 16px;
+    text-align: center;
+}
+#static_menu ul {
+    display: inline;
+    list-style-type: none;
+}
+#static_menu ul li {
+    display: inline;
+    padding: 0 23px;
+}
+#static_menu ul li a {
+    color: #FFFFFF;
+    font-size: 16px;
+    text-decoration: none;
 }
 #auth {
     background: none repeat scroll 0 0 #1A1B1D;
-    border-radius: 26px 26px 26px 26px;
+    border-radius: 0px 0px 26px 26px;
     padding: 5px;
     position: absolute;
     right: 0;
@@ -30,7 +53,75 @@
     height: 200px;
     left: 0;
     position: absolute;
-    top: 20px;
+    top: 40px;
     width: 200px;
     z-index: 100;
+}
+#main {
+    margin-bottom:15px;
+    position:relative;
+    z-index:100;
+}
+#main_left {
+    float:left;
+    margin-right:20px;
+    margin-top:0px;
+    position:relative;
+    width:200px;
+}
+.left_menu {
+    border: 1px solid #CCCCCC;
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 18px;
+    padding: 10px;
+}
+.left_title {
+    background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
+    border-bottom:1px solid #CCCCCC;
+    color:#333333;
+    font-size:16px;
+    font-weight:normal;
+    line-height:21px;
+    margin-bottom:6px;
+    padding-bottom:3px;
+    padding-left:40px;
+}
+#main_center {
+    background: url("/media/img/bg-main.png") repeat-x scroll 0 0 transparent;
+    border: 5px solid #FFFFFF;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 5px #CCCCCC;
+    overflow: hidden;
+    padding: 10px;
+}
+.center_title {
+    background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
+    border-bottom:1px solid #CCCCCC;
+    color:#333333;
+    font-size:16px;
+    font-weight:normal;
+    line-height:21px;
+    margin-bottom:6px;
+    padding-bottom:3px;
+    padding-left:40px;
+}
+.products_container {
+    margin-left: -9px;
+    overflow: hidden;
+    width: 740px;
+}
+
+.product_block {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #EEEEEE;
+    float: left;
+    height: 255px;
+    margin: 0 0 10px 10px;
+    padding: 10px;
+    position: relative;
+    width: 214px;
+}
+.product-block-excerpt {
+    height: 30px;
+    margin-bottom: 5px;
 }

@@ -3,6 +3,7 @@
 {% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}
 {% block header_css %}
 <link rel="stylesheet" href="/media/css/root_style.css" />
+<link rel="stylesheet" href="/media/css/vertical-account-menu/blue.css" />
 {% endblock %}
 {% block header_js %}
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/cookie.js"></script>
@@ -12,15 +13,16 @@
 try{
     jQuery(document).ready(function($){
         jQuery('#accordion').dcAccordion({
-            eventType: 'click',
-            autoClose: true,
-            saveState: true,
-            disableLink: true,
-            speed: 'slow',
-            showCount: true,
-            autoExpand: true,
-            cookie: 'dcjq-accordion',
-            classExpand: 'dcjq-current-parent'
+            eventType:'hover',
+            autoClose:false,
+            saveState:true,
+            disableLink:false,
+            speed:'slow',
+            showCount:true,
+            autoExpand:true,
+            menuClose:true,
+            cookie:'dcjq-accordion',
+            classExpand:'dcjq-current-parent'
     });
 });
 }catch(e){ alert(e) }
@@ -35,10 +37,19 @@ try{
                         <a href="/">Главная</a>
                     </li>
                     <li>
+                        <a href="/">Статьи</a>
+                    </li>
+                    <li>
+                        <a href="/">Новинки</a>
+                    </li>
+                    <li>
                         <a href="/">Оплата</a>
                     </li>
                     <li>
                         <a href="/">Доставка</a>
+                    </li>
+                    <li>
+                        <a href="/">Скидки</a>
                     </li>
                     <li>
                         <a href="/">Контакты</a>
@@ -55,7 +66,7 @@ try{
             </a>
         </div>
     </div>
-    <p>Категории верхнего уровня:</p>
+    {# <p>Категории верхнего уровня:</p> #}
 {#     {% for cat in categories_ %} #}
 {#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
 {#     {% if not cat.parent %}
@@ -65,22 +76,46 @@ try{
     {% else %}
         Каталог пуст
     {% endfor %} #}
+    <div id="main">
+    <div id="main_left">
+    <div id="accordion_menu" class="left_menu">
+    <p class="left_title">Категории</p>
     <ul id='accordion' class="menu basement">
-        {%- for cat in categories_basement_ recursive %}
+        {% for cat in categories_basement_ recursive %}
             <li>
                 <a href="{{ cat.get_absolute_url() }}"
                    alt='{{ cat.name }}'
                    title="{{ cat.title }}">{{ cat.title }}</a>
                 {% set children = cat.children.all() %}
-                {%- if children -%}
+                {% if children %}
                     <ul class="submenu sub_level">{{ loop(children) }}</ul>
-                {%- endif %}</li>
-        {%- endfor %}
+                {% endif %}</li>
+        {% endfor %}
         <li>
             <a href="/"
                alt='Домой'
                title="Корень сайта Shop">Корень Shop</a>
         </li>
     </ul>
+    </div>
+    </div>
+    <div id="main_center">
+        <p class="center_title">Новинки</p>
+        <div class="products_container">
+            {% for product in all_products %}
+                <div class="product_block">
+                    <a class="product_block_title"
+                       href="{{ product.get_absolute_url() }}"
+                       title="{{ product.title }}">{{ product.name }}</a>
+                    <p class="product_block_excerpt" title="цена за ед. {{ product.price }}">
+                        цена за ед. {{ product.price }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="main_right">
+
+    </div>
+    </div>
 
 {% endblock %}

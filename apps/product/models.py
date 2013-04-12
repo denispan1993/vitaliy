@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 
-class Manager(models.Manager):
+class Manager_Category(models.Manager):
 
     def published(self):
         return self.filter(visibility=True, ).order_by('-created_at')
@@ -114,7 +114,7 @@ class Category(models.Model):
 #    objects = Manager()
 
     objects = models.Manager()
-    manager = Manager()
+    manager = Manager_Category()
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
@@ -158,6 +158,12 @@ class Category(models.Model):
         ordering = [u'-created_at']
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
+
+
+class Manager_Product(models.Manager):
+
+    def published(self):
+        return self.filter(visibility=True, ).order_by('-created_at')
 
 
 class Product(models.Model):
@@ -237,6 +243,9 @@ class Product(models.Model):
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
+
+    objects = models.Manager()
+    manager = Manager_Product()
 
 #    @models.permalink
     def get_absolute_url(self, ):

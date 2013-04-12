@@ -14,7 +14,13 @@ def root_page(request, template_name=u'root.jinja2.html', ):
     except Category.DoesNotExist:
         categories_first = None
 
-    children_categories = categories_first.children.all()
+    from apps.product.models import Product
+    try:
+        all_products = Product.manager.published()
+    except Product.DoesNotExist:
+        all_products = None
+
+    # children_categories = categories_first.children.all()
 
     return render_to_response(template_name=template_name,
                               dictionary=locals(),
