@@ -171,7 +171,7 @@ class Product(models.Model):
                                     help_text=u'Если мы хотим чтобы товар был пасивный, убираем галочку.')
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
                                            null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
-                                                                 u' из категории, то ставим в True.')
+                                                                 u' из категории, то ставим галочку.')
     in_main_page = models.BooleanField(verbose_name=_(u'На главной странице'), default=False, blank=False, null=False,
                                        help_text=u'Если мы хотим чтобы продукт показывался на главной странице ставим'
                                                  u' данное поле в True.')
@@ -459,6 +459,7 @@ class Photo(models.Model):
                                    null=False,
                                    blank=False,
                                    default=False, )
+
     def set_path_photo(self, filename):
         return 'photo/%.6d/%s' % (
             # self.product.pub_datetime.year,
@@ -467,7 +468,7 @@ class Photo(models.Model):
 #    from compat.ImageWithThumbs.fields import ImageWithThumbsField
     photo = ImageWithThumbsField(verbose_name=u'Фото',
                                  upload_to=set_path_photo,
-                                 sizes=((90, 95), (205, 190), (345, 370), (700, 500), ),
+                                 sizes=((90, 95), (205, 190), (210, 160), (345, 370), (700, 500), ),
                                  blank=False,
                                  null=False, )
     title = models.CharField(verbose_name=u'Заголовок фотографии',
@@ -491,12 +492,14 @@ class Photo(models.Model):
                                   max_length=190,
                                   null=True,
                                   blank=True,
-                                  help_text=u'Данный title читают поисковые системы для правильного расположения фотографии в поиске.', )
+                                  help_text=u'Данный title читают поисковые системы для правильного расположения'
+                                            u' фотографии в поиске.', )
     meta_alt = models.CharField(verbose_name=u'alt фотографии',
                                 max_length=190,
                                 null=True,
                                 blank=True,
-                                help_text=u'Данный alt читают поисковые системы для правильного расположения фотографии в поиске.', )
+                                help_text=u'Данный alt читают поисковые системы для правильного расположения'
+                                          u' фотографии в поиске.', )
 
 #    def get_absolute_url(self, ):
 #        return '/news/rubric/%s/' % self.url

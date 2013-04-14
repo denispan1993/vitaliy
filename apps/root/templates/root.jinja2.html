@@ -11,8 +11,8 @@
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
 <script type="text/javascript">
 try{
-    jQuery(document).ready(function($){
-        jQuery('#accordion').dcAccordion({
+    $(document).ready(function($){
+        jQuery('#accordion_menu').dcAccordion({
             eventType:'hover',
             autoClose:false,
             saveState:true,
@@ -22,7 +22,7 @@ try{
             autoExpand:true,
             menuClose:true,
             cookie:'dcjq-accordion',
-            classExpand:'dcjq-current-parent',
+            classExpand:'dcjq-current-parent'
     });
 });
 }catch(e){ alert(e) }
@@ -104,11 +104,21 @@ try{
         <div class="products_container">
             {% for product in all_products %}
                 <div class="product_block">
-                    <a class="product_block_title"
+                    <a class="product_block_title fancybox"
                        href="{{ product.get_absolute_url() }}"
                        title="{{ product.title }}">{{ product.name }}</a>
-                    <p class="product_block_excerpt" title="цена за ед. {{ product.price }}">
-                        цена за ед. {{ product.price }}</p>
+                    <div class="product_block_excerpt" title="цена за ед. {{ product.price }} грн.">
+                        цена за ед. {{ product.price }} грн.</div>
+                    <a style="background-image: url(/files/img/goods/small/4211.jpg);"
+                       href="
+                            {% if product.disclose_product %}
+                                {{ product.get_absolute_url() }}
+                            {% else %}
+                                {{ product.related_Photo.photo_210x160 }}
+                                {# /files/img/goods/4211.jpg" 210x160 #}
+                            {% endif %}"
+                       title="Шпилька 4029"
+                       class="product-block-img{% if not product.disclose_product %} fancybox{% endif %}"></a>
                 </div>
             {% endfor %}
         </div>
