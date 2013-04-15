@@ -9,10 +9,10 @@
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/cookie.js"></script>
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
 <script type="text/javascript" src="/media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
-<script type="text/javascript">
+<script>
 try{
     $(document).ready(function($){
-        jQuery('#accordion_menu').dcAccordion({
+        $('#accordion_menu').dcAccordion({
             eventType:'hover',
             autoClose:false,
             saveState:true,
@@ -33,13 +33,14 @@ try{
 <script>
 try{
     $(document).ready(function() {
-        jQuery(".fancybox").fancybox({
-            'opacity':true,
-     		'overlayShow':true,
-     		'transitionIn':'elastic',
-     		'transitionOut':'elastic',
-            'overlayColor':'#000',
-            'overlayOpacity':0.8
+        $(".fancybox").fancybox({
+            prevEffect		: 'elastic',
+            nextEffect		: 'elastic',
+            closeBtn		: true,
+            helpers		: {
+                title	: { type : 'inside' }
+        {#                 buttons	: {} #}
+            }
         });
     })
 }catch(e){ alert(e) }
@@ -120,18 +121,40 @@ try{
         <p class="center_title">Новинки</p>
         <div class="products_container">
             {% for product in all_products %}
-                {% set photos = product.photo.all() %}
-                {% set photo_main = False %}
-                {% for photo in photos if photo.main and not photo_main %}
-                    {% set main_photo = photo %}
-                    {% set photo_main = True %}
-                {% else %}
-                    {% if photos == [] %}
-                        {% set main_photo = None %}
-                    {% endif %}
-                {% endfor %}
                 <div class="product_block">
-                    {% if not product.disclose_product %}
+                    {% if product.disclose_product %}
+                        {% set photo_main = False %}
+                        {% for photo in product.photo.all() if photo.main and not photo_main %}
+                            <a class="product_block_title"
+                               href="{{ product.get_absolute_url() }}"
+                               title="{{ product.title }}">{{ product.name }}</a>
+                            <div class="product_block_excerpt" title="цена за ед. {{ product.price }} грн.">
+                                цена за ед. {{ product.price }} грн.</div>
+                            <a class="product_block_img"
+                               style="background-image: url('{{ photo.photo.url_210x160 }}');"
+                               href="{{ product.get_absolute_url() }}"
+                               title="{{ product.title }}"></a>
+                            <div class="product_block_bottom">
+                                <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
+                                <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
+                            </div>
+                            {% set photo_main = True %}
+                        {% else %}
+                            <a class="product_block_title"
+                               href="{{ product.get_absolute_url() }}"
+                               title="{{ product.title }}">{{ product.name }}</a>
+                            <div class="product_block_excerpt" title="цена за ед. {{ product.price }} грн.">
+                                цена за ед. {{ product.price }} грн.</div>
+                            <a class="product_block_img"
+                               style="background-image: url({{ MEDIA_URL }}img/empty_210x160.jpg }});"
+                               href="{{ product.get_absolute_url() }}"
+                               title="{{ product.title }}"></a>
+                            {% set photo_main = True %}
+                            <div class="product_block_bottom">
+                                <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
+                                <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
+                            </div>
+                        {% endfor %}
                     {% else %}
                         {% set photo_main = False %}
                         {% for photo in product.photo.all() if photo.main and not photo_main %}
@@ -145,7 +168,7 @@ try{
                                href="{{ photo.photo.url }}"
                                title="{{ product.title }}"></a>
                             <div class="product_block_bottom">
-                                <div class="product_block_price">54.00<span>грн.</span></div>
+                                <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
                                 <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
                             </div>
                             {% set photo_main = True %}
@@ -161,7 +184,7 @@ try{
                                title="{{ product.title }}"></a>
                             {% set photo_main = True %}
                             <div class="product_block_bottom">
-                                <div class="product_block_price">54.00<span>грн.</span></div>
+                                <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
                                 <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
                             </div>
                         {% endfor %}
