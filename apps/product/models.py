@@ -240,6 +240,11 @@ class Product(models.Model):
                                           u' "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости продукта',
                                      default=True, )
+    # Вспомогательные поля
+    from django.contrib.contenttypes import generic
+    photo = generic.GenericRelation('Photo',
+                                    content_type_field='content_type',
+                                    object_id_field='object_id', )
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')

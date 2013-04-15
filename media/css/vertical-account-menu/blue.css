@@ -5,8 +5,8 @@
     text-decoration:none;
     display:block;
     color:black;
-    border-bottom: 1px solid #013d6c;
-    border-top: 1px solid #4695d3;
+    border-bottom: 1px solid DarkTurquoise;
+    border-top: 1px solid DarkTurquoise;
 }
 #accordion_menu ul ul a {padding: 10px 10px 10px 25px;}
 #accordion_menu ul a.dcjq-parent, #accordion_menu ul a.dcjq-parent:hover {padding: 10px 10px 10px 15px;}
