@@ -2,13 +2,16 @@
 {# {% load header_category %} #}
 {% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}
 {% block header_css %}
-<link rel="stylesheet" href="/media/css/root_style.css" />
-<link rel="stylesheet" href="/media/css/vertical-account-menu/blue.css" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/root_style.css" />
+{# <!-- Start WOWSlider.com HEAD section --> #}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/wowslider/style.css" />
+{# <!-- End WOWSlider.com HEAD section --> #}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/vertical-account-menu/blue.css" />
 {% endblock %}
 {% block header_js %}
-<script type="text/javascript" src="/media/js/jquery/dcjqaccordion/cookie.js"></script>
-<script type="text/javascript" src="/media/js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
-<script type="text/javascript" src="/media/js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/cookie.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
 <script>
 try{
     $(document).ready(function($){
@@ -27,9 +30,9 @@ try{
 });
 }catch(e){ alert(e) }
 </script>
-<script src="/media/js/jquery/fancybox/mousewheel-3.0.6.pack.js"></script>
-<script src="/media/js/jquery/fancybox/fancybox.pack.js?v=2.1.4"></script>
-<link rel="stylesheet" type="text/css" href="/media/css/fancybox/fancybox.css?v=2.1.4" media="screen" />
+<script src="{{ MEDIA_URL }}js/jquery/fancybox/mousewheel-3.0.6.pack.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery/fancybox/fancybox.pack.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/fancybox/fancybox.css?v=2.1.4" media="screen" />
 <script>
 try{
     $(document).ready(function() {
@@ -83,6 +86,47 @@ try{
                alt="Кексик с глазами - интернет магазин kekesik.com.ua">
             </a>
         </div>
+        {# <!-- Start WOWSlider.com BODY section --> #}
+        <div id="wowslider-container1">
+        	<div class="ws_images">
+                <ul>
+                    <li>
+                        <a href="/1" target="_self">
+                            <img src="/media/img/wowslider/chrysanthemum.jpg"
+                                 alt="АЛЬТ первого слайда"
+                                 title="ТИТЛ первого слайда"
+                                 id="wows1_0"/>
+                        </a>Первый слайд
+                    </li>
+                    <li>
+                        <a href="/2" target="_blank">
+                            <img src="/media/img/wowslider/desert.jpg"
+                                 alt="АЛЬТ второго слайда"
+                                 title="ТИТЛ второго слайда"
+                                 id="wows1_1"/>
+                        </a>Второй слайд
+                    </li>
+                    <li><a href="/3" target="_parent">
+                           <img src="/media/img/wowslider/hydrangeas.jpg"
+                                alt="АЛЬТ третьего слайда"
+                                title="ТИТЛ третьего слайда"
+                                id="wows1_2"/>
+                        </a>Третий слайд
+                    </li>
+                </ul>
+            </div>
+            <div class="ws_bullets">
+                <div>
+                    <a href="#" title="Chrysanthemum"><img src="/media/img/wowslider/mini/chrysanthemum.jpg" alt="Chrysanthemum"/>1</a>
+                    <a href="#" title="Desertkjnkjnkn"><img src="/media/img/wowslider/mini/desert.jpg" alt="Desertkjnkjnkn"/>2</a>
+                    <a href="#" title="Hydrangeas iuhiuhih"><img src="/media/img/wowslider/mini/hydrangeas.jpg" alt="Hydrangeas iuhiuhih"/>3</a>
+                </div>
+            </div>
+        	<div class="ws_shadow"></div>
+       	</div>
+        <script type="text/javascript" src="/media/js/jquery/wowslider/wowslider.js"></script>
+       	<script type="text/javascript" src="/media/js/jquery/wowslider/script.js"></script>
+       	{# <!-- End WOWSlider.com BODY section --> #}
     </div>
     {# <p>Категории верхнего уровня:</p> #}
 {#     {% for cat in categories_ %} #}
