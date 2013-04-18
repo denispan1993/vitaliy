@@ -8,7 +8,8 @@ ul li {
 #body {
     margin: 0 auto;
     min-height: 100%;
-    width: 980px;
+    max-width:1150px;
+    min-width:960px;
     color: #999999;
     font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
     font-size: 12px;
