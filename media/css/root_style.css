@@ -109,9 +109,10 @@
     padding-left:40px;
 }
 .products_container {
-    margin-left: -9px;
-    overflow: hidden;
-    width: 740px;
+    margin-left:-9px;
+    overflow:hidden;
+    max-width:984px;
+    min-width:740px;
 }
 
 .product_block {

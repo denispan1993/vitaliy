@@ -1,0 +1,30 @@
+<div class="category_block">
+    {% set photo_main = False %}
+    {% for photo in category.photo.all() if photo.main and not photo_main %}
+        <a class="category_block_title"
+           href="{{ category.get_absolute_url() }}"
+           title="{{ category.title }}">{{ category.name }}</a>
+        <div class="category_block_excerpt" title="{{ category.description }}">{{ category.description }}</div>
+        <a class="category_block_img"
+           style="background-image: url('{{ photo.photo.url_210x160 }}');"
+           href="{{ category.get_absolute_url() }}"
+           title="{{ category.title }}"></a>
+        <div class="category_block_bottom">
+            <a class="button_enter" rel="{{ category.pk }}" href="javascript:void(0)">Войти</a>
+        </div>
+        {% set photo_main = True %}
+    {% else %}
+        <a class="category_block_title"
+           href="{{ category.get_absolute_url() }}"
+           title="{{ category.title }}">{{ category.name }}</a>
+        <div class="category_block_excerpt" title="{{ category.description }}">{{ category.description }}</div>
+        <a class="category_block_img"
+           style="background-image: url({{ MEDIA_URL }}img/empty_210x160.jpg }});"
+           href="{{ category.get_absolute_url() }}"
+           title="{{ category.title }}"></a>
+        <div class="category_block_bottom">
+            <a class="button_enter" rel="{{ category.pk }}" href="javascript:void(0)">Войти</a>
+        </div>
+        {% set photo_main = True %}
+    {% endfor %}
+</div>
