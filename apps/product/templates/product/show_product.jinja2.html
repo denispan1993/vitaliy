@@ -1,5 +1,5 @@
-{% extends 'base.jinja2.html' %}
-{% block title %}{{ product.title }}{% endblock %}
+{% extends 'root.jinja2.html' %}
+{% block title %}{{ product.title|capfirst }}{% endblock %}
 {% block body_javascript %}
 <script type="text/javascript">
 function calculate(){
@@ -38,78 +38,207 @@ function checknumber(String){
 }
 </script>
 {% endblock %}
+{% block content_center -%}
+<style>
+#product_box{
+	width:auto;height:auto;
+	border:5px solid #F2F2F2;
+	padding:5px;
+	color:#333333;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+	line-height:100%;
+    min-height:355px;
+}
+#product_box_left{
+	float:left;
+//	z-index:10;
+	width:354px;
+}
+#product_box_left_top{
+	margin:5px 5px 5px 0;
+	text-align:center;
+}
+#product_box_left_bottom{
+	margin-top:1px;
+	text-align:center;
+    height:55px;
+}
+#product_box_left_bottom ul{
+//	width:45px;// height:45px;
+//	margin-left:-15px;
+//	float:left;
+//	list-style-image:none;
+//	list-style-type:none;
+//	padding:0px;margin:2px;
+    text-align:center;
+}
+#product_box_left_bottom ul li{
+//	width:45px;// height:45px;
+//	margin-left:-15px;
+	float:left;
+	list-style-image:none;
+	list-style-type:none;
+	padding:0px;margin:2px;
+}
+#product_box_left_bottom ul li img{
+	width:45px;height:45px;
+//	margin-left:-15px;
+	float:left;
+	list-style-image:none;
+	list-style-type:none;
+	padding:0px;margin:2px;
+}
+#product_box_right{
+//	width:45px;height:45px;
+//	margin-left:-15px;
+	float:left;
+//	list-style-image:none;
+//	list-style-type:none;
+	padding:5px 0px 5px 0px;
+//  margin:2px;
+}
+</style>
+    <div id="product_box">
+        <div id="product_box_header">
+            {{ header_category2(current_category, product) }}
+        </div>
+        <div id="product_box_top">
+            {% set photos = product.photo.all() %}
+            <div id="product_box_left">
+                <div id="product_box_left_top">
+                    {% if photos %}
+                        {% set photo_main = False %}
+                        {% for photo in photos if photo.main and not photo_main %}
+                            <a href='{{ photo.photo.url }}'
+                               class = 'cloud-zoom'
+                               id='zoom1'
+                               rel="adjustX: 10, adjustY:-4">
+                                <img src="{{ photo.photo.url_345x370 }}"
+                                     alt=''
+                                     title="{{ photo.photo_sign }}"
+                                     id="img_productMainImg" />
+                            </a>
+                            {% set photo_main = True %}
+                        {% endfor %}
+                    {% else %}
+                        <a title="{{ product.item_description }}"
+                           id="a_productMainImg"
+                           href="{{ product_url }}">
+                            <img src="/media/img/NoPhoto_345x370.jpg"
+                                 title="Фотография продукта отсутсвует"
+                                 id="img_productMainImg" />
+                        </a>
+                    {% endif %}
+                </div>
+                {% if photos %}
+                <div id="product_box_left_bottom">
+                    <ul>
+                        {% for photo in photos %}<!-- [1:] -->
+                            <li class="li_productMiniImg">
+                                <a href='{{ photo.photo.url }}'
+                                   class='cloud-zoom-gallery'
+                                   title='{{ photo.photo_sign }}'
+                                   rel="useZoom: 'zoom1', smallImage: '{{ photo.photo.url_345x370 }}' ">
+                                    <img src="{{ photo.photo.url_90x95 }}"
+                                         alt="{{ photo.photo_sign }}" />
+                                </a>
+    <!--							{1% if forloop.first %}
+                                    <a class="zoomThumbActive" href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
+                                {1% else %}
+                                    <a href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
+                                {1% endif %}
+                                    <img src="{1{ photo.photo.url_90x95 }}" alt="{1{ photo.photo_sign }}" />
+                                </a>-->
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            <div id="product_box_right">
+    			<h1 style="font-size:16px; height:auto; line-height:20px;">
+                    <a href="{{ product.get_absolute_url() }}">
+                        {{ product.title|capfirst }}
+                    </a>
+                </h1>
+	    		<h2 style="font-size:12px;font-weight:lighter;line-height:30px;">
+                    Наименование категории:
+                        <a href="{{ current_category.get_absolute_url() }}">
+                            {{ current_category.title|capfirst }}
+                        </a>
+                </h2>
+                <p>Текуший продукт: {{ product.name }}</p>
+                {% if product.regular_ce %}
+                    <p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
+                        Обычная цена:
+                        <span style="text-decoration:line-through"> {{ product.regular_price|formatted_float }} грн.</span>
+                    </p>
+                {% endif %}
+                <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|formatted_float }} грн.</span></p>
+                <p class="pirce_total" style="margin:0; padding:6px 0px; text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">
+                <span id="cart_quant" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ quantity }}</span>
+                &nbsp;шт.&nbsp;×&nbsp;&nbsp;
+                <span id="one_piece_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ price_per_piece|formatted_float }}</span>
+                &nbsp;грн.&nbsp;=&nbsp;&nbsp;
+                <span id="current_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
+                &nbsp;грн.&nbsp;
+                </p>
+<style>
+.quantity{
+//	margin:0;
+	list-style-type:none;
+	padding: 0 0 0 5px;
+}
+.quantity li{
+	line-height:22px;
+	margin:0;
+	list-style-type:none;
+	float:left;
+}
+</style>
+                <form method="POST" action=".">
+                    <ul class="quantity">
+                        <li>Количество:</li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="/media/img/minus.gif"
+                                    onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
+                            </a>
+                        </li>
+                        <li>
+                            <input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity_ }}"
+                                onkeyup='setTimeout("calculate()", 1500);' type="text" />
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="/media/img/plus.gif"
+                                    onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
+                            </a>
+                        </li>
+                            <span id="errorMsg" style="text-align:center;color:#FF0000"></span>
+                    </ul>
+                    <br class="clearFloat" />
 
-{% block content %}
-    {% if not current_category.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-    {% elif not current_category.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-    {% elif not current_category.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-    {% elif not current_category.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-    {% elif not current_category.parent.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-    {% elif not current_category.parent.parent.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-    {% elif not current_category.parent.parent.parent.parent.parent.parent.parent %}
-    <a href="/">Home</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.parent.get_absolute_url() }}">{{ current_category.parent.parent.title }}</a>&nbsp;<a href="{{ current_category.parent.get_absolute_url() }}">{{ current_category.parent.title }}</a>&nbsp;<a href="{{ current_category.get_absolute_url() }}">{{ current_category.title }}</a>&nbsp;<a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-    {% endif %}
-    <p>Текущая категория: {{ current_category }}</p>
-    <p>Текуший продукт: {{ product }}</p>
-    {% if product.regular_price %}
-        <p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
-            Обычная цена:
-            <span style="text-decoration:line-through"> {{ product.regular_price|formatted_float }} грн.</span>
-        </p>
-    {% endif %}
-    <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|formatted_float }} грн.</span></p>
-    <p class="pirce_total" style="margin:0; padding:6px 0px; text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">
-    <span id="cart_quant" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ quantity }}</span>
-    &nbsp;шт.&nbsp;×&nbsp;&nbsp;
-    <span id="one_piece_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ price_per_piece|formatted_float }}</span>
-    &nbsp;грн.&nbsp;=&nbsp;&nbsp;
-    <span id="current_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
-    &nbsp;грн.&nbsp;
-    </p>
-    <form method="POST" action=".">
-        <ul class="quantity">
-    		<li>Количество:</li>
-    		<li>
-    			<a href="javascript:void(0)">
-    				<img src="/media/img/minus.gif"
-    					onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
-				</a>
-			</li>
-			<li>
-				<input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity_ }}"
-					onkeyup='setTimeout("calculate()", 1500);' type="text" />
-			</li>
-			<li>
-				<a href="javascript:void(0)">
-					<img src="/media/img/plus.gif"
-						onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
-				</a>
-			</li>
-				<span id="errorMsg" style="text-align:center;color:#FF0000"></span>
-		</ul>
-		<br class="clearFloat" />
+                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
+                    <input type="hidden" name="product_url" value="{{ product.url }}" />
+                    <input type="hidden" name="action" value="addtocard" />
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-        <input type="hidden" name="productpk" value="{{ product.pk }}" />
-    	<input type="hidden" name="producturl" value="{{ product.url }}" />
-    	<input type="hidden" name="action" value="addtocard" />
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="submit" value="Добавить в корзину" />
+                </form>
+                <br class="clearFloat" />
+                <form method="POST" action=".">
+                    <input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
+                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
+                    <input type="hidden" name="product_url" value="{{ product.url }}" />
+                    <input type="hidden" name="action" value="makeanorder" />
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-        <input type="submit" value="Добавить в корзину" />
-    </form>
-    <form method="POST" action=".">
-    	<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
-		<input type="hidden" name="productpk" value="{{ product.pk }}" />
-		<input type="hidden" name="producturl" value="{{ product.url }}" />
-		<input type="hidden" name="action" value="makeanorder" />
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="submit" value="Купить" />
+                </form>
 
-		<input type="submit" value="Купить" />
-	</form>
-
-{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock -%}

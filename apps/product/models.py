@@ -5,6 +5,9 @@ from django.utils.translation import ugettext as _
 
 class Manager_Category(models.Manager):
 
+    def visible(self):
+        return self.filter(visibility=True, )
+
     def published(self):
         return self.filter(visibility=True, ).order_by('-created_at')
 
@@ -18,7 +21,7 @@ class Manager_Category(models.Manager):
 #from django.db import models
 import re
 
-from compat.ruslug.forms import RuSlugFormField
+#from compat.ruslug.forms import RuSlugFormField
 
 from django.forms import CharField as FormCharField
 #from django.core import validators
@@ -79,8 +82,14 @@ class ModelSlugField(models.CharField, ):
 
 
 class Category(models.Model):
-    parent = models.ForeignKey(u'Category', related_name='children', verbose_name=u'Вышестоящая категория',
-                               null=True, blank=True, )
+    parent = models.ForeignKey(u'Category',
+                               related_name='children',
+                               verbose_name=u'Вышестоящая категория',
+                               null=True,
+                               blank=True, )
+    order = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
+                                             blank=True,
+                                             null=True, )
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы категория нигде не показывалась,'
                                               u' ставим данное поле в False.')
@@ -109,6 +118,12 @@ class Category(models.Model):
                                 help_text=u'Пример: "news/reklama.html". Если не указано, система'
                                           u' будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
+
+    # Вспомогательные поля
+    from django.contrib.contenttypes import generic
+    photo = generic.GenericRelation('Photo',
+                                    content_type_field='content_type',
+                                    object_id_field='object_id', )
 
 #    from apps.product.managers import Manager
 #    objects = Manager()
@@ -451,7 +466,7 @@ class ImageWithThumbsField(ImageField):
         self.height_field = height_field
         self.sizes = sizes
         super(ImageField, self).__init__(**kwargs)
-#==================================================================================================================================
+#=======================================================================================================================
 
 
 class Photo(models.Model):

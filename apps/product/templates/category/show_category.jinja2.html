@@ -1,25 +1,29 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}{{ current_category.title }}{% endblock %}
-{% block content -%}
-    {{ header_category(current_category) }}
-    {% if current_category.children.all() %}
+{% block content_center -%}
+    {{ header_category2(current_category) }}
     <br>
+    {% set categories_in_curent_category = current_category.children.all() %}
+    {% if categories_in_curent_category %}
         <p>Под категории в этой категории</p>
-        {% for category in current_category.children.all() %}
-            <a href="{{ category.get_absolute_url() }}">{{ category.title }}</a>
-        {% endfor %}
+        <div id="categories_block">
+            {% for category in categories_in_curent_category %}
+                {{ block_category(category) }}
+            {% endfor %}
+        </div>
     {% else %}
-        <br>
         <p>Подкатегории в этой категории отсутсвуют</p>
     {% endif %}
-    {% if current_category.products.all() %}
     <br>
-        <p>Продукты в этой категории</p>
-        {% for product in current_category.products.all() %}
-            <a href="{{ product.get_absolute_url() }}">{{ product.title }}</a>
-        {% endfor %}
+    {% set products_in_curent_category = current_category.products.all() %}
+    {% if products_in_curent_category %}
+        <div id="products_block">
+            <p>Продукты в этой категории</p>
+            {% for product in products_in_curent_category %}
+                {{ block_product(product) }}
+            {% endfor %}
+        </div>
     {% else %}
-        <br>
-        <p>Продукты в этой категории отсутсвуют</p>
+         <p>Продукты в этой категории отсутсвуют</p>
     {% endif %}
 {%- endblock %}

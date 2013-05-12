@@ -57,7 +57,9 @@ def show_product(request, product_url, id,
     current_category = request.session.get(u'current_category', None, )
 
     if request.method == 'POST':
-        if request.session.test_cookie_worked():
+        if request.session.get(u'cookie', False, ):
+        # if cookie:
+        # if request.session.test_cookie_worked():
             action = request.POST.get(u'action', None, )
             if action == u'addtocard':
                 if current_category:
@@ -68,9 +70,12 @@ def show_product(request, product_url, id,
                     try:
                         product = Product.objects.get(pk=product_pk, url=product_url, )
                     except Product.DoesNotExist:
+                        # request.session[u'test1-product_pk'] = product_pk
+                        # request.session[u'test1-product_url'] = product_url
                         from django.http import Http404
                         raise Http404
-#                    else:
+                    else:
+                        add_to_cart(request=request, product=product, product_pk=product_pk, product_url=product_url, quantity=quantity, )
 #                        if request.
 #                        try:
 #                            from apps.cart.models import Cart
@@ -119,45 +124,70 @@ def show_product(request, product_url, id,
 
 
 def get_cart(request, ):
+    from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
         from django.contrib.auth.models import User
-        user_object_ = User.objects.get(pk=user_id_)
-        from apps.cart.models import Cart
+        user_object_ = User.objects.get(pk=user_id_, )
         cart, created = Cart.objects.get_or_create(user=user_object_, sessionid=None, )
     else:
         sessionid = request.COOKIES.get(u'sessionid', None, )
         cart, created = Cart.objects.get_or_create(user=None, sessionid=sessionid, )
     return cart, created
 
-def add_to_cart(request):
-    postdata = request.POST.copy()
+
+def add_to_cart(request, product=None, product_pk=None, product_url=None, quantity=1, ):
+#    postdata = request.POST.copy()
     # get product slug from post data, return blank if empty
-    product_pk = int(postdata.get(u'product_pk', None, ), )
-    product_url = postdata.get(u'product_url', None, )
-    product_cache_key = request.path
-    # try to get product from cache
-    from django.core.cache import cache
-    from proj.settings import CACHE_TIMEOUT
-    product = cache.get(product_cache_key)
-    # if a cache miss, fall back on db query
+#    if not product_pk:
+#        product_pk = int(postdata.get(u'product_pk', None, ), )
+#    if not product_url:
+#        product_url = postdata.get(u'product_url', None, )
     if not product:
-        # fetch the product or return a missing page error
-        from django.shortcuts import render_to_response, get_object_or_404
-        from apps.product.models import Product
-        product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
-        # store item in cache for next time
-        cache.set(product_cache_key, product, CACHE_TIMEOUT)
-        # get quantity added, return 1 if empty
-    quantity = int(postdata.get('quantity', 1, ), )
+        # try to get product from cache
+        product_cache_key = request.path
+        from django.core.cache import cache
+        from proj.settings import CACHE_TIMEOUT
+        product = cache.get(product_cache_key)
+        # if a cache miss, fall back on db query
+        if not product:
+            # fetch the product or return a missing page error
+#            from django.shortcuts import render_to_response, get_object_or_404
+#            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
+            from apps.product.models import Product
+            try:
+                product = Product.objects.get(pk=product_pk, url=product_url, )
+            except Product.DoesNotExist:
+                # request.session[u'test1-product_pk'] = product_pk
+                # request.session[u'test1-product_url'] = product_url
+                from django.http import Http404
+                raise Http404
+            else:
+                # store item in cache for next time
+                cache.set(product_cache_key, product, CACHE_TIMEOUT, )
+    # get quantity added, return 1 if empty
+#    if not quantity:
+#        quantity = int(postdata.get('quantity', 1, ), )
     #get cart
     product_cart = get_cart(request, )
+    from apps.cart.models import Product
     try:
-        exist_cart_option = product_cart.cart.get(color=Color_object, size=Size_object, )
-        exist_cart_option.update_quantity(quantity) # quantity += exist_cart_option.quantity
-        exist_cart_option.update_price_per_piece()
+        exist_product_in_cart = product_cart[0].cart.get(product=product, )
     #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
-    except More_Options_Carts.DoesNotExist:
+    except Product.DoesNotExist:
+        product_in_cart = Product.objects.create(cart=product_cart[0],
+                                                 product=product,
+                                                 quantity=quantity, )
+        product_in_cart.update_price_per_piece()
+#        pass
     #        price_per_piece = views_price_per_piece(product, quantity, )
-        More_Options_Carts.objects.create(cart=product_cart, price_per_piece=product_cart.product.sale_price(quantity, ), quantity=quantity, color=Color_object, size=Size_object, )
+#        More_Options_Carts.objects.create(cart=product_cart,
+#                                          price_per_piece=product_cart.product.sale_price(quantity, ),
+#                                          quantity=quantity,
+#                                          color=Color_object,
+#                                          size=Size_object, )
+    else:
+        exist_product_in_cart.update_quantity(quantity)  # quantity += exist_cart_option.quantity
+        exist_product_in_cart.update_price_per_piece()
+
     return None

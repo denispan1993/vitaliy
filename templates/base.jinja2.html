@@ -14,33 +14,31 @@
 {% block ajax %}
 {% if request.session.ajax_resolution %}
 <script type="text/javascript">
-try{
-    jQuery(document).ready(function(e) {
+try{jQuery(document).ready(function(e) {
         var browserWindow = $(window);
         var width = browserWindow.width();
         var height = browserWindow.height();
         $.post("/ajax/resolution/", {
-                width: width,
-                height: height,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
+                width:width,
+                height:height,
+                csrfmiddlewaretoken:'{{ csrf_token }}'
             },
-            function(data) { alert(data); }
+            function(data){alert(data);}
         );
     });
-}catch(e){ alert(e) }
+}catch(e){alert(e)}
 </script>
 {% endif %}
 {% if request.session.ajax_cookie %}
 <script type="text/javascript">
-try{
-    jQuery(document).ready(function(e) {
+try{jQuery(document).ready(function(e) {
         jQuery.post("/ajax/cookie/", {
                 csrfmiddlewaretoken:'{{ csrf_token }}'
             },
             function(data){alert(data);}
         );
     });
-}catch(e){ alert(e) }
+}catch(e){alert(e)}
 </script>
 {% endif %}
 {% endblock %}
@@ -48,6 +46,8 @@ try{
 <body>
 <div id="body">
 {% block content %}
+    {% block content_center %}
+    {% endblock %}
 {% endblock %}
 </div>
 </body>
