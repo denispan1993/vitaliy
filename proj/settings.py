@@ -78,7 +78,12 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 #MEDIA_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin'
-MEDIA_ROOT = '/home/user/Proj/Shop/media'
+import sys
+if sys.platform == 'win32':
+    MEDIA_ROOT = 'C:/Shop/media'
+elif sys.platform == 'linux2':
+    MEDIA_ROOT = '/home/user/Proj/Shop/media'
+#MEDIA_ROOT = '/home/user/Proj/Shop/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
