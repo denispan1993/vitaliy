@@ -1,8 +1,11 @@
+# coding=utf-8
+__author__ = 'Sergey'
+
 # Create your views here.
 from django.conf import settings
-from jinja2 import Environment, FileSystemLoader
-template_dirs = getattr(settings, 'TEMPLATE_DIRS', )
-env = Environment(loader=FileSystemLoader(template_dirs, ), )
+#from jinja2 import Environment, FileSystemLoader
+#template_dirs = getattr(settings, 'TEMPLATE_DIRS', )
+#env = Environment(loader=FileSystemLoader(template_dirs, ), )
 
 #default_mimetype = getattr(settings, 'DEFAULT_CONTENT_TYPE', )
 #def render_to_response(request, filename, context={}, mimetype=default_mimetype, ):
@@ -169,25 +172,22 @@ def add_to_cart(request, product=None, product_pk=None, product_url=None, quanti
 #    if not quantity:
 #        quantity = int(postdata.get('quantity', 1, ), )
     #get cart
+    # Взятие корзины
     product_cart = get_cart(request, )
     from apps.cart.models import Product
     try:
-        exist_product_in_cart = product_cart[0].cart.get(product=product, )
+        """ Присутсвие конкретного продукта в корзине """
+        product_in_cart = product_cart[0].cart.get(product=product, )
     #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
     except Product.DoesNotExist:
+        """ Занесение продукта в корзину если его нету """
         product_in_cart = Product.objects.create(cart=product_cart[0],
                                                  product=product,
                                                  quantity=quantity, )
-        product_in_cart.update_price_per_piece()
-#        pass
-    #        price_per_piece = views_price_per_piece(product, quantity, )
-#        More_Options_Carts.objects.create(cart=product_cart,
-#                                          price_per_piece=product_cart.product.sale_price(quantity, ),
-#                                          quantity=quantity,
-#                                          color=Color_object,
-#                                          size=Size_object, )
     else:
-        exist_product_in_cart.update_quantity(quantity)  # quantity += exist_cart_option.quantity
-        exist_product_in_cart.update_price_per_piece()
+        product_in_cart.update_quantity(quantity, )  # quantity += exist_cart_option.quantity
+    finally:
+        product_in_cart.update_price_per_piece()
+
 
     return None

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualLightBox>
+    <Gallery version="2.5">
+        <Settings>
+            <AppName>WOW Slider</AppName>
+            <AppUrlS>WOWSlider.com</AppUrlS>
+            <AppVersion>3.4</AppVersion>
+            <AutoPlay>true</AutoPlay>
+            <Captions>true</Captions>
+            <CaptionsEffect>slide</CaptionsEffect>
+            <Controls>true</Controls>
+            <GalleryName>slider1</GalleryName>
+            <GallerySuffix>1</GallerySuffix>
+            <HtmlCharset>UTF-8</HtmlCharset>
+            <ImageAspectRatio>true</ImageAspectRatio>
+            <ImageEffect>fly</ImageEffect>
+            <ImageFillColor>#FFFFFF</ImageFillColor>
+            <ImageHeight>360</ImageHeight>
+            <ImageQuality>100</ImageQuality>
+            <ImageShrink2>false</ImageShrink2>
+            <ImageStretch>true</ImageStretch>
+            <ImageTemplate>C:/Program Files/WOW Slider/templates/backgnd/catalyst_digital/</ImageTemplate>
+            <ImageTemplateName>Catalyst Digital</ImageTemplateName>
+            <ImageWidth>960</ImageWidth>
+            <Images>true</Images>
+            <JoomlaType>2.5</JoomlaType>
+            <OneLoop>false</OneLoop>
+            <OrderRandom>true</OrderRandom>
+            <Preloader>false</Preloader>
+            <PublishFileName>C:/Shop/compat/WOW Slider2/index.html</PublishFileName>
+            <PublishIndex>index.html</PublishIndex>
+            <PublishPath>C:/Shop/compat/WOW Slider2</PublishPath>
+            <PublishPreview>true</PublishPreview>
+            <PublishType>file</PublishType>
+            <RelativePath>false</RelativePath>
+            <ShowBullets>true</ShowBullets>
+            <ShowTooltips>true</ShowTooltips>
+            <SlideshowDelay>151</SlideshowDelay>
+            <SlideshowDuration>31</SlideshowDuration>
+            <SoundEnable>0</SoundEnable>
+            <SoundFileName></SoundFileName>
+            <StopOnHover>true</StopOnHover>
+            <TemplateName>catalyst_digital</TemplateName>
+            <ThumbAlign>bottom</ThumbAlign>
+            <ThumbFormat>jpg</ThumbFormat>
+            <ThumbHeight>90</ThumbHeight>
+            <ThumbQuality>90</ThumbQuality>
+            <ThumbWidth>0</ThumbWidth>
+            <Thumbnails>false</Thumbnails>
+            <TooltipPos>bottom</TooltipPos>
+            <noFrame>1</noFrame>
+        </Settings>
+        <Images RelativePath="false">
+            <Image>
+                <url>C:/Users/Public/Pictures/Sample Pictures/Hydrangeas.jpg</url>
+                <title>Hydrangeas</title>
+                <description>1</description>
+                <userurl>1</userurl>
+                <usertarget>_self</usertarget>
+            </Image>
+            <Image>
+                <url>C:/Users/Public/Pictures/Sample Pictures/Koala.jpg</url>
+                <title>Koala</title>
+                <description>2</description>
+                <userurl>2</userurl>
+                <usertarget>_blank</usertarget>
+            </Image>
+            <Image>
+                <url>C:/Users/Public/Pictures/Sample Pictures/Lighthouse.jpg</url>
+                <title>Lighthouse</title>
+                <description>3</description>
+                <userurl>3</userurl>
+                <usertarget>_parent</usertarget>
+            </Image>
+            <Image>
+                <url>C:/Users/Public/Pictures/Sample Pictures/Jellyfish.jpg</url>
+                <title>Jellyfish</title>
+                <description>4</description>
+                <userurl>4</userurl>
+                <usertarget>_self</usertarget>
+            </Image>
+            <Image>
+                <url>C:/Users/Public/Pictures/Sample Pictures/Penguins.jpg</url>
+                <title>Penguins</title>
+                <description>5</description>
+                <userurl>5</userurl>
+                <usertarget>_blank</usertarget>
+            </Image>
+            <Image>
+                <url>C:/Users/Public/Pictures/Sample Pictures/Desert.jpg</url>
+                <title>Desert</title>
+                <description>6</description>
+                <userurl>6</userurl>
+                <usertarget>_parent</usertarget>
+            </Image>
+        </Images>
+    </Gallery>
+</VisualLightBox>

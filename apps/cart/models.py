@@ -14,16 +14,16 @@ class Cart(models.Model):
 
     # Вспомогательные поля
     from django.contrib.contenttypes import generic
-    product = generic.GenericRelation('Product',
-                                      content_type_field='content_type',
-                                      object_id_field='object_id', )
+    cart = generic.GenericRelation('Product',
+                                   content_type_field='content_type',
+                                   object_id_field='object_id', )
 
     @property
-    def count_name_of_products(self):
+    def count_name_of_products(self, ):
         return self.cart.count()
 
     @property
-    def sum_money_of_all_products(self):
+    def sum_money_of_all_products(self, ):
         all_products = self.cart
         sum_money = 0
         for product in all_products:
@@ -58,8 +58,12 @@ class Product(models.Model):
     from apps.product.models import Product
     product = models.ForeignKey(Product, verbose_name=u'Продукт', null=False, blank=False, )
     quantity = models.PositiveSmallIntegerField(verbose_name=u'Количество продуктов', null=False, blank=False, )
-    price = models.PositiveSmallIntegerField(verbose_name=u'Цена в зависимости от количества', null=True, blank=True, )
-
+    price = models.DecimalField(verbose_name=u'Цена в зависимости от количества',
+                                max_digits=8,
+                                decimal_places=2,
+                                default=0,
+                                blank=False,
+                                null=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -80,6 +84,7 @@ class Product(models.Model):
         self.save()
 
     def update_price_per_piece(self, ):
+        """ Здесь будет расчёт цены со скидкой в зависимости от количества. """
         self.price = self.product.price
         self.save()
 

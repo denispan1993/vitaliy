@@ -2,7 +2,6 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-
 class Manager_Category(models.Manager):
 
     def visible(self):
@@ -15,37 +14,7 @@ class Manager_Category(models.Manager):
         return self.filter(parent__isnull=True, )
 
 # Create your models here.
-
-#================================
-#from django.utils.translation import ugettext_lazy as _
-#from django.db import models
-import re
-
-#from compat.ruslug.forms import RuSlugFormField
-
-from django.forms import CharField as FormCharField
-#from django.core import validators
-from django.core.validators import RegexValidator
-
-# slug_re = re.compile(r'^[-a-zA-Zа-яА-ЯёЁіІїЇґҐєЄ0-9_.]+$')
-# slug_re = re.compile(r'^[-a-zA-Zа-яА-ЯёЁіІїЇґҐєЄ0-9_.]+$', re.U, )
-slug_re = re.compile(r'^[-\w]+$', re.U)
-
-validate_slug = RegexValidator(slug_re, _("Enter a valid 'slug' consisting of letters, numbers,"
-                                          " underscores or hyphens."),
-                               'invalid', )
-
-
-class FormSlugField(FormCharField, ):
-    default_error_messages = {
-        'invalid': _("Enter a valid 'slug' consisting of letters, numbers,"
-                     " underscores or hyphens.", ),
-        }
-#    default_validators = [validators.validate_slug]
-    default_validators = [validate_slug, ]
-
-#    class media:
-#        js = ('/media/js/admin/ruslug-urlify.js', )
+from compat.FormSlugField.fields import FormSlugField
 
 
 class ModelSlugField(models.CharField, ):
@@ -67,20 +36,6 @@ class ModelSlugField(models.CharField, ):
         return super(ModelSlugField, self).formfield(**defaults)
 
 
-#class RuSlugField(models.CharField, ):
-#    def formfield(self, **kwargs):
-#        defaults = {
-#            'form_class': RuSlugFormField,
-#            'error_messages': {
-#                'invalid': _(u"Enter a valid 'slug' consisting of letters, numbers,"
-#                             u" underscores or hyphens."),
-#                }
-#        }
-#        defaults.update(kwargs)
-#        return super(RuSlugField, self).formfield(**defaults)
-#===================================================================================
-
-
 class Category(models.Model):
     parent = models.ForeignKey(u'Category',
                                related_name='children',
@@ -97,7 +52,9 @@ class Category(models.Model):
                                            null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
                                                                  u' со страницы категории, то ставим в True.')
 #    from compat.ruslug.models import RuSlugField
-    url = ModelSlugField(verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True, )
+#    from apps.product.fields import ModelSlugField
+    url = ModelSlugField()
+    #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
     name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
     description = models.TextField(verbose_name=u'Описание категории', null=True, blank=True, )
@@ -532,3 +489,25 @@ class Photo(models.Model):
         ordering = ['-created_at']
         verbose_name = "Фотография"
         verbose_name_plural = "Фотографии"
+
+# описываем правила
+rules = [
+    (
+        (ModelSlugField, ), [],
+        {
+            "null": ["null", {"default": False}],
+            "blank": ["blank", {"default": False}],
+        }
+    ),
+    (
+        (ImageWithThumbsField, ), [],
+        {
+            "null": ["null", {"default": False}],
+            "blank": ["blank", {"default": False}],
+        }
+    ),
+]
+# добавляем правила и модуль
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules(rules, ["^apps\.product\.models\.ModelSlugField"])
+add_introspection_rules(rules, ["^apps\.product\.models\.ImageWithThumbsField"])
