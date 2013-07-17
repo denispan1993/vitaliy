@@ -4,14 +4,16 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+import sys
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
 
+ROOT = PROJECT_PATH
 
-ROOT = lambda base : os.path.abspath(
+path = lambda base: os.path.abspath(
     os.path.join(
         PROJECT_PATH, base
-    ).replace('\\','/')
+    ).replace('\\', '/')
 )
 
 ADMINS = (
@@ -23,7 +25,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db\shop_mk_ua.sqlite3', # Or path to database file if using sqlite3.
+        'NAME': path('db\shop_mk_ua.sqlite3', ),  # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -46,7 +48,8 @@ DATABASES = {
 #elif platform == 'linux2':
 #    DATABASES = {
 #        'default': {
-#            'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#            'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2',
+#                                             # 'mysql', 'sqlite3' or 'oracle'.
 #            'NAME': 'shop_mk_ua',            # Or path to database file if using sqlite3.
 #            'USER': 'postgres',                  # Not used with sqlite3.
 #            'PASSWORD': 'secret',            # Not used with sqlite3.
@@ -88,12 +91,12 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 #MEDIA_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin'
-import sys
-if sys.platform == 'win32':
-    MEDIA_ROOT = 'C:/Shop/media'
-elif sys.platform == 'linux2':
-    MEDIA_ROOT = 'Shop/media'
+#if sys.platform == 'win32':
+#    MEDIA_ROOT = 'C:/Shop/media'
+#elif sys.platform == 'linux2':
+#    MEDIA_ROOT = 'Shop/media'
 #MEDIA_ROOT = '/home/user/Proj/Shop/media'
+MEDIA_ROOT = path('media', )
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -205,7 +208,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 SESSION_SAVE_EVERY_REQUEST = True
-SESSION_COOKIE_AGE = 31622400 # 3600 * 24 * 366
+SESSION_COOKIE_AGE = 31622400  # 3600 * 24 * 366
 #SESSION_COOKIE_DOMAIN = u'.shop.mk.ua'
 #SESSION_ENGINE = 'cache_db'
 #SESSION_ENGINE = 'db'
@@ -241,6 +244,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'nested_inlines',
     # 'nested_inlines', -> Вместо это установка пропатченого django
     # https://github.com/stefanklug/django/tree/nested-inline-support-1.5.x
     # Uncomment the next line to enable the admin:
