@@ -55,14 +55,14 @@ if settings.DEBUG:
     if sys.platform == 'win32':
         urlpatterns += patterns('django.views.static',
                                 url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': path('/media', ),
+                                    {'document_root': path('media', ),
                                      'show_indexes': True, },
                                     ),
                                 )
     elif sys.platform == 'linux2':
         urlpatterns += patterns('django.views.static',
                                 url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': path('/media', ),
+                                    {'document_root': path('media', ),
                                     'show_indexes': True, },
                                     ),
                                 )

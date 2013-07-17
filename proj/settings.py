@@ -96,7 +96,8 @@ USE_TZ = True
 #elif sys.platform == 'linux2':
 #    MEDIA_ROOT = 'Shop/media'
 #MEDIA_ROOT = '/home/user/Proj/Shop/media'
-MEDIA_ROOT = path('/media', )
+#MEDIA_ROOT = '/home/user/PycharmProjects/Shop/media'
+MEDIA_ROOT = path('media', )
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
