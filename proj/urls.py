@@ -40,20 +40,29 @@ urlpatterns = patterns('',
 )
 
 #!!!===================== Static media ======================
+import os
+PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
+ROOT = PROJECT_PATH
+path = lambda base: os.path.abspath(
+    os.path.join(
+        PROJECT_PATH, base
+    ).replace('\\', '/')
+)
+
 from django.conf import settings
 if settings.DEBUG:
     import sys
     if sys.platform == 'win32':
         urlpatterns += patterns('django.views.static',
                                 url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': 'C:/Shop/media',
+                                    {'document_root': path('/media', ),
                                      'show_indexes': True, },
                                     ),
                                 )
     elif sys.platform == 'linux2':
         urlpatterns += patterns('django.views.static',
                                 url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': '/home/user/Proj/Shop/media',
+                                    {'document_root': path('/media', ),
                                     'show_indexes': True, },
                                     ),
                                 )
