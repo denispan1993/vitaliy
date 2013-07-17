@@ -4,6 +4,16 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+import os
+PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+
+
+ROOT = lambda base : os.path.abspath(
+    os.path.join(
+        PROJECT_PATH, base
+    ).replace('\\','/')
+)
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -82,7 +92,7 @@ import sys
 if sys.platform == 'win32':
     MEDIA_ROOT = 'C:/Shop/media'
 elif sys.platform == 'linux2':
-    MEDIA_ROOT = '/home/user/Proj/Shop/media'
+    MEDIA_ROOT = 'Shop/media'
 #MEDIA_ROOT = '/home/user/Proj/Shop/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
