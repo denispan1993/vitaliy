@@ -1,12 +1,11 @@
 {% extends "root.jinja2.html" %}
 {# {% load header_category %} #}
 {% block title %}Интернет магазин bulavka.mk.ua - сайт находится в разработке - загляните к нам по позже{% endblock %}
-
 {% block content_center %}
-    <p class="center_title">Новинки</p>
+<p class="center_title">Новинки</p>
     <div class="products_container">
         {% for product in all_products %}
-            {{ block_product(product) }}
+            {{ block_product(product)|safe }}
         {% else %}
             <p>Пусто</p>
         {% endfor %}

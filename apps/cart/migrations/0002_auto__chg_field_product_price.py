@@ -8,37 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Cart'
-        db.create_table(u'Cart', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True)),
-            ('sessionid', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'cart', ['Cart'])
 
-        # Adding model 'Product'
-        db.create_table(u'Product_in_Cart', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(related_name='cart', to=orm['contenttypes.ContentType'])),
-            ('object_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            ('product', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['product.Product'])),
-            ('quantity', self.gf('django.db.models.fields.PositiveSmallIntegerField')()),
-            ('price', self.gf('django.db.models.fields.PositiveSmallIntegerField')()),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'cart', ['Product'])
-
+        # Changing field 'Product.price'
+        db.alter_column(u'Product_in_Cart', 'price', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2))
 
     def backwards(self, orm):
-        # Deleting model 'Cart'
-        db.delete_table(u'Cart')
 
-        # Deleting model 'Product'
-        db.delete_table(u'Product_in_Cart')
-
+        # Changing field 'Product.price'
+        db.alter_column(u'Product_in_Cart', 'price', self.gf('django.db.models.fields.PositiveSmallIntegerField')())
 
     models = {
         u'auth.group': {
@@ -84,7 +61,7 @@ class Migration(SchemaMigration):
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'object_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'price': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
+            'price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'}),
             'product': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['product.Product']"}),
             'quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
