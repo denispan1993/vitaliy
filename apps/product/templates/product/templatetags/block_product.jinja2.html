@@ -29,7 +29,13 @@
         {% set photo_main = True %}
         <div class="product_block_bottom">
             <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
-            <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
+            <input class="add_to_cart button_buy"
+                   type="image"
+                   onclick="animate_cart(this);return false;"
+                   rel="{{ product.pk }}"
+                   href="javascript:void(0)"
+                   src="/media/img/add_cart.png"
+                   title="добавить в корзину">
         </div>
     {% endfor %}
 {% else %}
@@ -50,20 +56,27 @@
         </div>
         {% set photo_main = True %}
     {% else %}
-         <a class="product_block_title fancybox"
-            href="{{ MEDIA_URL }}img/empty.jpg"
-            title="{{ product.title }}">{{ product.name }}</a>
-         <div class="product_block_excerpt" title="цена за ед. {{ product.price }} грн.">
-             цена за ед. {{ product.price }} грн.</div>
-         <a class="product_block_img fancybox"
-            style="background-image: url({{ MEDIA_URL }}img/empty_210x160.jpg }});"
-            href="{{ MEDIA_URL }}img/empty.jpg"
-            title="{{ product.title }}"></a>
-         {% set photo_main = True %}
-         <div class="product_block_bottom">
-             <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
-             <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
-         </div>
+        <a class="product_block_title fancybox"
+           href="{{ MEDIA_URL }}img/empty.jpg"
+           title="{{ product.title }}">{{ product.name }}</a>
+        <div class="product_block_excerpt" title="цена за ед. {{ product.price }} грн.">
+            цена за ед. {{ product.price }} грн.</div>
+        <a class="product_block_img fancybox"
+           style="background-image: url({{ MEDIA_URL }}img/empty_210x160.jpg }});"
+           href="{{ MEDIA_URL }}img/empty.jpg"
+           title="{{ product.title }}"></a>
+        {% set photo_main = True %}
+        <div class="product_block_bottom">
+            <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
+            <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
+            <input class="add_to_cart button_buy"
+                   type="image"
+                   onclick="animate_cart(this);return false;"
+                   rel="{{ product.pk }}"
+                   href="javascript:void(0)"
+                   src="/media/img/add_cart.png"
+                   title="добавить в корзину">
+        </div>
     {% endfor %}
 {% endif %}
 </div>

@@ -101,7 +101,7 @@ function checknumber(String){
 </style>
     <div id="product_box">
         <div id="product_box_header">
-            {{ header_category2(current_category, product) }}
+            {{ header_category2(current_category, product)|safe }}
         </div>
         <div id="product_box_top">
             {% set photos = product.photo.all() %}

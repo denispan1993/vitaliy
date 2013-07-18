@@ -6,7 +6,7 @@ from django.contrib import admin
 admin.autodiscover()
 from apps.root.views import root_page
 from apps.product.views import show_category, show_product
-from apps.cart.views import show_cart
+#from apps.cart.views import show_cart
 from apps.ajax.views import resolution, cookie
 
 urlpatterns = patterns('',
@@ -22,7 +22,10 @@ urlpatterns = patterns('',
     url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$', show_product,
         {'template_name': u'product/show_product.jinja2.html', },
         name='show_product', ),
-    url(ur'^корзина/$', show_cart,
+    url(ur'^корзина/$', 'apps.cart.views.show_cart',
+        {'template_name': u'show_cart.jinja2.html', },
+        name='show_cart', ),
+    url(r'^cart/$', 'apps.cart.views.show_cart',
         {'template_name': u'show_cart.jinja2.html', },
         name='show_cart', ),
 

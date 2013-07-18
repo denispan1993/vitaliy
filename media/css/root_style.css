@@ -8,7 +8,7 @@
     border-radius: 0 0 26px 26px;
     padding: 0 5px 5px;
     position: absolute;
-    right: 180px;
+    right: 280px;
     z-index: 100;
 }
 #static_menu {
@@ -18,8 +18,8 @@
     -moz-border-top-colors: none;
     border-color: -moz-use-text-color black black black;
     border-image: none;
-    border-radius: 0 0 22px 22px;
-//    border-right: 1px solid #FFFFFF;
+    border-radius:0 0 22px 22px;
+/*    border-right: 1px solid #FFFFFF;*/
     border-style: none solid solid;
     border-width: medium 1px 1px;
     padding: 16px;
@@ -37,6 +37,15 @@
     color: #000000;
     font-size: 16px;
     text-decoration: none;
+}
+#cart{
+    background:none repeat scroll 0 0 #1A1B1D;
+    border-radius:0px 0px 26px 26px;
+    padding:5px;
+    position:absolute;
+    right:100px;
+    top:0px;
+    z-index:100;
 }
 #auth {
     background: none repeat scroll 0 0 #1A1B1D;
@@ -60,12 +69,14 @@
 #accordion_menu{
     border: 4px solid fuchsia;
 }
+
 .left_menu {
-//    border: 1px solid #CCCCCC;
+/*    border: 1px solid #CCCCCC;*/
     border-radius:10px 10px 10px 10px;
     margin-bottom:18px;
     padding:10px;
 }
+
 #main {
     margin-bottom:15px;
     position:relative;
