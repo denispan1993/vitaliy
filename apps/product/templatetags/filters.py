@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 #from libxml2mod import name
-
 __author__ = 'user'
 
 from django_jinja.base import Library
@@ -13,6 +12,13 @@ register = Library()
 def formatted_float(value, ):
     return str(value).replace(',','.')
 
+@register.filter(name='truncatechar', )
+# truncate after a certain number of characters
+def truncatechar(value, arg, ):
+    if len(str(value, ), ) < arg:
+        return value
+    else:
+        return value[:arg]
 
 #register.filter('formatted_float', formatted_float)
 

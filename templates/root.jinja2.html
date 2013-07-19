@@ -54,11 +54,15 @@ try{
             <img width="60px" src="/media/img/shopping_cart.png">
         </a>
     </div>
-    <div id="showcart"><!--googleoff: all--><noindex><b>Позиций: </b>1
-    <br><b>На сумму: </b>129024 руб.<br><br>
-    <b><a href="/cart2">Перейти в корзину</a></b>
-    <br><br><b>
-    <a href="/mycarts">Все корзины (1)</a></b></noindex><!--googleon: all--></div>
+    <div id="showcart" style="background:none repeat scroll 0 0 #F1F1F1;border:1px solid #CECECE;border-radius:15px 0 0 15px;margin-left:70px;padding:10px;display:block;">{# googleoff: all #}
+        <noindex>
+            <b>Позиций:</b> {{ user_cart_.count_name_of_products }}<br>
+            <b>На сумму:</b> {{ user_cart_.summ_money_of_all_products_grn }} грн. {{ user_cart_.summ_money_of_all_products_kop }} коп.<br><br>
+            <b><a href="/корзина/">Перейти в корзину</a></b>
+        </noindex>{# googleon: all #}
+    </div>
+{#     <br><br><b>
+    <a href="/mycarts">Все корзины (1)</a></b> #}
 </div>
 <div id="header">
     <div id="static_menu-wrapper">

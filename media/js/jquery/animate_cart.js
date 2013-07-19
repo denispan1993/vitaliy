@@ -17,7 +17,7 @@ function animate_cart(obj){
     top_cart = Math.ceil($(obj).offset().top);
     $('<img src="'+src+'" id="temp_cart_animate" style="z-index:1000;position:absolute;top:'+top_cart+'px;left:'+left_cart+'px;">').prependTo('body');
     //$('#cart').addClass('opened');
-    $('#temp_cart_animate').animate({top: 220+$(window).scrollTop(), left: $('body').width()}, 2000,
+    $('#temp_cart_animate').animate({top:220+$(window).scrollTop(),left:$('body').width()}, 2000,
         function () {
             //$('#cart').removeClass('opened');
             $('#temp_cart_animate').remove();

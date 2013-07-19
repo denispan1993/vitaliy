@@ -19,16 +19,30 @@ class Cart(models.Model):
                                    object_id_field='object_id', )
 
     @property
+    def products(self, ):
+        return self.cart.all()
+
+    @property
     def count_name_of_products(self, ):
         return self.cart.count()
 
     @property
-    def sum_money_of_all_products(self, ):
-        all_products = self.cart
-        sum_money = 0
+    def summ_money_of_all_products(self, ):
+        all_products = self.cart.all()
+        summ_money = 0
         for product in all_products:
-            sum_money += product.sum_of_quantity
-        return sum_money
+            summ_money += product.summ_of_quantity
+        return summ_money
+
+    @property
+    def summ_money_of_all_products_grn(self, ):
+        summ = self.summ_money_of_all_products
+        return int(summ)
+
+    @property
+    def summ_money_of_all_products_kop(self, ):
+        summ = self.summ_money_of_all_products
+        return str(summ - int(summ, ), ).split('.', )[1]
 
     def __unicode__(self):
         return u'Корзина пользователя:%s, SessionID:%s' % (self.user, self.sessionid, )
@@ -69,7 +83,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     @property
-    def sum_of_quantity(self):
+    def summ_of_quantity(self):
         return self.quantity * self.price
 
     def update_quantity(self, quantity=1, ):

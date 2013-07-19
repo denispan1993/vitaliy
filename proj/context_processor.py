@@ -17,7 +17,31 @@ def context(request):
     except Category.DoesNotExist:
         categories_basement_ = None
 
+    from apps.cart.models import Cart
+    if request.user.is_authenticated() and request.user.is_active:
+        user_id_ = request.session.get('_auth_user_id', None, )
+        if user_id_:
+            from django.contrib.auth.models import User
+            user_object_ = User.objects.get(pk=user_id_, )
+            try:
+                user_cart = Cart.objects.get(user=user_object_, sessionid=None, )
+            except Cart.DoesNotExist:
+                user_cart = None
+    else:
+        sessionid_COOKIES = request.COOKIES.get('sessionid', None, )
+        try:
+            user_cart = Cart.objects.get(user=None, sessionid=sessionid_COOKIES, )
+        except Cart.DoesNotExist:
+            user_cart = None
+
+#                try:
+#                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_, order=None, account=None, package=None, ) #cartid=cartid,
+#                except:
+#                    sessionid_carts = None
+
+
     return dict(request=request,
                 categories_basement_=categories_basement_,
+                user_cart_=user_cart,
                 # ajax_resolution_=ajax_resolution_,
                 )

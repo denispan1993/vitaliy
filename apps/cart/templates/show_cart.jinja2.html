@@ -2,7 +2,7 @@
 {# {% load header_category %} #}
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
 {% block content_center -%}
-    {% if carts %}
+    {% if user_cart_ %}
         <form method="POST" action=".">
             <input type="hidden" name="POST_NAME" value="cart_detail_recalculating">
                 <table id="table_carts" cols="6" summary="Ваша корзина">
@@ -20,8 +20,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% set products=cart.cart %}
-                        {% for product in products %}
+                        {# {% set products=user_cart_.products %} #}
+                        {% for product in user_cart_.products %}
                             {% set real_product=product.product %}
                             <tr>
                                 <td>
@@ -75,7 +75,13 @@ function reselect_plus(IdString){
                     </tbody>
                 </table>
         </form>
+        <div>
+            <a href="/корзина/заказ/" title="Оформить заказ">Оформить заказ</a>
+            <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
+        </div>
     {% else %}
+        <p>Ваша корзина пуста<br>
+        <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
     {% endif %}
 
 {%- endblock %}

@@ -13,7 +13,13 @@
            title="{{ product.title }}"></a>
         <div class="product_block_bottom">
             <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
-            <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
+            <input class="add_to_cart button_buy"
+                   type="image"
+                   onclick="animate_cart(this);return false;"
+                   rel="{{ product.pk }}"
+                   href="javascript:void(0)"
+                   src="/media/img/add_cart.png"
+                   title="добавить в корзину">
         </div>
         {% set photo_main = True %}
     {% else %}
@@ -52,7 +58,13 @@
            title="{{ product.title }}"></a>
         <div class="product_block_bottom">
             <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
-            <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
+            <input class="add_to_cart button_buy"
+                   type="image"
+                   onclick="animate_cart(this);return false;"
+                   rel="{{ product.pk }}"
+                   href="javascript:void(0)"
+                   src="/media/img/add_cart.png"
+                   title="добавить в корзину">
         </div>
         {% set photo_main = True %}
     {% else %}
@@ -68,7 +80,6 @@
         {% set photo_main = True %}
         <div class="product_block_bottom">
             <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
-            <a class="add_to_cart button_buy" rel="{{ product.pk }}" href="javascript:void(0)">в корзину</a>
             <input class="add_to_cart button_buy"
                    type="image"
                    onclick="animate_cart(this);return false;"
