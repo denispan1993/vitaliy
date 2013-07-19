@@ -39,6 +39,16 @@
     text-decoration: none;
 }
 #cart{
+    float:right;
+    position:fixed;
+    top:220px;
+    width:300px;
+    overflow:hidden;
+    right:-240px;
+    z-index:999;
+    display:block;
+}
+/*#cart{
     background:none repeat scroll 0 0 #1A1B1D;
     border-radius:0px 0px 26px 26px;
     padding:5px;
@@ -46,6 +56,9 @@
     right:100px;
     top:0px;
     z-index:100;
+}*/
+#cart.opened {
+    right: 0;
 }
 #auth {
     background: none repeat scroll 0 0 #1A1B1D;
