@@ -46,6 +46,11 @@ def show_cart(request,
     return render_to_response(u'show_cart.jinja2.html', locals(), context_instance=RequestContext(request, ), )
 
 
+def show_order(request,
+              template_name=u'show_order.jinja2.html',
+              ):
+    return render_to_response(u'show_order.jinja2.html', locals(), context_instance=RequestContext(request, ), )
+
 #def show_product(request,
 #                 product_url,
 #                 id,
