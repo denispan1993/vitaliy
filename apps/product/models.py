@@ -141,6 +141,7 @@ class Manager_Product(models.Manager):
 
 
 class Product(models.Model):
+    # id = models.AutoField(primary_key=True, db_index=True, )
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы товар был пасивный, убираем галочку.')
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
@@ -461,8 +462,8 @@ class Photo(models.Model):
     sign = models.CharField(verbose_name=u'Подпись sign', max_length=128, blank=True, null=True,
                             help_text=u'Подпись фотографии которая буде написана под фотографией.')
     description = models.TextField(verbose_name=u'Описание фотографии',
-        null=True, blank=True, )
-
+                                   null=True,
+                                   blank=True, )
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )

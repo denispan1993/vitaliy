@@ -10,12 +10,17 @@ def context(request):
 #        all_categories_ = None
 
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
+    from apps.slide.models import Slide
+    try:
+        slides = Slide.objects.all().order_by('order', )
+    except Slide.DoesNotExist:
+        slides = None
 
     from apps.product.models import Category
     try:
-        categories_basement_ = Category.manager.basement()
+        categories_basement = Category.manager.basement()
     except Category.DoesNotExist:
-        categories_basement_ = None
+        categories_basement = None
 
     from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
@@ -39,9 +44,9 @@ def context(request):
 #                except:
 #                    sessionid_carts = None
 
-
     return dict(request=request,
-                categories_basement_=categories_basement_,
+                slides_=slides,
+                categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 # ajax_resolution_=ajax_resolution_,
                 )

@@ -258,6 +258,7 @@ INSTALLED_APPS = (
     'apps.root',
     'apps.product',
     'apps.cart',
+    'apps.slide',
 )
 
 # A sample logging configuration. The only tangible logging

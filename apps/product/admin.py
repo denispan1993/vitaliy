@@ -88,6 +88,7 @@ class ProductAdminForm(forms.ModelForm, ):
 
 
 class ProductAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'url', 'title', 'name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
                                                               'title', 'name', 'description', 'minimal_quantity',
