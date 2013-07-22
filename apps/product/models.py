@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
+
 class Manager_Category(models.Manager):
 
     def visible(self):
@@ -43,6 +44,7 @@ class Category(models.Model):
                                null=True,
                                blank=True, )
     order = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
+                                             # visibility=True,
                                              blank=True,
                                              null=True, )
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
