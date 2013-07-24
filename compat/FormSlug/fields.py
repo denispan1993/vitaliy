@@ -25,7 +25,7 @@ validate_slug = RegexValidator(slug_re, _("Enter a valid 'slug' consisting of le
                                'invalid', )
 
 
-#class FormSlugField(FormCharField, ):
+#class FormSlug(FormCharField, ):
 class FormSlugField(CharField, ):
     default_error_messages = {
         'invalid': _("Enter a valid 'slug' consisting of letters, numbers,"

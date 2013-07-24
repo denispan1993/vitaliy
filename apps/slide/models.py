@@ -18,8 +18,13 @@ class Slide(models.Model):
                                               u' ставим данное поле в False.')
     from django.contrib.contenttypes.models import ContentType
     # from apps.product.models import Product
-    content_type = models.ForeignKey(ContentType, related_name='related_Slide', blank=True, null=True, )
-    object_id = models.PositiveIntegerField(db_index=True, blank=True, null=True, )
+    content_type = models.ForeignKey(ContentType,
+                                     related_name='related_Slide',
+                                     blank=True,
+                                     null=True, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            blank=True,
+                                            null=True, )
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
 
@@ -64,14 +69,21 @@ class Slide(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )
 
+    from apps.slide import managers
+    manager = managers.Manager_Slide()
+
     @property
     def url(self, ):
-#        from apps.product.models import Category, Product
-#        if self.content_type == Category:
         return self.parent.get_absolute_url()
+
+    def __unicode__(self, ):
+        if self.is_active:
+            return u'Слайд: %s - %s Активный' % (self.title, self.text, )
+        else:
+            return u'Слайд: %s - %s Пасивный' % (self.title, self.text, )
 
     class Meta:
         db_table = 'Slide'
-        ordering = ['order']
+        ordering = ['order', ]
         verbose_name = u'Слайд'
         verbose_name_plural = u'Слайды'

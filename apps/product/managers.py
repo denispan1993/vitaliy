@@ -1,6 +1,6 @@
-#__author__ = 'user'
+__author__ = 'user'
 
-#from django.db import models
+from django.db import models
 
 #class Manager(models.Manager):
 #    pass
@@ -17,3 +17,21 @@
 
 #    def published(self):
 #        return self.filter(visibility=1, ).order_by('-created_at')
+
+
+class Manager_Category(models.Manager):
+
+    def visible(self):
+        return self.filter(visibility=True, )
+
+    def published(self):
+        return self.filter(visibility=True, ).order_by('-created_at')
+
+    def basement(self):
+        return self.filter(parent__isnull=True, )
+
+
+class Manager_Product(models.Manager):
+
+    def published(self):
+        return self.filter(visibility=True, ).order_by('-created_at')

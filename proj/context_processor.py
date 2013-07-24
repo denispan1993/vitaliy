@@ -12,7 +12,8 @@ def context(request):
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
     from apps.slide.models import Slide
     try:
-        slides = Slide.objects.all().order_by('order', )
+        slides = Slide.manager.visible()
+        # objects.all().order_by('order', )
     except Slide.DoesNotExist:
         slides = None
 
@@ -39,10 +40,11 @@ def context(request):
         except Cart.DoesNotExist:
             user_cart = None
 
-#                try:
-#                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_, order=None, account=None, package=None, ) #cartid=cartid,
-#                except:
-#                    sessionid_carts = None
+    #                try:
+    #                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_,
+    #  order=None, account=None, package=None, ) #cartid=cartid,
+    #                except:
+    #                    sessionid_carts = None
 
     return dict(request=request,
                 slides_=slides,

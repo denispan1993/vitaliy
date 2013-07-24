@@ -2,39 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-
-class Manager_Category(models.Manager):
-
-    def visible(self):
-        return self.filter(visibility=True, )
-
-    def published(self):
-        return self.filter(visibility=True, ).order_by('-created_at')
-
-    def basement(self):
-        return self.filter(parent__isnull=True, )
-
 # Create your models here.
-from compat.FormSlugField.fields import FormSlugField
-
-
-class ModelSlugField(models.CharField, ):
-    description = _("Slug (up to %(max_length)s)")
-
-    def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = kwargs.get('max_length', 50, )
-        # Set db_index=True unless it's been set manually.
-        if 'db_index' not in kwargs:
-            kwargs['db_index'] = True
-        super(ModelSlugField, self).__init__(*args, **kwargs)
-
-    def get_internal_type(self):
-        return "SlugField"
-
-    def formfield(self, **kwargs):
-        defaults = {'form_class': FormSlugField, }
-        defaults.update(kwargs)
-        return super(ModelSlugField, self).formfield(**defaults)
 
 
 class Category(models.Model):
@@ -55,7 +23,8 @@ class Category(models.Model):
                                                                  u' со страницы категории, то ставим в True.')
 #    from compat.ruslug.models import RuSlugField
 #    from apps.product.fields import ModelSlugField
-    url = ModelSlugField()
+    from compat.FormSlug import models as class_FormSlugField
+    url = class_FormSlugField.ModelSlugField()
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
     name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
@@ -88,7 +57,8 @@ class Category(models.Model):
 #    objects = Manager()
 
     objects = models.Manager()
-    manager = Manager_Category()
+    from apps.product import managers
+    manager = managers.Manager_Category()
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
@@ -132,12 +102,6 @@ class Category(models.Model):
         ordering = [u'-created_at']
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
-
-
-class Manager_Product(models.Manager):
-
-    def published(self):
-        return self.filter(visibility=True, ).order_by('-created_at')
 
 
 class Product(models.Model):
@@ -225,7 +189,8 @@ class Product(models.Model):
 #    pub_date = models.DateTimeField('date published')
 
     objects = models.Manager()
-    manager = Manager_Product()
+    from apps.product import managers
+    manager = managers.Manager_Product()
 
 #    @models.permalink
     def get_absolute_url(self, ):
@@ -370,64 +335,6 @@ class Discount(models.Model):
         verbose_name = u'Цена и скидка'
         verbose_name_plural = u'Цены и скидки'
 
-#==================================================================================================================================
-from django.db.models import ImageField
-from compat.ImageWithThumbs.fields import ImageWithThumbsFieldFile
-
-
-class ImageWithThumbsField(ImageField):
-    attr_class = ImageWithThumbsFieldFile
-    """
-    Usage example:
-    ==============
-    photo = ImageWithThumbsField(upload_to='images', sizes=((125,125),(300,200),)
-
-    To retrieve image URL, exactly the same way as with ImageField:
-        my_object.photo.url
-    To retrieve thumbnails URL's just add the size to it:
-        my_object.photo.url_125x125
-        my_object.photo.url_300x200
-
-    Note: The 'sizes' attribute is not required. If you don't provide it,
-    ImageWithThumbsField will act as a normal ImageField
-
-    How it works:
-    =============
-    For each size in the 'sizes' atribute of the field it generates a
-    thumbnail with that size and stores it following this format:
-
-    available_filename.[width]x[height].extension
-
-    Where 'available_filename' is the available filename returned by the storage
-    backend for saving the original file.
-
-    Following the usage example above: For storing a file called "photo.jpg" it saves:
-    photo.jpg          (original file)
-    photo.125x125.jpg  (first thumbnail)
-    photo.300x200.jpg  (second thumbnail)
-
-    With the default storage backend if photo.jpg already exists it will use these filenames:
-    photo_.jpg
-    photo_.125x125.jpg
-    photo_.300x200.jpg
-
-    Note: django-thumbs assumes that if filename "any_filename.jpg" is available
-    filenames with this format "any_filename.[widht]x[height].jpg" will be available, too.
-
-    To do:
-    ======
-    Add method to regenerate thubmnails
-
-    """
-    def __init__(self, verbose_name=None, name=None, width_field=None, height_field=None, sizes=None, **kwargs):
-        self.verbose_name = verbose_name
-        self.name = name
-        self.width_field = width_field
-        self.height_field = height_field
-        self.sizes = sizes
-        super(ImageField, self).__init__(**kwargs)
-#=======================================================================================================================
-
 
 class Photo(models.Model):
     from django.contrib.contenttypes.models import ContentType
@@ -446,11 +353,13 @@ class Photo(models.Model):
             self.object_id,
             filename)
 #    from compat.ImageWithThumbs.fields import ImageWithThumbsField
-    photo = ImageWithThumbsField(verbose_name=u'Фото',
-                                 upload_to=set_path_photo,
-                                 sizes=((90, 95), (205, 190), (210, 160), (345, 370), (700, 500), ),
-                                 blank=False,
-                                 null=False, )
+    from compat.ImageWithThumbs import models as class_ImageWithThumb
+    photo = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Фото',
+                                                      upload_to=set_path_photo,
+                                                      sizes=((90, 95), (205, 190), (210, 160), (345, 370),
+                                                             (700, 500), ),
+                                                      blank=False,
+                                                      null=False, )
     title = models.CharField(verbose_name=u'Заголовок фотографии',
                              max_length=256,
                              null=False,
