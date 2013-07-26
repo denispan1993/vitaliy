@@ -125,8 +125,11 @@ class Product(models.Model):
                                                 u' время, ставим данное поле в True.', )
     category = models.ManyToManyField(Category, related_name=u'products', verbose_name=_(u'Категории'), blank=False,
                                       null=False, )
-    # from compat.ruslug.models import RuSlugField
-    url = ModelSlugField(verbose_name=u'URL адрес продукта', max_length=255, null=True, blank=True, )
+    from compat.FormSlug import models as class_FormSlugField
+    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес продукта',
+                                             max_length=255,
+                                             null=True,
+                                             blank=True, )
     title = models.CharField(verbose_name=u'Заголовок продукта', max_length=255, null=False, blank=False, )
     name = models.CharField(verbose_name=u'Наименование продукта', max_length=255, null=True, blank=True, )
     # Описание продукта
@@ -403,6 +406,8 @@ class Photo(models.Model):
         verbose_name_plural = "Фотографии"
 
 # описываем правила
+from compat.FormSlug.models import ModelSlugField
+from compat.ImageWithThumbs.models import ImageWithThumbsField
 rules = [
     (
         (ModelSlugField, ), [],

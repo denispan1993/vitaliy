@@ -112,8 +112,8 @@ class ProductAdmin(admin.ModelAdmin, ):
     save_as = True
     save_on_top = True
 
-    class Media:
-        js = ('/media/js/admin/ruslug-urlify.js', )
+#    class Media:
+#        js = ('/media/js/admin/ruslug-urlify.js', )
 
 
 from apps.product.models import Unit_of_Measurement

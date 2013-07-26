@@ -189,5 +189,4 @@ def add_to_cart(request, product=None, product_pk=None, product_url=None, quanti
     finally:
         product_in_cart.update_price_per_piece()
 
-
     return None

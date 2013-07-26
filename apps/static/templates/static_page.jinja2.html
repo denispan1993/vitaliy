@@ -1,0 +1,29 @@
+{% extends 'root.jinja2.html' %}
+{% block title %}{{ current_category.title }}{% endblock %}
+{% block content_center -%}
+    {{ header_category2(current_category)|safe }}
+    <br>
+    {% set categories_in_current_category = current_category.children.all() %}
+    {% if categories_in_current_category %}
+        <p>Под категории в этой категории</p>
+        <div id="categories_block">
+            {% for category in categories_in_current_category %}
+                {{ block_category(category)|safe }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Подкатегории в этой категории отсутсвуют</p>
+    {% endif %}
+    <br>
+    {% set products_in_current_category = current_category.products.all() %}
+    {% if products_in_current_category %}
+        <div id="products_block">
+            <p>Продукты в этой категории</p>
+            {% for product in products_in_current_category %}
+                {{ block_product(product)|safe }}
+            {% endfor %}
+        </div>
+    {% else %}
+         <p>Продукты в этой категории отсутсвуют</p>
+    {% endif %}
+{%- endblock %}
