@@ -8,12 +8,17 @@ def show_static_page(request,
                      template_name=u'static_page.jinja2.html', ):
     from apps.static.models import Static
     try:
-        static_page = Static.objects.get(url=static_page_url, )
+        page = Static.objects.get(url=static_page_url, )
     except Static.DoesNotExist:
         from django.http import Http404
         raise Http404
-
+    import markdown
+    if page:
+        html_text = markdown.markdown(page.text, )
+    else:
+        html_text = None
     return render_to_response(template_name=template_name,
-                              {'static_page': static_page, },
+                              dictionary={'page': page,
+                                          'html_text': html_text, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )

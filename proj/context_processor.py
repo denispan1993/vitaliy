@@ -10,6 +10,13 @@ def context(request):
 #        all_categories_ = None
 
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
+    from apps.static.models import Static
+    try:
+        static_pages = Static.objects.all()\
+            #.values_list('order', 'url', 'title', ).order_by('order', )
+    except Slide.DoesNotExist:
+        static_pages = None
+
     from apps.slide.models import Slide
     try:
         slides = Slide.manager.visible()
@@ -47,6 +54,7 @@ def context(request):
     #                    sessionid_carts = None
 
     return dict(request=request,
+                static_pages_=static_pages,
                 slides_=slides,
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,

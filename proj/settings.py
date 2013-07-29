@@ -264,6 +264,7 @@ INSTALLED_APPS = (
     # https://github.com/stefanklug/django/tree/nested-inline-support-1.5.x
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django.contrib.markup',
     'south',
     'django_jinja',
     # Uncomment the next line to enable admin documentation:
