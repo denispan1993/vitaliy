@@ -21,7 +21,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-SERVER = os.path.isfile(path('server.key', ), )
+SERVER = os.path.isfile(path('keksik_com_ua.server.key', ), )
 
 if SERVER:
     DATABASES = {
