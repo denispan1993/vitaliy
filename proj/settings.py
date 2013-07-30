@@ -27,11 +27,11 @@ if SERVER:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'shop_mk_ua',            # Or path to database file if using sqlite3.
-            'USER': 'shop_mk_ua',          # Not used with sqlite3.
-            'PASSWORD': 'VTaCjL7vt69MQDfP',  # Not used with sqlite3.
+            'NAME': 'keksik_com_ua',       # Or path to database file if using sqlite3.
+            'USER': 'keksik_com_ua',       # Not used with sqlite3.
+            'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
             'HOST': '192.168.1.12',        # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+            'PORT': '3306',                # Set to empty string for default. Not used with sqlite3.
         }
     }
 else:
