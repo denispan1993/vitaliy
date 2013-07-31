@@ -5,7 +5,7 @@ from django.contrib import admin
 
 from apps.product.models import Photo
 from django.contrib.contenttypes import generic
-#from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
+from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
 
 class GenericStacked_Photo_InLine(generic.GenericStackedInline, ): # generic.GenericStackedInline, NestedStackedInline,
@@ -27,9 +27,7 @@ class CategoryAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = (u'url', )
-    prepopulated_fields = {u'url' : (u'title',), }
-
-#    prepopulated_fields = {'url' : ('title',), }
+    prepopulated_fields = {u'url': (u'title', ), }
 
     inlines = [
         GenericStacked_Photo_InLine,
@@ -101,7 +99,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     ]
 #    readonly_fields = u'url'
 #    form = patch_admin_form(ProductAdminForm, )
-    prepopulated_fields = {u'url': (u'title',), }
+    prepopulated_fields = {u'url': (u'title', ), }
     filter_horizontal = ('category', )
 
     inlines = [
@@ -112,8 +110,8 @@ class ProductAdmin(admin.ModelAdmin, ):
     save_as = True
     save_on_top = True
 
-#    class Media:
-#        js = ('/media/js/admin/ruslug-urlify.js', )
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
 
 
 from apps.product.models import Unit_of_Measurement
