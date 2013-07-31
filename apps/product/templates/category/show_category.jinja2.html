@@ -3,6 +3,8 @@
 {% block content_center -%}
     {{ header_category2(current_category)|safe }}
     <br>
+    {{ this_category(current_category)|safe }}
+    <br>
     {% set categories_in_current_category = current_category.children.all() %}
     {% if categories_in_current_category %}
         <p>Под категории в этой категории</p>

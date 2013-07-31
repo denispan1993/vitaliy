@@ -63,6 +63,18 @@ class Category(models.Model):
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
+    @property
+    def main_photo(self, ):
+        photos = self.photo.all()
+        if photos:
+            for photo in photos:
+                if photo.main:
+                    return photo
+            else:
+                return None
+        else:
+            return None
+
 #    @models.permalink
     def get_absolute_url(self, ):
 #        return ('show_category', (),
