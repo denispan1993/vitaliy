@@ -3,51 +3,55 @@
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
 {% block content_center -%}
     {% if user_cart_ %}
-        <form method="POST" action=".">
-            <input type="hidden" name="POST_NAME" value="cart_detail_recalculating">
-                <table id="table_carts" cols="6" summary="Ваша корзина">
-                    <caption>Ваша корзина</caption>
-                    <thead>
+        <form method="POST" action="/корзина/пересчитать/">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="POST_NAME" value="recalc_cart">
+            <table id="table_carts" cols="6" summary="Ваша корзина">
+                <caption>Ваша корзина</caption>
+                <thead>
+                    <tr>
+                        {# <th scope="col" class="center">Фото</td> #}
+                        <th scope="col">Наименование</th>
+                        {# <th scope="col">Цвет</th> #}
+                        {# <th scope="col">Размер</th> #}
+                        {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
+                        <th scope="col" style="width:68px;">Кол-во</th>
+                        <th scope="col">Сумма</th>
+                        <th scope="col">Удаление</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# {% set products=user_cart_.products %} #}
+                    {% for product in user_cart_.products %}
+                        {% set real_product=product.product %}
                         <tr>
-                            {# <th scope="col" class="center">Фото</td> #}
-                            <th scope="col">Наименование</th>
-                            {# <th scope="col">Цвет</th> #}
-                            {# <th scope="col">Размер</th> #}
-                            {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
-                            <th scope="col" style="width:68px;">Кол-во</th>
-                            <th scope="col">Сумма</th>
-                            <th scope="col">Удаление</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {# {% set products=user_cart_.products %} #}
-                        {% for product in user_cart_.products %}
-                            {% set real_product=product.product %}
-                            <tr>
-                                <td>
-                                    <a href="{{ real_product.get_absolute_url() }}">
-                                        {{ real_product.title }}
+                            <td>
+                                <input type="hidden"
+                                       name="product_in_request_{{ product.pk }}"
+                                       value="{{ product.pk }}"/>
+                                <a href="{{ real_product.get_absolute_url() }}">
+                                    {{ real_product.title }}
+                                </a>
+                            </td>
+                            <td style="padding:0px;">
+                                <li style="float:left;list-style-type:none;line-height:22px;">
+                                    <a href="javascript:void(0)">
+                                        <img src="/media/img/minus.gif"
+                                            onClick="javascript: reselect_minus('quantity_{{ product.pk }}')" />
                                     </a>
-                                </td>
-								<td style="padding:0px;">
-                                    <li style="float:left;list-style-type:none;line-height:22px;">
-                                        <a href="javascript:void(0)">
-                                            <img src="/media/img/minus.gif"
-                                                onClick="javascript: reselect_minus('{{ real_product.id }}_quantity')" />
-                                        </a>
-                                    </li>
-                                    <li style="float:left;list-style-type:none;line-height:22px;">
-                                        <input id="{{ real_product.id }}_quantity"
-                                               style="border:1px solid #CCCCCC; text-align:center; width:20px; padding:2px;"
-                                               name="{{ real_product.id }}_quantity" value="{{ product.quantity }}"
-                                               type="text" />
-                                    </li>
-                                    <li style="float:left;list-style-type:none;line-height:22px;">
-                                        <a href="javascript:void(0)">
-                                            <img src="/media/img/plus.gif"
-                                                onClick="javascript: reselect_plus('{{ real_product.id }}_quantity')" />
-                                        </a>
-                                    </li>
+                                </li>
+                                <li style="float:left;list-style-type:none;line-height:22px;">
+                                    <input id="quantity_{{ product.pk }}"
+                                           style="border:1px solid #CCCCCC; text-align:center; width:20px; padding:2px;"
+                                           name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
+                                           type="text" />
+                                </li>
+                                <li style="float:left;list-style-type:none;line-height:22px;">
+                                    <a href="javascript:void(0)">
+                                        <img src="/media/img/plus.gif"
+                                            onClick="javascript:reselect_plus('quantity_{{ product.pk }}')" />
+                                    </a>
+                                </li>
 <script type="text/javascript">
 function reselect_minus(IdString){
     //var IdString = cart_id + "_" + more_option_id + "_quantity"
@@ -67,13 +71,14 @@ function reselect_plus(IdString){
         document.getElementById(IdString).value++;}
     return false;}
 </script>
-								</td>
-    							<td><p>{{ product.sum_of_quantity }} грн.</p></td>
-								<td><input type="checkbox" name="{{ real_product.id }}_delete" value="del" /></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            </td>
+                            <td><p>{{ product.sum_of_quantity }} грн.</p></td>
+                            <td><input type="checkbox" name="delete_{{ product.pk }}"/></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" name="">
         </form>
         <div>
             <a href="/корзина/заказ/" title="Оформить заказ">Оформить заказ</a>
