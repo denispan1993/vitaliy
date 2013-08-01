@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -129,9 +129,6 @@ class Product(models.Model):
     is_bestseller = models.BooleanField(verbose_name=_(u'Магазин рекомендует'), default=False, blank=False, null=False,
                                         help_text=u'Данное поле сделано на будеющее, если вдруг когданибуть'
                                                   u' понадобится.')
-    is_availability = models.BooleanField(verbose_name=_(u'В наличии'), default=True, blank=False, null=False,
-                                          help_text=u'Если мы знаем, что продукт отсутсвует на складе, ставим данное'
-                                                    u' поле в False.', )
     is_featured = models.BooleanField(verbose_name=_(u'Ожидается'), default=False, blank=False, null=False,
                                       help_text=u'Если мы знаем, что продукт будет доступен на складе через некоторое'
                                                 u' время, ставим данное поле в True.', )
@@ -158,6 +155,30 @@ class Product(models.Model):
                                  null=True, )
     unit_of_measurement = models.ForeignKey('Unit_of_Measurement', verbose_name=u'Единицы измерения', null=False,
                                             blank=False, )
+#    Counties = (
+#        (1, _('Украина', ), ),
+#        (2, _('Россия', ), ),
+#        (3, _('Казахстан', ), ),
+#        (4, _('Белоруссия', ), ),
+#        (5, _('Молдова', ), ),
+#        (6, _('Приднестровье', ), ),
+#    )
+    Availability = (
+        (1, _(u'Есть в наличии', ), ),
+        (2, _(u'Ожидается', ), ),
+        (3, _(u'Под заказ', ), ),
+        (4, _(u'Недоступен', ), ),
+    )
+#    is_availability = models.BooleanField(verbose_name=_(u'Товар'),
+#                                                       choices=Availability,
+#                                                       default=True,
+#                                                       blank=False,
+#                                                       null=False, )
+    is_availability = models.PositiveSmallIntegerField(verbose_name=_(u'Товар'),
+                                                       choices=Availability,
+                                                       default=1,
+                                                       blank=False,
+                                                       null=False, )
     regular_price = models.DecimalField(verbose_name=u'Обычная цена', max_digits=8, decimal_places=2, default=0,
                                         blank=True, null=True, )
     price = models.DecimalField(verbose_name=u'Цена', max_digits=8, decimal_places=2, default=0, blank=False,

@@ -157,7 +157,7 @@ function checknumber(String){
                 {% endif %}
             </div>
             <div id="product_box_right">
-    			<h1 style="font-size:16px; height:auto; line-height:20px;">
+    			<h1 style="font-size:16px;height:auto;line-height:20px;">
                     <a href="{{ product.get_absolute_url() }}">
                         {{ product.title|capfirst }}
                     </a>
@@ -184,6 +184,8 @@ function checknumber(String){
                 <span id="current_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
                 &nbsp;грн.&nbsp;
                 </p>
+                {% set product_is_availability = product.is_availability %}
+                {% if product.is_availability == 1 %}
 <style>
 .quantity{
 //	margin:0;
@@ -197,47 +199,53 @@ function checknumber(String){
 	float:left;
 }
 </style>
-                <form method="POST" action=".">
-                    <ul class="quantity">
-                        <li>Количество:</li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <img src="/media/img/minus.gif"
-                                    onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
-                            </a>
-                        </li>
-                        <li>
-                            <input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity_ }}"
-                                onkeyup='setTimeout("calculate()", 1500);' type="text" />
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <img src="/media/img/plus.gif"
-                                    onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
-                            </a>
-                        </li>
-                            <span id="errorMsg" style="text-align:center;color:#FF0000"></span>
-                    </ul>
+                    <form method="POST" action=".">
+                        <ul class="quantity">
+                            <li>Количество:</li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <img src="/media/img/minus.gif"
+                                        onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
+                                </a>
+                            </li>
+                            <li>
+                                <input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity_ }}"
+                                    onkeyup='setTimeout("calculate()", 1500);' type="text" />
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <img src="/media/img/plus.gif"
+                                        onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
+                                </a>
+                            </li>
+                                <span id="errorMsg" style="text-align:center;color:#FF0000"></span>
+                        </ul>
+                        <br class="clearFloat" />
+
+                        <input type="hidden" name="product_pk" value="{{ product.pk }}" />
+                        <input type="hidden" name="product_url" value="{{ product.url }}" />
+                        <input type="hidden" name="action" value="addtocard" />
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                        <input type="submit" value="Добавить в корзину" />
+                    </form>
                     <br class="clearFloat" />
+                    <form method="POST" action=".">
+                        <input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
+                        <input type="hidden" name="product_pk" value="{{ product.pk }}" />
+                        <input type="hidden" name="product_url" value="{{ product.url }}" />
+                        <input type="hidden" name="action" value="makeanorder" />
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
-                    <input type="hidden" name="product_url" value="{{ product.url }}" />
-                    <input type="hidden" name="action" value="addtocard" />
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-                    <input type="submit" value="Добавить в корзину" />
-                </form>
-                <br class="clearFloat" />
-                <form method="POST" action=".">
-                    <input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
-                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
-                    <input type="hidden" name="product_url" value="{{ product.url }}" />
-                    <input type="hidden" name="action" value="makeanorder" />
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-                    <input type="submit" value="Купить" />
-                </form>
-
+                        <input type="submit" value="Купить" />
+                    </form>
+                {% elif product.is_availability == 2 %}
+                    <p>Товар: <strong>ожидается</strong></p>
+                {% elif product.is_availability == 3 %}
+                    <p>Товар: <strong>доступен под заказ</strong></p>
+                {% elif product.is_availability == 4 %}
+                    <p>Товар: <strong>недоступен</strong></p>
+                {% endif %}
             </div>
         </div>
     </div>

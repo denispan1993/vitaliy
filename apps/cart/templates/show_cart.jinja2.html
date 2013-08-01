@@ -4,8 +4,8 @@
 {% block content_center -%}
     {% if user_cart_ %}
         <form method="POST" action="/корзина/пересчитать/">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-            <input type="hidden" name="POST_NAME" value="recalc_cart">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+            <input type="hidden" name="POST_NAME" value="recalc_cart"/>
             <table id="table_carts" cols="6" summary="Ваша корзина">
                 <caption>Ваша корзина</caption>
                 <thead>
@@ -23,7 +23,7 @@
                 <tbody>
                     {# {% set products=user_cart_.products %} #}
                     {% for product in user_cart_.products %}
-                        {% set real_product=product.product %}
+                    {% set real_product=product.product %}
                         <tr>
                             <td>
                                 <input type="hidden"
@@ -37,51 +37,74 @@
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <a href="javascript:void(0)">
                                         <img src="/media/img/minus.gif"
-                                            onClick="javascript: reselect_minus('quantity_{{ product.pk }}')" />
+                                            onClick="javascript:reselect_minus('quantity1_{{ product.pk }}','quantity2_{{ product.pk }}')" />
                                     </a>
                                 </li>
                                 <li style="float:left;list-style-type:none;line-height:22px;">
-                                    <input id="quantity_{{ product.pk }}"
+                                    <input id="quantity1_{{ product.pk }}"
                                            style="border:1px solid #CCCCCC; text-align:center; width:20px; padding:2px;"
                                            name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
-                                           type="text" />
+                                           type="text"/>
                                 </li>
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <a href="javascript:void(0)">
                                         <img src="/media/img/plus.gif"
-                                            onClick="javascript:reselect_plus('quantity_{{ product.pk }}')" />
+                                            onClick="javascript:reselect_plus('quantity1_{{ product.pk }}','quantity2_{{ product.pk }}')" />
                                     </a>
                                 </li>
-<script type="text/javascript">
-function reselect_minus(IdString){
-    //var IdString = cart_id + "_" + more_option_id + "_quantity"
-    //alert(IdString)
-    //alert(document.getElementById(IdString).value)
-    var value = document.getElementById(IdString).value
-    if (value > 1 && value <= 999 ){
-        document.getElementById(IdString).value--;}
-    return false;}
-//function reselect_plus(cart_id, more_option_id) {
-function reselect_plus(IdString){
-    //var IdString = cart_id + "_" + more_option_id + "_quantity"
-    //alert(IdString)
-    //alert(document.getElementById(IdString).value)
-    var value = document.getElementById(IdString).value
-    if (value >= 1 && value < 999 ){
-        document.getElementById(IdString).value++;}
-    return false;}
-</script>
                             </td>
                             <td><p>{{ product.sum_of_quantity }} грн.</p></td>
-                            <td><input type="checkbox" name="delete_{{ product.pk }}"/></td>
+                            <td><input id="delete1_{{ product.pk }}"
+                                       name="delete_{{ product.pk }}"
+                                       {# checked="" #}
+                                       {# onchange="javascript:delete_on_off('delete1_{{ product.pk }}','delete2_{{ product.pk }}')" #}
+                                       type="checkbox"/>
+                            </td>
                         </tr>
                     {% endfor %}
+<script type="text/javascript">
+function reselect_minus(IdString1, IdString2){
+    var value = document.getElementById(IdString1).value
+    if (value > 1 && value <= 999 ){
+        document.getElementById(IdString1).value--;
+        document.getElementById(IdString2).value--;}
+    return false;}
+function reselect_plus(IdString1, IdString2){
+    var value = document.getElementById(IdString1).value
+    if (value >= 1 && value < 999 ){
+        document.getElementById(IdString1).value++;
+        document.getElementById(IdString2).value++;}
+    return false;}
+function delete_on_off(IdString1, IdString2){
+    var checked = document.getElementById(IdString1).checked
+    document.getElementById(IdString2).checked = checked;
+    return false;}
+</script>
                 </tbody>
             </table>
-            <input type="submit" name="">
+            <input style="float:left;list-style-type:none;line-height:22px;"
+                   type="submit"
+                   value="Пересчитать корзину"/>
         </form>
         <div>
-            <a href="/корзина/заказ/" title="Оформить заказ">Оформить заказ</a>
+            <form action="/корзина/заказ/">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+                <input type="hidden" name="POST_NAME" value="order_cart"/>
+                {% for product in user_cart_.products %}
+                    <input id="quantity2_{{ product.pk }}"
+                           name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
+                           type="hidden"/>
+                    <input id="delete2_{{ product.pk }}"
+                           name="delete_{{ product.pk }}"
+                           {# checked="" #}
+                           type="hidden"/>
+
+                    {# <a href="/корзина/заказ/" title="Оформить заказ">
+                    <img src="/media/img/button_oformit_zakaz.jpg"/>
+                    </a> #}
+                {% endfor %}
+                <input type="submit" value="Оформить заказ"/>
+            </form>
             <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
         </div>
     {% else %}

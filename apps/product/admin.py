@@ -91,7 +91,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
                                                               'title', 'name', 'description', 'minimal_quantity',
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
-                                                              'regular_price', 'price', ], }, ),
+                                                              'is_availability', 'regular_price', 'price', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),

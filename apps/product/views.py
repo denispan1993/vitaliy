@@ -106,6 +106,7 @@ def show_product(request, product_url, id,
             from django.http import Http404
             raise Http404
         else:
+            product_is_availability = product.is_availability
             categories_of_product = product.category.all()
             if current_category:
                 for cat in categories_of_product:

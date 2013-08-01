@@ -4,19 +4,16 @@
 {% block content_center -%}
     {% if user_cart_ %}
         <form method="POST" action=".">
-            <input type="hidden" name="POST_NAME" value="order">
-            <input type="text" name="text1" id="text1"/><label for="text1">Текстовое поле</label>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+            <input type="hidden" name="POST_NAME" value="order"/>
+            <input type="email" name="email1" id="email1"/><label for="email1">E-Mail</label>
+            <input type="text" name="text1" id="text1"/><label for="text1">ФИО</label>
             <input type="tel" name="tel1" id="tel1"/><label for="tel1">Телефон</label>
-            <input type="email">
-            <input type="submit" name="" src="">
+            <input type="tel" name="tel1" id="tel1"/><label for="tel1">Телефон</label>
+            <input type="submit" valeu="Отправить заказ">
         </form>
-        <div>
-            <a href="/корзина/заказ/" title="Оформить заказ">Оформить заказ</a>
-            <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
-        </div>
     {% else %}
         <p>Ваша корзина пуста<br>
         <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
     {% endif %}
-
 {%- endblock %}
