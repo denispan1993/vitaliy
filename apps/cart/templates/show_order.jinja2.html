@@ -10,6 +10,32 @@
             <input type="text" name="text1" id="text1"/><label for="text1">ФИО</label>
             <input type="tel" name="tel1" id="tel1"/><label for="tel1">Телефон</label>
             <input type="tel" name="tel1" id="tel1"/><label for="tel1">Телефон</label>
+            <select name="select_country"
+                    id="select_country"
+                    required=""
+                    style="float:left;width:240px;"
+                    onKeyDown="javascript:window.setTimeout('sel_country();', 0);"
+                    onChange="javascript:sel_country();">
+                {% if not select_country or select_country == '1000' %}
+                    <option value="1000"
+                            selected=""
+                            disabled="disabled">Страна
+                    </option>
+                {% endif %}
+                {% for country_select in country_list %}
+                    {% if select_country == country_select and select_country != 1000 %}
+                        <option value="{{ forloop.counter }}"
+                                selected="">
+                            <strong>{{ country_select.name_ru }}
+                            </strong>
+                        </option>
+                    {% else %}
+                        <option value="{{ forloop.counter }}">{{ country_select.name_ru }}
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
             <input type="submit" valeu="Отправить заказ">
         </form>
     {% else %}

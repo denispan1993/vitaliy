@@ -117,6 +117,20 @@ class ProductAdmin(admin.ModelAdmin, ):
 from apps.product.models import Unit_of_Measurement
 
 
+class CountryAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'name_ru', 'name_en', 'phone_code', 'url', ]
+    list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
+    fieldsets = [
+        (None,               {'classes': ['wide'], 'fields': ['name_ru', 'name_en', 'url', ], }),
+    ]
+    prepopulated_fields = {u'url': (u'name_ru', ), }
+
+    save_as = True
+    save_on_top = True
+
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
+
 admin.site.register(Category, CategoryAdmin, )
 admin.site.register(Product, ProductAdmin, )
 admin.site.register(Additional_Information, Additional_Information_Admin, )

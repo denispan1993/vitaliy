@@ -438,6 +438,39 @@ class Photo(models.Model):
         verbose_name = "Фотография"
         verbose_name_plural = "Фотографии"
 
+
+class Country(models.Model):
+    name_ru = models.CharField(verbose_name=u'Название страны Russian',
+                               max_length=64,
+                               blank=False,
+                               null=False, )
+    name_en = models.CharField(verbose_name=u'Название страны English',
+                               max_length=50,
+                               blank=False,
+                               null=False, )
+    phone_code = models.PositiveIntegerField(verbose_name=u'Телефонный код страны без +',
+                                             blank=True,
+                                             null=True, )
+
+    from compat.FormSlug import models as class_FormSlugField
+    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес страны',
+                                             max_length=255,
+                                             null=True,
+                                             blank=True, )
+    #Дата создания и дата обновления новости. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'[%d] - %s' % (self.id, self.name_ru, )
+
+    class Meta:
+        db_table = 'Country'
+        ordering = ['id']
+        verbose_name = u'Страна'
+        verbose_name_plural = u'Страны'
+
+
 # описываем правила
 from compat.FormSlug.models import ModelSlugField
 from compat.ImageWithThumbs.models import ImageWithThumbsField
