@@ -3,7 +3,8 @@
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
 {% block content_center -%}
     {% if user_cart_ %}
-        <form method="POST" action=".">
+
+        <form method="POST" action="." id="form_order" name="form_order">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
             <input type="hidden" name="POST_NAME" value="order"/>
             <input type="email" name="email1" id="email1"/><label for="email1">E-Mail</label>
@@ -24,18 +25,81 @@
                 {% endif %}
                 {% for country_select in country_list %}
                     {% if select_country == country_select and select_country != 1000 %}
-                        <option value="{{ forloop.counter }}"
+                        <option value="{{ country_select.pk }}"
                                 selected="">
                             <strong>{{ country_select.name_ru }}
                             </strong>
                         </option>
                     {% else %}
-                        <option value="{{ forloop.counter }}">{{ country_select.name_ru }}
+                        <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
                         </option>
                     {% endif %}
                 {% endfor %}
+<script type="text/javascript">
+function sel_country() {
+	var country_pk=document.forms["form_order"].select_country.selectedIndex;
+	var request_dict = {
+		country_pk: country_pk };
+	jQuery.post("/ajax/country/",
+		request_dict,
+		function(data, textStatus, jqXHR) {
+			if (data.country_code == 'False' && data.country_error != '') {
+				jQuery('#country_error').text(data.country_error);
+				jQuery('#country_error').show('slow');
+				jQuery('#country_phone_code').text();
+				jQuery('#mobile_phone_code').text('');
+				var options = '<option value="1000" selected="" disabled="disabled">Оператор мобильной связи</option>';
+				jQuery("#select_mobile_operator").html(options);
+				jQuery("#select_mobile_operator option:first").attr('selected', 'selected');
+				jQuery("#select_mobile_operator").attr('disabled', true);
+				var options = '<option value="1000" selected="" disabled="disabled">Код оператора мобильной связи</option>';
+				jQuery("#select_mobile_code").html(options);
+				jQuery("#select_mobile_code option:first").attr('selected', 'selected');
+				jQuery("#select_mobile_code").attr('disabled', true); };
+			if (data.country_code != 'False' && data.mobile_operators == 'False' && data.mobile_operator == 'False') {
+				jQuery('#country_error').text();
+				jQuery('#country_error').hide('');
+				jQuery('#country_phone_code').text(data.country_code);
+				jQuery('#mobile_phone_code').text();
+				var options = '<option value="1000" selected="" disabled="disabled">Оператор мобильной связи</option>';
+				jQuery("#select_mobile_operator").html(options);
+				jQuery("#select_mobile_operator option:first").attr('selected', 'selected');
+				jQuery("#select_mobile_operator").attr('disabled', false);
+				jQuery('#mobile_operator_error').text(data.mobile_operators_error); };
+				jQuery('#mobile_operator_error').show('slow');
+			if (data.country_code != 'False' && data.mobile_operators != 'False' && data.mobile_operator == 'False') {
+				jQuery('#country_error').text();
+				jQuery('#country_error').hide();
+				jQuery('#mobile_operator_error').text();
+				jQuery('#mobile_operator_error').hide();
+				jQuery('#country_phone_code').text(data.country_code);
+				jQuery('#mobile_phone_code').text('');
+				var options = '<option value="1000" selected="" disabled="disabled">Оператор мобильной связи</option>';
+				var mobile_operators = data.mobile_operators;
+				for (i = 0; i < mobile_operators.length; i++) {
+					options += '<option value="' + parseInt(mobile_operators[i][0]) + '">' + mobile_operators[i][1] + '</option>';
+				};
+				jQuery("#select_mobile_operator").html(options);
+				jQuery("#select_mobile_operator option:first").attr('selected', 'selected');
+				jQuery("#select_mobile_operator").attr('disabled', false);
+				var options = '<option value="1000" selected="" disabled="disabled">Код оператора мобильной связи</option>';
+				jQuery("#select_mobile_code").html(options);
+				jQuery("#select_mobile_code option:first").attr('selected', 'selected');
+				jQuery("#select_mobile_code").attr('disabled', true); };
+			if (data.country_code != 'False' && data.mobile_operators == 'False' && data.mobile_operator != 'False') {
+				jQuery('#country_error').text();
+				jQuery('#country_error').hide();
+				jQuery('#country_phone_code').text(data.country_code);
+				jQuery('#mobile_phone_code').text(''); };
+		},
+		"json");
+}
+//sel_country();
+</script>
             </select>
+            <div id="country_div">
 
+            </div>
             <input type="submit" valeu="Отправить заказ">
         </form>
     {% else %}

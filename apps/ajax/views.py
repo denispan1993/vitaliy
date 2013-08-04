@@ -1,3 +1,4 @@
+# coding=utf-8
 __author__ = 'user'
 
 
@@ -53,6 +54,30 @@ def cookie(request, ):
                 response = {'result': 'Please enable cookies and try again.', }
                 request.session[u'cookie'] = False
 #                request.session.delete_test_cookie()
+            from django.utils.simplejson import dumps
+            data = dumps(response, )
+            mimetype = 'application/javascript'
+            from django.http import HttpResponse
+            return HttpResponse(data, mimetype, )
+        elif request.method == 'GET':
+            return HttpResponse(status=400, )
+        else:
+            return HttpResponse(status=400, )
+    else:
+        return HttpResponse(status=400, )
+
+
+def sel_country(request, ):
+    if request.is_ajax():
+        if request.method == 'POST':
+            request_cookie = request.session.get(u'cookie', None, )
+            if request_cookie:
+                country_pk = request.POST.get(u'country_pk', None, )
+                if country_pk == 1:
+                    response = {'result': 'Ok',
+                                'sel_country': 1, }
+                else:
+                    pass
             from django.utils.simplejson import dumps
             data = dumps(response, )
             mimetype = 'application/javascript'
