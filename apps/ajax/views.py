@@ -73,12 +73,32 @@ def sel_country(request, ):
             request_cookie = request.session.get(u'cookie', None, )
             if request_cookie:
                 country_pk = request.POST.get(u'country_pk', None, )
-                if country_pk == 1:
+                if country_pk == '1':
+                    html = '<br />' \
+                           '<label for="settlement1">Город, населённый пункт</label>' \
+                           '<input type="text" name="settlement1" id="settlement1"/>' \
+                           '<br />' \
+                           '<label for="warehouse_number1">Номер склада "Новой почты"</label>' \
+                           '<input type="text" name="warehouse_number1" id="warehouse_number1"/>'
                     response = {'result': 'Ok',
-                                'sel_country': 1, }
+                                'sel_country': 1,
+                                'html': html, }
                 else:
-                    pass
-            from django.utils.simplejson import dumps
+                    html = '<br />' \
+                           '<label for="address1">Полный адрес</label>' \
+                           '<textarea cols="50" rows="5" name="address1" id="address1"></textarea>' \
+                           '<br />' \
+                           '<label for="postcode1">Почтовый индекс</label>' \
+                           '<input type="text" name="postcode1" id="postcode1"/>'
+                    response = {'result': 'Ok',
+                                'sel_country': 2,
+                                'html': html, }
+            try:
+                from django.utils.simplejson import dumps
+                # import simplejson as json
+            except ImportError:
+                from json import dumps
+                # import json
             data = dumps(response, )
             mimetype = 'application/javascript'
             from django.http import HttpResponse

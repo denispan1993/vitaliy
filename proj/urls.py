@@ -48,7 +48,7 @@ urlpatterns = patterns('',
         name='ajax_resolution', ),
     url(r'^ajax/cookie/$', cookie,
         name='ajax_cookie', ),
-    url(r'^ajax/sel_country/$', 'apps.ajax.views.sel_country',
+    url(r'^ajax/country/$', 'apps.ajax.views.sel_country',
         name='ajax_country', ),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -89,10 +89,14 @@ def recalc_cart(request, ):
 def show_order(request,
                template_name=u'show_order.jinja2.html',
                ):
-
+    from apps.product.models import Country
+    try:
+        country_list = Country.objects.all()
+    except Country.DoesNotExist:
+        country_list = None
     # return render_to_response(u'show_order.jinja2.html', locals(), context_instance=RequestContext(request, ), )
     return render_to_response(template_name=template_name,
-                              dictionary={
+                              dictionary={ 'country_list': country_list,
                                             # 'page': page,
                                             # 'html_text': html_text,
                                           },
