@@ -1,0 +1,14 @@
+{% extends 'root.jinja2.html' %}
+{% block title %}{{ page.meta_title }}{% endblock %}
+{% block description %}{{ page.meta_description }}{% endblock %}
+{% block keywords %}{{ page.meta_keywords }}{% endblock %}
+{% block content_center -%}
+<style>
+strong{
+    font:20px;
+}
+</style>
+<strong>{{ page.title }}</strong>
+<br>
+{{ html_text|safe }}
+{%- endblock %}

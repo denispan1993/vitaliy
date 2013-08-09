@@ -21,16 +21,30 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': path('db/shop_mk_ua.sqlite3', ),  # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+SERVER = os.path.isfile(path('keksik_com_ua.server.key', ), )
+
+if SERVER:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'keksik_com_ua',       # Or path to database file if using sqlite3.
+            'USER': 'keksik_com_ua',       # Not used with sqlite3.
+            'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
+            'HOST': '192.168.1.12',        # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '3306',                # Set to empty string for default. Not used with sqlite3.
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': path('db/shop_mk_ua.sqlite3', ),  # Or path to database file if using sqlite3.
+            'USER': '',                      # Not used with sqlite3.
+            'PASSWORD': '',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
 
 #from sys import platform
 #if platform == 'win32':
@@ -250,6 +264,7 @@ INSTALLED_APPS = (
     # https://github.com/stefanklug/django/tree/nested-inline-support-1.5.x
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django.contrib.markup',
     'south',
     'django_jinja',
     # Uncomment the next line to enable admin documentation:
@@ -258,6 +273,8 @@ INSTALLED_APPS = (
     'apps.root',
     'apps.product',
     'apps.cart',
+    'apps.slide',
+    'apps.static',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -345,8 +362,8 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.contrib.yandex.YaruBackend',
     'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiBackend',
     # 'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiAppBackend',
-    'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
-    'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    ####'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
+    ####'social_auth.backends.contrib.vkontakte.VKontakteBackend',
     # 'social_auth.backends.contrib.live.LiveBackend',
     # 'social_auth.backends.contrib.skyrock.SkyrockBackend',
     # 'social_auth.backends.contrib.yahoo.YahooOAuthBackend',

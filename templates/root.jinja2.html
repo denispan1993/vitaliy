@@ -68,10 +68,12 @@ try{
     <div id="static_menu-wrapper">
         <div id="static_menu">
             <ul>
-                <li>
-                    <a href="/">Главная</a>
-                </li>
-                <li>
+                {% for static_page in static_pages_ %}
+                    <li>
+                        <a href="{{ static_page.url }}">{{ static_page.title }}</a>
+                    </li>
+                {% endfor %}
+{#                 <li>
                     <a href="/">Статьи</a>
                 </li>
                 <li>
@@ -88,7 +90,7 @@ try{
                 </li>
                 <li>
                     <a href="/">Контакты</a>
-                </li>
+                </li> #}
             </ul>
         </div>
     </div>
@@ -102,42 +104,34 @@ try{
         </a>
     </div>
     {# <!-- Start WOWSlider.com BODY section --> #}
+    {% if slides_ %}
     <div id="wowslider-container1">
         <div class="ws_images">
             <ul>
-                <li>
-                    <a href="/1" target="_self">
-                        <img src="/media/img/wowslider/chrysanthemum.jpg"
-                             alt="АЛЬТ первого слайда"
-                             title="ТИТЛ первого слайда"
-                             id="wows1_0"/>
-                    </a>Первый слайд
-                </li>
-                <li>
-                    <a href="/2" target="_blank">
-                        <img src="/media/img/wowslider/desert.jpg"
-                             alt="АЛЬТ второго слайда"
-                             title="ТИТЛ второго слайда"
-                             id="wows1_1"/>
-                    </a>Второй слайд
-                </li>
-                <li><a href="/3" target="_parent">
-                       <img src="/media/img/wowslider/hydrangeas.jpg"
-                            alt="АЛЬТ третьего слайда"
-                            title="ТИТЛ третьего слайда"
-                            id="wows1_2"/>
-                    </a>Третий слайд
-                </li>
+                {% for slide in slides_ %}
+                    <li>
+                        <a href="{{ slide.url }}" target="_self">
+                            <img src="{{ slide.slide.url }}"
+                                 {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}
+                                 {% if slide.title %}title="{{ slide.title }}"{% endif %}
+                                 id="wows1_{{ slide.order }}"/>
+                        </a>{{ slide.text }}
+                    </li>
+                {% endfor %}
             </ul>
         </div>
         <div class="ws_bullets">
             <div>
-                <a href="#" title="Chrysanthemum"><img src="/media/img/wowslider/mini/chrysanthemum.jpg" alt="Chrysanthemum"/>1</a>
-                <a href="#" title="Desertkjnkjnkn"><img src="/media/img/wowslider/mini/desert.jpg" alt="Desertkjnkjnkn"/>2</a>
-                <a href="#" title="Hydrangeas iuhiuhih"><img src="/media/img/wowslider/mini/hydrangeas.jpg" alt="Hydrangeas iuhiuhih"/>3</a>
+                {% for slide in slides_ %}
+                    <a href="#" {% if slide.title %}title="{{ slide.title }}"{% endif %}>
+                        <img src="{{ slide.slide.url_240x96 }}"
+                             {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}/>
+                        {{ slide.order}}</a>
+                {% endfor %}
             </div>
         </div>
         <div class="ws_shadow"></div>
+    {% endif %}
     </div>
     <script type="text/javascript" src="/media/js/jquery/wowslider/wowslider.js"></script>
     <script type="text/javascript" src="/media/js/jquery/wowslider/script.js"></script>

@@ -106,6 +106,7 @@ def show_product(request, product_url, id,
             from django.http import Http404
             raise Http404
         else:
+            product_is_availability = product.is_availability
             categories_of_product = product.category.all()
             if current_category:
                 for cat in categories_of_product:
@@ -173,21 +174,20 @@ def add_to_cart(request, product=None, product_pk=None, product_url=None, quanti
 #        quantity = int(postdata.get('quantity', 1, ), )
     #get cart
     # Взятие корзины
-    product_cart = get_cart(request, )
+    product_cart, created = get_cart(request, )
     from apps.cart.models import Product
     try:
         """ Присутсвие конкретного продукта в корзине """
-        product_in_cart = product_cart[0].cart.get(product=product, )
+        product_in_cart = product_cart.cart.get(product=product, )
     #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
     except Product.DoesNotExist:
         """ Занесение продукта в корзину если его нету """
-        product_in_cart = Product.objects.create(cart=product_cart[0],
+        product_in_cart = Product.objects.create(cart=product_cart,
                                                  product=product,
                                                  quantity=quantity, )
     else:
-        product_in_cart.update_quantity(quantity, )  # quantity += exist_cart_option.quantity
+        product_in_cart.summ_quantity(quantity, )  # quantity += exist_cart_option.quantity
     finally:
         product_in_cart.update_price_per_piece()
 
-
-    return None
+    return product_cart, product_in_cart

@@ -5,7 +5,7 @@ from django.contrib import admin
 
 from apps.product.models import Photo
 from django.contrib.contenttypes import generic
-#from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
+from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
 
 class GenericStacked_Photo_InLine(generic.GenericStackedInline, ): # generic.GenericStackedInline, NestedStackedInline,
@@ -27,9 +27,7 @@ class CategoryAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
 #    readonly_fields = (u'url', )
-    prepopulated_fields = {u'url' : (u'title',), }
-
-#    prepopulated_fields = {'url' : ('title',), }
+    prepopulated_fields = {u'url': (u'title', ), }
 
     inlines = [
         GenericStacked_Photo_InLine,
@@ -88,11 +86,12 @@ class ProductAdminForm(forms.ModelForm, ):
 
 
 class ProductAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'url', 'title', 'name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
                                                               'title', 'name', 'description', 'minimal_quantity',
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
-                                                              'regular_price', 'price', ], }, ),
+                                                              'is_availability', 'regular_price', 'price', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),
@@ -100,7 +99,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     ]
 #    readonly_fields = u'url'
 #    form = patch_admin_form(ProductAdminForm, )
-    prepopulated_fields = {u'url': (u'title',), }
+    prepopulated_fields = {u'url': (u'title', ), }
     filter_horizontal = ('category', )
 
     inlines = [
@@ -117,6 +116,20 @@ class ProductAdmin(admin.ModelAdmin, ):
 
 from apps.product.models import Unit_of_Measurement
 
+
+class CountryAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'name_ru', 'name_en', 'phone_code', 'url', ]
+    list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
+    fieldsets = [
+        (None,               {'classes': ['wide'], 'fields': ['name_ru', 'name_en', 'url', ], }),
+    ]
+    prepopulated_fields = {u'url': (u'name_ru', ), }
+
+    save_as = True
+    save_on_top = True
+
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
 
 admin.site.register(Category, CategoryAdmin, )
 admin.site.register(Product, ProductAdmin, )

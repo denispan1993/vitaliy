@@ -1,3 +1,4 @@
+# coding=utf-8
 # Create your views here.
 #from django.conf import settings
 #from jinja2 import Environment, FileSystemLoader
@@ -43,8 +44,60 @@ def show_cart(request,
 #        except Product.DoesNotExist:
 #            current_products_ = None
 
-    return render_to_response(u'show_cart.jinja2.html', locals(), context_instance=RequestContext(request, ), )
+    return render_to_response(u'show_cart.jinja2.html',
+                              locals(),
+                              context_instance=RequestContext(request, ), )
 
+
+def recalc_cart(request, ):
+    from django.shortcuts import redirect
+    if request.method == 'POST':
+        POST_NAME = request.POST.get(u'POST_NAME', None, )
+        if POST_NAME == 'recalc_cart':
+            from apps.product.views import get_cart
+            """ Взять корзину """
+            product_cart, created = get_cart(request, )
+            from apps.cart.models import Product
+            try:
+                """ Выборка всех продуктов из корзины """
+                products_in_cart = product_cart.cart.all()
+            except Product.DoesNotExist:
+                """ Странно!!! В корзине нету продуктов!!! """
+                return redirect(to='show_cart', )
+            else:
+                for product_in_cart in products_in_cart:
+                    """ Нужно проверить, есть ли вообще такой продукт в корзине? """
+                    product_in_request = request.POST.get(u'product_in_request_%d' % product_in_cart.pk, None, )
+                    try:
+                        product_in_request = int(product_in_request, )
+                    except ValueError:
+                        continue
+                    if product_in_request == product_in_cart.pk:
+                        product_del = request.POST.get(u'delete_%d' % product_in_cart.pk, None, )
+                        if product_del:
+                            product_in_cart.product_delete
+                            continue
+                        product_quantity = request.POST.get(u'quantity_%d' % product_in_cart.pk, None, )
+                        if product_quantity != product_in_cart.quantity:
+                            product_in_cart.update_quantity(product_quantity, )
+                            continue
+                    else:
+                        continue
+    return redirect(to='show_cart', )
+
+
+def show_order(request,
+               template_name=u'show_order.jinja2.html',
+               ):
+
+    # return render_to_response(u'show_order.jinja2.html', locals(), context_instance=RequestContext(request, ), )
+    return render_to_response(template_name=template_name,
+                              dictionary={
+                                            # 'page': page,
+                                            # 'html_text': html_text,
+                                          },
+                              context_instance=RequestContext(request, ),
+                              content_type='text/html', )
 
 #def show_product(request,
 #                 product_url,
@@ -150,7 +203,7 @@ def add_to_cart(request):
     product_cart = get_cart(request, )
     try:
         exist_cart_option = product_cart.cart.get(color=Color_object, size=Size_object, )
-        exist_cart_option.update_quantity(quantity) # quantity += exist_cart_option.quantity
+        exist_cart_option.summ_quantity(quantity) # quantity += exist_cart_option.quantity
         exist_cart_option.update_price_per_piece()
     #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
     except More_Options_Carts.DoesNotExist:

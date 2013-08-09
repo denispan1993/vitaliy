@@ -10,12 +10,25 @@ def context(request):
 #        all_categories_ = None
 
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
+    from apps.static.models import Static
+    try:
+        static_pages = Static.objects.all()\
+            #.values_list('order', 'url', 'title', ).order_by('order', )
+    except Slide.DoesNotExist:
+        static_pages = None
+
+    from apps.slide.models import Slide
+    try:
+        slides = Slide.manager.visible()
+        # objects.all().order_by('order', )
+    except Slide.DoesNotExist:
+        slides = None
 
     from apps.product.models import Category
     try:
-        categories_basement_ = Category.manager.basement()
+        categories_basement = Category.manager.basement()
     except Category.DoesNotExist:
-        categories_basement_ = None
+        categories_basement = None
 
     from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
@@ -34,14 +47,16 @@ def context(request):
         except Cart.DoesNotExist:
             user_cart = None
 
-#                try:
-#                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_, order=None, account=None, package=None, ) #cartid=cartid,
-#                except:
-#                    sessionid_carts = None
-
+    #                try:
+    #                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_,
+    #  order=None, account=None, package=None, ) #cartid=cartid,
+    #                except:
+    #                    sessionid_carts = None
 
     return dict(request=request,
-                categories_basement_=categories_basement_,
+                static_pages_=static_pages,
+                slides_=slides,
+                categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 # ajax_resolution_=ajax_resolution_,
                 )

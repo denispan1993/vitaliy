@@ -37,12 +37,17 @@ class Cart(models.Model):
     @property
     def summ_money_of_all_products_grn(self, ):
         summ = self.summ_money_of_all_products
-        return int(summ)
+        return int(summ, )
 
     @property
     def summ_money_of_all_products_kop(self, ):
         summ = self.summ_money_of_all_products
-        return str(summ - int(summ, ), ).split('.', )[1]
+        summ_int = int(summ, )
+        summ_float = summ - summ_int
+        if summ_float > 0:
+            return str('%.2f' % summ_float, ).split('.', )[1]
+        else:
+            return '00'
 
     def __unicode__(self):
         return u'Корзина пользователя:%s, SessionID:%s' % (self.user, self.sessionid, )
@@ -86,7 +91,7 @@ class Product(models.Model):
     def summ_of_quantity(self):
         return self.quantity * self.price
 
-    def update_quantity(self, quantity=1, ):
+    def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,
          производит сложение прошлого добавления товара с нынешним. """
         value = self.quantity + int(quantity)
@@ -97,10 +102,42 @@ class Product(models.Model):
         self.quantity = value
         self.save()
 
+    def update_quantity(self, quantity=1, ):
+        """ Вызывается если дополнительные свойства карточьки продукта уже есть,
+         производит ИЗМЕНЕНИЕ КОЛИЧЕСТВА ТОВАРА. """
+        quantity = int(quantity)
+        if quantity > 999:
+            quantity = 999
+        elif quantity < 1:
+            quantity = 1
+        self.quantity = quantity
+        self.save()
+
     def update_price_per_piece(self, ):
         """ Здесь будет расчёт цены со скидкой в зависимости от количества. """
         self.price = self.product.price
         self.save()
+
+    @property
+    def product_delete(self, ):
+        """ Для начала получим саму корзину """
+        product_cart = self.cart
+        """ Теперь нужно выяснить, "проверить", есть ли этот продукт в этой корзине ? """
+        try:
+            product_cart.cart.get(pk=self.pk, )
+        except Product.DoesNotExist:
+            """ Если нет, то возвращаем False """
+            return False
+        else:
+            if product_cart.count_name_of_products > 1:
+                """ Если продуктов в корзине много, то всё очень просто """
+                self.delete()
+                return product_cart
+            else:
+                """ Мы должны удалить продукт в корзине и саму корзину. """
+                self.delete()
+                product_cart.delete()
+                return True
 
     def __unicode__(self):
         return u'Продукт в корзине:%s, количество:%d, цена:%d' % (self.product, self.quantity, self.price, )

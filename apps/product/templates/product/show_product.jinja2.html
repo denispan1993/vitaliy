@@ -105,12 +105,29 @@ function checknumber(String){
         </div>
         <div id="product_box_top">
             {% set photos = product.photo.all() %}
+            <script type="text/javascript" src="/media/js/jquery/cloudzoom/cloudzoom.js"></script>
+            <!-- Call quick start function. -->
+            <script type="text/javascript">
+                CloudZoom.quickStart();
+            </script>
             <div id="product_box_left">
                 <div id="product_box_left_top">
                     {% if photos %}
                         {% set photo_main = False %}
                         {% for photo in photos if photo.main and not photo_main %}
-                            <a href='{{ photo.photo.url }}'
+                             <div style="text-align:center">
+                                 <div class="image-wrap">
+                                     <img class="cloudzoom" id="zoom1"
+                                          src="{{ photo.photo.url_345x370 }}"{# small image #}
+                                          data-cloudzoom="
+                                          zoomImage: '{{ photo.photo.url }}',{# large image #}
+                                          zoomPosition: 12,
+                                          zoomSizeMode: 'image',
+                                          zoomOffsetX: -15, maxMagnification:4" alt="Cloud Zoom small image">
+
+                                 </div>
+                             </div>
+{#                             <a href='{{ photo.photo.url }}'
                                class = 'cloud-zoom'
                                id='zoom1'
                                rel="adjustX: 10, adjustY:-4">
@@ -118,8 +135,8 @@ function checknumber(String){
                                      alt=''
                                      title="{{ photo.photo_sign }}"
                                      id="img_productMainImg" />
-                            </a>
-                            {% set photo_main = True %}
+                            </a> #}
+                            {% set photo_main = photo %}
                         {% endfor %}
                     {% else %}
                         <a title="{{ product.item_description }}"
@@ -132,32 +149,124 @@ function checknumber(String){
                     {% endif %}
                 </div>
                 {% if photos %}
-                <div id="product_box_left_bottom">
-                    <ul>
-                        {% for photo in photos %}<!-- [1:] -->
-                            <li class="li_productMiniImg">
-                                <a href='{{ photo.photo.url }}'
-                                   class='cloud-zoom-gallery'
-                                   title='{{ photo.photo_sign }}'
-                                   rel="useZoom: 'zoom1', smallImage: '{{ photo.photo.url_345x370 }}' ">
-                                    <img src="{{ photo.photo.url_90x95 }}"
-                                         alt="{{ photo.photo_sign }}" />
-                                </a>
-    <!--							{1% if forloop.first %}
+                    <script type="text/javascript">
+                    // Initialize the sliders.
+                    $(function(){
+                        $('#slider1').Thumbelina({
+                            $bwdBut:$('#slider1 .left'),
+                            $fwdBut:$('#slider1 .right')
+                        });
+                    })
+                    </script>
+                    <script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
+                    <div id="slider1"
+                         style="
+                            border-bottom:1px solid #AAAAAA;
+                            border-top:1px solid #AAAAAA;
+                            height:90px;
+                            margin-left:20px;
+                            margin-right:20px;
+                            position:relative;
+                            width:auto;">
+                        <style>
+                            .thumbelina-but.horiz.left {
+                                border-radius: 5px 0 0 5px;
+                                left: -22px;
+                            }
+                            .thumbelina-but.horiz {
+                                height: 90px;
+                                line-height: 98px;
+                                top: -1px;
+                                width: 20px;
+                            }
+                            .thumbelina-but {
+                                background-color: #CCCCCC;
+                                border: 1px solid #AAAAAA;
+                                box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+                                color: #888888;
+                                cursor: pointer;
+                                font-family: monospace;
+                                font-size: 14px;
+                                font-weight: bold;
+                                position: absolute;
+                                text-align: center;
+                                vertical-align: middle;
+                                z-index: 1;
+                            }
+                            .thumbelina-but.disabled, .thumbelina-but.disabled:hover {
+                                background-color: #EFEFEF;
+                                box-shadow: none;
+                                color: #CCCCCC;
+                                cursor: default;
+                            }
+                        </style>
+                        <div class="thumbelina-but horiz left">˂</div>
+                            <div style="position:absolute;overflow:hidden;width:100%;height:100%;">
+                                <style>
+                                    .thumbelina {
+                                        font-size:0;
+                                        list-style:none outside none;
+                                        margin:0;
+                                        padding:0;
+                                        position:absolute;
+                                        white-space:nowrap;
+                                    }
+                                </style>
+                                <ul class="thumbelina" style="left: -180px;">
+                                    <style>
+                                        .thumbelina li img {
+                                            border:1px solid #CCCCCC;
+                                        }
+                                        .thumbelina li img:hover {
+                                            border:1px solid #AAAAAA;
+                                        }
+                                    </style>
+                                    {% for photo in photos %}
+                                        <li style="display:inline-block;">
+                                            <img class="cloudzoom-gallery cloudzoom-gallery-active"
+                                                 src="{{ photo.photo.url_90x95 }}" {# icon image #}
+                                                 title='{{ photo.photo_sign }}'
+                                                 data-cloudzoom="useZoom:'#zoom1',
+                                                  image:'{{ photo.photo.url_345x370 }}',{# small image #}
+                                                  zoomImage:'{{ photo.photo.url }}'">{# large image #}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        <style>
+                            .thumbelina-but.horiz.right {
+                                border-radius:0 5px 5px 0;
+                                right:-22px;
+                            }
+                        </style>
+                        <div class="thumbelina-but horiz right">˃</div>
+                    </div>
+                    {# <div id="product_box_left_bottom">
+                        <ul>
+                            {% for photo in photos %}<!-- [1:] -->
+                                <li class="li_productMiniImg">
+                                    <a href='{{ photo.photo.url }}'
+                                       class='cloud-zoom-gallery{% if photo == photo_main %} active{% endif %}'
+                                       title='{{ photo.photo_sign }}'
+                                       rel="useZoom: 'zoom1', smallImage: '{{ photo.photo.url_345x370 }}' ">
+                                        <img src="{{ photo.photo.url_90x95 }}"
+                                             alt="{{ photo.photo_sign }}" />
+                                    </a>
+                                </li>
+<!--   							{1% if forloop.first %}
                                     <a class="zoomThumbActive" href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
                                 {1% else %}
                                     <a href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
                                 {1% endif %}
                                     <img src="{1{ photo.photo.url_90x95 }}" alt="{1{ photo.photo_sign }}" />
                                 </a>-->
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                            {% endfor %}
+                        </ul>
+                    </div> #}
                 {% endif %}
             </div>
             <div id="product_box_right">
-    			<h1 style="font-size:16px; height:auto; line-height:20px;">
+    			<h1 style="font-size:16px;height:auto;line-height:20px;">
                     <a href="{{ product.get_absolute_url() }}">
                         {{ product.title|capfirst }}
                     </a>
@@ -184,6 +293,8 @@ function checknumber(String){
                 <span id="current_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
                 &nbsp;грн.&nbsp;
                 </p>
+                {% set product_is_availability = product.is_availability %}
+                {% if product.is_availability == 1 %}
 <style>
 .quantity{
 //	margin:0;
@@ -197,47 +308,53 @@ function checknumber(String){
 	float:left;
 }
 </style>
-                <form method="POST" action=".">
-                    <ul class="quantity">
-                        <li>Количество:</li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <img src="/media/img/minus.gif"
-                                    onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
-                            </a>
-                        </li>
-                        <li>
-                            <input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity_ }}"
-                                onkeyup='setTimeout("calculate()", 1500);' type="text" />
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <img src="/media/img/plus.gif"
-                                    onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
-                            </a>
-                        </li>
-                            <span id="errorMsg" style="text-align:center;color:#FF0000"></span>
-                    </ul>
+                    <form method="POST" action=".">
+                        <ul class="quantity">
+                            <li>Количество:</li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <img src="/media/img/minus.gif"
+                                        onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
+                                </a>
+                            </li>
+                            <li>
+                                <input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity_ }}"
+                                    onkeyup='setTimeout("calculate()", 1500);' type="text" />
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <img src="/media/img/plus.gif"
+                                        onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
+                                </a>
+                            </li>
+                                <span id="errorMsg" style="text-align:center;color:#FF0000"></span>
+                        </ul>
+                        <br class="clearFloat" />
+
+                        <input type="hidden" name="product_pk" value="{{ product.pk }}" />
+                        <input type="hidden" name="product_url" value="{{ product.url }}" />
+                        <input type="hidden" name="action" value="addtocard" />
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                        <input type="submit" value="Добавить в корзину" />
+                    </form>
                     <br class="clearFloat" />
+                    <form method="POST" action=".">
+                        <input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
+                        <input type="hidden" name="product_pk" value="{{ product.pk }}" />
+                        <input type="hidden" name="product_url" value="{{ product.url }}" />
+                        <input type="hidden" name="action" value="makeanorder" />
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
-                    <input type="hidden" name="product_url" value="{{ product.url }}" />
-                    <input type="hidden" name="action" value="addtocard" />
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-                    <input type="submit" value="Добавить в корзину" />
-                </form>
-                <br class="clearFloat" />
-                <form method="POST" action=".">
-                    <input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
-                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
-                    <input type="hidden" name="product_url" value="{{ product.url }}" />
-                    <input type="hidden" name="action" value="makeanorder" />
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-                    <input type="submit" value="Купить" />
-                </form>
-
+                        <input type="submit" value="Купить" />
+                    </form>
+                {% elif product.is_availability == 2 %}
+                    <p>Товар: <strong>ожидается</strong></p>
+                {% elif product.is_availability == 3 %}
+                    <p>Товар: <strong>доступен под заказ</strong></p>
+                {% elif product.is_availability == 4 %}
+                    <p>Товар: <strong>недоступен</strong></p>
+                {% endif %}
             </div>
         </div>
     </div>

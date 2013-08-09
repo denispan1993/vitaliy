@@ -25,6 +25,8 @@ urlpatterns = patterns('',
     url(ur'^корзина/$', 'apps.cart.views.show_cart',
         {'template_name': u'show_cart.jinja2.html', },
         name='show_cart', ),
+    url(ur'^корзина/пересчитать/$', 'apps.cart.views.recalc_cart',
+        name='recalc_cart', ),
     url(ur'^корзина/заказ/$', 'apps.cart.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
@@ -46,6 +48,8 @@ urlpatterns = patterns('',
         name='ajax_resolution', ),
     url(r'^ajax/cookie/$', cookie,
         name='ajax_cookie', ),
+    url(r'^ajax/sel_country/$', 'apps.ajax.views.sel_country',
+        name='ajax_country', ),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
@@ -99,6 +103,14 @@ urlpatterns += patterns('',
                         url(r'^messages/', include('userena.contrib.umessages.urls'),
                             ),
                         )
+#!!!===================== Статические страницы ======================================
+urlpatterns += patterns('apps.static.views',
+                        url(ur'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$', 'show_static_page',
+                        {'template_name': u'static_page.jinja2.html', },
+                        name='show_category', ),
+                        )
+
+
 #urlpatterns += patterns('',
 #    url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
 #        {'document_root': 'C:/Python27/Lib/site-packages/django/contrib/admin'}),

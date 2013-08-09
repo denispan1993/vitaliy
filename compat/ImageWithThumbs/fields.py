@@ -4,6 +4,7 @@ __author__ = 'Sergey'
 from django.db.models.fields.files import ImageFieldFile
 from compat.ImageWithThumbs.utils import generate_thumb
 
+
 class ImageWithThumbsFieldFile(ImageFieldFile):
     """
     See ImageWithThumbsField for usage example
