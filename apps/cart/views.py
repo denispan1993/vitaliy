@@ -89,16 +89,58 @@ def recalc_cart(request, ):
 def show_order(request,
                template_name=u'show_order.jinja2.html',
                ):
-    from apps.product.models import Country
-    try:
-        country_list = Country.objects.all()
-    except Country.DoesNotExist:
-        country_list = None
+    if request.method == 'POST':
+        POST_NAME = request.POST.get(u'POST_NAME', None, )
+        if POST_NAME == 'order':
+            email = request.POST.get(u'email', None, )
+            FIO = request.POST.get(u'FIO', None, )
+            phone = request.POST.get(u'phone', None, )
+            comment = request.POST.get(u'comment', None, )
+            country = request.POST.get(u'select_country', None, )
+            try:
+                country = int(country)
+            except ValueError:
+                from django.http import Http404
+                raise Http404
+            else:
+                from apps.product.models import Country
+                country = Country.objects.get(pk=country, )
+                from apps.cart.models import Order
+                if country.pk == 1:
+                    region = request.POST.get(u'region', None, )
+                    settlement = request.POST.get(u'settlement', None, )
+                    warehouse_number = request.POST.get(u'warehouse_number', None, )
+                    order, create = Order.objects.get_or_create(email=email,
+                                                                FIO=FIO,
+                                                                phone=phone,
+                                                                country=country,
+                                                                region=region,
+                                                                settlement=settlement,
+                                                                warehouse_number=warehouse_number,
+                                                                comment=comment, )
+                else:
+                    address = request.POST.get(u'address', None, )
+                    postcode = request.POST.get(u'postcode', None, )
+                    order, create = Order.objects.get_or_create(email=email,
+                                                                FIO=FIO,
+                                                                phone=phone,
+                                                                country=country,
+                                                                address=address,
+                                                                postcode=postcode,
+                                                                comment=comment, )
+            from django.shortcuts import redirect
+            return redirect()
+    else:
+        from apps.product.models import Country
+        try:
+            country_list = Country.objects.all()
+        except Country.DoesNotExist:
+            country_list = None
     # return render_to_response(u'show_order.jinja2.html', locals(), context_instance=RequestContext(request, ), )
     return render_to_response(template_name=template_name,
-                              dictionary={ 'country_list': country_list,
-                                            # 'page': page,
-                                            # 'html_text': html_text,
+                              dictionary={'country_list': country_list,
+                                          # 'page': page,
+                                          # 'html_text': html_text,
                                           },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )

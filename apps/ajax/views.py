@@ -75,21 +75,24 @@ def sel_country(request, ):
                 country_pk = request.POST.get(u'country_pk', None, )
                 if country_pk == '1':
                     html = '<br />' \
-                           '<label for="settlement1">Город, населённый пункт</label>' \
-                           '<input type="text" name="settlement1" id="settlement1"/>' \
+                           '<label for="region">Область</label>' \
+                           '<input type="text" name="region" id="region"/>' \
                            '<br />' \
-                           '<label for="warehouse_number1">Номер склада "Новой почты"</label>' \
-                           '<input type="text" name="warehouse_number1" id="warehouse_number1"/>'
+                           '<label for="settlement">Город (населённый пункт)</label>' \
+                           '<input type="text" name="settlement" id="settlement"/>' \
+                           '<br />' \
+                           '<label for="warehouse_number">Номер склада "Новой почты"</label>' \
+                           '<input type="text" name="warehouse_number" id="warehouse_number"/>'
                     response = {'result': 'Ok',
                                 'sel_country': 1,
                                 'html': html, }
                 else:
                     html = '<br />' \
-                           '<label for="address1">Полный адрес</label>' \
-                           '<textarea cols="50" rows="5" name="address1" id="address1"></textarea>' \
+                           '<label for="address">Полный адрес</label>' \
+                           '<textarea cols="50" rows="5" name="address" id="address"></textarea>' \
                            '<br />' \
-                           '<label for="postcode1">Почтовый индекс</label>' \
-                           '<input type="text" name="postcode1" id="postcode1"/>'
+                           '<label for="postcode">Почтовый индекс</label>' \
+                           '<input type="text" name="postcode" id="postcode"/>'
                     response = {'result': 'Ok',
                                 'sel_country': 2,
                                 'html': html, }

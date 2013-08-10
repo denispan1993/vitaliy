@@ -59,6 +59,64 @@ class Cart(models.Model):
         verbose_name_plural = u'Корзины'
 
 
+class Order(models.Model):
+    from django.contrib.auth.models import User
+    user = models.ForeignKey(User,
+                             verbose_name=u'Пользователь',
+                             null=True,
+                             blank=True, )
+    sessionid = models.CharField(verbose_name=u'SessionID',
+                                 max_length=32,
+                                 null=True,
+                                 blank=True, )
+    # Данные покупателя
+    email = models.EmailField(verbose_name=u'E-Mail',
+                              null=True,
+                              blank=True, )
+    FIO = models.CharField(verbose_name=u'ФИО покупателя',
+                           max_length=64,
+                           null=True,
+                           blank=True, )
+    phone = models.CharField(verbose_name=u'Номер мобильного телефона',
+                             max_length=32,
+                             null=True,
+                             blank=True, )
+    from apps.product.models import Country
+    country = models.ForeignKey(Country,
+                                verbose_name=u'Страна', )
+    region = models.CharField(verbose_name=u'Область',
+                              max_length=64,
+                              null=True,
+                              blank=True, )
+    settlement = models.CharField(verbose_name=u'Наименование населённого пункта',
+                                  max_length=64,
+                                  null=True,
+                                  blank=True, )
+    warehouse_number = models.CharField(verbose_name=u'Номер склада "Новой почты"',
+                                        max_length=32,
+                                        null=True,
+                                        blank=True, )
+    address = models.TextField(verbose_name=u'Полный адресс',
+                               null=True,
+                               blank=True, )
+    postcode = models.CharField(verbose_name=u'Почтовый Индекс получателя',
+                                max_length=12,
+                                null=True,
+                                blank=True, )
+    comment = models.TextField(verbose_name=u'Комментарий к заказу',
+                               null=True,
+                               blank=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    # Вспомогательные поля
+    from django.contrib.contenttypes import generic
+    cart = generic.GenericRelation('Product',
+                                   content_type_field='content_type',
+                                   object_id_field='object_id', )
+
+
 class Product(models.Model):
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType,
