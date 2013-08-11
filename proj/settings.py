@@ -19,6 +19,14 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'site@keksik.com.ua'
+EMAIL_HOST_PASSWORD = '1q2w3e4r'
+
 MANAGERS = ADMINS
 
 SERVER = os.path.isfile(path('keksik_com_ua.server.key', ), )
@@ -492,13 +500,6 @@ USERENA_SIGNIN_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yourgmailaccount@gmail.com'
-EMAIL_HOST_PASSWORD = 'yourgmailpassword'
 #!!!=============== Django Userena uMessages =========================
 INSTALLED_APPS += (
     'userena.contrib.umessages',

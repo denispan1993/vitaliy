@@ -8,6 +8,7 @@ from apps.cart.models import Cart
 
 class CartAdmin(admin.ModelAdmin, ):
     pass
+admin.site.register(Cart, CartAdmin, )
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]
 #    fieldsets = [
@@ -32,11 +33,16 @@ class CartAdmin(admin.ModelAdmin, ):
 #    class Media:
 #        js = ('/media/js/admin/ruslug-urlify.js', )
 
+from apps.cart.models import Order
+
+
+class OrderAdmin(admin.ModelAdmin, ):
+    pass
+admin.site.register(Order, OrderAdmin, )
+
 from apps.cart.models import Product
 
 
 class ProductAdmin(admin.ModelAdmin, ):
     pass
-
-admin.site.register(Cart, CartAdmin, )
 admin.site.register(Product, ProductAdmin, )

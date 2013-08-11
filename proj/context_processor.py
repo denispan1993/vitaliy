@@ -12,7 +12,7 @@ def context(request):
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
     from apps.static.models import Static
     try:
-        static_pages = Static.objects.all()\
+        static_pages = Static.objects.all()
             #.values_list('order', 'url', 'title', ).order_by('order', )
     except Slide.DoesNotExist:
         static_pages = None
@@ -32,7 +32,7 @@ def context(request):
 
     from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
-        user_id_ = request.session.get('_auth_user_id', None, )
+        user_id_ = request.session.get(u'_auth_user_id', None, )
         if user_id_:
             from django.contrib.auth.models import User
             user_object_ = User.objects.get(pk=user_id_, )
@@ -41,7 +41,7 @@ def context(request):
             except Cart.DoesNotExist:
                 user_cart = None
     else:
-        sessionid_COOKIES = request.COOKIES.get('sessionid', None, )
+        sessionid_COOKIES = request.COOKIES.get(u'sessionid', None, )
         try:
             user_cart = Cart.objects.get(user=None, sessionid=sessionid_COOKIES, )
         except Cart.DoesNotExist:
