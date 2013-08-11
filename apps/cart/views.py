@@ -151,7 +151,11 @@ def show_order(request,
                 text_content = strip_tags(html_content, )
                 from_email = u'site@keksik.com.ua'
 #                to_email = u'mamager@keksik.com.ua'
-                to_email = u'alex.starov@keksik.com.ua'
+                from proj.settings import SERVER
+                if SERVER:
+                    to_email = u'manager@keksik.com.ua'
+                else:
+                    to_email = u'alex.starov@keksik.com.ua'
 
                 from django.core.mail import get_connection
                 backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
