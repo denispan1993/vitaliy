@@ -105,7 +105,7 @@ function checknumber(String){
         </div>
         <div id="product_box_top">
             {% set photos = product.photo.all() %}
-            <script type="text/javascript" src="/media/js/jquery/cloudzoom/cloudzoom.js"></script>
+            <script type="text/javascript" src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
             <!-- Call quick start function. -->
             <script type="text/javascript">
                 CloudZoom.quickStart();
@@ -117,14 +117,15 @@ function checknumber(String){
                         {% for photo in photos if photo.main and not photo_main %}
                              <div style="text-align:center">
                                  <div class="image-wrap">
-                                     <img class="cloudzoom" id="zoom1"
-                                          src="{{ photo.photo.url_345x370 }}"{# small image #}
-                                          data-cloudzoom="
-                                          zoomImage: '{{ photo.photo.url }}',{# large image #}
-                                          zoomPosition: 12,
-                                          zoomSizeMode: 'image',
-                                          zoomOffsetX: -15, maxMagnification:4" alt="Cloud Zoom small image">
-
+                                     <a href='{{ photo.photo.url }}'{# large image #}>
+                                         <img class="cloudzoom" id="zoom1"
+                                              src="{{ photo.photo.url_345x370 }}"{# small image #}
+                                              data-cloudzoom="{# zoomImage:'', #}{# large image #}
+                                              zoomPosition:4,
+                                              zoomSizeMode:'image',
+                                              zoomOffsetX:15,maxMagnification:4"
+                                              alt="Cloud Zoom small image">
+                                     </a>
                                  </div>
                              </div>
 {#                             <a href='{{ photo.photo.url }}'
