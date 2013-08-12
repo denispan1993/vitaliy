@@ -1,0 +1,49 @@
+
+{% if order.user %}<p>User: {{ order.user }}</p>{% endif %}
+{% if order.sessionid %}<p>SessionId: {{ order.sessionid }}</p>{% endif %}
+<p>ФИО: {{ order.FIO }}</p>
+<p>E-Mail: {{ order.email }}</p>
+<p>Номер мобильного телефона: {{ order.phone }}</p>
+<p>Страна: {{ order.country.name_ru }}</p>
+{% if order.country.pk == 1 %}
+<p>Область: {{ order.region }}</p>
+<p>Населённый пункт: {{ order.settlement }}</p>
+<p>Номер склада "Новая почта": {{ order.warehouse_number }}</p>
+{% else %}
+<p>Адресс: {{ order.address }}</p>
+<p>Почтовый индекс: {{ order.postcode }}</p>
+{% endif %}
+<p>Комментарий к заказу: {{ order.comment }}</p>
+
+<table id="table_carts" cols="6" summary="Корзина">
+    <caption>Корзина</caption>
+    <thead>
+        <tr>
+            <th scope="col">Наименование</th>
+            <th scope="col" style="width:68px;">Кол-во</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Сумма</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in order.products %}
+        {% set real_product=product.product %}
+        <tr>
+            <td>
+                <a href="{{ real_product.get_absolute_url() }}">
+                    {{ real_product.title }}
+                </a>
+            </td>
+            <td style="padding:0px;">
+                {{ product.quantity }} {{ real_product.unit_of_measurement }}
+            </td>
+            <td style="padding:0px;">
+                {{ product.price }}
+            </td>
+            <td>
+                <p>{{ product.summ_of_quantity }} грн.</p>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

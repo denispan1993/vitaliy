@@ -5,8 +5,14 @@ from django.db import models
 
 class Cart(models.Model):
     from django.contrib.auth.models import User
-    user = models.ForeignKey(User, verbose_name=u'Пользователь', null=True, blank=True, )
-    sessionid = models.CharField(verbose_name=u'SessionID', max_length=32, null=True, blank=True, )
+    user = models.ForeignKey(User,
+                             verbose_name=u'Пользователь',
+                             null=True,
+                             blank=True, )
+    sessionid = models.CharField(verbose_name=u'SessionID',
+                                 max_length=32,
+                                 null=True,
+                                 blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
@@ -59,6 +65,80 @@ class Cart(models.Model):
         verbose_name_plural = u'Корзины'
 
 
+class Order(models.Model):
+    from django.contrib.auth.models import User
+    user = models.ForeignKey(User,
+                             verbose_name=u'Пользователь',
+                             null=True,
+                             blank=True, )
+    sessionid = models.CharField(verbose_name=u'SessionID',
+                                 max_length=32,
+                                 null=True,
+                                 blank=True, )
+    # Данные покупателя
+    email = models.EmailField(verbose_name=u'E-Mail',
+                              null=True,
+                              blank=True, )
+    FIO = models.CharField(verbose_name=u'ФИО покупателя',
+                           max_length=64,
+                           null=True,
+                           blank=True, )
+    phone = models.CharField(verbose_name=u'Номер мобильного телефона',
+                             max_length=32,
+                             null=True,
+                             blank=True, )
+    from apps.product.models import Country
+    country = models.ForeignKey(Country,
+                                verbose_name=u'Страна', )
+    '''Если страна Украина '''
+    region = models.CharField(verbose_name=u'Область',
+                              max_length=64,
+                              null=True,
+                              blank=True, )
+    settlement = models.CharField(verbose_name=u'Наименование населённого пункта',
+                                  max_length=64,
+                                  null=True,
+                                  blank=True, )
+    warehouse_number = models.CharField(verbose_name=u'Номер склада "Новой почты"',
+                                        max_length=32,
+                                        null=True,
+                                        blank=True, )
+    ''' Если страна НЕ Украина '''
+    address = models.TextField(verbose_name=u'Полный адресс',
+                               null=True,
+                               blank=True, )
+    postcode = models.CharField(verbose_name=u'Почтовый Индекс получателя',
+                                max_length=12,
+                                null=True,
+                                blank=True, )
+    ''' Комментарий к заказу '''
+    comment = models.TextField(verbose_name=u'Комментарий к заказу',
+                               null=True,
+                               blank=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    # Вспомогательные поля
+    from django.contrib.contenttypes import generic
+    order = generic.GenericRelation('Product',
+                                    content_type_field='content_type',
+                                    object_id_field='object_id', )
+
+    @property
+    def products(self, ):
+        return self.order.all()
+
+    def __unicode__(self):
+        return u'Заказ пользователя:%s, SessionID:%s' % (self.user, self.sessionid, )
+
+    class Meta:
+        db_table = u'Order'
+        ordering = [u'-created_at']
+        verbose_name = u'Заказ'
+        verbose_name_plural = u'Заказы'
+
+
 class Product(models.Model):
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType,
@@ -68,7 +148,7 @@ class Product(models.Model):
                                      null=False, )
     object_id = models.PositiveIntegerField(db_index=True, )
     from django.contrib.contenttypes import generic
-    cart = generic.GenericForeignKey('content_type', 'object_id', )
+    key = generic.GenericForeignKey('content_type', 'object_id', )
 #    cart = models.ForeignKey(Cart,
 #                             related_name='cart',
 #                             verbose_name=u'Корзина',
@@ -88,7 +168,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     @property
-    def summ_of_quantity(self):
+    def summ_of_quantity(self, ):
         return self.quantity * self.price
 
     def summ_quantity(self, quantity=1, ):
@@ -121,7 +201,7 @@ class Product(models.Model):
     @property
     def product_delete(self, ):
         """ Для начала получим саму корзину """
-        product_cart = self.cart
+        product_cart = self.key
         """ Теперь нужно выяснить, "проверить", есть ли этот продукт в этой корзине ? """
         try:
             product_cart.cart.get(pk=self.pk, )

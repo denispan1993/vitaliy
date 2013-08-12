@@ -182,12 +182,15 @@ def add_to_cart(request, product=None, product_pk=None, product_url=None, quanti
     #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
     except Product.DoesNotExist:
         """ Занесение продукта в корзину если его нету """
-        product_in_cart = Product.objects.create(cart=product_cart,
+        product_in_cart = Product.objects.create(key=product_cart,
                                                  product=product,
+                                                 price=product.price,
                                                  quantity=quantity, )
+        # product_in_cart.update_price_per_piece()
     else:
         product_in_cart.summ_quantity(quantity, )  # quantity += exist_cart_option.quantity
-    finally:
         product_in_cart.update_price_per_piece()
+    # finally:
+        # product_in_cart.update_price_per_piece()
 
     return product_cart, product_in_cart

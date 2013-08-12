@@ -54,9 +54,9 @@ def recalc_cart(request, ):
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'recalc_cart':
-            from apps.product.views import get_cart
+            # from apps.product.views import get_cart
             """ Взять корзину """
-            product_cart, created = get_cart(request, )
+            product_cart, created = get_cart_or_create(request, )
             from apps.cart.models import Product
             try:
                 """ Выборка всех продуктов из корзины """
@@ -87,14 +87,124 @@ def recalc_cart(request, ):
 
 
 def show_order(request,
-               template_name=u'show_order.jinja2.html',
-               ):
+               template_name=u'show_order.jinja2.html', ):
+    if request.method == 'POST':
+        POST_NAME = request.POST.get(u'POST_NAME', None, )
+        if POST_NAME == 'order':
+            email = request.POST.get(u'email', None, )
+            FIO = request.POST.get(u'FIO', None, )
+            phone = request.POST.get(u'phone', None, )
+            comment = request.POST.get(u'comment', None, )
+            country = request.POST.get(u'select_country', None, )
+            try:
+                country = int(country)
+            except ValueError:
+                from django.http import Http404
+                raise Http404
+            else:
+                from apps.product.models import Country
+                country = Country.objects.get(pk=country, )
+                cart, create = get_cart_or_create(request, )
+                from apps.cart.models import Order
+                if country.pk == 1:
+                    region = request.POST.get(u'region', None, )
+                    settlement = request.POST.get(u'settlement', None, )
+                    warehouse_number = request.POST.get(u'warehouse_number', None, )
+                    order, create = Order.objects.get_or_create(user=cart.user,
+                                                                sessionid=cart.sessionid,
+                                                                email=email,
+                                                                FIO=FIO,
+                                                                phone=phone,
+                                                                country=country,
+                                                                region=region,
+                                                                settlement=settlement,
+                                                                warehouse_number=warehouse_number,
+                                                                comment=comment, )
+                else:
+                    address = request.POST.get(u'address', None, )
+                    postcode = request.POST.get(u'postcode', None, )
+                    order, create = Order.objects.get_or_create(user=cart.user,
+                                                                sessionid=cart.sessionid,
+                                                                email=email,
+                                                                FIO=FIO,
+                                                                phone=phone,
+                                                                country=country,
+                                                                address=address,
+                                                                postcode=postcode,
+                                                                comment=comment, )
+            from apps.cart.models import Product
+            try:
+                """ Выборка всех продуктов из корзины """
+                from django.contrib.contenttypes.models import ContentType
+                ContentType_Order = ContentType.objects.get_for_model(Order, )
+                cart.cart.all().update(content_type=ContentType_Order, object_id=order.pk, )
+            except Product.DoesNotExist:
+                """ Странно!!! В корзине нету продуктов!!! """
+                return redirect(to='show_cart', )
+            else:
+                cart.delete()
+                subject = u'Ваш заказ № %d.' % order.pk
+                from django.template.loader import render_to_string
+                html_content = render_to_string('email_order_content.jinja2.html',
+                                                {'order': order, })
+                from django.utils.html import strip_tags
+                text_content = strip_tags(html_content, )
+                from_email = u'site@keksik.com.ua'
+#                to_email = u'mamager@keksik.com.ua'
+                from proj.settings import SERVER
+                if SERVER:
+                    to_email = u'manager@keksik.com.ua'
+                else:
+                    to_email = u'alex.starov@keksik.com.ua'
 
+                from django.core.mail import get_connection
+                backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                         fail_silently=False, )
+                from django.core.mail import EmailMultiAlternatives
+                msg = EmailMultiAlternatives(subject=subject,
+                                             body=text_content,
+                                             from_email=from_email,
+                                             to=[to_email, ],
+                                             connection=backend, )
+                msg.attach_alternative(content=html_content,
+                                       mimetype="text/html", )
+                msg.send(fail_silently=False, )
+#                from django.core.mail import send_mail
+##                from proj.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_BACKEND
+#                send_mail(subject=subject,
+#                          message='Here is the message.',
+#                          from_email='site@keksik.com.ua',
+#                          recipient_list=['alex.starov@keksik.com.ua', ],
+#                          fail_silently=False,
+#                          connection=backend, )
+##                          auth_user=EMAIL_HOST_USER,
+##                          auth_password=EMAIL_HOST_PASSWORD,
+##                          connection=EMAIL_BACKEND, )
+                from django.shortcuts import redirect
+                return redirect(to=u'/корзина/заказ/принят/', )
+    else:
+        from apps.product.models import Country
+        try:
+            country_list = Country.objects.all()
+        except Country.DoesNotExist:
+            country_list = None
     # return render_to_response(u'show_order.jinja2.html', locals(), context_instance=RequestContext(request, ), )
     return render_to_response(template_name=template_name,
-                              dictionary={
-                                            # 'page': page,
-                                            # 'html_text': html_text,
+                              dictionary={'country_list': country_list,
+                                          # 'page': page,
+                                          # 'html_text': html_text,
+                                          },
+                              context_instance=RequestContext(request, ),
+                              content_type='text/html', )
+
+
+def show_order_success(request,
+                       template_name=u'show_order_success.jinja2.html',
+                       ):
+    return render_to_response(template_name=template_name,
+                              dictionary={# 'country_list': country_list,
+                                          # 'page': page,
+                                          # 'html_text': html_text,
                                           },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
@@ -166,7 +276,7 @@ def show_order(request,
 #                              locals(), context_instance=RequestContext(request, ), )
 
 
-def get_cart(request, ):
+def get_cart_or_create(request, ):
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
         from django.contrib.auth.models import User
@@ -200,7 +310,7 @@ def add_to_cart(request):
         # get quantity added, return 1 if empty
     quantity = int(postdata.get('quantity', 1, ), )
     #get cart
-    product_cart = get_cart(request, )
+    product_cart = get_cart_or_create(request, )
     try:
         exist_cart_option = product_cart.cart.get(color=Color_object, size=Size_object, )
         exist_cart_option.summ_quantity(quantity) # quantity += exist_cart_option.quantity

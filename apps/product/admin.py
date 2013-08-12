@@ -116,6 +116,8 @@ class ProductAdmin(admin.ModelAdmin, ):
 
 from apps.product.models import Unit_of_Measurement
 
+from apps.product.models import Country
+
 
 class CountryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name_ru', 'name_en', 'phone_code', 'url', ]
@@ -131,6 +133,7 @@ class CountryAdmin(admin.ModelAdmin, ):
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
 
+admin.site.register(Country, CountryAdmin, )
 admin.site.register(Category, CategoryAdmin, )
 admin.site.register(Product, ProductAdmin, )
 admin.site.register(Additional_Information, Additional_Information_Admin, )
