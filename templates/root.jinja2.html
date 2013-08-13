@@ -61,8 +61,6 @@ try{
             <b><a href="/корзина/">Перейти в корзину</a></b>
         </noindex>{# googleon: all #}
     </div>
-{#     <br><br><b>
-    <a href="/mycarts">Все корзины (1)</a></b> #}
 </div>
 <div id="header">
     <div id="static_menu-wrapper">
@@ -73,24 +71,6 @@ try{
                         <a href="{{ static_page.url }}">{{ static_page.title }}</a>
                     </li>
                 {% endfor %}
-{#                 <li>
-                    <a href="/">Статьи</a>
-                </li>
-                <li>
-                    <a href="/">Новинки</a>
-                </li>
-                <li>
-                    <a href="/">Оплата</a>
-                </li>
-                <li>
-                    <a href="/">Доставка</a>
-                </li>
-                <li>
-                    <a href="/">Скидки</a>
-                </li>
-                <li>
-                    <a href="/">Контакты</a>
-                </li> #}
             </ul>
         </div>
     </div>
@@ -103,8 +83,8 @@ try{
            alt="Кексик с глазами - интернет магазин kekesik.com.ua">
         </a>
     </div>
-    {# <!-- Start WOWSlider.com BODY section --> #}
     {% if slides_ %}
+    {# <!-- Start WOWSlider.com BODY section --> #}
     <div id="wowslider-container1">
         <div class="ws_images">
             <ul>
@@ -131,51 +111,42 @@ try{
             </div>
         </div>
         <div class="ws_shadow"></div>
-    {% endif %}
+        <script type="text/javascript" src="/media/js/jquery/wowslider/wowslider.js"></script>
+        <script type="text/javascript" src="/media/js/jquery/wowslider/script.js"></script>
     </div>
-    <script type="text/javascript" src="/media/js/jquery/wowslider/wowslider.js"></script>
-    <script type="text/javascript" src="/media/js/jquery/wowslider/script.js"></script>
     {# <!-- End WOWSlider.com BODY section --> #}
-</div>
-{# <p>Категории верхнего уровня:</p> #}
-{#     {% for cat in categories_ %} #}
-{#         <li></a><a href='{{ url(show_category, template_name='category/show_category.jinja2.html', category_url=cat.url, id=cat.pk, ) }}'>{{ cat.title }}</a></li> #}
-{#     {% if not cat.parent %}
-    <p style='display:inline;'>Категория первого уровня:</p>
-    <li><a href='{{ cat.get_absolute_url() }}'>{{ cat.title }}</a></li>
     {% endif %}
-{% else %}
-    Каталог пуст
-{% endfor %} #}
+</div>
 <div id="main">
-<div id="main_left">
-<div id="accordion_menu" class="left_menu">
-<p class="left_title">Категории</p>
-<ul id='accordion' class="menu basement">
-    {% for cat in categories_basement_ recursive %}
-        <li>
-            <a href="{{ cat.get_absolute_url() }}"
-               alt='{{ cat.name }}'
-               title="{{ cat.title }}">{{ cat.title }}</a>
-            {% set children = cat.children.all() %}
-            {% if children %}
-                <ul class="submenu sub_level">{{ loop(children) }}</ul>
-            {% endif %}</li>
-    {% endfor %}
-    <li>
-        <a href="/"
-           alt='Домой'
-           title="Корень сайта Shop">Корень Shop</a>
-    </li>
-</ul>
-</div>
-</div>
-<div id="main_center">
-{% block content_center %}
-{% endblock %}
-</div>
-<div id="main_right">
-
-</div>
-</div>
+    <div id="main_left">
+        <div id="accordion_menu" class="left_menu">
+            <p class="left_title">Категории</p>
+            <ul id='accordion' class="menu basement">
+                {% for cat in categories_basement_ recursive %}
+                    <li>
+                        <a href="{{ cat.get_absolute_url() }}"
+                           alt='{{ cat.name }}'
+                           title="{{ cat.title }}">{{ cat.title }}</a>
+                        {% set children = cat.children.all() %}
+                        {% if children %}
+                            <ul class="submenu sub_level">{{ loop(children) }}</ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                <li>
+                    <a href="/"
+                       alt='Домой'
+                       title="Корень сайта Shop">Корень Shop</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main_center">
+        {% block content_center %}
+        {% endblock %}
+    </div>
+    <div id="main_right">
+        111222333
+    </div>
+{# </div> #}
 {% endblock %}

@@ -92,7 +92,7 @@
 
 #main {
     margin-bottom:15px;
-    position:relative;
+    // position:relative;
     z-index:100;
 }
 #main_left {
