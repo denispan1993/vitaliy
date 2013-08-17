@@ -28,7 +28,7 @@ class Manager_Category(models.Manager):
         return self.filter(visibility=True, ).order_by('-created_at')
 
     def basement(self):
-        return self.filter(parent__isnull=True, )
+        return self.filter(visibility=True, parent__isnull=True, )
 
 
 class Manager_Product(models.Manager):

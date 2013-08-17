@@ -25,6 +25,22 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 
+def show_basement_category(request,
+                           template_name=u'category/show_basement_category.jinja2.html',
+                           ):
+    from apps.product.models import Category
+    try:
+        basement_categories = Category.manager.basement()
+    except Category.DoesNotExist:
+        from django.http import Http404
+        raise Http404
+
+    return render_to_response(u'category/show_basement_category.jinja2.html',
+                              locals(),
+                              context_instance=RequestContext(request, ),
+                              )
+
+
 def show_category(request,
                   category_url,
                   id,

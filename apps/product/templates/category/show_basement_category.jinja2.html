@@ -1,0 +1,9 @@
+{% extends 'root.jinja2.html' %}
+{% block title %}Категории верхнего уровня{% endblock %}
+{% block content_center -%}
+    <div id="categories_block">
+        {% for category in basement_categories %}
+            {{ block_category(category)|safe }}
+        {% endfor %}
+    </div>
+{%- endblock %}
