@@ -221,6 +221,18 @@ class Product(models.Model):
                                     content_type_field='content_type',
                                     object_id_field='object_id', )
 
+    @property
+    def main_photo(self, ):
+        photos = self.photo.all()
+        if photos:
+            for photo in photos:
+                if photo.main:
+                    return photo
+            else:
+                return None
+        else:
+            return None
+
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
