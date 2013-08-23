@@ -1,6 +1,15 @@
 # coding=utf-8
 __author__ = 'user'
 
+try:
+    from django.utils.simplejson import dumps
+    # import simplejson as json
+except ImportError:
+    from json import dumps
+    # import json
+
+from django.http import HttpResponse
+
 
 def resolution(request, ):
     if request.is_ajax():
@@ -30,10 +39,8 @@ def resolution(request, ):
 # 3
 #            from django.utils import simplejson
 #            data = simplejson.dumps({'a': 1})
-            from django.utils.simplejson import dumps
             data = dumps(response, )
             mimetype = 'application/javascript'
-            from django.http import HttpResponse
             return HttpResponse(data, mimetype, )
         elif request.method == 'GET':
             return HttpResponse(status=400, )
@@ -54,10 +61,8 @@ def cookie(request, ):
                 response = {'result': 'Please enable cookies and try again.', }
                 request.session[u'cookie'] = False
 #                request.session.delete_test_cookie()
-            from django.utils.simplejson import dumps
             data = dumps(response, )
             mimetype = 'application/javascript'
-            from django.http import HttpResponse
             return HttpResponse(data, mimetype, )
         elif request.method == 'GET':
             return HttpResponse(status=400, )
@@ -96,16 +101,49 @@ def sel_country(request, ):
                     response = {'result': 'Ok',
                                 'sel_country': 2,
                                 'html': html, }
-            try:
-                from django.utils.simplejson import dumps
-                # import simplejson as json
-            except ImportError:
-                from json import dumps
-                # import json
             data = dumps(response, )
             mimetype = 'application/javascript'
-            from django.http import HttpResponse
             return HttpResponse(data, mimetype, )
+        elif request.method == 'GET':
+            return HttpResponse(status=400, )
+        else:
+            return HttpResponse(status=400, )
+    else:
+        return HttpResponse(status=400, )
+
+
+def product_to_cart(request, ):
+    if request.is_ajax():
+        if request.method == 'POST':
+            request_cookie = request.session.get(u'cookie', None, )
+            if request_cookie:
+                product_pk = request.POST.get(u'product_pk', None, )
+                if product_pk:
+                    try:
+                        product_pk = int(product_pk, )
+                    except ValueError:
+                        return HttpResponse(status=400, )
+                    else:
+                        from apps.product.views import add_to_cart
+                        cart, product_in_cart = add_to_cart(request=request,
+                                                            int_product_pk=product_pk, )
+                        html = '<b>Позиций:</b> %s' \
+                               '<br>' \
+                               '<b>На сумму:</b> %s' \
+                               ' грн. ' \
+                               '%s' \
+                               ' коп.<br>' % (cart.count_name_of_products,
+                                              cart.summ_money_of_all_products_grn,
+                                              cart.summ_money_of_all_products_kop, )
+                        response = {'result': 'Ok',
+                                    'html': html, }
+                        data = dumps(response, )
+                        mimetype = 'application/javascript'
+                        return HttpResponse(data, mimetype, )
+                else:
+                    return HttpResponse(status=400, )
+            else:
+                return HttpResponse(status=400, )
         elif request.method == 'GET':
             return HttpResponse(status=400, )
         else:

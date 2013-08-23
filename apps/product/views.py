@@ -94,7 +94,7 @@ def show_product(request, product_url, id,
                         from django.http import Http404
                         raise Http404
                     else:
-                        add_to_cart(request=request, product=product, product_pk=product_pk, product_url=product_url, quantity=quantity, )
+                        add_to_cart(request=request, product=product, int_product_pk=product_pk, product_url=product_url, quantity=quantity, )
 #                        if request.
 #                        try:
 #                            from apps.cart.models import Cart
@@ -156,7 +156,7 @@ def get_cart(request, ):
     return cart, created
 
 
-def add_to_cart(request, product=None, product_pk=None, product_url=None, quantity=1, ):
+def add_to_cart(request, product=None, int_product_pk=None, product_url=None, quantity=1, ):
 #    postdata = request.POST.copy()
     # get product slug from post data, return blank if empty
 #    if not product_pk:
@@ -176,7 +176,10 @@ def add_to_cart(request, product=None, product_pk=None, product_url=None, quanti
 #            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
             from apps.product.models import Product
             try:
-                product = Product.objects.get(pk=product_pk, url=product_url, )
+                if product_url:
+                    product = Product.objects.get(pk=int_product_pk, url=product_url, )
+                else:
+                    product = Product.objects.get(pk=int_product_pk, )
             except Product.DoesNotExist:
                 # request.session[u'test1-product_pk'] = product_pk
                 # request.session[u'test1-product_url'] = product_url

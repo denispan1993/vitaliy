@@ -318,12 +318,19 @@ float:left;
                         <li>
                             <a href="javascript:void(0)">
                                 <img src="/media/img/minus.gif"
-                                    onclick='if (document.getElementById("quantity").value > 1 ){document.getElementById("quantity").value--;document.getElementById("quantity_order").value--;calculate();}' />
+                                     onclick='if (document.getElementById("quantity").value > 1 ){
+                                         document.getElementById("quantity").value--;
+                                         document.getElementById("quantity_order").value--;
+                                         calculate();}' />
                             </a>
                         </li>
                         <li>
-                            <input id="quantity" style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;" name="quantity" value="{{ quantity_ }}"
-                                onkeyup='setTimeout("calculate()", 1500);' type="text" />
+                            <input id="quantity"
+                                   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;"
+                                   name="quantity"
+                                   value="{{ quantity_ }}"
+                                   onkeyup='setTimeout("calculate()", 1500);'
+                                   type="text" />
                         </li>
                         <li>
                             <a href="javascript:void(0)">
@@ -331,7 +338,9 @@ float:left;
                                     onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
                             </a>
                         </li>
-                            <span id="errorMsg" style="text-align:center;color:#FF0000"></span>
+                            <span id="errorMsg"
+                                  style="text-align:center;color:#FF0000">
+                            </span>
                     </ul>
                     <br class="clearFloat" />
 

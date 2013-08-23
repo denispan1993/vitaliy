@@ -20,11 +20,11 @@
 <link rel="stylesheet" href="/media/css/base_style.css" />
 {% block header_css %}{% endblock %}
 <script type="text/javascript" src="/media/js/jquery/jquery.js"></script>
-<script type="text/javascript" src="/media/js/jquery/animate_cart.js"></script>
+<script type="text/javascript" src="/media/js/animate_cart.js"></script>
 {% block header_js %}{% endblock %}
 {% block ajax %}
 {% if request.session.ajax_resolution %}
-<script type="text/javascript">
+<script>
 try{jQuery(document).ready(function(e) {
         var browserWindow = $(window);
         var width = browserWindow.width();
@@ -41,7 +41,7 @@ try{jQuery(document).ready(function(e) {
 </script>
 {% endif %}
 {% if request.session.ajax_cookie %}
-<script type="text/javascript">
+<script>
 try{jQuery(document).ready(function(e) {
         jQuery.post("/ajax/cookie/", {
                 csrfmiddlewaretoken:'{{ csrf_token }}'

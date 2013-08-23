@@ -4,59 +4,64 @@ from django.conf.urls import patterns, include, url
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
-from apps.root.views import root_page
-from apps.product.views import show_category, show_product
+#from apps.root.views import root_page
+#from apps.product.views import show_category, show_product
 #from apps.cart.views import show_cart
-from apps.ajax.views import resolution, cookie
+#from apps.ajax.views import resolution, cookie
 
-urlpatterns = patterns('',
+urlpatterns = patterns('apps',
     # Examples:
     # url(r'^$', 'proj.views.home', name='home'),
-    url(r'^$', root_page,
+    url(r'^$', 'root.views.root_page',
         {'template_name': u'index.jinja2.html', },
         name='root_page', ),
     # url(r'^proj/', include('proj.foo.urls')),
-    url(ur'^категории/$', 'apps.product.views.show_basement_category',
+    url(ur'^категории/$', 'product.views.show_basement_category',
         {'template_name': u'category/show_basement_category.jinja2.html', },
         name='show_basement_category', ),
-    url(ur'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$', show_category,
+    url(ur'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$', 'product.views.show_category',
         {'template_name': u'category/show_category.jinja2.html', },
         name='show_category', ),
-    url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$', show_product,
+    url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$', 'product.views.show_product',
         {'template_name': u'product/show_product.jinja2.html', },
         name='show_product', ),
-    url(ur'^корзина/$', 'apps.cart.views.show_cart',
+    url(ur'^корзина/$', 'cart.views.show_cart',
         {'template_name': u'show_cart.jinja2.html', },
         name='show_cart', ),
-    url(ur'^корзина/пересчитать/$', 'apps.cart.views.recalc_cart',
+    url(ur'^корзина/пересчитать/$', 'cart.views.recalc_cart',
         name='recalc_cart', ),
-    url(ur'^корзина/заказ/$', 'apps.cart.views.show_order',
+    url(ur'^корзина/заказ/$', 'cart.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-    url(ur'^корзина/заказ/принят/$', 'apps.cart.views.show_order_success',
+    url(ur'^корзина/заказ/принят/$', 'cart.views.show_order_success',
         {'template_name': u'show_order_success.jinja2.html', },
         name='show_order_success', ),
-    url(ur'^корзина/order/$', 'apps.cart.views.show_order',
+    url(ur'^корзина/order/$', 'cart.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-    url(r'^cart/$', 'apps.cart.views.show_cart',
+    url(r'^cart/$', 'cart.views.show_cart',
         {'template_name': u'show_cart.jinja2.html', },
         name='show_cart', ),
-    url(ur'^cart/заказ/$', 'apps.cart.views.show_order',
+    url(ur'^cart/заказ/$', 'cart.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-    url(r'^cart/order/$', 'apps.cart.views.show_order',
+    url(r'^cart/order/$', 'cart.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-
-    url(r'^ajax/resolution/$', resolution,
-#       {'template_name': u'product/show_product.jinja2.html', },
+)
+#Ajax
+urlpatterns += patterns('apps.ajax.views',
+    url(r'^ajax/resolution/$', 'resolution',
         name='ajax_resolution', ),
-    url(r'^ajax/cookie/$', cookie,
+    url(r'^ajax/cookie/$', 'cookie',
         name='ajax_cookie', ),
-    url(r'^ajax/country/$', 'apps.ajax.views.sel_country',
+    url(r'^ajax/country/$', 'sel_country',
         name='ajax_country', ),
-
+    url(r'^ajax/product_to_cart/$', 'product_to_cart',
+        name='ajax_product_to_cart', ),
+)
+#Admin
+urlpatterns += (
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
 
@@ -92,11 +97,11 @@ if settings.DEBUG:
                                     ),
                                 )
 #!!!===================== Django Social Auth ======================
-urlpatterns += patterns('',
-                        url(r'social/index/$', root_page,
+urlpatterns += patterns('apps.root.views',
+                        url(r'social/index/$', 'root_page',
                             {'template_name': u'social_index.jinja2.html', },
                             name='social_index_page', ),
-                        url(r'login/error/$', root_page,
+                        url(r'login/error/$', 'root_page',
                             {'template_name': u'login_error.jinja2.html', },
                             name='login_error', ),
                         url(r'social/', include('social_auth.urls'),
