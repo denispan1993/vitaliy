@@ -86,8 +86,8 @@ function delete_on_off(IdString1, IdString2){
                    type="submit"
                    value="Пересчитать корзину"/>
         </form>
-        <div>
-            <form action="/корзина/заказ/">
+        {# <div> #}
+            <form method="POST" action="/корзина/заказ/">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
                 <input type="hidden" name="POST_NAME" value="order_cart"/>
                 {% for product in user_cart_.products %}
@@ -98,15 +98,11 @@ function delete_on_off(IdString1, IdString2){
                            name="delete_{{ product.pk }}"
                            {# checked="" #}
                            type="hidden"/>
-
-                    {# <a href="/корзина/заказ/" title="Оформить заказ">
-                    <img src="/media/img/button_oformit_zakaz.jpg"/>
-                    </a> #}
                 {% endfor %}
                 <input type="submit" value="Оформить заказ"/>
             </form>
             <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
-        </div>
+        {# </div> #}
     {% else %}
         <p>Ваша корзина пуста<br>
         <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>

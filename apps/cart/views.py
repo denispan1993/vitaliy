@@ -88,6 +88,11 @@ def recalc_cart(request, ):
 
 def show_order(request,
                template_name=u'show_order.jinja2.html', ):
+    from apps.product.models import Country
+    try:
+        country_list = Country.objects.all()
+    except Country.DoesNotExist:
+        country_list = None
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'order':
@@ -182,18 +187,8 @@ def show_order(request,
 ##                          connection=EMAIL_BACKEND, )
                 from django.shortcuts import redirect
                 return redirect(to=u'/корзина/заказ/принят/', )
-    else:
-        from apps.product.models import Country
-        try:
-            country_list = Country.objects.all()
-        except Country.DoesNotExist:
-            country_list = None
-    # return render_to_response(u'show_order.jinja2.html', locals(), context_instance=RequestContext(request, ), )
     return render_to_response(template_name=template_name,
-                              dictionary={'country_list': country_list,
-                                          # 'page': page,
-                                          # 'html_text': html_text,
-                                          },
+                              dictionary={'country_list': country_list, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
 
@@ -277,11 +272,11 @@ def show_order_success(request,
 
 
 def get_cart_or_create(request, ):
+    from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
         from django.contrib.auth.models import User
         user_object_ = User.objects.get(pk=user_id_)
-        from apps.cart.models import Cart
         cart, created = Cart.objects.get_or_create(user=user_object_, sessionid=None, )
     else:
         sessionid = request.COOKIES.get(u'sessionid', None, )
