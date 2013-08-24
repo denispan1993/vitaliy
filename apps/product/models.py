@@ -390,6 +390,10 @@ class Photo(models.Model):
     object_id = models.PositiveIntegerField(db_index=True, )
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
+    serial_number = models.PositiveIntegerField(verbose_name=u'Порядковы номер фотографии',
+                                                default=1,
+                                                null=False,
+                                                blank=False, )
     main = models.NullBooleanField(verbose_name=u'Признак главной фотографии',
                                    null=False,
                                    blank=False,
@@ -446,7 +450,7 @@ class Photo(models.Model):
 
     class Meta:
         db_table = 'Photo'
-        ordering = ['-created_at']
+        ordering = ['serial_number']
         verbose_name = "Фотография"
         verbose_name_plural = "Фотографии"
 

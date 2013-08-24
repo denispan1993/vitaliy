@@ -8,6 +8,13 @@ register = Library()
 
 
 @register.global_function()
+def block_products(products, ):
+    return render_to_string(template_name=u'product/templatetags/block_products.jinja2.html',
+                            dictionary={'products': products, }, )
+
+
+@register.global_function()
 def block_product(product, ):
     return render_to_string(template_name=u'product/templatetags/block_product.jinja2.html',
                             dictionary={'product': product, }, )
+

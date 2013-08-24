@@ -4,10 +4,6 @@
 {% block content_center %}
 <p class="center_title">Новинки</p>
     <div class="products_container">
-        {% for product in all_products %}
-            {{ block_product(product)|safe }}
-        {% else %}
-            <p>Пусто</p>
-        {% endfor %}
+        {{ block_products(all_products)|safe }}
     </div>
 {% endblock %}

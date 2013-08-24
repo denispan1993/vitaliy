@@ -8,7 +8,7 @@ from django.contrib.contenttypes import generic
 from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
 
-class GenericStacked_Photo_InLine(generic.GenericStackedInline, ): # generic.GenericStackedInline, NestedStackedInline,
+class genericStacked_Photo_InLine(generic.GenericStackedInline, ):
     model = Photo
     extra = 1
 
@@ -30,7 +30,7 @@ class CategoryAdmin(admin.ModelAdmin, ):
     prepopulated_fields = {u'url': (u'title', ), }
 
     inlines = [
-        GenericStacked_Photo_InLine,
+        genericStacked_Photo_InLine,
     ]
     save_as = True
     save_on_top = True
@@ -41,38 +41,38 @@ class CategoryAdmin(admin.ModelAdmin, ):
 from apps.product.models import Information
 
 
-class Stacked_Information_InLine(admin.TabularInline, ):
+class adminStacked_Information_InLine(admin.TabularInline, ):
     model = Information
     extra = 3
 
 from apps.product.models import Additional_Information
 
 
-class Stacked_Additional_Information_InLine(admin.StackedInline, ):
+class adminStacked_Additional_Information_InLine(admin.StackedInline, ):
     model = Additional_Information
     inlines = [
-        Stacked_Information_InLine,
+        adminStacked_Information_InLine,
     ]
 #    filter_horizontal = ('informations', )
 #    filter_vertical = ('informations', )
-    extra = 1
+    extra = 5
 
 
-class Additional_Information_Admin(admin.ModelAdmin, ):
-#    fieldsets = (
-#                (None, {'fields': ('product', 'title', 'informations', )}),
-#        )
-#    filter_horizontal = ('informations', )
-    inlines = [
-        Stacked_Information_InLine,
-    ]
+#class NestedAdditional_Information_Admin(NestedModelAdmin, ): # admin.ModelAdmin
+##    fieldsets = (
+##                (None, {'fields': ('product', 'title', 'informations', )}),
+##        )
+##    filter_horizontal = ('informations', )
+#    inlines = [
+#        NestedStacked_Information_InLine,
+#    ]
 
 from apps.product.models import Discount
 
 
 class Tabular_Discount_InLine(admin.TabularInline, ):
     model = Discount
-    extra = 3
+    extra = 5
 
 from apps.product.models import Product
 from django import forms
@@ -81,8 +81,6 @@ from django import forms
 class ProductAdminForm(forms.ModelForm, ):
     class Meta:
         models = Product
-
-#from compat.ruslug import patch_admin_form
 
 
 class ProductAdmin(admin.ModelAdmin, ):
@@ -104,8 +102,8 @@ class ProductAdmin(admin.ModelAdmin, ):
 
     inlines = [
         Tabular_Discount_InLine,
-        Stacked_Additional_Information_InLine,
-        GenericStacked_Photo_InLine,
+        adminStacked_Additional_Information_InLine,
+        genericStacked_Photo_InLine,
     ]
     save_as = True
     save_on_top = True
@@ -136,7 +134,7 @@ class CountryAdmin(admin.ModelAdmin, ):
 admin.site.register(Country, CountryAdmin, )
 admin.site.register(Category, CategoryAdmin, )
 admin.site.register(Product, ProductAdmin, )
-admin.site.register(Additional_Information, Additional_Information_Admin, )
+#admin.site.register(Additional_Information, NestedAdditional_Information_Admin, )
 admin.site.register(Information, admin.ModelAdmin, )
 admin.site.register(Unit_of_Measurement, admin.ModelAdmin, )
 admin.site.register(Discount, admin.ModelAdmin, )

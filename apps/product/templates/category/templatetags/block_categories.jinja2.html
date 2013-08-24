@@ -1,0 +1,22 @@
+{% if categories %}
+    {# <p>Под категории в этой категории</p> #}
+<style>
+#categories_block div.category_block {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #EEEEEE;
+    float: left;
+    height: 255px;
+    margin: 0 0 10px 10px;
+    padding: 10px;
+    position: relative;
+    width: 214px;
+}
+</style>
+    <div id="categories_block">
+        {% for category in categories %}
+            {{ block_category(category)|safe }}
+        {% endfor %}
+    </div>
+{% else %}
+    {# <p>Подкатегории в этой категории отсутсвуют</p> #}
+{% endif %}

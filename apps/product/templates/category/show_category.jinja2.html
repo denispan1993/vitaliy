@@ -5,46 +5,9 @@
     <br>
     {{ this_category(current_category)|safe }}
     <br>
-    {% set categories_in_current_category = current_category.children.all() %}
-    {% if categories_in_current_category %}
-        <p>Под категории в этой категории</p>
-        <div id="categories_block">
-            {% for category in categories_in_current_category %}
-                {{ block_category(category)|safe }}
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>Подкатегории в этой категории отсутсвуют</p>
-    {% endif %}
+    {% set categories = current_category.children.all() %}
+    {{ block_categories(categories)|safe }}
     <br>
-    {% set products_in_current_category = current_category.products.all() %}
-    {% if products_in_current_category %}
-        <div id="products_block">
-<script>
-function ajax_product_to_cart(product_pk){
-    var request_dict = {
-        csrfmiddlewaretoken:'{{ csrf_token }}',
-        product_pk:product_pk
-    }
-    jQuery.post("/ajax/product_to_cart/",
-        request_dict,
-        function(data, textStatus, jqXHR){
-            jQuery('#dynamic_div_showcart').html(data.html);
-        },
-        "json");
-}
-function product_to_cart(data, product_pk){
-    ajax_product_to_cart(product_pk);
-    animate_cart(data);
-    return false;
-}
-</script>
-            <p>Продукты в этой категории</p>
-            {% for product in products_in_current_category %}
-                {{ block_product(product)|safe }}
-            {% endfor %}
-        </div>
-    {% else %}
-         <p>Продукты в этой категории отсутсвуют</p>
-    {% endif %}
+    {% set products = current_category.products.all() %}
+    {{ block_products(products)|safe }}
 {%- endblock %}
