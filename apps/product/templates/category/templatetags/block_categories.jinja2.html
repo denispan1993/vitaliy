@@ -1,15 +1,30 @@
 {% if categories %}
     {# <p>Под категории в этой категории</p> #}
 <style>
-#categories_block div.category_block {
+div.category_block {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #EEEEEE;
     float: left;
-    height: 255px;
+    height: 285px;
     margin: 0 0 10px 10px;
     padding: 10px;
     position: relative;
     width: 214px;
+}
+div.category_block a.category_block_img{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-position:center center;
+    background-repeat:no-repeat;
+    border-color:#FFFFFF #FFFFFF #EEEEEE;
+    border-image:none;
+    border-style:solid;
+    border-width:1px;
+    display:block;
+    height:160px;
+    margin-bottom:10px;
 }
 </style>
     <div id="categories_block">

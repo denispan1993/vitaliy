@@ -13,6 +13,7 @@ class Category(models.Model):
                                blank=True, )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
                                                      # visibility=True,
+                                                     default=1,
                                                      blank=True,
                                                      null=True, )
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
@@ -27,7 +28,7 @@ class Category(models.Model):
     url = class_FormSlugField.ModelSlugField()
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
-    name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
+    # name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
     description = models.TextField(verbose_name=u'Описание категории', null=True, blank=True, )
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )

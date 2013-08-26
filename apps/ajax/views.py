@@ -87,7 +87,7 @@ def sel_country(request, ):
                            '<input type="text" name="settlement" id="settlement"/>' \
                            '<br />' \
                            '<label for="warehouse_number">Номер склада "Новой почты"</label>' \
-                           '<input type="text" name="warehouse_number" id="warehouse_number"/>'
+                           '<input type="number" name="warehouse_number" id="warehouse_number"/>'
                     response = {'result': 'Ok',
                                 'sel_country': 1,
                                 'html': html, }
@@ -97,7 +97,7 @@ def sel_country(request, ):
                            '<textarea cols="50" rows="5" name="address" id="address"></textarea>' \
                            '<br />' \
                            '<label for="postcode">Почтовый индекс</label>' \
-                           '<input type="text" name="postcode" id="postcode"/>'
+                           '<input type="number" name="postcode" id="postcode"/>'
                     response = {'result': 'Ok',
                                 'sel_country': 2,
                                 'html': html, }

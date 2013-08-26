@@ -3,27 +3,25 @@
         <a class="category_block_title"
            href="{{ category.get_absolute_url() }}"
            title="{{ category.title }}">{{ category.name }}</a>
-        <div class="category_block_img">
-            <a href="{{ category.get_absolute_url() }}"
-               title="{{ category.main_photo.title }}">
-                <img src="{{ category.main_photo.photo.url_210x160 }}"
-                     alt="{{ category.main_photo.photo.meta_alt }}"
-                     border="0"/>
-            </a>
-        </div>
+        <a class="category_block_img"
+           href="{{ category.get_absolute_url() }}"
+           title="{{ category.main_photo.title }}">
+            <img src="{{ category.main_photo.photo.url_210x160 }}"
+                 alt="{% if category.main_photo.photo.meta_alt %}{{ category.main_photo.photo.meta_alt }}{% else %}{{ category.title }}{% endif %}"
+                 border="0"/>
+        </a>
         {% if category.description %}<div class="category_block_excerpt">{{ category.description }}</div>{% endif %}
     {% else %}
         <a class="category_block_title"
            href="{{ category.get_absolute_url() }}"
            title="{{ category.title }}">{{ category.name }}</a>
-        <div class="category_block_img">
-            <a href="{{ category.get_absolute_url() }}"
-               title="{{ category.title }}">
-                <img src="{{ MEDIA_URL }}img/NoPhoto_210x160.jpg }}"
-                     alt="No Photo"
-                     border="0"/>
-           </a>
-        </div>
+        <a class="category_block_img"
+           href="{{ category.get_absolute_url() }}"
+           title="{{ category.title }}">
+            <img src="/media/img/NoPhoto_210x160.jpg"
+                 alt="No Photo"
+                 border="0"/>
+        </a>
         {% if category.description %}<div class="category_block_excerpt">{{ category.description }}</div>{% endif %}
     {% endif %}
 </div>

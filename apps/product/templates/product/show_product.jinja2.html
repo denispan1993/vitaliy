@@ -12,14 +12,14 @@ function calculate(){
 		$("#quantity").val(1);
 		$("#quantity_order").val(1);
 		calculate();
-		$("#errorMsg").html('Please input a integer.');
+		$("#errorMsg").html('Количество вводится цифрами!!!.');
 		return;
 	}
 	if(Qut>999){
 		$("#quantity").val(999);
 		$("#quantity_order").val(999);
 		calculate();
-		$("#errorMsg").html('quantity can not more than 999!');
+		$("#errorMsg").html('Количество не может быть больше 999!!!');
 		return;
 	}
 	$("#cart_quant").html(Qut);
@@ -289,12 +289,16 @@ function checknumber(String){
                 </p>
             {% endif %}
             <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|formatted_float }} грн.</span></p>
-            <p class="pirce_total" style="margin:0; padding:6px 0px; text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">
-            <span id="cart_quant" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ quantity }}</span>
+            <p class="pirce_total"
+               style="margin:0;padding:6px 0px;text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif; font-size:12px;line-height:100%;">
+            <span id="cart_quant"
+                  style="text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:100%;">{{ quantity }}</span>
             &nbsp;шт.&nbsp;×&nbsp;&nbsp;
-            <span id="one_piece_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ price_per_piece|formatted_float }}</span>
+            <span id="one_piece_price"
+                  style="text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:100%;">{{ price_per_piece|formatted_float }}</span>
             &nbsp;грн.&nbsp;=&nbsp;&nbsp;
-            <span id="current_price" style="text-indent:5px; color:#333333; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
+            <span id="current_price"
+                  style="text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
             &nbsp;грн.&nbsp;
             </p>
             {% set product_is_availability = product.is_availability %}
