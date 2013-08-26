@@ -11,10 +11,10 @@ class Category(models.Model):
                                verbose_name=u'Вышестоящая категория',
                                null=True,
                                blank=True, )
-    order = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
-                                             # visibility=True,
-                                             blank=True,
-                                             null=True, )
+    serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
+                                                     # visibility=True,
+                                                     blank=True,
+                                                     null=True, )
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы категория нигде не показывалась,'
                                               u' ставим данное поле в False.')
@@ -110,8 +110,8 @@ class Category(models.Model):
         return u'Категория: %s' % (self.title, )
 
     class Meta:
-        db_table = u'Category'
-        ordering = [u'-created_at']
+        db_table = 'Category'
+        ordering = ['serial_number', '-created_at', ]
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
 
