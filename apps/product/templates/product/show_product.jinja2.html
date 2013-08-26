@@ -333,7 +333,8 @@ float:left;
                                    style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;"
                                    name="quantity"
                                    value="{{ quantity_ }}"
-                                   onkeyup='setTimeout("calculate()", 1500);'
+                                   onchange="setTimeout('calculate()', 1500);"
+                                   onkeyup="setTimeout('calculate()', 1500);"
                                    type="text" />
                         </li>
                         <li>
