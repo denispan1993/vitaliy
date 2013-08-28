@@ -1,42 +1,6 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}{{ product.title|capfirst }}{% endblock %}
 {% block body_javascript %}
-<script type="text/javascript">
-function calculate(){
-	var price=0.00;
-	var total=0.00;
-	var Qut = $("#quantity").val();
-	$("#quantity_order").val(Qut);
-	$("#errorMsg").html('');
-	if(checknumber(Qut)||Qut<1){
-		$("#quantity").val(1);
-		$("#quantity_order").val(1);
-		calculate();
-		$("#errorMsg").html('Количество вводится цифрами!!!.');
-		return;
-	}
-	if(Qut>999){
-		$("#quantity").val(999);
-		$("#quantity_order").val(999);
-		calculate();
-		$("#errorMsg").html('Количество не может быть больше 999!!!');
-		return;
-	}
-	$("#cart_quant").html(Qut);
-}
-function checknumber(String){
-	var Letters = "1234567890";
-	var i;
-	var c;
-	for( i = 0; i < String.length; i ++ ){
-		c = String.charAt( i );
-		if (Letters.indexOf( c ) == -1){
-			return true;
-        }
-	}
-	return false;
-}
-</script>
 {% endblock %}
 {% block content_center -%}
 <style>
@@ -289,16 +253,30 @@ function checknumber(String){
                 </p>
             {% endif %}
             <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|formatted_float }} грн.</span></p>
-            <p class="pirce_total"
-               style="margin:0;padding:6px 0px;text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif; font-size:12px;line-height:100%;">
-            <span id="cart_quant"
-                  style="text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:100%;">{{ quantity }}</span>
+<style>
+p.price_total{
+    margin:0;
+    padding:6px 0px;
+    text-indent:5px;
+    color:#333333;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;
+    line-height:100%;
+}
+p.price_total span{
+    color:#333333;
+    text-indent:5px;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;
+    line-height:100%;
+}
+</style>
+            <p class="pirce_total">
+            <span id="cart_quant">{{ quantity }}</span>
             &nbsp;шт.&nbsp;×&nbsp;&nbsp;
-            <span id="one_piece_price"
-                  style="text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:100%;">{{ price_per_piece|formatted_float }}</span>
+            <span id="one_piece_price">{{ price_per_piece|formatted_float }}</span>
             &nbsp;грн.&nbsp;=&nbsp;&nbsp;
-            <span id="current_price"
-                  style="text-indent:5px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:100%;">{{ sum_of_quantity|formatted_float }}</span>
+            <span id="current_price">{{ sum_of_quantity|formatted_float }}</span>
             &nbsp;грн.&nbsp;
             </p>
             {% set product_is_availability = product.is_availability %}
@@ -316,16 +294,69 @@ list-style-type:none;
 float:left;
 }
 </style>
+<script>
+function calculate(){
+	var price=0.00;
+	var total=0.00;
+	var Qut = $("#quantity").val();
+	$("#quantity_order").val(Qut);
+	$("#errorMsg").html('');
+	if(checknumber(Qut)||Qut<1){
+		$("#quantity").val(1);
+		$("#quantity_order").val(1);
+		calculate();
+		$("#errorMsg").html('Количество вводится цифрами!!!.');
+		return;
+	}
+	if(Qut>999){
+		$("#quantity").val(999);
+		$("#quantity_order").val(999);
+		calculate();
+		$("#errorMsg").html('Количество не может быть больше 999!!!');
+		return;
+	}
+	$("#cart_quant").html(Qut);
+}
+function checknumber(String){
+	var Letters = "1234567890";
+	var i;
+	var c;
+	for( i = 0; i < String.length; i ++ ){
+		c = String.charAt( i );
+		if (Letters.indexOf( c ) == -1){
+			return true;
+        }
+	}
+	return false;
+}
+function onMinus(){
+    var value = $("#quantity").val();
+    if (value > 1){
+        calculate();
+        value = value - 1;
+        $("#quantity").val(value);
+        $("#quantity_order").val(value);
+    }
+    return true;
+}
+function onPlus(){
+    var value = $("#quantity").val();
+    if (value < 999){
+        calculate();
+        value = value + 1;
+        $("#quantity").val(value);
+        $("#quantity_order").val(value);
+    }
+    return true;
+}
+</script>
                 <form method="POST" action=".">
                     <ul class="quantity">
                         <li>Количество:</li>
                         <li>
                             <a href="javascript:void(0)">
                                 <img src="/media/img/minus.gif"
-                                     onclick='if (document.getElementById("quantity").value > 1 ){
-                                         document.getElementById("quantity").value--;
-                                         document.getElementById("quantity_order").value--;
-                                         calculate();}' />
+                                     onclick='onMinus();'/>
                             </a>
                         </li>
                         <li>
@@ -335,12 +366,12 @@ float:left;
                                    value="{{ quantity_ }}"
                                    onchange="setTimeout('calculate()', 1500);"
                                    onkeyup="setTimeout('calculate()', 1500);"
-                                   type="text" />
+                                   type="text">
                         </li>
                         <li>
                             <a href="javascript:void(0)">
                                 <img src="/media/img/plus.gif"
-                                    onclick='document.getElementById("quantity").value++;document.getElementById("quantity_order").value++;calculate();' />
+                                    onclick='onPlus();'>
                             </a>
                         </li>
                             <span id="errorMsg"
