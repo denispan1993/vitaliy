@@ -2,7 +2,7 @@
 {% block title %}{{ product.title|capfirst }}{% endblock %}
 {% block body_javascript %}
 {% endblock %}
-{% block content_center -%}
+{%- block content_center -%}
 <style>
 #product_box{
 	width:auto;height:auto;
@@ -249,10 +249,10 @@
             {% if product.regular_ce %}
                 <p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
                     Обычная цена:
-                    <span style="text-decoration:line-through"> {{ product.regular_price|formatted_float }} грн.</span>
+                    <span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
                 </p>
             {% endif %}
-            <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|formatted_float }} грн.</span></p>
+            <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн.</span></p>
 <style>
 p.price_total{
     margin:0;
@@ -272,11 +272,11 @@ p.price_total span{
 }
 </style>
             <p class="pirce_total">
-            <span id="cart_quant">{{ quantity }}</span>
+            <span id="cart_quant">{{ quantity_ }}</span>
             &nbsp;шт.&nbsp;×&nbsp;&nbsp;
-            <span id="one_piece_price">{{ price_per_piece|formatted_float }}</span>
+            <span id="one_piece_price">{{ price_per_piece|replace(",", ".") }}</span>
             &nbsp;грн.&nbsp;=&nbsp;&nbsp;
-            <span id="current_price">{{ sum_of_quantity|formatted_float }}</span>
+            <span id="current_price">{{ sum_of_quantity|replace(",", ".") }}</span>
             &nbsp;грн.&nbsp;
             </p>
             {% set product_is_availability = product.is_availability %}
@@ -295,28 +295,31 @@ float:left;
 }
 </style>
 <script>
-function calculate(){
-	var price=0.00;
-	var total=0.00;
-	var Qut = $("#quantity").val();
-	$("#quantity_order").val(Qut);
-	$("#errorMsg").html('');
-	if(checknumber(Qut)||Qut<1){
-		$("#quantity").val(1);
-		$("#quantity_order").val(1);
-		calculate();
-		$("#errorMsg").html('Количество вводится цифрами!!!.');
-		return;
-	}
-	if(Qut>999){
-		$("#quantity").val(999);
-		$("#quantity_order").val(999);
-		calculate();
-		$("#errorMsg").html('Количество не может быть больше 999!!!');
-		return;
-	}
-	$("#cart_quant").html(Qut);
-}
+var price_qty_array = new Array();
+var price_array = new Array();
+price_qty_array[0]=1;
+price_array[0]={{ product.price|replace(",", ".") }};
+{#  {% if discount1 != None %}
+		{% if discount1.price %}
+			{% for discount in discounts %}
+				<!--{1% if not forloop.first %}-->
+				{% if forloop.last %}
+price_qty_array[{{ forloop.counter }}]={{ discount.quantity_of_products }};
+price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
+price_qty_array[{{ forloop.counter|add:"1" }}]=999;
+price_array[{{ forloop.counter|add:"1" }}]={{ discount.price|replace(",", ".") }};
+				<!--{1% endif %}-->
+				{% else %}
+price_qty_array[{{ forloop.counter }}]={{ discount.quantity_of_products }};
+price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
+				{% endif %}
+			{% endfor %}
+		{% else %}
+		{% endif %}
+	{% else %} #}
+price_qty_array[1]=999;
+price_array[1]={{ product.price|replace(",", ".") }};
+    {# {% endif %} #}
 function checknumber(String){
 	var Letters = "1234567890";
 	var i;
@@ -329,23 +332,65 @@ function checknumber(String){
 	}
 	return false;
 }
-function onMinus(){
-    var value = $("#quantity").val();
-    if (value > 1){
-        calculate();
-        value = value - 1;
-        $("#quantity").val(value);
-        $("#quantity_order").val(value);
+function calculate(Qut,operation){
+	//var price=0.00;
+	//var total=0.00;
+	//var Qut = $("#quantity").val();
+	//$("#quantity_order").val(Qut);
+	$("#errorMsg").html('');
+	if(checknumber(Qut)){
+		//calculate();
+		$("#errorMsg").html('Количество вводится цифрами!!!.');
+		return false;
+	}
+    Qut = parseInt(Qut)
+    if(operation=='+'){Qut++}
+    if(operation=='-'){Qut--}
+	if(Qut<{{ product.minimal_quantity }}){
+		//$("#quantity").val({{ product.minimal_quantity }});
+		//$("#quantity_order").val({{ product.minimal_quantity }});
+		//calculate();
+		$("#errorMsg").html('Минимальное для заказа количество '+Qut+' !!!.');
+		return false;
+	}
+    var quantity_of_complete = {{ product.quantity_of_complete }}
+    var result = Qut%quantity_of_complete
+	if(result == 0){
+		$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!.');
+		return false;
+	}
+	if(Qut>999){
+		//$("#quantity").val(999);
+		//$("#quantity_order").val(999);
+		//calculate();
+		$("#errorMsg").html('Количество не может быть больше 999!!!');
+		return false;
+	}
+    $("#quantity").val(value);
+    $("#quantity_order").val(value);
+    $("#cart_quant").html(value);
+}
+function onPlus(){
+    var value = parseInt($("#quantity").val());
+    if (value<999){
+        if (calculate()){
+            value = value+{{ product.quantity_of_complete }};
+            $("#quantity").val(value);
+            $("#quantity_order").val(value);
+            $("#cart_quant").html(value);
+        }
     }
     return true;
 }
-function onPlus(){
-    var value = $("#quantity").val();
-    if (value < 999){
-        calculate();
-        value = value + 1;
-        $("#quantity").val(value);
-        $("#quantity_order").val(value);
+function onMinus(){
+    var value = parseInt($("#quantity").val());
+    if (value>{{ product.minimal_quantity }}){
+        if (calculate()){
+            value = value-{{ product.quantity_of_complete }};
+            $("#quantity").val(value);
+            $("#quantity_order").val(value);
+    	    $("#cart_quant").html(value);
+        }
     }
     return true;
 }
@@ -364,9 +409,9 @@ function onPlus(){
                                    style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;"
                                    name="quantity"
                                    value="{{ quantity_ }}"
-                                   onchange="setTimeout('calculate()', 1500);"
-                                   onkeyup="setTimeout('calculate()', 1500);"
-                                   type="text">
+{#                                 onchange="setTimeout('calculate()', 1500);" #}
+                                   onkeyup="setTimeout('calculate($("#quantity").val(),"test")', 1500);"
+                                   type="number">
                         </li>
                         <li>
                             <a href="javascript:void(0)">
@@ -407,4 +452,4 @@ function onPlus(){
         </div>
     </div>
 </div>
-{% endblock -%}
+{%- endblock -%}
