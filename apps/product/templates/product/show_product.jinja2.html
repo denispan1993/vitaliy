@@ -343,20 +343,21 @@ function calculate(Qut,operation){
 		$("#errorMsg").html('Количество вводится цифрами!!!.');
 		return false;
 	}
-    Qut = parseInt(Qut)
-    if(operation=='+'){Qut++}
-    if(operation=='-'){Qut--}
+    Qut=parseInt(Qut);
+    var quantity_of_complete={{ product.quantity_of_complete }};
+    var result = Qut%{{ product.quantity_of_complete }};
+    //alert(result);
+	if(result!=0){
+		$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!.');
+		return false;
+	}
+    if(operation=='+'){Qut=Qut+{{ product.quantity_of_complete }}}
+    if(operation=='-'){Qut=Qut-{{ product.quantity_of_complete }}}
 	if(Qut<{{ product.minimal_quantity }}){
 		//$("#quantity").val({{ product.minimal_quantity }});
 		//$("#quantity_order").val({{ product.minimal_quantity }});
 		//calculate();
-		$("#errorMsg").html('Минимальное для заказа количество '+Qut+' !!!.');
-		return false;
-	}
-    var quantity_of_complete = {{ product.quantity_of_complete }}
-    var result = Qut%quantity_of_complete
-	if(result == 0){
-		$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!.');
+		$("#errorMsg").html('Минимальное для заказа количество {{ product.minimal_quantity }} !!!.');
 		return false;
 	}
 	if(Qut>999){
@@ -366,32 +367,33 @@ function calculate(Qut,operation){
 		$("#errorMsg").html('Количество не может быть больше 999!!!');
 		return false;
 	}
-    $("#quantity").val(value);
-    $("#quantity_order").val(value);
-    $("#cart_quant").html(value);
+    $("#quantity").val(Qut);
+    $("#quantity_order").val(Qut);
+    $("#cart_quant").html(Qut);
+    $.each(price_qty_array,function(i,val){
+        if(val<=Qut&&Qut<price_qty_array[eval(i+1)]){
+            //alert('i: '+i+' Qut: '+Qut+' val: '+val)
+            var price=price_array[i];
+            $("#one_piece_price").html(price.toFixed(2));
+            var total=price*Qut;
+            $("#current_price").html(total.toFixed(2));
+            return true;
+        }
+    });
 }
 function onPlus(){
-    var value = parseInt($("#quantity").val());
-    if (value<999){
-        if (calculate()){
-            value = value+{{ product.quantity_of_complete }};
-            $("#quantity").val(value);
-            $("#quantity_order").val(value);
-            $("#cart_quant").html(value);
-        }
-    }
+    var value=$("#quantity").val();
+    calculate(value,'+');
     return true;
 }
 function onMinus(){
-    var value = parseInt($("#quantity").val());
-    if (value>{{ product.minimal_quantity }}){
-        if (calculate()){
-            value = value-{{ product.quantity_of_complete }};
-            $("#quantity").val(value);
-            $("#quantity_order").val(value);
-    	    $("#cart_quant").html(value);
-        }
-    }
+    var value=$("#quantity").val();
+    calculate(value,'-');
+    return true;
+}
+function onChange(){
+    var value=$('#quantity').val();
+    setTimeout(calculate(value,''), 1500);
     return true;
 }
 </script>
@@ -410,7 +412,7 @@ function onMinus(){
                                    name="quantity"
                                    value="{{ quantity_ }}"
 {#                                 onchange="setTimeout('calculate()', 1500);" #}
-                                   onkeyup="setTimeout('calculate($("#quantity").val(),"test")', 1500);"
+                                   onkeyup="onChange();"
                                    type="number">
                         </li>
                         <li>
@@ -432,6 +434,9 @@ function onMinus(){
 
                     <input type="submit" value="Добавить в корзину" />
                 </form>
+<script>
+$(document).ready(onChange())
+</script>
                 <br class="clearFloat" />
                 <form method="POST" action=".">
                     <input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
