@@ -321,10 +321,10 @@ price_qty_array[1]=999;
 price_array[1]={{ product.price|replace(",", ".") }};
     {# {% endif %} #}
 function checknumber(String){
-	var Letters = "1234567890";
+	var Letters = ".,1234567890";
 	var i;
 	var c;
-	for( i = 0; i < String.length; i ++ ){
+	for(i = 0; i < String.length; i ++){
 		c = String.charAt( i );
 		if (Letters.indexOf( c ) == -1){
 			return true;
@@ -340,10 +340,11 @@ function calculate(Qut,operation){
 	$("#errorMsg").html('');
 	if(checknumber(Qut)){
 		//calculate();
+        alert('aaa'+Qut+'bbb');
 		$("#errorMsg").html('Количество вводится цифрами!!!.');
 		return false;
 	}
-    Qut=parseInt(Qut);
+    Qut=parseFloat(Qut);
     if(operation=='+'){Qut=Qut+{{ product.quantity_of_complete }}}
     if(operation=='-'){Qut=Qut-{{ product.quantity_of_complete }}}
     var minimal_quantity={{ product.minimal_quantity }}
