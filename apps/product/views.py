@@ -84,7 +84,7 @@ def show_product(request, product_url, id,
                 if current_category:
                     product_pk = request.POST.get(u'product_pk', None, )
                     product_url = request.POST.get(u'product_url', None, )
-                    quantity = request.POST.get(u'quantity', None, )
+                    quantity_ = request.POST.get(u'quantity', None, )
                     from apps.product.models import Product
                     try:
                         product = Product.objects.get(pk=product_pk, url=product_url, )
@@ -94,7 +94,11 @@ def show_product(request, product_url, id,
                         from django.http import Http404
                         raise Http404
                     else:
-                        add_to_cart(request=request, product=product, int_product_pk=product_pk, product_url=product_url, quantity=quantity, )
+                        add_to_cart(request=request,
+                                    product=product,
+                                    int_product_pk=product_pk,
+                                    product_url=product_url,
+                                    quantity=quantity_, )
 #                        if request.
 #                        try:
 #                            from apps.cart.models import Cart
@@ -135,7 +139,9 @@ def show_product(request, product_url, id,
             else:
                 current_category = categories_of_product[0]
                 request.session[u'current_category'] = current_category.pk
-        quantity_ = 1
+            quantity_ = product.minimal_quantity
+            minimal_quantity_ = product.minimal_quantity
+            quantity_of_complete_ = product.quantity_of_complete
 
     return render_to_response(u'product/show_product.jinja2.html',
                               locals(),

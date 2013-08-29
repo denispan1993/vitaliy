@@ -1,7 +1,7 @@
 {% if category.main_photo %}
-    <a class="this_category_title"
+{#  <a class="this_category_title"
        href="{{ category.get_absolute_url() }}"
-       title="{{ category.title }}">{{ category.name }}</a>
+       title="{{ category.title }}">{{ category.name }}</a> #}
     <div class="this_category_img">
         <a href="{{ category.get_absolute_url() }}"
            title="{{ category.main_photo.title }}">
@@ -14,9 +14,9 @@
         </div>
     {% endif %}
 {% else %}
-    <a class="this_category_title"
+{#  <a class="this_category_title"
        href="{{ category.get_absolute_url() }}"
-       title="{{ category.title }}">{{ category.name }}</a>
+       title="{{ category.title }}">{{ category.name }}</a> #}
     {% if category.description %}
         <div class="this_category_excerpt"
              title="{{ category.description }}">{{ category.description }}

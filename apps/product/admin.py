@@ -16,11 +16,12 @@ from apps.product.models import Category
 
 
 class CategoryAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
+    list_display = ['pk', 'url', 'title', 'parent', ] #'name', ]
     list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['parent', 'is_active', 'disclose_product', 'url',
-                                                              'title', 'name', 'description', ], }),
+        (None,               {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
+                                                              'disclose_product', 'url', 'title', # 'name',
+                                                              'description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
                                                                                               'meta_keywords', ], }),
@@ -85,6 +86,7 @@ class ProductAdminForm(forms.ModelForm, ):
 
 class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'url', 'title', 'name', ]
+    list_display_links = ['pk', 'url', 'title', 'name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
                                                               'title', 'name', 'description', 'minimal_quantity',

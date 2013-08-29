@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+{% compress css %}
 {% block block_title %}
     <title>
         {% block title %}{% endblock %}
@@ -53,6 +54,7 @@ try{jQuery(document).ready(function(e) {
 </script>
 {% endif %}
 {% endblock %}
+{% endcompress %}
 </head>
 <body>
 <!-- Google.Analytics -->
