@@ -30,6 +30,7 @@ class Category(models.Model):
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
     # Буквы дял автоматического создания Артикула товара
     letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
+                                         default='CAT',
                                          max_length=3,
                                          null=False,
                                          blank=False,
@@ -237,9 +238,12 @@ class Product(models.Model):
 
     @property
     def create_ItemID(self):
-        ItemID = u'%s-%s-%.8d' % (self.category[0].letter_to_article,
-                                     self.manufacturer.letter_to_article,
-                                     self.id, )
+        if not self.ItemID.ItemID:
+            ItemID = u'%s-%s-%.8d' % (self.category[0].letter_to_article,
+                                      self.manufacturer.letter_to_article,
+                                      self.id, )
+            return ItemID
+        return None
 
     @property
     def main_photo(self, ):
@@ -259,6 +263,12 @@ class Product(models.Model):
     objects = models.Manager()
     from apps.product import managers
     manager = managers.Manager_Product()
+
+    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
+        super(Product, self).save(*args, **kwargs)
+        if not self.ItemID:
+            ItemID = self.create_ItemID()
+            self.ItemID.create(ItemID=ItemID, )
 
 #    @models.permalink
     def get_absolute_url(self, ):

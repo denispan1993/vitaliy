@@ -20,7 +20,8 @@ class CategoryAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
-                                                              'disclose_product', 'url', 'title', # 'name',
+                                                              'disclose_product', 'url', 'title', 'letter_to_article',
+                                                              # 'name',
                                                               'description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
@@ -38,6 +39,20 @@ class CategoryAdmin(admin.ModelAdmin, ):
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
+
+from apps.product.models import ItemID
+
+
+class genericStacked_ItemID_InLine(generic.GenericStackedInline, ):
+    model = ItemID
+    extra = 1
+
+from apps.product.models import Manufacturer
+
+
+class genericStacked_Manufacturer_InLine(generic.GenericStackedInline, ):
+    model = Manufacturer
+    extra = 1
 
 from apps.product.models import Information
 
@@ -89,7 +104,8 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'url', 'title', 'name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
-                                                              'title', 'name', 'description', 'minimal_quantity',
+                                                              'title', 'name', 'description', # 'manufacturer',
+                                                              'minimal_quantity',
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
                                                               'is_availability', 'regular_price', 'price', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
@@ -103,6 +119,8 @@ class ProductAdmin(admin.ModelAdmin, ):
     filter_horizontal = ('category', )
 
     inlines = [
+        genericStacked_ItemID_InLine,
+        genericStacked_Manufacturer_InLine,
         Tabular_Discount_InLine,
         adminStacked_Additional_Information_InLine,
         genericStacked_Photo_InLine,

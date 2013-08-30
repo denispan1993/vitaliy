@@ -2,7 +2,7 @@
 {% block title %}{{ product.title|capfirst }}{% endblock %}
 {% block body_javascript %}
 {% endblock %}
-{%- block content_center -%}
+{% block content_center %}
 <style>
 #product_box{
 	width:auto;height:auto;
@@ -451,4 +451,4 @@ $(document).ready(onChange())
 		</div>
 	</div>
 </div>
-{%- endblock -%}
+{% endblock %}
