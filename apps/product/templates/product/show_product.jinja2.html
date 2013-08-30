@@ -283,15 +283,15 @@ p.price_total span{
             {% if product.is_availability == 1 %}
 <style>
 .quantity{
-//	margin:0;
-list-style-type:none;
-padding: 0 0 0 5px;
+    // margin:0px;
+    list-style-type:none;
+    padding: 0 0 0 5px;
 }
 .quantity li{
-line-height:22px;
-margin:0;
-list-style-type:none;
-float:left;
+    line-height:22px;
+    margin:0;
+    list-style-type:none;
+    float:left;
 }
 </style>
 <script>
@@ -321,10 +321,10 @@ price_qty_array[1]=999;
 price_array[1]={{ product.price|replace(",", ".") }};
     {# {% endif %} #}
 function checknumber(String){
-	var Letters = "1234567890";
+	var Letters = ".,1234567890";
 	var i;
 	var c;
-	for( i = 0; i < String.length; i ++ ){
+	for(i = 0; i < String.length; i ++){
 		c = String.charAt( i );
 		if (Letters.indexOf( c ) == -1){
 			return true;
@@ -340,24 +340,28 @@ function calculate(Qut,operation){
 	$("#errorMsg").html('');
 	if(checknumber(Qut)){
 		//calculate();
+        alert('aaa'+Qut+'bbb');
 		$("#errorMsg").html('Количество вводится цифрами!!!.');
 		return false;
 	}
-    Qut=parseInt(Qut);
-    var quantity_of_complete={{ product.quantity_of_complete }};
-    var result = Qut%{{ product.quantity_of_complete }};
-    //alert(result);
-	if(result!=0){
-		$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!.');
-		return false;
-	}
+    Qut=parseFloat(Qut);
     if(operation=='+'){Qut=Qut+{{ product.quantity_of_complete }}}
     if(operation=='-'){Qut=Qut-{{ product.quantity_of_complete }}}
+    var minimal_quantity={{ product.minimal_quantity }}
+    var quantity_of_complete={{ product.quantity_of_complete }};
+    var intermediate_result=Qut-{{ product.minimal_quantity }};
+    var result = intermediate_result%quantity_of_complete;
+    //alert(result+' '+intermediate_result);
+	if(result!=0&&intermediate_result!=0){
+		$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!');
+		result=Math.ceil(intermediate_result/quantity_of_complete);
+        Qut=(result*quantity_of_complete)+minimal_quantity;
+	}
 	if(Qut<{{ product.minimal_quantity }}){
 		//$("#quantity").val({{ product.minimal_quantity }});
 		//$("#quantity_order").val({{ product.minimal_quantity }});
 		//calculate();
-		$("#errorMsg").html('Минимальное для заказа количество {{ product.minimal_quantity }} !!!.');
+		$("#errorMsg").html('Минимальное для заказа количество {{ product.minimal_quantity }} !!!');
 		return false;
 	}
 	if(Qut>999){

@@ -156,6 +156,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -210,6 +211,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     # Мой context processor
     'proj.context_processor.context',
+    # 'compressor',
 )
 
 JINJA2_EXTENSIONS = [
@@ -228,6 +230,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.gzip.GZipMiddleware',
+    'compat.midlewareHTMLCompress.SpacelessMiddleware',
 )
 
 SESSION_SAVE_EVERY_REQUEST = True
