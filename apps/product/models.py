@@ -21,13 +21,20 @@ class Category(models.Model):
                                               u' ставим данное поле в False.')
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
                                            null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
-                                                                 u' со страницы категории, то ставим в True.')
+                                                                 u' со страницы категории, то ставим в True.', )
 #    from compat.ruslug.models import RuSlugField
 #    from apps.product.fields import ModelSlugField
     from compat.FormSlug import models as class_FormSlugField
     url = class_FormSlugField.ModelSlugField()
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
+    # Буквы дял автоматического создания Артикула товара
+    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
+                                         max_length=3,
+                                         null=False,
+                                         blank=False,
+                                         help_text=u'Буквы для автоматического создания Артикула товара. '
+                                                   u'Максимальнре количество букв - 3 шт.', )
     # name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
     description = models.TextField(verbose_name=u'Описание категории', null=True, blank=True, )
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
@@ -221,6 +228,18 @@ class Product(models.Model):
     photo = generic.GenericRelation('Photo',
                                     content_type_field='content_type',
                                     object_id_field='object_id', )
+    ItemID = generic.GenericRelation('ItemID',
+                                     content_type_field='content_type',
+                                     object_id_field='object_id', )
+    manufacturer = generic.GenericRelation('Manufacturer',
+                                           content_type_field='content_type',
+                                           object_id_field='object_id', )
+
+    @property
+    def create_ItemID(self):
+        ItemID = u'%s-%s-%.8d' % (self.category[0].letter_to_article,
+                                     self.manufacturer.letter_to_article,
+                                     self.id, )
 
     @property
     def main_photo(self, ):
@@ -270,13 +289,66 @@ class Product(models.Model):
 #            return
 
     def __unicode__(self):
-        return u'Продукт:%s' % (self.title, )
+        return u'Продукт:%s, наличие:%s' % (self.title, self.is_availability, )
 
     class Meta:
         db_table = 'Product'
         ordering = ['-created_at']
         verbose_name = u'Продукт'
         verbose_name_plural = u'Продукты'
+
+
+class ItemID(models.Model):
+    ''' Ссылка на главную запись '''
+    from django.contrib.contenttypes.models import ContentType
+    content_type = models.ForeignKey(ContentType, related_name='related_ItemID', )
+    object_id = models.PositiveIntegerField(db_index=True, )
+    from django.contrib.contenttypes import generic
+    parent = generic.GenericForeignKey('content_type', 'object_id', )
+
+    ItemID = models.CharField(verbose_name=u'ItemID', max_length=32, blank=True, null=True, )
+    # slug = models.SlugField(verbose_name=u'Slug')
+    # letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
+    # Абсолютный путь к логотипу производителя
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return self.ItemID
+
+    class Meta:
+        db_table = 'ItemID'
+        ordering = ['-created_at']
+        verbose_name = "Артикул продукта"
+        verbose_name_plural = "Артикулы продуктов"
+
+
+class Manufacturer(models.Model):
+    ''' Ссылка на главную запись '''
+    from django.contrib.contenttypes.models import ContentType
+    content_type = models.ForeignKey(ContentType, related_name='related_Manufacturer', )
+    object_id = models.PositiveIntegerField(db_index=True, )
+    from django.contrib.contenttypes import generic
+    parent = generic.GenericForeignKey('content_type', 'object_id', )
+
+    # country = models.ForeignKey(Countrys, related_name='manufacturer', verbose_name=u'Страна производитель')
+    name = models.CharField(verbose_name=u'Название производителя', max_length=128, null=False, blank=False, )
+    # slug = models.SlugField(verbose_name=u'Slug')
+    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
+    # Абсолютный путь к логотипу производителя
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'Manufacturer'
+        ordering = ['-created_at']
+        verbose_name = "Производитель"
+        verbose_name_plural = "Производители"
 
 
 class Additional_Information(models.Model):

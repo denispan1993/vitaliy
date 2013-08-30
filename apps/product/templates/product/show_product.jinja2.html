@@ -12,7 +12,7 @@
 	font-family:Arial,Helvetica,sans-serif;
 	font-size:12px;
 	line-height:100%;
-    min-height:355px;
+	min-height:355px;
 }
 #product_box_left{
 	float:left;
@@ -26,7 +26,7 @@
 #product_box_left_bottom{
 	margin-top:1px;
 	text-align:center;
-    height:55px;
+	height:55px;
 }
 #product_box_left_bottom ul{
 //	width:45px;// height:45px;
@@ -35,7 +35,7 @@
 //	list-style-image:none;
 //	list-style-type:none;
 //	padding:0px;margin:2px;
-    text-align:center;
+	text-align:center;
 }
 #product_box_left_bottom ul li{
 //	width:45px;// height:45px;
@@ -64,234 +64,234 @@
 }
 </style>
 <div id="product_box">
-    <div id="product_box_header">
-        {{ header_category2(current_category, product)|safe }}
-    </div>
-    <div id="product_box_top">
-        {% set photos = product.photo.all() %}
-        <script type="text/javascript" src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
-        <!-- Call quick start function. -->
-        <script type="text/javascript">
-            CloudZoom.quickStart();
-        </script>
-        <div id="product_box_left">
-            <div id="product_box_left_top">
-                {% if photos %}
-                    {% set photo_main = False %}
-                    {% for photo in photos if photo.main and not photo_main %}
-                         <div style="text-align:center">
-                             <div class="image-wrap">
-                                 {# <a href='{{ photo.photo.url }}' large image > #}
-                                 <img class="cloudzoom" id="zoom1"
-                                      src="{{ photo.photo.url_345x370 }}"{# small image #}
-                                      data-cloudzoom="
-                                      zoomImage:'{{ photo.photo.url }}',{# large image #}
-                                      zoomPosition:3,
-                                      zoomSizeMode:'image',
-                                      zoomOffsetX:15{# ,
-                                      zoomOffsetY:25 #}{# , #}
-                                      {# maxMagnification:4 #}"
-                                      alt="Cloud Zoom small image">
-                                 {# </a> #}
-                             </div>
-                         </div>
-{#                             <a href='{{ photo.photo.url }}'
-                           class = 'cloud-zoom'
-                           id='zoom1'
-                           rel="adjustX: 10, adjustY:-4">
-                            <img src="{{ photo.photo.url_345x370 }}"
-                                 alt=''
-                                 title="{{ photo.photo_sign }}"
-                                 id="img_productMainImg" />
-                        </a> #}
-                        {% set photo_main = photo %}
-                    {% endfor %}
-                {% else %}
-                    <a title="{{ product.item_description }}"
-                       id="a_productMainImg"
-                       href="{{ product_url }}">
-                        <img src="/media/img/NoPhoto_345x370.jpg"
-                             title="Фотография продукта отсутсвует"
-                             id="img_productMainImg" />
-                    </a>
-                {% endif %}
-            </div>
-            {% if photos %}
-                <script type="text/javascript">
-                // Initialize the sliders.
-                $(function(){
-                    $('#slider1').Thumbelina({
-                        $bwdBut:$('#slider1 .left'),
-                        $fwdBut:$('#slider1 .right')
-                    });
-                })
-                </script>
-                <script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
-                <div id="slider1"
-                     style="
-                        border-bottom:1px solid #AAAAAA;
-                        border-top:1px solid #AAAAAA;
-                        height:90px;
-                        margin-left:20px;
-                        margin-right:20px;
-                        position:relative;
-                        width:auto;">
-                    <style>
-                        .thumbelina-but.horiz.left {
-                            border-radius: 5px 0 0 5px;
-                            left: -22px;
-                        }
-                        .thumbelina-but.horiz {
-                            height: 90px;
-                            line-height: 98px;
-                            top: -1px;
-                            width: 20px;
-                        }
-                        .thumbelina-but {
-                            background-color: #CCCCCC;
-                            border: 1px solid #AAAAAA;
-                            box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
-                            color: #888888;
-                            cursor: pointer;
-                            font-family: monospace;
-                            font-size: 14px;
-                            font-weight: bold;
-                            position: absolute;
-                            text-align: center;
-                            vertical-align: middle;
-                            z-index: 1;
-                        }
-                        .thumbelina-but.disabled, .thumbelina-but.disabled:hover {
-                            background-color: #EFEFEF;
-                            box-shadow: none;
-                            color: #CCCCCC;
-                            cursor: default;
-                        }
-                    </style>
-                    <div class="thumbelina-but horiz left">˂</div>
-                        <div style="position:absolute;overflow:hidden;width:100%;height:100%;">
-                            <style>
-                                .thumbelina {
-                                    font-size:0;
-                                    list-style:none outside none;
-                                    margin:0;
-                                    padding:0;
-                                    position:absolute;
-                                    white-space:nowrap;
-                                }
-                            </style>
-                            <ul class="thumbelina" style="left: -180px;">
-                                <style>
-                                    .thumbelina li img {
-                                        border:1px solid #CCCCCC;
-                                    }
-                                    .thumbelina li img:hover {
-                                        border:1px solid #AAAAAA;
-                                    }
-                                </style>
-                                {% for photo in photos %}
-                                    <li style="display:inline-block;">
-                                        <img class="cloudzoom-gallery cloudzoom-gallery-active"
-                                             src="{{ photo.photo.url_90x95 }}" {# icon image #}
-                                             title='{{ photo.photo_sign }}'
-                                             data-cloudzoom="useZoom:'#zoom1',
-                                              image:'{{ photo.photo.url_345x370 }}',{# small image #}
-                                              zoomImage:'{{ photo.photo.url }}'">{# large image #}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    <style>
-                        .thumbelina-but.horiz.right {
-                            border-radius:0 5px 5px 0;
-                            right:-22px;
-                        }
-                    </style>
-                    <div class="thumbelina-but horiz right">˃</div>
-                </div>
-                {# <div id="product_box_left_bottom">
-                    <ul>
-                        {% for photo in photos %}<!-- [1:] -->
-                            <li class="li_productMiniImg">
-                                <a href='{{ photo.photo.url }}'
-                                   class='cloud-zoom-gallery{% if photo == photo_main %} active{% endif %}'
-                                   title='{{ photo.photo_sign }}'
-                                   rel="useZoom: 'zoom1', smallImage: '{{ photo.photo.url_345x370 }}' ">
-                                    <img src="{{ photo.photo.url_90x95 }}"
-                                         alt="{{ photo.photo_sign }}" />
-                                </a>
-                            </li>
+	<div id="product_box_header">
+		{{ header_category2(current_category, product)|safe }}
+	</div>
+	<div id="product_box_top">
+		{% set photos = product.photo.all() %}
+		<script type="text/javascript" src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
+		<!-- Call quick start function. -->
+		<script type="text/javascript">
+			CloudZoom.quickStart();
+		</script>
+		<div id="product_box_left">
+			<div id="product_box_left_top">
+				{% if photos %}
+					{% set photo_main = False %}
+					{% for photo in photos if photo.main and not photo_main %}
+						 <div style="text-align:center">
+							 <div class="image-wrap">
+								 {# <a href='{{ photo.photo.url }}' large image > #}
+								 <img class="cloudzoom" id="zoom1"
+									  src="{{ photo.photo.url_345x370 }}"{# small image #}
+									  data-cloudzoom="
+									  zoomImage:'{{ photo.photo.url }}',{# large image #}
+									  zoomPosition:3,
+									  zoomSizeMode:'image',
+									  zoomOffsetX:15{# ,
+									  zoomOffsetY:25 #}{# , #}
+									  {# maxMagnification:4 #}"
+									  alt="Cloud Zoom small image">
+								 {# </a> #}
+							 </div>
+						 </div>
+{#							 <a href='{{ photo.photo.url }}'
+						   class = 'cloud-zoom'
+						   id='zoom1'
+						   rel="adjustX: 10, adjustY:-4">
+							<img src="{{ photo.photo.url_345x370 }}"
+								 alt=''
+								 title="{{ photo.photo_sign }}"
+								 id="img_productMainImg" />
+						</a> #}
+						{% set photo_main = photo %}
+					{% endfor %}
+				{% else %}
+					<a title="{{ product.item_description }}"
+					   id="a_productMainImg"
+					   href="{{ product_url }}">
+						<img src="/media/img/NoPhoto_345x370.jpg"
+							 title="Фотография продукта отсутсвует"
+							 id="img_productMainImg" />
+					</a>
+				{% endif %}
+			</div>
+			{% if photos %}
+				<script type="text/javascript">
+				// Initialize the sliders.
+				$(function(){
+					$('#slider1').Thumbelina({
+						$bwdBut:$('#slider1 .left'),
+						$fwdBut:$('#slider1 .right')
+					});
+				})
+				</script>
+				<script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
+				<div id="slider1"
+					 style="
+						border-bottom:1px solid #AAAAAA;
+						border-top:1px solid #AAAAAA;
+						height:90px;
+						margin-left:20px;
+						margin-right:20px;
+						position:relative;
+						width:auto;">
+					<style>
+						.thumbelina-but.horiz.left {
+							border-radius: 5px 0 0 5px;
+							left: -22px;
+						}
+						.thumbelina-but.horiz {
+							height: 90px;
+							line-height: 98px;
+							top: -1px;
+							width: 20px;
+						}
+						.thumbelina-but {
+							background-color: #CCCCCC;
+							border: 1px solid #AAAAAA;
+							box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+							color: #888888;
+							cursor: pointer;
+							font-family: monospace;
+							font-size: 14px;
+							font-weight: bold;
+							position: absolute;
+							text-align: center;
+							vertical-align: middle;
+							z-index: 1;
+						}
+						.thumbelina-but.disabled, .thumbelina-but.disabled:hover {
+							background-color: #EFEFEF;
+							box-shadow: none;
+							color: #CCCCCC;
+							cursor: default;
+						}
+					</style>
+					<div class="thumbelina-but horiz left">˂</div>
+						<div style="position:absolute;overflow:hidden;width:100%;height:100%;">
+							<style>
+								.thumbelina {
+									font-size:0;
+									list-style:none outside none;
+									margin:0;
+									padding:0;
+									position:absolute;
+									white-space:nowrap;
+								}
+							</style>
+							<ul class="thumbelina" style="left: -180px;">
+								<style>
+									.thumbelina li img {
+										border:1px solid #CCCCCC;
+									}
+									.thumbelina li img:hover {
+										border:1px solid #AAAAAA;
+									}
+								</style>
+								{% for photo in photos %}
+									<li style="display:inline-block;">
+										<img class="cloudzoom-gallery cloudzoom-gallery-active"
+											 src="{{ photo.photo.url_90x95 }}" {# icon image #}
+											 title='{{ photo.photo_sign }}'
+											 data-cloudzoom="useZoom:'#zoom1',
+											  image:'{{ photo.photo.url_345x370 }}',{# small image #}
+											  zoomImage:'{{ photo.photo.url }}'">{# large image #}
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					<style>
+						.thumbelina-but.horiz.right {
+							border-radius:0 5px 5px 0;
+							right:-22px;
+						}
+					</style>
+					<div class="thumbelina-but horiz right">˃</div>
+				</div>
+				{# <div id="product_box_left_bottom">
+					<ul>
+						{% for photo in photos %}<!-- [1:] -->
+							<li class="li_productMiniImg">
+								<a href='{{ photo.photo.url }}'
+								   class='cloud-zoom-gallery{% if photo == photo_main %} active{% endif %}'
+								   title='{{ photo.photo_sign }}'
+								   rel="useZoom: 'zoom1', smallImage: '{{ photo.photo.url_345x370 }}' ">
+									<img src="{{ photo.photo.url_90x95 }}"
+										 alt="{{ photo.photo_sign }}" />
+								</a>
+							</li>
 <!--   							{1% if forloop.first %}
-                                <a class="zoomThumbActive" href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
-                            {1% else %}
-                                <a href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
-                            {1% endif %}
-                                <img src="{1{ photo.photo.url_90x95 }}" alt="{1{ photo.photo_sign }}" />
-                            </a>-->
-                        {% endfor %}
-                    </ul>
-                </div> #}
-            {% endif %}
-        </div>
-        <div id="product_box_right">
-            <h1 style="font-size:16px;height:auto;line-height:20px;">
-                <a href="{{ product.get_absolute_url() }}">
-                    {{ product.title|capfirst }}
-                </a>
-            </h1>
-            <h2 style="font-size:12px;font-weight:lighter;line-height:30px;">
-                Наименование категории:
-                    <a href="{{ current_category.get_absolute_url() }}">
-                        {{ current_category.title|capfirst }}
-                    </a>
-            </h2>
-            <p>Текуший продукт: {{ product.name }}</p>
-            {% if product.regular_ce %}
-                <p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
-                    Обычная цена:
-                    <span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
-                </p>
-            {% endif %}
-            <p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн.</span></p>
+								<a class="zoomThumbActive" href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
+							{1% else %}
+								<a href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
+							{1% endif %}
+								<img src="{1{ photo.photo.url_90x95 }}" alt="{1{ photo.photo_sign }}" />
+							</a>-->
+						{% endfor %}
+					</ul>
+				</div> #}
+			{% endif %}
+		</div>
+		<div id="product_box_right">
+			<h1 style="font-size:16px;height:auto;line-height:20px;">
+				<a href="{{ product.get_absolute_url() }}">
+					{{ product.title|capfirst }}
+				</a>
+			</h1>
+			<h2 style="font-size:12px;font-weight:lighter;line-height:30px;">
+				Наименование категории:
+					<a href="{{ current_category.get_absolute_url() }}">
+						{{ current_category.title|capfirst }}
+					</a>
+			</h2>
+			<p>Текуший продукт: {{ product.name }}</p>
+			{% if product.regular_ce %}
+				<p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
+					Обычная цена:
+					<span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
+				</p>
+			{% endif %}
+			<p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн.</span></p>
 <style>
 p.price_total{
-    margin:0;
-    padding:6px 0px;
-    text-indent:5px;
-    color:#333333;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:12px;
-    line-height:100%;
+	margin:0;
+	padding:6px 0px;
+	text-indent:5px;
+	color:#333333;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+	line-height:100%;
 }
 p.price_total span{
-    color:#333333;
-    text-indent:5px;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:12px;
-    line-height:100%;
+	color:#333333;
+	text-indent:5px;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+	line-height:100%;
 }
 </style>
-            <p class="pirce_total">
-            <span id="cart_quant">{{ quantity_ }}</span>
-            &nbsp;шт.&nbsp;×&nbsp;&nbsp;
-            <span id="one_piece_price">{{ price_per_piece|replace(",", ".") }}</span>
-            &nbsp;грн.&nbsp;=&nbsp;&nbsp;
-            <span id="current_price">{{ sum_of_quantity|replace(",", ".") }}</span>
-            &nbsp;грн.&nbsp;
-            </p>
-            {% set product_is_availability = product.is_availability %}
-            {% if product.is_availability == 1 %}
+			<p class="pirce_total">
+			<span id="cart_quant">{{ quantity_ }}</span>
+			&nbsp;шт.&nbsp;×&nbsp;&nbsp;
+			<span id="one_piece_price">{{ price_per_piece|replace(",", ".") }}</span>
+			&nbsp;грн.&nbsp;=&nbsp;&nbsp;
+			<span id="current_price">{{ sum_of_quantity|replace(",", ".") }}</span>
+			&nbsp;грн.&nbsp;
+			</p>
+			{% set product_is_availability = product.is_availability %}
+			{% if product.is_availability == 1 %}
 <style>
 .quantity{
-    // margin:0px;
-    list-style-type:none;
-    padding: 0 0 0 5px;
+	// margin:0px;
+	list-style-type:none;
+	padding: 0 0 0 5px;
 }
 .quantity li{
-    line-height:22px;
-    margin:0;
-    list-style-type:none;
-    float:left;
+	line-height:22px;
+	margin:0;
+	list-style-type:none;
+	float:left;
 }
 </style>
 <script>
@@ -319,7 +319,7 @@ price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
 	{% else %} #}
 price_qty_array[1]=999;
 price_array[1]={{ product.price|replace(",", ".") }};
-    {# {% endif %} #}
+	{# {% endif %} #}
 function checknumber(String){
 	var Letters = ".,1234567890";
 	var i;
@@ -328,34 +328,34 @@ function checknumber(String){
 		c = String.charAt( i );
 		if (Letters.indexOf( c ) == -1){
 			return true;
-        }
+		}
 	}
 	return false;
 }
-function calculate(Qut,operation){
+function calculate(operation){
 	//var price=0.00;
 	//var total=0.00;
-	//var Qut = $("#quantity").val();
+	var Qut=$("#quantity").val();
 	//$("#quantity_order").val(Qut);
 	$("#errorMsg").html('');
 	if(checknumber(Qut)){
 		//calculate();
-        alert('aaa'+Qut+'bbb');
+		//alert('aaa'+Qut+'bbb');
 		$("#errorMsg").html('Количество вводится цифрами!!!.');
 		return false;
 	}
-    Qut=parseFloat(Qut);
-    if(operation=='+'){Qut=Qut+{{ product.quantity_of_complete }}}
-    if(operation=='-'){Qut=Qut-{{ product.quantity_of_complete }}}
-    var minimal_quantity={{ product.minimal_quantity }}
-    var quantity_of_complete={{ product.quantity_of_complete }};
-    var intermediate_result=Qut-{{ product.minimal_quantity }};
-    var result = intermediate_result%quantity_of_complete;
-    //alert(result+' '+intermediate_result);
+	Qut=parseFloat(Qut);
+	if(operation=='+'){Qut=Qut+{{ product.quantity_of_complete }}}
+	if(operation=='-'){Qut=Qut-{{ product.quantity_of_complete }}}
+	var minimal_quantity={{ product.minimal_quantity }}
+	var quantity_of_complete={{ product.quantity_of_complete }};
+	var intermediate_result=Qut-{{ product.minimal_quantity }};
+	var result = intermediate_result%quantity_of_complete;
+	//alert(result+' '+intermediate_result);
 	if(result!=0&&intermediate_result!=0){
 		$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!');
 		result=Math.ceil(intermediate_result/quantity_of_complete);
-        Qut=(result*quantity_of_complete)+minimal_quantity;
+		Qut=(result*quantity_of_complete)+minimal_quantity;
 	}
 	if(Qut<{{ product.minimal_quantity }}){
 		//$("#quantity").val({{ product.minimal_quantity }});
@@ -371,94 +371,84 @@ function calculate(Qut,operation){
 		$("#errorMsg").html('Количество не может быть больше 999!!!');
 		return false;
 	}
-    $("#quantity").val(Qut);
-    $("#quantity_order").val(Qut);
-    $("#cart_quant").html(Qut);
-    $.each(price_qty_array,function(i,val){
-        if(val<=Qut&&Qut<price_qty_array[eval(i+1)]){
-            //alert('i: '+i+' Qut: '+Qut+' val: '+val)
-            var price=price_array[i];
-            $("#one_piece_price").html(price.toFixed(2));
-            var total=price*Qut;
-            $("#current_price").html(total.toFixed(2));
-            return true;
-        }
-    });
-}
-function onPlus(){
-    var value=$("#quantity").val();
-    calculate(value,'+');
-    return true;
-}
-function onMinus(){
-    var value=$("#quantity").val();
-    calculate(value,'-');
-    return true;
+	$("#quantity").val(Qut);
+	$("#quantity_order").val(Qut);
+	$("#cart_quant").html(Qut);
+	$.each(price_qty_array,function(i,val){
+		if(val<=Qut&&Qut<price_qty_array[eval(i+1)]){
+			//alert('i: '+i+' Qut: '+Qut+' val: '+val)
+			var price=price_array[i];
+			$("#one_piece_price").html(price.toFixed(2));
+			var total=price*Qut;
+			$("#current_price").html(total.toFixed(2));
+			return true;
+		}
+	});
 }
 function onChange(){
-    var value=$('#quantity').val();
-    setTimeout(calculate(value,''), 1500);
-    return true;
+	window.setInterval("calculate('|')",1500);
+	//setTimeout(calculate(value),1500);
+	return true;
 }
 </script>
-                <form method="POST" action=".">
-                    <ul class="quantity">
-                        <li>Количество:</li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <img src="/media/img/minus.gif"
-                                     onclick='onMinus();'/>
-                            </a>
-                        </li>
-                        <li>
-                            <input id="quantity"
-                                   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;"
-                                   name="quantity"
-                                   value="{{ quantity_ }}"
-{#                                 onchange="setTimeout('calculate()', 1500);" #}
-                                   onkeyup="onChange();"
-                                   type="number">
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <img src="/media/img/plus.gif"
-                                    onclick='onPlus();'>
-                            </a>
-                        </li>
-                            <span id="errorMsg"
-                                  style="text-align:center;color:#FF0000">
-                            </span>
-                    </ul>
-                    <br class="clearFloat" />
+				<form method="POST" action=".">
+					<ul class="quantity">
+						<li>Количество:</li>
+						<li>
+							<a href="javascript:void(0)">
+								<img src="/media/img/minus.gif"
+									 onclick='calculate("-");'/>
+							</a>
+						</li>
+						<li>
+							<input id="quantity"
+								   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;"
+								   name="quantity"
+								   value="{{ quantity_ }}"
+{#								 onchange="setTimeout('calculate()', 1500);" #}
+								   onkeyup="onChange();"
+								   type="number">
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<img src="/media/img/plus.gif"
+									onclick='calculate("+");'>
+							</a>
+						</li>
+							<span id="errorMsg"
+								  style="text-align:center;color:#FF0000">
+							</span>
+					</ul>
+					<br class="clearFloat" />
 
-                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
-                    <input type="hidden" name="product_url" value="{{ product.url }}" />
-                    <input type="hidden" name="action" value="addtocard" />
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+					<input type="hidden" name="product_pk" value="{{ product.pk }}" />
+					<input type="hidden" name="product_url" value="{{ product.url }}" />
+					<input type="hidden" name="action" value="addtocard" />
+					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-                    <input type="submit" value="Добавить в корзину" />
-                </form>
+					<input type="submit" value="Добавить в корзину" />
+				</form>
 <script>
 $(document).ready(onChange())
 </script>
-                <br class="clearFloat" />
-                <form method="POST" action=".">
-                    <input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
-                    <input type="hidden" name="product_pk" value="{{ product.pk }}" />
-                    <input type="hidden" name="product_url" value="{{ product.url }}" />
-                    <input type="hidden" name="action" value="makeanorder" />
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+				<br class="clearFloat" />
+				<form method="POST" action=".">
+					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
+					<input type="hidden" name="product_pk" value="{{ product.pk }}" />
+					<input type="hidden" name="product_url" value="{{ product.url }}" />
+					<input type="hidden" name="action" value="makeanorder" />
+					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-                    <input type="submit" value="Купить" />
-                </form>
-            {% elif product.is_availability == 2 %}
-                <p>Товар: <strong>ожидается</strong></p>
-            {% elif product.is_availability == 3 %}
-                <p>Товар: <strong>доступен под заказ</strong></p>
-            {% elif product.is_availability == 4 %}
-                <p>Товар: <strong>недоступен</strong></p>
-            {% endif %}
-        </div>
-    </div>
+					<input type="submit" value="Купить" />
+				</form>
+			{% elif product.is_availability == 2 %}
+				<p>Товар: <strong>ожидается</strong></p>
+			{% elif product.is_availability == 3 %}
+				<p>Товар: <strong>доступен под заказ</strong></p>
+			{% elif product.is_availability == 4 %}
+				<p>Товар: <strong>недоступен</strong></p>
+			{% endif %}
+		</div>
+	</div>
 </div>
 {%- endblock -%}
