@@ -2,15 +2,18 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-# Create your models here.
+#from mptt.models import MPTTModel
 
 
+#class Category(MPTTModel):
 class Category(models.Model):
-    parent = models.ForeignKey(u'Category',
-                               related_name='children',
+    #from mptt.models import TreeForeignKey
+    #parent = TreeForeignKey('self',
+    parent = models.ForeignKey('self',
                                verbose_name=u'Вышестоящая категория',
                                null=True,
-                               blank=True, )
+                               blank=True,
+                               related_name='children', )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
                                                      # visibility=True,
                                                      default=1,
@@ -117,6 +120,10 @@ class Category(models.Model):
 
     def __unicode__(self):
         return u'Категория: %s' % (self.title, )
+
+    class MPTTMeta:
+        level_attr = 'mptt_level'
+        order_insertion_by = ['title', ]
 
     class Meta:
         db_table = 'Category'
@@ -593,3 +600,12 @@ rules = [
 from south.modelsinspector import add_introspection_rules
 add_introspection_rules(rules, ["^apps\.product\.models\.ModelSlugField"])
 add_introspection_rules(rules, ["^apps\.product\.models\.ImageWithThumbsField"])
+
+from mptt.fields import TreeForeignKey
+#from django.contrib.auth.models import Group
+
+# add a parent foreign key
+TreeForeignKey(Category, blank=True, null=True).contribute_to_class(Category, 'parent')
+
+import mptt
+mptt.register(Category, order_insertion_by=['name'])

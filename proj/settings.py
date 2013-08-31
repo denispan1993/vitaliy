@@ -277,6 +277,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'south',
+    'mptt',
     'django_jinja',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
