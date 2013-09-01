@@ -14,13 +14,21 @@ class genericStacked_Photo_InLine(generic.GenericStackedInline, ):
 
 from apps.product.models import Category
 
+from mptt.admin import MPTTModelAdmin
 
-class CategoryAdmin(admin.ModelAdmin, ):
+
+class CategoryAdmin(MPTTModelAdmin, ):
+    #MPTT
+    mptt_indent_field = 'url'
+    #default is 10 pixels
+    mptt_level_indent = 15
+
     list_display = ['pk', 'url', 'title', 'parent', ] #'name', ]
     list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
-                                                              'disclose_product', 'url', 'title', 'letter_to_article',
+                                                              'disclose_product', 'url', 'title',
+                                                              #'letter_to_article',
                                                               # 'name',
                                                               'description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
@@ -28,8 +36,8 @@ class CategoryAdmin(admin.ModelAdmin, ):
                                                                                               'meta_keywords', ], }),
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
     ]
-#    readonly_fields = (u'url', )
-    prepopulated_fields = {u'url': (u'title', ), }
+    #readonly_fields = (u'url', )
+    prepopulated_fields = {'url': ('title', ), }
 
     inlines = [
         genericStacked_Photo_InLine,

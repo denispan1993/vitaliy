@@ -200,13 +200,19 @@ DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2.html'
 ##     'django.template.loaders.eggs.Loader',
 #)
 
-TEMPLATE_CONTEXT_PROCESSORS = (
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS += (
     # 'django.core.context_processors.csrf',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
-    'django.core.context_processors.request',
+    # 'django.core.context_processors.request',
     # 'django.core.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     # Мой context processor
@@ -274,10 +280,13 @@ INSTALLED_APPS = (
     # 'nested_inlines', -> Вместо это установка пропатченого django
     # https://github.com/stefanklug/django/tree/nested-inline-support-1.5.x
     # Uncomment the next line to enable the admin:
+    'suit',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.markup',
     'south',
     'mptt',
+    'django_mptt_admin',
     'django_jinja',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',

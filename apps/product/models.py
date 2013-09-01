@@ -2,18 +2,16 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-#from mptt.models import MPTTModel
+from mptt.models import MPTTModel
 
 
-#class Category(MPTTModel):
-class Category(models.Model):
-    #from mptt.models import TreeForeignKey
-    #parent = TreeForeignKey('self',
-    parent = models.ForeignKey('self',
-                               verbose_name=u'Вышестоящая категория',
-                               null=True,
-                               blank=True,
-                               related_name='children', )
+class Category(MPTTModel):
+    from mptt import models as modelsTree
+    parent = modelsTree.TreeForeignKey('Category',
+                                       verbose_name=u'Вышестоящая категория',
+                                       null=True,
+                                       blank=True,
+                                       related_name=u'children', )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
                                                      # visibility=True,
                                                      default=1,
@@ -32,13 +30,13 @@ class Category(models.Model):
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
     # Буквы дял автоматического создания Артикула товара
-    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
-                                         default='CAT',
-                                         max_length=3,
-                                         null=False,
-                                         blank=False,
-                                         help_text=u'Буквы для автоматического создания Артикула товара. '
-                                                   u'Максимальнре количество букв - 3 шт.', )
+    #letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
+    #                                     default='CAT',
+    #                                     max_length=3,
+    #                                     null=False,
+    #                                     blank=False,
+    #                                     help_text=u'Буквы для автоматического создания Артикула товара. '
+    #                                               u'Максимальнре количество букв - 3 шт.', )
     # name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
     description = models.TextField(verbose_name=u'Описание категории', null=True, blank=True, )
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
@@ -601,11 +599,11 @@ from south.modelsinspector import add_introspection_rules
 add_introspection_rules(rules, ["^apps\.product\.models\.ModelSlugField"])
 add_introspection_rules(rules, ["^apps\.product\.models\.ImageWithThumbsField"])
 
-from mptt.fields import TreeForeignKey
+##from mptt.fields import TreeForeignKey
 #from django.contrib.auth.models import Group
 
 # add a parent foreign key
-TreeForeignKey(Category, blank=True, null=True).contribute_to_class(Category, 'parent')
+#TreeForeignKey(Category, blank=True, null=True).contribute_to_class(Category, 'parent')
 
-import mptt
-mptt.register(Category, order_insertion_by=['name'])
+#import mptt
+#mptt.register(Category, order_insertion_by=['name'])
