@@ -243,15 +243,7 @@ class Product(models.Model):
 
     @property
     def create_ItemID(self):
-        ItemsID = self.ItemID.all()
-        manufacturers = self.manufacturer.all()
-        if not ItemsID:
-            ItemID = u'%s-%.5d' % (manufacturers[0].letter_to_article.upper(),
-                                   self.id, )
-
-            NewItemID = ItemID.create(ItemID=ItemID, )
-            return NewItemID
-        return None
+        return ItemID.create(ItemID=u'%.5d' % self.id, )
 
     @property
     def main_photo(self, ):
