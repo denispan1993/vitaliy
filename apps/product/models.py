@@ -243,11 +243,14 @@ class Product(models.Model):
 
     @property
     def create_ItemID(self):
-        if not self.ItemID.ItemID:
-            ItemID = u'%s-%s-%.8d' % (self.category[0].letter_to_article,
-                                      self.manufacturer.letter_to_article,
-                                      self.id, )
-            return ItemID
+        ItemsID = self.ItemID.all()
+        manufacturers = self.manufacturer.all()
+        if not ItemsID:
+            ItemID = u'%s-%.5d' % (manufacturers[0].letter_to_article.upper(),
+                                   self.id, )
+
+            NewItemID = ItemID.create(ItemID=ItemID, )
+            return NewItemID
         return None
 
     @property
@@ -271,9 +274,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
         super(Product, self).save(*args, **kwargs)
-        if not self.ItemID:
-            ItemID = self.create_ItemID()
-            self.ItemID.create(ItemID=ItemID, )
+        self.create_ItemID()
 
 #    @models.permalink
     def get_absolute_url(self, ):
