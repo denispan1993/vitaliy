@@ -237,13 +237,15 @@ class Product(models.Model):
     ItemID = generic.GenericRelation('ItemID',
                                      content_type_field='content_type',
                                      object_id_field='object_id', )
-    manufacturer = generic.GenericRelation('Manufacturer',
+    manufacturer = generic.GenericRelation('IntermediateModelManufacturer',
                                            content_type_field='content_type',
                                            object_id_field='object_id', )
 
     @property
     def create_ItemID(self):
-        return ItemID.create(ItemID=u'%.5d' % self.id, )
+        # from apps.product.models import ItemID
+        #self.ItemID.objects.create(ItemID=u'%.5d' % self.id, )
+        return ItemID.objects.create(parent=self, ItemID=u'%.5d' % self.id, )
 
     @property
     def main_photo(self, ):
@@ -266,7 +268,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
         super(Product, self).save(*args, **kwargs)
-        self.create_ItemID()
+        self.create_ItemID
 
 #    @models.permalink
     def get_absolute_url(self, ):
@@ -332,15 +334,34 @@ class ItemID(models.Model):
         verbose_name_plural = "Артикулы продуктов"
 
 
-class Manufacturer(models.Model):
+class IntermediateModelManufacturer(models.Model):
     ''' Ссылка на главную запись '''
     from django.contrib.contenttypes.models import ContentType
-    content_type = models.ForeignKey(ContentType, related_name='related_Manufacturer', )
-    object_id = models.PositiveIntegerField(db_index=True, )
+    content_type = models.ForeignKey(ContentType, related_name='related_Manufacturer',
+                                     null=False, blank=False, default=1, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            null=False, blank=False, default=1, )
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
+    # Собственно сам ключ на производителя
+    key = models.ForeignKey('Manufacturer', verbose_name=u'Производитель', null=False, blank=False, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
 
-    # country = models.ForeignKey(Countrys, related_name='manufacturer', verbose_name=u'Страна производитель')
+    def __unicode__(self):
+        return u'%.5d-%.3d-%s' % (self.pk,
+                                  self.key.pk,
+                                  self.key.name, )
+
+    class Meta:
+        db_table = 'IntermediateModelManufacturer'
+        ordering = ['-created_at']
+        verbose_name = "Ссылка на производителя"
+        verbose_name_plural = "Ссылки на производителей"
+
+
+class Manufacturer(models.Model):
     name = models.CharField(verbose_name=u'Название производителя', max_length=128, null=False, blank=False, )
     # slug = models.SlugField(verbose_name=u'Slug')
     letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )

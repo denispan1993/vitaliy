@@ -54,13 +54,23 @@ from apps.product.models import ItemID
 class genericStacked_ItemID_InLine(generic.GenericStackedInline, ):
     model = ItemID
     extra = 1
+    max_num = 1
+
+from apps.product.models import IntermediateModelManufacturer
+
+
+class genericStacked_IntermediateModelManufacturer_InLine(generic.GenericStackedInline, ):
+    model = IntermediateModelManufacturer
+    extra = 1
+    max_num = 1
 
 from apps.product.models import Manufacturer
 
 
-class genericStacked_Manufacturer_InLine(generic.GenericStackedInline, ):
+class ManufacturerAdmin(admin.ModelAdmin, ):
     model = Manufacturer
-    extra = 1
+
+admin.site.register(Manufacturer, ManufacturerAdmin, )
 
 from apps.product.models import Information
 
@@ -128,7 +138,7 @@ class ProductAdmin(admin.ModelAdmin, ):
 
     inlines = [
         genericStacked_ItemID_InLine,
-        genericStacked_Manufacturer_InLine,
+        genericStacked_IntermediateModelManufacturer_InLine,
         Tabular_Discount_InLine,
         adminStacked_Additional_Information_InLine,
         genericStacked_Photo_InLine,
