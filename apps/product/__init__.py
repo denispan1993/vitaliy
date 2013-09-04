@@ -24,6 +24,18 @@ def modification_ItemID(instance, **kwargs):
     #print(instance._meta)
     #print(instance._meta.app_label)
     #print(instance.__class__.__name__)
+    if instance.__class__.__name__ == 'Product':
+        print(u'Product.pk: %d' % instance.pk, )
+        try:
+            from apps.product.models import ItemID
+            ItemID = ItemID.objects.get(ItemID=u'%.5d' % instance.pk, )
+        except ItemID.DoesNotExist:
+            print(u'ItemID: None', )
+        else:
+            print(u'ItemID:' % ItemID, )
+        try:
+            from apps.product.models import IntermediateModelManufacturer
+            IntermediateModelManufacturer
     #from django.db.models import get_model
     #model = get_model(instance._meta.app_label, instance.__class__.__name__, )
     #print(model)
