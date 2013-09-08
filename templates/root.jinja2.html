@@ -19,7 +19,8 @@ try{
             saveState:true,
             disableLink:false,
             speed:'slow',
-            showCount:true,
+            showCount:false,
+            //showCount:true,
             autoExpand:true,
             menuClose:true,
             cookie:'dcjq-accordion',
@@ -80,11 +81,17 @@ try{
     </div>
     {# <div id="cart"><a href="/корзина/">Корзина:</a></div> #}
     <div id="auth">Вход/Регистрация{# {{ social_auth_widget() }} #}</div>
+    {% if request.session.category %}
+        <div id="category_admin"><a href="/admin/product/category/{{ current_category.pk }}/">{{ current_category.title }}</a></div>
+    {% endif %}
+    {% if request.session.product %}
+        <div id="product_admin"><a href="/admin/product/product/{{ product.pk }}/">{{ product.title }}</a></div>
+    {% endif %}
     <div id="div_logo">
         <a id="logo"
            href="/"
            title="Главная страница интернет-магазина keksik.com.ua"
-           alt="Кексик с глазами - интернет магазин kekesik.com.ua">
+           alt="Кексик с глазами - интернет магазин keksik.com.ua">
         </a>
     </div>
     {% if slides_ %}

@@ -21,9 +21,112 @@
                     </tr>
                 </thead>
                 <tbody>
+<script>
+function CheckNumber(String){
+	var Letters = ".,1234567890";
+	var i;
+	var c;
+	for(i = 0; i < String.length; i ++){
+		c = String.charAt( i );
+		if (Letters.indexOf( c ) == -1){
+			return true;
+		}
+	}
+	return false;
+}
+var product_summ_of_quantity_array = new Array();
+product_summ_of_quantity_array[0]=0;
+//product_summ_of_quantity_array[999999]=0;
+</script>
                     {# {% set products=user_cart_.products %} #}
                     {% for product in user_cart_.products %}
                     {% set real_product=product.product %}
+<script>
+var price_qty_array_{{ product.pk }} = new Array();
+var price_array_{{ product.pk }} = new Array();
+price_qty_array_{{ product.pk }}[0]=1;
+price_array_{{ product.pk }}[0]={{ real_product.price|replace(",", ".") }};
+{#  {% if discount1 != None %}
+		{% if discount1.price %}
+			{% for discount in discounts %}
+				<!--{1% if not forloop.first %}-->
+				{% if forloop.last %}
+price_qty_array[{{ forloop.counter }}]={{ discount.quantity_of_products }};
+price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
+price_qty_array[{{ forloop.counter|add:"1" }}]=999;
+price_array[{{ forloop.counter|add:"1" }}]={{ discount.price|replace(",", ".") }};
+				<!--{1% endif %}-->
+				{% else %}
+price_qty_array[{{ forloop.counter }}]={{ discount.quantity_of_products }};
+price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
+				{% endif %}
+			{% endfor %}
+		{% else %}
+		{% endif %}
+	{% else %} #}
+price_qty_array_{{ product.pk }}[1]=999;
+price_array_{{ product.pk }}[1]={{ real_product.price|replace(",", ".") }};
+	{# {% endif %} #}
+function Calculate_{{ product.pk }}(operation){
+	//var price=0.00;
+	//var total=0.00;
+	var Qut=$("#quantity1_{{ product.pk }}").val();
+	//$("#quantity_order").val(Qut);
+	$("#errorMsg").html('');
+	if(CheckNumber(Qut)){
+		//calculate();
+		//alert('aaa'+Qut+'bbb');
+		$("#errorMsg").html('Количество вводится цифрами!!!.');
+		return false;
+	}
+	Qut=parseFloat(Qut);
+	if(operation=='+'){Qut+={{ real_product.quantity_of_complete }}}
+	if(operation=='-'){Qut-={{ real_product.quantity_of_complete }}}
+	var minimal_quantity={{ real_product.minimal_quantity }}
+	var quantity_of_complete={{ real_product.quantity_of_complete }};
+	var intermediate_result=Qut-{{ real_product.minimal_quantity }};
+	var result=intermediate_result%quantity_of_complete;
+	//alert(result+' '+intermediate_result);
+	if(result!=0&&intermediate_result!=0){
+		//$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!');
+		result=Math.ceil(intermediate_result/quantity_of_complete);
+		Qut=(result*quantity_of_complete)+minimal_quantity;
+	}
+	if(Qut<{{ real_product.minimal_quantity }}){
+		//$("#quantity").val({{ product.minimal_quantity }});
+		//$("#quantity_order").val({{ product.minimal_quantity }});
+		//calculate();
+		//$("#errorMsg").html('Минимальное для заказа количество '+minimal_quantity+' !!!');
+		Qut=minimal_quantity;
+		//return false;
+	}
+	if(Qut>999){
+		//$("#quantity").val(999);
+		//$("#quantity_order").val(999);
+		//calculate();
+		//$("#errorMsg").html('Количество не может быть больше 999!!!');
+        Qut=999;
+		//return false;
+	}
+	$("#quantity1_{{ product.pk }}").val(Qut);
+	$("#quantity2_{{ product.pk }}").val(Qut);
+	$.each(price_qty_array_{{ product.pk }},function(i,val){
+		if(val<=Qut&&Qut<price_qty_array_{{ product.pk }}[eval(i+1)]){
+			//alert('i: '+i+' Qut: '+Qut+' val: '+val)
+			var total=price_array_{{ product.pk }}[i]/{{ real_product.price_of_quantity }}*Qut;
+			$("#summ_of_quantity_{{ product.pk }}").html(total.toFixed(2)+' грн.');
+			//product_summ_of_quantity_array[{{ product.pk }}]=total.toFixed(2);
+	        //ReCalcSumm();
+			return true;
+		}
+	});
+}
+function onChange_{{ product.pk }}(){
+	window.setInterval("Calculate_{{ product.pk }}('|')",5000);
+	//setTimeout(calculate(value),1500);
+	return true;
+}
+</script>
                         <tr>
                             <td>
                                 <input type="hidden"
@@ -37,23 +140,30 @@
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <a href="javascript:void(0)">
                                         <img src="/media/img/minus.gif"
-                                            onClick="javascript:reselect_minus('quantity1_{{ product.pk }}','quantity2_{{ product.pk }}')" />
+                                            onClick="Calculate_{{ product.pk }}('-')" />
                                     </a>
                                 </li>
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <input id="quantity1_{{ product.pk }}"
-                                           style="border:1px solid #CCCCCC; text-align:center; width:20px; padding:2px;"
+                                           style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;"
                                            name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
+        								   onKeyUp="onChange_{{ product.pk }}();"
                                            type="text"/>
                                 </li>
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <a href="javascript:void(0)">
                                         <img src="/media/img/plus.gif"
-                                            onClick="javascript:reselect_plus('quantity1_{{ product.pk }}','quantity2_{{ product.pk }}')" />
+                                            onClick="Calculate_{{ product.pk }}('+')" />
                                     </a>
                                 </li>
                             </td>
-                            <td><p>{{ product.summ_of_quantity }} грн.</p></td>
+                            {# {% set product_summ_of_quantity = product.summ_of_quantity %}
+                            {% set real_product_price_of_quantity = real_product.price_of_quantity %}
+                            {% set summ_of_quantity =  product_summ_of_quantity/real_product_price_of_quantity %} {{ summ_of_quantity }} #}
+                            <td><p id="summ_of_quantity_{{ product.pk }}">{{ product.summ_of_quantity }} грн.</p></td>
+<script>
+product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity|replace(",", ".") }};
+</script>
                             <td><input id="delete1_{{ product.pk }}"
                                        name="delete_{{ product.pk }}"
                                        {# checked="" #}
@@ -62,30 +172,58 @@
                             </td>
                         </tr>
                     {% endfor %}
-<script type="text/javascript">
+
+{# <script>
 function reselect_minus(IdString1, IdString2){
     var value = document.getElementById(IdString1).value
     if (value > 1 && value <= 999 ){
         document.getElementById(IdString1).value--;
-        document.getElementById(IdString2).value--;}
+        document.getElementById(IdString2).value--;
+        ReCalcSumm();}
     return false;}
 function reselect_plus(IdString1, IdString2){
     var value = document.getElementById(IdString1).value
     if (value >= 1 && value < 999 ){
         document.getElementById(IdString1).value++;
-        document.getElementById(IdString2).value++;}
-    return false;}
+        document.getElementById(IdString2).value++;
+        ReCalcSumm();}
+    return false;} #}
+<script>
 function delete_on_off(IdString1, IdString2){
     var checked = document.getElementById(IdString1).checked
     document.getElementById(IdString2).checked = checked;
     return false;}
 </script>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2"
+                            style="text-align:right;">Сумма:</th>
+                        <th colspan="2"
+                            id="all_summ_of_quantity"
+                            style="text-align:left;color:Fuchsia;font-size:18px;"></th>
+                    </tr>
+                </tfoot>
             </table>
             <input style="float:left;list-style-type:none;line-height:22px;"
                    type="submit"
                    value="Пересчитать корзину"/>
         </form>
+<script>
+function ReCalcSumm(){
+    var summ=0;
+	$.each(product_summ_of_quantity_array,function(i){
+        var val=parseFloat(product_summ_of_quantity_array[i])
+        if(0<=val&&val<=999999){
+            summ+=val;
+        }
+    });
+    $("#all_summ_of_quantity").html(summ.toFixed(2)+' грн.');
+}
+</script>
+<script>
+$(document).ready(ReCalcSumm());
+</script>
         {# <div> #}
             <form method="POST" action="/корзина/заказ/">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>

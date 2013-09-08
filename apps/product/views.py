@@ -46,6 +46,7 @@ def show_category(request,
                   id,
                   template_name=u'category/show_category.jinja2.html',
                   ):
+    request.session[u'category'] = True
     from apps.product.models import Category
     try:
         current_category = Category.objects.get(pk=id, url=category_url, )
@@ -74,7 +75,7 @@ def show_product(request, product_url, id,
                  template_name=u'product/show_product.jinja2.html',
                  ):
     current_category = request.session.get(u'current_category', None, )
-
+    request.session[u'product'] = True
     if request.method == 'POST':
         if request.session.get(u'cookie', False, ):
         # if cookie:
@@ -126,6 +127,8 @@ def show_product(request, product_url, id,
             from django.http import Http404
             raise Http404
         else:
+            product.get_or_create_ItemID
+            viewed = get_or_create_Viewed(request=request, product=product, )
             product_is_availability = product.is_availability
             categories_of_product = product.category.all()
             if current_category:
@@ -162,7 +165,7 @@ def get_cart(request, ):
     return cart, created
 
 
-def add_to_cart(request, product=None, int_product_pk=None, product_url=None, quantity=1, ):
+def add_to_cart(request, product=None, int_product_pk=None, product_url=None, quantity=None, ):
 #    postdata = request.POST.copy()
     # get product slug from post data, return blank if empty
 #    if not product_pk:
@@ -198,7 +201,7 @@ def add_to_cart(request, product=None, int_product_pk=None, product_url=None, qu
 #    if not quantity:
 #        quantity = int(postdata.get('quantity', 1, ), )
     #get cart
-    # Взятие корзины
+    """ Взятие корзины, или создание если её нету """
     product_cart, created = get_cart(request, )
     from apps.cart.models import Product
     try:
@@ -207,15 +210,82 @@ def add_to_cart(request, product=None, int_product_pk=None, product_url=None, qu
     #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
     except Product.DoesNotExist:
         """ Занесение продукта в корзину если его нету """
+        if not quantity:
+            quantity = product.minimal_quantity
         product_in_cart = Product.objects.create(key=product_cart,
                                                  product=product,
                                                  price=product.price,
                                                  quantity=quantity, )
         # product_in_cart.update_price_per_piece()
     else:
+        if not quantity:
+            quantity = product.quantity_of_complete
         product_in_cart.summ_quantity(quantity, )  # quantity += exist_cart_option.quantity
         product_in_cart.update_price_per_piece()
     # finally:
         # product_in_cart.update_price_per_piece()
 
     return product_cart, product_in_cart
+
+
+#    # Взять последние просмотренные товары
+# @property
+def get_or_create_Viewed(request,
+                         product=None,
+                         int_product_pk=None,
+                         product_url=None,
+                         user_obj=None,
+                         sessionid=None, ):
+    if not product:
+        # try to get product from cache
+        product_cache_key = request.path
+        from django.core.cache import cache
+        from proj.settings import CACHE_TIMEOUT
+        product = cache.get(product_cache_key)
+        # if a cache miss, fall back on db query
+        if not product:
+            # fetch the product or return a missing page error
+            from apps.product.models import Product
+            try:
+                if product_url:
+                    product = Product.objects.get(pk=int_product_pk, url=product_url, )
+                else:
+                    product = Product.objects.get(pk=int_product_pk, )
+            except Product.DoesNotExist:
+                from django.http import Http404
+                raise Http404
+            else:
+                # store item in cache for next time
+                cache.set(product_cache_key, product, CACHE_TIMEOUT, )
+    from apps.product.models import Viewed
+    if request.user.is_authenticated() and request.user.is_active:
+        if not user_obj:
+            user_id_ = request.session.get(u'_auth_user_id', None, )
+            from django.contrib.auth.models import User
+            user_obj = User.objects.get(pk=user_id_, )
+        viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
+                                                       object_id=product.pk,
+                                                       user_obj=user_obj,
+                                                       sessionid=None, )
+    else:
+        if not sessionid:
+            sessionid = request.COOKIES.get(u'sessionid', None, )
+        viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
+                                                       object_id=product.pk,
+                                                       user_obj=None,
+                                                       sessionid=sessionid, )
+    if not created:
+        from datetime import datetime
+        viewed.last_viewed = datetime.now()
+        viewed.save()
+    try:
+        if request.user.is_authenticated() and request.user.is_active:
+            viewed = Viewed.objects.filter(user_obj=user_obj,
+                                           sessionid=None, )
+        else:
+            viewed = Viewed.objects.filter(user_obj=None,
+                                           sessionid=sessionid, )
+    except Viewed.DoesNotExist:
+        return None
+    else:
+        return viewed

@@ -25,15 +25,15 @@
 
 
 class Process_SessionIDMiddleware(object):
-    def process_request(self, request):
-        # ajax_resolution
+    def process_request(self, request, ):
+        """ ajax_resolution """
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
         from datetime import datetime, timedelta
         if not ajax_resolution_datetime or ajax_resolution_datetime < (datetime.now() - timedelta(seconds=60, )):
             request.session[u'ajax_resolution'] = True
         else:
             request.session[u'ajax_resolution'] = False
-        # ajax_cookie
+        """ ajax_cookie """
         if not "cookie" in request.session:
             request.session[u'ajax_cookie'] = True
             request.session.set_test_cookie()
@@ -48,6 +48,11 @@ class Process_SessionIDMiddleware(object):
             SESSIONID_COOKIES_ = None
 
         request.SESSIONID_COOKIES_ = SESSIONID_COOKIES_
+        """ Убираем ссылки на Продукт и Категорию из session """
+        if u"product" in request.session:
+            request.session[u'product'] = False
+        if u"category" in request.session:
+            request.session[u'category'] = False
 
             #        ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
 #        from datetime import datetime, timedelta

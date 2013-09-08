@@ -68,7 +68,7 @@
 		{{ header_category2(current_category, product)|safe }}
 	</div>
 	<div id="product_box_top">
-		{% set photos = product.photo.all() %}
+		{# {% set photos = product.photo.all() %} #}
 		<script type="text/javascript" src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
 		<!-- Call quick start function. -->
 		<script type="text/javascript">
@@ -76,16 +76,17 @@
 		</script>
 		<div id="product_box_left">
 			<div id="product_box_left_top">
-				{% if photos %}
-					{% set photo_main = False %}
-					{% for photo in photos if photo.main and not photo_main %}
+                {% set main_photo = product.main_photo %}
+				{% if main_photo %}
+					{# {% set photo_main = False %}
+					{% for photo in photos if photo.main and not photo_main %} #}
 						 <div style="text-align:center">
 							 <div class="image-wrap">
-								 {# <a href='{{ photo.photo.url }}' large image > #}
+								 {# <a href='{{ main_photo.photo.url }}' large image > #}
 								 <img class="cloudzoom" id="zoom1"
-									  src="{{ photo.photo.url_345x370 }}"{# small image #}
+									  src="{{ main_photo.photo.url_345x370 }}"{# small image #}
 									  data-cloudzoom="
-									  zoomImage:'{{ photo.photo.url }}',{# large image #}
+									  zoomImage:'{{ main_photo.photo.url }}',{# large image #}
 									  zoomPosition:3,
 									  zoomSizeMode:'image',
 									  zoomOffsetX:15{# ,
@@ -95,27 +96,28 @@
 								 {# </a> #}
 							 </div>
 						 </div>
-{#							 <a href='{{ photo.photo.url }}'
+{#							 <a href='{{ main_photo.photo.url }}'
 						   class = 'cloud-zoom'
 						   id='zoom1'
 						   rel="adjustX: 10, adjustY:-4">
-							<img src="{{ photo.photo.url_345x370 }}"
+							<img src="{{ main_photo.photo.url_345x370 }}"
 								 alt=''
-								 title="{{ photo.photo_sign }}"
+								 title="{{ main_photo.photo_sign }}"
 								 id="img_productMainImg" />
 						</a> #}
-						{% set photo_main = photo %}
-					{% endfor %}
+					{# 	{% set photo_main = photo %}
+					{% endfor %} #}
 				{% else %}
 					<a title="{{ product.item_description }}"
 					   id="a_productMainImg"
-					   href="{{ product_url }}">
+					   href="{{ product.get_absolute_url() }}">
 						<img src="/media/img/NoPhoto_345x370.jpg"
 							 title="Фотография продукта отсутсвует"
 							 id="img_productMainImg" />
 					</a>
 				{% endif %}
 			</div>
+            {% set photos = product.all_photos %}
 			{% if photos %}
 				<script type="text/javascript">
 				// Initialize the sliders.
@@ -239,20 +241,27 @@
 					{{ product.title|capfirst }}
 				</a>
 			</h1>
-			<h2 style="font-size:12px;font-weight:lighter;line-height:30px;">
+            {% set views = product.increase_View %}
+            <p>Просмотров товара: {{ views.view_count }}</p>
+			{# <h2 style="font-size:12px;font-weight:lighter;line-height:30px;">
 				Наименование категории:
 					<a href="{{ current_category.get_absolute_url() }}">
 						{{ current_category.title|capfirst }}
 					</a>
-			</h2>
-			<p>Текуший продукт: {{ product.name }}</p>
-			{% if product.regular_ce %}
+			</h2> #}
+			<h3 style="font-size:12px;font-weight:lighter;line-height:30px;">
+				Артикул товара: <span>{{ product.get_ItemID }}</span>
+			</h3>
+			{# <p>Текуший продукт: {{ product.name }}</p> #}
+			{% if product.regular_price %}
 				<p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
-					Обычная цена:
+					Старая цена:
 					<span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
 				</p>
 			{% endif %}
-			<p class="dashed">Цена продажи:<span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн.</span></p>
+			<p class="dashed">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
+                <span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн. за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}</span>
+            </p>
 <style>
 p.price_total{
 	margin:0;
@@ -273,7 +282,7 @@ p.price_total span{
 </style>
 			<p class="pirce_total">
 			<span id="cart_quant">{{ quantity_ }}</span>
-			&nbsp;шт.&nbsp;×&nbsp;&nbsp;
+			&nbsp;{{ product.unit_of_measurement }}&nbsp;×&nbsp;&nbsp;
 			<span id="one_piece_price">{{ price_per_piece|replace(",", ".") }}</span>
 			&nbsp;грн.&nbsp;=&nbsp;&nbsp;
 			<span id="current_price">{{ sum_of_quantity|replace(",", ".") }}</span>
@@ -345,8 +354,8 @@ function calculate(operation){
 		return false;
 	}
 	Qut=parseFloat(Qut);
-	if(operation=='+'){Qut=Qut+{{ product.quantity_of_complete }}}
-	if(operation=='-'){Qut=Qut-{{ product.quantity_of_complete }}}
+	if(operation=='+'){Qut+={{ product.quantity_of_complete }}}
+	if(operation=='-'){Qut-={{ product.quantity_of_complete }}}
 	var minimal_quantity={{ product.minimal_quantity }}
 	var quantity_of_complete={{ product.quantity_of_complete }};
 	var intermediate_result=Qut-{{ product.minimal_quantity }};
@@ -377,7 +386,7 @@ function calculate(operation){
 	$.each(price_qty_array,function(i,val){
 		if(val<=Qut&&Qut<price_qty_array[eval(i+1)]){
 			//alert('i: '+i+' Qut: '+Qut+' val: '+val)
-			var price=price_array[i];
+			var price=price_array[i]/{{ product.price_of_quantity }};
 			$("#one_piece_price").html(price.toFixed(2));
 			var total=price*Qut;
 			$("#current_price").html(total.toFixed(2));
@@ -386,7 +395,7 @@ function calculate(operation){
 	});
 }
 function onChange(){
-	window.setInterval("calculate('|')",1500);
+	window.setInterval("calculate('|')",5000);
 	//setTimeout(calculate(value),1500);
 	return true;
 }

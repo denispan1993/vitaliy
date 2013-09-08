@@ -169,7 +169,7 @@ class Product(models.Model):
 
     @property
     def summ_of_quantity(self, ):
-        return self.quantity * self.price
+        return self.quantity * (self.price / self.product.price_of_quantity)
 
     def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,

@@ -20,9 +20,9 @@ class Category(MPTTModel):
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы категория нигде не показывалась,'
                                               u' ставим данное поле в False.')
-    disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
-                                           null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
-                                                                 u' со страницы категории, то ставим в True.', )
+#    disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
+#                                           null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
+#                                                                 u' со страницы категории, то ставим в True.', )
 #    from compat.ruslug.models import RuSlugField
 #    from apps.product.fields import ModelSlugField
     from compat.FormSlug import models as class_FormSlugField
@@ -158,6 +158,11 @@ class Product(models.Model):
     # Описание продукта
     item_description = models.CharField(verbose_name=u'Краткое описание продукта', max_length=64)
     description = models.TextField(verbose_name=u'Полное писание продукта', null=True, blank=True, )
+    recomendate = models.ManyToManyField('Product',
+                                         related_name=u'Product_recomendate',
+                                         verbose_name=u'Рекомендуемые товары',
+                                         blank=True,
+                                         null=True, )
     # Минимальное количество заказа
     # minimal_quantity = models.PositiveSmallIntegerField(verbose_name=_(u'Минимальное количество заказа'), default=1,
     #                                                    blank=False, null=False, )
@@ -167,7 +172,9 @@ class Product(models.Model):
                                                decimal_places=2, default=1, blank=False, null=False, )
     weight = models.DecimalField(verbose_name=u'Вес', max_digits=8, decimal_places=2, default=0, blank=True,
                                  null=True, )
-    unit_of_measurement = models.ForeignKey('Unit_of_Measurement', verbose_name=u'Единицы измерения', null=False,
+    unit_of_measurement = models.ForeignKey('Unit_of_Measurement',
+                                            verbose_name=u'Единицы измерения',
+                                            null=False,
                                             blank=False, )
 #    Counties = (
 #        (1, _('Украина', ), ),
@@ -193,10 +200,24 @@ class Product(models.Model):
                                                        default=1,
                                                        blank=False,
                                                        null=False, )
-    regular_price = models.DecimalField(verbose_name=u'Обычная цена', max_digits=8, decimal_places=2, default=0,
-                                        blank=True, null=True, )
-    price = models.DecimalField(verbose_name=u'Цена', max_digits=8, decimal_places=2, default=0, blank=False,
+    regular_price = models.DecimalField(verbose_name=u'Обычная цена',
+                                        max_digits=8,
+                                        decimal_places=2,
+                                        default=0,
+                                        blank=True,
+                                        null=True, )
+    price = models.DecimalField(verbose_name=u'Цена',
+                                max_digits=10,
+                                decimal_places=2,
+                                default=0,
+                                blank=False,
                                 null=False, )
+    price_of_quantity = models.DecimalField(verbose_name=u'Цена за сколько?',
+                                            max_digits=15,
+                                            decimal_places=5,
+                                            default=1,
+                                            blank=False,
+                                            null=False, )
     datetime_pub = models.DateTimeField(verbose_name=u'Дата публикации', null=True, blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
@@ -234,18 +255,70 @@ class Product(models.Model):
     photo = generic.GenericRelation('Photo',
                                     content_type_field='content_type',
                                     object_id_field='object_id', )
+    #from apps.product.models import ItemID
     ItemID = generic.GenericRelation('ItemID',
                                      content_type_field='content_type',
                                      object_id_field='object_id', )
     manufacturer = generic.GenericRelation('IntermediateModelManufacturer',
                                            content_type_field='content_type',
                                            object_id_field='object_id', )
+    View = generic.GenericRelation('View',
+                                   content_type_field='content_type',
+                                   object_id_field='object_id', )
+    Viewed = generic.GenericRelation('Viewed',
+                                     content_type_field='content_type',
+                                     object_id_field='object_id', )
 
     @property
-    def create_ItemID(self):
-        # from apps.product.models import ItemID
-        #self.ItemID.objects.create(ItemID=u'%.5d' % self.id, )
-        return ItemID.objects.create(parent=self, ItemID=u'%.5d' % self.id, )
+    def content_type(self, ):
+        from django.contrib.contenttypes.models import ContentType
+        return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
+
+    @property
+    def get_or_create_ItemID(self, ):
+#        ItemID = self.ItemID.all()
+#        if ItemID:
+#            return ItemID[0]
+#        else:
+#            from apps.product.models import ItemID
+        from apps.product.models import ItemID
+        from django.contrib.contenttypes.models import ContentType
+        content_type = ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
+        try:
+            ItemID = ItemID.objects.get(content_type=content_type,
+                                        object_id=self.pk, )
+                # parent=self, )
+        except ItemID.DoesNotExist:
+            manufacturer = self.manufacturer.all()
+            if manufacturer:
+                ItemID = ItemID.objects.create(parent=self,
+                                               ItemID=u'%s-%.5d' % (manufacturer[0].key.letter_to_article.upper(),
+                                                                    self.id, ), )
+            else:
+                ItemID = ItemID.objects.create(parent=self,
+                                               ItemID=u'%.5d' % self.id, )
+        return ItemID
+
+    @property
+    def get_ItemID(self, ):
+        ItemID = self.ItemID.all()
+        return ItemID[0].ItemID
+
+    # Увеличение количества просмотров
+    @property
+    def increase_View(self, ):
+        from apps.product.models import View
+        from django.contrib.contenttypes.models import ContentType
+        content_type = ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
+        try:
+            View = View.objects.get(content_type=content_type,
+                                    object_id=self.pk, )
+        except View.DoesNotExist:
+            return View.objects.create(parent=self, view_count=1, )
+        else:
+            View.view_count += 1
+            View.save()
+            return View
 
     @property
     def main_photo(self, ):
@@ -259,6 +332,14 @@ class Product(models.Model):
         else:
             return None
 
+    @property
+    def all_photos(self, ):
+        photos = self.photo.all()
+        if photos:
+            return photos
+        else:
+            return None
+
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
@@ -266,9 +347,9 @@ class Product(models.Model):
     from apps.product import managers
     manager = managers.Manager_Product()
 
-    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
-        super(Product, self).save(*args, **kwargs)
-        self.create_ItemID
+#    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
+#        super(Product, self).save(*args, **kwargs)
+#        self.create_ItemID
 
 #    @models.permalink
     def get_absolute_url(self, ):
@@ -309,7 +390,7 @@ class Product(models.Model):
 
 
 class ItemID(models.Model):
-    ''' Ссылка на главную запись '''
+    """ Ссылка на главную запись """
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_ItemID', )
     object_id = models.PositiveIntegerField(db_index=True, )
@@ -324,6 +405,34 @@ class ItemID(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
+#    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
+#        """ В базе в теории в одну еденицу времени есть только один экземпляр ItemID """
+#        """ пытаемся взять этот экземпляр """
+#        try:
+#            old_ItemID = ItemID.objects.get(object_id=self.object_id,
+#                                            content_type_id=self.content_type_id, )
+#        except ItemID.DoesNotExist:
+#            old_ItemID = None
+#        if not old_ItemID:
+#            """ Пишем новый, если в базе пусто """
+#            super(ItemID, self).save(*args, **kwargs)
+#        else:
+#            #print('self.pk: %s' % self.pk, )
+#            #print('self.ItemID: %s' % self.ItemID, )
+
+#            #print('old_ItemID.pk: %d' % old_ItemID.pk, )
+#            #print('old_ItemID.ItemID: %s' % old_ItemID.ItemID, )
+#            ''' Проверяем: Экземпляр, который уже есть в базе
+#             является автоматическим ItemID ? '''
+#            if not old_ItemID.ItemID == u'%.5d' % self.parent.pk: # and \
+#               # old_ItemID.pk == self.pk:
+#                # print('super save not Empty')
+#                old_ItemID.delete()
+#                super(ItemID, self).save(*args, **kwargs)
+#            if not old_ItemID.ItemID == self.ItemID and \
+#               old_ItemID.pk == self.pk:
+#                super(ItemID, self).save(*args, **kwargs)
+
     def __unicode__(self):
         return self.ItemID
 
@@ -335,7 +444,7 @@ class ItemID(models.Model):
 
 
 class IntermediateModelManufacturer(models.Model):
-    ''' Ссылка на главную запись '''
+    """ Ссылка на главную запись """
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Manufacturer',
                                      null=False, blank=False, default=1, )
@@ -359,6 +468,25 @@ class IntermediateModelManufacturer(models.Model):
         ordering = ['-created_at']
         verbose_name = "Ссылка на производителя"
         verbose_name_plural = "Ссылки на производителей"
+
+
+class Manufacturer(models.Model):
+    name = models.CharField(verbose_name=u'Название производителя', max_length=128, null=False, blank=False, )
+    # slug = models.SlugField(verbose_name=u'Slug')
+    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
+    # Абсолютный путь к логотипу производителя
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'Manufacturer'
+        ordering = ['-created_at']
+        verbose_name = "Производитель"
+        verbose_name_plural = "Производители"
 
 
 class Manufacturer(models.Model):
@@ -587,6 +715,74 @@ class Country(models.Model):
         ordering = ['id']
         verbose_name = u'Страна'
         verbose_name_plural = u'Страны'
+
+
+class View(models.Model):
+    """ Ссылка на главную запись """
+    from django.contrib.contenttypes.models import ContentType
+    content_type = models.ForeignKey(ContentType, related_name='related_View',
+                                     null=False, blank=False, default=1, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            null=False, blank=False, default=1, )
+    from django.contrib.contenttypes import generic
+    parent = generic.GenericForeignKey('content_type', 'object_id', )
+
+    # Количества просмотров
+    view_count = models.PositiveIntegerField(verbose_name=u'Просмотров', default=1, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return '[%.5d]: %d' % (self.id, self.view_count, )
+
+    class Meta:
+        db_table = 'View'
+        ordering = ['-updated_at', ]
+        verbose_name = u'Количество просмотров'
+        verbose_name_plural = u'Количество просмотров'
+
+
+class Viewed(models.Model):
+    """ Ссылка на главную запись """
+    """ Что смотрел """
+    from django.contrib.contenttypes.models import ContentType
+    content_type = models.ForeignKey(ContentType, related_name='related_Viewed',
+                                     null=False, blank=False, default=1, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            null=False, blank=False, default=1, )
+    from django.contrib.contenttypes import generic
+    parent = generic.GenericForeignKey('content_type', 'object_id', )
+    """ Кто смотрел """
+    from django.contrib.auth.models import User
+    user_obj = models.ForeignKey(User, verbose_name=u'ID Пользователя', blank=True, null=True, )
+    sessionid = models.CharField(verbose_name=u'SessionID', max_length=32, blank=True, null=True, )
+    """ Когда смотрел """
+    from datetime import datetime
+    last_viewed = models.DateTimeField(verbose_name=u'Дата последнего просмотра',
+                                       blank=False,
+                                       null=False,
+                                       default=datetime.now(), )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата добавления', )
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=u'Дата последнего изменения', )
+
+    def __unicode__(self):
+        if self.user_obj:
+            return '[%.5d]: %s - %s' % (self.id,
+                                        self.last_viewed,
+                                        self.user_obj, )
+        else:
+            return '[%.5d]: %s - %s' % (self.id,
+                                        self.last_viewed,
+                                        self.sessionid, )
+
+    class Meta:
+        db_table = 'Viewed'
+        ordering = ['-updated_at', ]
+        verbose_name = u'Просмотренный'
+        verbose_name_plural = u'Просмотренные'
 
 
 # описываем правила

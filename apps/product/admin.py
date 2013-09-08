@@ -23,11 +23,12 @@ class CategoryAdmin(MPTTModelAdmin, ):
     #default is 10 pixels
     mptt_level_indent = 15
 
-    list_display = ['pk', 'url', 'title', 'parent', ] #'name', ]
+    list_display = ['pk', 'url', 'title', 'parent', ]  # 'name', ]
     list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
-                                                              'disclose_product', 'url', 'title',
+                                                              #'disclose_product',
+                                                              'url', 'title',
                                                               #'letter_to_article',
                                                               # 'name',
                                                               'description', ], }),
@@ -51,10 +52,24 @@ class CategoryAdmin(MPTTModelAdmin, ):
 from apps.product.models import ItemID
 
 
+class ItemIDAdmin(admin.ModelAdmin, ):
+    model = ItemID
+
+    def save_model(*args, **kwargs):
+        bbb = ItemID.bbb
+        # pass
+
+admin.site.register(ItemID, ItemIDAdmin, )
+
+
 class genericStacked_ItemID_InLine(generic.GenericStackedInline, ):
     model = ItemID
     extra = 1
     max_num = 1
+
+    def save_model(*args, **kwargs):
+        bbb = ItemID.bbb
+        # pass
 
 from apps.product.models import IntermediateModelManufacturer
 
@@ -69,7 +84,6 @@ from apps.product.models import Manufacturer
 
 class ManufacturerAdmin(admin.ModelAdmin, ):
     model = Manufacturer
-
 admin.site.register(Manufacturer, ManufacturerAdmin, )
 
 from apps.product.models import Information
@@ -122,10 +136,12 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'url', 'title', 'name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
-                                                              'title', 'name', 'description', # 'manufacturer',
+                                                              'title', 'name', 'description',  # 'manufacturer',
+                                                              'recomendate',
                                                               'minimal_quantity',
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
-                                                              'is_availability', 'regular_price', 'price', ], }, ),
+                                                              'is_availability', 'regular_price', 'price',
+                                                              'price_of_quantity', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),
@@ -134,7 +150,7 @@ class ProductAdmin(admin.ModelAdmin, ):
 #    readonly_fields = u'url'
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
-    filter_horizontal = ('category', )
+    filter_horizontal = ('category', 'recomendate', )
 
     inlines = [
         genericStacked_ItemID_InLine,
@@ -177,3 +193,8 @@ admin.site.register(Information, admin.ModelAdmin, )
 admin.site.register(Unit_of_Measurement, admin.ModelAdmin, )
 admin.site.register(Discount, admin.ModelAdmin, )
 admin.site.register(Photo, admin.ModelAdmin, )
+
+from apps.product.models import View
+admin.site.register(View, admin.ModelAdmin, )
+from apps.product.models import Viewed
+admin.site.register(Viewed, admin.ModelAdmin, )

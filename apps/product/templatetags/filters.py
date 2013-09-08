@@ -10,7 +10,7 @@ register = Library()
 @register.filter(name='formatted_float', )
 #@jinja2.contextfilter
 def formatted_float(value, ):
-    return str(value).replace(',','.')
+    return str(value).replace(',', '.', )
 
 @register.filter(name='truncatechar', )
 # truncate after a certain number of characters

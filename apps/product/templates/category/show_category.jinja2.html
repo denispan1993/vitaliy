@@ -9,5 +9,6 @@
     {{ block_categories(categories)|safe }}
     <br>
     {% set products = current_category.products.all() %}
-    {{ block_products(products)|safe }}
+    {# {% set csrf_token = {{ csrf_token }} %} #}
+    {{ block_products(products, request)|safe }}
 {%- endblock %}
