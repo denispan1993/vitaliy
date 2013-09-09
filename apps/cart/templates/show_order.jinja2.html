@@ -48,47 +48,49 @@
                 </tr>
             </tfoot>
         </table>
-        <div id="buttons"
-             style="margin:15px;">
-            {# <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a>&nbsp;&nbsp;&nbsp; #}
-            <a href="/корзина/" title="Редактировать корзину">&gt;&gt;&nbsp;Редактировать корзину</a>
-        </div>
-        <form method="POST" action="." id="form_order" name="form_order">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
-            <input type="hidden" name="POST_NAME" value="order"/>
-            <label for="email">E-Mail</label>
-            <input type="email" name="email" id="email"/>
-            <br />
-            <label for="FIO">ФИО</label>
-            <input type="text" name="FIO" id="FIO"/>
-            <br />
-            <label for="phone">Номер мобильного телефона</label>
-            <input type="tel" name="phone" id="phone"/>
-            <br />
-            <select name="select_country"
-                    id="select_country"
-                    required=""
-                    style="float:left;width:240px;"
-                    onKeyDown="javascript:window.setTimeout('sel_country();', 0);"
-                    onChange="javascript:sel_country();">
-                {% if not select_country or select_country == '1000' %}
-                    <option value="1000"
-                            selected=""
-                            disabled="disabled">Страна
-                    </option>
-                {% endif %}
-                {% for country_select in country_list %}
-                    {% if select_country == country_select and select_country != 1000 %}
-                        <option value="{{ country_select.pk }}"
-                                selected="">
-                            <strong>{{ country_select.name_ru }}
-                            </strong>
-                        </option>
-                    {% else %}
-                        <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
+        {% if user_cart_.summ_money_of_all_products < 200 %}
+            <div id="buttons"
+                 style="margin:15px;">
+                {# <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a>&nbsp;&nbsp;&nbsp; #}
+                <a href="/корзина/" title="Редактировать корзину">&gt;&gt;&nbsp;Редактировать корзину</a>
+            </div>
+        {% else %}
+            <form method="POST" action="." id="form_order" name="form_order">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+                <input type="hidden" name="POST_NAME" value="order"/>
+                <label for="email">E-Mail</label>
+                <input type="email" name="email" id="email"/>
+                <br />
+                <label for="FIO">ФИО</label>
+                <input type="text" name="FIO" id="FIO"/>
+                <br />
+                <label for="phone">Номер мобильного телефона</label>
+                <input type="tel" name="phone" id="phone"/>
+                <br />
+                <select name="select_country"
+                        id="select_country"
+                        required=""
+                        style="float:left;width:240px;"
+                        onKeyDown="javascript:window.setTimeout('sel_country();', 0);"
+                        onChange="javascript:sel_country();">
+                    {% if not select_country or select_country == '1000' %}
+                        <option value="1000"
+                                selected=""
+                                disabled="disabled">Страна
                         </option>
                     {% endif %}
-                {% endfor %}
+                    {% for country_select in country_list %}
+                        {% if select_country == country_select and select_country != 1000 %}
+                            <option value="{{ country_select.pk }}"
+                                    selected="">
+                                <strong>{{ country_select.name_ru }}
+                                </strong>
+                            </option>
+                        {% else %}
+                            <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
 <script type="text/javascript">
 function sel_country() {
 	var country_pk=document.forms["form_order"].select_country.selectedIndex;
@@ -110,25 +112,26 @@ function sel_country() {
 }
 //sel_country();
 </script>
-            </select>
-            <br />
-            <div id="dynamic_div">
-            <br />
-            <label for="region">Область</label>
-            <input type="text" name="region" id="region"/>
-            <br />
-            <label for="settlement">Город (населённый пункт)</label>
-            <input type="text" name="settlement" id="settlement"/>
-            <br />
-            <label for="warehouse_number">Номер склада "Новой почты"</label>
-            <input type="number" name="warehouse_number" id="warehouse_number"/>
-            </div>
-            <br />
-            <label for="comment">Комментарий к заказу</label>
-            <textarea cols="50" rows="5" name="comment" id="comment"></textarea>
-            <br />
-            <input type="submit" value="Отправить заказ" />
-        </form>
+                </select>
+                <br />
+                <div id="dynamic_div">
+                <br />
+                <label for="region">Область</label>
+                <input type="text" name="region" id="region"/>
+                <br />
+                <label for="settlement">Город (населённый пункт)</label>
+                <input type="text" name="settlement" id="settlement"/>
+                <br />
+                <label for="warehouse_number">Номер склада "Новой почты"</label>
+                <input type="number" name="warehouse_number" id="warehouse_number"/>
+                </div>
+                <br />
+                <label for="comment">Комментарий к заказу</label>
+                <textarea cols="50" rows="5" name="comment" id="comment"></textarea>
+                <br />
+                <input type="submit" value="Отправить заказ" />
+            </form>
+        {% endif %}
     {% else %}
         <p>Ваша корзина пуста<br>
             <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a>
