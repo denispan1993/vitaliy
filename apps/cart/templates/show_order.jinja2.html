@@ -1,7 +1,7 @@
 {% extends 'root.jinja2.html' %}
 {# {% load header_category %} #}
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
-{% block content_center -%}
+{% block content_center %}
     {% if user_cart_ %}
         <table id="table_carts" cols="3" summary="Ваша корзина">
             <caption>Ваша корзина</caption>
@@ -134,4 +134,4 @@ function sel_country() {
             <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a>
         </p>
     {% endif %}
-{%- endblock %}
+{% endblock %}

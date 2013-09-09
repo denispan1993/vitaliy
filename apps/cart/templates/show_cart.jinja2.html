@@ -116,13 +116,7 @@ function Calculate_{{ product.pk }}(operation){
 			var total=price_array_{{ product.pk }}[i]/{{ real_product.price_of_quantity }}*Qut;
 			$("#summ_of_quantity_{{ product.pk }}").html(total.toFixed(2)+' грн.');
 			//product_summ_of_quantity_array[{{ product.pk }}]=total.toFixed(2);
-	        //ReCalcSumm();
-	        if(total<=200){
-                $("#order_cart_input").prop('disabled', true);
-	        }
-	        else{
-                $("#order_cart_input").prop('disabled', false);
-	        }
+	        ReCalcSumm('off');
 			return true;
 		}
 	});
@@ -216,7 +210,7 @@ function delete_on_off(IdString1, IdString2){
                    value="Пересчитать корзину"/>
         </form>
 <script>
-function ReCalcSumm(){
+function ReCalcSumm(change){
     var summ=0;
 	$.each(product_summ_of_quantity_array,function(i){
         var val=parseFloat(product_summ_of_quantity_array[i])
@@ -224,11 +218,13 @@ function ReCalcSumm(){
             summ+=val;
         }
     });
-    $("#all_summ_of_quantity").html(summ.toFixed(2)+' грн.');
+    if(change='on'){$("#all_summ_of_quantity").html(summ.toFixed(2)+' грн.');}
+    if(summ<=200){$("#order_cart_input").prop('disabled',true);}
+    else{$("#order_cart_input").prop('disabled',false);}
 }
 </script>
 <script>
-$(document).ready(ReCalcSumm());
+$(document).ready(ReCalcSumm('on'));
 </script>
         {# <div> #}
             <form method="POST" action="/корзина/заказ/">
