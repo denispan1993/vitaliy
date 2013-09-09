@@ -1,12 +1,27 @@
-#accordion_menu ul, #accordion_menu ul li {margin: 0; padding: 0; border: none; list-style: none;}
-#accordion_menu ul a {
-    padding: 10px 10px 10px 15px;
+#accordion_menu ul,
+#accordion_menu ul li{
+    margin:0px;
+    padding:0px;
+    border:none;
+    list-style:none;
+}
+#accordion_menu ul a{
+    padding:10px 10px 10px 15px;
     background:DarkTurquoise;
     text-decoration:none;
     display:block;
     color:black;
-    border-bottom: 1px solid DarkTurquoise;
-    border-top: 1px solid DarkTurquoise;
+    border-bottom:1px solid DarkTurquoise;
+    border-top:1px solid DarkTurquoise;
+}
+#accordion_menu ul a.colored{
+    color:Fuchsia;
+}
+#accordion_menu ul a.bold{
+    font-weight:bold;
+}
+#accordion_menu ul a.italic{
+    font-style:italic;
 }
 #accordion_menu ul ul a {padding: 10px 10px 10px 25px;}
 #accordion_menu ul a.dcjq-parent, #accordion_menu ul a.dcjq-parent:hover {padding: 10px 10px 10px 15px;}

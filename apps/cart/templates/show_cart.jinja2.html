@@ -117,6 +117,12 @@ function Calculate_{{ product.pk }}(operation){
 			$("#summ_of_quantity_{{ product.pk }}").html(total.toFixed(2)+' грн.');
 			//product_summ_of_quantity_array[{{ product.pk }}]=total.toFixed(2);
 	        //ReCalcSumm();
+	        if(total<=200){
+                $("#order_cart_input").prop('disabled', true);
+	        }
+	        else{
+                $("#order_cart_input").prop('disabled', false);
+	        }
 			return true;
 		}
 	});
@@ -237,7 +243,9 @@ $(document).ready(ReCalcSumm());
                            {# checked="" #}
                            type="hidden"/>
                 {% endfor %}
-                <input type="submit" value="Оформить заказ"/>
+                <input id="order_cart_input"
+                       type="submit"
+                       value="Оформить заказ"/>
             </form>
             <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
         {# </div> #}

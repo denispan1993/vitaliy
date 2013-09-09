@@ -27,6 +27,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
     list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
+                                                              'shown_colored', 'shown_bold', 'shown_italic',
                                                               #'disclose_product',
                                                               'url', 'title',
                                                               #'letter_to_article',

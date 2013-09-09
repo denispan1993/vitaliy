@@ -20,6 +20,24 @@ class Category(MPTTModel):
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы категория нигде не показывалась,'
                                               u' ставим данное поле в False.')
+    shown_colored = models.BooleanField(verbose_name=_(u'Выделить цветом'),
+                                        default=False,
+                                        blank=False,
+                                        null=False,
+                                        help_text=u'Если мы хотим чтобы категория была выделена цветом Фуксия,'
+                                                  u' ставим данное поле в True.')
+    shown_bold = models.BooleanField(verbose_name=_(u'Выделить жирным'),
+                                     default=False,
+                                     blank=False,
+                                     null=False,
+                                     help_text=u'Если мы хотим чтобы категория была выделена жирным шрифтом,'
+                                               u' ставим данное поле в True.')
+    shown_italic = models.BooleanField(verbose_name=_(u'Выделить курсивом'),
+                                       default=False,
+                                       blank=False,
+                                       null=False,
+                                       help_text=u'Если мы хотим чтобы категория была выделена наклонным шрифтом,'
+                                                 u' ставим данное поле в True.')
 #    disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
 #                                           null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
 #                                                                 u' со страницы категории, то ставим в True.', )
