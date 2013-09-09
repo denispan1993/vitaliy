@@ -13,6 +13,7 @@
     color:black;
     border-bottom:1px solid DarkTurquoise;
     border-top:1px solid DarkTurquoise;
+    font-size:15px;
 }
 #accordion_menu ul a.colored{
     color:Fuchsia;
@@ -23,7 +24,16 @@
 #accordion_menu ul a.italic{
     font-style:italic;
 }
-#accordion_menu ul ul a {padding: 10px 10px 10px 25px;}
-#accordion_menu ul a.dcjq-parent, #accordion_menu ul a.dcjq-parent:hover {padding: 10px 10px 10px 15px;}
-#accordion_menu ul a.dcjq-parent.active {background: #0D5995 url(/media/img/vertical-account-menu/checkers.png) repeat 0 0;}
-#accordion_menu ul a:hover {background: #05477c;}
+#accordion_menu ul ul a{
+    padding:10px 10px 10px 25px;
+}
+#accordion_menu ul a.dcjq-parent,
+#accordion_menu ul a.dcjq-parent:hover{
+    padding:10px 10px 10px 15px;
+}
+#accordion_menu ul a.dcjq-parent.active{
+    background:#0D5995 url(/media/img/vertical-account-menu/checkers.png) repeat 0 0;
+}
+#accordion_menu ul a:hover{
+    background:#05477c;
+}
