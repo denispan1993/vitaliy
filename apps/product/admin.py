@@ -136,7 +136,8 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'url', 'title', 'name', ]
     list_display_links = ['pk', 'url', 'title', 'name', ]
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product', 'url',
+        (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product',
+                                                              'in_main_page', 'url',
                                                               'title', 'name', 'description',  # 'manufacturer',
                                                               'recomendate',
                                                               'minimal_quantity',
