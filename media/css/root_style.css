@@ -104,7 +104,7 @@
 }
 .left_title {
     background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
-    border-bottom:1px solid #CCCCCC;
+//    border-bottom:1px solid #CCCCCC;
     color:#333333;
     font-size:16px;
     font-weight:normal;

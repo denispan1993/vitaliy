@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'user'
 
 from django.db import models
@@ -36,9 +37,22 @@ class Manager_Product(models.Manager):
     def published(self, ):
         return self.filter(visibility=True, ).order_by('-created_at')
 
-    def in_main_page(self, ):
-        self.published().filter(in_main_page=True, )
-
+    def in_main_page(self, limit=12, ):
+        from django.core.cache import cache
+        # try to get product from cache
+        in_main_page = cache.get(u'in_main_page', )
+        # if a cache miss, fall back on db query
+        if in_main_page:
+            return in_main_page
+        else:
+            try:
+                in_main_page = self.published().filter(in_main_page=True, )[:limit]
+            except self.model.DoesNotExist:
+                return None
+            # store item in cache for next time
+            else:
+                cache.set(u'in_main_page', in_main_page, 3600, )  # 1h
+                return in_main_page
 
 #    # Все опубликованные новости
 #
