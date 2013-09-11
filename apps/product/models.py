@@ -300,10 +300,8 @@ class Product(models.Model):
 #        else:
 #            from apps.product.models import ItemID
         from apps.product.models import ItemID
-        from django.contrib.contenttypes.models import ContentType
-        content_type = ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
         try:
-            ItemID = ItemID.objects.get(content_type=content_type,
+            ItemID = ItemID.objects.get(content_type=self.content_type(),
                                         object_id=self.pk, )
                 # parent=self, )
         except ItemID.DoesNotExist:
@@ -326,10 +324,8 @@ class Product(models.Model):
     @property
     def increase_View(self, ):
         from apps.product.models import View
-        from django.contrib.contenttypes.models import ContentType
-        content_type = ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
         try:
-            View = View.objects.get(content_type=content_type,
+            View = View.objects.get(content_type=self.content_type(),
                                     object_id=self.pk, )
         except View.DoesNotExist:
             return View.objects.create(parent=self, view_count=1, )
@@ -337,6 +333,20 @@ class Product(models.Model):
             View.view_count += 1
             View.save()
             return View
+
+#    def increase_view(self):
+##        self.view_count = self.view_count + 1
+##        self.save()
+#        try:
+#            views = Counters.objects.get(news=self, )
+#        except Counters.DoesNotExist:
+#            views = Counters.objects.create(news=self, viewers=1, )
+#            return 1
+#        else:
+#            from django.db.models import F
+#            views.viewers = F('viewers') + 1
+#            views.save() #update_fields=['views_count']
+#            return Counters.objects.get(news=self, ).viewers
 
     @property
     def main_photo(self, ):
