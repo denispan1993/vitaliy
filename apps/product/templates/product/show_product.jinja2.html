@@ -1,5 +1,11 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}{{ product.title|capfirst }}{% endblock %}
+{% block product_header_css %}
+<link rel="stylesheet" href="/media/css/easypaginate/easypaginate.css" media="all">
+{% endblock %}
+{% block header_js %}
+<script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
+{% endblock %}
 {% block body_javascript %}
 {% endblock %}
 {% block content_center %}
@@ -69,7 +75,7 @@
 	</div>
 	<div id="product_box_top">
 		{# {% set photos = product.photo.all() %} #}
-		<script type="text/javascript" src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
+		<script src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
 		<!-- Call quick start function. -->
 		<script type="text/javascript">
 			CloudZoom.quickStart();
@@ -459,5 +465,37 @@ $(document).ready(onChange())
 			{% endif %}
 		</div>
 	</div>
+</div>
+<div id="recommended_products">
+<script>
+try{
+$(document).ready(function($){
+$('ul#products').easyPaginate({
+    step:5, {# Defines a number of items visible on each "page". #}
+    delay:500, {# Items on each "page" fade in one by one. This parameter controls the pause between each item’s appearance so we can create "wave" effect. It is defined in milliseconds. #}
+    auto:false, {# Boolean. If set to true then the plugin will automatically rotate the "pages" #}
+    pause:1000, {# If set to auto pagination, this parameter controls the length of the pause in milliseconds between each "page turn". #}
+    clickstop:false {# If set to auto pagination, this parameter controls whether the pages will continue to automatically rotate. If you want to continue the rotation set this parameter to false. #}
+});
+});
+}catch(e){ alert(e) }
+
+</script>
+<ul id="products">
+  <li>Page 1</li>
+  <li>Page 2</li>
+  <li>Page 3</li>
+  <li>Page 4</li>
+  <li>Page 5</li>
+  <li>Page 6</li>
+  <li>Page 7</li>
+  <li>Page 8</li>
+  <li>Page 9</li>
+  <li>Page 10</li>
+  <li>Page 11</li>
+  <li>Page 12</li>
+  <li>Page 13</li>
+  <li>Page 14</li>
+</ul>
 </div>
 {% endblock %}

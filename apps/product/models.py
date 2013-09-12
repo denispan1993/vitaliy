@@ -176,6 +176,7 @@ class Product(models.Model):
     # Описание продукта
     item_description = models.CharField(verbose_name=u'Краткое описание продукта', max_length=64)
     description = models.TextField(verbose_name=u'Полное писание продукта', null=True, blank=True, )
+    #recommended
     recomendate = models.ManyToManyField('Product',
                                          related_name=u'Product_recomendate',
                                          verbose_name=u'Рекомендуемые товары',
@@ -301,7 +302,7 @@ class Product(models.Model):
 #            from apps.product.models import ItemID
         from apps.product.models import ItemID
         try:
-            ItemID = ItemID.objects.get(content_type=self.content_type(),
+            ItemID = ItemID.objects.get(content_type=self.content_type,
                                         object_id=self.pk, )
                 # parent=self, )
         except ItemID.DoesNotExist:
@@ -321,18 +322,22 @@ class Product(models.Model):
         return ItemID[0].ItemID
 
     # Увеличение количества просмотров
-    @property
+    #@property
     def increase_View(self, ):
         from apps.product.models import View
         try:
-            View = View.objects.get(content_type=self.content_type(),
+            View = View.objects.get(content_type=self.content_type,
                                     object_id=self.pk, )
         except View.DoesNotExist:
             return View.objects.create(parent=self, view_count=1, )
         else:
-            View.view_count += 1
-            View.save()
-            return View
+            from django.db.models import F
+            View.view_count = F('view_count') + 1
+            # View.view_count += 1
+            # View.save()
+            # return View
+            return View.objects.get(content_type=self.content_type,
+                                    object_id=self.pk, )
 
 #    def increase_view(self):
 ##        self.view_count = self.view_count + 1

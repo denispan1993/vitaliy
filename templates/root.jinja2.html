@@ -1,12 +1,12 @@
 {% extends "base.jinja2.html" %}
-{% block header_css %}
+{% block root_header_css %}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/root_style.css" />
 {# <!-- Start WOWSlider.com HEAD section --> #}
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/wowslider/style.css" />
 {# <!-- End WOWSlider.com HEAD section --> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/vertical-account-menu/blue.css" />
 {% endblock %}
-{% block header_js %}
+{% block root_header_js %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/cookie.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
@@ -29,7 +29,7 @@ try{
 });
 }catch(e){ alert(e) }
 </script>
-<script src="{{ MEDIA_URL }}js/jquery/fancybox/mousewheel-3.0.6.pack.js"></script>
+{# <script src="{{ MEDIA_URL }}js/jquery/fancybox/mousewheel-3.0.6.pack.js"></script>
 <script src="{{ MEDIA_URL }}js/jquery/fancybox/fancybox.pack.js?v=2.1.4"></script>
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/fancybox/fancybox.css?v=2.1.4" media="screen" />
 <script>
@@ -41,12 +41,12 @@ try{
             closeBtn		: true,
             helpers		: {
                 title	: { type : 'inside' }
-        {#                 buttons	: {} #}
+        {1#                 buttons	: {} #1}
             }
         });
     })
 }catch(e){ alert(e) }
-</script>
+</script> #}
 {% endblock %}
 {% block content %}
 <div id="cart" class="opened">
