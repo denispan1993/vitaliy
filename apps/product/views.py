@@ -127,6 +127,10 @@ def show_product(request, product_url, id,
             from django.http import Http404
             raise Http404
         else:
+            products_recommended = product.recomendate.all()
+            print(product)
+            print(products_recommended)
+            print(len(products_recommended))
             product.get_or_create_ItemID
             viewed = get_or_create_Viewed(request=request, product=product, )
             product_is_availability = product.is_availability

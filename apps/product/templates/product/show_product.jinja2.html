@@ -466,7 +466,11 @@ $(document).ready(onChange())
 		</div>
 	</div>
 </div>
+{% set products_recommended = product.recomendate.all() %}
+{% if products_recommended %}
 <div id="recommended_products">
+{% set length_products_recommended = products_recommended|length %}
+{% if length_products_recommended > 3 %}
 <script>
 try{
 $(document).ready(function($){
@@ -479,9 +483,9 @@ $('ul#products').easyPaginate({
 });
 });
 }catch(e){ alert(e) }
-
 </script>
 <ul id="products">
+    {{ block_products_li(products_recommended, request)|safe }}
   <li>Page 1</li>
   <li>Page 2</li>
   <li>Page 3</li>
@@ -490,12 +494,12 @@ $('ul#products').easyPaginate({
   <li>Page 6</li>
   <li>Page 7</li>
   <li>Page 8</li>
-  <li>Page 9</li>
-  <li>Page 10</li>
-  <li>Page 11</li>
-  <li>Page 12</li>
-  <li>Page 13</li>
-  <li>Page 14</li>
 </ul>
 </div>
+{% else %}
+<ul id="products">
+    {{ block_products(products_recommended, request)|safe }}
+</ul>
+{% endif %}
+{% endif %}
 {% endblock %}

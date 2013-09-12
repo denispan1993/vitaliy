@@ -1,6 +1,6 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}{{ current_category.title }}{% endblock %}
-{% block content_center -%}
+{% block content_center %}
     {{ header_category2(current_category)|safe }}
     <br>
     {{ this_category(current_category)|safe }}
@@ -10,5 +10,5 @@
     <br>
     {% set products = current_category.products.all() %}
     {# {% set csrf_token = {{ csrf_token }} %} #}
-    {{ block_products(products, request)|safe }}
-{%- endblock %}
+    {{ block_products_div(products, request)|safe }}
+{% endblock %}

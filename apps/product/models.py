@@ -178,7 +178,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name=u'Полное писание продукта', null=True, blank=True, )
     #recommended
     recomendate = models.ManyToManyField('Product',
-                                         related_name=u'Product_recomendate',
+                                         related_name=u'recommended',
                                          verbose_name=u'Рекомендуемые товары',
                                          blank=True,
                                          null=True, )

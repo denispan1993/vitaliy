@@ -1,0 +1,87 @@
+{% if products %}
+<style>
+li.product_block{
+    background:none repeat scroll 0 0 #FFFFFF;
+    border:1px solid #EEEEEE;
+    float:left;
+    height:285px;
+    margin:0 0 10px 10px;
+    padding:10px;
+    position:relative;
+    width:214px;
+}
+li.product_block div.product_block_excerpt{
+    height: 30px;
+    margin-bottom: 5px;
+}
+li.product_block a.product_block_img{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-position:center center;
+    background-repeat:no-repeat;
+    border-color:#FFFFFF #FFFFFF #EEEEEE;
+    border-image:none;
+    border-style:solid;
+    border-width:1px;
+    display:block;
+    height:160px;
+    margin-bottom:10px;
+}
+li.product_block div.product_block_bottom{
+    line-height:24px;
+    overflow:hidden;
+}
+li.product_block div.product_block_bottom div.product_block_price{
+    color:#FF1493;
+    float:right;
+    font-family:"Times New Roman",Times,serif;
+    font-size:25px;
+}
+li.product_block div.product_block_bottom div.product_block_price span{
+    color:PaleGreen;
+    font-size: 15px;
+    font-style: italic;
+}
+li.product_block div.product_block_bottom div.product_block_price div.add_to_cart{
+    width:80px;
+    background:none repeat scroll 0 0 #FF3366;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF !important;
+    display: block;
+    font-size: 13px;
+    min-width: 80px;
+    padding: 2px;
+    text-align: center;
+    text-decoration: none;
+}
+</style>
+<li id="products_block">
+<script>
+function ajax_product_to_cart(product_pk){
+    var request_dict = {
+        csrfmiddlewaretoken:'{{ csrf_token }}',
+        product_pk:product_pk
+    }
+    jQuery.post("/ajax/product_to_cart/",
+        request_dict,
+        function(data, textStatus, jqXHR){
+            jQuery('#dynamic_div_showcart').html(data.html);
+        },
+        "json");
+}
+function product_to_cart(data, product_pk){
+    ajax_product_to_cart(product_pk);
+    animate_cart(data);
+    return false;
+}
+</script>
+    {# <p>Продукты в этой категории</p> #}
+    {% for product in products %}
+        {{ block_product(product)|safe }}
+    {% endfor %}
+</li>
+{% else %}
+     <p>Продукты в этой категории отсутсвуют</p>
+{% endif %}
