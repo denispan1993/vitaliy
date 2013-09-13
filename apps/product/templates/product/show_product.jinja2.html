@@ -485,7 +485,9 @@ $('ul#products').easyPaginate({
 }catch(e){ alert(e) }
 </script>
 <ul id="products">
-    {{ block_products_li(products_recommended, request)|safe }}
+    {% for product_recommended in products_recommended %}
+        {{ block_product(product_recommended)|safe }}
+    {% endfor %}
   <li>Page 1</li>
   <li>Page 2</li>
   <li>Page 3</li>
@@ -498,7 +500,9 @@ $('ul#products').easyPaginate({
 </div>
 {% else %}
 <ul id="products">
-    {{ block_products(products_recommended, request)|safe }}
+    {% for product_recommended in products_recommended %}
+        {{ block_product(product_recommended, request)|safe }}
+    {% endfor %}
 </ul>
 {% endif %}
 {% endif %}

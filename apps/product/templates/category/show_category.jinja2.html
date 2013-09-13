@@ -1,5 +1,8 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}{{ current_category.title }}{% endblock %}
+{% block category_header_css %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css" />
+{% endblock %}
 {% block content_center %}
     {{ header_category2(current_category)|safe }}
     <br>
@@ -9,6 +12,7 @@
     {{ block_categories(categories)|safe }}
     <br>
     {% set products = current_category.products.all() %}
-    {# {% set csrf_token = {{ csrf_token }} %} #}
-    {{ block_products_div(products, request)|safe }}
+    {% if products %}
+        {{ block_products(products, request)|safe }}
+    {% endif %}
 {% endblock %}

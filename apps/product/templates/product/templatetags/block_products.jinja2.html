@@ -1,0 +1,30 @@
+{# {1% if products %} #}
+<div id="products_block">
+<script>
+function ajax_product_to_cart(product_pk){
+    var request_dict = {
+        csrfmiddlewaretoken:'{{ csrf_token }}',
+        product_pk:product_pk
+    }
+    jQuery.post("/ajax/product_to_cart/",
+        request_dict,
+        function(data, textStatus, jqXHR){
+            jQuery('#dynamic_div_showcart').html(data.html);
+        },
+        "json");
+}
+function product_to_cart(data, product_pk){
+    ajax_product_to_cart(product_pk);
+    animate_cart(data);
+    return false;
+}
+</script>
+    {# <p>Продукты в этой категории</p> #}
+    {% for product in products %}
+        {{ block_product(product)|safe }}
+    {% endfor %}
+</div>
+{# {1% else %}
+     <p>Продукты в этой категории отсутсвуют</p>
+{1% endif %}
+ #}

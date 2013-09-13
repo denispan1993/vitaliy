@@ -1,5 +1,3 @@
-{% if products %}
-<style>
 div.product_block{
     background:none repeat scroll 0 0 #FFFFFF;
     border:1px solid #EEEEEE;
@@ -56,32 +54,3 @@ div.product_block div.product_block_bottom div.product_block_price div.add_to_ca
     text-align: center;
     text-decoration: none;
 }
-</style>
-<div id="products_block">
-<script>
-function ajax_product_to_cart(product_pk){
-    var request_dict = {
-        csrfmiddlewaretoken:'{{ csrf_token }}',
-        product_pk:product_pk
-    }
-    jQuery.post("/ajax/product_to_cart/",
-        request_dict,
-        function(data, textStatus, jqXHR){
-            jQuery('#dynamic_div_showcart').html(data.html);
-        },
-        "json");
-}
-function product_to_cart(data, product_pk){
-    ajax_product_to_cart(product_pk);
-    animate_cart(data);
-    return false;
-}
-</script>
-    {# <p>Продукты в этой категории</p> #}
-    {% for product in products %}
-        {{ block_product(product)|safe }}
-    {% endfor %}
-</div>
-{% else %}
-     <p>Продукты в этой категории отсутсвуют</p>
-{% endif %}
