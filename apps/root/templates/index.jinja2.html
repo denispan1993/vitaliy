@@ -4,7 +4,7 @@
 {% block content_center %}
 <p class="center_title">Новинки</p>
     <div class="products_container">
-        {{ block_products_div(in_main_page, request)|safe }}
+        {{ block_products(in_main_page, request)|safe }}
         {# {{ block_products(all_products, request)|safe }} #}
     </div>
 {% endblock %}

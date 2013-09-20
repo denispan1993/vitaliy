@@ -1,6 +1,6 @@
 #recommended_products{	
     margin:0 auto;
-    width:818px;
+/*    width:818px;*/
     text-align:left;
     position:relative;
     padding:2em 0;
@@ -8,13 +8,13 @@
 ul#products{		
     margin:1em 0;
     width:auto;
-    height:245px;
+    height:324px;
     overflow:hidden;
 }
 ul#products li{
     list-style:none;
     float:left;
-    height:240px;
+/*    height:240px;*/
     overflow:hidden;
     margin:0 4px;
     background:#DBDAE0;

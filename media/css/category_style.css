@@ -1,18 +1,18 @@
-div.product_block{
+div.product_block,li.product_block{
     background:none repeat scroll 0 0 #FFFFFF;
     border:1px solid #EEEEEE;
     float:left;
-    height:285px;
+    height:300px;
     margin:0 0 10px 10px;
     padding:10px;
     position:relative;
     width:214px;
 }
-div.product_block div.product_block_excerpt{
+div.product_block_excerpt{
     height: 30px;
     margin-bottom: 5px;
 }
-div.product_block a.product_block_img{
+a.product_block_img{
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -27,22 +27,22 @@ div.product_block a.product_block_img{
     height:160px;
     margin-bottom:10px;
 }
-div.product_block div.product_block_bottom{
+div.product_block_bottom{
     line-height:24px;
     overflow:hidden;
 }
-div.product_block div.product_block_bottom div.product_block_price{
+div.product_block_bottom div.product_block_price{
     color:#FF1493;
     float:right;
     font-family:"Times New Roman",Times,serif;
     font-size:25px;
 }
-div.product_block div.product_block_bottom div.product_block_price span{
+div.product_block_bottom div.product_block_price span{
     color:PaleGreen;
     font-size: 15px;
     font-style: italic;
 }
-div.product_block div.product_block_bottom div.product_block_price div.add_to_cart{
+div.product_block_bottom div.product_block_price div.add_to_cart{
     width:80px;
     background:none repeat scroll 0 0 #FF3366;
     border-radius: 5px 5px 5px 5px;

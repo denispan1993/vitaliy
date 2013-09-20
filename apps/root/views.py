@@ -20,21 +20,14 @@ def root_page(request, template_name=u'index.jinja2.html', ):
     except Product.DoesNotExist:
         all_products = None
 
-    explorer_with = request.session.get(u'with', None, )
-    if explorer_with:
-        try:
-            explorer_with = int(explorer_with, )
-        except ValueError:
-            limit = 12
-        else:
-            # limit = 12 if explorer_with >= 984 else limit = 9
-            if explorer_with >= 984:
-                limit = 12
-            else:
-                limit = 9
-    else:
-        limit = 12
-    in_main_page = Product.manager.in_main_page(limit, )
+    limit_on_page = request.session.get(u'limit_on_page', None, )
+    try:
+        limit_on_page = int(limit_on_page, )
+    except ValueError:
+        limit_on_page = 12
+    finally:
+        in_main_page = Product.manager.in_main_page(limit_on_page, )
+
 
 
     # children_categories = categories_first.children.all()

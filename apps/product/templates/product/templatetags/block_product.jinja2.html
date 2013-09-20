@@ -1,4 +1,8 @@
+{% if choice=='div' %}
 <div class="product_block">
+{% elif choice=='li' %}
+<li class="product_block">
+{% endif %}
 {% if product.disclose_product %}
     <a class="product_block_title"
        href="{{ product.get_absolute_url() }}"
@@ -48,4 +52,8 @@
         {% endif %}
     </div>
 {% endif %}
+{% if choice=='div' %}
 </div>
+{% elif choice=='li' %}
+</li>
+{% endif %}

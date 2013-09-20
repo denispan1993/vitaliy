@@ -18,7 +18,6 @@ def block_products(products, request, ):
 
 
 @register.global_function()
-def block_product(product, ):
+def block_product(product, choice, ):
     return render_to_string(template_name=u'product/templatetags/block_product.jinja2.html',
-                            dictionary={'product': product, }, )
-
+                            dictionary={'product': product, 'choice': choice, }, )

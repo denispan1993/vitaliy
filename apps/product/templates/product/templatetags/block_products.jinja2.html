@@ -21,7 +21,7 @@ function product_to_cart(data, product_pk){
 </script>
     {# <p>Продукты в этой категории</p> #}
     {% for product in products %}
-        {{ block_product(product)|safe }}
+        {{ block_product(product,'div')|safe }}
     {% endfor %}
 </div>
 {# {1% else %}

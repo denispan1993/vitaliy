@@ -1,11 +1,17 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}{{ product.title|capfirst }}{% endblock %}
 {% block product_header_css %}
-<link rel="stylesheet" href="/media/css/easypaginate/easypaginate.css" media="all">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/easypaginate/easypaginate.css" media="all">
 {% endblock %}
-{% block header_js %}
-<script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
-{% endblock %}
+{% set products_recommended = product.recomendate.all() %}
+{% set length_products_recommended = products_recommended|length %} #}
+{% set limit_products_recommended_on_string = request.session.limit_on_string %} #}
+{% if products_recommended and length_products_recommended > limit_products_recommended_on_string %}
+    {% block header_js %}
+        <script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
+    {% endblock %}
+{% endif %}
 {% block body_javascript %}
 {% endblock %}
 {% block content_center %}
@@ -466,16 +472,14 @@ $(document).ready(onChange())
 		</div>
 	</div>
 </div>
-{% set products_recommended = product.recomendate.all() %}
 {% if products_recommended %}
-<div id="recommended_products">
-{% set length_products_recommended = products_recommended|length %}
-{% if length_products_recommended > 3 %}
-<script>
-try{
+<div id="recommended_products"
+     style="width:{% if limit_products_recommended_on_string == 4 %}976{% else %}732{% endif %}px;">
+{% if length_products_recommended > limit_products_recommended_on_string %}
+<script>try{
 $(document).ready(function($){
 $('ul#products').easyPaginate({
-    step:5, {# Defines a number of items visible on each "page". #}
+    step:{{ limit_products_recommended_on_string }}, {# Defines a number of items visible on each "page". #}
     delay:500, {# Items on each "page" fade in one by one. This parameter controls the pause between each item’s appearance so we can create "wave" effect. It is defined in milliseconds. #}
     auto:false, {# Boolean. If set to true then the plugin will automatically rotate the "pages" #}
     pause:1000, {# If set to auto pagination, this parameter controls the length of the pause in milliseconds between each "page turn". #}
@@ -486,8 +490,8 @@ $('ul#products').easyPaginate({
 </script>
 <ul id="products">
     {% for product_recommended in products_recommended %}
-        {{ block_product(product_recommended)|safe }}
-    {% endfor %}
+        {{ block_product(product_recommended,'li')|safe }}
+    {% endfor %}{#
   <li>Page 1</li>
   <li>Page 2</li>
   <li>Page 3</li>
@@ -496,12 +500,12 @@ $('ul#products').easyPaginate({
   <li>Page 6</li>
   <li>Page 7</li>
   <li>Page 8</li>
-</ul>
+ #}</ul>
 </div>
 {% else %}
 <ul id="products">
     {% for product_recommended in products_recommended %}
-        {{ block_product(product_recommended, request)|safe }}
+        {{ block_product(product_recommended,'li')|safe }}
     {% endfor %}
 </ul>
 {% endif %}

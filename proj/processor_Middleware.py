@@ -29,10 +29,30 @@ class Process_SessionIDMiddleware(object):
         """ ajax_resolution """
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
         from datetime import datetime, timedelta
-        if not ajax_resolution_datetime or ajax_resolution_datetime < (datetime.now() - timedelta(seconds=60, )):
+        if not ajax_resolution_datetime or \
+           ajax_resolution_datetime < (datetime.now() - timedelta(seconds=60, )):
             request.session[u'ajax_resolution'] = True
         else:
             request.session[u'ajax_resolution'] = False
+        explorer_with = request.session.get(u'with', None, )
+        if explorer_with:
+            try:
+                explorer_with = int(explorer_with, )
+            except ValueError:
+                request.session[u'limit_on_string'] = 4
+                request.session[u'limit_on_page'] = 12
+            else:
+                # limit = 12 if explorer_with >= 984 else limit = 9
+                if explorer_with >= 984:
+                    request.session[u'limit_on_string'] = 4
+                    request.session[u'limit_on_page'] = 12
+                else:
+                    request.session[u'limit_on_string'] = 3
+                    request.session[u'limit_on_page'] = 9
+        else:
+            request.session[u'limit_on_string'] = 4
+            request.session[u'limit_on_page'] = 12
+
         """ ajax_cookie """
         if not "cookie" in request.session:
             request.session[u'ajax_cookie'] = True
