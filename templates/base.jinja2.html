@@ -3,30 +3,27 @@
 <head>
 {% compress css %}
 {% block block_title %}
-    <title>
-        {% block title %}{% endblock %}
-    </title>
+<title>
+{% block title %}{% endblock %}
+</title>
 {% endblock %}
 {% block block_description %}
-    <title>
-        {% block description %}{% endblock %}
-    </title>
+<meta name="description" content="{% block description %}{% endblock %}">
 {% endblock %}
 {% block block_keywords %}
-    <title>
-        {% block keywords %}{% endblock %}
-    </title>
+<meta name="keywords" content="{% block keywords %}{% endblock %}">
 {% endblock %}
+<base href="http://keksik.com.ua/" target="_blank">
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="/media/css/base_style.css" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/base_style.css" />
 {% block root_header_css %}{% endblock %}
 {% block header_css %}{% endblock %}
 {% block category_header_css %}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css" />
 {% endblock %}
 {% block product_header_css %}{% endblock %}
-<script type="text/javascript" src="/media/js/jquery/jquery.js"></script>
-<script type="text/javascript" src="/media/js/animate_cart.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
+<script src="{{ MEDIA_URL }}js/animate_cart.js"></script>
 {% block root_header_js %}{% endblock %}
 {% block header_js %}{% endblock %}
 {% block ajax %}
@@ -121,11 +118,16 @@ new Image().src = "//counter.yadro.ru/hit?r"+escape(document.referrer)+((typeof(
 </div>
 <div id="footer">
 <!--LiveInternet logo-->
+<style>
+div#footer a{
+    border:0;
+}
+</style>
 <a href="http://www.liveinternet.ru/click"
    target="_blank">
     <img src="//counter.yadro.ru/logo?29.6"
          title="LiveInternet: показано количество просмотров и посетителей"
-         alt="" border="0" width="88" height="120"/>
+         alt="LiveInternet: Статистика посещений" width="88" height="120">
 </a>
 <!--/LiveInternet-->
 <!-- Yandex.Metrika informer -->
@@ -135,7 +137,7 @@ new Image().src = "//counter.yadro.ru/hit?r"+escape(document.referrer)+((typeof(
          style="width:88px; height:31px; border:0;"
          alt="Яндекс.Метрика"
          title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
-         onclick="try{Ya.Metrika.informer({i:this,id:21943054,lang:'ru'});return false}catch(e){}"/>
+         onclick="try{Ya.Metrika.informer({i:this,id:21943054,lang:'ru'});return false}catch(e){}">
 </a>
 <!-- /Yandex.Metrika informer -->
 </div>

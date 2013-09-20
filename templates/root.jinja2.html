@@ -52,11 +52,11 @@ try{
 <div id="cart" class="opened">
     <div id="cart_button" style="float:left;height:150px;overflow:hidden;width:60px;display:block;">
         <a onclick="Cart.toggle();return false;" href="javascript:void(0)">
-            <img width="60px" src="/media/img/shopping_cart.png">
+            <img width="60" src="/media/img/shopping_cart.png" alt="Корзина">
         </a>
     </div>
     <div id="showcart" style="background:none repeat scroll 0 0 #F1F1F1;border:1px solid #CECECE;border-radius:15px 0 0 15px;margin-left:70px;padding:10px;display:block;">{# googleoff: all #}
-        <noindex>
+        {# <noindex> #}
             <div id="dynamic_div_showcart">
                 <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
                 <br>
@@ -64,7 +64,7 @@ try{
                 <br>
             </div>
             <b><a href="/корзина/">Перейти в корзину</a></b>
-        </noindex>{# googleon: all #}
+        {# </noindex> #}{# googleon: all #}
     </div>
 </div>
 <div id="header">
@@ -95,7 +95,7 @@ try{
         <a id="logo"
            href="/"
            title="Главная страница интернет-магазина keksik.com.ua"
-           alt="Кексик с глазами - интернет магазин keksik.com.ua">
+           {# alt="Кексик с глазами - интернет магазин keksik.com.ua" #}>
         </a>
     </div>
     {% if slides_ %}
@@ -140,7 +140,7 @@ try{
                 {% for cat in categories_basement_ recursive %}
                     <li>
                         <a {% if cat.shown_colored or cat.shown_bold or shown_italic %}class="{% if cat.shown_colored %}colored {% endif %}{% if cat.shown_bold %}bold {% endif %}{% if cat.shown_italic %}italic{% endif %}" {% endif %}href="{{ cat.get_absolute_url() }}"
-                           alt="{{ cat.name }}"
+                           {# alt="{{ cat.name }}" #}
                            title="{{ cat.title }}">{{ cat.title }}</a>
                         {% set children = cat.children.all() %}
                         {% if children %}
