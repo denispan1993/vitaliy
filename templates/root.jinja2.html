@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/vertical-account-menu/blue.css" />
 {% endblock %}
 {% block root_header_js %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/cookie.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/cookie.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
 <script>
 try{
     $(document).ready(function($){
@@ -52,7 +52,7 @@ try{
 <div id="cart" class="opened">
     <div id="cart_button" style="float:left;height:150px;overflow:hidden;width:60px;display:block;">
         <a onclick="Cart.toggle();return false;" href="javascript:void(0)">
-            <img width="60" src="/media/img/shopping_cart.png" alt="Корзина">
+            <img width="60" src="{{ MEDIA_URL }}img/shopping_cart.png" alt="Корзина">
         </a>
     </div>
     <div id="showcart" style="background:none repeat scroll 0 0 #F1F1F1;border:1px solid #CECECE;border-radius:15px 0 0 15px;margin-left:70px;padding:10px;display:block;">{# googleoff: all #}
@@ -126,8 +126,8 @@ try{
             </div>
         </div>
         <div class="ws_shadow"></div>
-        <script type="text/javascript" src="/media/js/jquery/wowslider/wowslider.js"></script>
-        <script type="text/javascript" src="/media/js/jquery/wowslider/script.js"></script>
+        <script src="{{ MEDIA_URL }}js/jquery/wowslider/wowslider.js"></script>
+        <script src="{{ MEDIA_URL }}js/jquery/wowslider/script.js"></script>
     </div>
     {# <!-- End WOWSlider.com BODY section --> #}
     {% endif %}
@@ -163,5 +163,5 @@ try{
     <div id="main_right">
         111222333
     </div>
-{# </div> #}
+</div>
 {% endblock %}
