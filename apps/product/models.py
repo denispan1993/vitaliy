@@ -671,8 +671,9 @@ class Photo(models.Model):
     from compat.ImageWithThumbs import models as class_ImageWithThumb
     photo = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Фото',
                                                       upload_to=set_path_photo,
-                                                      sizes=((90, 95), (205, 190), (210, 160), (345, 370),
-                                                             (700, 500), ),
+                                                      sizes=((26, 26, ), (50, 50, ), (90, 95, ),
+                                                             (205, 190, ), (210, 160, ), (345, 370, ),
+                                                             (700, 500, ), ),
                                                       blank=False,
                                                       null=False, )
     title = models.CharField(verbose_name=u'Заголовок фотографии',
@@ -751,6 +752,9 @@ class Country(models.Model):
 
 
 class View(models.Model):
+    """
+        Сколько раз просмотрели товар или категорию.
+    """
     """ Ссылка на главную запись """
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_View',
@@ -778,8 +782,10 @@ class View(models.Model):
 
 
 class Viewed(models.Model):
+    """
+        Какие товары посмотрел пользователь.
+    """
     """ Ссылка на главную запись """
-    """ Что смотрел """
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Viewed',
                                      null=False, blank=False, default=1, )

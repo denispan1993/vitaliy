@@ -87,21 +87,28 @@ class ManufacturerAdmin(admin.ModelAdmin, ):
     model = Manufacturer
 admin.site.register(Manufacturer, ManufacturerAdmin, )
 
+
+class generic_Photo_InLine_for_Information(generic.GenericStackedInline, ):
+    model = Photo
+    extra = 1
+    max_num = 1
+
 from apps.product.models import Information
 
 
-class adminStacked_Information_InLine(admin.TabularInline, ):
+class admin_Information_InLine(admin.TabularInline, ):
     model = Information
+    inlines = [generic_Photo_InLine_for_Information, ]
     extra = 3
 
 from apps.product.models import Additional_Information
 
 
-class adminStacked_Additional_Information_InLine(admin.StackedInline, ):
+class admin_Additional_Information_InLine(admin.StackedInline, ):
     model = Additional_Information
-    inlines = [
-        adminStacked_Information_InLine,
-    ]
+#    inlines = [
+#        adminStacked_Information_InLine,
+#    ]
 #    filter_horizontal = ('informations', )
 #    filter_vertical = ('informations', )
     extra = 5
@@ -158,7 +165,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         genericStacked_ItemID_InLine,
         genericStacked_IntermediateModelManufacturer_InLine,
         Tabular_Discount_InLine,
-        adminStacked_Additional_Information_InLine,
+        admin_Additional_Information_InLine,
         genericStacked_Photo_InLine,
     ]
     save_as = True
