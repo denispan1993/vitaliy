@@ -130,13 +130,33 @@ class Tabular_Discount_InLine(admin.TabularInline, ):
     model = Discount
     extra = 5
 
-from apps.product.models import Product
-from django import forms
+from apps.extended_price.models import Price_Additional_Information
 
 
-class ProductAdminForm(forms.ModelForm, ):
-    class Meta:
-        models = Product
+class Tabular_Price_Additional_Information_InLine(admin.TabularInline, ):
+    model = Price_Additional_Information
+    extra = 3
+
+from apps.extended_price.models import Price_Information
+
+
+class Tabular_Price_Information_InLine(admin.TabularInline, ):
+    model = Price_Information
+    extra = 3
+
+from apps.extended_price.models import Extended_Price
+
+
+class Tabular_Extended_Price_InLine(admin.TabularInline, ):
+    model = Extended_Price
+    extra = 3
+#from apps.product.models import Product
+#from django import forms
+
+
+#class ProductAdminForm(forms.ModelForm, ):
+#    class Meta:
+#        models = Product
 
 
 class ProductAdmin(admin.ModelAdmin, ):
@@ -167,6 +187,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         Tabular_Discount_InLine,
         admin_Additional_Information_InLine,
         genericStacked_Photo_InLine,
+        Tabular_Extended_Price_InLine,
     ]
     save_as = True
     save_on_top = True

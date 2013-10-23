@@ -585,7 +585,7 @@ class Information(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     def __unicode__(self):
-        return u'Информационніе поля:%s' % (self.information, )
+        return u'Информационные поля:%s' % (self.information, )
 
     class Meta:
         db_table = 'Information'
