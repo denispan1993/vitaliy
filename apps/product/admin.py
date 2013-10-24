@@ -150,7 +150,7 @@ from apps.extended_price.models import Extended_Price
 class Tabular_Extended_Price_InLine(admin.TabularInline, ):
     model = Extended_Price
     extra = 3
-#from apps.product.models import Product
+from apps.product.models import Product
 #from django import forms
 
 

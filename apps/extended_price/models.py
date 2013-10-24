@@ -14,6 +14,10 @@ class Price_Additional_Information(models.Model):
                              null=False,
                              blank=False,
                              max_length=255, )
+    price = models.ManyToManyField('Extended_Price',
+                                   verbose_name=u'Прайс',
+                                   null=False,
+                                   blank=False, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
@@ -30,20 +34,20 @@ class Price_Additional_Information(models.Model):
 
 
 class Price_Information(models.Model):
-    from apps.product.models import Product
-    product = models.ForeignKey(Product,
-                                verbose_name=_(u'Продукт'),
-                                related_name=u'price_information',
-                                null=False,
-                                blank=False, )
-    additional_information = models.ForeignKey(Price_Additional_Information,
-                                               verbose_name=u'Дополнительное описание для прайса',
-                                               null=False,
-                                               blank=False, )
+#    from apps.product.models import Product
+#    product = models.ForeignKey(Product,
+#                                verbose_name=_(u'Продукт'),
+#                                related_name=u'price_information',
+#                                null=False,
+#                                blank=False, )
     information = models.CharField(verbose_name=u'Информация для прайса',
                                    null=False,
                                    blank=False,
                                    max_length=255, )
+#    price = models.ForeignKey('Extended_Price',
+#                              verbose_name=_(u'Информационные поля для прайса'),
+#                              blank=False,
+#                              null=False, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
@@ -60,10 +64,10 @@ class Price_Information(models.Model):
 
 
 class Extended_Price(models.Model):
-    price_informations = models.ManyToManyField(Price_Information,
-                                                verbose_name=_(u'Информационные поля для прайса'),
-                                                blank=False,
-                                                null=False, )
+    information = models.ManyToManyField('Price_Information',
+                                         verbose_name=u'Информация',
+                                         null=False,
+                                         blank=False, )
     price = models.DecimalField(verbose_name=u'Цена в зависимости от выбранных критериев',
                                 max_digits=8,
                                 decimal_places=2,
