@@ -7,15 +7,19 @@ class Price_Additional_Information(models.Model):
     from apps.product.models import Product
     product = models.ForeignKey(Product,
                                 verbose_name=_(u'Продукт'),
-                                related_name=u'price_additional_information',
+                                related_name='price_additional_information',
                                 null=False,
                                 blank=False, )
     title = models.CharField(verbose_name=_(u'Заголовок'),
                              null=False,
                              blank=False,
                              max_length=255, )
+    information = models.ManyToManyField('Price_Information',
+                                         verbose_name=_(u'Информация для прайса', ),
+                                         null=False,
+                                         blank=False, )
     price = models.ManyToManyField('Extended_Price',
-                                   verbose_name=u'Прайс',
+                                   verbose_name=_(u'Прайс', ),
                                    null=False,
                                    blank=False, )
 
@@ -64,8 +68,14 @@ class Price_Information(models.Model):
 
 
 class Extended_Price(models.Model):
+    from apps.product.models import Product
+    product = models.ForeignKey(Product,
+                                verbose_name=_(u'Продукт', ),
+                                related_name=u'extended_price',
+                                null=False,
+                                blank=False, )
     information = models.ManyToManyField('Price_Information',
-                                         verbose_name=u'Информация',
+                                         verbose_name=_(u'Информация', ),
                                          null=False,
                                          blank=False, )
     price = models.DecimalField(verbose_name=u'Цена в зависимости от выбранных критериев',
