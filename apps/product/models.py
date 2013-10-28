@@ -823,6 +823,99 @@ class Viewed(models.Model):
         verbose_name = u'Просмотренный'
         verbose_name_plural = u'Просмотренные'
 
+# Extended Price
+
+
+class InformationForPrice(models.Model):
+    product = models.ForeignKey(Product,
+                                verbose_name=_(u'Продукт', ),
+                                related_name='informationforprice',
+                                null=True,
+                                blank=True, )
+    information = models.CharField(verbose_name=_(u'Информация', ),
+                                   max_length=255,
+                                   null=False,
+                                   blank=False, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return self.information
+
+    class Meta:
+        db_table = 'InformationForPrice'
+        ordering = ['-created_at']
+        verbose_name = u'Информационное поле для прайса'
+        verbose_name_plural = u'Информационные поля для прайса'
+
+
+class ExtendedPrice(models.Model):
+    product = models.ForeignKey(Product,
+                                verbose_name=_(u'Продукт', ),
+                                related_name='extendedprice',
+                                null=False,
+                                blank=False, )
+    information = models.ManyToManyField(InformationForPrice,
+                                         verbose_name=_(u'Информация', ),
+                                         null=False,
+                                         blank=False, )
+    regular_price = models.DecimalField(verbose_name=_(u'Старая цена', ),
+                                        max_digits=10,
+                                        decimal_places=2,
+                                        default=0,
+                                        blank=True,
+                                        null=True, )
+    price = models.DecimalField(verbose_name=_(u'Цена', ),
+                                max_digits=10,
+                                decimal_places=2,
+                                default=0,
+                                blank=False,
+                                null=False, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'%s' % (self.price, )
+
+    class Meta:
+        db_table = u'ExtendedPrice'
+        ordering = ['-created_at']
+        verbose_name = u'Цена в зависимости от выбранных критериев'
+        verbose_name_plural = u'Цены в зависимости от выбранных критериев'
+
+
+class AdditionalInformationForPrice(models.Model):
+    product = models.ForeignKey(Product,
+                                verbose_name=_(u'Продукт'),
+                                related_name='additionalinformationforprice',
+                                null=False,
+                                blank=False, )
+    title = models.CharField(verbose_name=_(u'Заголовок'),
+                             null=False,
+                             blank=False,
+                             max_length=255, )
+    information = models.ManyToManyField(InformationForPrice,
+                                         verbose_name=_(u'Информация для прайса', ),
+                                         null=False,
+                                         blank=False, )
+    # price = models.ManyToManyField(ExtendedPrice,
+    #                                verbose_name=_(u'Прайс', ),
+    #                                null=False,
+    #                                blank=False, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Дополнительная информация для прайса:%s' % (self.title, )
+
+    class Meta:
+        db_table = 'AdditionalInformationForPrice'
+        ordering = ['-created_at']
+        verbose_name = u'Дополнительная информация для прайса'
+        verbose_name_plural = u'Дополнительная информация для прайса'
 
 # описываем правила
 from compat.FormSlug.models import ModelSlugField

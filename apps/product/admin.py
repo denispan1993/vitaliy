@@ -142,14 +142,24 @@ from apps.extended_price.models import Price_Information
 
 class Tabular_Price_Information_InLine(admin.TabularInline, ):
     model = Price_Information
+    extra = 2
+
+from apps.product.models import AdditionalInformationForPrice
+
+
+class Tabular_AdditionalInformationForPrice_InLine(admin.TabularInline, ):
+    model = AdditionalInformationForPrice
+    filter_horizontal = ('information', )
     extra = 3
 
-from apps.extended_price.models import Extended_Price
+from apps.product.models import ExtendedPrice
 
 
-class Tabular_Extended_Price_InLine(admin.TabularInline, ):
-    model = Extended_Price
-    extra = 3
+class Tabular_ExtendedPrice_InLine(admin.TabularInline, ):
+    model = ExtendedPrice
+    filter_horizontal = ('information', )
+    extra = 4
+
 from apps.product.models import Product
 #from django import forms
 
@@ -180,14 +190,14 @@ class ProductAdmin(admin.ModelAdmin, ):
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
     filter_horizontal = ('category', 'recomendate', )
-
     inlines = [
         genericStacked_ItemID_InLine,
         genericStacked_IntermediateModelManufacturer_InLine,
         Tabular_Discount_InLine,
         admin_Additional_Information_InLine,
         genericStacked_Photo_InLine,
-        Tabular_Extended_Price_InLine,
+        Tabular_AdditionalInformationForPrice_InLine,
+        Tabular_ExtendedPrice_InLine,
     ]
     save_as = True
     save_on_top = True
@@ -228,3 +238,7 @@ from apps.product.models import View
 admin.site.register(View, admin.ModelAdmin, )
 from apps.product.models import Viewed
 admin.site.register(Viewed, admin.ModelAdmin, )
+#from apps.product.models import ExtendedPrice
+#admin.site.register(ExtendedPrice, admin.ModelAdmin, )
+from apps.product.models import InformationForPrice
+admin.site.register(InformationForPrice, admin.ModelAdmin, )
