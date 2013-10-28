@@ -38,12 +38,12 @@ class Price_Additional_Information(models.Model):
 
 
 class Price_Information(models.Model):
-#    from apps.product.models import Product
-#    product = models.ForeignKey(Product,
-#                                verbose_name=_(u'Продукт'),
-#                                related_name=u'price_information',
-#                                null=False,
-#                                blank=False, )
+    from apps.product.models import Product
+    product = models.ForeignKey(Product,
+                                verbose_name=_(u'Продукт'),
+                                related_name=u'price_information',
+                                null=False,
+                                blank=False, )
     information = models.CharField(verbose_name=u'Информация для прайса',
                                    null=False,
                                    blank=False,
