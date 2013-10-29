@@ -144,11 +144,18 @@ class Tabular_Price_Information_InLine(admin.TabularInline, ):
     model = Price_Information
     extra = 2
 
+from apps.product.models import AdditionalInformationAndInformationForPrice
+
+
+class Tabular_AdditionalInformationAndInformationForPrice_InLine(admin.TabularInline, ):
+    model = AdditionalInformationAndInformationForPrice
+
 from apps.product.models import AdditionalInformationForPrice
 
 
 class Tabular_AdditionalInformationForPrice_InLine(admin.TabularInline, ):
     model = AdditionalInformationForPrice
+    inlines = (Tabular_AdditionalInformationAndInformationForPrice_InLine, )
     filter_horizontal = ('information', )
     extra = 3
 
