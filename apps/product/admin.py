@@ -144,18 +144,18 @@ class Tabular_Price_Information_InLine(admin.TabularInline, ):
     model = Price_Information
     extra = 2
 
-from apps.product.models import AdditionalInformationAndInformationForPrice
+#from apps.product.models import AdditionalInformationAndInformationForPrice
 
 
-class Tabular_AdditionalInformationAndInformationForPrice_InLine(admin.TabularInline, ):
-    model = AdditionalInformationAndInformationForPrice
+#class Tabular_AdditionalInformationAndInformationForPrice_InLine(admin.TabularInline, ):
+#    model = AdditionalInformationAndInformationForPrice
 
 from apps.product.models import AdditionalInformationForPrice
 
 
 class Tabular_AdditionalInformationForPrice_InLine(admin.TabularInline, ):
     model = AdditionalInformationForPrice
-    inlines = (Tabular_AdditionalInformationAndInformationForPrice_InLine, )
+#    inlines = (Tabular_AdditionalInformationAndInformationForPrice_InLine, )
     filter_horizontal = ('information', )
     extra = 3
 
@@ -248,4 +248,13 @@ admin.site.register(Viewed, admin.ModelAdmin, )
 #from apps.product.models import ExtendedPrice
 #admin.site.register(ExtendedPrice, admin.ModelAdmin, )
 from apps.product.models import InformationForPrice
-admin.site.register(InformationForPrice, admin.ModelAdmin, )
+
+
+class InformationForPriceAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'information', ]
+    list_display_links = ['pk', 'information', ]
+    fieldsets = [
+        (None,               {'classes': ['wide'], 'fields': ['product', 'information', ], }, ),
+    ]
+    readonly_fields = ('product', )
+admin.site.register(InformationForPrice, InformationForPriceAdmin, )
