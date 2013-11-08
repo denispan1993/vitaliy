@@ -159,13 +159,29 @@ class Tabular_AdditionalInformationForPrice_InLine(admin.TabularInline, ):
     filter_horizontal = ('information', )
     extra = 3
 
+# from django import forms
 from apps.product.models import ExtendedPrice
+
+
+# class ExtendedPriceForm(forms.ModelForm):
+#     class Meta:
+#         model = ExtendedPrice
+#         widgets = {
+#             'information': forms.SelectMultiple(attrs={'product': 1, }, ),
+#         }
 
 
 class Tabular_ExtendedPrice_InLine(admin.TabularInline, ):
     model = ExtendedPrice
+    # form = ExtendedPriceForm
     filter_horizontal = ('information', )
     extra = 4
+
+    # def queryset(self, request, ):
+    #     qs = super(ExtendedPrice, self, ).queryset(request, )
+    #     if request.user.is_superuser:
+    #         return qs
+    #     return qs.filter(author=request.user)
 
 from apps.product.models import Product
 #from django import forms
