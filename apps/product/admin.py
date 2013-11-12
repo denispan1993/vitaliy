@@ -177,6 +177,46 @@ class Tabular_ExtendedPrice_InLine(admin.TabularInline, ):
     filter_horizontal = ('information', )
     extra = 4
 
+    def get_formset(self, request, obj=None, **kwargs):
+        # Save parent instance
+        self.obj = obj
+        return super(Tabular_ExtendedPrice_InLine, self).get_formset(request, obj, **kwargs)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "information":
+#            obj = self.obj
+#            id = request.path.split('/')[-2]
+#            if id:
+#                try:
+#                    id = int(id)
+#                except ValueError:
+#                    pass
+#                else:
+#                    from apps.product.models import Product
+#                    product = Product.objects.get(pk=id, )
+##                    aaa123
+#                    from apps.product.models import InformationForPrice
+#                    from django.db.models import Q
+#                    kwargs["queryset"] =\
+#                        InformationForPrice.objects.filter(Q(product=product, ) | Q(product__isnull=True, ), )
+            from apps.product.models import InformationForPrice
+            from django.db.models import Q
+            kwargs["queryset"] =\
+                InformationForPrice.objects.filter(Q(product=self.obj, ) | Q(product__isnull=True, ), )
+        return super(Tabular_ExtendedPrice_InLine, self).formfield_for_manytomany(db_field, request, **kwargs)
+
+    # def get_formset(self, request, obj=None, **kwargs):
+    #     # Save parent instance
+    #     self.obj = obj
+    #     return super(Tabular_ExtendedPrice_InLine, self).get_formset(request, obj, **kwargs)
+
+    # def formfield_for_dbfield(self, db_field, **kwargs):
+    #     field = super(Tabular_ExtendedPrice_InLine, self).formfield_for_dbfield(db_field, **kwargs)
+    #     if db_field.name == 'information' and hasattr(self, 'obj') and self.obj:
+    #         # field.choices = [('','---------')]
+    #         # field.choices.extend(Column.objects.filter(table=self.obj.table).values_list('id', 'title'))
+    #     # return field
+
     # def queryset(self, request, ):
     #     qs = super(ExtendedPrice, self, ).queryset(request, )
     #     if request.user.is_superuser:
