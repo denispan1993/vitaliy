@@ -38,9 +38,9 @@ div.product_block_bottom div.product_block_price{
     font-size:25px;
 }
 div.product_block_bottom div.product_block_price span{
-    color:PaleGreen;
-    font-size: 15px;
-    font-style: italic;
+    color:Black;
+    font-size:15px;
+    font-style:italic;
 }
 div.product_block_bottom div.product_block_price div.add_to_cart{
     width:80px;

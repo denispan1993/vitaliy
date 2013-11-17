@@ -57,54 +57,52 @@
     top:0px;
     z-index:100;
 }*/
-#cart.opened {
-    right: 0;
+#cart.opened{
+    right:0;
 }
-#auth {
-    background: none repeat scroll 0 0 #1A1B1D;
-    border-radius: 0px 0px 26px 26px;
-    padding: 5px;
-    position: absolute;
-    right: 0;
-    top: 0px;
-    z-index: 100;
+#auth{
+    background:none repeat scroll 0 0 #1A1B1D;
+    border-radius:0px 0px 26px 26px;
+    padding:5px;
+    position:absolute;
+    right:0;
+    top:0px;
+    z-index:100;
 }
-#logo {
+#logo{
     background:url("/media/img/logo.png") no-repeat scroll 0 0 transparent;
     display:block;
     height:200px;
     left:50px;
     position: absolute;
     top:60px;
-    width: 200px;
-    z-index: 100;
+    width:200px;
+    z-index:100;
 }
 #accordion_menu{
     border: 4px solid fuchsia;
 }
-
-.left_menu {
+.left_menu{
 /*    border: 1px solid #CCCCCC;*/
     border-radius:10px 10px 10px 10px;
     margin-bottom:18px;
     padding:10px;
 }
-
-#main {
+#main{
     margin-bottom:15px;
     // position:relative;
     z-index:100;
 }
-#main_left {
+#main_left{
     float:left;
     margin-right:20px;
     margin-top:0px;
     position:relative;
     width:200px;
 }
-.left_title {
+.left_title{
     background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
-//    border-bottom:1px solid #CCCCCC;
+    /* border-bottom:1px solid #CCCCCC; */
     color:#333333;
     font-size:16px;
     font-weight:normal;
@@ -113,15 +111,16 @@
     padding-bottom:3px;
     padding-left:40px;
 }
-#main_center {
-    background: url("/media/img/bg-main.png") repeat-x scroll 0 0 transparent;
-    border: 5px solid #FFFFFF;
-    border-radius: 10px 10px 10px 10px;
-    box-shadow: 0 0 5px #CCCCCC;
-    overflow: hidden;
-    padding: 10px;
+#main_center{
+    background:url("/media/img/bg-main.png") repeat-x scroll 0 0 transparent;
+    border:5px solid #FFFFFF;
+    border-radius:10px 10px 10px 10px;
+    box-shadow:0 0 5px #CCCCCC;
+    overflow:hidden;
+    padding:10px;
+    width:961px;
 }
-.center_title {
+.center_title{
     background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
     border-bottom:1px solid #CCCCCC;
     color:#333333;
@@ -132,7 +131,7 @@
     padding-bottom:3px;
     padding-left:40px;
 }
-.products_container {
+.products_container{
     margin-left:-9px;
     overflow:hidden;
     max-width:984px;

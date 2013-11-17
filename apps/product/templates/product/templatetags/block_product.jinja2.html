@@ -5,15 +5,16 @@
 {% endif %}
 {% if product.disclose_product %}
     <a class="product_block_title"
+       style="font-size:16px;"
        href="{{ product.get_absolute_url() }}"
        title="{{ product.title }}">{{ product.name }}</a>
     <a class="product_block_img"
        style="background-image:url('{% if product.main_photo %}{{ product.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}');"
        href="{{ product.get_absolute_url() }}"
        title="{{ product.title }}"></a>
-    <div class="product_block_excerpt" title="цена за ед. {{ product.price }} грн.">цена за ед. {{ product.price }} грн.</div>
+    {# <div class="product_block_excerpt" title="{{ product.price }} грн.">{{ product.price }} грн.</div> #}
     <div class="product_block_bottom">
-        <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
+        <div class="product_block_price">{{ product.price }}&nbsp;<span>грн.</span></div>
         {% if product.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"

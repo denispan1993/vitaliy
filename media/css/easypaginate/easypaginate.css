@@ -74,13 +74,13 @@ ol#pagination li.current{
 }
 ol#pagination li.prev, ol#pagination li.next{
     position:absolute;
-    top:-150px;
+    top:-185px;
 }
 ol#pagination li.prev{
-    left:-30px;
+    left:-15px;
     background:url('/media/img/easypaginate/bg_buttons.png') no-repeat 0 -64px;
 }
 ol#pagination li.next{
-    right:-30px;
+    right:-15px;
     background:url('/media/img/easypaginate/bg_buttons.png') no-repeat 0 -48px;
 }

@@ -23,8 +23,8 @@
 	color:#333333;
 	font-family:Arial,Helvetica,sans-serif;
 	font-size:12px;
-	line-height:100%;
-	min-height:355px;
+	line-height:125%;
+	min-height:380px;
 }
 #product_box_left{
 	float:left;
@@ -66,13 +66,14 @@
 	padding:0px;margin:2px;
 }
 #product_box_right{
-//	width:45px;height:45px;
+	width:300px;/*height:45px;*/
 //	margin-left:-15px;
 	float:left;
 //	list-style-image:none;
 //	list-style-type:none;
 	padding:5px 0px 5px 0px;
 //  margin:2px;
+
 }
 </style>
 <div id="product_box">
@@ -134,14 +135,14 @@
 				<script type="text/javascript">
 				// Initialize the sliders.
 				$(function(){
-					$('#slider1').Thumbelina({
-						$bwdBut:$('#slider1 .left'),
-						$fwdBut:$('#slider1 .right')
+					$('#slider').Thumbelina({
+						$bwdBut:$('#slider .left'),
+						$fwdBut:$('#slider .right')
 					});
 				})
 				</script>
 				<script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
-				<div id="slider1"
+				<div id="slider"
 					 style="
 						border-bottom:1px solid #AAAAAA;
 						border-top:1px solid #AAAAAA;
@@ -463,18 +464,24 @@ $(document).ready(onChange())
 					<input type="submit" value="Купить" />
 				</form>
 			{% elif product.is_availability == 2 %}
-				<p>Товар: <strong>ожидается</strong></p>
+				<p>Товар:&nbsp;<strong>ожидается</strong></p>
 			{% elif product.is_availability == 3 %}
-				<p>Товар: <strong>доступен под заказ</strong></p>
+				<p>Товар:&nbsp;<strong>доступен под заказ</strong></p>
 			{% elif product.is_availability == 4 %}
-				<p>Товар: <strong>недоступен</strong></p>
+				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}
 		</div>
 	</div>
+    <div id="product_box_bottom"
+            style="position:relative;">
+        Краткое описание: {{ product.item_description }}
+        Полное описание: {{ product.description }}
+    </div>
 </div>
 {% if products_recommended %}
 <div id="recommended_products"
      style="width:{% if limit_products_recommended_on_string == 4 %}976{% else %}732{% endif %}px;">
+<p style="font-size:25px;color:Black;font-weight:bold;">Рекомендуемый товар</p>
 {% if length_products_recommended > limit_products_recommended_on_string %}
 <script>try{
 $(document).ready(function($){
