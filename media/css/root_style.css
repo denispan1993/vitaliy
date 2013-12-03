@@ -89,8 +89,10 @@
     padding:10px;
 }
 #main{
+    /* width:960px; */
+    height:100%;
     margin-bottom:15px;
-    // position:relative;
+    position:relative;
     z-index:100;
 }
 #main_left{
