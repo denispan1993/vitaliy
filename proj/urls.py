@@ -1,5 +1,9 @@
 # coding=utf-8
-from django.conf.urls import patterns, include, url
+# from django.conf.urls import patterns, include, url
+try:
+    from django.conf.urls import patterns, include, url
+except ImportError:  # django < 1.4
+    from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
