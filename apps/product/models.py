@@ -912,16 +912,16 @@ class AdditionalInformationForPrice(models.Model):
     def __unicode__(self):
         return u'Дополнительная информация для прайса:%s' % (self.title, )
 
-    def save(self, *args, **kwargs):
-        print(self.title)
-        print(self.product)
+    # def save(self, *args, **kwargs):
+    #     print(self.title)
+    #     print(self.product)
 #        self.information.save_m2m()
         # all_informations = self.information.all()
         # print(all_informations)
         # print(self.information)
         # for inf in all_informations:
         #     print inf.information
-        super(AdditionalInformationForPrice, self, ).save(*args, **kwargs)
+    #     super(AdditionalInformationForPrice, self, ).save(*args, **kwargs)
 ##        print(u'test1')
 ##        self.title += u'1'
 #        if self.url == u'':
