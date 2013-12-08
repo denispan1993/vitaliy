@@ -2,17 +2,9 @@
 <html>
 <head>
 {% compress css %}
-{% block block_title %}
-<title>
-{% block title %}{% endblock %}
-</title>
-{% endblock %}
-{% block block_description %}
-<meta name="description" content="{% block description %}{% endblock %}">
-{% endblock %}
-{% block block_keywords %}
-<meta name="keywords" content="{% block keywords %}{% endblock %}">
-{% endblock %}
+{% block block_title %}<title>{% block title %}{% endblock %}</title>{% endblock %}
+{% block block_description %}<meta name="description" content="{% block description %}{% endblock %}">{% endblock %}
+{% block block_keywords %}<meta name="keywords" content="{% block keywords %}{% endblock %}">{% endblock %}
 {# <base href="http://keksik.com.ua/" target="_blank"> - загрузить страницу в новой вкладке броузера #}
 {# <base href="http://keksik.com.ua/" target="_self"> #}
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />

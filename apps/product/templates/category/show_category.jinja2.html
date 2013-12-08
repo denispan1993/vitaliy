@@ -1,5 +1,5 @@
 {% extends 'root.jinja2.html' %}
-{% block title %}{{ current_category.meta_title }}{% endblock %}
+{% block title %}{% if current_category.meta_title %}{{ current_category.meta_title|capfirst }}{% else %}{{ current_category.title|capfirst }}{% endif %}{% endblock %}
 {% block description %}{{ current_category.meta_description }}{% endblock %}
 {% block keywords %}{{ current_category.meta_keywords }}{% endblock %}
 {% block category_header_css %}

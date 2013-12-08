@@ -14,6 +14,6 @@ ul li{list-style:none outside none;}
     font-size:12px;
     line-height:18px;
 }
-div#footer a{
-    border:0px;
+.clearFloat{
+    clear:Both;
 }

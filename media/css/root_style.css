@@ -1,9 +1,12 @@
-#header {
+div#footer a{
+    border:0px;
+}
+#header{
     height:365px;
     overflow:hidden;
     position:relative;
 }
-#static_menu-wrapper {
+#static_menu-wrapper{
     background: none repeat scroll 0 0 DarkTurquoise;
     border-radius: 0 0 26px 26px;
     padding: 0 5px 5px;
@@ -11,7 +14,7 @@
     right: 280px;
     z-index: 100;
 }
-#static_menu {
+#static_menu{
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -25,15 +28,15 @@
     padding: 16px;
     text-align: center;
 }
-#static_menu ul {
+#static_menu ul{
     display: inline;
     list-style-type: none;
 }
-#static_menu ul li {
+#static_menu ul li{
     display: inline;
     padding: 0 23px;
 }
-#static_menu ul li a {
+#static_menu ul li a{
     color: #000000;
     font-size: 16px;
     text-decoration: none;

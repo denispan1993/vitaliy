@@ -1,5 +1,5 @@
 {% extends 'root.jinja2.html' %}
-{% block title %}{{ product.meta_title|capfirst }}{% endblock %}
+{% block title %}{% if current_category.meta_title %}{{ current_category.meta_title|capfirst }}{% else %}{{ current_category.title|capfirst }}{% endif %}{% endblock %}
 {% block description %}{{ product.meta_description }}{% endblock %}
 {% block keywords %}{{ product.meta_keywords }}{% endblock %}
 {% block product_header_css %}
@@ -18,9 +18,6 @@
 {% endblock %}
 {% block content_center %}
 <style>
-.clearFloat{
-    clear:Both;
-}
 #product_box_left{
 	float:left;
 //	z-index:10;
