@@ -250,8 +250,9 @@
 		</div>
 		<div id="product_box_right">
 			<h1 style="font-size:16px;height:auto;line-height:20px;">
-				<a href="{{ product.get_absolute_url() }}">
-					{{ product.title|capfirst }}
+				<a href="{{ product.get_absolute_url() }}"
+                    title="{{ product.title|capfirst }}">
+					{{ product.name|capfirst }}
 				</a>
 			</h1>
             {% set views = product.increase_View %}
