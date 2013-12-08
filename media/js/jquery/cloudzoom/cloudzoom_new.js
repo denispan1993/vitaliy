@@ -732,7 +732,7 @@ function L(a) {
     this.r = this.interval = this.s = this.p = 0;
     var n = this,
         l;
-    n.b = r("<div class='" + a.G + "' style='position:absolute;overflow:hidden'></div>");
+    n.b = r("<div class='" + a.G + "' style='position:absolute;overflow:hidden;z-index:101;'></div>");
     var m = r("<img style='position:absolute;max-width:none' src='" + A(c.N, c.options) + "'/>");
     c.options.variableMagnification && m.bind("mousewheel", function (a, b) {
         n.zoom.ba(0.1 * b);
