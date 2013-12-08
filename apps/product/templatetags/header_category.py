@@ -38,7 +38,8 @@ def header_category2(current_category, product=None, ):
 
     _string = u'%s&nbsp;&gt;&nbsp;%s' % (root_string, header_string, )
     if product:
-        product_string = u'<a href="%s">%s</a>' % (product.get_absolute_url(),
-                                                   product.title, )
+        product_string = u'<a href="%s" title="%s">%s</a>' % (product.get_absolute_url(),
+                                                              product.name,
+                                                              product.title, )
         _string = u'%s&nbsp;&gt;&nbsp;%s' % (_string, product_string, )
     return _string
