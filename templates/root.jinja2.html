@@ -132,7 +132,12 @@ try{
     {# <!-- End WOWSlider.com BODY section --> #}
     {% endif %}
 </div>
-<div id="main">
+<div id="main" class="clearFloat">
+<style>
+#main_left{
+    float:left;
+}
+</style>
     <div id="main_left">
         <div id="accordion_menu" class="left_menu">
             <a class="left_title" href="/категории/" title="Категории верхнего уровная">Категории</a>
@@ -156,12 +161,22 @@ try{
             </ul>
         </div>
     </div>
+<style>
+#main_center{
+    float:left;
+}
+</style>
     <div id="main_center">
         {% block content_center %}
         {% endblock %}
     </div>
+<style>
+#main_right{
+    float:left;
+}
+</style>
     <div id="main_right">
-        111222333
+        <p>Правая колонка</p>
     </div>
 </div>
 {% endblock %}
