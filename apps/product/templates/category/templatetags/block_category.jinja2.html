@@ -2,7 +2,7 @@
     {% if category.main_photo %}
         <a class="category_block_title"
            href="{{ category.get_absolute_url() }}"
-           title="{{ category.title }}">{{ category.name }}</a>
+           title="{% if category.description %}{{ category.description }}{% else %}{{ category.title }}{% endif %}">{{ category.title }}</a>
         <a class="category_block_img"
            href="{{ category.get_absolute_url() }}"
            title="{{ category.main_photo.title }}">
@@ -10,11 +10,15 @@
                  alt="{% if category.main_photo.photo.meta_alt %}{{ category.main_photo.photo.meta_alt }}{% else %}{{ category.title }}{% endif %}"
                  border="0"/>
         </a>
-        {% if category.description %}<div class="category_block_excerpt">{{ category.description }}</div>{% endif %}
+        {% if category.description %}
+            <a class="category_block_excerpt"
+               href="{{ category.get_absolute_url() }}"
+               title="{{ category.title }}">{{ category.description }}</a>
+        {% endif %}
     {% else %}
         <a class="category_block_title"
            href="{{ category.get_absolute_url() }}"
-           title="{{ category.title }}">{{ category.name }}</a>
+           title="{% if category.description %}{{ category.description }}{% else %}{{ category.title }}{% endif %}">{{ category.title }}</a>
         <a class="category_block_img"
            href="{{ category.get_absolute_url() }}"
            title="{{ category.title }}">
@@ -22,6 +26,10 @@
                  alt="No Photo"
                  border="0"/>
         </a>
-        {% if category.description %}<div class="category_block_excerpt">{{ category.description }}</div>{% endif %}
+        {% if category.description %}
+            <a class="category_block_excerpt"
+               href="{{ category.get_absolute_url() }}"
+               title="{{ category.title }}">{{ category.description }}</a>
+        {% endif %}
     {% endif %}
 </div>
