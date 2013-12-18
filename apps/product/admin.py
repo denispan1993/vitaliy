@@ -130,19 +130,19 @@ class Tabular_Discount_InLine(admin.TabularInline, ):
     model = Discount
     extra = 5
 
-from apps.extended_price.models import Price_Additional_Information
+#from apps.extended_price.models import Price_Additional_Information
 
 
-class Tabular_Price_Additional_Information_InLine(admin.TabularInline, ):
-    model = Price_Additional_Information
-    extra = 3
+#class Tabular_Price_Additional_Information_InLine(admin.TabularInline, ):
+#    model = Price_Additional_Information
+#    extra = 3
 
-from apps.extended_price.models import Price_Information
+#from apps.extended_price.models import Price_Information
 
 
-class Tabular_Price_Information_InLine(admin.TabularInline, ):
-    model = Price_Information
-    extra = 2
+#class Tabular_Price_Information_InLine(admin.TabularInline, ):
+#    model = Price_Information
+#    extra = 2
 
 #from apps.product.models import AdditionalInformationAndInformationForPrice
 
