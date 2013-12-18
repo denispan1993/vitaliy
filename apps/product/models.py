@@ -314,6 +314,12 @@ class Product(models.Model):
             else:
                 ItemID = ItemID.objects.create(parent=self,
                                                ItemID=u'%.5d' % self.id, )
+        except ItemID.MultipleObjectsReturned:
+            ItemIDs = ItemID.objects.filter(content_type=self.content_type,
+                                            object_id=self.pk, )
+            for ItemID in ItemIDs:
+                if ItemID.ItemID == u'%.5d' % self.id:
+                    ItemID.delete()
         return ItemID
 
     @property
