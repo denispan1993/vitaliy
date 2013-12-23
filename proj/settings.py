@@ -152,11 +152,11 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    'C:/Shop/media',
-    'C:/Python27/Lib/site-packages/django/contrib/admin',
-    '/home/user/Proj/Shop/media',
-    '/home/user/Proj/media',
-    '/home/user/Proj/Shop/media',
+#    'C:/Shop/media',
+#    'C:/Python27/Lib/site-packages/django/contrib/admin',
+#    '/home/user/Proj/Shop/media',
+#    '/home/user/Proj/media',
+#    '/home/user/Proj/Shop/media',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -340,34 +340,6 @@ LOGGING = {
     }
 }
 #!!!=============== Django Social Auth =========================
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
-
-INSTALLED_APPS += (
-    'debug_toolbar',
-)
-
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.sql.SQLDebugPanel',
-    'debug_toolbar.panels.cache.CacheDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-    'debug_toolbar.panels.logger.LoggingPanel',
-)
-
-DEBUG_TOOLBAR_CONFIG = {
-    'EXCLUDE_URLS': ('/admin/', ), # данная опция находится в разработке
-    'INTERCEPT_REDIRECTS': False,
-}
-
-INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
-#!!!=============== Django Social Auth =========================
 INSTALLED_APPS += (
     'social_auth',
 )
@@ -531,3 +503,99 @@ INSTALLED_APPS += (
     'userena.contrib.umessages',
 )
 USERENA_USE_MESSAGES = True
+#!!!=============== Django Social Auth =========================
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+INSTALLED_APPS += (
+    'debug_toolbar',
+)
+
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.templates.panel.TemplatesPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+)
+#DEBUG_TOOLBAR_PANELS = (
+#    'debug_toolbar.panels.version.VersionDebugPanel',
+#    'debug_toolbar.panels.timer.TimerDebugPanel',
+##    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+#    'debug_toolbar.panels.headers.HeaderDebugPanel',
+#    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+#    'debug_toolbar.panels.template.TemplateDebugPanel',
+#    'debug_toolbar.panels.sql.SQLDebugPanel',
+#    'debug_toolbar.panels.cache.CacheDebugPanel',
+#    'debug_toolbar.panels.signals.SignalDebugPanel',
+##    'debug_toolbar.panels.logger.LoggingPanel',
+#)
+
+DEBUG_TOOLBAR_PANELS += (
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+)
+
+#INSTALLED_APPS += (
+#    'debug_toolbar_htmltidy',
+#)
+
+#DEBUG_TOOLBAR_PANELS += (
+#    'debug_toolbar_htmltidy.panels.HTMLTidyDebugPanel',
+#)
+
+#INSTALLED_APPS += (
+#    'debug_toolbar_autoreload',
+#)
+
+#DEBUG_TOOLBAR_PANELS += (
+#    'debug_toolbar_autoreload.AutoreloadPanel',
+#)
+
+INSTALLED_APPS += (
+    'template_timings_panel',
+)
+
+DEBUG_TOOLBAR_PANELS += (
+    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+)
+
+IGNORED_TEMPLATES = ["debug_toolbar/*"]
+
+#INSTALLED_APPS += (
+#    'memcache_toolbar',
+#)
+
+#DEBUG_TOOLBAR_PANELS += (
+#    'memcache_toolbar.panels.memcache.MemcachePanel',
+#)
+
+#    'debug_toolbar.panels.version.VersionDebugPanel',
+#    'debug_toolbar.panels.timer.TimerDebugPanel',
+#    'debug_toolbar.panels.settings.SettingsPanel',
+##    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+#    'debug_toolbar.panels.headers.HeaderDebugPanel',
+#    'debug_toolbar.panels.profiling.ProfilingPanel',
+#    'debug_toolbar.panels.redirects.RedirectsPanel',
+#    'debug_toolbar.panels.request.RequestPanel',
+#    'debug_toolbar.panels.template.TemplateDebugPanel',
+#    'debug_toolbar.panels.sql.SQLDebugPanel',
+#    'debug_toolbar.panels.cache.CacheDebugPanel',
+#    'debug_toolbar.panels.signals.SignalDebugPanel',
+##    'debug_toolbar.panels.logger.LoggingPanel',
+#    'debug_toolbar.panels.logging.LoggingPanel',
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    'EXCLUDE_URLS': ('/admin/', ), # данная опция находится в разработке
+    'INTERCEPT_REDIRECTS': False,
+}
+
+INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
