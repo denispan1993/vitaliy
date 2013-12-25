@@ -1,15 +1,25 @@
 {% if categories %}
     {# <p>Под категории в этой категории</p> #}
 <style>
+div.first_category_block {
+    background:none repeat scroll 0 0 #FFFFFF;
+    border:1px solid #EEEEEE;
+    float:left;
+    height:285px;
+    margin:0 0 10px 0px;
+    padding:7px;
+    position:relative;
+    width:214px;
+}
 div.category_block {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #EEEEEE;
-    float: left;
-    height: 285px;
-    margin: 0 0 10px 10px;
-    padding: 10px;
-    position: relative;
-    width: 214px;
+    background:none repeat scroll 0 0 #FFFFFF;
+    border:1px solid #EEEEEE;
+    float:left;
+    height:285px;
+    margin:0 0 10px 10px;
+    padding:7px;
+    position:relative;
+    width:214px;
 }
 div.category_block a.category_block_title{
     font-size:18px;
@@ -37,8 +47,14 @@ div.category_block a.category_block_excerpt{
 }
 </style>
     <div id="categories_block">
+        {% set cycle = 1 %}
         {% for category in categories %}
-            {{ block_category(category)|safe }}
+            {{ block_category(category, cycle)|safe }}
+            {% if cycle < request.session.limit_on_string %}
+                {% set cycle = cycle + 1 %}
+            {% else %}
+                {% set cycle = 1 %}
+            {% endif %}
         {% endfor %}
     </div>
 {% else %}

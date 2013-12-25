@@ -34,14 +34,16 @@ class Process_SessionIDMiddleware(object):
             request.session[u'ajax_resolution'] = True
         else:
             request.session[u'ajax_resolution'] = False
-        explorer_with = request.session.get(u'with', None, )
+        explorer_with = request.session.get(u'width', None, )
         if explorer_with:
             try:
                 explorer_with = int(explorer_with, )
             except ValueError:
                 request.session[u'limit_on_string'] = 4
                 request.session[u'limit_on_page'] = 12
+                # request.session[u'test_on_with'] = u'Bad'
             else:
+                # del request.session[u'test_on_with']
                 # limit = 12 if explorer_with >= 984 else limit = 9
                 if explorer_with >= 984:
                     request.session[u'limit_on_string'] = 4
@@ -50,6 +52,7 @@ class Process_SessionIDMiddleware(object):
                     request.session[u'limit_on_string'] = 3
                     request.session[u'limit_on_page'] = 9
         else:
+            # request.session[u'test_on_with'] = u'Bad get'
             request.session[u'limit_on_string'] = 4
             request.session[u'limit_on_page'] = 12
 

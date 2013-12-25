@@ -11,7 +11,7 @@
     {{ this_category(current_category)|safe }}
     <br>
     {% set categories = current_category.children.all() %}
-    {{ block_categories(categories)|safe }}
+    {{ block_categories(categories, request)|safe }}
     <br>
     {% set products = current_category.products.all() %}
     {% if products %}
