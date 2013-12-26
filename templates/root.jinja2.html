@@ -133,11 +133,12 @@ try{
     {% endif %}
 </div>
 <div id="main" class="clearFloat">
-<style>
+{# <style>
 #main_left{
     float:left;
 }
-</style>
+</style> #}
+{# <div style="width:100%;height:1px;clear:both;"></div> #}
     <div id="main_left">
         <div id="accordion_menu" class="left_menu">
             <a class="left_title" href="/категории/" title="Категории верхнего уровная">Категории</a>
@@ -161,22 +162,23 @@ try{
             </ul>
         </div>
     </div>
-<style>
+{# <style>
 #main_center{
     float:left;
 }
-</style>
-    <div id="main_center">
+</style> #}
+    <div id="main_center" style="width:{{ request.session.width_main_center }}px;">
         {% block content_center %}
         {% endblock %}
     </div>
-<style>
+{# <style>
 #main_right{
     float:left;
 }
-</style>
+</style> #}
     <div id="main_right">
         <p>Правая колонка</p>
     </div>
+{# <div style="width:100%;height:1px;clear:both;"></div> #}
 </div>
 {% endblock %}

@@ -97,13 +97,16 @@ div#footer a{
     margin-bottom:15px;
     position:relative;
     z-index:100;
+    text-align:center;
 }
 #main_left{
-    float:left;
+/*    float:left;*/
+    display:inline-block;
     margin-right:20px;
     margin-top:0px;
     position:relative;
     width:200px;
+    vertical-align:top;
 }
 .left_title{
     background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
@@ -117,6 +120,7 @@ div#footer a{
     padding-left:40px;
 }
 #main_center{
+    display:inline-block;
     background:url("/media/img/bg-main.png") repeat-x scroll 0 0 transparent;
     border:5px solid #FFFFFF;
     border-radius:10px 10px 10px 10px;
@@ -124,7 +128,8 @@ div#footer a{
     overflow:hidden;
     padding:10px;
 /*    padding:10px 10px 10px 0px;*/
-    width:961px;
+/*    width:950px;*/
+    vertical-align:top;
 }
 .center_title{
     background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
@@ -142,4 +147,8 @@ div#footer a{
     overflow:hidden;
     max-width:984px;
     min-width:740px;
+}
+#main_right{
+    display:inline-block;
+    vertical-align:top;
 }

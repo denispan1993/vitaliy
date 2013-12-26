@@ -39,20 +39,28 @@ class Process_SessionIDMiddleware(object):
             try:
                 explorer_with = int(explorer_with, )
             except ValueError:
+                request.session[u'width_main_center'] = 950
                 request.session[u'limit_on_string'] = 4
                 request.session[u'limit_on_page'] = 12
                 # request.session[u'test_on_with'] = u'Bad'
             else:
                 # del request.session[u'test_on_with']
                 # limit = 12 if explorer_with >= 984 else limit = 9
-                if explorer_with >= 984:
+                if explorer_with >= 1280:
+                    request.session[u'width_main_center'] = 950
                     request.session[u'limit_on_string'] = 4
                     request.session[u'limit_on_page'] = 12
-                else:
+                elif explorer_with >= 984:
+                    request.session[u'width_main_center'] = 710
                     request.session[u'limit_on_string'] = 3
                     request.session[u'limit_on_page'] = 9
+                else:
+                    request.session[u'width_main_center'] = 470
+                    request.session[u'limit_on_string'] = 2
+                    request.session[u'limit_on_page'] = 6
         else:
             # request.session[u'test_on_with'] = u'Bad get'
+            request.session[u'width_main_center'] = 950
             request.session[u'limit_on_string'] = 4
             request.session[u'limit_on_page'] = 12
 
