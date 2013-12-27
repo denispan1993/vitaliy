@@ -238,7 +238,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'url', 'title', 'name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product',
-                                                              'in_main_page', 'url',
+                                                              'in_main_page', 'serial_number', 'url',
                                                               'title', 'name', 'description',  # 'manufacturer',
                                                               'recomendate',
                                                               'minimal_quantity',
@@ -265,6 +265,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     ]
     save_as = True
     save_on_top = True
+    ordering = ['-created_at', ]
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
