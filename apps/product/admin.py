@@ -46,6 +46,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
     ]
     save_as = True
     save_on_top = True
+    ordering = ['-created_at', ]
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )

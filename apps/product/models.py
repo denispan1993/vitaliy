@@ -166,6 +166,11 @@ class Product(models.Model):
                                                 u' время, ставим данное поле в True.', )
     category = models.ManyToManyField(Category, related_name=u'products', verbose_name=_(u'Категории'), blank=False,
                                       null=False, )
+    serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
+                                                     # visibility=True,
+                                                     default=1,
+                                                     blank=True,
+                                                     null=True, )
     from compat.FormSlug import models as class_FormSlugField
     url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес продукта',
                                              max_length=255,
@@ -423,7 +428,8 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'Product'
-        ordering = ['-created_at']
+        ordering = ['serial_number', '-created_at', ]
+        ordering = ['-created_at', ]
         verbose_name = u'Продукт'
         verbose_name_plural = u'Продукты'
 

@@ -20,8 +20,14 @@ function product_to_cart(data, product_pk){
 }
 </script>
     {# <p>Продукты в этой категории</p> #}
+    {% set cycle = 1 %}
     {% for product in products %}
-        {{ block_product(product,'div')|safe }}
+        {{ block_product(product,'div',cycle)|safe }}
+        {% if cycle < request.session.limit_on_string %}
+            {% set cycle = cycle + 1 %}
+        {% else %}
+            {% set cycle = 1 %}
+        {% endif %}
     {% endfor %}
 </div>
 {# {1% else %}

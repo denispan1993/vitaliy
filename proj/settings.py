@@ -29,7 +29,7 @@ EMAIL_HOST_PASSWORD = '1q2w3e4r'
 
 MANAGERS = ADMINS
 
-#SERVER = os.path.isfile(path('server.key', ), )
+SERVER = os.path.isfile(path('server.key', ), )
 
 #if SERVER:
 if os.path.isfile(path('server.mysql', ), ):

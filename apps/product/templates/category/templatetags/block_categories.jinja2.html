@@ -1,51 +1,5 @@
 {% if categories %}
     {# <p>Под категории в этой категории</p> #}
-<style>
-div.first_category_block {
-    background:none repeat scroll 0 0 #FFFFFF;
-    border:1px solid #EEEEEE;
-    float:left;
-    height:285px;
-    margin:0 0 10px 0px;
-    padding:7px;
-    position:relative;
-    width:214px;
-}
-div.category_block {
-    background:none repeat scroll 0 0 #FFFFFF;
-    border:1px solid #EEEEEE;
-    float:left;
-    height:285px;
-    margin:0 0 10px 10px;
-    padding:7px;
-    position:relative;
-    width:214px;
-}
-a.category_block_title{
-    font-size:18px;
-}
-a.category_block_img{
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background-position:center center;
-    background-repeat:no-repeat;
-    border-color:#FFFFFF #FFFFFF #EEEEEE;
-    border-image:none;
-    border-style:solid;
-    border-width:1px;
-    display:block;
-    height:160px;
-    margin-bottom:10px;
-}
-a.category_block_excerpt{
-    font-size:12px;
-    color:Black;
-    font-style:Italic;
-    text-decoration:None;
-}
-</style>
     <div id="categories_block">
         {% set cycle = 1 %}
         {% for category in categories %}
