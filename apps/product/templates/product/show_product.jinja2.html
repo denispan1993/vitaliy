@@ -499,14 +499,14 @@ $('ul#products').easyPaginate({
 </script>
 <ul id="products">
     {% for product_recommended in products_recommended %}
-        {{ block_product(product_recommended,'li')|safe }}
+        {{ block_product(product_recommended,'li',0)|safe }}
     {% endfor %}
 </ul>
 </div>
 {% else %}
 <ul id="products">
     {% for product_recommended in products_recommended %}
-        {{ block_product(product_recommended,'li')|safe }}
+        {{ block_product(product_recommended,'li',0)|safe }}
     {% endfor %}
 </ul>
 </div>

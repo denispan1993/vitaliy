@@ -125,8 +125,11 @@ def product_to_cart(request, ):
                         return HttpResponse(status=400, )
                     else:
                         from apps.product.views import add_to_cart
+#                        print product_pk
                         cart, product_in_cart = add_to_cart(request=request,
                                                             int_product_pk=product_pk, )
+#                        print cart
+#                        print product_in_cart
                         html = '<b>Позиций:</b> %s' \
                                '<br>' \
                                '<b>На сумму:</b> %s' \
