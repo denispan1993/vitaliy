@@ -21,7 +21,7 @@ ADMINS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
-EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'site@keksik.com.ua'
