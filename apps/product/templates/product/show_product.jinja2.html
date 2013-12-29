@@ -480,10 +480,6 @@ $(document).ready(onChange())
         Полное описание: {{ product.description }}
     </div>
 </div>
-{% if products_recommended %}
-<div id="recommended_products"
-     style="width:{% if limit_products_recommended_on_string == 4 %}976{% else %}732{% endif %}px;">
-<p style="font-size:25px;color:Black;font-weight:bold;">Рекомендуемый товар</p>
 {% if length_products_recommended > limit_products_recommended_on_string %}
 <script>try{
 $(document).ready(function($){
@@ -497,19 +493,16 @@ $('ul#products').easyPaginate({
 });
 }catch(e){ alert(e) }
 </script>
-<ul id="products">
-    {% for product_recommended in products_recommended %}
-        {{ block_product(product_recommended,'li',0)|safe }}
-    {% endfor %}
-</ul>
-</div>
-{% else %}
-<ul id="products">
-    {% for product_recommended in products_recommended %}
-        {{ block_product(product_recommended,'li',0)|safe }}
-    {% endfor %}
-</ul>
-</div>
 {% endif %}
+{% if products_recommended %}
+<div id="recommended_products"
+     style="width:{{ request.session.width_main_center }}px;">
+<p style="font-size:25px;color:Black;font-weight:bold;">Рекомендуемый товар</p>
+<ul id="products">
+    {% for product_recommended in products_recommended %}
+        {{ one_block(product_recommended, 'li' , 0,'product' )|safe }}
+    {% endfor %}
+</ul>
+</div>
 {% endif %}
 {% endblock %}

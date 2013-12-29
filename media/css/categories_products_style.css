@@ -1,4 +1,4 @@
-div.first_category_block {
+/*div.first_category_block {
     background:none repeat scroll 0 0 #FFFFFF;
     border:1px solid #EEEEEE;
     float:left;
@@ -7,13 +7,13 @@ div.first_category_block {
     padding:7px;
     position:relative;
     width:214px;
-}
+}*/
 div.category_block {
     background:none repeat scroll 0 0 #FFFFFF;
     border:1px solid #EEEEEE;
     float:left;
     height:285px;
-    margin:0 0 10px 10px;
+/*    margin:0 0 10px 10px;*/
     padding:7px;
     position:relative;
     width:214px;
@@ -42,23 +42,23 @@ a.category_block_excerpt{
     font-style:Italic;
     text-decoration:None;
 }
-div.first_product_block{
+/*div.first_product_block{
     background:none repeat scroll 0 0 #FFFFFF;
     border:1px solid #EEEEEE;
     float:left;
     height:300px;
     margin:0 0 10px 0px;
-    padding:10px;
+    padding:7px;
     position:relative;
     width:214px;
-}
+}*/
 div.product_block,li.product_block{
     background:none repeat scroll 0 0 #FFFFFF;
     border:1px solid #EEEEEE;
     float:left;
     height:300px;
-    margin:0 0 10px 10px;
-    padding:10px;
+/*    margin:0 0 10px 10px;*/
+    padding:7px;
     position:relative;
     width:214px;
 }

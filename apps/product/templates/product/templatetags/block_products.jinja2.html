@@ -21,8 +21,14 @@ function product_to_cart(data, product_pk){
 </script>
     {# <p>Продукты в этой категории</p> #}
     {% set cycle = 1 %}
-    {% for product in products %}
-        {{ block_product(product,'div',cycle)|safe }}
+    {% set last_loop = False %}
+    {% set revcounter = blocks|length %}
+    {% for product in blocks %}
+        {{ one_block(product, 'div', cycle, last_loop, 'product')|safe }}
+        {% if revcounter < request.session.limit_on_string %}
+            {% set last_loop = True %}
+        {% endif %}
+        {% set revcounter = revcounter - 1 %}
         {% if cycle < request.session.limit_on_string %}
             {% set cycle = cycle + 1 %}
         {% else %}
@@ -32,5 +38,4 @@ function product_to_cart(data, product_pk){
 </div>
 {# {1% else %}
      <p>Продукты в этой категории отсутсвуют</p>
-{1% endif %}
- #}
+{1% endif %} #}

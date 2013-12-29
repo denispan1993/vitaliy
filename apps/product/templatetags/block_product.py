@@ -20,12 +20,17 @@ def block_products(products, request, ):
 
 
 @register.global_function()
-def block_product(product, choice, cycle, ):
-    if cycle == 1:
-        product_block = 'first_product_block'
+def block_product(product, choice, cycle, last_loop, ):
+    if last_loop:
+        margin_bottom = '0px'
     else:
-        product_block = 'product_block'
+        margin_bottom = '10px'
+    if cycle == 1:
+        margin_left = '0px'
+    else:
+        margin_left = '10px'
     return render_to_string(template_name=u'product/templatetags/block_product.jinja2.html',
                             dictionary={'product': product,
                                         'choice': choice,
-                                        'product_block': product_block, }, )
+                                        'margin_bottom': margin_bottom,
+                                        'margin_left': margin_left, }, )

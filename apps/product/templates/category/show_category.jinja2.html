@@ -11,10 +11,10 @@
     {{ this_category(current_category)|safe }}
     <br>
     {% set categories = current_category.children.all() %}
-    {{ block_categories(categories, request)|safe }}
-    <br>
+    {{ many_blocks(categories, request, 'category')|safe }}
+    <br class="clearFloat">
     {% set products = current_category.products.all() %}
     {% if products %}
-        {{ block_products(products, request)|safe }}
+        {{ many_blocks(products, request, 'product')|safe }}
     {% endif %}
 {% endblock %}

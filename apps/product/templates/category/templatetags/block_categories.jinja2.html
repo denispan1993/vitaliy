@@ -1,9 +1,15 @@
-{% if categories %}
+{% if blocks %}
     {# <p>Под категории в этой категории</p> #}
     <div id="categories_block">
         {% set cycle = 1 %}
-        {% for category in categories %}
-            {{ block_category(category, cycle)|safe }}
+        {% set last_loop = False %}
+        {% set revcounter = blocks|length %}
+        {% for category in blocks %}
+            {{ one_block(category, '', cycle, last_loop, 'category')|safe }}
+            {% set revcounter = revcounter - 1 %}
+            {% if revcounter < request.session.limit_on_string %}
+                {% set last_loop = True %}
+            {% endif %}
             {% if cycle < request.session.limit_on_string %}
                 {% set cycle = cycle + 1 %}
             {% else %}

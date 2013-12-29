@@ -1,25 +1,25 @@
 {% if choice=='div' %}
-<div class="{{ product_block }}">
+<div class="product_block" style="margin:0px;margin-bottom:{{ margin_bottom }};margin-left:{{ margin_left }};">
 {% elif choice=='li' %}
 <li class="product_block">
 {% endif %}
-{% if product.disclose_product %}
+{% if block.disclose_product %}
     <a class="product_block_title"
        style="font-size:16px;"
-       href="{{ product.get_absolute_url() }}"
-       title="{{ product.name }}">{{ product.title }}</a>
+       href="{{ block.get_absolute_url() }}"
+       title="{{ block.name }}">{{ block.title }}</a>
     <a class="product_block_img"
-       style="background-image:url('{% if product.main_photo %}{{ product.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}');"
-       href="{{ product.get_absolute_url() }}"
-       title="{{ product.title }}"></a>
-    {# <div class="product_block_excerpt" title="{{ product.price }} грн.">{{ product.price }} грн.</div> #}
+       style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}');"
+       href="{{ block.get_absolute_url() }}"
+       title="{{ block.title }}"></a>
+    {# <div class="product_block_excerpt" title="{{ block.price }} грн.">{{ block.price }} грн.</div> #}
     <div class="product_block_bottom">
-        <div class="product_block_price">{{ product.price }}&nbsp;<span>грн.</span></div>
-        {% if product.is_availability == 1 %}
+        <div class="product_block_price">{{ block.price }}&nbsp;<span>грн.</span></div>
+        {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ product.pk }});return false;"
-                   rel="{{ product.pk }}"
+                   onclick="product_to_cart(this, {{ block.pk }});return false;"
+                   rel="{{ block.pk }}"
                    href="javascript:void(0)"
                    src="/media/img/add_cart.png"
                    title="добавить в корзину">
@@ -29,21 +29,21 @@
     </div>
 {% else %}
     <a class="product_block_title fancybox"
-       href="{% if product.main_photo %}{{ product.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}"
-       title="{{ product.name }}">{{ product.title }}</a>
+       href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}"
+       title="{{ block.name }}">{{ block.title }}</a>
     <a class="product_block_img fancybox"
-       style="background-image:url('{% if product.main_photo %}{{ product.main_photo.photo.url_210x160 }}{% else %}/media/img/empty_210x160.jpg{% endif %}');"
-       href="{% if product.main_photo %}{{ product.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}"
-       title="{{ product.title }}"></a>
-    <div class="product_block_excerpt" title="цена за ед. {{ product.price }} грн.">цена за ед. {{ product.price }} грн.</div>
+       style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/empty_210x160.jpg{% endif %}');"
+       href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}"
+       title="{{ block.title }}"></a>
+    <div class="product_block_excerpt" title="цена за ед. {{ block.price }} грн.">цена за ед. {{ block.price }} грн.</div>
     <div class="product_block_bottom">
-        <div class="product_block_price">{{ product.price }}<span>грн.</span></div>
-        {% if product.is_availability == 1 %}
+        <div class="product_block_price">{{ block.price }}<span>грн.</span></div>
+        {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ product.pk }});return false;"
+                   onclick="product_to_cart(this, {{ block.pk }});return false;"
 {#                    onclick="animate_cart(this);return false;" #}
-                   rel="{{ product.pk }}"
+                   rel="{{ block.pk }}"
                    href="javascript:void(0)"
                    src="/media/img/add_cart.png"
                    title="добавить в корзину">

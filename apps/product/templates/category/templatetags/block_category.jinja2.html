@@ -1,35 +1,35 @@
-<div class="{{ category_block }}">
-    {% if category.main_photo %}
+<div class="category_block" style="margin:0px;margin-bottom:{{ margin_bottom }};margin-left:{{ margin_left }};">
+    {% if block.main_photo %}
         <a class="category_block_title"
-           href="{{ category.get_absolute_url() }}"
-           title="{% if category.description %}{{ category.description }}{% else %}{{ category.title }}{% endif %}">{{ category.title }}</a>
+           href="{{ block.get_absolute_url() }}"
+           title="{% if block.description %}{{ block.description }}{% else %}{{ block.title }}{% endif %}">{{ block.title }}</a>
         <a class="category_block_img"
-           href="{{ category.get_absolute_url() }}"
-           title="{{ category.main_photo.title }}">
-            <img src="{{ category.main_photo.photo.url_210x160 }}"
-                 alt="{% if category.main_photo.photo.meta_alt %}{{ category.main_photo.photo.meta_alt }}{% else %}{{ category.title }}{% endif %}"
+           href="{{ block.get_absolute_url() }}"
+           title="{{ block.main_photo.title }}">
+            <img src="{{ block.main_photo.photo.url_210x160 }}"
+                 alt="{% if block.main_photo.photo.meta_alt %}{{ block.main_photo.photo.meta_alt }}{% else %}{{ block.title }}{% endif %}"
                  border="0"/>
         </a>
-        {% if category.description %}
+        {% if block.description %}
             <a class="category_block_excerpt"
-               href="{{ category.get_absolute_url() }}"
-               title="{{ category.title }}">{{ category.description }}</a>
+               href="{{ block.get_absolute_url() }}"
+               title="{{ block.title }}">{{ block.description }}</a>
         {% endif %}
     {% else %}
         <a class="category_block_title"
-           href="{{ category.get_absolute_url() }}"
-           title="{% if category.description %}{{ category.description }}{% else %}{{ category.title }}{% endif %}">{{ category.title }}</a>
+           href="{{ block.get_absolute_url() }}"
+           title="{% if block.description %}{{ block.description }}{% else %}{{ block.title }}{% endif %}">{{ block.title }}</a>
         <a class="category_block_img"
-           href="{{ category.get_absolute_url() }}"
-           title="{{ category.title }}">
+           href="{{ block.get_absolute_url() }}"
+           title="{{ block.title }}">
             <img src="/media/img/NoPhoto_210x160.jpg"
                  alt="No Photo"
                  border="0"/>
         </a>
-        {% if category.description %}
+        {% if block.description %}
             <a class="category_block_excerpt"
-               href="{{ category.get_absolute_url() }}"
-               title="{{ category.title }}">{{ category.description }}</a>
+               href="{{ block.get_absolute_url() }}"
+               title="{{ block.title }}">{{ block.description }}</a>
         {% endif %}
     {% endif %}
 </div>

@@ -17,12 +17,12 @@ def block_categories(categories, request, ):
 @register.global_function()
 def block_category(category, cycle, ):
     if cycle == 1:
-        category_block = 'first_category_block'
+        category_block_margin = '0 0 10px 0px;'
     else:
-        category_block = 'category_block'
+        category_block_margin = '0 0 10px 10px;'
     return render_to_string(template_name=u'category/templatetags/block_category.jinja2.html',
                             dictionary={'category': category,
-                                        'category_block': category_block, }, )
+                                        'category_block_margin': category_block_margin, }, )
 
 
 @register.global_function()

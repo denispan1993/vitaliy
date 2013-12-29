@@ -121,7 +121,7 @@ div#footer a{
 }
 #main_center{
     display:inline-block;
-    background:url("/media/img/bg-main.png") repeat-x scroll 0 0 transparent;
+    background:url("/media/img/bg-main.png") repeat-x scroll 0 0 rgba(255, 255, 255, 1); /* transparent;*/
     border:5px solid #FFFFFF;
     border-radius:10px 10px 10px 10px;
     box-shadow:0 0 5px #CCCCCC;
