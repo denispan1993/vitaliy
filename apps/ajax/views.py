@@ -125,11 +125,11 @@ def product_to_cart(request, ):
                         return HttpResponse(status=400, )
                     else:
                         from apps.product.views import add_to_cart
-#                        print product_pk
+                        print product_pk
                         cart, product_in_cart = add_to_cart(request=request,
                                                             int_product_pk=product_pk, )
-#                        print cart
-#                        print product_in_cart
+                        print cart
+                        print product_in_cart
                         html = '<b>Позиций:</b> %s' \
                                '<br>' \
                                '<b>На сумму:</b> %s' \
@@ -138,7 +138,8 @@ def product_to_cart(request, ):
                                ' коп.<br>' % (cart.count_name_of_products,
                                               cart.summ_money_of_all_products_grn,
                                               cart.summ_money_of_all_products_kop, )
-                        response = {'result': 'Ok',
+                        response = {'product_pk': product_pk,
+                                    'result': 'Ok',
                                     'html': html, }
                         data = dumps(response, )
                         mimetype = 'application/javascript'

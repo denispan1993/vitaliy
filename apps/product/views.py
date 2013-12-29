@@ -177,12 +177,12 @@ def add_to_cart(request, product=None, int_product_pk=None, product_url=None, qu
 #    if not product_url:
 #        product_url = postdata.get(u'product_url', None, )
     if not product:
-        # try to get product from cache
-        product_cache_key = request.path
-        from django.core.cache import cache
-        from proj.settings import CACHE_TIMEOUT
-        product = cache.get(product_cache_key)
-        # if a cache miss, fall back on db query
+#        # try to get product from cache
+#        product_cache_key = request.path
+#        from django.core.cache import cache
+#        from proj.settings import CACHE_TIMEOUT
+#        product = cache.get(product_cache_key)
+#        # if a cache miss, fall back on db query
         if not product:
             # fetch the product or return a missing page error
 #            from django.shortcuts import render_to_response, get_object_or_404
@@ -198,9 +198,9 @@ def add_to_cart(request, product=None, int_product_pk=None, product_url=None, qu
                 # request.session[u'test1-product_url'] = product_url
                 from django.http import Http404
                 raise Http404
-            else:
-                # store item in cache for next time
-                cache.set(product_cache_key, product, CACHE_TIMEOUT, )
+#            else:
+#                # store item in cache for next time
+#                cache.set(product_cache_key, product, CACHE_TIMEOUT, )
     # get quantity added, return 1 if empty
 #    if not quantity:
 #        quantity = int(postdata.get('quantity', 1, ), )
