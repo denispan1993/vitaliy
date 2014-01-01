@@ -20,7 +20,7 @@
 <style>
 #product_box_left{
 	float:left;
-//	z-index:10;
+/*	z-index:10;*/
 	width:354px;
 }
 #product_box_left_top{
@@ -77,7 +77,7 @@
                              font-size:12px;
                              line-height:125%;
                              min-height:380px;">
-	<div id="product_box_header">
+	<div id="product_box_header" style="text-align:left;">
 		{{ header_category2(current_category, product)|safe }}
 	</div>
 	<div id="product_box_top" style="width:100%;position:relative;" class="clearFloat">
@@ -93,10 +93,12 @@
 				{% if main_photo %}
 					{# {% set photo_main = False %}
 					{% for photo in photos if photo.main and not photo_main %} #}
-						 <div style="text-align:center">
-							 <div class="image-wrap">
+						 {# <div style="text-align:center"> #}
+							 <div class="image-wrap" style="height:370px;vertical-align:middle;">
 								 {# <a href='{{ main_photo.photo.url }}' large image > #}
-								 <img class="cloudzoom" id="zoom1"
+								 <img class="cloudzoom"
+                                      style="vertical-align:middle;position:relative;"
+                                      id="zoom1"
 									  src="{{ main_photo.photo.url_345x370 }}"{# small image #}
 									  data-cloudzoom="
 									  zoomImage:'{{ main_photo.photo.url }}',{# large image #}
@@ -108,7 +110,7 @@
 									  alt="Cloud Zoom small image">
 								 {# </a> #}
 							 </div>
-						 </div>
+						 {# </div> #}
 {#							 <a href='{{ main_photo.photo.url }}'
 						   class = 'cloud-zoom'
 						   id='zoom1'
@@ -132,131 +134,139 @@
 			</div>
             {% set photos = product.all_photos %}
 			{% if photos %}
-				<script type="text/javascript">
-				// Initialize the sliders.
-				$(function(){
-					$('#slider').Thumbelina({
-						$bwdBut:$('#slider .left'),
-						$fwdBut:$('#slider .right')
-					});
-				})
-				</script>
-				<script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
-				<div id="slider"
-					 style="
-						border-bottom:1px solid #AAAAAA;
-						border-top:1px solid #AAAAAA;
-						height:90px;
-						margin-left:20px;
-						margin-right:20px;
-						position:relative;
-						width:auto;">
-					<style>
-						.thumbelina-but.horiz.left {
-							border-radius: 5px 0 0 5px;
-							left: -22px;
-						}
-						.thumbelina-but.horiz {
-							height: 90px;
-							line-height: 98px;
-							top: -1px;
-							width: 20px;
-						}
-						.thumbelina-but {
-							background-color: #CCCCCC;
-							border: 1px solid #AAAAAA;
-							box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
-							color: #888888;
-							cursor: pointer;
-							font-family: monospace;
-							font-size: 14px;
-							font-weight: bold;
-							position: absolute;
-							text-align: center;
-							vertical-align: middle;
-							z-index: 1;
-						}
-						.thumbelina-but.disabled, .thumbelina-but.disabled:hover {
-							background-color: #EFEFEF;
-							box-shadow: none;
-							color: #CCCCCC;
-							cursor: default;
-						}
-					</style>
-					<div class="thumbelina-but horiz left">˂</div>
-						<div style="position:absolute;overflow:hidden;width:100%;height:100%;">
-							<style>
-								.thumbelina {
-									font-size:0;
-									list-style:none outside none;
-									margin:0;
-									padding:0;
-									position:absolute;
-									white-space:nowrap;
-								}
-							</style>
-							<ul class="thumbelina" style="left: -180px;">
-								<style>
-									.thumbelina li img {
-										border:1px solid #CCCCCC;
-									}
-									.thumbelina li img:hover {
-										border:1px solid #AAAAAA;
-									}
-								</style>
-								{% for photo in photos %}
-									<li style="display:inline-block;">
-										<img class="cloudzoom-gallery cloudzoom-gallery-active"
-											 src="{{ photo.photo.url_90x95 }}" {# icon image #}
-											 title='{{ photo.photo_sign }}'
-											 data-cloudzoom="useZoom:'#zoom1',
-											  image:'{{ photo.photo.url_345x370 }}',{# small image #}
-											  zoomImage:'{{ photo.photo.url }}'">{# large image #}
-									</li>
-								{% endfor %}
-							</ul>
-						</div>
-					<style>
-						.thumbelina-but.horiz.right {
-							border-radius:0 5px 5px 0;
-							right:-22px;
-						}
-					</style>
-					<div class="thumbelina-but horiz right">˃</div>
-				</div>
-				{# <div id="product_box_left_bottom">
-					<ul>
-						{% for photo in photos %}<!-- [1:] -->
-							<li class="li_productMiniImg">
-								<a href='{{ photo.photo.url }}'
-								   class='cloud-zoom-gallery{% if photo == photo_main %} active{% endif %}'
-								   title='{{ photo.photo_sign }}'
-								   rel="useZoom: 'zoom1', smallImage: '{{ photo.photo.url_345x370 }}' ">
-									<img src="{{ photo.photo.url_90x95 }}"
-										 alt="{{ photo.photo_sign }}" />
-								</a>
-							</li>
+                <div id="slider"
+                     style="
+                        border-bottom:1px solid #AAAAAA;
+                        border-top:1px solid #AAAAAA;
+                        height:97px;
+                        margin-left:20px;
+                        margin-right:20px;
+                        position:relative;
+                        width:auto;">
+                {% set count_photos = photos|length %}
+                {% if count_photos > 3 %}
+                    <script type="text/javascript">
+                    // Initialize the sliders.
+                    $(function(){
+                        $('#slider').Thumbelina({
+                            $bwdBut:$('#slider .left'),
+                            $fwdBut:$('#slider .right')
+                        });
+                    })
+                    </script>
+                    <script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
+                    <style>
+                        .thumbelina-but.horiz.left {
+                            border-radius:7px 0 0 7px;
+                            left:-22px;
+                        }
+                        .thumbelina-but.horiz {
+                            height:97px;
+                            line-height:98px;
+                            top:-1px;
+                            width:20px;
+                        }
+                        .thumbelina-but {
+                            background-color:#CCCCCC;
+                            border:1px solid #AAAAAA;
+                            box-shadow:0 0 8px rgba(0, 0, 0, 0.25);
+                            color:#888888;
+                            cursor:pointer;
+                            font-family:monospace;
+                            font-size:14px;
+                            font-weight:bold;
+                            position:absolute;
+                            text-align:center;
+                            vertical-align:middle;
+                            z-index:1;
+                        }
+                        .thumbelina-but.disabled, .thumbelina-but.disabled:hover {
+                            background-color:#EFEFEF;
+                            box-shadow:none;
+                            color:#CCCCCC;
+                            cursor:default;
+                        }
+                    </style>
+                    <div class="thumbelina-but horiz left">˂</div>
+                {% endif %}
+{#                     <div style="position:absolute;overflow:hidden;width:100%;height:100%;"> #}
+                    <div style="position:relative;overflow:hidden;width:100%;height:100%;">
+                        <style>
+                            .thumbelina {
+                                font-size:0;
+                                list-style:none outside none;
+                                margin:0;
+                                padding:0;
+                                position:absolute;
+                                white-space:nowrap;
+                            }
+                        </style>
+                        <ul class="thumbelina"{% if count_photos > 3 %} style="left:-180px;"{% else %} style="position:relative;"{% endif %}>
+                            <style>
+                                .thumbelina li img {
+                                    border:1px solid #CCCCCC;
+                                    vertical-align:middle;
+                                }
+                                .thumbelina li img:hover {
+                                    border:1px solid #AAAAAA;
+                                }
+                            </style>
+                            {% for photo in photos %}
+                                <li style="display:inline-block;">
+                                    <img class="cloudzoom-gallery cloudzoom-gallery-active"
+                                         {% if loop.index > 1 %}style="margin-left:4px;"{% endif %}
+                                         src="{{ photo.photo.url_90x95 }}" {# icon image #}
+                                         title='{{ photo.photo_sign }}'
+                                         data-cloudzoom="useZoom:'#zoom1',
+                                          image:'{{ photo.photo.url_345x370 }}',{# small image #}
+                                          zoomImage:'{{ photo.photo.url }}'">{# large image #}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% if count_photos > 3 %}
+                    <style>
+                        .thumbelina-but.horiz.right {
+                            border-radius:0 5px 5px 0;
+                            right:-22px;
+                        }
+                    </style>
+                    <div class="thumbelina-but horiz right">˃</div>
+                {% endif %}
+                </div>
+            {# <div id="product_box_left_bottom">
+                    <ul>
+                        {% for photo in photos %}<!-- [1:] -->
+                            <li class="li_productMiniImg">
+                                <a href='{{ photo.photo.url }}'
+                                   class='cloud-zoom-gallery{% if photo == photo_main %} active{% endif %}'
+                                   title='{{ photo.photo_sign }}'
+                                   rel="useZoom: 'zoom1', smallImage: '{{ photo.photo.url_345x370 }}' ">
+                                    <img src="{{ photo.photo.url_90x95 }}"
+                                         alt="{{ photo.photo_sign }}" />
+                                </a>
+                            </li>
 <!--   							{1% if forloop.first %}
-								<a class="zoomThumbActive" href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
-							{1% else %}
-								<a href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
-							{1% endif %}
-								<img src="{1{ photo.photo.url_90x95 }}" alt="{1{ photo.photo_sign }}" />
-							</a>-->
-						{% endfor %}
-					</ul>
-				</div> #}
+                                <a class="zoomThumbActive" href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
+                            {1% else %}
+                                <a href="javascript:void(0);" title="{1{ photo.photo_sign }}" rel="{gallery: 'gal1', smallimage: '{1{ photo.photo.url_345x370 }}',largeimage: '{1{ photo.photo.url }}'}">
+                            {1% endif %}
+                                <img src="{1{ photo.photo.url_90x95 }}" alt="{1{ photo.photo_sign }}" />
+                            </a>-->
+                        {% endfor %}
+                    </ul>
+                </div> #}
 			{% endif %}
 		</div>
-		<div id="product_box_right">
+		<div id="product_box_right" style="text-align:left;">
 			<h1 style="font-size:16px;height:auto;line-height:20px;">
 				<a href="{{ product.get_absolute_url() }}"
                     title="{{ product.title|capfirst }}">
 					{{ product.name|capfirst }}
 				</a>
 			</h1>
-            {% set views = product.increase_View %}
-            <p>Просмотров товара: {{ views.view_count }}</p>
+{#             {% set views = product.increase_View %}
+            <p>Просмотров товара: {{ views.view_count }}</p> #}
 			{# <h2 style="font-size:12px;font-weight:lighter;line-height:30px;">
 				Наименование категории:
 					<a href="{{ current_category.get_absolute_url() }}">
@@ -308,7 +318,7 @@ p.price_total span{
 .quantity{
 	// margin:0px;
 	list-style-type:none;
-	padding: 0 0 0 5px;
+	padding:0 0 0 5px;
 }
 .quantity li{
 	line-height:22px;

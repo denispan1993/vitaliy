@@ -83,7 +83,9 @@ div#footer a{
     z-index:100;
 }
 #accordion_menu{
-    border: 4px solid fuchsia;
+/*    border:4px solid fuchsia;*/
+/*    border:3px solid #fe6c66;*/
+    border:3px solid #ffff00;
 }
 .left_menu{
 /*    border: 1px solid #CCCCCC;*/
@@ -111,9 +113,10 @@ div#footer a{
 .left_title{
     background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
     /* border-bottom:1px solid #CCCCCC; */
-    color:#333333;
-    font-size:16px;
-    font-weight:normal;
+    color:#ffff00;
+    font-size:22px;
+    letter-spacing:2px;
+    font-weight:bold;
     line-height:21px;
     margin-bottom:6px;
     padding-bottom:3px;
@@ -121,8 +124,10 @@ div#footer a{
 }
 #main_center{
     display:inline-block;
-    background:url("/media/img/bg-main.png") repeat-x scroll 0 0 rgba(255, 255, 255, 1); /* transparent;*/
-    border:5px solid #FFFFFF;
+/*    background:url("/media/img/bg-main.png") repeat-x scroll 0 0 rgba(255, 255, 255, 1);*/ /* transparent;*/
+    background-color:rgba(204, 157, 134, 0.5); /* transparent;*/
+/*    border:5px solid #FFFFFF;*/
+    border:5px solid #fff6c9;
     border-radius:10px 10px 10px 10px;
     box-shadow:0 0 5px #CCCCCC;
     overflow:hidden;
@@ -155,7 +160,8 @@ div#footer a{
     margin-top:0;
     position:relative;
     width:200px;
-    border:4px solid #FF00FF;
+/*    border:4px solid #FF00FF;*/
+    border:3px solid #fff6c9;
     border-radius:10px;
     margin-bottom:18px;
     padding:10px;

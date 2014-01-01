@@ -10,16 +10,21 @@
 }
 #accordion_menu ul a{
     padding:10px 10px 10px 15px;
-    background:DarkTurquoise;
+/*    background:DarkTurquoise;*/
+    background-color:rgba(204, 157, 134, 0.5);
     text-decoration:none;
     display:block;
     color:black;
-    border-bottom:1px solid DarkTurquoise;
-    border-top:1px solid DarkTurquoise;
+/*    border-top:1px solid DarkTurquoise;
+    border-bottom:1px solid DarkTurquoise;*/
+    border-top:1px solid rgba(204, 157, 134, 1);
+    border-bottom:1px solid rgba(204, 157, 134, 1);
     font-size:15px;
 }
 #accordion_menu ul a.colored{
-    color:Fuchsia;
+/*    color:Fuchsia;*/
+/*    color:#fe6c66;*/
+    color:#ffff00;
 }
 #accordion_menu ul a.bold{
     font-weight:bold;
