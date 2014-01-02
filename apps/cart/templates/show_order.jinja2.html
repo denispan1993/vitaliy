@@ -2,14 +2,15 @@
 {# {% load header_category %} #}
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
 {% block content_center %}
+    <div id="show_order" style="color:Black;text-align:left;">
     {% if user_cart_ %}
         <table id="table_carts" cols="3" summary="Ваша корзина">
-            <caption>Ваша корзина</caption>
+            <caption style="font-size:20px;">Ваша корзина</caption>
             <thead>
                 <tr>
                     <th scope="col">Наименование</th>
-                    <th scope="col" style="width:68px;">Кол-во</th>
-                    <th scope="col">Сумма</th>
+                    <th scope="col" style="width:68px;text-align:center;">Кол-во</th>
+                    <th scope="col" style="text-align:center;">Сумма</th>
                 </tr>
             </thead>
             <tbody>
@@ -137,4 +138,5 @@ function sel_country() {
             <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a>
         </p>
     {% endif %}
+    </div>
 {% endblock %}

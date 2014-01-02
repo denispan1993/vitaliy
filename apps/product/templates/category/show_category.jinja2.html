@@ -6,8 +6,9 @@
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/categories_products_style.css" />
 {% endblock %}
 {% block content_center %}
+    <div id="header_categories" style="color:Black;text-align:left;">
     {{ header_category2(current_category)|safe }}
-    <br>
+    </div>
     {{ this_category(current_category)|safe }}
     <br>
     {% set categories = current_category.children.all() %}

@@ -2,12 +2,13 @@
 {# {% load header_category %} #}
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
 {% block content_center -%}
+    <div id="show_cart" style="color:Black;text-align:left;">
     {% if user_cart_ %}
         <form method="POST" action="/корзина/пересчитать/">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
             <input type="hidden" name="POST_NAME" value="recalc_cart"/>
             <table id="table_carts" cols="6" summary="Ваша корзина">
-                <caption>Ваша корзина</caption>
+                <caption style="font-size:20px;">Ваша корзина</caption>
                 <thead>
                     <tr>
                         {# <th scope="col" class="center">Фото</td> #}
@@ -15,9 +16,9 @@
                         {# <th scope="col">Цвет</th> #}
                         {# <th scope="col">Размер</th> #}
                         {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
-                        <th scope="col" style="width:68px;">Кол-во</th>
-                        <th scope="col">Сумма</th>
-                        <th scope="col">Удаление</th>
+                        <th scope="col" style="width:68px;text-align:center;">Кол-во</th>
+                        <th scope="col" style="text-align:center;">Сумма</th>
+                        <th scope="col" style="text-align:center;">Удаление</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -164,7 +165,8 @@ function onChange_{{ product.pk }}(){
 <script>
 product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity|replace(",", ".") }};
 </script>
-                            <td><input id="delete1_{{ product.pk }}"
+                            <td style="text-align:center;">
+                                <input id="delete1_{{ product.pk }}"
                                        name="delete_{{ product.pk }}"
                                        {# checked="" #}
                                        {# onchange="javascript:delete_on_off('delete1_{{ product.pk }}','delete2_{{ product.pk }}')" #}
@@ -245,5 +247,5 @@ $(document).ready(ReCalcSumm(true));
         <p>Ваша корзина пуста<br>
         <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
     {% endif %}
-
+    </div>
 {%- endblock %}

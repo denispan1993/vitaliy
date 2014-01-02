@@ -3,12 +3,15 @@
 {% block description %}{{ page.meta_description }}{% endblock %}
 {% block keywords %}{{ page.meta_keywords }}{% endblock %}
 {% block content_center -%}
-<style>
-strong{
+{# <style>
+#strong{
     font:20px;
 }
-</style>
-<strong>{{ page.title }}</strong>
-<br>
+</style> #}
+<div style="color:Black;text-align:center;font-size:19px;">
+<strong{# id="strong" #}>{{ page.title }}</strong>
+</div>
+<div style="color:Black;text-align:justify;font-size:16px;">
 {{ html_text|safe }}
-{%- endblock %}
+</div>
+{% endblock -%}
