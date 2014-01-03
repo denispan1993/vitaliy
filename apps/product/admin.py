@@ -32,7 +32,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
                                                               'url', 'title',
                                                               #'letter_to_article',
                                                               # 'name',
-                                                              'description', ], }),
+                                                              'item_description', 'description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
                                                                                               'meta_keywords', ], }),
