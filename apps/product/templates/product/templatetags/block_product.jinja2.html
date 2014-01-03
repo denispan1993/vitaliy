@@ -26,6 +26,11 @@
         {% else %}
             <p>Нет на складе</p>
         {% endif %}
+        {% if block.item_description %}
+            <div id="product_block_short_description">
+                {{ block.item_description }}
+            </div>
+        {% endif %}
     </div>
 {% else %}
     <a class="product_block_title fancybox"
@@ -49,6 +54,11 @@
                    title="добавить в корзину">
         {% else %}
             <p>Нет на складе</p>
+        {% endif %}
+        {% if block.item_description %}
+            <div id="product_block_short_description">
+                {{ block.item_description }}
+            </div>
         {% endif %}
     </div>
 {% endif %}

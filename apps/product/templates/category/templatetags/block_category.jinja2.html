@@ -2,7 +2,7 @@
     {% if block.main_photo %}
         <a class="category_block_title"
            href="{{ block.get_absolute_url() }}"
-           title="{% if block.description %}{{ block.description }}{% else %}{{ block.title }}{% endif %}">{{ block.title }}</a>
+           title="{% if block.item_description %}{{ block.item_description }}{% else %}{{ block.title }}{% endif %}">{{ block.title }}</a>
         <a class="category_block_img"
            href="{{ block.get_absolute_url() }}"
            title="{{ block.main_photo.title }}">
@@ -10,15 +10,15 @@
                  alt="{% if block.main_photo.photo.meta_alt %}{{ block.main_photo.photo.meta_alt }}{% else %}{{ block.title }}{% endif %}"
                  border="0"/>
         </a>
-        {% if block.description %}
+        {% if block.item_description %}
             <a class="category_block_excerpt"
                href="{{ block.get_absolute_url() }}"
-               title="{{ block.title }}">{{ block.description }}</a>
+               title="{{ block.title }}">{{ block.item_description }}</a>
         {% endif %}
     {% else %}
         <a class="category_block_title"
            href="{{ block.get_absolute_url() }}"
-           title="{% if block.description %}{{ block.description }}{% else %}{{ block.title }}{% endif %}">{{ block.title }}</a>
+           title="{% if block.item_description %}{{ block.item_description }}{% else %}{{ block.title }}{% endif %}">{{ block.title }}</a>
         <a class="category_block_img"
            href="{{ block.get_absolute_url() }}"
            title="{{ block.title }}">
@@ -26,10 +26,10 @@
                  alt="No Photo"
                  border="0"/>
         </a>
-        {% if block.description %}
+        {% if block.item_description %}
             <a class="category_block_excerpt"
                href="{{ block.get_absolute_url() }}"
-               title="{{ block.title }}">{{ block.description }}</a>
+               title="{{ block.title }}">{{ block.item_description }}</a>
         {% endif %}
     {% endif %}
 </div>

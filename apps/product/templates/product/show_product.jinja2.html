@@ -493,9 +493,8 @@ $(document).ready(onChange())
 	</div>
     <div id="product_box_bottom"
             class="clearFloat"
-            style="position:relative;">
-        Краткое описание: {{ product.item_description }}
-        Полное описание: {{ product.description }}
+            style="position:relative;font-size:20px;color:Black;">
+        {{ product.item_description }}
     </div>
 </div>
 {% if length_products_recommended > limit_products_recommended_on_string %}
