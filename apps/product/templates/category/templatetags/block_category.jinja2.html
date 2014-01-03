@@ -11,10 +11,11 @@
                  border="0"/>
         </a>
         {% if block.item_description %}
-            <a class="category_block_excerpt"
+            <a class="category_block_excerpt" style="display:inline-block;float:left;vertical-align:middle;"
                href="{{ block.get_absolute_url() }}"
                title="{{ block.title }}">{{ block.item_description }}</a>
         {% endif %}
+        <img src="/media/img/strelka2.png" style="display:inline-block;float:right;"/>
     {% else %}
         <a class="category_block_title"
            href="{{ block.get_absolute_url() }}"
@@ -27,9 +28,10 @@
                  border="0"/>
         </a>
         {% if block.item_description %}
-            <a class="category_block_excerpt"
+            <a class="category_block_excerpt" style="display:inline-block;float:left;vertical-align:middle;"
                href="{{ block.get_absolute_url() }}"
                title="{{ block.title }}">{{ block.item_description }}</a>
         {% endif %}
+        <img src="{{ MEDIA_URL }}img/strelka.png" style="display:inline-block;float:right;"/>
     {% endif %}
 </div>

@@ -57,13 +57,13 @@ try{
     </div>
     <div id="showcart" style="background:none repeat scroll 0 0 #fff6c9;border:1px solid #CECECE;border-radius:15px 0 0 15px;margin-left:70px;padding:10px;display:block;">{# googleoff: all #}
         {# <noindex> #}
-            <div id="dynamic_div_showcart">
+            <div id="dynamic_div_showcart" style="color:Black;">
                 <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
                 <br>
                 <b>На сумму:</b> {{ user_cart_.summ_money_of_all_products_grn }} грн. {{ user_cart_.summ_money_of_all_products_kop }} коп.
                 <br>
             </div>
-            <b><a href="/корзина/">Перейти в корзину</a></b>
+            <b><a href="/корзина/" style="font-size:18px;margin-top:7px;display:block;">Перейти в корзину</a></b>
         {# </noindex> #}{# googleon: all #}
     </div>
 </div>
@@ -86,7 +86,6 @@ try{
         </div>
     </div>
     {# <div id="cart"><a href="/корзина/">Корзина:</a></div> #}
-    <div id="auth">Вход/Регистрация{# {{ social_auth_widget() }} #}</div>
     {% if user.is_authenticated %}
         {% if user.is_staff %}
             {% if request.session.category %}
@@ -96,6 +95,8 @@ try{
                 <div id="product_admin"><a href="/admin/product/product/{{ product.pk }}/">{{ product.title }}</a></div>
             {% endif %}
         {% endif %}
+    {% else %}
+        <div id="auth">Вход/Регистрация{# {{ social_auth_widget() }} #}</div>
     {% endif %}
     <div id="div_logo">
         <a id="logo"
