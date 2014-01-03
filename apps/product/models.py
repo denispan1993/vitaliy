@@ -57,7 +57,8 @@ class Category(MPTTModel):
     #                                               u'Максимальнре количество букв - 3 шт.', )
     # name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
     # Описание продукта
-    item_description = models.CharField(verbose_name=u'Краткое описание продукта', max_length=128, null=True, blank=True, )
+    item_description = models.CharField(verbose_name=u'Краткое описание продукта',
+                                        max_length=128, null=True, blank=True, )
     description = models.TextField(verbose_name=u'Описание категории', null=True, blank=True, )
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
