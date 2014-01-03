@@ -17,3 +17,6 @@ ul li{list-style:none outside none;}
 .clearFloat{
     clear:Both;
 }
+a img{
+    line-height:0px;
+}

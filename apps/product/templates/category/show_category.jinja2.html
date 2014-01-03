@@ -10,7 +10,7 @@
     {{ header_category2(current_category)|safe }}
     </div>
     {{ this_category(current_category)|safe }}
-    <br>
+    <br class="clearFloat">
     {% set categories = current_category.children.all() %}
     {{ many_blocks(categories, request, 'category')|safe }}
     <br class="clearFloat">

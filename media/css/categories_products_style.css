@@ -9,7 +9,7 @@
     width:214px;
 }*/
 div.category_block {
-    background:none repeat scroll 0 0 #FFFFFF;
+    background:none repeat scroll 0 0 #FFF6C9;
     border:1px solid #EEEEEE;
     float:left;
     height:285px;
@@ -28,10 +28,9 @@ a.category_block_img{
     -moz-border-top-colors: none;
     background-position:center center;
     background-repeat:no-repeat;
-    border-color:#FFFFFF #FFFFFF #EEEEEE;
-    border-image:none;
+    border-color:rgba(204, 157, 134, 1);
     border-style:solid;
-    border-width:1px;
+    border-width:2px;
     display:block;
     height:160px;
     margin-bottom:10px;
