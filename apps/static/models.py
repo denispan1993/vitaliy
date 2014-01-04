@@ -52,6 +52,12 @@ class Static(models.Model):
                                           u' будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
 
+    def get_absolute_url(self, ):
+#        return ('show_category', (),
+#                {'category_url': unicode(str(self.url)),
+#                 'id': unicode(str(self.pk)), }, )
+        return u'/%s/' % self.url,
+
     class Meta:
         db_table = 'Static_Pages'
         ordering = ['order', ]

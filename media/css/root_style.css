@@ -114,7 +114,7 @@ div#footer a{
     vertical-align:top;
 }
 .left_title{
-    background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
+/*    background:url("/media/img/keks.png") no-repeat scroll 0 2px transparent;*/
     /* border-bottom:1px solid #CCCCCC; */
     color:#ffff00;
     font-size:22px;
@@ -140,7 +140,7 @@ div#footer a{
     vertical-align:top;
 }
 .center_title{
-    background:url("/media/img/icon-crown.png") no-repeat scroll 0 2px transparent;
+/*    background:url("/media/img/keks.png") no-repeat scroll 0 2px transparent;*/
     border-bottom:1px solid #FFFF00; /*#CCCCCC;*/
     color:#333333;
     font-size:30px;

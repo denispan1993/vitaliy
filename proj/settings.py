@@ -288,6 +288,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'nested_inlines',
     # 'nested_inlines', -> Вместо это установка пропатченого django
     # https://github.com/stefanklug/django/tree/nested-inline-support-1.5.x
@@ -309,6 +310,7 @@ INSTALLED_APPS = (
     'apps.cart',
     'apps.slide',
     'apps.static',
+    # 'static_sitemaps',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -503,7 +505,7 @@ INSTALLED_APPS += (
     'userena.contrib.umessages',
 )
 USERENA_USE_MESSAGES = True
-#!!!=============== Django Social Auth =========================
+#!!!=============== Django ToolBar ===================================
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
@@ -599,3 +601,9 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
+#!!!=============== Django ToolBar ===================================
+#INSTALLED_APPS = (
+#    'static_sitemaps',
+#)
+#
+#STATICSITEMAPS_ROOT_SITEMAP = 'media.sitemap'

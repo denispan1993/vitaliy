@@ -138,3 +138,52 @@ urlpatterns += patterns('apps.static.views',
 #    url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
 #        {'document_root': 'C:/Python27/Lib/site-packages/django/contrib/admin'}),
 #)
+#Static_sitemaps
+#urlpatterns = patterns('',
+#        url(r'^sitemap.xml', include('static_sitemaps.urls')),
+#)
+
+from apps.utils.sitemaps import CategoryViewSitemap, ProductViewSitemap, StaticViewSitemap
+
+
+sitemaps = {
+    'Category': CategoryViewSitemap,
+    'Product': ProductViewSitemap,
+    'Static': StaticViewSitemap,
+}
+
+#from apps.product.models import Category
+
+
+#info_dict_Category = {
+#    'queryset': Category.objects.all(),
+#    'date_field': 'updated_at',
+##    'protocol': 'http',
+#}
+#from django.contrib.sitemaps import GenericSitemap
+
+
+#sitemaps = {
+#    'Category': GenericSitemap(info_dict_Category, priority=0.9, changefreq='weekly', )
+#}
+
+#from django.contrib.sitemaps.views import index, sitemap
+#
+#urlpatterns += patterns('',
+#                        url(r'^sitemap\.xml$', index,
+##                            'django.contrib.sitemaps.views.sitemap',
+#                            {'sitemaps': sitemaps}, ),
+#                        url(r'^sitemap-(?P<section>.+)\.xml$',
+#                            sitemap, {'sitemaps': sitemaps}, ), )
+
+from django.contrib.sitemaps import views as sitemaps_views
+from django.views.decorators.cache import cache_page
+
+urlpatterns += patterns('',
+    url(r'^sitemap\.xml$',
+        cache_page(86400)(sitemaps_views.index),
+        {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
+    url(r'^sitemap-(?P<section>.+)\.xml$',
+        cache_page(86400)(sitemaps_views.sitemap),
+        {'sitemaps': sitemaps}, name='sitemaps'),
+)
