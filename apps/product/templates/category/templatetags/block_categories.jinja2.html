@@ -2,18 +2,22 @@
     {# <p>Под категории в этой категории</p> #}
     <div id="categories_block">
         {% set cycle = 1 %}
-        {% set last_loop = False %}
-        {% set revcounter = blocks|length + 1 %}
+        {% set revcounter = blocks|length %}
+        {% if revcounter < request.session.limit_on_string %}
+            {% set last_loop = True %}
+        {% else %}
+            {% set last_loop = False %}
+        {% endif %}
         {% for category in blocks %}
-            {% set revcounter = revcounter - 1 %}
-            {% if revcounter < request.session.limit_on_string %}
-                {% set last_loop = True %}
-            {% endif %}
             {{ one_block(category, '', cycle, last_loop, 'category')|safe }}
             {% if cycle < request.session.limit_on_string %}
                 {% set cycle = cycle + 1 %}
             {% else %}
                 {% set cycle = 1 %}
+                {% set revcounter = revcounter - request.session.limit_on_string %}
+                {% if revcounter <= request.session.limit_on_string %}
+                    {% set last_loop = True %}
+                {% endif %}
             {% endif %}
         {% endfor %}
     </div>
