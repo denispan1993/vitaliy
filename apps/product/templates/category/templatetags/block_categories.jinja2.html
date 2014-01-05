@@ -3,12 +3,12 @@
     <div id="categories_block">
         {% set cycle = 1 %}
         {% set last_loop = False %}
-        {% set revcounter = blocks|length %}
+        {% set revcounter = blocks|length + 1 %}
         {% for category in blocks %}
+            {% set revcounter = revcounter - 1 %}
             {% if revcounter < request.session.limit_on_string %}
                 {% set last_loop = True %}
             {% endif %}
-            {% set revcounter = revcounter - 1 %}
             {{ one_block(category, '', cycle, last_loop, 'category')|safe }}
             {% if cycle < request.session.limit_on_string %}
                 {% set cycle = cycle + 1 %}

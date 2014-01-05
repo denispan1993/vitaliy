@@ -30,7 +30,7 @@ class Process_SessionIDMiddleware(object):
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
         from datetime import datetime, timedelta
         if not ajax_resolution_datetime or \
-           ajax_resolution_datetime < (datetime.now() - timedelta(seconds=60, )):
+           ajax_resolution_datetime < (datetime.now() - timedelta(seconds=5, )):
             request.session[u'ajax_resolution'] = True
         else:
             request.session[u'ajax_resolution'] = False
@@ -50,11 +50,11 @@ class Process_SessionIDMiddleware(object):
                     request.session[u'width_main_center'] = 950
                     request.session[u'limit_on_string'] = 4
                     request.session[u'limit_on_page'] = 12
-                elif explorer_with >= 984:
+                elif explorer_with >= 1024:
                     request.session[u'width_main_center'] = 710
                     request.session[u'limit_on_string'] = 3
                     request.session[u'limit_on_page'] = 9
-                else:
+                elif explorer_with < 1024:
                     request.session[u'width_main_center'] = 470
                     request.session[u'limit_on_string'] = 2
                     request.session[u'limit_on_page'] = 6
