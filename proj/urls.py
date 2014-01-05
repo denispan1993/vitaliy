@@ -100,10 +100,10 @@ if settings.DEBUG:
                                     'show_indexes': True, },
                                     ),
                                 )
-#    import debug_toolbar
-#    urlpatterns += patterns('',
-#                            url(r'^__debug__/', include(debug_toolbar.urls)),
-#                            )
+    import debug_toolbar
+    urlpatterns += patterns('',
+                            url(r'^__debug__/', include(debug_toolbar.urls)),
+                            )
 #    import debug_toolbar_htmltidy
 #    urlpatterns += patterns('',
 #                            url(r'^', include('debug_toolbar_htmltidy.urls')),
