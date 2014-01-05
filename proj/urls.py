@@ -102,7 +102,8 @@ if settings.DEBUG:
                                 )
     import debug_toolbar
     urlpatterns += patterns('',
-                            url(r'^__debug__/', include(debug_toolbar.urls)),
+                            url(r'^__debug__/',
+                                include(debug_toolbar.urls), ),
                             )
 #    import debug_toolbar_htmltidy
 #    urlpatterns += patterns('',
@@ -128,9 +129,10 @@ urlpatterns += patterns('',
                         )
 #!!!===================== Статические страницы ======================================
 urlpatterns += patterns('apps.static.views',
-                        url(ur'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$', 'show_static_page',
-                        {'template_name': u'static_page.jinja2.html', },
-                        name='show_category', ),
+                        url(ur'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$',
+                            'show_static_page',
+                            {'template_name': u'static_page.jinja2.html', },
+                            name='show_category', ),
                         )
 
 
@@ -180,10 +182,10 @@ from django.contrib.sitemaps import views as sitemaps_views
 from django.views.decorators.cache import cache_page
 
 urlpatterns += patterns('',
-    url(r'^sitemap\.xml$',
-        cache_page(86400)(sitemaps_views.index),
-        {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
-    url(r'^sitemap-(?P<section>.+)\.xml$',
-        cache_page(86400)(sitemaps_views.sitemap),
-        {'sitemaps': sitemaps}, name='sitemaps'),
-)
+                        url(r'^sitemap\.xml$',
+                            cache_page(86400)(sitemaps_views.index),
+                            {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
+                        url(r'^sitemap-(?P<section>.+)\.xml$',
+                            cache_page(86400)(sitemaps_views.sitemap),
+                            {'sitemaps': sitemaps}, name='sitemaps'),
+                        )
