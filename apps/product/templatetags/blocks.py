@@ -8,7 +8,7 @@ register = Library()
 
 
 @register.global_function()
-def many_blocks(blocks, request, category_or_product, ):
+def many_blocks(blocks, request, category_or_product, top_border, ):
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
     if category_or_product == 'category':
@@ -21,7 +21,8 @@ def many_blocks(blocks, request, category_or_product, ):
     return render_to_string(template_name,
                             dictionary={'blocks': blocks,
                                         'request': request,
-                                        'csrf_token': request_csrf_token, }, )
+                                        'csrf_token': request_csrf_token,
+                                        'top_border': top_border, }, )
 
 
 @register.global_function()

@@ -1,6 +1,6 @@
 {% if blocks %}
     {# <p>Под категории в этой категории</p> #}
-    <div id="categories_block">
+    <div id="categories_block"{% if top_border %} style="padding-top:15px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
         {% set cycle = 1 %}
         {% set revcounter = blocks|length %}
         {% if revcounter < request.session.limit_on_string %}

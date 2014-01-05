@@ -79,7 +79,7 @@ div#footer a{
     background:url("/media/img/logo.png") no-repeat scroll 0 0 transparent;
     display:block;
     height:200px;
-    left:50px;
+    left:5px;
     position: absolute;
     top:60px;
     width:200px;
@@ -99,7 +99,7 @@ div#footer a{
 #main{
     /* width:960px; */
     height:100%;
-    margin-bottom:15px;
+    margin:15px 0px 15px 0px;
     position:relative;
     z-index:100;
     text-align:center;

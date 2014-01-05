@@ -1,5 +1,5 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}Категории верхнего уровня{% endblock %}
 {% block content_center %}
-    {{ many_blocks(basement_categories, request, 'category')|safe }}
+    {{ many_blocks(basement_categories, request, 'category', False)|safe }}
 {% endblock %}
