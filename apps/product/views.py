@@ -285,11 +285,14 @@ def get_or_create_Viewed(request,
     try:
         if request.user.is_authenticated() and request.user.is_active:
             viewed = Viewed.objects.filter(user_obj=user_obj,
-                                           sessionid=None, )
+                                           sessionid=None, ).order_by('-last_viewed', )
         else:
             viewed = Viewed.objects.filter(user_obj=None,
-                                           sessionid=sessionid, )
+                                           sessionid=sessionid, ).order_by('-last_viewed', )
     except Viewed.DoesNotExist:
         return None
     else:
+        if len(viewed) > 3:
+            obj_for_delete = viewed[viewed.count()-1]  # .latest('last_viewed', )
+            obj_for_delete.delete()
         return viewed

@@ -184,7 +184,9 @@ try{
 }
 </style> #}
     <div id="main_right">
-        <p>Правая колонка</p>
+        {% block content_right %}
+            <p>Правая колонка</p>
+        {% endblock %}
     </div>
 {# <div style="width:100%;height:1px;clear:both;"></div> #}
 </div>

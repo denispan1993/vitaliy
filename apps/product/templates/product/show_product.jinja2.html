@@ -145,8 +145,8 @@
 			{% if photos %}
                 <div id="slider"
                      style="
-                        border-bottom:1px solid #AAAAAA;
-                        border-top:1px solid #AAAAAA;
+                        border-bottom:2px solid #FFF6C9;
+                        border-top:2px solid #FFF6C9;
                         height:97px;
                         margin-left:20px;
                         margin-right:20px;
@@ -176,8 +176,8 @@
                             width:20px;
                         }
                         .thumbelina-but {
-                            background-color:#CCCCCC;
-                            border:1px solid #AAAAAA;
+                            background-color:#FFF6C9;
+                            border:2px solid #FFF6C9;
                             box-shadow:0 0 8px rgba(0, 0, 0, 0.25);
                             color:#888888;
                             cursor:pointer;
@@ -282,38 +282,38 @@
 						{{ current_category.title|capfirst }}
 					</a>
 			</h2> #}
-			<h3 style="font-size:12px;font-weight:lighter;line-height:30px;">
+			<h3 style="font-size:15px;font-weight:lighter;line-height:30px;">
 				Артикул товара: <span>{{ product.get_ItemID }}</span>
 			</h3>
 			{# <p>Текуший продукт: {{ product.name }}</p> #}
 			{% if product.regular_price %}
-				<p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;">
+				<p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:15px;">
 					Старая цена:
 					<span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
 				</p>
 			{% endif %}
-			<p class="dashed">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
-                <span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн. за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}</span>
+			<p class="dashed" style="font-size:23px;padding-top:3px;color:Red;">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
+                <span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн.{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
             </p>
 <style>
 p.price_total{
-	margin:0;
-	padding:6px 0px;
-	text-indent:5px;
+/*	margin:0;*/
+	padding-top:30px;/* 0px;*/
+/*	text-indent:5px;*/
 	color:#333333;
 	font-family:Arial,Helvetica,sans-serif;
-	font-size:12px;
-	line-height:100%;
+	font-size:15px;
+/*	line-height:100%;*/
 }
 p.price_total span{
 	color:#333333;
-	text-indent:5px;
+/*	text-indent:5px;*/
 	font-family:Arial,Helvetica,sans-serif;
-	font-size:12px;
-	line-height:100%;
+	font-size:18px;
+/*	line-height:100%;*/
 }
 </style>
-			<p class="pirce_total">
+			<p class="price_total">
 			<span id="cart_quant">{{ quantity_ }}</span>
 			&nbsp;{{ product.unit_of_measurement }}&nbsp;×&nbsp;&nbsp;
 			<span id="one_piece_price">{{ price_per_piece|replace(",", ".") }}</span>
@@ -325,15 +325,17 @@ p.price_total span{
 			{% if product.is_availability == 1 %}
 <style>
 .quantity{
-	// margin:0px;
+{# 	// margin:0px; #}
 	list-style-type:none;
-	padding:0 0 0 5px;
+    font-size:15px;
+{# 	padding:0 0 0 5px; #}
 }
 .quantity li{
 	line-height:22px;
 	margin:0;
 	list-style-type:none;
 	float:left;
+    font-size:18px;
 }
 </style>
 <script>
@@ -433,7 +435,7 @@ function onChange(){
 	return true;
 }
 </script>
-				<form method="POST" action=".">
+				<form method="POST" action="." style="padding-top:15px;">
 					<ul class="quantity">
 						<li>Количество:</li>
 						<li>
@@ -468,7 +470,7 @@ function onChange(){
 					<input type="hidden" name="action" value="addtocard" />
 					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-					<input type="submit" value="Добавить в корзину" />
+					<input type="submit" value="Добавить в корзину" style="margin-top:2px;">
 				</form>
 <script>
 $(document).ready(onChange())
@@ -494,8 +496,8 @@ $(document).ready(onChange())
 	</div>
     <div id="product_box_bottom"
             class="clearFloat"
-            style="position:relative;font-size:20px;color:Black;">
-        {{ product.item_description }}
+            style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;">
+        {{ product.description|safe }}
     </div>
 </div>
 {% if length_products_recommended > limit_products_recommended_on_string %}
@@ -523,4 +525,8 @@ $('ul#products').easyPaginate({
 </ul>
 </div>
 {% endif %}
+{% endblock %}
+{% block content_right %}
+    <p>Очень правая колонка</p>
+    {{ viewed }}
 {% endblock %}

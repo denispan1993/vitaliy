@@ -825,14 +825,15 @@ class Viewed(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name=u'Дата последнего изменения', )
 
     def __unicode__(self):
-        if self.user_obj:
-            return '[%.5d]: %s - %s' % (self.id,
-                                        self.last_viewed,
-                                        self.user_obj, )
-        else:
-            return '[%.5d]: %s - %s' % (self.id,
-                                        self.last_viewed,
-                                        self.sessionid, )
+        if self:
+            if self.user_obj:
+                return '[%.5d]: %s - %s' % (int(self.pk),
+                                            self.last_viewed,
+                                            self.user_obj, )
+            else:
+                return '[%.5d]: %s - %s' % (int(self.pk),
+                                            self.last_viewed,
+                                            self.sessionid, )
 
     class Meta:
         db_table = 'Viewed'
