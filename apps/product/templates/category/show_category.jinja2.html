@@ -14,8 +14,8 @@
     {% set categories = current_category.children.all() %}
     {% if categories %}
         {{ many_blocks(categories, request, 'category', True)|safe }}
+        <br class="clearFloat">
     {% endif %}
-    <br class="clearFloat">
     {% set products = current_category.products.all() %}
     {% if products %}
         {{ many_blocks(products, request, 'product', True)|safe }}
