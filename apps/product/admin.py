@@ -49,6 +49,12 @@ class CategoryAdmin(MPTTModelAdmin, ):
     save_on_top = True
     ordering = ['-created_at', ]
 
+    # В поле author подставляем request.user
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'user_obj', None, ) is None:
+            obj.author = request.user
+        obj.save()
+
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
 
@@ -268,6 +274,19 @@ class ProductAdmin(admin.ModelAdmin, ):
     save_as = True
     save_on_top = True
     ordering = ['-created_at', ]
+
+    # Тут начинается магия, СуперАдмину показываем всё, а пользователю, показываем только его объекты
+    def queryset(self, request, ):
+        if request.user.is_superuser:
+            return super(ProductAdmin, self).queryset(request, )
+        else:
+            return super(ProductAdmin, self).queryset(request).filter(author=request.user, )
+
+    # Так решим вторую задачу, в поле author подставляем request.user
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'user_obj', None, ) is None:
+            obj.author = request.user
+        obj.save()
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
