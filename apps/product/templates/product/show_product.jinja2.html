@@ -77,7 +77,7 @@
                              font-family:Arial,Helvetica,sans-serif;
                              font-size:12px;
                              line-height:125%;
-                             min-height:380px;">
+                             min-height:380px;" itemscope itemtype="http://schema.org/Product">
 	<div id="product_box_header" style="text-align:left;">
 		{{ header_category2(current_category, product)|safe }}
 	</div>
@@ -116,7 +116,8 @@
 									  zoomOffsetX:15{# ,
 									  zoomOffsetY:25 #}{# , #}
 									  {# maxMagnification:4 #}"
-									  alt="{{ main_photo.title }}">
+									  alt="{{ main_photo.title }}"
+                                      itemprop="image">
 								 {# </a> #}
 							 </div>
 						 {# </div> #}
@@ -268,7 +269,7 @@
 			{% endif %}
 		</div>
 		<div id="product_box_right" style="text-align:left;">
-			<h1 style="font-size:16px;height:auto;line-height:20px;">
+			<h1 style="font-size:16px;height:auto;line-height:20px;" itemprop="name">
 				<a href="{{ product.get_absolute_url() }}"
                     title="{{ product.title|capfirst }}">
 					{{ product.name|capfirst }}
@@ -283,7 +284,7 @@
 					</a>
 			</h2> #}
 			<h3 style="font-size:15px;font-weight:lighter;line-height:30px;">
-				Артикул товара: <span>{{ product.get_ItemID }}</span>
+				Артикул товара: <span itemprop="productID">{{ product.get_ItemID }}</span>
 			</h3>
 			{# <p>Текуший продукт: {{ product.name }}</p> #}
 			{% if product.regular_price %}
@@ -292,8 +293,8 @@
 					<span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
 				</p>
 			{% endif %}
-			<p class="dashed" style="font-size:23px;padding-top:3px;color:Red;">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
-                <span class="productbox_right_pirce_red"> {{ product.price|replace(",", ".") }} грн.{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
+			<p class="dashed" style="font-size:23px;padding-top:3px;color:Red;" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
+                <span class="productbox_right_pirce_red" itemprop="price"> {{ product.price|replace(",", ".") }} грн.{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
             </p>
 <style>
 p.price_total{
@@ -496,7 +497,8 @@ $(document).ready(onChange())
 	</div>
     <div id="product_box_bottom"
             class="clearFloat"
-            style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;">
+            style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;"
+            itemprop="description">
         {{ product.description|safe }}
     </div>
 </div>
