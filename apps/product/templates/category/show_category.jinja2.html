@@ -7,17 +7,17 @@
 {% endblock %}
 {% block content_center %}
     <div id="header_categories" style="color:Black;text-align:left;">
-    {{ header_category2(current_category)|safe }}
+        {{ header_category2(current_category)|safe }}
     </div>
     {{ this_category(current_category)|safe }}
-    <br class="clearFloat">
     {% set categories = current_category.children.all() %}
     {% if categories %}
-        {{ many_blocks(categories, request, 'category', True)|safe }}
         <br class="clearFloat">
+        {{ many_blocks(categories, request, 'category', True)|safe }}
     {% endif %}
     {% set products = current_category.products.all() %}
     {% if products %}
+        <br class="clearFloat">
         {{ many_blocks(products, request, 'product', True)|safe }}
     {% endif %}
 {% endblock %}

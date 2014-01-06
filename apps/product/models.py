@@ -37,7 +37,12 @@ class Category(MPTTModel):
                                        blank=False,
                                        null=False,
                                        help_text=u'Если мы хотим чтобы категория была выделена наклонным шрифтом,'
-                                                 u' ставим данное поле в True.')
+                                                 u' ставим данное поле в True.', )
+    font_px = models.PositiveSmallIntegerField(verbose_name=_(u'Размер шрифта'),
+                                               default=14,
+                                               blank=False,
+                                               null=False,
+                                               help_text=u'Размер шрифта категории в пикселях,', )
 #    disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
 #                                           null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
 #                                                                 u' со страницы категории, то ставим в True.', )
@@ -77,6 +82,9 @@ class Category(MPTTModel):
                                 help_text=u'Пример: "news/reklama.html". Если не указано, система'
                                           u' будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
+    #Кто создал
+    from django.contrib.auth.models import User
+    user_obj = models.ForeignKey(User, verbose_name=u'ID Пользователя', blank=True, null=True, )
 
     # Вспомогательные поля
     from django.contrib.contenttypes import generic
@@ -279,6 +287,9 @@ class Product(models.Model):
                                           u' "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости продукта',
                                      default=True, )
+    #Кто создал
+    from django.contrib.auth.models import User
+    user_obj = models.ForeignKey(User, verbose_name=u'ID Пользователя', blank=True, null=True, )
     # Вспомогательные поля
     from django.contrib.contenttypes import generic
     photo = generic.GenericRelation('Photo',

@@ -3,14 +3,14 @@
        href="{{ category.get_absolute_url() }}"
        title="{{ category.title }}">{{ category.name }}</a> #}
     <div style="position:relative;padding-top:10px;">
-        <div class="this_category_img" style="display:block;float:left;padding-bottom:10px;">
+        <div class="this_category_img" style="display:block;float:left;{# padding-bottom:10px; #}">
             <a href="{{ category.get_absolute_url() }}" style="line-height:0px;"
                title="{{ category.main_photo.title }}">
                 <img src="{{ category.main_photo.photo.url_210x160 }}" alt="{{ category.main_photo.photo.meta_alt }}" border="0"/>
             </a>
         </div>
         {% if category.description %}
-            <div class="this_category_excerpt" style="color:Black;text-align:left;display:block;font-size:15px;letter-spacing:1px;width:492px;float:right;padding-bottom:10px;"
+            <div class="this_category_excerpt" style="color:Black;text-align:justify;display:block;font-size:15px;letter-spacing:1px;width:492px;float:right;{# padding-bottom:10px; #}"
                  title="{{ category.description }}">{{ category.description }}
             </div>
         {% endif %}
@@ -20,7 +20,7 @@
        href="{{ category.get_absolute_url() }}"
        title="{{ category.title }}">{{ category.name }}</a> #}
     {% if category.description %}
-        <div class="this_category_excerpt" style="color:Black;text-align:left;margin-top:10px;padding-bottom:10px;"
+        <div class="this_category_excerpt" style="color:Black;text-align:left;margin-top:10px;{# padding-bottom:10px; #}"
              title="{{ category.description }}">{{ category.description }}
         </div>
     {% endif %}
