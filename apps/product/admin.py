@@ -26,17 +26,18 @@ class CategoryAdmin(MPTTModelAdmin, ):
     list_display = ['pk', 'url', 'title', 'parent', ]  # 'name', ]
     list_display_links = ['pk', 'url', 'title', ]
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
-                                                              'shown_colored', 'shown_bold', 'shown_italic',
-                                                              #'disclose_product',
-                                                              'url', 'title',
-                                                              #'letter_to_article',
-                                                              # 'name',
-                                                              'item_description', 'description', ], }),
+        (None,       {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
+                                                      'shown_colored', 'shown_bold', 'shown_italic', 'font_px',
+                                                      #'disclose_product',
+                                                      'url', 'title',
+                                                      #'letter_to_article',
+                                                      # 'name',
+                                                      'item_description', 'description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
-                                                                                              'meta_keywords', ], }),
-        (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
+                                                                                              'meta_keywords', ], }, ),
+        (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
+        (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]
     #readonly_fields = (u'url', )
     prepopulated_fields = {'url': ('title', ), }
@@ -248,7 +249,8 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),
-        (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], })
+        (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
+        (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]
 #    readonly_fields = u'url'
 #    form = patch_admin_form(ProductAdminForm, )
