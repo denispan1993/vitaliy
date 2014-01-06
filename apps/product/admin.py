@@ -52,7 +52,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
     # В поле author подставляем request.user
     def save_model(self, request, obj, form, change):
         if getattr(obj, 'user_obj', None, ) is None:
-            obj.author = request.user
+            obj.user_obj = request.user
         obj.save()
 
     class Media:
@@ -280,12 +280,12 @@ class ProductAdmin(admin.ModelAdmin, ):
         if request.user.is_superuser:
             return super(ProductAdmin, self).queryset(request, )
         else:
-            return super(ProductAdmin, self).queryset(request).filter(author=request.user, )
+            return super(ProductAdmin, self).queryset(request).filter(user_obj=request.user, )
 
     # Так решим вторую задачу, в поле author подставляем request.user
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request, obj, form, change, ):
         if getattr(obj, 'user_obj', None, ) is None:
-            obj.author = request.user
+            obj.user_obj = request.user
         obj.save()
 
     class Media:

@@ -152,7 +152,7 @@ try{
             <ul id='accordion' class="menu basement">
                 {% for cat in categories_basement_ recursive %}
                     <li>
-                        <a {% if cat.shown_colored or cat.shown_bold or shown_italic %}class="{% if cat.shown_colored %}colored {% endif %}{% if cat.shown_bold %}bold {% endif %}{% if cat.shown_italic %}italic{% endif %}" {% endif %}href="{{ cat.get_absolute_url() }}"
+                        <a {% if cat.shown_colored or cat.shown_bold or shown_italic %}class="{% if cat.shown_colored %}colored {% endif %}{% if cat.shown_bold %}bold {% endif %}{% if cat.shown_italic %}italic{% endif %}" {% endif %}href="{{ cat.get_absolute_url() }}" style="font-size:{{ cat.font_px }}px;"
                            {# alt="{{ cat.name }}" #}
                            title="{{ cat.title }}">{{ cat.title }}</a>
                         {% set children = cat.children.all() %}
