@@ -56,7 +56,7 @@ class Static(models.Model):
 #        return ('show_category', (),
 #                {'category_url': unicode(str(self.url)),
 #                 'id': unicode(str(self.pk)), }, )
-        return u'/%s/' % self.url,
+        return u'/%s/' % self.url
 
     class Meta:
         db_table = 'Static_Pages'
