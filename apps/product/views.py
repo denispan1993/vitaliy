@@ -65,10 +65,13 @@ def show_category(request,
         except Product.DoesNotExist:
             current_products_ = None
 
-    return render_to_response(u'category/show_category.jinja2.html',
-                              locals(),
-                              context_instance=RequestContext(request, ),
-                              )
+    response = render_to_response(u'category/show_category.jinja2.html',
+                                  locals(),
+                                  context_instance=RequestContext(request, ),
+                                  )
+    # from datetime import datetime
+    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
+    return response
 
 
 def show_product(request, product_url, id,
@@ -154,8 +157,8 @@ def show_product(request, product_url, id,
                                   locals(),
                                   context_instance=RequestContext(request, ),
                                   )
-    from datetime import datetime
-    response['Last-Modified'] = datetime2rfc(datetime.now(), )
+    # from datetime import datetime
+    response['Last-Modified'] = datetime2rfc(product.updated_at, )
     return response
 
 
