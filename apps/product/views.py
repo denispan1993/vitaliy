@@ -150,10 +150,13 @@ def show_product(request, product_url, id,
             minimal_quantity_ = product.minimal_quantity
             quantity_of_complete_ = product.quantity_of_complete
 
-    return render_to_response(u'product/show_product.jinja2.html',
-                              locals(),
-                              context_instance=RequestContext(request, ),
-                              )
+    response = render_to_response(u'product/show_product.jinja2.html',
+                                  locals(),
+                                  context_instance=RequestContext(request, ),
+                                  )
+    from datetime import datetime
+    response['Last-Modified'] = datetime2rfc(datetime.now(), )
+    return response
 
 
 def get_cart(request, ):
@@ -296,3 +299,11 @@ def get_or_create_Viewed(request,
             obj_for_delete = viewed[viewed.count()-1]  # .latest('last_viewed', )
             obj_for_delete.delete()
         return viewed
+
+import time
+from email.utils import formatdate
+
+
+def datetime2rfc(dt):
+    dt = time.mktime(dt.timetuple())
+    return formatdate(dt, usegmt=True)
