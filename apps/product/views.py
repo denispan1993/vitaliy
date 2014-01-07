@@ -303,10 +303,9 @@ def get_or_create_Viewed(request,
             obj_for_delete.delete()
         return viewed
 
-import time
-from email.utils import formatdate
-
 
 def datetime2rfc(dt):
+    import time
+    from email.utils import formatdate
     dt = time.mktime(dt.timetuple())
     return formatdate(dt, usegmt=True)

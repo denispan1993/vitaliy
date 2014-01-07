@@ -47,6 +47,44 @@ def context(request):
         except Cart.DoesNotExist:
             user_cart = None
 
+    from django.core.urlresolvers import resolve
+    view, args, kwargs = resolve(request.get_full_path(), )
+    from apps.product.views import show_product
+    if view == show_product:
+        from apps.product.models import Product
+        try:
+            product_pk = int(kwargs[u'id'], )
+        except ValueError:
+            product_pk = None
+        else:
+            try:
+                product = Product.objects.get(pk=product_pk, )
+            except Product.DoesNotExist:
+                product = None
+    else:
+        product = None
+
+    from apps.product.models import Viewed
+    if request.user.is_authenticated() and request.user.is_active:
+        if product:
+            viewed = Viewed.objects.filter(user_obj=user_object_,
+                                           sessionid=None, ).\
+                order_by('-last_viewed', ).\
+                exclude(product=product, )
+        else:
+            viewed = Viewed.objects.filter(user_obj=user_object_,
+                                           sessionid=None, ).\
+                order_by('-last_viewed', )
+    else:
+        if product:
+            viewed = Viewed.objects.filter(user_obj=None,
+                                           sessionid=sessionid_COOKIES, ).\
+                order_by('-last_viewed', ).\
+                exclude(product=product, )
+        else:
+            viewed = Viewed.objects.filter(user_obj=None,
+                                           sessionid=sessionid_COOKIES, ).\
+                order_by('-last_viewed', )
     #                try:
     #                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_,
     #  order=None, account=None, package=None, ) #cartid=cartid,
@@ -58,5 +96,10 @@ def context(request):
                 slides_=slides,
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,
+                viewed_=viewed,
+                view_=view,
+                args_=args,
+                kwargs_=kwargs,
+                product_=product,
                 # ajax_resolution_=ajax_resolution_,
                 )
