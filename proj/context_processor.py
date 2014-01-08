@@ -61,7 +61,7 @@ def context(request):
             pass
         else:
             try:
-                product = Product.objects.get(pk=product_pk, url=kwargs[u'url'], )
+                product = Product.objects.get(pk=product_pk, url=kwargs[u'product_url'], )
             except Product.DoesNotExist:
                 product = None
     else:
