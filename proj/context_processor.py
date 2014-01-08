@@ -47,18 +47,21 @@ def context(request):
         except Cart.DoesNotExist:
             user_cart = None
 
-    from django.core.urlresolvers import resolve
-    view, args, kwargs = resolve(request.get_full_path(), )
+    request_path = request.get_full_path()
+    if request_path:
+        from django.core.urlresolvers import resolve
+        view, args, kwargs = resolve(request.get_full_path(), )
+
     from apps.product.views import show_product
     if view == show_product:
         from apps.product.models import Product
         try:
             product_pk = int(kwargs[u'id'], )
         except ValueError:
-            product_pk = None
+            pass
         else:
             try:
-                product = Product.objects.get(pk=product_pk, )
+                product = Product.objects.get(pk=product_pk, url=kwargs[u'url'], )
             except Product.DoesNotExist:
                 product = None
     else:
