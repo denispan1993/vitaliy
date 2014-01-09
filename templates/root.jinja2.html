@@ -5,30 +5,16 @@
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/wowslider/style.css" />
 {# <!-- End WOWSlider.com HEAD section --> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/vertical-account-menu/blue.css" />
+<!-- bxSlider CSS file -->
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/bxSlider/bxSlider.css" />
 {% endblock %}
 {% block root_header_js %}
 <script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/cookie.js"></script>
 <script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/hoverIntent.minified.js"></script>
 <script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/dcjqaccordion.2.9.js"></script>
-<script>
-try{
-    $(document).ready(function($){
-        $('#accordion_menu').dcAccordion({
-            eventType:'hover',
-            autoClose:false,
-            saveState:true,
-            disableLink:false,
-            speed:'slow',
-            showCount:false,
-            //showCount:true,
-            autoExpand:true,
-            menuClose:true,
-            cookie:'dcjq-accordion',
-            classExpand:'dcjq-current-parent'
-    });
-});
-}catch(e){ alert(e) }
-</script>
+<script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/initial.js"></script>
+<!-- bxSlider Javascript file -->
+<script src="{{ MEDIA_URL }}js/jquery/bxSlider/bxSlider.min.js"></script>
 {# <script src="{{ MEDIA_URL }}js/jquery/fancybox/mousewheel-3.0.6.pack.js"></script>
 <script src="{{ MEDIA_URL }}js/jquery/fancybox/fancybox.pack.js?v=2.1.4"></script>
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/fancybox/fancybox.css?v=2.1.4" media="screen" />
@@ -183,11 +169,20 @@ try{
     float:left;
 }
 </style> #}
+{% if request.session.right_panel %}
     <div id="main_right">
         {% block content_right %}
-            <p>Правая колонка</p>
+            <ul>
+                {% for view in viewed_ %}
+                    <li>
+                        <a href="{{ view.parent.get_absolute_url() }}" style="font-size:14px;color:Black;"
+                           title="{{ view.parent.title }}">{{ view.parent.description }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
         {% endblock %}
     </div>
+{% endif %}
 {# <div style="width:100%;height:1px;clear:both;"></div> #}
 </div>
 {% endblock %}

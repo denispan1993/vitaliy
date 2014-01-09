@@ -70,6 +70,7 @@ def show_category(request,
                                   context_instance=RequestContext(request, ),
                                   )
     # from datetime import datetime
+    from apps.utils.datetime2rfc import datetime2rfc
     response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
     return response
 
@@ -84,7 +85,7 @@ def show_product(request, product_url, id,
         # if cookie:
         # if request.session.test_cookie_worked():
             action = request.POST.get(u'action', None, )
-            if action == u'addtocard':
+            if action == u'addtocard' or action == u'makeanorder':
                 if current_category:
                     product_pk = request.POST.get(u'product_pk', None, )
                     product_url = request.POST.get(u'product_url', None, )
@@ -116,11 +117,11 @@ def show_product(request, product_url, id,
                     else:
                         from django.http import HttpResponseRedirect
                         return HttpResponseRedirect(current_category.get_absolute_url(), )
-            elif action == u'makeanorder':
-                pass
-            else:
-                from django.http import Http404
-                raise Http404
+#            elif action == u'makeanorder':
+#                pass
+#            else:
+#                from django.http import Http404
+#                raise Http404
     else:
 #        request.session.set_test_cookie()
         from apps.product.models import Product
@@ -158,6 +159,7 @@ def show_product(request, product_url, id,
                                   context_instance=RequestContext(request, ),
                                   )
     # from datetime import datetime
+    from apps.utils.datetime2rfc import datetime2rfc
     response['Last-Modified'] = datetime2rfc(product.updated_at, )
     return response
 
@@ -302,10 +304,3 @@ def get_or_create_Viewed(request,
             obj_for_delete = viewed[viewed.count()-1]  # .latest('last_viewed', )
             obj_for_delete.delete()
         return viewed
-
-
-def datetime2rfc(dt):
-    import time
-    from email.utils import formatdate
-    dt = time.mktime(dt.timetuple())
-    return formatdate(dt, usegmt=True)

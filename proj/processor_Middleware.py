@@ -36,6 +36,7 @@ class Process_SessionIDMiddleware(object):
             request.session[u'ajax_resolution'] = False
         explorer_with = request.session.get(u'width', None, )
         if explorer_with:
+            request.session[u'right_panel'] = True
             try:
                 explorer_with = int(explorer_with, )
             except ValueError:
@@ -46,18 +47,32 @@ class Process_SessionIDMiddleware(object):
             else:
                 # del request.session[u'test_on_with']
                 # limit = 12 if explorer_with >= 984 else limit = 9
-                if explorer_with >= 1280:
+                if explorer_with >= 1700:
+                    request.session[u'width_main_center'] = 1190
+                    request.session[u'limit_on_string'] = 5
+                    request.session[u'limit_on_page'] = 15
+                    request.session[u'width_this_category'] = 972
+                elif explorer_with >= 1450:
                     request.session[u'width_main_center'] = 950
                     request.session[u'limit_on_string'] = 4
                     request.session[u'limit_on_page'] = 12
-                elif explorer_with >= 1024:
+                    request.session[u'width_this_category'] = 732
+                elif explorer_with >= 1210:
                     request.session[u'width_main_center'] = 710
                     request.session[u'limit_on_string'] = 3
                     request.session[u'limit_on_page'] = 9
-                elif explorer_with < 1024:
+                    request.session[u'width_this_category'] = 492
+                elif explorer_with >= 960:
                     request.session[u'width_main_center'] = 470
                     request.session[u'limit_on_string'] = 2
                     request.session[u'limit_on_page'] = 6
+                    request.session[u'width_this_category'] = 252
+                elif explorer_with < 960:
+                    request.session[u'width_main_center'] = 470
+                    request.session[u'limit_on_string'] = 2
+                    request.session[u'limit_on_page'] = 6
+                    request.session[u'width_this_category'] = 252
+                    request.session[u'right_panel'] = False
         else:
             # request.session[u'test_on_with'] = u'Bad get'
             request.session[u'width_main_center'] = 950

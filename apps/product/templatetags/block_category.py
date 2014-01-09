@@ -26,6 +26,8 @@ def block_category(category, cycle, ):
 
 
 @register.global_function()
-def this_category(category, ):
+def this_category(category, width_this_category, ):
+    print(width_this_category)
     return render_to_string(template_name=u'category/templatetags/this_category.jinja2.html',
-                            dictionary={'category': category, }, )
+                            dictionary={'category': category,
+                                        'width_this_category': width_this_category, }, )

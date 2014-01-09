@@ -17,8 +17,12 @@ def show_static_page(request,
         html_text = markdown.markdown(page.text, )
     else:
         html_text = None
-    return render_to_response(template_name=template_name,
-                              dictionary={'page': page,
-                                          'html_text': html_text, },
-                              context_instance=RequestContext(request, ),
-                              content_type='text/html', )
+    response = render_to_response(template_name=template_name,
+                                  dictionary={'page': page,
+                                              'html_text': html_text, },
+                                  context_instance=RequestContext(request, ),
+                                  content_type='text/html', )
+    # from datetime import datetime
+    from apps.utils.datetime2rfc import datetime2rfc
+    response['Last-Modified'] = datetime2rfc(page.updated_at, )
+    return response

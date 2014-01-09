@@ -9,7 +9,7 @@
     <div id="header_categories" style="color:Black;text-align:left;">
         {{ header_category2(current_category)|safe }}
     </div>
-    {{ this_category(current_category)|safe }}
+    {{ this_category(current_category, request.session.width_this_category)|safe }}
     {% set categories = current_category.children.all() %}
     {% if categories %}
         <br class="clearFloat">
