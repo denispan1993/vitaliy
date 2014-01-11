@@ -1,17 +1,15 @@
 {% extends 'root.jinja2.html' %}
-{% block title %}{{ page.meta_title }}{% endblock %}
+{% block title %}Интернет магазин Кексик - {{ page.meta_title }}{% endblock %}
 {% block description %}{{ page.meta_description }}{% endblock %}
 {% block keywords %}{{ page.meta_keywords }}{% endblock %}
-{% block content_center -%}
-{# <style>
-#strong{
-    font:20px;
-}
-</style> #}
-<div style="color:Black;text-align:center;font-size:19px;">
-<strong{# id="strong" #}>{{ page.title }}</strong>
+{% block header_css %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/bxSlider/bxSlider.css" />
+{% endblock %}
+{% block content_center %}
+<div id="header">
+<h1>{{ page.title }}</h1>
 </div>
-<div style="color:Black;text-align:justify;font-size:16px;">
+<div id="information">
 {{ html_text|safe }}
 </div>
-{% endblock -%}
+{% endblock %}

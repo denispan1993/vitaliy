@@ -1,0 +1,11 @@
+div#header{
+    color:Black;
+    text-align:center;
+    font-size:19px;
+    font-weight:bolder;
+}
+div#information{
+    color:Black;
+    text-align:justify;
+    font-size:16px;
+}
