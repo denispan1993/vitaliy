@@ -6,8 +6,9 @@ except ImportError:  # django < 1.4
     from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
+#from django.contrib import admin
+#admin.autodiscover()
+
 #from apps.root.views import root_page
 #from apps.product.views import show_category, show_product
 #from apps.cart.views import show_cart
@@ -70,7 +71,7 @@ urlpatterns += (
     url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
 
     # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls, ), ),
+    url(r'^admin/', include('django.contrib.admin.site.urls', ), ),
 )
 
 #!!!===================== Static media ======================
