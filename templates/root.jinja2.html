@@ -176,7 +176,7 @@ try{
                 {% for view in viewed_ %}
                     <li>
                         <a href="{{ view.parent.get_absolute_url() }}" style="font-size:14px;color:Black;"
-                           title="{{ view.parent.title }}">{{ view.parent.description }}</a>
+                           title="{{ view.parent.title }}">{{ view.parent.description|safe }}</a>
                     </li>
                 {% endfor %}
             </ul>

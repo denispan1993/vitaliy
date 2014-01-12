@@ -142,7 +142,7 @@ div#footer a{
 .center_title{
 /*    background:url("/media/img/keks.png") no-repeat scroll 0 2px transparent;*/
     border-bottom:1px solid #FFFF00; /*#CCCCCC;*/
-    color:#333333;
+    color:#ffff00; /* #333333 */
     font-size:30px;
     font-weight:normal;
     letter-spacing:10px;

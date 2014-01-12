@@ -1,13 +1,10 @@
 {% extends "root.jinja2.html" %}
-{# {% load header_category %} #}
-{# {% block title %}Интернет магазин keksik.com.ua - сайт находится в разработке - загляните к нам позже{% endblock %} #}
 {% block title %}Кексик - магазин кондитерских инструментов и ингридиентов.{% endblock %}
 {% block description %}Гельевые краски,цветочная пыльца,молды,кандурин,ингриенты для мастики и тортов.Печать фотографий на сахарной бумаге.Силиконовые молды.Мастика для тортов.{% endblock %}
 {% block keywords %}гель,пищевые красители,кондитерская мастика,инструменты для мастики,ганаж{% endblock %}
 {% block content_center %}
-<p class="center_title"><h1>Новинки интернет магазина Кексик</h1></p>
+<h1 class="center_title">Новинки магазина Кексик</h1>
     <div class="products_container">
-        {{ block_products(in_main_page, request)|safe }}
-        {# {{ block_products(all_products, request)|safe }} #}
+        {{ many_blocks(in_main_page, request, 'product', False)|safe }}
     </div>
 {% endblock %}
