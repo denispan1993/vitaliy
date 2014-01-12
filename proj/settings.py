@@ -1,7 +1,7 @@
 # coding=utf-8
 # Django settings for Shop project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 import os
@@ -600,6 +600,8 @@ DEBUG_TOOLBAR_CONFIG = {
     'EXCLUDE_URLS': ('/admin/', ), # данная опция находится в разработке
     'INTERCEPT_REDIRECTS': False,
 }
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
 #!!!=============== Django ToolBar ===================================
