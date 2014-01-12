@@ -6,15 +6,23 @@ except ImportError:  # django < 1.4
     from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
-#from django.contrib import admin
-#admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
+
+#Admin
+urlpatterns = (
+    # Uncomment the admin/doc line below to enable admin documentation:
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls, ), ),
+)
 
 #from apps.root.views import root_page
 #from apps.product.views import show_category, show_product
 #from apps.cart.views import show_cart
 #from apps.ajax.views import resolution, cookie
 
-urlpatterns = patterns('apps',
+urlpatterns += patterns('apps',
     # Examples:
     # url(r'^$', 'proj.views.home', name='home'),
     url(r'^$', 'root.views.root_page',
@@ -65,15 +73,6 @@ urlpatterns += patterns('apps.ajax.views',
     url(r'^ajax/product_to_cart/$', 'product_to_cart',
         name='ajax_product_to_cart', ),
 )
-#Admin
-urlpatterns += (
-    # Uncomment the admin/doc line below to enable admin documentation:
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
-
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include('django.contrib.admin.site.urls', ), ),
-)
-
 #!!!===================== Static media ======================
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
