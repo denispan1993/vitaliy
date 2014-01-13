@@ -154,7 +154,8 @@ class Category(MPTTModel):
 
     class Meta:
         db_table = 'Category'
-        ordering = ['serial_number', '-created_at', ]
+#        ordering = ['serial_number', '-created_at', ]
+        ordering = ['-created_at', ]
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
 
@@ -394,7 +395,7 @@ class Product(models.Model):
 
     @property
     def all_photos(self, ):
-        photos = self.photo.all()
+        photos = self.photo.all().order_by('serial_number', '-created_at')
         if photos:
             return photos
         else:
@@ -444,7 +445,7 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'Product'
-        ordering = ['serial_number', '-created_at', ]
+        # ordering = ['serial_number', '-created_at', ]
         ordering = ['-created_at', ]
         verbose_name = u'Продукт'
         verbose_name_plural = u'Продукты'
@@ -742,7 +743,7 @@ class Photo(models.Model):
 
     class Meta:
         db_table = 'Photo'
-        ordering = ['serial_number']
+        ordering = ['serial_number', '-created_at', ]
         verbose_name = "Фотография"
         verbose_name_plural = "Фотографии"
 

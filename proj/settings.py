@@ -311,6 +311,7 @@ INSTALLED_APPS = (
     'apps.cart',
     'apps.slide',
     'apps.static',
+    'apps.search',
     # 'static_sitemaps',
 )
 

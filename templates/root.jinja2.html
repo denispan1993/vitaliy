@@ -172,6 +172,29 @@ try{
 {% if request.session.right_panel %}
     <div id="main_right">
         {% block content_right %}
+            <form method="post" action="/search/" id="search">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="query" class="search_input">
+                        </td>
+                        <td align="left">
+                            {% csrf_token %}
+                            <input type="submit" value="Поиск" class="search_button">{# name="search_button" #}
+                        </td>
+                    </tr>
+                    {# <tr>
+                        <td>
+                            <a href="/search/">Расширенный поиск</a>
+                        </td>
+                        <td>
+                            <img alt="" src="/static/images/spacer.gif">
+                        </td>
+                    </tr> #}
+                    </tbody>
+                </table>
+            </form>
             <ul>
                 {% for view in viewed_ %}
                     <li>

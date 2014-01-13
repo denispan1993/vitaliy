@@ -28,8 +28,6 @@ def root_page(request, template_name=u'index.jinja2.html', ):
     finally:
         in_main_page = Product.manager.in_main_page(limit_on_page, )
 
-
-
     # children_categories = categories_first.children.all()
 
     return render_to_response(template_name=template_name,

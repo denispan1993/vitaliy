@@ -44,7 +44,7 @@ def show_basement_category(request,
 def show_category(request,
                   category_url,
                   id,
-                  template_name=u'category/show_category.jinja2.html',
+                  template_name=u'category/show_content_center.jinja2.html',
                   ):
     request.session[u'category'] = True
     from apps.product.models import Category
@@ -65,7 +65,7 @@ def show_category(request,
         except Product.DoesNotExist:
             current_products_ = None
 
-    response = render_to_response(u'category/show_category.jinja2.html',
+    response = render_to_response(u'category/show_content_center.jinja2.html',
                                   locals(),
                                   context_instance=RequestContext(request, ),
                                   )

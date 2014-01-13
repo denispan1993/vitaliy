@@ -23,7 +23,7 @@ urlpatterns = patterns(
 #from apps.ajax.views import resolution, cookie
 
 urlpatterns += patterns('apps',
-    # Examples:
+                        # Examples:
     # url(r'^$', 'proj.views.home', name='home'),
     url(r'^$', 'root.views.root_page',
         {'template_name': u'index.jinja2.html', },
@@ -33,7 +33,7 @@ urlpatterns += patterns('apps',
         {'template_name': u'category/show_basement_category.jinja2.html', },
         name='show_basement_category', ),
     url(ur'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$', 'product.views.show_category',
-        {'template_name': u'category/show_category.jinja2.html', },
+        {'template_name': u'category/show_content_center.jinja2.html', },
         name='show_category', ),
     url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$', 'product.views.show_product',
         {'template_name': u'product/show_product.jinja2.html', },
@@ -62,17 +62,34 @@ urlpatterns += patterns('apps',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
 )
+#Search
+urlpatterns += patterns('apps.search.views',
+                        url(ur'^поиск/$', 'search_page',
+                            {'query': None,
+                             'template_name': u'category/show_content_center.jinja2.html', },
+                            name='show_search', ),
+                        url(ur'^поиск/(?P<query>\d+)$', 'search_page',
+                            {'template_name': u'category/show_content_center.jinja2.html', },
+                            name='show_search', ),
+                        url(r'^search/$', 'search_page',
+                            {'query': None,
+                            'template_name': u'category/show_content_center.jinja2.html', },
+                            name='show_search', ),
+                        url(r'^search/(?P<query>\d+)$', 'search_page',
+                            {'template_name': u'category/show_content_center.jinja2.html', },
+                            name='show_search', ),
+                        )
 #Ajax
 urlpatterns += patterns('apps.ajax.views',
-    url(r'^ajax/resolution/$', 'resolution',
-        name='ajax_resolution', ),
-    url(r'^ajax/cookie/$', 'cookie',
-        name='ajax_cookie', ),
-    url(r'^ajax/country/$', 'sel_country',
-        name='ajax_country', ),
-    url(r'^ajax/product_to_cart/$', 'product_to_cart',
-        name='ajax_product_to_cart', ),
-)
+                        url(r'^ajax/resolution/$', 'resolution',
+                            name='ajax_resolution', ),
+                        url(r'^ajax/cookie/$', 'cookie',
+                            name='ajax_cookie', ),
+                        url(r'^ajax/country/$', 'sel_country',
+                            name='ajax_country', ),
+                        url(r'^ajax/product_to_cart/$', 'product_to_cart',
+                            name='ajax_product_to_cart', ),
+                        )
 #!!!===================== Static media ======================
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
