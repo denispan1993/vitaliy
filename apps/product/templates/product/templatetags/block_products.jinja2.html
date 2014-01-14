@@ -23,6 +23,11 @@ function product_to_cart(data, product_pk){
     {% set cycle = 1 %}
     {% set last_loop = False %}
     {% set revcounter = blocks|length %}
+    {% if revcounter <= request.session.limit_on_string %}
+        {% set last_loop = True %}
+    {% else %}
+        {% set last_loop = False %}
+    {% endif %}
     {% for product in blocks %}
         {{ one_block(product, 'div', cycle, last_loop, 'product')|safe }}
         {% if cycle < request.session.limit_on_string %}

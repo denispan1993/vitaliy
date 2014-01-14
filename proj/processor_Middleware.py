@@ -48,17 +48,17 @@ class Process_SessionIDMiddleware(object):
                 # del request.session[u'test_on_with']
                 # limit = 12 if explorer_with >= 984 else limit = 9
                 if explorer_with >= 1700:
-                    request.session[u'width_main_center'] = 1190
+                    request.session[u'width_main_center'] = 1192
                     request.session[u'limit_on_string'] = 5
                     request.session[u'limit_on_page'] = 15
                     request.session[u'width_this_category'] = 972
                 elif explorer_with >= 1450:
-                    request.session[u'width_main_center'] = 950
+                    request.session[u'width_main_center'] = 951
                     request.session[u'limit_on_string'] = 4
                     request.session[u'limit_on_page'] = 12
                     request.session[u'width_this_category'] = 732
                 elif explorer_with >= 1210:
-                    request.session[u'width_main_center'] = 710
+                    request.session[u'width_main_center'] = 711
                     request.session[u'limit_on_string'] = 3
                     request.session[u'limit_on_page'] = 9
                     request.session[u'width_this_category'] = 492

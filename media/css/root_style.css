@@ -75,11 +75,11 @@ div#footer a{
     top:0px;
     z-index:100;
 }
-#logo{
+a#logo{
     background:url("/media/img/logo.png") no-repeat scroll 0 0 transparent;
     display:block;
     height:200px;
-    left:5px;
+    left:2%;
     position: absolute;
     top:60px;
     width:200px;
@@ -123,7 +123,7 @@ div#footer a{
     line-height:21px;
     margin-bottom:6px;
     padding-bottom:3px;
-    padding-left:40px;
+    /* padding-left:40px; */
 }
 #main_center{
     display:inline-block;
@@ -149,7 +149,7 @@ div#footer a{
     line-height:21px;
     margin-bottom:6px;
     padding-bottom:3px;
-    padding-left:40px;
+    /* padding-left:40px; */
 }
 .products_container{
     margin-left:0px;

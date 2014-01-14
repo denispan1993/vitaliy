@@ -3,7 +3,7 @@
     <div id="categories_block"{% if top_border %} style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
         {% set cycle = 1 %}
         {% set revcounter = blocks|length %}
-        {% if revcounter < request.session.limit_on_string %}
+        {% if revcounter <= request.session.limit_on_string %}
             {% set last_loop = True %}
         {% else %}
             {% set last_loop = False %}

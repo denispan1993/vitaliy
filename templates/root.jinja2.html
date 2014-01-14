@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/vertical-account-menu/blue.css" />
 {# bxSlider CSS file #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/bxSlider/bxSlider.css" />
+{# tabSlider CSS file #}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/tabSlider/tabSlider.css" />
 {% endblock %}
 {% block root_header_js %}
 <script src="{{ MEDIA_URL }}js/jquery/dcjqaccordion/cookie.js"></script>
@@ -33,8 +35,67 @@ try{
     })
 }catch(e){ alert(e) }
 </script> #}
+{# tabSlider Javascript file #}
+<script src="{{ MEDIA_URL }}js/jquery/tabSlider/tabSlideOut.js"></script>
+<script>
+try{jQuery(document).ready(function() {
+        $('.feedback-panel').tabSlideOut({
+            tabHandle: '.feedback-tab',                   //class of the element that will be your tab -doesnt have to be an anchor
+            pathToTabImage: '/media/img/feedbacktab.gif', //relative path to the image for the tab
+            imageHeight: '99px',                          //height of tab image
+            imageWidth: '30px'                            //width of tab image
+        });
+    })
+}catch(e){ alert(e) }
+
+{# try{
+    $(document).ready(function() {
+    var feedbackTab = {
+
+        speed:300,
+        containerWidth:$('.feedback-panel').outerWidth(),
+        containerHeight:$('.feedback-panel').outerHeight(),
+        tabWidth:$('.feedback-tab').outerWidth(),
+
+        init:function(){
+            $('.feedback-panel').css('height',feedbackTab.containerHeight + 'px');
+
+            $('a.feedback-tab').click(function(event){
+                if ($('.feedback-panel').hasClass('open')) {
+                    $('.feedback-panel')
+                    .animate({left:'-' + feedbackTab.containerWidth}, feedbackTab.speed)
+                    .removeClass('open');
+                } else {
+                    $('.feedback-panel')
+                    .animate({left:'0'},  feedbackTab.speed)
+                    .addClass('open');
+                }
+                event.preventDefault();
+            });
+        }
+    };
+    });
+
+    feedbackTab.init();
+}catch(e){ alert(e) } #}
+</script>
 {% endblock %}
 {% block content %}
+<div class="feedback-panel" style="z-index:200;">
+    <a class="feedback-tab" href="http://www.static-formpage.com">Feedback</a>
+
+    <h3>Send Us Feedback</h3>
+    <div id="form-wrap">
+
+    <form method="post" action="sendmail.php">
+        Email: <input id="email" name="email" type="text" /><br />
+        Message:<br />
+        <textarea id="message" name="message" rows="10" col="30"></textarea><br />
+        <input type="submit" class="button" />
+    </form>
+
+    </div>
+</div>
 <div id="cart" class="opened">
     <div id="cart_button" style="float:left;height:150px;overflow:hidden;width:60px;display:block;">
         <a onclick="Cart.toggle();return false;" href="javascript:void(0)" style="line-height:0px;">
@@ -173,14 +234,19 @@ try{
     <div id="main_right">
         {% block content_right %}
             <form method="post" action="/search/" id="search">
-                <table>
+                <table style="border-spacing:0px;">
                     <tbody>
+                    {# <tr>
+                        <td colspan="2" class="center_title">
+                            Поиск
+                        </td>
+                    </tr> #}
                     <tr>
                         <td>
-                            <input type="text" name="query" class="search_input">
+                            <input type="text" name="query" class="search_input" style="width:140px;">
+                            {% csrf_token %}
                         </td>
                         <td align="left">
-                            {% csrf_token %}
                             <input type="submit" value="Поиск" class="search_button">{# name="search_button" #}
                         </td>
                     </tr>

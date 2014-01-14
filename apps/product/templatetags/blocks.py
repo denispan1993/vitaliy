@@ -27,6 +27,7 @@ def many_blocks(blocks, request, category_or_product, top_border, ):
 
 @register.global_function()
 def one_block(block, choice, cycle, last_loop, category_or_product, ):
+    print(last_loop)
     if last_loop:
         margin_bottom = '0px'
     else:
