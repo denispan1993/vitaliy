@@ -35,10 +35,29 @@ def show_basement_category(request,
         from django.http import Http404
         raise Http404
 
-    return render_to_response(u'category/show_basement_category.jinja2.html',
-                              locals(),
-                              context_instance=RequestContext(request, ),
-                              )
+    from django.template.loader import get_template
+    template_name = u'category/show_basement_category.jinja2.html'
+
+    t = get_template(template_name)
+    from django.template import RequestContext
+    c = RequestContext(request, {u'basement_categories': basement_categories, }, )
+#    from django.template import Context
+#    c = Context({'basement_categories': basement_categories, }, )
+    html = t.render(c)
+    from django.http import HttpResponse
+    response = HttpResponse(html, )
+#    from django.shortcuts import redirect
+#    return redirect('/')
+    # Мы не можем выяснить когда менялись внутринние подкатегории.
+    # Поэтому мы не отдаем дату изменения текущей категории.
+##    from apps.utils.datetime2rfc import datetime2rfc
+##    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
+    return response
+
+#    return render_to_response(u'category/show_basement_category.jinja2.html',
+#                              locals(),
+#                              context_instance=RequestContext(request, ),
+#                              )
 
 
 def show_category(request,
@@ -52,8 +71,8 @@ def show_category(request,
         current_category = Category.objects.get(pk=id, url=category_url, )
     except Category.DoesNotExist:
         current_category = None
-        categories_at_current_category = None
-        current_products = None
+        categories_at_current_category_ = None
+        current_products_ = None
         from django.http import Http404
         raise Http404
     else:
@@ -65,14 +84,38 @@ def show_category(request,
         except Product.DoesNotExist:
             current_products_ = None
 
-    response = render_to_response(u'category/show_content_center.jinja2.html',
-                                  locals(),
-                                  context_instance=RequestContext(request, ),
-                                  )
-    # from datetime import datetime
-    from apps.utils.datetime2rfc import datetime2rfc
-    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
+    from django.template.loader import get_template
+    template_name = u'category/show_content_center.jinja2.html'
+    t = get_template(template_name)
+    from django.template import RequestContext
+    c = RequestContext(request, {'current_category': current_category,
+                                 'categories_at_current_category_': categories_at_current_category_,
+                                 'current_products_': current_products_, }, )
+#    from django.template import Context
+#    c = Context({'current_category': current_category,
+#                 'categories_at_current_category_': categories_at_current_category_,
+#                 'current_products_': current_products_, }, )
+    html = t.render(c)
+    from django.http import HttpResponse
+    response = HttpResponse(html, )
+#    from django.shortcuts import redirect
+#    return redirect('/')
+    # Мы не можем выяснить когда менялись внутринние подкатегории.
+    # Поэтому мы не отдаем дату изменения текущей категории.
+##    from apps.utils.datetime2rfc import datetime2rfc
+##    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
     return response
+
+#    response = render_to_response(
+#
+#        template_name=u'category/show_content_center.jinja2.html',
+#                                  locals(),
+##                                  context_instance=RequestContext(request, ),
+#                                  )
+#    # from datetime import datetime
+#    from apps.utils.datetime2rfc import datetime2rfc
+#    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
+#    return response
 
 
 def show_product(request, product_url, id,
@@ -300,7 +343,7 @@ def get_or_create_Viewed(request,
     except Viewed.DoesNotExist:
         return None
     else:
-        if len(viewed) > 3:
+        if len(viewed) > 9:
             obj_for_delete = viewed[viewed.count()-1]  # .latest('last_viewed', )
             obj_for_delete.delete()
         return viewed

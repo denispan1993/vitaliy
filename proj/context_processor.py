@@ -94,15 +94,18 @@ def context(request):
     #                except:
     #                    sessionid_carts = None
 
-    return dict(request=request,
+    #viewed_count = viewed.count()
+
+    return dict(#request=request,
                 static_pages_=static_pages,
                 slides_=slides,
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 viewed_=viewed,
-                view_=view,
-                args_=args,
-                kwargs_=kwargs,
+                # viewed_count_=viewed_count,
+                # view_=view,
+                #args_=args,
+                #kwargs_=kwargs,
                 product_=product,
                 # ajax_resolution_=ajax_resolution_,
                 )
