@@ -66,14 +66,14 @@ div#footer a{
 #cart.opened{
     right:0;
 }
-#auth{
-    background:none repeat scroll 0 0 #1A1B1D;
-    border-radius:0px 0px 26px 26px;
+div#auth{
+    background:none repeat scroll 0 0 #bbbbbb;
+    border-radius:26px 26px 26px 26px;
     padding:5px;
     position:absolute;
-    right:0;
+    right:100px;
     top:0px;
-    z-index:100;
+    z-index:200;
 }
 a#logo{
     background:url("/media/img/logo.png") no-repeat scroll 0 0 transparent;

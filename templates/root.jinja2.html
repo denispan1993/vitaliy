@@ -114,6 +114,13 @@ try{
 </script> #}
     {# <!-- End SiteHeart code --> #}
 </div>
+{% if user.is_anonymous %}
+    <div id="auth" class="auth-panel">
+        <a class="auth-tab" href="http://www.проверка.com">Проверка</a>
+        <a href="/accounts/signin/">Вход</a>/
+        <a href="/accounts/signup/">Регистрация</a>{# {{ social_auth_widget() }} #}
+    </div>
+{% endif %}
 <div id="cart" class="opened">
     <div id="cart_button" style="float:left;height:150px;overflow:hidden;width:60px;display:block;">
         <a onclick="Cart.toggle();return false;" href="javascript:void(0)" style="line-height:0px;">
@@ -164,13 +171,6 @@ try{
                 <div id="product_admin"><a href="/admin/product/product/{{ product.pk }}/">{{ product.title }}</a></div>
             {% endif %}
         {% endif %}
-    {% endif %}
-    {% if user.is_anonymous %}
-        <div id="auth" class="auth-panel">
-            <a class="auth-tab" href="http://www.проверка.com">Проверка</a>
-            <a href="/accounts/signin/">Вход</a>/
-            <a href="/accounts/signup/">Регистрация</a>{# {{ social_auth_widget() }} #}
-        </div>
     {% endif %}
     <div id="div_logo">
         <a id="logo"
