@@ -11,7 +11,7 @@ try{jQuery(document).ready(function() {
             speed:900,                                   //speed of animation
             action:'click',                              //options: 'click' or 'hover', action to trigger animation
             // topPos:'50px',                               //position from the top/ use if tabLocation is left or right
-            leftPos:'500px',                             //position from left/ use if tabLocation is bottom or top
+            // leftPos:'500px',                             //position from left/ use if tabLocation is bottom or top
             fixedPosition:true                           //options: true makes it stick(fixed position) on scroll
         });
     })

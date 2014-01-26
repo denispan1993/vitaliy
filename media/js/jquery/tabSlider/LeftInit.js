@@ -4,7 +4,7 @@
 try{jQuery(document).ready(function() {
         $('.feedback-panel').tabSlideOut({
             tabHandle:'.feedback-tab',                   //class of the element that will be your tab -doesnt have to be an anchor
-            pathToTabImage:'/media/img/feedbacktab1.gif', //relative path to the image for the tab
+            pathToTabImage:'/media/img/feedbacktab.gif', //relative path to the image for the tab
             imageHeight:'99px',                          //height of tab image
             imageWidth:'30px',                           //width of tab image
             tabLocation:'left',                          //side of screen where tab lives, top, right, bottom, or left
