@@ -1,11 +1,11 @@
-div#static_header{
-    color: Black;
+div#stat_header{
+    color:Black;
     text-align:center;
     font-size:19px;
     font-weight:bolder;
 }
-div#static_information{
-    color: Black;
+div#stat_information{
+    color:Black;
     text-align:justify;
     font-size:16px;
 }
