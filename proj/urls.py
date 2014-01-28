@@ -92,10 +92,10 @@ urlpatterns += patterns('apps.ajax.views',
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile
-PROJECT_PATH = abspath(dirname(__name__), )
+PROJECT_PATH = abspath(dirname(__name__, ), )
 path = lambda base: abspath(
     join(
-        PROJECT_PATH, base
+        PROJECT_PATH, base,
     ).replace('\\', '/')
 )
 if not isfile(path('server.key', ), ):
