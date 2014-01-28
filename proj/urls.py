@@ -91,36 +91,39 @@ urlpatterns += patterns('apps.ajax.views',
                             name='ajax_product_to_cart', ),
                         )
 #!!!===================== Static media ======================
-import os
-PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
-path = lambda base: os.path.abspath(
-    os.path.join(
+from os.path import abspath, dirname, join, isfile
+PROJECT_PATH = abspath(dirname(__name__), )
+path = lambda base: abspath(
+    join(
         PROJECT_PATH, base
     ).replace('\\', '/')
 )
-if not os.path.isfile(path('server.key', ), ):
-    from django.conf import settings
-    if settings.DEBUG:
-        import sys
-        if sys.platform == 'win32':
+if not isfile(path('server.key', ), ):
+    from settings import DEBUG
+    if DEBUG:
+        from sys import platform
+        if platform == 'win32':
             urlpatterns += patterns('django.views.static',
                                     url(r'^media/(?P<path>.*)$', 'serve',
                                         {'document_root': path('media', ),
                                          'show_indexes': True, },
                                         ),
                                     )
-        elif sys.platform == 'linux2':
+        elif platform == 'linux2':
             urlpatterns += patterns('django.views.static',
                                     url(r'^media/(?P<path>.*)$', 'serve',
                                         {'document_root': path('media', ),
                                         'show_indexes': True, },
                                         ),
                                     )
-        import debug_toolbar
-        urlpatterns += patterns('',
-                                url(r'^__debug__/',
-                                    include(debug_toolbar.urls), ),
-                                )
+        # if sys.platform.startswith('freebsd'):
+from settings import DEBUG
+if DEBUG:
+    import debug_toolbar
+    urlpatterns += patterns('',
+                            url(r'^__debug__/',
+                                include(debug_toolbar.urls), ),
+                            )
 #    import debug_toolbar_htmltidy
 #    urlpatterns += patterns('',
 #                            url(r'^', include('debug_toolbar_htmltidy.urls')),
