@@ -119,10 +119,10 @@ if not isfile(path('server.key', ), ):
         # if sys.platform.startswith('freebsd'):
 from settings import DEBUG
 if DEBUG:
-    import debug_toolbar
+    from debug_toolbar import urls
     urlpatterns += patterns('',
                             url(r'^__debug__/',
-                                include(debug_toolbar.urls), ),
+                                include(urls), ),
                             )
 #    import debug_toolbar_htmltidy
 #    urlpatterns += patterns('',

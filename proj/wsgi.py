@@ -13,11 +13,11 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os
+from os import environ
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "proj.settings")
-os.environ['LANG'] = 'ru_RU.UTF-8'
-os.environ['LC_ALL'] = 'ru_RU.UTF-8'
+environ.setdefault("DJANGO_SETTINGS_MODULE", "proj.settings")
+environ['LANG'] = 'ru_RU.UTF-8'
+environ['LC_ALL'] = 'ru_RU.UTF-8'
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
