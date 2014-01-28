@@ -98,7 +98,7 @@ path = lambda base: os.path.abspath(
         PROJECT_PATH, base
     ).replace('\\', '/')
 )
-if os.path.isfile(path('server.key', ), ):
+if not os.path.isfile(path('server.key', ), ):
     from django.conf import settings
     if settings.DEBUG:
         import sys
