@@ -93,35 +93,34 @@ urlpatterns += patterns('apps.ajax.views',
 #!!!===================== Static media ======================
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
-ROOT = PROJECT_PATH
 path = lambda base: os.path.abspath(
     os.path.join(
         PROJECT_PATH, base
     ).replace('\\', '/')
 )
-
-from django.conf import settings
-if settings.DEBUG:
-    import sys
-    if sys.platform == 'win32':
-        urlpatterns += patterns('django.views.static',
-                                url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': path('media', ),
-                                     'show_indexes': True, },
-                                    ),
+if os.path.isfile(path('server.key', ), ):
+    from django.conf import settings
+    if settings.DEBUG:
+        import sys
+        if sys.platform == 'win32':
+            urlpatterns += patterns('django.views.static',
+                                    url(r'^media/(?P<path>.*)$', 'serve',
+                                        {'document_root': path('media', ),
+                                         'show_indexes': True, },
+                                        ),
+                                    )
+        elif sys.platform == 'linux2':
+            urlpatterns += patterns('django.views.static',
+                                    url(r'^media/(?P<path>.*)$', 'serve',
+                                        {'document_root': path('media', ),
+                                        'show_indexes': True, },
+                                        ),
+                                    )
+        import debug_toolbar
+        urlpatterns += patterns('',
+                                url(r'^__debug__/',
+                                    include(debug_toolbar.urls), ),
                                 )
-    elif sys.platform == 'linux2':
-        urlpatterns += patterns('django.views.static',
-                                url(r'^media/(?P<path>.*)$', 'serve',
-                                    {'document_root': path('media', ),
-                                    'show_indexes': True, },
-                                    ),
-                                )
-    import debug_toolbar
-    urlpatterns += patterns('',
-                            url(r'^__debug__/',
-                                include(debug_toolbar.urls), ),
-                            )
 #    import debug_toolbar_htmltidy
 #    urlpatterns += patterns('',
 #                            url(r'^', include('debug_toolbar_htmltidy.urls')),
