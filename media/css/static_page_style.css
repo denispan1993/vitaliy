@@ -1,10 +1,10 @@
-div#header{
+div#static_header{
     color:Black;
     text-align:center;
     font-size:19px;
     font-weight:bolder;
 }
-div#information{
+div#static_information{
     color:Black;
     text-align:justify;
     font-size:16px;
