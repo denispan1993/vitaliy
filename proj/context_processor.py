@@ -60,10 +60,12 @@ def context(request):
         except ValueError:
             pass
         else:
-            try:
-                product = Product.objects.get(pk=product_pk, url=kwargs[u'product_url'], )
-            except Product.DoesNotExist:
-                product = None
+            from apps.product.views import get_product
+            product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+#            try:
+#                product = Product.objects.get(pk=product_pk, url=kwargs[u'product_url'], )
+#            except Product.DoesNotExist:
+#                product = None
     else:
         product = None
 

@@ -99,6 +99,7 @@ class Category(MPTTModel):
     from apps.product import managers
     manager = managers.Manager_Category()
 
+
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
@@ -121,7 +122,9 @@ class Category(MPTTModel):
 #                 'id': unicode(str(self.pk)), }, )
         return u'/%s/к%.6d/' % (self.url, self.id, )
 
-#    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
+        super(Category, self, ).save(*args, **kwargs)
+
 ##        print(u'test1')
 ##        self.title += u'1'
 #        if self.url == u'':
@@ -146,7 +149,21 @@ class Category(MPTTModel):
 #            return
 
     def __unicode__(self):
-        return u'Категория: %s' % (self.title, )
+        """
+        Проверка DocTest
+        >>> category = Category.objects.create(title=u'Proverka123  -ф123')
+        >>> category.item_description = u'Тоже проверка'
+        >>> category.save()
+        >>> if type(category.__unicode__()) is unicode:
+        ...     print category.__unicode__() #.encode('utf-8')
+        ... else:
+        ...     print type(category.__unicode__())
+        ...
+        Категория: Proverka123  -ф123
+        >>> print category.title
+        Proverka123  -ф123
+        """
+        return u'Категория: %s' % self.title
 
     class MPTTMeta:
         level_attr = 'mptt_level'
@@ -419,8 +436,8 @@ class Product(models.Model):
 #                 'id': self.pk, }, )
         return u'/%s/п%.6d/' % (self.url, self.id, )
 
-    def cache_key(self):
-        return u'%s-%.6d' % (self.slug, self.id, )
+    def cache_key(self, ):
+        return u'%s-%.6d' % (self.url, self.id, )
 
 #    def save(self, *args, **kwargs):
 ##        print(u'test1')
@@ -441,7 +458,7 @@ class Product(models.Model):
 #            return
 
     def __unicode__(self):
-        return u'Продукт:%s, наличие:%s' % (self.title, self.is_availability, )
+        return u'Продукт:%s' % self.title
 
     class Meta:
         db_table = 'Product'
@@ -1017,3 +1034,10 @@ add_introspection_rules(rules, ["^apps\.product\.models\.ImageWithThumbsField"])
 
 #import mptt
 #mptt.register(Category, order_insertion_by=['name'])
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(verbose=True, report=True, )
+#    doctest.testfile("test.txt")
+    #doctest.testfile("test.txt",verbose=True)

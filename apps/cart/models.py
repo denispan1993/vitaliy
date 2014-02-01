@@ -155,8 +155,13 @@ class Product(models.Model):
 #                             null=False,
 #                             blank=False, )
     from apps.product.models import Product
-    product = models.ForeignKey(Product, verbose_name=u'Продукт', null=False, blank=False, )
-    quantity = models.PositiveSmallIntegerField(verbose_name=u'Количество продуктов', null=False, blank=False, )
+    product = models.ForeignKey(Product,
+                                verbose_name=u'Продукт',
+                                null=False,
+                                blank=False, )
+    quantity = models.PositiveSmallIntegerField(verbose_name=u'Количество продуктов',
+                                                null=False,
+                                                blank=False, )
     price = models.DecimalField(verbose_name=u'Цена в зависимости от количества',
                                 max_digits=8,
                                 decimal_places=2,
@@ -169,7 +174,9 @@ class Product(models.Model):
 
     @property
     def summ_of_quantity(self, ):
-        return self.quantity * (self.price / self.product.price_of_quantity)
+        from apps.product.views import get_product
+        product = get_product(product_pk=self.product_id, product_url=None, )
+        return self.quantity * (self.price / product.price_of_quantity)
 
     def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,

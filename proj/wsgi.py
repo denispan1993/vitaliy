@@ -15,7 +15,7 @@ framework.
 """
 from os import environ
 
-environ.setdefault("DJANGO_SETTINGS_MODULE", "proj.settings")
+environ.setdefault("DJANGO_SETTINGS_MODULE", "proj.settings", )
 environ['LANG'] = 'ru_RU.UTF-8'
 environ['LC_ALL'] = 'ru_RU.UTF-8'
 # This application object is used by any WSGI server configured to use this

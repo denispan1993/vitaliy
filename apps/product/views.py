@@ -167,35 +167,36 @@ def show_product(request, product_url, id,
 #                raise Http404
     else:
 #        request.session.set_test_cookie()
-        from apps.product.models import Product
-        try:
-            product = Product.objects.get(pk=id, url=product_url, )
-        except Product.DoesNotExist:
-            from django.http import Http404
-            raise Http404
-        else:
-            products_recommended = product.recomendate.all()
-            print(product)
-            print(products_recommended)
-            print(len(products_recommended))
-            product.get_or_create_ItemID
-            viewed = get_or_create_Viewed(request=request, product=product, )
-            product_is_availability = product.is_availability
-            categories_of_product = product.category.all()
-            if current_category:
-                for cat in categories_of_product:
-                    if int(current_category) == cat.pk:
-                        current_category = categories_of_product[0]
-                        break
-                else:
+        product = get_product(product_pk=id, product_url=product_url, )
+#        from apps.product.models import Product
+#        try:
+#            product = Product.objects.get(pk=id, url=product_url, )
+#        except Product.DoesNotExist:
+#            from django.http import Http404
+#            raise Http404
+#        else:
+        products_recommended = product.recomendate.all()
+        # print(product)
+        # print(products_recommended)
+        # print(len(products_recommended))
+        product.get_or_create_ItemID
+        viewed = get_or_create_Viewed(request=request, product=product, )
+        product_is_availability = product.is_availability
+        categories_of_product = product.category.all()
+        if current_category:
+            for cat in categories_of_product:
+                if int(current_category) == cat.pk:
                     current_category = categories_of_product[0]
-                    request.session[u'current_category'] = current_category.pk
+                    break
             else:
                 current_category = categories_of_product[0]
                 request.session[u'current_category'] = current_category.pk
-            quantity_ = product.minimal_quantity
-            minimal_quantity_ = product.minimal_quantity
-            quantity_of_complete_ = product.quantity_of_complete
+        else:
+            current_category = categories_of_product[0]
+            request.session[u'current_category'] = current_category.pk
+        quantity_ = product.minimal_quantity
+        minimal_quantity_ = product.minimal_quantity
+        quantity_of_complete_ = product.quantity_of_complete
 
     response = render_to_response(u'product/show_product.jinja2.html',
                                   locals(),
@@ -220,6 +221,45 @@ def get_cart(request, ):
     return cart, created
 
 
+def get_product(product_pk, product_url, ):
+#        # try to get product from cache
+#        product_cache_key = request.path
+#        from django.core.cache import cache
+#        from proj.settings import CACHE_TIMEOUT
+#        product = cache.get(product_cache_key)
+#        # if a cache miss, fall back on db query
+    from django.http import Http404
+    if type(product_pk, ) is unicode:
+        try:
+            product_pk = int(product_pk, )
+        except ValueError:
+            raise Http404
+    # product_cache_key = 'product-%.6d' % product_pk
+    product_cache_key = 'product-%d' % product_pk
+    from django.core.cache import cache
+    from proj.settings import CACHE_TIMEOUT
+    product = cache.get(product_cache_key, )
+    # if a cache miss, fall back on db query
+    if not product:
+        # fetch the product or return a missing page error
+#            from django.shortcuts import render_to_response, get_object_or_404
+#            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
+        from apps.product.models import Product
+        try:
+            if product_url:
+                product = Product.objects.get(pk=product_pk, url=product_url, )
+            else:
+                product = Product.objects.get(pk=product_pk, )
+        except Product.DoesNotExist:
+            # request.session[u'test1-product_pk'] = product_pk
+            # request.session[u'test1-product_url'] = product_url
+            raise Http404
+        else:
+            # store item in cache for next time
+            cache.set(product_cache_key, product, CACHE_TIMEOUT, )
+    return product
+
+
 def add_to_cart(request, product=None, int_product_pk=None, product_url=None, quantity=None, ):
 #    postdata = request.POST.copy()
     # get product slug from post data, return blank if empty
@@ -228,30 +268,7 @@ def add_to_cart(request, product=None, int_product_pk=None, product_url=None, qu
 #    if not product_url:
 #        product_url = postdata.get(u'product_url', None, )
     if not product:
-#        # try to get product from cache
-#        product_cache_key = request.path
-#        from django.core.cache import cache
-#        from proj.settings import CACHE_TIMEOUT
-#        product = cache.get(product_cache_key)
-#        # if a cache miss, fall back on db query
-        if not product:
-            # fetch the product or return a missing page error
-#            from django.shortcuts import render_to_response, get_object_or_404
-#            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
-            from apps.product.models import Product
-            try:
-                if product_url:
-                    product = Product.objects.get(pk=int_product_pk, url=product_url, )
-                else:
-                    product = Product.objects.get(pk=int_product_pk, )
-            except Product.DoesNotExist:
-                # request.session[u'test1-product_pk'] = product_pk
-                # request.session[u'test1-product_url'] = product_url
-                from django.http import Http404
-                raise Http404
-#            else:
-#                # store item in cache for next time
-#                cache.set(product_cache_key, product, CACHE_TIMEOUT, )
+        product = get_product(int_product_pk, product_url, )
     # get quantity added, return 1 if empty
 #    if not quantity:
 #        quantity = int(postdata.get('quantity', 1, ), )
@@ -292,26 +309,7 @@ def get_or_create_Viewed(request,
                          user_obj=None,
                          sessionid=None, ):
     if not product:
-        # try to get product from cache
-        product_cache_key = request.path
-        from django.core.cache import cache
-        from proj.settings import CACHE_TIMEOUT
-        product = cache.get(product_cache_key)
-        # if a cache miss, fall back on db query
-        if not product:
-            # fetch the product or return a missing page error
-            from apps.product.models import Product
-            try:
-                if product_url:
-                    product = Product.objects.get(pk=int_product_pk, url=product_url, )
-                else:
-                    product = Product.objects.get(pk=int_product_pk, )
-            except Product.DoesNotExist:
-                from django.http import Http404
-                raise Http404
-            else:
-                # store item in cache for next time
-                cache.set(product_cache_key, product, CACHE_TIMEOUT, )
+        product = get_product(int_product_pk, product_url, )
     from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
