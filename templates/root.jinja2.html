@@ -293,7 +293,8 @@ try{
             <div class="rightSlider">
                 {% for view in viewed_ %}
                     <div class="rightSliderItem">
-                        {% if view.content_type.id is equalto 9 %}
+                        {# {% set view_content_type_id = view.content_type.id %} #}
+                        {% if view.content_type.id|int == 9 %}
                             {% set cache_key = 'product' %}
                         {% else %}
                             {% set cache_key = 'other' %}
