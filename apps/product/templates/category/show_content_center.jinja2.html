@@ -13,7 +13,7 @@
         {{ this_category(current_category, request.session.width_this_category)|safe }}
     {% endif %}
     {% if current_category is defined %}
-        {% set categories = current_category.children.all().order_by('serial_number', '-created_at') %}
+        {% set categories = current_category.children.all() %}{# .order_by('-created_at', 'serial_number') #}
     {% endif %}
     {% if categories %}
         <br class="clearFloat">
@@ -22,7 +22,7 @@
         {% endif %}
     {% endif %}
     {% if current_category is defined %}
-        {% set products = current_category.products.all().order_by('serial_number', '-created_at') %}
+        {% set products = current_category.products.all() %}{# .order_by('-created_at', 'serial_number') #}
     {% endif %}
     {% if products %}
         <br class="clearFloat">
