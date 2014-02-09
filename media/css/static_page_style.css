@@ -3,9 +3,11 @@ div#stat_header{
     text-align:center;
     font-size:19px;
     font-weight:bolder;
+    margin-bottom:10px;
 }
 div#stat_information{
     color:Black;
     text-align:justify;
     font-size:16px;
+    line-height:21px;
 }
