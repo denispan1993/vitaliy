@@ -10,7 +10,8 @@ ul li{list-style:none outside none;}
     width:100%;
     /* min-width:960px; */
     /* color:#999999; */
-    color:#ffffff;
+    /* color:#ffffff; */
+    color:#0000cd;
     font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;
     font-size:12px;
     line-height:18px;
