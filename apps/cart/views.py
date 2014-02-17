@@ -180,7 +180,7 @@ def show_order(request,
                 html_content = render_to_string('email_suceessful_content.jinja2.html',
                                                 {'order': order, })
                 text_content = strip_tags(html_content, )
-                from_email = u'manager@keksik.com.ua'
+                from_email = u'site@keksik.com.ua'
                 to_email = email
                 msg = EmailMultiAlternatives(subject=subject,
                                              body=text_content,
