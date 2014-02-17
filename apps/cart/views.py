@@ -176,7 +176,7 @@ def show_order(request,
                                        mimetype="text/html", )
                 msg.send(fail_silently=False, )
                 """ Отправка благодарности клиенту. """
-                subject = u'Выш заказ № %d отправлен мэнеджеру.' % order.pk
+                subject = u'Заказ с Кексика' % order.pk
                 html_content = render_to_string('email_suceessful_content.jinja2.html',
                                                 {'order': order, })
                 text_content = strip_tags(html_content, )
