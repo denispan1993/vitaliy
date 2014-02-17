@@ -363,6 +363,7 @@ class Product(models.Model):
 
     @property
     def get_ItemID(self, ):
+        """ Взять артикул товара """
         ItemID = self.ItemID.all()
         return ItemID[0].ItemID
 

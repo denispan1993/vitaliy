@@ -148,7 +148,8 @@ def show_order(request,
                 return redirect(to='show_cart', )
             else:
                 cart.delete()
-                subject = u'Ваш заказ № %d.' % order.pk
+                """ Отправка заказа мэнеджеру """
+                subject = u'Заказ № %d.' % order.pk
                 from django.template.loader import render_to_string
                 html_content = render_to_string('email_order_content.jinja2.html',
                                                 {'order': order, })
@@ -174,6 +175,22 @@ def show_order(request,
                 msg.attach_alternative(content=html_content,
                                        mimetype="text/html", )
                 msg.send(fail_silently=False, )
+                """ Отправка благодарности клиенту. """
+                subject = u'Выш заказ № %d отправлен мэнеджеру.' % order.pk
+                html_content = render_to_string('email_suceessful_content.jinja2.html',
+                                                {'order': order, })
+                text_content = strip_tags(html_content, )
+                from_email = u'manager@keksik.com.ua'
+                to_email = email
+                msg = EmailMultiAlternatives(subject=subject,
+                                             body=text_content,
+                                             from_email=from_email,
+                                             to=[to_email, ],
+                                             connection=backend, )
+                msg.attach_alternative(content=html_content,
+                                       mimetype="text/html", )
+                msg.send(fail_silently=False, )
+
 #                from django.core.mail import send_mail
 ##                from proj.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_BACKEND
 #                send_mail(subject=subject,

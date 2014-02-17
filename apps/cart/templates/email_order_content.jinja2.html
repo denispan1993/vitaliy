@@ -20,6 +20,7 @@
     <thead>
         <tr>
             <th scope="col">Наименование</th>
+            <th scope="col">Артикул</th>
             <th scope="col" style="width:68px;">Кол-во</th>
             <th scope="col">Цена</th>
             <th scope="col">Сумма</th>
@@ -30,8 +31,13 @@
         {% set real_product=product.product %}
         <tr>
             <td>
-                <a href="{{ real_product.get_absolute_url() }}">
+                <a href="http://keksik.com.ua{{ real_product.get_absolute_url() }}">
                     {{ real_product.title }}
+                </a>
+            </td>
+            <td>
+                <a href="http://keksik.com.ua/admin/product/product/{{ real_product.id }}/">
+                    {{ real_product.get_ItemID }}
                 </a>
             </td>
             <td style="padding:0px;">
