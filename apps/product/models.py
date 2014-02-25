@@ -553,10 +553,15 @@ class IntermediateModelManufacturer(models.Model):
 
 class Manufacturer(models.Model):
     """ Модель 'производитель' """
+    country = models.ForeignKey('Country',
+                                verbose_name=u'Страна производитель',
+                                null=False,
+                                blank=False,
+                                default=1, )
     name = models.CharField(verbose_name=u'Наименование производителя',
                             max_length=128,
-                            null=False,
-                            blank=False, )
+                            null=True,
+                            blank=True, )
     # slug = models.SlugField(verbose_name=u'Slug')
     letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
                                          max_length=4,
