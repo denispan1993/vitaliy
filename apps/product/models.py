@@ -524,6 +524,7 @@ class ItemID(models.Model):
 
 
 class IntermediateModelManufacturer(models.Model):
+    """ Промежуточная модель 'производитель' """
     """ Ссылка на главную запись """
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Manufacturer',
@@ -551,9 +552,16 @@ class IntermediateModelManufacturer(models.Model):
 
 
 class Manufacturer(models.Model):
-    name = models.CharField(verbose_name=u'Название производителя', max_length=128, null=False, blank=False, )
+    """ Модель 'производитель' """
+    name = models.CharField(verbose_name=u'Наименование производителя',
+                            max_length=128,
+                            null=False,
+                            blank=False, )
     # slug = models.SlugField(verbose_name=u'Slug')
-    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
+    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
+                                         max_length=4,
+                                         null=False,
+                                         blank=False, )
     # Абсолютный путь к логотипу производителя
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
@@ -568,24 +576,24 @@ class Manufacturer(models.Model):
         verbose_name = "Производитель"
         verbose_name_plural = "Производители"
 
-
-class Manufacturer(models.Model):
-    name = models.CharField(verbose_name=u'Название производителя', max_length=128, null=False, blank=False, )
-    # slug = models.SlugField(verbose_name=u'Slug')
-    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
-    # Абсолютный путь к логотипу производителя
-    #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'Manufacturer'
-        ordering = ['-created_at']
-        verbose_name = "Производитель"
-        verbose_name_plural = "Производители"
+#
+#class Manufacturer(models.Model):
+#    name = models.CharField(verbose_name=u'Название производителя', max_length=128, null=False, blank=False, )
+#    # slug = models.SlugField(verbose_name=u'Slug')
+#    letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
+#    # Абсолютный путь к логотипу производителя
+#    #Дата создания и дата обновления. Устанавливаются автоматически.
+#    created_at = models.DateTimeField(auto_now_add=True, )
+#    updated_at = models.DateTimeField(auto_now=True, )
+#
+#    def __unicode__(self):
+#        return self.name
+#
+#    class Meta:
+#        db_table = 'Manufacturer'
+#        ordering = ['-created_at']
+#        verbose_name = "Производитель"
+#        verbose_name_plural = "Производители"
 
 
 class Additional_Information(models.Model):
