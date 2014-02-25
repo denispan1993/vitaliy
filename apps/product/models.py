@@ -561,7 +561,8 @@ class Manufacturer(models.Model):
     name = models.CharField(verbose_name=u'Наименование производителя',
                             max_length=128,
                             null=True,
-                            blank=True, )
+                            blank=True,
+                            default='', )
     # slug = models.SlugField(verbose_name=u'Slug')
     letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
                                          max_length=4,
