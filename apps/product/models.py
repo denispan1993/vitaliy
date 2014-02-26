@@ -373,9 +373,9 @@ class Product(models.Model):
         manufacturer = self.manufacturer.all()
         if manufacturer:
             manufacturer = manufacturer[0].key
-            if not manufacturer.name:
+            if manufacturer.name and manufacturer.name is '':
                 return manufacturer.country.name_ru
-            elif manufacturer.name:
+            elif manufacturer.name and manufacturer.name is not '':
                 return u'%s (%s)' % (manufacturer.name, manufacturer.country.name_ru, )
         else:
             return None
