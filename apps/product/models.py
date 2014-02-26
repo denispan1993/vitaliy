@@ -367,6 +367,16 @@ class Product(models.Model):
         ItemID = self.ItemID.all()
         return ItemID[0].ItemID
 
+    @property
+    def get_manufacturer(self, ):
+        """ Взять производителя товара """
+        manufacturer = self.manufacturer.all()[0]
+        manufacturer = manufacturer.key
+        if manufacturer.name is '' and manufacturer.country_id is not None:
+            return manufacturer.country.name_ru
+        elif manufacturer.name is not '' and manufacturer.country_id is not None:
+            return u'%s (%s)' % (manufacturer.name, manufacturer.country.name_ru, )
+
     # Увеличение количества просмотров
     #@property
     def increase_View(self, ):
@@ -534,7 +544,9 @@ class IntermediateModelManufacturer(models.Model):
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
     # Собственно сам ключ на производителя
-    key = models.ForeignKey('Manufacturer', verbose_name=u'Производитель', null=False, blank=False, )
+    key = models.ForeignKey('Manufacturer',
+                            verbose_name=u'Производитель',
+                            null=False, blank=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
