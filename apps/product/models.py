@@ -370,12 +370,13 @@ class Product(models.Model):
     @property
     def get_manufacturer(self, ):
         """ Взять производителя товара """
-        manufacturer = self.manufacturer.all()[0]
-        manufacturer = manufacturer.key
-        if manufacturer.name is '' and manufacturer.country_id is not None:
-            return manufacturer.country.name_ru
-        elif manufacturer.name is not '' and manufacturer.country_id is not None:
-            return u'%s (%s)' % (manufacturer.name, manufacturer.country.name_ru, )
+        manufacturer = self.manufacturer.all()
+        if manufacturer:
+            manufacturer = manufacturer[0].key
+            if manufacturer.name is '' and manufacturer.country_id is not None:
+                return manufacturer.country.name_ru
+            elif manufacturer.name is not '' and manufacturer.country_id is not None:
+                return u'%s (%s)' % (manufacturer.name, manufacturer.country.name_ru, )
 
     # Увеличение количества просмотров
     #@property
