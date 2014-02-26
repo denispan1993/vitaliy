@@ -589,7 +589,10 @@ class Manufacturer(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     def __unicode__(self):
-        return self.name
+        if self.name:
+            return u'%s (%s)' % (self.name, self.country.name_ru, )
+        else:
+            return self.country.name_ru
 
     class Meta:
         db_table = 'Manufacturer'
