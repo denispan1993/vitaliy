@@ -555,9 +555,19 @@ class IntermediateModelManufacturer(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     def __unicode__(self):
-        return u'%.5d-%.3d-%s' % (self.pk,
-                                  self.key.pk,
-                                  self.key.name, )
+        manufacturer = self.key
+        country = manufacturer.country
+        if manufacturer.name:
+            return u'%.5d-%.3d-%.2d %s (%s)' % (self.pk,
+                                                manufacturer.pk,
+                                                country.pk,
+                                                manufacturer.name,
+                                                country.name_ru, )
+        else:
+            return u'%.5d-%.3d-%.2d (%s)' % (self.pk,
+                                             manufacturer.pk,
+                                             country.pk,
+                                             country.name_ru, )
 
     class Meta:
         db_table = 'IntermediateModelManufacturer'
