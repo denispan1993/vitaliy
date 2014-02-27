@@ -373,14 +373,14 @@ class Product(models.Model):
         manufacturer = self.manufacturer.all()
         if manufacturer:
             manufacturer = manufacturer[0].key
-            if manufacturer.name and manufacturer.name is '':
+            if manufacturer.name and manufacturer.name is '' or not manufacturer.name:
                 return manufacturer.country.name_ru
             elif manufacturer.name and manufacturer.name is not '':
                 return u'%s (%s)' % (manufacturer.name, manufacturer.country.name_ru, )
             else:
-                return 'agaaga'
+                return None
         else:
-            return 'tratata'
+            return None
 
     # Увеличение количества просмотров
     #@property
