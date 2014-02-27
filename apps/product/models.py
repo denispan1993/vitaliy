@@ -378,7 +378,7 @@ class Product(models.Model):
             elif manufacturer.name and manufacturer.name is not '':
                 return u'%s (%s)' % (manufacturer.name, manufacturer.country.name_ru, )
         else:
-            return None
+            return 'tratata'
 
     # Увеличение количества просмотров
     #@property
