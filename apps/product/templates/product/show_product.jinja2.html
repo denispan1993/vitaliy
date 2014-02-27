@@ -287,6 +287,7 @@
 				Артикул товара: <span itemprop="productID">{{ product.get_ItemID }}</span>
 			</h3>
             {% set manufacturer = product.get_manufacturer %}
+            {{ manufacturer }}
             {% if manufacturer %}
                 Производитель: <span itemprop="brand">{{ manufacturer }}</span>
             {% endif %}
@@ -435,7 +436,7 @@ function calculate(operation){
 	});
 }
 function onChange(){
-	window.setInterval("calculate('|')",5000);
+	window.setInterval("calculate('|')",1000);
 	//setTimeout(calculate(value),1500);
 	return true;
 }
