@@ -286,7 +286,7 @@
 			<h3 style="font-size:15px;font-weight:lighter;line-height:30px;">
 				Артикул товара: <span itemprop="productID">{{ product.get_ItemID }}</span>
 			</h3>
-            {% set manufacturer = product.get_manufacturer %}
+            {% set manufacturer = product.get_manufacturer() %}
             {{ manufacturer }}
             {% if manufacturer %}
                 Производитель: <span itemprop="brand">{{ manufacturer }}</span>
