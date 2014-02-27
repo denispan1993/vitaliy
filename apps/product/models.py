@@ -377,6 +377,8 @@ class Product(models.Model):
                 return manufacturer.country.name_ru
             elif manufacturer.name and manufacturer.name is not '':
                 return u'%s (%s)' % (manufacturer.name, manufacturer.country.name_ru, )
+            else:
+                return 'agaaga'
         else:
             return 'tratata'
 
