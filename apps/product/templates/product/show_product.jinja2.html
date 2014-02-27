@@ -291,7 +291,9 @@
             {{ product.manufacturer.key.country.name_ru }}
             {{ product.get_manufacturer }} #}
             {% if manufacturer %}
-                Производитель: <span itemprop="brand">{{ manufacturer }}</span>
+                <p style="font-size:15px;font-weight:lighter;line-height:30px;">
+                    Производитель: <span itemprop="brand">{{ manufacturer }}</span>
+                </p>
             {% endif %}
 			{# <p>Текуший продукт: {{ product.name }}</p> #}
 			{% if product.regular_price %}
@@ -438,7 +440,7 @@ function calculate(operation){
 	});
 }
 function onChange(){
-	window.setInterval("calculate('|')",1000);
+	window.setInterval("calculate('|')",1500);
 	//setTimeout(calculate(value),1500);
 	return true;
 }
