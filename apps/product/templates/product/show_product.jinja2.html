@@ -223,31 +223,19 @@
 		<div id="product_box_right" style="text-align:left;">
 			<h1 style="font-size:16px;height:auto;line-height:20px;" itemprop="name">
 				<a href="{{ product.get_absolute_url() }}"
-                    title="{{ product.title|capfirst }}">
+                   title="{{ product.title|capfirst }}">
 					{{ product.name|capfirst }}
 				</a>
 			</h1>
-{#             {% set views = product.increase_View %}
-            <p>Просмотров товара: {{ views.view_count }}</p> #}
-			{# <h2 style="font-size:12px;font-weight:lighter;line-height:30px;">
-				Наименование категории:
-					<a href="{{ current_category.get_absolute_url() }}">
-						{{ current_category.title|capfirst }}
-					</a>
-			</h2> #}
 			<h3 style="font-size:15px;font-weight:lighter;line-height:30px;">
 				Артикул товара: <span itemprop="productID">{{ product.get_ItemID }}</span>
 			</h3>
             {% set manufacturer = product.get_manufacturer %}
-{#             {{ product.manufacturer.key.name }}
-            {{ product.manufacturer.key.country.name_ru }}
-            {{ product.get_manufacturer }} #}
             {% if manufacturer %}
                 <p style="font-size:15px;font-weight:lighter;line-height:30px;">
                     Производитель: <span itemprop="brand">{{ manufacturer }}</span>
                 </p>
             {% endif %}
-			{# <p>Текуший продукт: {{ product.name }}</p> #}
 			{% if product.regular_price %}
 				<p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:15px;">
 					Старая цена:
@@ -455,6 +443,7 @@ $(document).ready(onChange())
 				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}
 		</div>
+    </div>
     <div id="product_box_bottom"
             class="clearFloat"
             style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;"
