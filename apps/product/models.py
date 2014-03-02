@@ -828,7 +828,7 @@ class Country(models.Model):
                                              max_length=255,
                                              null=True,
                                              blank=True, )
-    #Дата создания и дата обновления новости. Устанавливаются автоматически.
+    #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
@@ -840,6 +840,33 @@ class Country(models.Model):
         ordering = ['id']
         verbose_name = u'Страна'
         verbose_name_plural = u'Страны'
+
+
+class Currency(models.Model):
+    """
+        Валюта
+    """
+    country = models.ForeignKey(Country,
+                                verbose_name=u'Принадлежность валюты',
+                                null=True, blank=True, default=1, )
+    name_ru = models.CharField(verbose_name=u'Название валюты Russian',
+                               max_length=16, blank=False, null=False, )
+    name_truncated_ru = models.CharField(verbose_name=u'Название валюты сокращенный Russian',
+                                         max_length=8, blank=True, null=True, )
+    name_en = models.CharField(verbose_name=u'Название валюты English',
+                               max_length=16, blank=False, null=False, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'[%d] - %s (%s)' % (self.pk, self.name_ru, self.name_en, )
+
+    class Meta:
+        db_table = 'Currency'
+        ordering = ['id']
+        verbose_name = u'Валюта'
+        verbose_name_plural = u'Валюты'
 
 
 class View(models.Model):

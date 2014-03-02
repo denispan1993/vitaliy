@@ -17,6 +17,13 @@ def context(request):
     except Slide.DoesNotExist:
         static_pages = None
 
+    from apps.product.models import Currency
+    try:
+        currency = Currency.objects.all()
+            #.values_list('order', 'url', 'title', ).order_by('order', )
+    except Currency.DoesNotExist:
+        currency = None
+
     from apps.slide.models import Slide
     try:
         slides = Slide.manager.visible()
@@ -100,6 +107,7 @@ def context(request):
 
     return dict(#request=request,
                 static_pages_=static_pages,
+                currency_=currency,
                 slides_=slides,
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,

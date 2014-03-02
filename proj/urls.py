@@ -61,6 +61,11 @@ urlpatterns += patterns('apps',
     url(r'^cart/order/$', 'cart.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
+    url(r'^Currency/Change/$', 'currency.views.currency_change',
+        name='currency_change', ),
+    url(r'^Валюта/Изменение/$', 'currency.views.currency_change',
+        name='currency_change', ),
+
 )
 #Search
 urlpatterns += patterns('apps.search.views',

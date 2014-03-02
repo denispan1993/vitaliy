@@ -4,6 +4,7 @@ __author__ = 'Админ'
 from django.contrib import admin
 
 from apps.product.models import Photo
+admin.site.register(Photo, admin.ModelAdmin, )
 from django.contrib.contenttypes import generic
 from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
@@ -312,13 +313,26 @@ class CountryAdmin(admin.ModelAdmin, ):
         js = ('/media/js/admin/ruslug-urlify.js', )
 
 admin.site.register(Country, CountryAdmin, )
+
+from apps.product.models import Currency
+
+
+class CurrenceAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'country', 'name_ru', 'name_truncated_ru', 'name_en', ]
+    list_display_links = ['pk', 'name_ru', 'name_truncated_ru', 'name_en', ]
+    fieldsets = [
+        (None,               {'classes': ['wide'], 'fields': ['country', 'name_ru', 'name_truncated_ru',
+                                                              'name_en', ], }, ),
+    ]
+
+admin.site.register(Currency, CurrenceAdmin, )
+
 admin.site.register(Category, CategoryAdmin, )
 admin.site.register(Product, ProductAdmin, )
 #admin.site.register(Additional_Information, NestedAdditional_Information_Admin, )
 admin.site.register(Information, admin.ModelAdmin, )
 admin.site.register(Unit_of_Measurement, admin.ModelAdmin, )
 admin.site.register(Discount, admin.ModelAdmin, )
-admin.site.register(Photo, admin.ModelAdmin, )
 
 from apps.product.models import View
 admin.site.register(View, admin.ModelAdmin, )

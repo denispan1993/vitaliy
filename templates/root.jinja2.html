@@ -124,6 +124,37 @@ try{
     </div>
 {% endif %}
 <div id="cart" class="opened">
+    <div id="currencies_block_top">
+        <!-- cpt_container_start -->
+        <form method="POST" action="/Валюта/Изменение/" name="CurrencyChange" {# id="setCurrency" #}>
+			<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+			<input type="hidden" name="action" value="CurrencyChange" />
+			<input type="hidden" name="return_url" value="{% url %}" />
+
+            <span class="light">Валюта:</span>
+
+            <script type="text/javascript" language="JavaScript">
+                function CurrencyChange(){
+                    document.CurrencyChange.submit();
+                }
+            </script>
+
+            <select onchange="CurrencyChange();" name="current_currency">
+                {% for currency in currency_ %}
+                    {% if currency == request.session.curent_currency %}
+                        <option value="{{ currency.pk }}"
+                                selected="">
+                            <strong>{{ currency.name_ru|capfirst }}</strong>
+                        </option>
+                    {% else %}
+                        <option value="{{ currency.pk }}">{{ currency.name_ru|capfirst }}
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </form>
+        <!-- cpt_container_end-->
+    </div>
     <div id="cart_button" style="float:left;height:150px;overflow:hidden;width:60px;display:block;">
         <a onclick="Cart.toggle();return false;" href="javascript:void(0)" style="line-height:0px;">
             <img width="60" src="{{ MEDIA_URL }}img/shopping_cart.png" alt="Корзина">

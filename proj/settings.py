@@ -312,6 +312,7 @@ INSTALLED_APPS = (
     'apps.slide',
     'apps.static',
     'apps.search',
+    'apps.utils',
     # 'static_sitemaps',
 )
 
