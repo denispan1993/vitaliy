@@ -574,8 +574,8 @@ class IntermediateModelManufacturer(models.Model):
     class Meta:
         db_table = 'IntermediateModelManufacturer'
         ordering = ['-created_at']
-        verbose_name = "Ссылка на производителя"
-        verbose_name_plural = "Ссылки на производителей"
+        verbose_name = u"Ссылка на производителя"
+        verbose_name_plural = u"Ссылки на производителей"
 
 
 class Manufacturer(models.Model):
@@ -604,13 +604,13 @@ class Manufacturer(models.Model):
         if self.name:
             return u'%s (%s)' % (self.name, self.country.name_ru, )
         else:
-            return self.country.name_ru
+            return self.country.name_ru  # .decode(encoding='utf-8', )
 
     class Meta:
         db_table = 'Manufacturer'
         ordering = ['-created_at']
-        verbose_name = "Производитель"
-        verbose_name_plural = "Производители"
+        verbose_name = u"Производитель"
+        verbose_name_plural = u"Производители"
 
 #
 #class Manufacturer(models.Model):
