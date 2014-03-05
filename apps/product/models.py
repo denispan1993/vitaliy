@@ -261,6 +261,11 @@ class Product(models.Model):
                                         default=0,
                                         blank=True,
                                         null=True, )
+    currency = models.ForeignKey('Currency',
+                                 verbose_name=u'Валюта',
+                                 blank=False,
+                                 null=False,
+                                 default=1, )
     price = models.DecimalField(verbose_name=u'Цена',
                                 max_digits=10,
                                 decimal_places=2,

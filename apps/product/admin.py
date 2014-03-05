@@ -251,7 +251,7 @@ class ProductAdmin(admin.ModelAdmin, ):
                                                               'recomendate',
                                                               'minimal_quantity',
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
-                                                              'is_availability', 'regular_price', 'price',
+                                                              'is_availability', 'regular_price', 'currency', 'price',
                                                               'price_of_quantity', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
