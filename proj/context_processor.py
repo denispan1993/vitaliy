@@ -82,7 +82,7 @@ def context(request):
             viewed = Viewed.objects.filter(user_obj=user_object_,
                                            sessionid=None, ).\
                 order_by('-last_viewed', ).\
-                exclude(product=product, )
+                exclude(content_type=product.content_type, object_id=product.pk, )
         else:
             viewed = Viewed.objects.filter(user_obj=user_object_,
                                            sessionid=None, ).\
@@ -92,7 +92,7 @@ def context(request):
             viewed = Viewed.objects.filter(user_obj=None,
                                            sessionid=sessionid_COOKIES, ).\
                 order_by('-last_viewed', ).\
-                exclude(product=product, )
+                exclude(content_type=product.content_type, object_id=product.pk, )
         else:
             viewed = Viewed.objects.filter(user_obj=None,
                                            sessionid=sessionid_COOKIES, ).\

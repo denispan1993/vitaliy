@@ -297,7 +297,7 @@ INSTALLED_APPS = (
     'suit',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'django.contrib.markup',
+    # 'django.contrib.markup', depricated in v. 1.6
     'south',
     'mptt',
     'django_mptt_admin',

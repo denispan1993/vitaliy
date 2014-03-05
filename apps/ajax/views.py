@@ -27,8 +27,8 @@ def resolution(request, ):
             else:
                 response = {'result': 'Bad', }
                 request.session[u'width'] = 1024
-            from datetime import datetime
-            request.session[u'ajax_resolution_datetime'] = datetime.now()
+#            from datetime import datetime
+#            request.session[u'ajax_resolution_datetime'] = datetime.now()
 # 1
 #            import json
 #            data = json.dumps(response, )
