@@ -27,8 +27,6 @@ def resolution(request, ):
             else:
                 response = {'result': 'Bad', }
                 request.session[u'width'] = 1024
-#            from datetime import datetime
-#            request.session[u'ajax_resolution_datetime'] = datetime.now()
 # 1
 #            import json
 #            data = json.dumps(response, )
@@ -39,9 +37,12 @@ def resolution(request, ):
 # 3
 #            from django.utils import simplejson
 #            data = simplejson.dumps({'a': 1})
-            data = dumps(response, )
-            mimetype = 'application/javascript'
-            return HttpResponse(data, mimetype, )
+
+            json_response = dumps(response, )
+            # mimetype = 'application/json'
+            from datetime import datetime
+            request.session[u'ajax_resolution_datetime'] = str(datetime.now(), )
+            return HttpResponse(content=json_response, content_type='application/javascript', )
         elif request.method == 'GET':
             return HttpResponse(status=400, )
         else:

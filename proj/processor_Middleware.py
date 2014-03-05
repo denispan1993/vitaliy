@@ -28,12 +28,17 @@ class Process_SessionIDMiddleware(object):
     def process_request(self, request, ):
         """ ajax_resolution """
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
-        from datetime import datetime, timedelta
-        if not ajax_resolution_datetime or \
-           ajax_resolution_datetime < (datetime.now() - timedelta(seconds=5, )):
-            request.session[u'ajax_resolution'] = True
+        if ajax_resolution_datetime:
+            from django.utils.dateparse import parse_datetime
+            ajax_resolution_datetime = parse_datetime(ajax_resolution_datetime, )
+            from datetime import datetime, timedelta
+            if not ajax_resolution_datetime or \
+               ajax_resolution_datetime < (datetime.now() - timedelta(seconds=300, )):
+                request.session[u'ajax_resolution'] = True
+            else:
+                request.session[u'ajax_resolution'] = False
         else:
-            request.session[u'ajax_resolution'] = False
+            request.session[u'ajax_resolution'] = True
         explorer_with = request.session.get(u'width', None, )
         if explorer_with:
             request.session[u'right_panel'] = True
