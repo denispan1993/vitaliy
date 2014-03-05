@@ -273,7 +273,7 @@ CACHES = {
     }
 }
 
-CACHE_TIMEOUT = 3600
+CACHE_TIMEOUT = 30
 
 ROOT_URLCONF = 'proj.urls'
 

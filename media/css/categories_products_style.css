@@ -80,6 +80,84 @@ a.product_block_img{
     height:160px;
     margin-bottom:10px;
 }
+div#product_box div#product_box_top div#product_box_left div#product_box_left_top div#slider{
+    border-bottom:2px solid #FFF6C9;
+    border-top:2px solid #FFF6C9;
+    height:97px;
+    margin-left:20px;
+    margin-right:20px;
+    position:relative;
+    width:auto;
+}
+.thumbelina-but.horiz.left {
+    border-radius:7px 0 0 7px;
+    left:-22px;
+}
+.thumbelina-but.horiz {
+    height:97px;
+    line-height:98px;
+    top:-1px;
+    width:20px;
+}
+.thumbelina-but {
+    background-color:#FFF6C9;
+    border:2px solid #FFF6C9;
+    box-shadow:0 0 8px rgba(0, 0, 0, 0.25);
+    color:#888888;
+    cursor:pointer;
+    font-family:monospace;
+    font-size:14px;
+    font-weight:bold;
+    position:absolute;
+    text-align:center;
+    vertical-align:middle;
+    z-index:1;
+}
+.thumbelina-but.disabled, .thumbelina-but.disabled:hover {
+    background-color:#EFEFEF;
+    box-shadow:none;
+    color:#CCCCCC;
+    cursor:default;
+}
+div#product_box div#product_box_top div#product_box_left div#product_box_left_top div#slider div#parent{
+    position:relative;
+    overflow:hidden;
+    width:100%;
+    height:100%;
+}
+.thumbelina{
+    display:-moz-inline-box;
+    display:inline-block;
+    vertical-align:middle;
+    zoom:1;
+    //display:inline;
+
+/*    font-size:0;
+    list-style:none outside none;
+    margin:0;
+    padding:0;
+    position:absolute;
+    white-space:nowrap;*/
+}
+.thumbelina li img {
+    border:1px solid #CCCCCC;
+    vertical-align:middle;
+}
+.thumbelina li img:hover {
+    border:1px solid #AAAAAA;
+}
+.thumbelina-but.horiz.right {
+    border-radius:0 5px 5px 0;
+    right:-22px;
+}
+div#product_box div#product_box_top div#product_box_left div#product_box_left_top div#slider div#parent div#helper{
+    display:-moz-inline-box;
+    display:inline-block;
+    vertical-align:middle;
+    height:100%;
+    width:0px;
+    zoom:1;
+}
 div.product_block_bottom{
     line-height:24px;
     overflow:hidden;

@@ -129,7 +129,7 @@ try{
         <form method="POST" action="/Валюта/Изменение/" name="CurrencyChange" {# id="setCurrency" #}>
 			<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 			<input type="hidden" name="action" value="CurrencyChange" />
-			<input type="hidden" name="return_url" value="{# {{ url(request) }} #}" />
+			<input type="hidden" name="return_url" value="{{ request.get_full_path() }}" />
 
             <span class="light">Валюта:</span>
 

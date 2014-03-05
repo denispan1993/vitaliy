@@ -3,7 +3,7 @@
 {% block description %}{{ product.meta_description }}{% endblock %}
 {% block keywords %}{{ product.meta_keywords }}{% endblock %}
 {% block product_header_css %}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css">
+{# <link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css"> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/easypaginate/easypaginate.css" media="all">
 {% endblock %}
 {% set products_recommended = product.recomendate.all() %}
@@ -97,7 +97,7 @@
                               style='vertical-align:middle;'
                               id='zoom1'
                               src='{{ main_photo.photo.url_345x370 }}' {# small image #}
-                             data-cloudzoom='
+                             data-cloudzoom="
                              zoomImage:'{{ main_photo.photo.url }}',{# large image #}
                              zoomPosition:3,
                              zoomSizeMode:'image',
@@ -118,15 +118,7 @@
 				{% endif %}
                 {% set photos = product.all_photos %}
     			{% if photos %}
-                    <div id="slider"
-                         style="
-                            border-bottom:2px solid #FFF6C9;
-                            border-top:2px solid #FFF6C9;
-                            height:97px;
-                            margin-left:20px;
-                            margin-right:20px;
-                            position:relative;
-                            width:auto;">
+                    <div id="slider">
                         {% set count_photos = photos|length %}
                         {% if count_photos > 3 %}
                             <script type="text/javascript">
@@ -139,61 +131,10 @@
                             })
                             </script>
                             <script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
-                            <style>
-                                .thumbelina-but.horiz.left {
-                                    border-radius:7px 0 0 7px;
-                                    left:-22px;
-                                }
-                                .thumbelina-but.horiz {
-                                    height:97px;
-                                    line-height:98px;
-                                    top:-1px;
-                                    width:20px;
-                                }
-                                .thumbelina-but {
-                                    background-color:#FFF6C9;
-                                    border:2px solid #FFF6C9;
-                                    box-shadow:0 0 8px rgba(0, 0, 0, 0.25);
-                                    color:#888888;
-                                    cursor:pointer;
-                                    font-family:monospace;
-                                    font-size:14px;
-                                    font-weight:bold;
-                                    position:absolute;
-                                    text-align:center;
-                                    vertical-align:middle;
-                                    z-index:1;
-                                }
-                                .thumbelina-but.disabled, .thumbelina-but.disabled:hover {
-                                    background-color:#EFEFEF;
-                                    box-shadow:none;
-                                    color:#CCCCCC;
-                                    cursor:default;
-                                }
-                            </style>
                             <div class="thumbelina-but horiz left">˂</div>
                         {% endif %}
-                        <div style="position:relative;overflow:hidden;width:100%;height:100%;">
-                            <style>
-                                .thumbelina {
-                                    font-size:0;
-                                    list-style:none outside none;
-                                    margin:0;
-                                    padding:0;
-                                    position:absolute;
-                                    white-space:nowrap;
-                                }
-                            </style>
+                        <div id="parent">
                             <ul class="thumbelina"{% if count_photos > 3 %} style="left:-180px;"{% else %} style="position:relative;"{% endif %}>
-                                <style>
-                                    .thumbelina li img {
-                                        border:1px solid #CCCCCC;
-                                        vertical-align:middle;
-                                    }
-                                    .thumbelina li img:hover {
-                                        border:1px solid #AAAAAA;
-                                    }
-                                </style>
                                 {% for photo in photos %}
                                     <li style="display:inline-block;">
                                         <img class="cloudzoom-gallery cloudzoom-gallery-active"
@@ -206,14 +147,9 @@
                                     </li>
                                 {% endfor %}
                             </ul>
+                            <div id="helper"></div>
                         </div>
                         {% if count_photos > 3 %}
-                            <style>
-                                .thumbelina-but.horiz.right {
-                                    border-radius:0 5px 5px 0;
-                                    right:-22px;
-                                }
-                            </style>
                             <div class="thumbelina-but horiz right">˃</div>
                         {% endif %}
                     </div>
