@@ -262,14 +262,15 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': [
-            '127.0.0.1:11211',
-            # '172.19.26.240:11211',
-            # '172.19.26.242:11211',
-            # '172.19.26.244:11213',
-            # 'LOCATION': 'unix:/tmp/memcached.sock',
-        ]
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#        'LOCATION': [
+#            '127.0.0.1:11211',
+#            # '172.19.26.240:11211',
+#            # '172.19.26.242:11211',
+#            # '172.19.26.244:11213',
+#            # 'LOCATION': 'unix:/tmp/memcached.sock',
+#        ]
     }
 }
 
@@ -509,13 +510,13 @@ INSTALLED_APPS += (
 )
 USERENA_USE_MESSAGES = True
 #!!!=============== Django ToolBar ===================================
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
+#MIDDLEWARE_CLASSES += (
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#)
 
-INSTALLED_APPS += (
-    'debug_toolbar',
-)
+#INSTALLED_APPS += (
+#    'debug_toolbar',
+#)
 
 DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.versions.VersionsPanel',
