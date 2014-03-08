@@ -37,11 +37,16 @@ def resolution(request, ):
 # 3
 #            from django.utils import simplejson
 #            data = simplejson.dumps({'a': 1})
+            import django
+            django_version = django.get_version().split('.')
+            from datetime import datetime
+            if int(django_version[0], ) == 1 and int(django_version[1], ) == 6:
+                request.session[u'ajax_resolution_datetime'] = str(datetime.now(), )
+            elif int(django_version[0], ) == 1 and int(django_version[1], ) == 5:
+                request.session[u'ajax_resolution_datetime'] = datetime.now()
 
             json_response = dumps(response, )
             # mimetype = 'application/json'
-            from datetime import datetime
-            request.session[u'ajax_resolution_datetime'] = str(datetime.now(), )
             return HttpResponse(content=json_response, content_type='application/javascript', )
         elif request.method == 'GET':
             return HttpResponse(status=400, )
