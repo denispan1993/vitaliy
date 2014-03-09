@@ -139,7 +139,10 @@ try{
                 }
             </script>
 
-            <select onchange="CurrencyChange();" name="current_currency">
+            <select
+                    onchange="document.CurrencyChange.submit();"
+                    # onchange="CurrencyChange();"
+                    name="current_currency">
                 {% for currency in currency_ %}
                     {% if currency.pk == request.session.currency_pk %}
                         <option id="selected"
@@ -300,6 +303,7 @@ try{
     <div id="main_right">
         {% block content_right %}
             <form method="post" action="/search/" id="search">
+                {% csrf_token %}
                 <table style="border-spacing:0px;">
                     <tbody>
                     {# <tr>
@@ -310,7 +314,6 @@ try{
                     <tr>
                         <td>
                             <input type="text" name="query" class="search_input" style="width:140px;">
-                            {% csrf_token %}
                         </td>
                         <td align="left">
                             <input type="submit" value="Поиск" class="search_button">{# name="search_button" #}
@@ -339,8 +342,16 @@ try{
                         {# {% set view_object_id = view.object_id %} #}
                         {% set cache_key = cache_key + '-' + view.object_id|string() %}
                         {% cache 300 cache_key %}
-                            <a href="{{ view.parent.get_absolute_url() }}" style="font-size:14px;color:Black;"
-                               title="{{ view.parent.title }}">{{ view.parent.description|safe }}</a>
+                            <a id="product_box_title"
+                               href="{{ view.parent.get_absolute_url() }}"
+                               style="font-size:14px;color:Black;"
+                               title="{{ view.parent.title }}">{{ view.parent.description|safe }}
+                            </a>
+                            <a id="product_box_img"
+                               href="{{ view.parent.get_absolute_url() }}"
+                               style="background-image:url('/media/img/NoPhoto_210x160.jpg');"
+                               title="{{ view.parent.title }}">
+                           </a>
                         {% endcache %}
                     </div>
                 {% endfor %}

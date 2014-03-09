@@ -30,8 +30,8 @@ class Process_SessionIDMiddleware(object):
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
         if ajax_resolution_datetime:
             import django
-            django_version = django.get_version().split('.')
-            if int(django_version[0], ) == 1 and int(django_version[1], ) == 6:
+            django_version = django.VERSION
+            if int(django_version[0], ) == 1 and int(django_version[1], ) >= 6:
                 from django.utils.dateparse import parse_datetime
                 ajax_resolution_datetime = parse_datetime(ajax_resolution_datetime, )
             elif int(django_version[0], ) == 1 and int(django_version[1], ) == 5:

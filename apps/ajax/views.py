@@ -38,9 +38,9 @@ def resolution(request, ):
 #            from django.utils import simplejson
 #            data = simplejson.dumps({'a': 1})
             import django
-            django_version = django.get_version().split('.')
+            django_version = django.VERSION
             from datetime import datetime
-            if int(django_version[0], ) == 1 and int(django_version[1], ) == 6:
+            if int(django_version[0], ) == 1 and int(django_version[1], ) >= 6:
                 request.session[u'ajax_resolution_datetime'] = str(datetime.now(), )
             elif int(django_version[0], ) == 1 and int(django_version[1], ) == 5:
                 request.session[u'ajax_resolution_datetime'] = datetime.now()
