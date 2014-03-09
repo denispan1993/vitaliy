@@ -156,14 +156,14 @@
                 {% endif %}
             </div>
         </div>
-		<div id="product_box_right" style="text-align:left;">
-			<h1 style="font-size:16px;height:auto;line-height:20px;" itemprop="name">
+		<div id="product_box_right">
+			<h1 itemprop="name">
 				<a href="{{ product.get_absolute_url() }}"
                    title="{{ product.title|capfirst }}">
 					{{ product.name|capfirst }}
 				</a>
 			</h1>
-			<h3 style="font-size:15px;font-weight:lighter;line-height:30px;">
+			<h3>
 				Артикул товара: <span itemprop="productID">{{ product.get_ItemID }}</span>
 			</h3>
             {% set manufacturer = product.get_manufacturer %}
@@ -178,8 +178,8 @@
 					<span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
 				</p>
 			{% endif %}
-			<p class="dashed" style="font-size:23px;padding-top:3px;color:Red;" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
-                <span class="productbox_right_pirce_red" itemprop="price"> {{ product.price|replace(",", ".") }} грн.{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
+			<p id="product_box_right_pirce" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
+                <span class="{% if product.is_availability == 1 %}red{% else %}gray{% endif %}" itemprop="price"> {{ product.price|replace(",", ".") }} грн.{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
             </p>
 <style>
 p.price_total{
@@ -207,7 +207,7 @@ p.price_total span{
 			<span id="current_price">{{ sum_of_quantity|replace(",", ".") }}</span>
 			&nbsp;грн.&nbsp;
 			</p>
-			{% set product_is_availability = product.is_availability %}
+			{# set product_is_availability = product.is_availability #}
 			{% if product.is_availability == 1 %}
 <style>
 .quantity{

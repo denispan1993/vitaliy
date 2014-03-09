@@ -257,6 +257,11 @@ try{
         <div id="accordion_menu" class="left_menu">
             <a class="left_title" href="/категории/" title="Категории верхнего уровная">Категории</a>
             <ul id='accordion' class="menu basement">
+                <li>
+                    <a href="/">
+                        Новинки
+                    </a>
+                </li>
                 {% for cat in categories_basement_|sort(attribute='serial_number') recursive %}
                     {% set children = cat.children.all()|sort(attribute='serial_number') %}
                     <li{% if children %} attribute="children_true"{% endif %}>
