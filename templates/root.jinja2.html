@@ -141,14 +141,14 @@ try{
 
             <select onchange="CurrencyChange();" name="current_currency">
                 {% for currency in currency_ %}
-                    {% if currency == request.session.curent_currency %}
-                        <option value="{{ currency.pk }}"
+                    {% if currency.pk == request.session.currency_pk %}
+                        <option id="selected"
+                                value="{{ currency.pk }}"
                                 selected="">
                             <strong>{{ currency.name_ru|capfirst }}</strong>
                         </option>
                     {% else %}
-                        <option value="{{ currency.pk }}">{{ currency.name_ru|capfirst }}
-                        </option>
+                        <option value="{{ currency.pk }}">{{ currency.name_ru|capfirst }}</option>
                     {% endif %}
                 {% endfor %}
             </select>
@@ -258,7 +258,8 @@ try{
             <a class="left_title" href="/категории/" title="Категории верхнего уровная">Категории</a>
             <ul id='accordion' class="menu basement">
                 <li>
-                    <a href="/">
+                    <a id="new_items"
+                       href="/">
                         Новинки
                     </a>
                 </li>

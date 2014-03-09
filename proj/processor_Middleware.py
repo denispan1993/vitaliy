@@ -44,6 +44,7 @@ class Process_SessionIDMiddleware(object):
                 request.session[u'ajax_resolution'] = False
         else:
             request.session[u'ajax_resolution'] = True
+        """ withs and right_panel """
         explorer_with = request.session.get(u'width', None, )
         if explorer_with:
             request.session[u'right_panel'] = True
@@ -109,6 +110,8 @@ class Process_SessionIDMiddleware(object):
             request.session[u'product'] = False
         if u"category" in request.session:
             request.session[u'category'] = False
+
+
 
             #        ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
 #        from datetime import datetime, timedelta

@@ -13,16 +13,33 @@ def context(request):
     from apps.static.models import Static
     try:
         static_pages = Static.objects.all()
-            #.values_list('order', 'url', 'title', ).order_by('order', )
     except Slide.DoesNotExist:
         static_pages = None
 
     from apps.product.models import Currency
     try:
         currency = Currency.objects.all()
-            #.values_list('order', 'url', 'title', ).order_by('order', )
     except Currency.DoesNotExist:
         currency = None
+
+    """ Проверяем session на наличие currency pk """
+    currency_pk = request.session.get(u'currency_pk', None, )
+    if currency_pk:
+        try:
+            currency_pk = int(currency_pk, )
+        except ValueError:
+            request.session[u'currency_pk'] = 1
+            current_currency = currency.get(pk=1, )
+        else:
+            try:
+                current_currency = currency.get(pk=currency_pk, )
+            except Currency.DoesNotExist:
+                current_currency = currency.get(pk=1, )
+            else:
+                request.session[u'currency_pk'] = currency_pk
+    else:
+        request.session[u'currency_pk'] = 1
+        current_currency = currency.get(pk=1, )
 
     from apps.slide.models import Slide
     try:
@@ -108,6 +125,7 @@ def context(request):
     return dict(#request=request,
                 static_pages_=static_pages,
                 currency_=currency,
+                current_currency_=current_currency,
                 slides_=slides,
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,

@@ -1,3 +1,19 @@
+div#accordion_menu{
+/*    border:4px solid fuchsia;*/
+/*    border:3px solid #fe6c66;*/
+/*    border:3px solid #ffff00;*/
+    border:3px solid #0000cd;
+}
+div#accordion_menu.left_menu{
+/*    border: 1px solid #CCCCCC;*/
+    border-radius:10px 10px 10px 10px;
+    margin-bottom:18px;
+    padding:10px;
+}
+div#accordion_menu ul#accordion li a#new_items{
+    color:Red;
+    font-size:19px;
+}
 #accordion_menu a{
     text-decoration:none;
 }
@@ -24,7 +40,8 @@
 #accordion_menu ul a.colored{
 /*    color:Fuchsia;*/
 /*    color:#fe6c66;*/
-    color:#ffff00;
+/*    color:#ffff00;*/
+    color:rgb(255, 0, 0);
 }
 #accordion_menu ul a.bold{
     font-weight:bold;
