@@ -171,15 +171,31 @@ div#product_box_right h3{
     font-weight:lighter;
     line-height:30px;
 }
-div#product_box_right p.product_box_right_pirce{
+div#product_box_right p#product_box_right_manufacturer{
+    font-size:15px;
+    font-weight:lighter;
+    line-height:30px;
+}
+div#product_box_right p#product_box_right_regular_price{
+    line-height:25px;
+    margin:0px;
+    padding:0px;
+    color:#333333;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:15px;
+}
+div#product_box_right p#product_box_right_regular_price span{
+    text-decoration:line-through;
+}
+div#product_box_right p#product_box_right_price{
     font-size:23px;
     padding-top:3px;
     color:Red;
 }
-div#product_box_right p.product_box_right_pirce span.red{
+div#product_box_right p#product_box_right_price span.red{
     color:Red;
 }
-div#product_box_right p.product_box_right_pirce span.gray{
+div#product_box_right p#product_box_right_price span.gray{
     color:Gray;
 }
 

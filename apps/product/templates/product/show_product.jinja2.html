@@ -168,17 +168,17 @@
 			</h3>
             {% set manufacturer = product.get_manufacturer %}
             {% if manufacturer %}
-                <p style="font-size:15px;font-weight:lighter;line-height:30px;">
+                <p id="product_box_right_manufacturer">
                     Производитель: <span itemprop="brand">{{ manufacturer }}</span>
                 </p>
             {% endif %}
 			{% if product.regular_price %}
-				<p style="line-height:25px;margin:0px;padding:0px;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:15px;">
+				<p id="product_box_right_regular_price">
 					Старая цена:
-					<span style="text-decoration:line-through"> {{ product.regular_price|replace(",", ".") }} грн.</span>
+					<span> {{ product.regular_price|replace(",", ".") }} грн.</span>
 				</p>
 			{% endif %}
-			<p id="product_box_right_pirce" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
+			<p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
                 <span class="{% if product.is_availability == 1 %}red{% else %}gray{% endif %}" itemprop="price"> {{ product.price|replace(",", ".") }} грн.{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
             </p>
 <style>
