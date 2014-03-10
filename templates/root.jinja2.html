@@ -339,7 +339,7 @@ try{
                         {% else %}
                             {% set cache_key = 'other' %}
                         {% endif %}
-                        {1# {% set view_object_id = view.object_id %} #1}
+                        {# {% set view_object_id = view.object_id %} #}
                         {% set cache_key = cache_key + '-' + view.object_id|string() %}
                         {% cache 300 cache_key %}
                             <a id="product_box_title"
