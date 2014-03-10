@@ -856,10 +856,19 @@ class Currency(models.Model):
                                 null=True, blank=True, default=1, )
     name_ru = models.CharField(verbose_name=u'Название валюты Russian',
                                max_length=16, blank=False, null=False, )
-    name_truncated_ru = models.CharField(verbose_name=u'Название валюты сокращенный Russian',
-                                         max_length=8, blank=True, null=True, )
+    name_truncated = models.CharField(verbose_name=u'Название валюты сокращенный',
+                                      max_length=8, blank=True, null=True, )
     name_en = models.CharField(verbose_name=u'Название валюты English',
                                max_length=16, blank=False, null=False, )
+    """ Курс обмена валюты """
+    currency = models.DecimalField(verbose_name=u'Количество валюты для обмена',
+                                   max_digits=12, decimal_places=5,
+                                   blank=False, null=False, default=1,
+                                   help_text=u'Сколько нужно обменять валюты', )
+    exchange_rate = models.DecimalField(verbose_name=u'Курс обмена в Гривнах',
+                                        max_digits=12, decimal_places=5,
+                                        blank=False, null=False, default=1,
+                                        help_text=u'Сколько дают за эту валюту в Гривнах', )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
