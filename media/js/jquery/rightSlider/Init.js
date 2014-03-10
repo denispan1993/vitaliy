@@ -7,13 +7,18 @@ try{
             mode:'vertical',
             slideWidth:300,
             minSlides:3,
+            maxSlides:3,
             slideMargin:10,
             moveSlides:1,
             auto:true,
-            autoControls:true,
-            pause:4000,
+            autoStart:true,
+            controls:true,
+            autoControls:false,
+            pager:true,
+            pagetType:'short',
+            pause:5000,
             autoHover:true,
-            autoDelay:2000
+            autoDelay:5000
 //            slideMargin:5
         });
     });
