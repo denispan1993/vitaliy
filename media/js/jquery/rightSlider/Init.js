@@ -12,7 +12,7 @@ try{
             moveSlides:1,
             auto:true,
             autoStart:true,
-            controls:true,
+            controls:false,
             autoControls:false,
             pager:true,
             pagetType:'short',

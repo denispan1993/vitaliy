@@ -129,7 +129,7 @@ try{
         <form method="POST" action="/Валюта/Изменение/" name="CurrencyChange" {# id="setCurrency" #}>
 			<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 			<input type="hidden" name="action" value="CurrencyChange" />
-			<input type="hidden" name="return_url" value="{{ request.get_full_path() }}" />
+			<input type="hidden" name="redirect_url" value="{{ request.get_full_path() }}" />
 
             <span class="light">Валюта:</span>
 
@@ -141,8 +141,8 @@ try{
 
             <select
                     onchange="document.CurrencyChange.submit();"
-                    # onchange="CurrencyChange();"
-                    name="current_currency">
+                    {# onchange="CurrencyChange();" #}
+                    name="currency">
                 {% for currency in currency_ %}
                     {% if currency.pk == request.session.currency_pk %}
                         <option id="selected"
@@ -334,24 +334,24 @@ try{
                 {% for view in viewed_ %}
                     <div class="rightSliderItems">
                         {# {% set view_content_type_id = view.content_type.id %} #}
-{#                         {% if view.content_type.id|int == 9 %}
+                        {% if view.content_type.id|int == 9 %}
                             {% set cache_key = 'product' %}
                         {% else %}
                             {% set cache_key = 'other' %}
                         {% endif %}
                         {1# {% set view_object_id = view.object_id %} #1}
                         {% set cache_key = cache_key + '-' + view.object_id|string() %}
-                        {% cache 300 cache_key %} #}
+                        {% cache 300 cache_key %}
                             <a id="product_box_title"
                                href="{{ view.parent.get_absolute_url() }}"
-                               title="{{ view.parent.title }}">{{ view.parent.description|safe }}
+                               title="{{ view.parent.description }}">{{ view.parent.title|safe }}
                             </a>
                             <a id="product_box_img"
                                href="{{ view.parent.get_absolute_url() }}"
                                {% if view.parent.main_photo %}
                                    style="background-image:url('{{ view.parent.main_photo.photo.url_210x160 }}');"
                                {% endif %}
-                               title="{{ view.parent.title }}">
+                               title="{{ view.parent.main_photo.title }}">
                            </a>
 {#                         {% endcache %} #}
                     </div>
