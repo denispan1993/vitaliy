@@ -81,14 +81,14 @@ div#auth{
     top:0px;
     z-index:200;
 }
-a#logo{
+div#header div#div_logo a#logo{
     background:url("/media/img/logo.png") no-repeat scroll 0 0 transparent;
     display:block;
-    height:200px;
-    left:2%;
+    height:113px;
+    left:5%;
     position: absolute;
-    top:60px;
-    width:200px;
+    top:105px;
+    width:132px;
     z-index:100;
 }
 #main{
