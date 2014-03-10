@@ -84,11 +84,11 @@ div#auth{
 div#header div#div_logo a#logo{
     background:url("/media/img/logo.png") no-repeat scroll 0 0 transparent;
     display:block;
-    height:113px;
+    height:132px;
     left:5%;
     position: absolute;
     top:105px;
-    width:132px;
+    width:113px;
     z-index:100;
 }
 #main{
