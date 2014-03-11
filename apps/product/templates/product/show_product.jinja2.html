@@ -407,7 +407,7 @@ $('ul#products').easyPaginate({
 <p style="font-size:25px;color:Black;font-weight:bold;">Рекомендуемый товар</p>
 <ul id="products">
     {% for product_recommended in products_recommended %}
-        {{ one_block(product_recommended, 'li', 0, False, 'product')|safe }}
+        {{ one_block(product_recommended, request, current_currency_, 'li', 0, False, 'product')|safe }}
     {% endfor %}
 </ul>
 </div>

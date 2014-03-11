@@ -18,7 +18,7 @@
     {% if categories %}
         <br class="clearFloat">
         {% if request is defined %}
-            {{ many_blocks(categories, request, 'category', True)|safe }}
+            {{ many_blocks(categories, request, current_currency_, 'category', True)|safe }}
         {% endif %}
     {% endif %}
     {% if current_category is defined %}
@@ -27,7 +27,7 @@
     {% if products %}
         <br class="clearFloat">
         {% if request is defined %}
-            {{ many_blocks(products, request, 'product', True)|safe }}
+            {{ many_blocks(products, request, current_currency_, 'product', True)|safe }}
         {% endif %}
     {% endif %}
 {% endblock %}

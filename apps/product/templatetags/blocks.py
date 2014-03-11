@@ -8,7 +8,7 @@ register = Library()
 
 
 @register.global_function()
-def many_blocks(blocks, request, category_or_product, top_border, ):
+def many_blocks(blocks, request, current_currency, category_or_product, top_border, ):
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
     if category_or_product == 'category':
@@ -21,12 +21,13 @@ def many_blocks(blocks, request, category_or_product, top_border, ):
     return render_to_string(template_name,
                             dictionary={'blocks': blocks,
                                         'request': request,
+                                        'current_currency_': current_currency,
                                         'csrf_token': request_csrf_token,
                                         'top_border': top_border, }, )
 
 
 @register.global_function()
-def one_block(block, choice, cycle, last_loop, category_or_product, ):
+def one_block(block, request, current_currency, choice, cycle, last_loop, category_or_product, ):
     print(last_loop)
     if last_loop:
         margin_bottom = '0px'
@@ -42,6 +43,8 @@ def one_block(block, choice, cycle, last_loop, category_or_product, ):
         template_name = u'product/templatetags/block_product.jinja2.html'
     return render_to_string(template_name,
                             dictionary={'block': block,
+                                        'request': request,
+                                        'current_currency_': current_currency,
                                         'choice': choice,
                                         'margin_bottom': margin_bottom,
                                         'margin_left': margin_left, }, )

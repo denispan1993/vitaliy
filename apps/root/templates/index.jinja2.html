@@ -5,6 +5,6 @@
 {% block content_center %}
 <h1 class="center_title">Новинки магазина Кексик</h1>
     <div class="products_container">
-        {{ many_blocks(in_main_page, request, 'product', False)|safe }}
+        {{ many_blocks(in_main_page, request, current_currency_, 'product', False)|safe }}
     </div>
 {% endblock %}

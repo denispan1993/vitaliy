@@ -8,7 +8,7 @@
             {% set last_loop = False %}
         {% endif %}
         {% for category in blocks|sort(attribute='serial_number') %}
-            {{ one_block(category, '', cycle, last_loop, 'category')|safe }}
+            {{ one_block(category, request, current_currency_, '', cycle, last_loop, 'category')|safe }}
             {% if cycle < request.session.limit_on_string %}
                 {% set cycle = cycle + 1 %}
             {% else %}
