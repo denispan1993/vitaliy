@@ -175,11 +175,11 @@
 			{% if product.regular_price %}
 				<p id="product_box_right_regular_price">
 					Старая цена:
-					<span> {{ product.regular_price|replace(",", ".") }} грн.</span>
+					<span> {{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
 				</p>
 			{% endif %}
 			<p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
-                <span class="{% if product.is_availability == 1 %}red{% else %}gray{% endif %}" itemprop="price"> {{ product.price|replace(",", ".") }} грн.{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
+                <span class="{% if product.is_availability == 1 %}red{% else %}gray{% endif %}" itemprop="price"> {{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
             </p>
 <style>
 p.price_total{
@@ -199,16 +199,14 @@ p.price_total span{
 /*	line-height:100%;*/
 }
 </style>
-			<p class="price_total">
-			<span id="cart_quant">{{ quantity_ }}</span>
-			&nbsp;{{ product.unit_of_measurement }}&nbsp;×&nbsp;&nbsp;
-			<span id="one_piece_price">{{ price_per_piece|replace(",", ".") }}</span>
-			&nbsp;грн.&nbsp;=&nbsp;&nbsp;
-			<span id="current_price">{{ sum_of_quantity|replace(",", ".") }}</span>
-			&nbsp;грн.&nbsp;
-			</p>
-			{# set product_is_availability = product.is_availability #}
-			{% if product.is_availability == 1 %}
+<p class="price_total"><span id="cart_quant">{{ quantity_ }}</span>
+{# &nbsp; #}{{ product.unit_of_measurement }}&nbsp;×&nbsp;{# &nbsp; #}
+<span id="one_piece_price">{# {{ price_per_piece|replace(",", ".") }} #}</span>
+&nbsp;{{ get_currency(request) }}&nbsp;=&nbsp;{# &nbsp; #}
+<span id="current_price">{# {{ sum_of_quantity|replace(",", ".") }} #}</span>
+&nbsp;{{ get_currency(request) }}{# &nbsp; #}</p>
+{# set product_is_availability = product.is_availability #}
+{% if product.is_availability == 1 %}
 <style>
 .quantity{
 {# 	// margin:0px; #}
@@ -228,7 +226,7 @@ p.price_total span{
 var price_qty_array = new Array();
 var price_array = new Array();
 price_qty_array[0]=1;
-price_array[0]={{ product.price|replace(",", ".") }};
+price_array[0]={{ product.get_price(request) }}; {# |replace(",", ".") #}
 {#  {% if discount1 != None %}
 		{% if discount1.price %}
 			{% for discount in discounts %}
@@ -248,7 +246,7 @@ price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
 		{% endif %}
 	{% else %} #}
 price_qty_array[1]=999;
-price_array[1]={{ product.price|replace(",", ".") }};
+price_array[1]={{ product.get_price(request) }}; {# |replace(",", ".") #}
 	{# {% endif %} #}
 function checknumber(String){
 	var Letters = ".,1234567890";

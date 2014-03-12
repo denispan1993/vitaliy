@@ -439,16 +439,17 @@ class Product(models.Model):
         else:
             return None
 
-    def get_price(self, request, ):
-        currency_pk = request.session.get(u'currency_pk', )
-        if currency_pk:
-            try:
-                currency_pk = int(currency_pk, )
-            except ValueError:
-                currency_pk = 1
-        else:
-            currency_pk = 1
-        price = self.price
+    def get_price(self, request=None, price=None, ):
+        currency_pk = 1
+        if request:
+            currency_pk = request.session.get(u'currency_pk', )
+            if currency_pk:
+                try:
+                    currency_pk = int(currency_pk, )
+                except ValueError:
+                    pass
+        if not price:
+            price = self.price
         from apps.product.models import Currency
         try:
             current_currency_object = Currency.objects.get(pk=currency_pk, )
@@ -461,28 +462,24 @@ class Product(models.Model):
         product_currency_pk = self.currency_id
         product_currency = self.currency.currency
         product_exchange_rate = self.currency.exchange_rate
-        if current_currency_pk == product_currency_pk:
-            return u'%5.2f' % price
-        elif current_currency_pk == 1 and product_currency_pk != 1:
+        if current_currency_pk == 1 and product_currency_pk != 1:
             ''' Приводим к гривне:
                 1. цену делим на количество гривен
                 2. умножаем на курс
             '''
             price = price/product_currency*product_exchange_rate
-            return u'%5.2f' % price
         elif current_currency_pk != 1 and product_currency_pk == 1:
             ''' Приводим к нужной валюте:
                 1. умножаем на количество гривен
                 2. делим на курс
             '''
             price = price*current_currency/current_exchange_rate
-            return u'%5.2f' % price
         elif current_currency_pk !=1 and product_currency_pk !=1:
             ''' Сначала приводим к гривне '''
             intermediate_price = price/product_currency*product_exchange_rate
             ''' Приводим к текущей валюте сайта '''
             price = intermediate_price*current_currency/current_exchange_rate
-            return u'%5.2f' % price
+        return u'%5.2f'.replace(',', '.', ) % price
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')

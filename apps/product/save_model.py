@@ -17,14 +17,14 @@ class AdditionalInformationAndInformationForPrice(models.Model):
         return u'Промежуточная модель: %s <---> %s' % (self.additionalinformation, self.information, )
 
     def save(self, *args, **kwargs):
-        print(self.additionalinformation)
-        print(self.additionalinformation.product)
-        print(self.information)
-        print(self.information.product)
+        # print(self.additionalinformation)
+        # print(self.additionalinformation.product)
+        # print(self.information)
+        # print(self.information.product)
         self.information.product = self.additionalinformation.product
         self.information.save()
-        print(self.information)
-        print(self.information.product)
+        # print(self.information)
+        # print(self.information.product)
 #        self.information.save_m2m()
         #all_informations = self.information.all()
         #print(all_informations)

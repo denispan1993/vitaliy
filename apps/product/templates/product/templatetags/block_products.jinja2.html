@@ -28,7 +28,7 @@ function product_to_cart(data, product_pk){
         {% set last_loop = False %}
     {% endif %}
     {% for product in blocks|sort(attribute='serial_number') %}
-        {{ one_block(product, request, current_currency_, 'div', cycle, last_loop, 'product')|safe }}
+        {{ one_block(product, request, 'div', cycle, last_loop, 'product')|safe }}
         {% if cycle < request.session.limit_on_string %}
             {% set cycle = cycle + 1 %}
         {% else %}

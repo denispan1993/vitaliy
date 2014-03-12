@@ -84,21 +84,21 @@ from apps.product.models import AdditionalInformationForPrice
 
 @receiver(m2m_changed, sender=AdditionalInformationForPrice.information.through, )
 def m2m_changed_information(sender, instance, action, reverse, model, pk_set, using, signal, **kwargs):
-    print(action)
+    # print(action)
     if action == 'post_add' and reverse is False:
-        print(sender)
-        print(instance)
-        print(reverse)
-        print(model)
-        print(pk_set)
+        # print(sender)
+        # print(instance)
+        # print(reverse)
+        # print(model)
+        # print(pk_set)
         from apps.product.models import InformationForPrice
         for pk in pk_set:
-            print(pk)
+            # print(pk)
             information = InformationForPrice.objects.get(pk=pk, )
-            print(information)
+            # print(information)
             information.product = instance.product
             information.save()
-        print(using)
-        print(signal)
-        for key, value in kwargs.iteritems():
-            print('Key: %s - Value: %s', (key, value, ), )
+        # print(using)
+        # print(signal)
+        # for key, value in kwargs.iteritems():
+            # print('Key: %s - Value: %s', (key, value, ), )

@@ -4,5 +4,5 @@
 {% block keywords %}упаковка,пищевые красители,кондитерская мастика,маты,ганаж,кондитерские краски,молды,вайнеры,катеры,резаки{% endblock %}
 {% block content_center %}
 {# <p class="center_title"> #}<h1 style="margin-bottom: 10px;">Категории интернет - магазина "Кексик"</h1>{# </p> #}
-    {{ many_blocks(basement_categories, current_currency_, request, 'category', False)|safe }}
+    {{ many_blocks(basement_categories, request, 'category', False)|safe }}
 {% endblock %}
