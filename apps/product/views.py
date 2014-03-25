@@ -186,11 +186,22 @@ def show_product(request, product_url, id,
         if current_category:
             for cat in categories_of_product:
                 if int(current_category) == cat.pk:
-                    current_category = categories_of_product[0]
+                    try:
+                        current_category = categories_of_product[0]
+                    except IndexError:
+                        send_error_manager(request=request, product=product, error_id=1, )
+                        from django.http import Http404
+                        raise Http404
                     break
             else:
-                current_category = categories_of_product[0]
-                request.session[u'current_category'] = current_category.pk
+                    try:
+                        current_category = categories_of_product[0]
+                    except IndexError:
+                        send_error_manager(request=request, product=product, error_id=1, )
+                        from django.http import Http404
+                        raise Http404
+                    else:
+                        request.session[u'current_category'] = current_category.pk
         else:
             current_category = categories_of_product[0]
             request.session[u'current_category'] = current_category.pk
@@ -345,3 +356,34 @@ def get_or_create_Viewed(request,
             obj_for_delete = viewed[viewed.count()-1]  # .latest('last_viewed', )
             obj_for_delete.delete()
         return viewed
+
+
+def send_error_manager(requset, product=None, error_id=None, ):
+    """ Отправка ошибки мэнеджеру """
+    subject = u'В товаре № %d ошибка' % product.pk
+    from django.template.loader import render_to_string
+    html_content = render_to_string('error_email/error_email.jinja2.html',
+                                    {'product': product, 'error_id': error_id, })
+    from django.utils.html import strip_tags
+    text_content = strip_tags(html_content, )
+    from_email = u'site@keksik.com.ua'
+#                to_email = u'mamager@keksik.com.ua'
+    from proj.settings import SERVER
+    if SERVER:
+        to_email = u'manager@keksik.com.ua'
+    else:
+        to_email = u'alex.starov@keksik.com.ua'
+
+    from django.core.mail import get_connection
+    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                             fail_silently=False, )
+    from django.core.mail import EmailMultiAlternatives
+    msg = EmailMultiAlternatives(subject=subject,
+                                 body=text_content,
+                                 from_email=from_email,
+                                 to=[to_email, ],
+                                 connection=backend, )
+    msg.attach_alternative(content=html_content,
+                           mimetype="text/html", )
+    msg.send(fail_silently=False, )
+    return None
