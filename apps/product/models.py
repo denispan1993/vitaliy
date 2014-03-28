@@ -474,7 +474,7 @@ class Product(models.Model):
                 2. делим на курс
             '''
             price = price*current_currency/current_exchange_rate
-        elif current_currency_pk !=1 and product_currency_pk !=1:
+        elif current_currency_pk != 1 and product_currency_pk != 1:
             ''' Сначала приводим к гривне '''
             intermediate_price = price/product_currency*product_exchange_rate
             ''' Приводим к текущей валюте сайта '''

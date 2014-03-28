@@ -168,7 +168,7 @@ try{
             <div id="dynamic_div_showcart" style="color:Black;">
                 <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
                 <br>
-                <b>На сумму:</b> {{ user_cart_.summ_money_of_all_products_grn }} грн. {{ user_cart_.summ_money_of_all_products_kop }} коп.
+                <b>На сумму:</b> {{ user_cart_.summ_money_of_all_products_integral(request) }} {{ get_currency(request) }} {{ user_cart_.summ_money_of_all_products_fractional(request) }} {{ get_currency(request) }}
                 <br>
             </div>
             <b><a href="/корзина/" style="font-size:18px;margin-top:7px;display:block;">Перейти в корзину</a></b>

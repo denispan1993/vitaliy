@@ -32,22 +32,22 @@ class Cart(models.Model):
     def count_name_of_products(self, ):
         return self.cart.count()
 
-    @property
-    def summ_money_of_all_products(self, ):
+    # @property
+    def summ_money_of_all_products(self, request, ):
         all_products = self.cart.all()
         summ_money = 0
         for product in all_products:
-            summ_money += product.summ_of_quantity
+            summ_money += product.summ_of_quantity(request=request, )
         return summ_money
 
-    @property
-    def summ_money_of_all_products_grn(self, ):
-        summ = self.summ_money_of_all_products
+    # @property
+    def summ_money_of_all_products_integral(self, request, ):
+        summ = self.summ_money_of_all_products(request=request, )
         return int(summ, )
 
-    @property
-    def summ_money_of_all_products_kop(self, ):
-        summ = self.summ_money_of_all_products
+    # @property
+    def summ_money_of_all_products_fractional(self, request, ):
+        summ = self.summ_money_of_all_products(request=request, )
         summ_int = int(summ, )
         summ_float = summ - summ_int
         if summ_float > 0:
@@ -179,11 +179,13 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    @property
-    def summ_of_quantity(self, ):
+    def summ_of_quantity(self, request, ):
+        """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта
+        """
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
-        return self.quantity * (self.price / product.price_of_quantity)
+        from decimal import Decimal
+        return self.quantity * (Decimal(product.get_price(request, self.price, ), ) / product.price_of_quantity)
 
     def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,

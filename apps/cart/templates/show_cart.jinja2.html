@@ -161,9 +161,9 @@ function onChange_{{ product.pk }}(){
                             {# {% set product_summ_of_quantity = product.summ_of_quantity %}
                             {% set real_product_price_of_quantity = real_product.price_of_quantity %}
                             {% set summ_of_quantity =  product_summ_of_quantity/real_product_price_of_quantity %} {{ summ_of_quantity }} #}
-                            <td><p id="summ_of_quantity_{{ product.pk }}">{{ product.summ_of_quantity }} грн.</p></td>
+                            <td><p id="summ_of_quantity_{{ product.pk }}">{{ product.summ_of_quantity(request) }} {{ get_currency(request) }}</p></td>
 <script>
-product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity|replace(",", ".") }};
+product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(request)|replace(",", ".") }};
 </script>
                             <td style="text-align:center;">
                                 <input id="delete1_{{ product.pk }}"
