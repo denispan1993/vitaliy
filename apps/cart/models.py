@@ -129,6 +129,13 @@ class Order(models.Model):
     def products(self, ):
         return self.order.all()
 
+    @property
+    def order_sum(self, ):
+        all_products_sum = 0
+        for product in self.products:
+            all_products_sum += product.summ_of_quantity
+        return all_products_sum
+
     def __unicode__(self):
         return u'Заказ пользователя:%s, SessionID:%s' % (self.user, self.sessionid, )
 
