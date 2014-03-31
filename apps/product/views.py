@@ -189,7 +189,7 @@ def show_product(request, product_url, id,
                     try:
                         current_category = categories_of_product[0]
                     except IndexError:
-                        send_error_manager(request=request, product=product, error_id=1, )
+                        send_error_manager(request, product=product, error_id=1, )
                         from django.http import Http404
                         raise Http404
                     break
@@ -197,7 +197,7 @@ def show_product(request, product_url, id,
                     try:
                         current_category = categories_of_product[0]
                     except IndexError:
-                        send_error_manager(request=request, product=product, error_id=1, )
+                        send_error_manager(request, product=product, error_id=1, )
                         from django.http import Http404
                         raise Http404
                     else:
@@ -358,8 +358,12 @@ def get_or_create_Viewed(request,
         return viewed
 
 
-def send_error_manager(requset, product=None, error_id=None, ):
+def send_error_manager(requset=None, product=None, error_id=None, ):
     """ Отправка ошибки мэнеджеру """
+    if requset:
+        pass
+    else:
+        pass
     subject = u'В товаре № %d ошибка' % product.pk
     from django.template.loader import render_to_string
     html_content = render_to_string('error_email/error_email.jinja2.html',
