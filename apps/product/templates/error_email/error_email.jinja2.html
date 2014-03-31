@@ -1,4 +1,4 @@
- {% if product %}<p>Продукт: № <a href="http://keksik.com.ua{{ product.get_absolute_url() }}">{{ product.pk }}</a> - <a href="http://keksik.com.ua{{ product.get_absolute_url() }}">{{ product }}</a></p>{% endif %}
+{% if product %}<p>Продукт: № <a href="http://keksik.com.ua{{ product.get_absolute_url() }}">{{ product.pk }}</a> - <a href="http://keksik.com.ua/admin/product/product/{{ product.pk }}">{{ product }}</a></p>{% endif %}
 {% if error_id == 1 %}
     Товар не пренадлежит ни к одной категории!!!
 {% endif %}
