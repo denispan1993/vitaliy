@@ -42,4 +42,4 @@ def convert_currency(value, request, *args, **kwargs):
                 1. умножаем на количество гривен
                 2. делим на курс
             '''
-            return str(value*current_currency.current_currency/current_currency.current_exchange_rate)
+            return str(value*current_currency.currency/current_currency.exchange_rate)
