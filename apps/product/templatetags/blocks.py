@@ -46,21 +46,3 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
                                         'choice': choice,
                                         'margin_bottom': margin_bottom,
                                         'margin_left': margin_left, }, )
-
-@register.global_function()
-def get_currency(request, ):
-    current_currency = request.session.get(u'currency_pk', )
-    return_str = u'грн.'
-    if current_currency:
-        from apps.product.models import Currency
-        try:
-            current_currency = int(current_currency, )
-        except ValueError:
-            current_currency = 1
-        try:
-            current_currency = Currency.objects.get(pk=current_currency, )
-        except Currency.DoesNotExist:
-            pass
-        else:
-            return_str = current_currency.name_truncated
-    return return_str
