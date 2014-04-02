@@ -185,11 +185,13 @@ class Product(models.Model):
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
         from decimal import Decimal
-        return self.quantity * (Decimal(product.get_price(request, self.price, ), ) / product.price_of_quantity)
+        price = self.quantity * (Decimal(product.get_price(request, self.price, ), ) / product.price_of_quantity)
+        return u'%5.2f'.replace(',', '.', ) % price
 
     def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,
-         производит сложение прошлого добавления товара с нынешним. """
+         производит сложение прошлого добавления товара с нынешним.
+        """
         value = self.quantity + int(quantity)
         if value > 999:
             value = 999

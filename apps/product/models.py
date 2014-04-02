@@ -454,7 +454,7 @@ class Product(models.Model):
         try:
             current_currency_object = Currency.objects.get(pk=currency_pk, )
         except Currency.DoesNotExist:
-            return u'%5.2f' % price
+            return u'%5.2f'.replace(',', '.', ) % price
         current_currency_pk = current_currency_object.pk
         current_currency = current_currency_object.currency
         current_exchange_rate = current_currency_object.exchange_rate
