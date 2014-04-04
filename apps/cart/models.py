@@ -37,13 +37,12 @@ class Cart(models.Model):
         all_products = self.cart.all()
         summ_money = 0
         for product in all_products:
-            summ_money += product.summ_of_quantity(request=request, )
+            summ_money += float(product.summ_of_quantity(request=request, ), )
         return summ_money
 
     # @property
     def summ_money_of_all_products_integral(self, request, ):
-        summ = self.summ_money_of_all_products(request=request, )
-        return int(summ, )
+        return int(self.summ_money_of_all_products(request=request, ), )
 
     # @property
     def summ_money_of_all_products_fractional(self, request, ):
