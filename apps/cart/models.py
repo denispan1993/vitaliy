@@ -186,9 +186,9 @@ class Product(models.Model):
         product = get_product(product_pk=self.product_id, product_url=None, )
         from decimal import Decimal
         if request:
-            price = self.quantity * (Decimal(product.get_price(request, self.price, ), ) / product.price_of_quantity)
+            price = self.quantity * (Decimal(product.get_price(request, price=self.price, ), ) / product.price_of_quantity)
         else:
-            price = self.quantity * (Decimal(product.get_price(self.price, ), ) / product.price_of_quantity)
+            price = self.quantity * (Decimal(product.get_price(price=self.price, ), ) / product.price_of_quantity)
         return u'%5.2f'.replace(',', '.', ) % price
 
     def summ_quantity(self, quantity=1, ):
