@@ -133,7 +133,7 @@ class Order(models.Model):
     def order_sum(self, ):
         all_products_sum = 0
         for product in self.products:
-            all_products_sum += int(product.summ_of_quantity(), )
+            all_products_sum += int(product.summ_of_quantity().replace('.', ',', ), )
         return all_products_sum
 
     def __unicode__(self):
