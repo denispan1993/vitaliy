@@ -133,7 +133,7 @@ class Order(models.Model):
     def order_sum(self, ):
         all_products_sum = 0
         for product in self.products:
-            all_products_sum += product.summ_of_quantity
+            all_products_sum += int(product.summ_of_quantity(), )
         return all_products_sum
 
     def __unicode__(self):
@@ -179,13 +179,16 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def summ_of_quantity(self, request, ):
+    def summ_of_quantity(self, request=None, ):
         """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта
         """
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
         from decimal import Decimal
-        price = self.quantity * (Decimal(product.get_price(request, self.price, ), ) / product.price_of_quantity)
+        if request:
+            price = self.quantity * (Decimal(product.get_price(request, self.price, ), ) / product.price_of_quantity)
+        else:
+            price = self.quantity * (Decimal(product.get_price(self.price, ), ) / product.price_of_quantity)
         return u'%5.2f'.replace(',', '.', ) % price
 
     def summ_quantity(self, quantity=1, ):
