@@ -37,12 +37,14 @@ from apps.cart.models import Order
 
 
 class OrderAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ['pk', 'user', 'sessionid', 'email', 'phone', ]
+    list_display_links = ['pk', 'user', 'sessionid', 'email', 'phone', ]
 admin.site.register(Order, OrderAdmin, )
 
 from apps.cart.models import Product
 
 
 class ProductAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ['pk', 'object_id', 'product', 'quantity', 'price', ]
+    list_display_links = ['pk', 'object_id', 'product', 'quantity', 'price', ]
 admin.site.register(Product, ProductAdmin, )

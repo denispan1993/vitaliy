@@ -37,13 +37,12 @@ class Cart(models.Model):
         all_products = self.cart.all()
         summ_money = 0
         for product in all_products:
-            summ_money += product.summ_of_quantity(request=request, )
+            summ_money += float(product.summ_of_quantity(request=request, ), )
         return summ_money
 
     # @property
     def summ_money_of_all_products_integral(self, request, ):
-        summ = self.summ_money_of_all_products(request=request, )
-        return int(summ, )
+        return int(self.summ_money_of_all_products(request=request, ), )
 
     # @property
     def summ_money_of_all_products_fractional(self, request, ):
@@ -132,8 +131,9 @@ class Order(models.Model):
     @property
     def order_sum(self, ):
         all_products_sum = 0
+        from decimal import Decimal
         for product in self.products:
-            all_products_sum += product.summ_of_quantity
+            all_products_sum += float(product.summ_of_quantity(), )  # .replace('.', ',', )
         return all_products_sum
 
     def __unicode__(self):
@@ -179,17 +179,22 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def summ_of_quantity(self, request, ):
+    def summ_of_quantity(self, request=None, ):
         """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта
         """
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
         from decimal import Decimal
-        return self.quantity * (Decimal(product.get_price(request, self.price, ), ) / product.price_of_quantity)
+        if request:
+            price = self.quantity * (Decimal(product.get_price(request, price=self.price, ), ) / product.price_of_quantity)
+        else:
+            price = self.quantity * (Decimal(product.get_price(price=self.price, ), ) / product.price_of_quantity)
+        return u'%5.2f'.replace(',', '.', ) % price
 
     def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,
-         производит сложение прошлого добавления товара с нынешним. """
+         производит сложение прошлого добавления товара с нынешним.
+        """
         value = self.quantity + int(quantity)
         if value > 999:
             value = 999

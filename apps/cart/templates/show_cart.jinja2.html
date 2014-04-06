@@ -46,7 +46,7 @@ product_summ_of_quantity_array[0]=0;
 var price_qty_array_{{ product.pk }} = new Array();
 var price_array_{{ product.pk }} = new Array();
 price_qty_array_{{ product.pk }}[0]=1;
-price_array_{{ product.pk }}[0]={{ real_product.price|replace(",", ".") }};
+price_array_{{ product.pk }}[0]={{ real_product.get_price(request)|replace(",", ".") }};
 {#  {% if discount1 != None %}
 		{% if discount1.price %}
 			{% for discount in discounts %}
@@ -66,7 +66,7 @@ price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
 		{% endif %}
 	{% else %} #}
 price_qty_array_{{ product.pk }}[1]=999;
-price_array_{{ product.pk }}[1]={{ real_product.price|replace(",", ".") }};
+price_array_{{ product.pk }}[1]={{ real_product.get_price(request)|replace(",", ".") }};
 	{# {% endif %} #}
 function Calculate_{{ product.pk }}(operation){
 	//var price=0.00;
@@ -115,7 +115,7 @@ function Calculate_{{ product.pk }}(operation){
 		if(val<=Qut&&Qut<price_qty_array_{{ product.pk }}[eval(i+1)]){
 			//alert('i: '+i+' Qut: '+Qut+' val: '+val)
 			var total=price_array_{{ product.pk }}[i]/{{ real_product.price_of_quantity }}*Qut;
-			$("#summ_of_quantity_{{ product.pk }}").html(total.toFixed(2)+' грн.');
+			$("#summ_of_quantity_{{ product.pk }}").html(total.toFixed(2)+' {{ get_currency(request) }}');
 			product_summ_of_quantity_array[{{ product.pk }}]=total.toFixed(2);
 		}
 	});
