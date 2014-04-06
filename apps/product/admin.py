@@ -6,7 +6,7 @@ from django.contrib import admin
 from apps.product.models import Photo
 admin.site.register(Photo, admin.ModelAdmin, )
 from django.contrib.contenttypes import generic
-from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
+#from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
 
 class genericStacked_Photo_InLine(generic.GenericStackedInline, ):
