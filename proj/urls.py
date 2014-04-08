@@ -105,7 +105,7 @@ path = lambda base: abspath(
 )
 if not isfile(path('server.key', ), ):
     from settings import DEBUG
-    if DEBUG:
+    if DEBUG or not DEBUG:
         from sys import platform
         if platform == 'win32':
             urlpatterns += patterns('django.views.static',
@@ -123,7 +123,7 @@ if not isfile(path('server.key', ), ):
                                     )
         # if sys.platform.startswith('freebsd'):
 from settings import DEBUG
-if DEBUG:
+if DEBUG or not DEBUG:
     from debug_toolbar import urls
     urlpatterns += patterns('',
                             url(r'^__debug__/',
@@ -213,3 +213,5 @@ urlpatterns += patterns('',
                             cache_page(86400)(sitemaps_views.sitemap),
                             {'sitemaps': sitemaps}, name='sitemaps'),
                         )
+
+handler404 = 'apps.handlers.views.handler404'

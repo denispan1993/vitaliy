@@ -1,9 +1,6 @@
 # coding=utf-8
 # Django settings for Shop project.
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
 
@@ -31,7 +28,15 @@ MANAGERS = ADMINS
 
 SERVER = os.path.isfile(path('server.key', ), )
 
-#if SERVER:
+if SERVER:
+    ALLOWED_HOSTS = '.keksik.com.ua'
+    DEBUG = False
+    TEMPLATE_DEBUG = DEBUG
+else:
+    ALLOWED_HOSTS = '*'
+    DEBUG = True
+    TEMPLATE_DEBUG = DEBUG
+
 if os.path.isfile(path('server.mysql', ), ):
     DATABASES = {
         'default': {
@@ -517,13 +522,13 @@ INSTALLED_APPS += (
 )
 USERENA_USE_MESSAGES = True
 #!!!=============== Django ToolBar ===================================
-#MIDDLEWARE_CLASSES += (
-#    'debug_toolbar.middleware.DebugToolbarMiddleware',
-#)
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
 
-#INSTALLED_APPS += (
-#    'debug_toolbar',
-#)
+INSTALLED_APPS += (
+    'debug_toolbar',
+)
 
 DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.versions.VersionsPanel',
