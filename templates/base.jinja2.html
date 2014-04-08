@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-{% compress css %}
+{# {% compress css %} #}
 {% block block_title %}<title>{% block title %}{% endblock %}</title>{% endblock %}
 {% block block_description %}<meta name="description" content="{% block description %}{% endblock %}">{% endblock %}
 {% block block_keywords %}<meta name="keywords" content="{% block keywords %}{% endblock %}">{% endblock %}
@@ -51,7 +51,7 @@ try{jQuery(document).ready(function(e) {
 </script>
 {% endif %}
 {% endblock %}
-{% endcompress %}
+{# {% endcompress %} #}
 </head>
 <body style='background:url("{{ MEDIA_URL }}/img/background2.jpg") repeat fixed center top transparent;'>
 {# <!-- Google.Analytics --> #}{% include 'include/Google.Analytics.script' %}{# <!-- /Google.Analytics --> #}
