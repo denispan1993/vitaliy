@@ -71,9 +71,13 @@ def context(request):
         except Cart.DoesNotExist:
             user_cart = None
 
-    request_path = request.get_full_path()
-    if request_path:
-        from django.core.urlresolvers import resolve
+    from django.core.urlresolvers import resolve
+    if request.method=='GET':
+        view, args, kwargs = resolve(request.path, )
+    else:
+        """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
+            и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
+        """
         view, args, kwargs = resolve(request.get_full_path(), )
 
     from apps.product.views import show_product
