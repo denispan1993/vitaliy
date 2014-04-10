@@ -28,14 +28,9 @@ MANAGERS = ADMINS
 
 SERVER = os.path.isfile(path('server.key', ), )
 
-if SERVER:
-    ALLOWED_HOSTS = ['*']
-    DEBUG = False
-    TEMPLATE_DEBUG = DEBUG
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'localhost:8000', ]
-    DEBUG = True
-    TEMPLATE_DEBUG = DEBUG
+ALLOWED_HOSTS = ['*']
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
 
 if os.path.isfile(path('server.mysql', ), ):
     DATABASES = {
@@ -655,3 +650,8 @@ INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '193.33.237.146', '46.33.240.0/2
 #)
 #
 #STATICSITEMAPS_ROOT_SITEMAP = 'media.sitemap'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
