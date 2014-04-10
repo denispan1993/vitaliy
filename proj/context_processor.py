@@ -73,7 +73,8 @@ def context(request):
 
     from django.core.urlresolvers import resolve
     if request.method=='GET':
-        view, args, kwargs = resolve(request.path, )
+        pass
+        # view, args, kwargs = resolve(request.path, )
     else:
         """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
             и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
@@ -81,8 +82,7 @@ def context(request):
         view, args, kwargs = resolve(request.get_full_path(), )
 
     from apps.product.views import show_product
-    if view == show_product:
-        from apps.product.models import Product
+    if 'view' in locals() and view == show_product:
         try:
             product_pk = int(kwargs[u'id'], )
         except ValueError:
@@ -90,16 +90,17 @@ def context(request):
         else:
             from apps.product.views import get_product
             product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+#            from apps.product.models import Product
 #            try:
 #                product = Product.objects.get(pk=product_pk, url=kwargs[u'product_url'], )
 #            except Product.DoesNotExist:
 #                product = None
-    else:
-        product = None
+#    else:
+#        product = None
 
     from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
-        if product:
+        if 'product' in locals() and product:
             viewed = Viewed.objects.filter(user_obj=user_object_,
                                            sessionid=None, ).\
                 order_by('-last_viewed', ).\
@@ -109,7 +110,7 @@ def context(request):
                                            sessionid=None, ).\
                 order_by('-last_viewed', )
     else:
-        if product:
+        if 'product' in locals() and product:
             viewed = Viewed.objects.filter(user_obj=None,
                                            sessionid=sessionid_COOKIES, ).\
                 order_by('-last_viewed', ).\
@@ -138,6 +139,6 @@ def context(request):
                 # view_=view,
                 #args_=args,
                 #kwargs_=kwargs,
-                product_=product,
+                # product_=product,
                 # ajax_resolution_=ajax_resolution_,
                 )

@@ -142,7 +142,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = 'C:/PycharmProjects/Shop/static'
 #STATIC_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin/static'
 
 # URL prefix for static files.
@@ -152,8 +152,9 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-#    'C:/Shop/media',
-#    'C:/Python27/Lib/site-packages/django/contrib/admin',
+    'C:/PycharmProjects/Shop/VirtualEnv/lib/python2.7/site-packages/suit/static',
+    'C:/Python27/Lib/site-packages/django/contrib/admin',
+    'C:/Python27/Lib/site-packages/django/contrib/admin/static',
 #    '/home/user/Proj/Shop/media',
 #    '/home/user/Proj/media',
 #    '/home/user/Proj/Shop/media',
@@ -167,7 +168,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
     # 'compressor.finders.CompressorFinder',
 )
 
@@ -321,6 +322,7 @@ INSTALLED_APPS = (
     'apps.static',
     'apps.search',
     'apps.utils',
+    'apps.handlers',
     # 'static_sitemaps',
 )
 
