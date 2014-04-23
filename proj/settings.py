@@ -28,6 +28,11 @@ MANAGERS = ADMINS
 
 SERVER = os.path.isfile(path('server.key', ), )
 
+if SERVER:
+    Email_MANAGER = 'zakaz@keksik.com.ua'
+else:
+    Email_MANAGER = 'alex.starov@keksik.com.ua'
+
 ALLOWED_HOSTS = ['*']
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG

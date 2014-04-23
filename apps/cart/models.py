@@ -4,6 +4,9 @@ from django.db import models
 
 
 class Cart(models.Model):
+    """
+    Корзина
+    """
     from django.contrib.auth.models import User
     user = models.ForeignKey(User,
                              verbose_name=u'Пользователь',
@@ -65,6 +68,9 @@ class Cart(models.Model):
 
 
 class Order(models.Model):
+    """
+    Заказ
+    """
     from django.contrib.auth.models import User
     user = models.ForeignKey(User,
                              verbose_name=u'Пользователь',
@@ -147,6 +153,9 @@ class Order(models.Model):
 
 
 class Product(models.Model):
+    """
+    Продукты для заказа
+    """
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType,
                                      related_name='cart',

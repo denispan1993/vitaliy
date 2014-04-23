@@ -6,7 +6,8 @@
 {# <link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css"> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/easypaginate/easypaginate.css" media="all">
 {% endblock %}
-{% set products_recommended = product.recomendate.all() %}
+{# {% set products_recommended = product.recomendate.all()%} #}
+{% set products_recommended = product.recomendate.all()|custom_QuerySet_filter('is_availability','=',1) %}
 {% set length_products_recommended = products_recommended|length %} #}
 {% set limit_products_recommended_on_string = request.session.limit_on_string %} #}
 {% if products_recommended and length_products_recommended > limit_products_recommended_on_string %}
@@ -59,7 +60,7 @@
 	padding:0px;margin:2px;
 } #}
 #product_box_right{
-	width:300px;/*height:45px;*/
+	width:auto; /*300px;*//*height:45px;*/
 //	margin-left:-15px;
 	float:left;
 //	list-style-image:none;
@@ -376,13 +377,13 @@ $(document).ready(onChange())
 			{% elif product.is_availability == 4 %}
 				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}
+            <div id="product_box_bottom"
+                    class="clearFloat"
+                    style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;"
+                    itemprop="description">
+                {{ product.description|safe }}
+            </div>
 		</div>
-    </div>
-    <div id="product_box_bottom"
-            class="clearFloat"
-            style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;"
-            itemprop="description">
-        {{ product.description|safe }}
     </div>
 </div>
 {% if length_products_recommended > limit_products_recommended_on_string %}

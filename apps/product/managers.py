@@ -37,6 +37,9 @@ class Manager_Product(models.Manager):
     def published(self, ):
         return self.filter(visibility=True, ).order_by('-created_at')
 
+    def availability(self, ):
+        return self.filter(is_availability=1, ).order_by('-created_at')
+
     def in_main_page(self, limit=12, ):
         from django.core.cache import cache
         # try to get product from cache
