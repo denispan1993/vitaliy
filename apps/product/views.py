@@ -213,9 +213,14 @@ def show_product(request, product_url, id,
                                   locals(),
                                   context_instance=RequestContext(request, ),
                                   )
-    # from datetime import datetime
+    from proj.settings import SERVER
+    if SERVER:
+        updated_at = product.updated_at
+    else:
+        from datetime import datetime
+        updated_at = datetime.now()
     from apps.utils.datetime2rfc import datetime2rfc
-    response['Last-Modified'] = datetime2rfc(product.updated_at, )
+    response['Last-Modified'] = datetime2rfc(updated_at, )
     return response
 
 

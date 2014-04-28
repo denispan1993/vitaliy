@@ -7,9 +7,10 @@
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/easypaginate/easypaginate.css" media="all">
 {% endblock %}
 {# {% set products_recommended = product.recomendate.all()%} #}
-{% set products_recommended = product.recomendate.all()|custom_QuerySet_filter('is_availability','=',1) %}
-{% set length_products_recommended = products_recommended|length %} #}
-{% set limit_products_recommended_on_string = request.session.limit_on_string %} #}
+{# {% set products_recommended = product.recomendate.all()|custom_QuerySet_filter('is_availability', '=', 1) %} #}
+{% set products_recommended = product.recomendation %}
+{% set length_products_recommended = products_recommended|length %}{#  #}
+{% set limit_products_recommended_on_string = request.session.limit_on_string %}{#  #}
 {% if products_recommended and length_products_recommended > limit_products_recommended_on_string %}
     {% block header_js %}
         <script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
@@ -70,7 +71,7 @@
 
 }
 </style>
-<div id="product_box" style="width:auto;height:auto;
+<div id="product_box" style="width:100%;height:auto;
                              border:5px solid #FFF6C9;
                              border-radius:10px;
                              padding:5px;
@@ -78,8 +79,9 @@
                              font-family:Arial,Helvetica,sans-serif;
                              font-size:12px;
                              line-height:125%;
-                             min-height:380px;" itemscope itemtype="http://schema.org/Product">
-	<div id="product_box_header" style="text-align:left;">
+                             display:inline-block;"
+     itemscope itemtype="http://schema.org/Product">
+	<div id="product_box_header" style="text-align:left;" class="clearFloat">
 		{{ header_category2(current_category, product)|safe }}
 	</div>
 	<div id="product_box_top" style="width:100%;position:relative;" class="clearFloat">

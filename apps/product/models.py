@@ -212,9 +212,9 @@ class Product(models.Model):
                                         max_length=128, )  # null=True, blank=True, )
     description = models.TextField(verbose_name=u'Полное писание продукта',
                                    null=True, blank=True, )
-    #recommended
+    #recommended recomendate
     recomendate = models.ManyToManyField('Product',
-                                         related_name=u'recommended',
+                                         related_name=u'Product',
                                          verbose_name=u'Рекомендуемые товары',
                                          blank=True,
                                          null=True, )
@@ -336,6 +336,11 @@ class Product(models.Model):
     def content_type(self, ):
         from django.contrib.contenttypes.models import ContentType
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
+
+    @property
+    def recomendation(self, ):
+        """ Вернуть все рекоммендованные товары с учётом их наличия на складе """
+        return self.recomendate.filter(is_availability=1, )
 
     @property
     def get_or_create_ItemID(self, ):
