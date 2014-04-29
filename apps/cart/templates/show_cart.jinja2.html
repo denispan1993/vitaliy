@@ -207,7 +207,7 @@ function delete_on_off(IdString1, IdString2){
                     </tr>
                 </tfoot>
             </table>
-            <p>Минимальная сумма заказа 100 грн.</p>
+            <p>Минимальная сумма заказа {{ 100|convert_currency(request) }} {{ get_currency(request) }}</p>
             <input style="float:left;list-style-type:none;line-height:22px;margin-right:5px;"
                    type="submit"
                    value="Пересчитать корзину"/>
