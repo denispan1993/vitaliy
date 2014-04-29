@@ -27,14 +27,15 @@ class CategoryAdmin(MPTTModelAdmin, ):
     list_display = ('pk', 'url', 'title', 'parent', )  # 'name', ]
     list_display_links = ('pk', 'url', 'title', )
     list_filter = ('title', )
+    search_fields = ['title', ]
     fieldsets = [
-        (None,       {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
-                                                      'shown_colored', 'shown_bold', 'shown_italic', 'font_px',
-                                                      #'disclose_product',
-                                                      'url', 'title',
-                                                      #'letter_to_article',
-                                                      # 'name',
-                                                      'item_description', 'description', ], }),
+        (None,   {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
+                                                  'shown_colored', 'shown_bold', 'shown_italic', 'font_px',
+                                                  #'disclose_product',
+                                                  'url', 'title',
+                                                  #'letter_to_article',
+                                                  # 'name',
+                                                  'item_description', 'description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
                                                                                               'meta_keywords', ], }, ),
@@ -246,6 +247,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'url', 'title', 'name', ]
     list_display_links = ['pk', 'url', 'title', 'name', ]
     list_filter = ('title', 'name', )
+    search_fields = ['title', 'name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',
