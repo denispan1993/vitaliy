@@ -22,6 +22,7 @@ a.category_block_title{
     font-size:18px;
 }
 a.category_block_img{
+    line-height:0px;
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;

@@ -4,7 +4,6 @@
            href="{{ block.get_absolute_url() }}"
            title="{% if block.item_description %}{{ block.item_description }}{% else %}{{ block.title }}{% endif %}">{{ block.title }}</a>
         <a class="category_block_img"
-           style="line-height:0px;"
            href="{{ block.get_absolute_url() }}"
            title="{{ block.main_photo.title }}">
             <img src="{{ block.main_photo.photo.url_210x160 }}"

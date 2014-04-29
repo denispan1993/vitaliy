@@ -24,8 +24,9 @@ class CategoryAdmin(MPTTModelAdmin, ):
     #default is 10 pixels
     mptt_level_indent = 15
 
-    list_display = ['pk', 'url', 'title', 'parent', ]  # 'name', ]
-    list_display_links = ['pk', 'url', 'title', ]
+    list_display = ('pk', 'url', 'title', 'parent', )  # 'name', ]
+    list_display_links = ('pk', 'url', 'title', )
+    list_filter = ('title', )
     fieldsets = [
         (None,       {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
                                                       'shown_colored', 'shown_bold', 'shown_italic', 'font_px',
@@ -244,6 +245,7 @@ from apps.product.models import Product
 class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'url', 'title', 'name', ]
     list_display_links = ['pk', 'url', 'title', 'name', ]
+    list_filter = ('title', 'name', )
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',
