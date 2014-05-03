@@ -213,7 +213,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name=u'Полное писание продукта',
                                    null=True, blank=True, )
     #recommended recomendate
-    recomendate = models.ManyToManyField('Product',
+    recommended = models.ManyToManyField('Product',
                                          related_name=u'Product',
                                          verbose_name=u'Рекомендуемые товары',
                                          blank=True,
@@ -288,19 +288,25 @@ class Product(models.Model):
                                   max_length=190,
                                   null=True,
                                   blank=True,
-                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения'
-                                            u' страницы в поиске.', )
+                                  help_text=u'Данный заголовок читают поисковые системы для правильного расположения '
+                                            u'страницы в поиске.<br>'
+                                            u'Оптимальная длинна то 15 до 80 символов без учёта пробела.', )
     meta_description = models.CharField(verbose_name=u'Описание продукта',
                                         max_length=190,
                                         null=True,
                                         blank=True,
-                                        help_text=u'Данное описание читают поисковые системы для правильного'
-                                                  u' расположения страницы в поиске.', )
+                                        help_text=u'Данное описание читают поисковые системы для правильного '
+                                                  u'расположения страницы в поиске.<br>'
+                                                  u'Оптимальная длинна от 70 до 160 символов с учётом пробелов.', )
     meta_keywords = models.CharField(verbose_name=u'Клчевые слова продукта',
                                      max_length=160,
                                      null=True,
                                      blank=True,
-                                     help_text=u'Ключевые слова для поисковых систем.', )
+                                     help_text=u'Ключевые слова для поисковых систем.<br>'
+                                               u'Перечисляются через запятую без пробелов.<br>'
+                                               u'Еслю ключевое слово сосотит из двух слов'
+                                               u' то между ними ставится пробел<br>'
+                                               u'Общая длина ключевых слов не должна превышать 1000 символов.', )
     #Расширенные настройки
     template = models.CharField(verbose_name=u'Имя шаблона',
                                 max_length=70,
@@ -340,7 +346,7 @@ class Product(models.Model):
     @property
     def recomendation(self, ):
         """ Вернуть все рекоммендованные товары с учётом их наличия на складе """
-        return self.recomendate.filter(is_availability=1, )
+        return self.recommended.filter(is_availability=1, )
 
     @property
     def get_or_create_ItemID(self, ):

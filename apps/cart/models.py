@@ -184,6 +184,20 @@ class Product(models.Model):
                                 default=0,
                                 blank=False,
                                 null=False, )
+    percentage_of_prepaid = models.PositiveSmallIntegerField(verbose_name=u'Процент предоплаты.',
+                                                             blank=False,
+                                                             null=False,
+                                                             default=100,
+                                                             help_text=u'Процент предоплаты за данный товар.', )
+    available_to_order = models.NullBooleanField(verbose_name=u'Доступен для заказа',
+                                                 default=None,
+                                                 null=True,
+                                                 blank=True,
+                                                 help_text=u'Поле показывает, что этот товар '
+                                                           u'доступен для закза. '
+                                                           u'Если товар не досутпен то поле будет False. '
+                                                           u'Если товар в наличии по полной стоимости, '
+                                                           u'то поле будет Null', )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -225,7 +239,16 @@ class Product(models.Model):
 
     def update_price_per_piece(self, ):
         """ Здесь будет расчёт цены со скидкой в зависимости от количества. """
-        self.price = self.product.price
+        if self.product.is_availability is 1:  # """ Если "Товар на складе" ТО:"""
+            """ Производим расчёт цены по стандартной схеме """
+            self.price = self.product.price
+            self.percentage_of_prepaid = 100  # 100% стоимости товра
+            self.available_to_order = None  # Товар в наличии на складе - поэтому это поле для нас не нужно
+        elif self.product.is_availability is 3:  # """ Если "Товар доступен под заказ" ТО: """
+            """ Считаем цену 50% от стоимости """
+            self.price = self.product.price/2
+            self.percentage_of_prepaid = 50  # 50% стоимости товра
+            self.available_to_order = True  # Товар доступен под заказ - поэтому это поле ставим в True
         self.save()
 
     @property

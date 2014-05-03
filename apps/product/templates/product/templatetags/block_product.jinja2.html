@@ -18,11 +18,21 @@
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }});return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;"
                    rel="{{ block.pk }}"
                    href="javascript:void(0)"
                    src="/media/img/add_cart.png"
                    title="добавить в корзину">
+        {% elif block.is_availability == 3 %}
+        {# Досутпен под заказ - положить в корзину заказ с 50% стоимости #}
+            <p>Доступен под заказ.</p>
+            <input class="add_to_cart button_buy"
+                   type="image"
+                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;"
+                   rel="{{ block.pk }}"
+                   href="javascript:void(0)"
+                   src="/media/img/add_cart.png"
+                   title="добавить в корзину 50% стоимости">
         {% else %}
             <p>Нет на складе</p>
         {% endif %}
@@ -46,12 +56,22 @@
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }});return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;"
 {#                    onclick="animate_cart(this);return false;" #}
                    rel="{{ block.pk }}"
                    href="javascript:void(0)"
                    src="/media/img/add_cart.png"
                    title="добавить в корзину">
+        {% elif block.is_availability == 3 %}
+        {# Досутпен под заказ - положить в корзину заказ с 50% стоимости #}
+            <p>Доступен под заказ.</p>
+            <input class="add_to_cart button_buy"
+                   type="image"
+                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;"
+                   rel="{{ block.pk }}"
+                   href="javascript:void(0)"
+                   src="/media/img/add_cart.png"
+                   title="добавить в корзину 50% стоимости">
         {% else %}
             <p>Нет на складе</p>
         {% endif %}

@@ -1,9 +1,10 @@
 <div id="products_block"{% if top_border %} style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
 <script>
-function ajax_product_to_cart(product_pk){
+function ajax_product_to_cart(product_pk, available_to_order){
     var request_dict = {
         csrfmiddlewaretoken:'{{ csrf_token }}',
-        product_pk:product_pk
+        product_pk:product_pk,
+        available_to_order:available_to_order
     }
     jQuery.post("/ajax/product_to_cart/",
         request_dict,
@@ -12,8 +13,8 @@ function ajax_product_to_cart(product_pk){
         },
         "json");
 }
-function product_to_cart(data, product_pk){
-    ajax_product_to_cart(product_pk);
+function product_to_cart(data, product_pk, available_to_order){
+    ajax_product_to_cart(product_pk, available_to_order);
     animate_cart(data);
     return false;
 }

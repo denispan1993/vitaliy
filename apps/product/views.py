@@ -276,7 +276,12 @@ def get_product(product_pk, product_url, ):
     return product
 
 
-def add_to_cart(request, product=None, int_product_pk=None, product_url=None, quantity=None, ):
+def add_to_cart(request,
+                product=None,
+                int_product_pk=None,
+                product_url=None,
+                quantity=None,
+                available_to_order=None, ):
 #    postdata = request.POST.copy()
     # get product slug from post data, return blank if empty
 #    if not product_pk:
@@ -300,10 +305,25 @@ def add_to_cart(request, product=None, int_product_pk=None, product_url=None, qu
         """ Занесение продукта в корзину если его нету """
         if not quantity:
             quantity = product.minimal_quantity
-        product_in_cart = Product.objects.create(key=product_cart,
-                                                 product=product,
-                                                 price=product.price,
-                                                 quantity=quantity, )
+        if available_to_order is True:
+            product_in_cart = Product.objects.create(key=product_cart,
+                                                     product=product,
+                                                     price=product.price/2,
+                                                     # True - Товар доступен под заказ.
+                                                     available_to_order=True,
+                                                     # 50% - предоплата.
+                                                     percentage_of_prepaid=50,
+                                                     quantity=quantity, )
+        else:
+            product_in_cart = Product.objects.create(key=product_cart,
+                                                     product=product,
+                                                     price=product.price,
+                                                     # None - Есть на складе, False - Товар не доступен
+                                                     # Теоретически False - быть не может.
+                                                     available_to_order=available_to_order,
+                                                     # 100% - предоплата
+                                                     percentage_of_prepaid=100,
+                                                     quantity=quantity, )
         # product_in_cart.update_price_per_piece()
     else:
         if not quantity:
