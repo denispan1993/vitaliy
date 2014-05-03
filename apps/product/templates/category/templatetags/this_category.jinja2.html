@@ -11,7 +11,7 @@
         </div>
         {% if category.description %}
             <div class="this_category_excerpt" style="color:Black;text-align:justify;display:block;font-size:15px;letter-spacing:1px;width:{{ width_this_category }}px;float:right;{# padding-bottom:10px; #}"
-                 title="{{ category.description }}">{{ category.description }}
+                 title="{{ category.description }}">{{ category.description|safe }}
             </div>
         {% endif %}
     </div>
@@ -21,7 +21,7 @@
        title="{{ category.title }}">{{ category.name }}</a> #}
     {% if category.description %}
         <div class="this_category_excerpt" style="color:Black;text-align:justify;margin-top:10px;{# padding-bottom:10px; #}"
-             title="{{ category.description }}">{{ category.description }}
+             title="{{ category.description }}">{{ category.description|safe }}
         </div>
     {% endif %}
 {% endif %}
