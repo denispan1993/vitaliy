@@ -34,7 +34,7 @@ else:
     Email_MANAGER = 'alex.starov@keksik.com.ua'
 
 ALLOWED_HOSTS = ['*']
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 if os.path.isfile(path('server.mysql', ), ):
@@ -157,9 +157,9 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    'C:/PycharmProjects/Shop/VirtualEnv/lib/python2.7/site-packages/suit/static',
-    'C:/Python27/Lib/site-packages/django/contrib/admin',
-    'C:/Python27/Lib/site-packages/django/contrib/admin/static',
+    # 'C:/PycharmProjects/Shop/VirtEnv/lib/python2.7/site-packages/suit/static',
+    # 'C:/Python27/Lib/site-packages/django/contrib/admin',
+    # 'C:/Python27/Lib/site-packages/django/contrib/admin/static',
 #    '/home/user/Proj/Shop/media',
 #    '/home/user/Proj/media',
 #    '/home/user/Proj/Shop/media',
@@ -331,6 +331,9 @@ INSTALLED_APPS = (
     # 'static_sitemaps',
 )
 
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

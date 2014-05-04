@@ -175,7 +175,7 @@ def show_product(request, product_url, id,
 #            from django.http import Http404
 #            raise Http404
 #        else:
-        products_recommended = product.recomendate.all()
+        products_recommended = product.recommended.all()
         # print(product)
         # print(products_recommended)
         # print(len(products_recommended))
