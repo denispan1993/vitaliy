@@ -252,7 +252,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',
                                                               'title', 'name', 'description',  # 'manufacturer',
-                                                              'recomendate',
+                                                              'recommended',
                                                               'minimal_quantity',
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
                                                               'is_availability', 'regular_price', 'currency', 'price',
@@ -266,7 +266,7 @@ class ProductAdmin(admin.ModelAdmin, ):
 #    readonly_fields = u'url'
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
-    filter_horizontal = ('category', 'recomendate', )
+    filter_horizontal = ('category', 'recommended', )
     inlines = [
         genericStacked_ItemID_InLine,
         genericStacked_IntermediateModelManufacturer_InLine,
