@@ -177,6 +177,21 @@ class Category(MPTTModel):
         verbose_name_plural = u'Категории'
 
 
+Availability = (
+    (1, _(u'Есть в наличии', ), ),
+    (2, _(u'Ожидается', ), ),
+    (3, _(u'Под заказ', ), ),
+    (4, _(u'Недоступен', ), ),
+)
+
+
+def get_display_on_id(key, list, ):
+    d = dict(list)
+    if key in d:
+        return d[key]
+    return key
+
+
 class Product(models.Model):
     # id = models.AutoField(primary_key=True, db_index=True, )
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
@@ -239,12 +254,12 @@ class Product(models.Model):
 #        (5, _('Молдова', ), ),
 #        (6, _('Приднестровье', ), ),
 #    )
-    Availability = (
-        (1, _(u'Есть в наличии', ), ),
-        (2, _(u'Ожидается', ), ),
-        (3, _(u'Под заказ', ), ),
-        (4, _(u'Недоступен', ), ),
-    )
+#    Availability = (
+#        (1, _(u'Есть в наличии', ), ),
+#        (2, _(u'Ожидается', ), ),
+#        (3, _(u'Под заказ', ), ),
+#        (4, _(u'Недоступен', ), ),
+#    )
 #    is_availability = models.BooleanField(verbose_name=_(u'Товар'),
 #                                                       choices=Availability,
 #                                                       default=True,
@@ -255,7 +270,7 @@ class Product(models.Model):
                                                        default=1,
                                                        blank=False,
                                                        null=False, )
-    regular_price = models.DecimalField(verbose_name=u'Обычная цена',
+    regular_price = models.DecimalField(verbose_name=_(u'Обычная цена'),
                                         max_digits=8,
                                         decimal_places=2,
                                         default=0,
@@ -337,6 +352,17 @@ class Product(models.Model):
     Viewed = generic.GenericRelation('Viewed',
                                      content_type_field='content_type',
                                      object_id_field='object_id', )
+
+    @property
+    def function_is_availability(self, ):
+#        Availability = (
+#            (1, _(u'Есть в наличии', ), ),
+#            (2, _(u'Ожидается', ), ),
+#            (3, _(u'Под заказ', ), ),
+#            (4, _(u'Недоступен', ), ),
+#        )
+        return type(self.is_availability, )
+#        return get_display_on_id(self.is_availability, Availability, )
 
     @property
     def content_type(self, ):

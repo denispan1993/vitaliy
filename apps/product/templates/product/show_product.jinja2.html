@@ -209,6 +209,10 @@ p.price_total span{
 <span id="current_price">{# {{ sum_of_quantity|replace(",", ".") }} #}</span>
 &nbsp;{{ get_currency(request) }}{# &nbsp; #}</p>
 {# set product_is_availability = product.is_availability #}
+{{ product.is_availability }}
+{{ product.function_is_availability }}
+{{ product.get_is_availability_display() }}
+{{ product.is_availability|custom_filter }}
 {% if product.is_availability == 1 %}
 <style>
 .quantity{
