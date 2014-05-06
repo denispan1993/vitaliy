@@ -177,19 +177,19 @@ class Category(MPTTModel):
         verbose_name_plural = u'Категории'
 
 
-Availability = (
-    (1, _(u'Есть в наличии', ), ),
-    (2, _(u'Ожидается', ), ),
-    (3, _(u'Под заказ', ), ),
-    (4, _(u'Недоступен', ), ),
-)
+#Availability = (
+#    (1, _(u'Есть в наличии', ), ),
+#    (2, _(u'Ожидается', ), ),
+#    (3, _(u'Под заказ', ), ),
+#    (4, _(u'Недоступен', ), ),
+#)
 
 
-def get_display_on_id(key, list, ):
-    d = dict(list)
-    if key in d:
-        return d[key]
-    return key
+#def get_display_on_id(key, list, ):
+#    d = dict(list)
+#    if key in d:
+#        return d[key]
+#    return key
 
 
 class Product(models.Model):
@@ -254,18 +254,20 @@ class Product(models.Model):
 #        (5, _('Молдова', ), ),
 #        (6, _('Приднестровье', ), ),
 #    )
-#    Availability = (
-#        (1, _(u'Есть в наличии', ), ),
-#        (2, _(u'Ожидается', ), ),
-#        (3, _(u'Под заказ', ), ),
-#        (4, _(u'Недоступен', ), ),
-#    )
+    Availability = (
+        (1, _(u'Есть в наличии', ), ),
+        (2, _(u'Ожидается', ), ),
+        (3, _(u'Под заказ', ), ),
+        (4, _(u'Недоступен', ), ),
+    )
 #    is_availability = models.BooleanField(verbose_name=_(u'Товар'),
 #                                                       choices=Availability,
 #                                                       default=True,
 #                                                       blank=False,
 #                                                       null=False, )
-    is_availability = models.PositiveSmallIntegerField(verbose_name=_(u'Товар'),
+#    is_availability = models.PositiveSmallIntegerField(verbose_name=_(u'Товар'),
+#    is_availability = models.BooleanField(default=True, )
+    is_availability = models.IntegerField(verbose_name=_(u'Товар'),
                                                        choices=Availability,
                                                        default=1,
                                                        blank=False,
@@ -353,15 +355,15 @@ class Product(models.Model):
                                      content_type_field='content_type',
                                      object_id_field='object_id', )
 
-    @property
-    def function_is_availability(self, ):
+#    @property
+#    def function_is_availability(self, ):
 #        Availability = (
 #            (1, _(u'Есть в наличии', ), ),
 #            (2, _(u'Ожидается', ), ),
 #            (3, _(u'Под заказ', ), ),
 #            (4, _(u'Недоступен', ), ),
 #        )
-        return type(self.is_availability, )
+#        return type(self.is_availability, )
 #        return get_display_on_id(self.is_availability, Availability, )
 
     @property
