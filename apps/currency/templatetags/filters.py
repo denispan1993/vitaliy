@@ -11,8 +11,19 @@ register = Library()
 """
 @register.filter()
 def convert_currency(value, request, *args, **kwargs):
+    if value:
+        ''' Сначала преобразуем value в число
+        '''
+        try:
+            value = int(value, )
+        except ValueError:
+            value = 0
+    else:
+        value = 0
     current_currency = request.session.get(u'currency_pk', None, )
     if current_currency:
+        ''' Теперь преобразуем сосбственно код валюты сайта
+         '''
         try:
             current_currency = int(current_currency, )
         except ValueError:
@@ -23,15 +34,9 @@ def convert_currency(value, request, *args, **kwargs):
         ''' Если текущая валюта сайта "Гривна":
             Возвращаем полученое значени
         '''
-        return value
+        pass
+        # return value
     else:
-        if value:
-            try:
-                value = int(value, )
-            except ValueError:
-                value = 0
-        else:
-            value = 0
         from apps.product.models import Currency
         try:
             current_currency = Currency.objects.get(pk=current_currency, )
@@ -42,4 +47,6 @@ def convert_currency(value, request, *args, **kwargs):
                 1. умножаем на количество гривен
                 2. делим на курс
             '''
-            return str(value*current_currency.currency/current_currency.exchange_rate)
+            # return str(value*current_currency.currency/current_currency.exchange_rate)
+            value = value*current_currency.currency/current_currency.exchange_rate
+    return u'%5.2f'.replace(',', '.', ) % value

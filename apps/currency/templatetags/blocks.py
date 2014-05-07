@@ -26,21 +26,21 @@ def get_currency(request, ):
     return return_str
 
 
-@register.global_function()
-def convert_currency(request, ):
-    current_currency = request.session.get(u'currency_pk', )
-    return_str = u'грн.'
-    if current_currency:
-        from apps.product.models import Currency
-        try:
-            current_currency = int(current_currency, )
-        except ValueError:
-            current_currency = 1
-        try:
-            current_currency = Currency.objects.get(pk=current_currency, )
-        except Currency.DoesNotExist:
-            pass
-        else:
-            return_str = current_currency.name_truncated
-    return return_str
+#@register.global_function()
+#def convert_currency(request, ):
+#    current_currency = request.session.get(u'currency_pk', )
+#    return_str = u'грн.'
+#    if current_currency:
+#        from apps.product.models import Currency
+#        try:
+#            current_currency = int(current_currency, )
+#        except ValueError:
+#            current_currency = 1
+#        try:
+#            current_currency = Currency.objects.get(pk=current_currency, )
+#        except Currency.DoesNotExist:
+#            pass
+#        else:
+#            return_str = current_currency.name_truncated
+#    return return_str
 

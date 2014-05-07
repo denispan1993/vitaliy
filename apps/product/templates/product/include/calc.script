@@ -1,0 +1,97 @@
+<script>
+var price_qty_array = new Array();
+var price_array = new Array();
+price_qty_array[0]=1;
+price_array[0]={{ product.get_price(request, price=None, calc_or_show='calc') }}; {# |replace(",", ".") #}
+{#  {% if discount1 != None %}
+		{% if discount1.price %}
+			{% for discount in discounts %}
+				<!--{1% if not forloop.first %}-->
+				{% if forloop.last %}
+price_qty_array[{{ forloop.counter }}]={{ discount.quantity_of_products }};
+price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
+price_qty_array[{{ forloop.counter|add:"1" }}]=999;
+price_array[{{ forloop.counter|add:"1" }}]={{ discount.price|replace(",", ".") }};
+				<!--{1% endif %}-->
+				{% else %}
+price_qty_array[{{ forloop.counter }}]={{ discount.quantity_of_products }};
+price_array[{{ forloop.counter }}]={{ discount.price|replace(",", ".") }};
+				{% endif %}
+			{% endfor %}
+		{% else %}
+		{% endif %}
+	{% else %} #}
+price_qty_array[1]=999;
+price_array[1]={{ product.get_price(request, price=None, calc_or_show='calc') }}; {# |replace(",", ".") #}
+	{# {% endif %} #}
+function checknumber(String){
+	var Letters = ".,1234567890";
+	var i;
+	var c;
+	for(i = 0; i < String.length; i ++){
+		c = String.charAt( i );
+		if (Letters.indexOf( c ) == -1){
+			return true;
+		}
+	}
+	return false;
+}
+function calculate(operation){
+	//var price=0.00;
+	//var total=0.00;
+	var Qut=$("#quantity").val();
+	//$("#quantity_order").val(Qut);
+	$("#errorMsg").html('');
+	if(checknumber(Qut)){
+		//calculate();
+		//alert('aaa'+Qut+'bbb');
+		$("#errorMsg").html('Количество вводится цифрами!!!.');
+		return false;
+	}
+	Qut=parseFloat(Qut);
+	if(operation=='+'){Qut+={{ product.quantity_of_complete }}}
+	if(operation=='-'){Qut-={{ product.quantity_of_complete }}}
+	var minimal_quantity={{ product.minimal_quantity }}
+	var quantity_of_complete={{ product.quantity_of_complete }};
+	var intermediate_result=Qut-{{ product.minimal_quantity }};
+	var result = intermediate_result%quantity_of_complete;
+	//alert(result+' '+intermediate_result);
+	if(result!=0&&intermediate_result!=0){
+		$("#errorMsg").html('Количество едениц товара в заказе должно быть кратно '+quantity_of_complete+' !!!');
+		result=Math.ceil(intermediate_result/quantity_of_complete);
+		Qut=(result*quantity_of_complete)+minimal_quantity;
+	}
+	if(Qut<{{ product.minimal_quantity }}){
+		//$("#quantity").val({{ product.minimal_quantity }});
+		//$("#quantity_order").val({{ product.minimal_quantity }});
+		//calculate();
+		$("#errorMsg").html('Минимальное для заказа количество {{ product.minimal_quantity }} !!!');
+		return false;
+	}
+	if(Qut>999){
+		//$("#quantity").val(999);
+		//$("#quantity_order").val(999);
+		//calculate();
+		$("#errorMsg").html('Количество не может быть больше 999!!!');
+		return false;
+	}
+	$("#quantity").val(Qut);
+	$("#quantity_order").val(Qut);
+	$("#cart_quant").html(Qut);
+	$.each(price_qty_array,function(i,val){
+		if(val<=Qut&&Qut<price_qty_array[eval(i+1)]){
+			//alert('i: '+i+' Qut: '+Qut+' val: '+val)
+			var price=price_array[i]/{{ product.price_of_quantity }};
+			$("#one_piece_price").html(price.toFixed(2));
+			var total=price*Qut;
+			$("#current_price").html(total.toFixed(2));
+			return true;
+		}
+	});
+}
+function onChange(){
+	window.setInterval("calculate('|')",1500);
+	//setTimeout(calculate(value),1500);
+	return true;
+}
+</script>

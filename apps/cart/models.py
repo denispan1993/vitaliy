@@ -207,12 +207,13 @@ class Product(models.Model):
         """
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
+        price = product.get_price(request, price=None, calc_or_show='calc', )  # price=self.price,
         from decimal import Decimal
-        if request:
-            price = self.quantity * (Decimal(product.get_price(request, price=self.price, ), ) / product.price_of_quantity)
-        else:
-            price = self.quantity * (Decimal(product.get_price(price=self.price, ), ) / product.price_of_quantity)
-        return u'%5.2f'.replace(',', '.', ) % price
+        # if request:
+        price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
+        # else:
+        #    price = self.quantity * (Decimal(product.get_price(price=None, calc_or_show='calc' ), ) / product.price_of_quantity)  # price=self.price,
+        return u'%5.2f'.replace(',', '.', ).strip() % price
 
     def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,
