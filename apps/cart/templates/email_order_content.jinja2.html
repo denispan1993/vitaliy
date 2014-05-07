@@ -23,6 +23,7 @@
             <th scope="col">Артикул</th>
             <th scope="col" style="width:68px;">Кол-во</th>
             <th scope="col">Цена</th>
+            <th scope="col">Под заказ</th>
             <th scope="col">Сумма</th>
         </tr>
     </thead>
@@ -51,6 +52,9 @@
             </td>
             <td style="padding:0px;">
                 {{ product.price }}
+            </td>
+            <td>
+                {% if real_product.is_availability == 3 %}<p>Товар под заказ</p>{% endif %}
             </td>
             <td>
                 <p>{{ product.summ_of_quantity() }} грн.</p>

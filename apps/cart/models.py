@@ -213,7 +213,7 @@ class Product(models.Model):
         price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
         # else:
         #    price = self.quantity * (Decimal(product.get_price(price=None, calc_or_show='calc' ), ) / product.price_of_quantity)  # price=self.price,
-        return u'%5.2f'.replace(',', '.', ).strip() % price
+        return u'%5.2f'.replace(',', '.', ) % price  # .replace(',', '.', ).strip()
 
     def summ_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,

@@ -18,12 +18,29 @@
                         {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
                         <th scope="col" style="width:73px;text-align:center;">Кол-во</th>
                         <th scope="col" style="text-align:center;">Сумма</th>
-                        <th scope="col" style="text-align:center;">Под заказ</th>
+                        {# <th scope="col" style="text-align:center;">Под заказ</th> #}
                         <th scope="col" style="text-align:center;">Удаление</th>
                     </tr>
                 </thead>
                 <tbody>
                     {# {% set products=user_cart_.products %} #}
+<script>
+function CheckNumber(String){
+	var Letters = ".,1234567890";
+	var i;
+	var c;
+	for(i = 0; i < String.length; i ++){
+		c = String.charAt( i );
+		if (Letters.indexOf( c ) == -1){
+			return true;
+		}
+	}
+	return false;
+}
+var product_summ_of_quantity_array = new Array();
+product_summ_of_quantity_array[0]=0;
+//product_summ_of_quantity_array[999999]=0;
+</script>
                     {% for product in user_cart_.products %}
                     {% set real_product=product.product %}
 {% include 'include/calc.script' %}
@@ -40,7 +57,7 @@
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <a href="javascript:void(0)">
                                         <img src="/media/img/minus.gif"
-                                            onClick="Calculate_{{ product.pk }}('-')" />
+                                            onClick="Calculate_{{ product.pk }}('-')">
                                     </a>
                                 </li>
                                 <li style="float:left;list-style-type:none;line-height:22px;">
@@ -62,15 +79,15 @@
                             {% set summ_of_quantity =  product_summ_of_quantity/real_product_price_of_quantity %} {{ summ_of_quantity }} #}
                             <td><p id="summ_of_quantity_{{ product.pk }}">{{ product.summ_of_quantity(request) }} {{ get_currency(request) }}</p></td>
 <script>
-product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(request)|trim_whitespace }};{# |replace(",", ".") #}
+product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(request) }};{# |replace(",", ".") #} {# |trim_whitespace #}
 </script>
-                            <td style="text-align:center;">
+{#                             <td style="text-align:center;">
                                 {% if real_product.is_availability == 3 %}
                                     <input type="checkbox" disabled checked>
                                 {% else %}
                                     <input type="checkbox" disabled>
                                 {% endif %}
-                            </td>
+                            </td> #}
                             <td style="text-align:center;">
                                 <input id="delete1_{{ product.pk }}"
                                        name="delete_{{ product.pk }}"
