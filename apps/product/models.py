@@ -861,7 +861,8 @@ class Photo(models.Model):
     title = models.CharField(verbose_name=u'Заголовок фотографии',
                              max_length=256,
                              null=False,
-                             blank=False, )
+                             blank=False,
+                             help_text=u'title <a> записи.')
     name = models.CharField(verbose_name=u'Наименование фотографии',
                             max_length=256,
                             null=True,
