@@ -328,6 +328,7 @@ INSTALLED_APPS = (
     'apps.search',
     'apps.utils',
     'apps.handlers',
+    'apps.admin',
     # 'static_sitemaps',
 )
 
