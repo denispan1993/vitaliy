@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <head>
-    <title></title>
+    <title>Страница поиска заказа по номеру.</title>
 </head>
 <body>
-
+    <form method="POST" action="/админ/заказ/поиск/">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+        <input type="hidden" name="POST_NAME" value="order_search"/>
+        <input type="text" name="order_id">
+        <input type="submit" value="Искать заказ">
+    </form>
 </body>
 </html>
