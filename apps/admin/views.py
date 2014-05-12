@@ -1,6 +1,4 @@
 # coding=utf-8
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 
 
 def order_search(request,
@@ -9,15 +7,28 @@ def order_search(request,
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'order_search':
             order_id = request.POST.get(u'order_id', None, )
+            if order_id:
+                try:
+                    order_id = int(order_id, )
+                except ValueError:
+                    error_message = u'Некорректно введен номер заказа.'
+                else:
+                    # from apps.cart.models import Order
+                    # order = Order.objects.get(pk=order_id, )
+                    order_id = '%06d' % order_id
+                    from django.shortcuts import redirect
+                    return redirect(to='order_edit', id=order_id, )
     else:
-        response = render_to_response(template_name=template_name,
-    #                                  dictionary={'page': page,
-    #                                              'html_text': html_text, },
-                                      context_instance=RequestContext(request, ),
-                                      content_type='text/html', )
+        error_message = u''
     # from datetime import datetime
 #    from apps.utils.datetime2rfc import datetime2rfc
 #    response['Last-Modified'] = datetime2rfc(page.updated_at, )
+    from django.shortcuts import render_to_response
+    from django.template import RequestContext
+    response = render_to_response(template_name=template_name,
+                                  dictionary={'error_message': error_message, },  # 'html_text': html_text, },
+                                  context_instance=RequestContext(request, ),
+                                  content_type='text/html', )
     return response
 
 
@@ -35,6 +46,8 @@ def order_edit(request,
 #        html_text = markdown.markdown(page.text, )
 #    else:
 #        html_text = None
+    from django.shortcuts import render_to_response
+    from django.template import RequestContext
     response = render_to_response(template_name=template_name,
 #                                  dictionary={'page': page,
 #                                              'html_text': html_text, },

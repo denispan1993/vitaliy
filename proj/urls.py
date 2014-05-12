@@ -74,7 +74,7 @@ urlpatterns += patterns('apps.admin.views',
                             name='order_search', ),
                         url(ur'^админ/заказ/редактор/(?P<id>\d{6})/$', 'order_edit',
                             {'template_name': u'order/order_edit.jinja2.html', },
-                            name='show_search', ),
+                            name='order_edit', ),
                         )
 
 #Search
