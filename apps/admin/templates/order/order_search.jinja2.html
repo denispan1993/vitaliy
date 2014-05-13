@@ -37,5 +37,18 @@ body{
             </form>
         </div>
     </div>
+    <div id="orders">
+        <table>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>
+                            {{ order.pk }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

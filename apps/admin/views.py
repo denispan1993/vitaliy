@@ -13,8 +13,6 @@ def order_search(request,
                 except ValueError:
                     error_message = u'Некорректно введен номер заказа.'
                 else:
-                    # from apps.cart.models import Order
-                    # order = Order.objects.get(pk=order_id, )
                     order_id = '%06d' % order_id
                     from django.shortcuts import redirect
                     return redirect(to='order_edit', id=order_id, )
@@ -23,10 +21,13 @@ def order_search(request,
     # from datetime import datetime
 #    from apps.utils.datetime2rfc import datetime2rfc
 #    response['Last-Modified'] = datetime2rfc(page.updated_at, )
+    from apps.cart.models import Order
+    order = Order.objects.all()
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
-                                  dictionary={'error_message': error_message, },  # 'html_text': html_text, },
+                                  dictionary={'error_message': error_message,
+                                              'order': order, },  # 'html_text': html_text, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )
     return response
@@ -35,6 +36,21 @@ def order_search(request,
 def order_edit(request,
                id,
                template_name=u'order/order_edit.jinja2.html', ):
+    if id:
+        try:
+            order_id = int(id, )
+        except ValueError:
+            error_message = u'Некорректно введен номер заказа.'
+            from django.shortcuts import redirect
+            return redirect(to='order_search', )
+        else:
+            from apps.cart.models import Order
+            order = Order.objects.get(pk=id, )
+    else:
+        error_message = u'Отсутсвует номер заказа.'
+        from django.shortcuts import redirect
+        return redirect(to='order_search', )
+
 #    from apps.static.models import Static
 #    try:
 #        page = Static.objects.get(url=static_page_url, )
@@ -49,11 +65,11 @@ def order_edit(request,
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
-#                                  dictionary={'page': page,
-#                                              'html_text': html_text, },
+                                  dictionary={'order_id': id,
+                                              'order': order, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )
     # from datetime import datetime
-#    from apps.utils.datetime2rfc import datetime2rfc
-#    response['Last-Modified'] = datetime2rfc(page.updated_at, )
+    # from apps.utils.datetime2rfc import datetime2rfc
+    # response['Last-Modified'] = datetime2rfc(page.updated_at, )
     return response
