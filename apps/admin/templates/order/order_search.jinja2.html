@@ -45,6 +45,48 @@ body{
                         <td>
                             {{ order.pk }}
                         </td>
+                        <td>
+                            {{ order.user }}
+                        </td>
+                        <td>
+                            {{ order.sessionid }}
+                        </td>
+                        <td>
+                            {{ order.email }}
+                        </td>
+                        <td>
+                            {{ order.FIO }}
+                        </td>
+                        <td>
+                            {{ order.phone }}
+                        </td>
+                        <td>
+                            {{ order.country }}
+                        </td>
+                        <td>
+                            {{ order.region }}
+                        </td>
+                        <td>
+                            {{ order.settlement }}
+                        </td>
+                        <td>
+                            {{ order.warehouse_number }}
+                        </td>
+                        <td>
+                            {{ order.address }}
+                        </td>
+                        <td>
+                            {{ order.postcode }}
+                        </td>
+                        <td>
+                            {{ order.comment }}
+                        </td>
+                        <td>
+                            {{ order.created_at }}
+                        </td>
+                        <td>
+                            {{ order.updated_at }}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
