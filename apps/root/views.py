@@ -27,7 +27,7 @@ def root_page(request, template_name=u'index.jinja2.html', ):
     #     limit_on_page = 12
     # finally:
     #     in_main_page = Product.manager.in_main_page(limit_on_page, )
-    in_main_page = Product.manager.in_main_page()  # limit_on_page, )
+    in_main_page = Product.manager.in_main_page(no_limit=True, )  # limit_on_page, )
 
     # children_categories = categories_first.children.all()
 
