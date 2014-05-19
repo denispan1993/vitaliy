@@ -13,21 +13,27 @@ def order_search(request,
                 except ValueError:
                     error_message = u'Некорректно введен номер заказа.'
                 else:
-                    order_id = '%06d' % order_id
-                    from django.shortcuts import redirect
-                    return redirect(to='order_edit', id=order_id, )
+                    from apps.cart.models import Order
+                    try:
+                        order = Order.objects.get(pk=id, )
+                    except Order.DoesNotExist:
+                        error_message = u'Заказа с таким номером не существует.'
+                    else:
+                        order_id = '%06d' % order_id
+                        from django.shortcuts import redirect
+                        return redirect(to='order_edit', id=order_id, )
     else:
         error_message = u''
     # from datetime import datetime
 #    from apps.utils.datetime2rfc import datetime2rfc
 #    response['Last-Modified'] = datetime2rfc(page.updated_at, )
     from apps.cart.models import Order
-    order = Order.objects.all()
+    orders = Order.objects.all()
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
                                   dictionary={'error_message': error_message,
-                                              'order': order, },  # 'html_text': html_text, },
+                                              'orders': orders, },  # 'html_text': html_text, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )
     return response
