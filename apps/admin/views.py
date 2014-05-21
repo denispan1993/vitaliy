@@ -51,7 +51,12 @@ def order_edit(request,
             return redirect(to='order_search', )
         else:
             from apps.cart.models import Order
-            order = Order.objects.get(pk=id, )
+            try:
+                order = Order.objects.get(pk=id, )
+            except Order.DoesNotExist:
+                error_message = u'В базе отсутсвует заказ с таким номером.'
+                from django.shortcuts import redirect
+                return redirect(to='order_search', )
     else:
         error_message = u'Отсутсвует номер заказа.'
         from django.shortcuts import redirect

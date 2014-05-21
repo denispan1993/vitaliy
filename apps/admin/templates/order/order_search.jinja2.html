@@ -44,7 +44,8 @@ body{
                 <tr>
                     <td>
                         {# <a href="{1{ url('order_edit',id=order.pk) }}">{{ order.pk }}</a> #}
-                        <a href="/админ/заказ/редактор/{{ order.pk }}/">{{ order.pk }}</a>
+                        {# <a href="/админ/заказ/редактор/{1{ order.pk }}/">{{ order.pk }}</a> #}
+                        <a href="{{ url('order_edit', order.pk) }}">{{ order.pk }}</a>
                     </td>
                     <td>
                         {% if order.user %}

@@ -25,25 +25,9 @@
                         <th scope="col" style="text-align:center;">Удаление</th>
                     </tr>
                 </thead>
+{% include 'include/utils.script' %}
                 <tbody>
                     {# {% set products=user_cart_.products %} #}
-<script>
-function CheckNumber(String){
-	var Letters = ".,1234567890";
-	var i;
-	var c;
-	for(i = 0; i < String.length; i ++){
-		c = String.charAt( i );
-		if (Letters.indexOf( c ) == -1){
-			return true;
-		}
-	}
-	return false;
-}
-var product_summ_of_quantity_array = new Array();
-product_summ_of_quantity_array[0]=0;
-//product_summ_of_quantity_array[999999]=0;
-</script>
                     {% for product in user_cart_.products %}
                     {% set real_product=product.product %}
 {% include 'include/calc.script' %}
