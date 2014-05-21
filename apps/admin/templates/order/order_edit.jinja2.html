@@ -6,10 +6,9 @@
 </head>
 <body>
     <div id="show_cart" style="color:Black;text-align:left;">
-    {% if order %}
         <form method="POST" action="/админ/заказ/отправка/">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
-            <input type="hidden" name="POST_NAME" value="order_dispatch "/>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="POST_NAME" value="order_dispatch ">
             <table id="table_carts" cols="6" summary="Ваша корзина">
                 <caption style="font-size:20px;">Ваша корзина</caption>
                 <thead>
@@ -21,16 +20,16 @@
                         {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
                         <th scope="col" style="width:73px;text-align:center;">Кол-во</th>
                         <th scope="col" style="text-align:center;">Сумма</th>
-                        {# <th scope="col" style="text-align:center;">Под заказ</th> #}
+                        <th scope="col" style="text-align:center;">Под заказ</th>
                         <th scope="col" style="text-align:center;">Удаление</th>
                     </tr>
                 </thead>
-{% include 'include/utils.script' %}
+{% include 'order/include/utils.script' %}
                 <tbody>
                     {# {% set products=user_cart_.products %} #}
-                    {% for product in user_cart_.products %}
+                    {% for product in order.products %}
                     {% set real_product=product.product %}
-{% include 'include/calc.script' %}
+{% include 'order/include/calc.script' %}
                         <tr>
                             <td>
                                 <input type="hidden"
@@ -68,13 +67,13 @@
 <script>
 product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(request) }};{# |replace(",", ".") #} {# |trim_whitespace #}
 </script>
-{#                             <td style="text-align:center;">
+                             <td style="text-align:center;">
                                 {% if real_product.is_availability == 3 %}
                                     <input type="checkbox" disabled checked>
                                 {% else %}
                                     <input type="checkbox" disabled>
                                 {% endif %}
-                            </td> #}
+                            </td>
                             <td style="text-align:center;">
                                 <input id="delete1_{{ product.pk }}"
                                        name="delete_{{ product.pk }}"
@@ -84,7 +83,6 @@ product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(req
                             </td>
                         </tr>
                     {% endfor %}
-
 {# <script>
 function reselect_minus(IdString1, IdString2){
     var value = document.getElementById(IdString1).value
@@ -100,12 +98,12 @@ function reselect_plus(IdString1, IdString2){
         document.getElementById(IdString2).value++;
         ReCalcSumm();}
     return false;} #}
-<script>
+{# <script>
 function delete_on_off(IdString1, IdString2){
     var checked = document.getElementById(IdString1).checked
     document.getElementById(IdString2).checked = checked;
     return false;}
-</script>
+</script> #}
                 </tbody>
                 <tfoot>
                     <tr>
@@ -117,28 +115,10 @@ function delete_on_off(IdString1, IdString2){
                     </tr>
                 </tfoot>
             </table>
-            <p>Минимальная сумма заказа {{ 100|convert_currency(request) }} {{ get_currency(request) }}</p>
             <input style="float:left;list-style-type:none;line-height:22px;margin-right:5px;"
                    type="submit"
-                   value="Пересчитать корзину"/>
+                   value="Отправить заказ покупателю."/>
         </form>
-        <form method="POST" action="/корзина/заказ/">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
-            <input type="hidden" name="POST_NAME" value="order_cart"/>
-            {% for product in user_cart_.products %}
-                <input id="quantity2_{{ product.pk }}"
-                       name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
-                       type="hidden"/>
-                <input id="delete2_{{ product.pk }}"
-                       name="delete_{{ product.pk }}"
-                       {# checked="" #}
-                       type="hidden"/>
-            {% endfor %}
-            <input id="order_cart_input"
-                   type="submit"
-                   value="Оформить заказ"/>
-        </form>
-        <a href="/" title="Вернуться к покупкам">Продолжить покупки &gt;&gt;</a>
 <script>
 function ReCalcSumm(change){
     var summ=0;
@@ -154,12 +134,27 @@ function ReCalcSumm(change){
 }
 $(document).ready(ReCalcSumm(true));
 </script>
-    {% else %}
-        <p>Ваша корзина пуста<br>
-        <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a></p>
-    {% endif %}
     </div>
-{% endblock %}
 
 </body>
 </html>
+{#
+        <form method="POST" action="/корзина/заказ/">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+            <input type="hidden" name="POST_NAME" value="order_cart"/>
+            {1% for product in user_cart_.products %}
+                <input id="quantity2_{{ product.pk }}"
+                       name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
+                       type="hidden"/>
+                <input id="delete2_{{ product.pk }}"
+                       name="delete_{{ product.pk }}"
+#}
+                       {# checked="" #}
+{#
+                       type="hidden"/>
+            {1% endfor %}
+            <input id="order_cart_input"
+                   type="submit"
+                   value="Оформить заказ"/>
+        </form>
+ #}

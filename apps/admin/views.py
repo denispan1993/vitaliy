@@ -42,12 +42,12 @@ def order_search(request,
 def order_edit(request,
                id,
                template_name=u'order/order_edit.jinja2.html', ):
+    from django.shortcuts import redirect
     if id:
         try:
             order_id = int(id, )
         except ValueError:
             error_message = u'Некорректно введен номер заказа.'
-            from django.shortcuts import redirect
             return redirect(to='order_search', )
         else:
             from apps.cart.models import Order
@@ -55,11 +55,9 @@ def order_edit(request,
                 order = Order.objects.get(pk=id, )
             except Order.DoesNotExist:
                 error_message = u'В базе отсутсвует заказ с таким номером.'
-                from django.shortcuts import redirect
                 return redirect(to='order_search', )
     else:
         error_message = u'Отсутсвует номер заказа.'
-        from django.shortcuts import redirect
         return redirect(to='order_search', )
 
 #    from apps.static.models import Static
@@ -76,7 +74,7 @@ def order_edit(request,
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
-                                  dictionary={'order_id': id,
+                                  dictionary={'order_id': order_id,
                                               'order': order, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )
