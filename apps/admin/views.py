@@ -1,6 +1,10 @@
 # coding=utf-8
 
 
+from django.contrib.admin.views.decorators import staff_member_required
+
+
+@staff_member_required
 def order_search(request,
                  template_name=u'order/order_search.jinja2.html', ):
     if request.method == 'POST':
@@ -39,6 +43,10 @@ def order_search(request,
     return response
 
 
+from django.contrib.admin.views.decorators import staff_member_required
+
+
+@staff_member_required
 def order_edit(request,
                id,
                template_name=u'order/order_edit.jinja2.html', ):
