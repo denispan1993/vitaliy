@@ -106,6 +106,8 @@ urlpatterns += patterns('apps.ajax.views',
                             name='ajax_country', ),
                         url(r'^ajax/product_to_cart/$', 'product_to_cart',
                             name='ajax_product_to_cart', ),
+                        url(r'^ajax/order/change/$', 'order_change',
+                            name='ajax_order_change', ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile

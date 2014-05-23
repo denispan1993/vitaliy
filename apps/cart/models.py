@@ -251,6 +251,7 @@ class Product(models.Model):
             self.percentage_of_prepaid = 50  # 50% стоимости товра
             self.available_to_order = True  # Товар доступен под заказ - поэтому это поле ставим в True
         self.save()
+        return self.price
 
     @property
     def product_delete(self, ):

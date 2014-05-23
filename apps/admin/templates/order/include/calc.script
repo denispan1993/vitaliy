@@ -27,7 +27,7 @@ price_array_{{ product.pk }}[1]={{ real_product.get_price(request, price=None, c
 function Calculate_{{ product.pk }}(operation){
 	//var price=0.00;
 	//var total=0.00;
-	var Qut=$("#quantity1_{{ product.pk }}").val();
+	var Qut=$("#quantity_{{ product.pk }}").val();
 	//$("#quantity_order").val(Qut);
 	$("#errorMsg").html('');
 	if(CheckNumber(Qut)){
@@ -65,8 +65,8 @@ function Calculate_{{ product.pk }}(operation){
         Qut=999;
 		//return false;
 	}
-	$("#quantity1_{{ product.pk }}").val(Qut);
-	$("#quantity2_{{ product.pk }}").val(Qut);
+	$("#quantity_{{ product.pk }}").val(Qut);
+	//$("#quantity2_{{ product.pk }}").val(Qut);
 	$.each(price_qty_array_{{ product.pk }},function(i,val){
 		if(val<=Qut&&Qut<price_qty_array_{{ product.pk }}[eval(i+1)]){
 			//alert('i: '+i+' Qut: '+Qut+' val: '+val)
@@ -75,11 +75,22 @@ function Calculate_{{ product.pk }}(operation){
 			product_summ_of_quantity_array[{{ product.pk }}]=total.toFixed(2);
 		}
 	});
+    //var browserWindow = $(window);
+    //var width = browserWindow.width();
+    //var height = browserWindow.height();
+    $.post("/ajax/order/change/", {
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+            action:'change_in_the_quantity'
+            product_pk:{{ product.pk }},
+            quantity:Qut
+        },
+        function(data){alert(data);}
+    );
 	ReCalcSumm(false);
     return true;
 }
 function onChange_{{ product.pk }}(){
-	window.setInterval("Calculate_{{ product.pk }}('|')",5000);
+	window.setInterval("Calculate_{{ product.pk }}('|')",500);
 	//setTimeout(calculate(value),1500);
 	return true;
 }
