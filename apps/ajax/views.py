@@ -162,6 +162,7 @@ def product_to_cart(request, ):
     else:
         return HttpResponse(status=400, )
 
+
 def order_change(request, ):
     if request.is_ajax():
         if request.method == 'POST':
@@ -186,27 +187,16 @@ def order_change(request, ):
                             except ValueError:
                                 return HttpResponse(status=400, )
                             else:
-                                price = product.update_quantity(quantity=quantity, )
-                            from apps.product.views import add_to_cart
-                        # print product_pk
-                        cart, product_in_cart = add_to_cart(request=request,
-                                                            int_product_pk=product_pk,
-                                                            available_to_order=available_to_order, )
-                        # print cart
-                        # print product_in_cart
-                        html = '<b>Позиций:</b> %s' \
-                               '<br>' \
-                               '<b>На сумму:</b> %s грн. ' \
-                               '%s ' \
-                               'коп.<br>' % (cart.count_name_of_products,
-                                             cart.summ_money_of_all_products_integral(request, ),
-                                             cart.summ_money_of_all_products_fractional(request, ), )
-                        response = {'product_pk': product_pk,
-                                    'result': 'Ok',
-                                    'html': html, }
-                        data = dumps(response, )
-                        mimetype = 'application/javascript'
-                        return HttpResponse(data, mimetype, )
+                                product.update_quantity(quantity=quantity, )
+                                price = product.update_price_per_piece()
+                                response = {'product_pk': product_pk,
+                                            'product_price': float(price, ),
+                                            'result': 'Ok', }
+                                data = dumps(response, )
+                                mimetype = 'application/javascript'
+                                return HttpResponse(data, mimetype, )
+                    else:
+                        return HttpResponse(status=400, )
                 else:
                     return HttpResponse(status=400, )
             else:
