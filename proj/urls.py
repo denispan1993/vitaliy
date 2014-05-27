@@ -72,11 +72,15 @@ urlpatterns += patterns('apps.admin.views',
                         url(ur'^админ/заказ/поиск/$', 'order_search',
                             {'template_name': u'order/order_search.jinja2.html', },
                             name='order_search', ),
-                        # url(ur'^админ/заказ/редактор/(?P<id>\d{6})/$', 'order_edit',
+                        url(ur'^админ/заказ/редактор/(?P<id>\d{6})/$', 'order_edit',
                         # url(ur'^админ/заказ/редактор/(?P<id>\d)/$', 'order_edit',
-                        url(ur'^админ/заказ/редактор/([\d{6}])/$', 'order_edit',
+                        # url(ur'^админ/заказ/редактор/([\d{6}])/$', 'order_edit',
                             {'template_name': u'order/order_edit.jinja2.html', },
                             name='order_edit', ),
+                        # url(ur'^админ/заказ/редактор/товар/добавить/([\d{6}])/$', 'order_edit_product_add',
+                        url(ur'^админ/заказ/редактор/товар/добавить/(?P<d>\d{6})/$', 'order_edit_product_add',
+                            {'template_name': u'order/order_edit_product_add.jinja2.html', },
+                            name='order_edit_product_add', ),
                         )
 
 #Search

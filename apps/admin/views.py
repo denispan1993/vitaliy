@@ -47,6 +47,52 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 @staff_member_required
+def order_edit_product_add(request,
+               id,
+               template_name=u'order/order_edit_product_add.jinja2.html', ):
+    from django.shortcuts import redirect
+    if id:
+        try:
+            order_id = int(id, )
+        except ValueError:
+            error_message = u'Некорректно введен номер заказа.'
+            return redirect(to='order_search', )
+        else:
+            from apps.cart.models import Order
+            try:
+                order = Order.objects.get(pk=id, )
+            except Order.DoesNotExist:
+                error_message = u'В базе отсутсвует заказ с таким номером.'
+                return redirect(to='order_search', )
+    else:
+        error_message = u'Отсутсвует номер заказа.'
+        return redirect(to='order_search', )
+
+#    from apps.static.models import Static
+#    try:
+#        page = Static.objects.get(url=static_page_url, )
+#    except Static.DoesNotExist:
+#        from django.http import Http404
+#        raise Http404
+#    import markdown
+#    if page:
+#        html_text = markdown.markdown(page.text, )
+#    else:
+#        html_text = None
+    from django.shortcuts import render_to_response
+    from django.template import RequestContext
+    response = render_to_response(template_name=template_name,
+                                  dictionary={'order_id': order_id,
+                                              'order': order, },
+                                  context_instance=RequestContext(request, ),
+                                  content_type='text/html', )
+    # from datetime import datetime
+    # from apps.utils.datetime2rfc import datetime2rfc
+    # response['Last-Modified'] = datetime2rfc(page.updated_at, )
+    return response
+
+
+@staff_member_required
 def order_edit(request,
                id,
                template_name=u'order/order_edit.jinja2.html', ):
