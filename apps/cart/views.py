@@ -161,7 +161,7 @@ def show_order(request,
                 """ Удаляем старую корзину """
                 cart.delete()
                 """ Отправка заказа мэнеджеру """
-                subject = u'Заказ № %d.' % order.pk
+                subject = u'Заказ № %d. Кексик.' % order.pk
                 from django.template.loader import render_to_string
                 html_content = render_to_string('email_order_content.jinja2.html',
                                                 {'order': order, })
@@ -189,7 +189,7 @@ def show_order(request,
                                        mimetype="text/html", )
                 msg.send(fail_silently=False, )
                 """ Отправка благодарности клиенту. """
-                subject = u'Заказ с Кексика'
+                subject = u'Заказ № %d. Интернет магазин Кексик.'
                 html_content = render_to_string('email_suceessful_content.jinja2.html',
                                                 {'order': order, })
                 text_content = strip_tags(html_content, )

@@ -162,6 +162,15 @@ div#product_box div#product_box_top div#product_box_left div#product_box_left_to
 div#product_box_right{
     text-align:left;
 }
+#product_box_right{
+	width:auto; /*300px;*//*height:45px;*/
+/*	margin-left:-15px;
+	float:left;
+//	list-style-image:none;
+//	list-style-type:none;*/
+	padding:5px 0px 5px 0px;
+/*  margin:2px;*/
+}
 div#product_box_right h1{
     font-size:16px;
     height:auto;

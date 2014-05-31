@@ -23,7 +23,7 @@ from django.db import models
 class Manager_Category(models.Manager):
 
     def visible(self):
-        return self.filter(visibility=True, )
+        return self.filter(visibility=True, is_active=True, )
 
     def published(self):
         return self.visible().order_by('-created_at')

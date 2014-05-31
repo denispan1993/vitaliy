@@ -320,6 +320,7 @@ INSTALLED_APPS = (
     # 'coffin',
     'apps.root',
     'apps.product',
+    'apps.comment',
     'apps.currency',
     # 'apps.extended_price',
     'apps.cart',

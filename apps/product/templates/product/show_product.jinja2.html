@@ -60,16 +60,6 @@
 	list-style-type:none;
 	padding:0px;margin:2px;
 } #}
-#product_box_right{
-	width:auto; /*300px;*//*height:45px;*/
-//	margin-left:-15px;
-	float:left;
-//	list-style-image:none;
-//	list-style-type:none;
-	padding:5px 0px 5px 0px;
-//  margin:2px;
-
-}
 </style>
 <div id="product_box" style="width:98%;height:auto;
                              border:5px solid #FFF6C9;
@@ -238,7 +228,7 @@
 								  style="text-align:center;color:#FF0000">
 							</span>
 					</ul>
-					<br class="clearFloat" />
+{# 					<br class="clearFloat" /> #}
 
 					<input type="hidden" name="product_pk" value="{{ product.pk }}" />
 					<input type="hidden" name="product_url" value="{{ product.url }}" />
@@ -250,7 +240,7 @@
 <script>
 $(document).ready(onChange())
 </script>
-				<br class="clearFloat" />
+{#              <br class="clearFloat" /> #}
 				<form method="POST" action=".">
 					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
 					<input type="hidden" name="product_pk" value="{{ product.pk }}" />
@@ -269,7 +259,7 @@ $(document).ready(onChange())
 				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}
             <div id="product_box_bottom"
-                    class="clearFloat"
+{#                     class="clearFloat" #}
                     style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;"
                     itemprop="description">
                 {{ product.description|safe }}
