@@ -354,9 +354,9 @@ class Product(models.Model):
     Viewed = generic.GenericRelation('Viewed',
                                      content_type_field='content_type',
                                      object_id_field='object_id', )
-    Comment = generic.GenericRelation('apps.comment.models.Comment',
-                                      content_type_field='content_type',
-                                      object_id_field='object_id', )
+    # Comment = generic.GenericRelation('apps.comment.models.Comment',
+    #                                   content_type_field='content_type',
+    #                                   object_id_field='object_id', )
 
 #    @property
 #    def function_is_availability(self, ):
