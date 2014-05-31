@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+<title>Страница добавления товара</title>
+<meta charset="utf-8">
+<script src="{{ MEDIA_URL }}js/jquery/jquery-1.10.2.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js"></script>
 </head>
 <body>
 <p>
     Проверочное окно
+    <input type="text" name="q" id="query">
+<script>
+    try{
+        jQuery(document).ready(
+                jQuery('#query').autocomplete({
+                    source:'/ajax/order/add/search/',
+                    maxHeight:400, // Максимальная высота списка подсказок, в пикселях
+                    width:300, // Ширина списка
+                    minChars:2, // Минимальная длина запроса для срабатывания автозаполнения
+                    deferRequestBy:0 // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов,
+                    // пока пользователь печатает. Я обычно ставлю 300.
+                })
+        )
+    }
+    catch(e){alert(e)}
+
+    {# serviceUrl: 'service/autocomplete.ashx', // Страница для обработки запросов автозаполнения #}
+    {#     minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
+    delimiter: /(,|;)\s*/, // Разделитель для нескольких запросов, символ или регулярное выражение
+    maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
+    width: 300, // Ширина списка
+    zIndex: 9999, // z-index списка
+    deferRequestBy: 0, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
+    params: { country: 'Yes'}, // Дополнительные параметры
+    onSelect: function(data, value){ }, // Callback функция, срабатывающая на выбор одного из предложенных вариантов,
+    lookup: ['January', 'February', 'March'] // Список вариантов для локального автозаполнения
+}));
+catch(e){alert(e)}
+    #}
+</script>
 </p>
 </body>
 </html>

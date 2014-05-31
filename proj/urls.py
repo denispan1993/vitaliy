@@ -78,7 +78,7 @@ urlpatterns += patterns('apps.admin.views',
                             {'template_name': u'order/order_edit.jinja2.html', },
                             name='order_edit', ),
                         # url(ur'^админ/заказ/редактор/товар/добавить/([\d{6}])/$', 'order_edit_product_add',
-                        url(ur'^админ/заказ/редактор/товар/добавить/(?P<d>\d{6})/$', 'order_edit_product_add',
+                        url(ur'^админ/заказ/редактор/товар/добавить/(?P<id>\d{6})/$', 'order_edit_product_add',
                             {'template_name': u'order/order_edit_product_add.jinja2.html', },
                             name='order_edit_product_add', ),
                         )
@@ -112,6 +112,10 @@ urlpatterns += patterns('apps.ajax.views',
                             name='ajax_product_to_cart', ),
                         url(r'^ajax/order/change/$', 'order_change',
                             name='ajax_order_change', ),
+                        url(r'^ajax/order/add/search/$', 'order_add_search',
+                            name='ajax_order_add_search', ),
+                        url(r'^ajax/order/add/$', 'order_add',
+                            name='ajax_order_add', ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile

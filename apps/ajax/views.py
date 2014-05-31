@@ -207,3 +207,48 @@ def order_change(request, ):
             return HttpResponse(status=400, )
     else:
         return HttpResponse(status=400, )
+
+
+def order_add_search(request, ):
+    if request.is_ajax():
+        if request.method == 'GET':
+            search_string = request.GET.get(u'term', None, )
+            if search_string:
+                """ Поиск товара по полученной строке
+                """
+                from django.db.models import Q
+                q = Q(title__contains=search_string)# | Q(name__contains=search_string)
+                from apps.product.models import Product
+                try:
+                    products = Product.objects.filter(q, )
+                except Product.DoesNotExist:
+                    return HttpResponse(status=400, )
+                else:
+                    if products:
+                        response = {'products': products,
+                                    'result': 'Ok', }
+                    else:
+                        response = {'result': 'Bad', }
+                    data = dumps(response, )
+                    mimetype = 'application/javascript'
+                    return HttpResponse(data, mimetype, )
+            else:
+                return HttpResponse(status=400, )
+        elif request.method == 'GET':
+            return HttpResponse(status=400, )
+        else:
+            return HttpResponse(status=400, )
+    else:
+        return HttpResponse(status=400, )
+
+
+def order_add(request, ):
+    if request.is_ajax():
+        if request.method == 'GET':
+            search_string = request.session.get(u'cookie', None, )
+        elif request.method == 'GET':
+            return HttpResponse(status=400, )
+        else:
+            return HttpResponse(status=400, )
+    else:
+        return HttpResponse(status=400, )

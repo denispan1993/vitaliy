@@ -265,8 +265,18 @@ function delete_on_off(IdString1, IdString2){
             </table>
 <script>
 function open_window_add_product(){
+{% set url = order.pk|int_to_string %}
+{% set int_range = 6 - url|length %}
+{% if int_range > 0 %}
+    {% for i in int_range|get_range %}
+        {% set url = '0' + url %}
+        {% if i == int_range - 1 %}
+            {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
+var newWin = window.open('/админ/заказ/редактор/товар/добавить/{{ url }}/', 'example', 'width=500,height=400');
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
-var newWin = window.open('/админ/заказ/редактор/товар/добавить/', 'example', 'width=200,height=100');
 newWin.focus();
 newWin.onload = function() {
 
