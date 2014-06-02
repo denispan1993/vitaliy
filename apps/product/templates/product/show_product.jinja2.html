@@ -12,10 +12,13 @@
 {% set length_products_recommended = products_recommended|length %}{#  #}
 {% set limit_products_recommended_on_string = request.session.limit_on_string %}{#  #}
 {% if products_recommended and length_products_recommended > limit_products_recommended_on_string %}
-    {% block header_js %}
-        <script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
-    {% endblock %}
+{% block header_js %}
+<script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
+{% endblock %}
 {% endif %}
+{% block header_javascript1 %}
+<script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js"></script>
+{% endblock %}
 {% block body_javascript %}
 {% endblock %}
 {% block content_center %}
@@ -288,7 +291,7 @@ newWin.onload = function() {
 </script>
                 <input type="button"
                        value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
-                       onclick="javascript:comment_add();">
+                       onclick="javascript:open_window_comment_add();">
             </div>
 		</div>
     </div>
