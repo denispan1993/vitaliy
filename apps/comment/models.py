@@ -116,6 +116,7 @@ class Comment(MPTTModel):
         return u'Комментарий: %s' % self.name
 
     class MPTTMeta:
+        parent_attr = 'comment_parent'
         level_attr = 'mptt_level'
         order_insertion_by = ['name', ]
 

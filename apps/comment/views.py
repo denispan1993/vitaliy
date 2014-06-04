@@ -6,6 +6,10 @@ def comment_add(request,
                 product_url,
                 id,
                 template_name=u'show_comment_add.jinja2.html', ):
+    from apps.comment.models import Comment
+    error_message = None
+    comment = None
+    sessionid = request.COOKIES.get(u'sessionid', None, )
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'comment_add':
@@ -16,46 +20,116 @@ def comment_add(request,
             else:
                 from apps.product.models import Product
                 try:
-                    product = Product.objects.get(pk=id, url=product_url, )
+                    product = Product.objects.get(pk=product_id, url=product_url, )
                 except Product.DoesNotExist:
                     error_message = u'Отсутсвует Продукт с такими данными.'
                 else:
                     commenter_name = request.POST.get(u'commenter_name', None, )
-                    comment = request.POST.get(u'comment', None, )
-                    require_a_response = request.POST.get(u'require_a_response', None, )
-                    email_for_response = request.POST.get(u'email_for_response', None, )
-                    rating = request.POST.get(u'rating', None, )
-                    from apps.comment.models import Comment
-                    if request.user.is_authenticated() and request.user.is_active:
-                        user_id_ = request.session.get(u'_auth_user_id', None, )
-                        from django.contrib.auth.models import User
-                        user_obj = User.objects.get(pk=user_id_, )
-                        comment = Comment.objects.create(content_type=product.content_type,
-                                                         object_id=product.pk,
-                                                         user_obj=user_obj,
-                                                         sessionid=None, )
+                    if not commenter_name:
+                        error_message = u'Отсутсвует имя комментирующего.'
                     else:
-                        sessionid = request.COOKIES.get(u'sessionid', None, )
-                        comment = Comment.objects.create(content_type=product.content_type,
-                                                         object_id=product.pk,
-                                                         user_obj=None,
-                                                         sessionid=sessionid, )
+                        comment = request.POST.get(u'comment', None, )
+                        if not comment:
+                            error_message = u'Отсутсвует комментарий'
+                        else:
+                            require_a_response = request.POST.get(u'require_a_response', None, )
+                            if require_a_response:
+                                email_for_response = request.POST.get(u'email_for_response', None, )
+                                if email_for_response:
+                                    if request.user.is_authenticated() and request.user.is_active:
+                                        user_id_ = request.session.get(u'_auth_user_id', None, )
+                                        from django.contrib.auth.models import User
+                                        user_obj = User.objects.get(pk=user_id_, )
+                                        comment = Comment.objects.create(content_type=product.content_type,
+                                                                         object_id=product.pk,
+                                                                         user=user_obj,
+                                                                         sessionid=sessionid,
+                                                                         name=commenter_name,
+                                                                         comment=comment,
+                                                                         require_a_response=require_a_response,
+                                                                         email_for_response=email_for_response, )
 
+                                    else:
+                                        comment = Comment.objects.create(content_type=product.content_type,
+                                                                         object_id=product.pk,
+                                                                         user=None,
+                                                                         sessionid=sessionid,
+                                                                         name=commenter_name,
+                                                                         comment=comment,
+                                                                         require_a_response=require_a_response,
+                                                                         email_for_response=email_for_response, )
 
-                    from django.shortcuts import redirect
-                    return redirect(to='order_edit', id=order_id, )
-    else:
-        error_message = u''
-    # from datetime import datetime
-#    from apps.utils.datetime2rfc import datetime2rfc
-#    response['Last-Modified'] = datetime2rfc(page.updated_at, )
-#    from apps.cart.models import Order
-#    orders = Order.objects.all()
+                            else:
+                                rating = request.POST.get(u'rating', None, )
+                                print(rating, )
+                                if rating == u'':
+                                    if request.user.is_authenticated() and request.user.is_active:
+                                        user_id_ = request.session.get(u'_auth_user_id', None, )
+                                        from django.contrib.auth.models import User
+                                        user_obj = User.objects.get(pk=user_id_, )
+                                        comment = Comment.objects.create(content_type=product.content_type,
+                                                                         object_id=product.pk,
+                                                                         user=user_obj,
+                                                                         sessionid=sessionid,
+                                                                         name=commenter_name,
+                                                                         comment=comment, )
+                                    else:
+                                        comment = Comment.objects.create(content_type=product.content_type,
+                                                                         object_id=product.pk,
+                                                                         user=None,
+                                                                         sessionid=sessionid,
+                                                                         name=commenter_name,
+                                                                         comment=comment, )
+                                else:
+                                    try:
+                                        rating = int(rating, )
+                                    except ValueError:
+                                        email_for_response = u'Неправильный рэйтинг товара.'
+                                    else:
+                                        if request.user.is_authenticated() and request.user.is_active:
+                                            user_id_ = request.session.get(u'_auth_user_id', None, )
+                                            from django.contrib.auth.models import User
+                                            user_obj = User.objects.get(pk=user_id_, )
+                                            comment = Comment.objects.create(content_type=product.content_type,
+                                                                             object_id=product.pk,
+                                                                             user=user_obj,
+                                                                             sessionid=sessionid,
+                                                                             name=commenter_name,
+                                                                             comment=comment,
+                                                                             rating=rating, )
+                                        else:
+                                            comment = Comment.objects.create(content_type=product.content_type,
+                                                                             object_id=product.pk,
+                                                                             user=None,
+                                                                             sessionid=sessionid,
+                                                                             name=commenter_name,
+                                                                             comment=comment,
+                                                                             rating=rating, )
+    if isinstance(comment, Comment, ) and not error_message:
+        """ Если комментарий добавлен в базу
+        Говорим спасибо за оставленный комментарий или вопрос.
+        Комментарий к товару появится на сайте после прохождения модерации Администрацией сайта """
+        from django.shortcuts import redirect
+        return redirect(to='comment_add_successfully', product_url=product_url, id=id, )
+
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
                                   dictionary={'error_message': error_message, },
-#                                              'orders': orders, },  # 'html_text': html_text, },
+                                  context_instance=RequestContext(request, ),
+                                  content_type='text/html', )
+    return response
+
+
+def comment_add_successfully(request,
+                             product_url,
+                             id,
+                             template_name=u'show_comment_add_successfully.jinja2.html', ):
+    from django.shortcuts import render_to_response
+    from django.template import RequestContext
+    response = render_to_response(template_name=template_name,
+                                  # dictionary={'error_message': error_message, },
+                                  #             # 'orders': orders, },  # 'html_text': html_text, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )
     return response
