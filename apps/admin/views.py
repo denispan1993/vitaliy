@@ -194,30 +194,30 @@ def comment_edit(request,
     error_message = u''
     from apps.comment.models import Comment
     from django.shortcuts import redirect
+    if id:
+        try:
+            comment_id = int(id, )
+        except ValueError:
+            error_message = u'Некорректный номер комментария.'
+        else:
+            try:
+                comment = Comment.objects.get(pk=comment_id, )
+            except Comment.DoesNotExist:
+                error_message = u'В базе отсутсвует комментарий с таким номером.'
+            else:
+                error_message = u'Отсутсвует номер комментария.'
+    if not 'comment_id' in locals() and not 'comment_id' in globals()\
+            or not 'comment' in locals() and not 'comment' in globals():
+        return redirect(to='comment_search', )
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'comment_dispatch':
             comment_id = request.POST.get(u'comment_id', None, )
             if comment_id:
                 try:
-                    comment_id = int(comment_id, )
+                    id = int(comment_id, )
                 except ValueError:
-                    error_message = u'Некорректный номер комментария. № 1'
-                else:
-                    if id:
-                        try:
-                            id = int(id, )
-                        except ValueError:
-                            error_message = u'Некорректный номер комментария. № 2'
-                        else:
-                            try:
-                                comment = Comment.objects.get(pk=id, )
-                            except Comment.DoesNotExist:
-                                error_message = u'В базе отсутсвует комментарий с таким номером.'
-                    else:
-                        error_message = u'Отсутсвует номер комментария.'
-                        return redirect(to='comment_search', )
-
+                    error_message = u'Некорректный номер комментария. № 2'
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
