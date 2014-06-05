@@ -136,10 +136,10 @@ urlpatterns += patterns('apps.ajax.views',
                         url(r'^ajax/order/add/$', 'order_add',
                             name='ajax_order_add', ),
                         )
-# """ Изменение имени комментатора """
+# """ Изменение комментария """
 urlpatterns += patterns('apps.ajax.comment',
-                        url(r'^ajax/comment/change/commenter-name/$', 'commenter_name_change',
-                            name='ajax_commenter_name_change', ),
+                        url(r'^ajax/comment/change/$', 'comment_change',
+                            name='ajax_comment_change', ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile

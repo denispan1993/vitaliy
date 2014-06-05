@@ -4,6 +4,38 @@
 <title>Страница редактирования Комментария.</title>
 <meta charset="utf-8">
 <script src="{{ MEDIA_URL }}js/jquery/jquery-1.10.2.js"></script>
+<script>
+function button_enabled(id){
+    {# jQuery('#button_commenter_name').prop("disabled", false); #}
+    document.getElementById(id).removeAttribute("disabled");
+}
+function button_click(action, tag_type, tag_id){
+    var comment_tag_value;
+    if (tag_type='text'){
+        comment_tag_value = document.getElementById(tag_id).value;
+    } else if (tag_type='checkbox'){
+        comment_tag_value = document.getElementById(tag_id).checked;
+    };
+    var comment_json_array = {};
+    comment_json_array.csrfmiddlewaretoken='{{ csrf_token }}';
+    comment_json_array.comment_pk={{ comment.pk }};
+    comment_json_array.content_type='{{ comment.content_type }}';
+    comment_json_array.object_id={{ comment.object_id }};
+    comment_json_array.action=action;
+    if (action = 'commenter_name_change'){
+        comment_json_array.commenter_name=comment_tag_value;
+    } else if (action = 'comment_change'){
+        comment_json_array.comment=comment_tag_value;
+    } else if (action = 'comment_pass_moderation_change'){
+        comment_json_array.comment_pass_moderation=comment_tag_value;
+    };
+    jQuery.post("/ajax/comment/change/",
+        comment_json_array,
+        function(data, textStatus, jqXHR){
+        },
+        "json");
+}
+</script>
 </head>
 <body>
     <div id="show_comment" style="color:Black;text-align:left;">
@@ -24,33 +56,8 @@
             <input type="text" id="comment_id" value="{{ comment.pk }}" disabled>
             <br>
             <label for="commenter_name">Имя комментатора:</label>
-<script>
-function commenter_name_change() {
-    {# jQuery('#button_commenter_name').prop("disabled", false); #}
-    document.getElementById('button_commenter_name').removeAttribute("disabled");
-}
-</script>
-            <input type="text" id="commenter_name" value="{{ comment.name }}" onkeyup="javascript:commenter_name_change();">
-<script>
-function button_commenter_name_click() {
-    var commenter_name = document.getElementById('commenter_name').value;
-    jQuery.post("/ajax/comment/change/commenter-name/",
-        {
-            csrfmiddlewaretoken:'{{ csrf_token }}',
-            action:'commenter_name_change',
-            comment_pk:{{ comment.pk }},
-            content_type:'{{ comment.content_type }}',
-            object_id:{{ comment.object_id }},
-            commenter_name:commenter_name
-        },
-        function(data, textStatus, jqXHR){
-        {# alert(data); #}
-        {# // jQuery('#dynamic_div_showcart').html(data.html); #}
-        },
-        "json");
-}
-</script>
-            <input type="button" id="button_commenter_name" value="Изменить" disabled onclick="javascript:button_commenter_name_click();">
+            <input type="text" id="commenter_name" value="{{ comment.name }}" onkeyup="javascript:button_enabled('button_commenter_name');">
+            <input type="button" id="button_commenter_name" value="Изменить" disabled onclick="javascript:button_click('text', 'commenter_name', 'commenter_name_change');">
             <br>
             {% if comment.user %}
                 <label for="commenter_user">Пользователь комментатор:</label>
@@ -61,10 +68,17 @@ function button_commenter_name_click() {
             <input type="text" id="commenter_sessionid" value="{{ comment.sessionid }}">
             <br>
             <label for="comment">Комментарий:</label>
-            <input type="text" id="comment" value="{{ comment.comment }}">
+            <input type="text" id="comment" value="{{ comment.comment }}" onkeyup="javascript:button_enabled('button_comment');">
+            <input type="button" id="button_comment" value="Изменить" disabled onclick="javascript:button_click('text', 'comment', 'comment_change');">
             <br>
             <label for="comment_pass_moderation">Прохождение модерации:</label>
-            <input type="checkbox" id="comment_pass_moderation" value="{{ comment.pass_moderation }}">
+            <input type="checkbox" id="comment_pass_moderation" value="{{ comment.pass_moderation }}" onkeyup="javascript:button_enabled('button_comment_pass_moderation');">
+            <input
+                    type="button"
+                    id="button_comment_pass_moderation"
+                    value="Изменить"
+                    disabled
+                    onchange="javascript:button_click('checkbox', 'comment_pass_moderation', 'comment_pass_moderation_change');">
             <br>
             <label for="comment_require_a_response">Запрос на ответ:</label>
             <input type="checkbox" id="comment_require_a_response" value="{{ comment.require_a_response }}">
