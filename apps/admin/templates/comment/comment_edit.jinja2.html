@@ -11,9 +11,11 @@ function button_enabled(id){
 }
 function button_click(action, tag_type, tag_id){
     var comment_tag_value;
-    if (tag_type='text'){
+    {# alert(tag_type); #}
+    if (tag_type=='text'){
+        {# alert('aaa') #}
         comment_tag_value = document.getElementById(tag_id).value;
-    } else if (tag_type='checkbox'){
+    } else if (tag_type=='checkbox'){
         comment_tag_value = document.getElementById(tag_id).checked;
     };
     var comment_json_array = {};
@@ -22,18 +24,30 @@ function button_click(action, tag_type, tag_id){
     comment_json_array.content_type='{{ comment.content_type }}';
     comment_json_array.object_id={{ comment.object_id }};
     comment_json_array.action=action;
-    if (action = 'commenter_name_change'){
+    if (action=='commenter_name_change'){
         comment_json_array.commenter_name=comment_tag_value;
-    } else if (action = 'comment_change'){
+    } else if (action=='comment_change'){
         comment_json_array.comment=comment_tag_value;
-    } else if (action = 'comment_pass_moderation_change'){
+    } else if (action=='comment_pass_moderation_change'){
         comment_json_array.comment_pass_moderation=comment_tag_value;
+    } else if (action=='comment_delete'){
     };
     jQuery.post("/ajax/comment/change/",
         comment_json_array,
         function(data, textStatus, jqXHR){
         },
         "json");
+    if (action=='comment_delete'){
+        window.location.href = "/админ/комментарий/поиск/";
+        {#
+        // Производит возврат на предыдущую страницу безе перечитывания содержимого
+        history.back()
+        // similar behavior as an HTTP redirect
+        window.location.replace("http://stackoverflow.com");
+
+        // similar behavior as clicking on a link
+        window.location.href = "http://stackoverflow.com"; #}
+    };
 }
 </script>
 </head>
@@ -57,7 +71,7 @@ function button_click(action, tag_type, tag_id){
             <br>
             <label for="commenter_name">Имя комментатора:</label>
             <input type="text" id="commenter_name" value="{{ comment.name }}" onkeyup="javascript:button_enabled('button_commenter_name');">
-            <input type="button" id="button_commenter_name" value="Изменить" disabled onclick="javascript:button_click('text', 'commenter_name', 'commenter_name_change');">
+            <input type="button" id="button_commenter_name" value="Изменить" disabled onclick="javascript:button_click('commenter_name_change', 'text', 'commenter_name');">
             <br>
             {% if comment.user %}
                 <label for="commenter_user">Пользователь комментатор:</label>
@@ -65,20 +79,27 @@ function button_click(action, tag_type, tag_id){
                 <br>
             {% endif %}
             <label for="commenter_sessionid">SessionID комментатора:</label>
-            <input type="text" id="commenter_sessionid" value="{{ comment.sessionid }}">
+            <input type="text" id="commenter_sessionid" value="{{ comment.sessionid }}" disabled>
             <br>
             <label for="comment">Комментарий:</label>
             <input type="text" id="comment" value="{{ comment.comment }}" onkeyup="javascript:button_enabled('button_comment');">
-            <input type="button" id="button_comment" value="Изменить" disabled onclick="javascript:button_click('text', 'comment', 'comment_change');">
+            <input type="button" id="button_comment" value="Изменить" disabled onclick="javascript:button_click('comment_change', 'comment', 'text');">
             <br>
             <label for="comment_pass_moderation">Прохождение модерации:</label>
-            <input type="checkbox" id="comment_pass_moderation" value="{{ comment.pass_moderation }}" onkeyup="javascript:button_enabled('button_comment_pass_moderation');">
             <input
-                    type="button"
-                    id="button_comment_pass_moderation"
-                    value="Изменить"
-                    disabled
-                    onchange="javascript:button_click('checkbox', 'comment_pass_moderation', 'comment_pass_moderation_change');">
+                   type="checkbox" id="comment_pass_moderation"
+                   {% if comment.pass_moderation %}
+                       checked
+                   {% endif %}
+                   {# onkeyup="javascript:button_enabled('button_comment_pass_moderation');"
+                   onclick="javascript:button_enabled('button_comment_pass_moderation');" #}
+                   onchange="javascript:button_enabled('button_comment_pass_moderation');">
+            <input
+                   type="button"
+                   id="button_comment_pass_moderation"
+                   value="Изменить"
+                   disabled
+                   onclick="javascript:button_click('comment_pass_moderation_change', 'checkbox', 'comment_pass_moderation');">
             <br>
             <label for="comment_require_a_response">Запрос на ответ:</label>
             <input type="checkbox" id="comment_require_a_response" value="{{ comment.require_a_response }}">
@@ -92,7 +113,11 @@ function button_click(action, tag_type, tag_id){
             <label for="comment_updated_at">Дата и врямя изменения:</label>
             <input type="datetime" id="comment_updated_at" value="{{ comment.updated_at }}">
             <br>
+            <input type="button" value="Ответить">
             <input type="button" value="Сохранить">
+            <input type="button" value="Удалить" onclick="javascript:button_click('comment_delete')">
+            <input type="button" value="Назад" onclick="javascript:history.back()">
+            {# <a href="javascript:history.back()" onMouseOver="window.status='Back';return true">Назад</A> #}
         </form>
     </div>
 </body>

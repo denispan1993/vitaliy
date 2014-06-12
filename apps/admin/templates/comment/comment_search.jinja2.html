@@ -3,6 +3,16 @@
 <head>
 <title>Страница поиска комментария по номеру.</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+{# <script>
+function redy(){
+    alert(document.referrer);
+    var pos = str.indexOf('%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD');
+    if (document.referrer = 'http://127.0.0.1:8000/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD/'){alert('Хрень')};
+    if (pos !== false){alert('Пришли из "админки"')};
+    if (pos !== false){alert('Хрень. - http://127.0.0.1:8000/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD/')};
+}
+window.onload=redy();
+</script> #}
 <style>
 body{
     display:table;
@@ -64,9 +74,8 @@ body{
                     <td>
                         {% if comment.user %}
                             {{ comment.user }}
-                        {% elif comment.sessionid %}
-                            {{ comment.sessionid }}
                         {% endif %}
+                        {{ comment.sessionid }}
                     </td>
                     <td>
                         {{ comment.name }}

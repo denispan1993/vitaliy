@@ -54,10 +54,21 @@ def comment_change(request, ):
                                 """
                                 comment_pass_moderation = request.POST.get(u'comment_pass_moderation', None, )
                                 if comment_pass_moderation and comment_pass_moderation != u'':
+                                    if comment_pass_moderation == 'true':
+                                        comment_pass_moderation = True
+                                    else:
+                                        comment_pass_moderation = False
                                     queryset_comment.pass_moderation = comment_pass_moderation
                                     queryset_comment.save()
                                     response = {'comment_pk': comment_pk,
+                                                'comment_pass_moderation': comment_pass_moderation,
                                                 'result': 'Ok', }
+                            elif action == 'comment_delete':
+                                """ Удаление "Комментатария"
+                                """
+                                queryset_comment.delete()
+                                response = {'comment_pk': comment_pk,
+                                            'result': 'Ok', }
                             #--------------------------
                             data = dumps(response, )
                             mimetype = 'application/javascript'

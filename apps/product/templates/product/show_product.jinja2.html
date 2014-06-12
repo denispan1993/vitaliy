@@ -214,7 +214,7 @@
 						</li>
 						<li>
 							<input id="quantity"
-								   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;"
+								   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;overflow:hidden;height:100%;"
 								   name="quantity"
 								   value="{{ quantity_ }}"
 {#								 onchange="setTimeout('calculate()', 1500);" #}
@@ -267,6 +267,12 @@ $(document).ready(onChange())
                     itemprop="description">
                 {{ product.description|safe }}
             </div>
+<style>
+#product_box_bottom_comment{
+    float:left;
+    clear:both;
+}
+</style>
             <div id="product_box_bottom_comment">
 <script>
 function open_window_comment_add(){
@@ -289,6 +295,10 @@ newWin.onload = function() {
 }
 }
 </script>
+                {% for comment in product.comments.all() %}
+                    <p>{{ loop.index }}. Имя:{{ comment.name }}</p>
+                    <p>{{ loop.index }}. Комментарий:{{ comment.comment }}</p>
+                {% endfor %}
                 <input type="button"
                        value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
                        onclick="javascript:open_window_comment_add();">
