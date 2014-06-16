@@ -213,9 +213,21 @@
 							</a>
 						</li>
 						<li>
+{# <style>
+input[type='number']{
+-moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button{
+-webkit-appearance:none;
+margin:0;
+}
+</style> #}
 							<input id="quantity"
-								   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;overflow:hidden;height:100%;"
+								   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;overflow:hidden;height:100%;-moz-appearance:textfield;-webkit-appearance:textfield;"
 								   name="quantity"
+                                   min="{{ product.minimal_quantity }}"
+                                   max="999"
+                                   step="{{ product.quantity_of_complete }}"
 								   value="{{ quantity_ }}"
 {#								 onchange="setTimeout('calculate()', 1500);" #}
 								   onkeyup="onChange();"
@@ -257,7 +269,7 @@ $(document).ready(onChange())
 			{% if product.is_availability == 2 %}
 				<p>Товар:&nbsp;<strong>ожидается</strong></p>
 			{% elif product.is_availability == 3 %}
-				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>В случае покупки товара под заказ, взымается 50% от стоимости заказаного товара.</p>
+				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>В случае покупки товара под заказ, взымается предоплата 50% от стоимости заказаного товара.<br>Доставка от 1-й до 4-х недель.</p>
 			{% elif product.is_availability == 4 %}
 				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}
@@ -267,6 +279,7 @@ $(document).ready(onChange())
                     itemprop="description">
                 {{ product.description|safe }}
             </div>
+{% if user.is_authenticated and user.is_staff %}
 <style>
 #product_box_bottom_comment{
     float:left;
@@ -303,6 +316,7 @@ newWin.onload = function() {
                        value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
                        onclick="javascript:open_window_comment_add();">
             </div>
+{% endif %}
 		</div>
     </div>
 </div>

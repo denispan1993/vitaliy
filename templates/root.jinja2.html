@@ -85,7 +85,7 @@ try{
 {% endblock %}
 {% block content %}
 <div class="feedback-panel" style="z-index:200;">
-    <a class="feedback-tab" href="http://www.проверка.com/">Проверка</a>
+    <a class="feedback-tab" href="http://www.keksik.com.ua/">Проверка</a>
     {# <a href="#">aaa123</a> #}
     <a id="logo1"
        href="/"
@@ -202,14 +202,12 @@ try{
                 <p>Authenticated: {{ user.is_authenticated }}</p>
                 <p>Anonymous: {{ user.is_anonymous }}</p>
                 <p>Staff: {{ user.is_staff }}</p> #}
-    {% if user.is_authenticated %}
-        {% if user.is_staff %}
-            {% if request.session.category %}
-                <div id="category_admin"><a href="/admin/product/category/{{ current_category.pk }}/">{{ current_category.title }}</a></div>
-            {% endif %}
-            {% if request.session.product %}
-                <div id="product_admin"><a href="/admin/product/product/{{ product.pk }}/">{{ product.title }}</a></div>
-            {% endif %}
+    {% if user.is_authenticated and user.is_staff %}
+        {% if request.session.category %}
+            <div id="category_admin"><a href="/admin/product/category/{{ current_category.pk }}/">{{ current_category.title }}</a></div>
+        {% endif %}
+        {% if request.session.product %}
+            <div id="product_admin"><a href="/admin/product/product/{{ product.pk }}/">{{ product.title }}</a></div>
         {% endif %}
     {% endif %}
     <div id="div_logo">

@@ -532,6 +532,23 @@ class Product(models.Model):
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
+#    Availability = (
+#        (1, _(u'Есть в наличии', ), ),
+#        (2, _(u'Ожидается', ), ),
+#        (3, _(u'Под заказ', ), ),
+#        (4, _(u'Недоступен', ), ),
+
+    @property
+    def check_product_availability(self, ):
+        if self.is_availability == 1:
+            return 1, u''
+        elif self.is_availability == 2:
+            return 2, u'Товара нет на складе'
+        elif self.is_availability == 3:
+            return 3, u'Товар доступен под заказ'
+        elif self.is_availability == 4:
+            return 4, u'<strong>Товар недоступен.</strong><br>Рекоммендуем его удалить из корзины.'
+
     objects = models.Manager()
     from apps.product import managers
     manager = managers.Manager_Product()

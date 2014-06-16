@@ -20,6 +20,7 @@
                         <th scope="col" style="text-align:center;">Сумма</th>
                         {# <th scope="col" style="text-align:center;">Под заказ</th> #}
                         <th scope="col" style="text-align:center;">Удаление</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,17 +42,27 @@ var product_summ_of_quantity_array = new Array();
 product_summ_of_quantity_array[0]=0;
 //product_summ_of_quantity_array[999999]=0;
 </script>
+{# {% set loop_style = 0 %} #}
                     {% for product in user_cart_.products %}
                     {% set real_product=product.product %}
 {% include 'include/calc.script' %}
-                        <tr>
+                        <tr{% if real_product.check_product_availability[0] != 1 %} class="red"{% endif %}>
                             <td>
                                 <input type="hidden"
                                        name="product_in_request_{{ product.pk }}"
                                        value="{{ product.pk }}"/>
-                                <a href="{{ real_product.get_absolute_url() }}">
-                                    {{ real_product.title }}
-                                </a>
+{# {% if real_product.check_product_availability[0] != 1 and loop_style == 0 %}
+{% set loop_style =+ 1 %}
+<style>
+table#table_carts tbody tr td a:active,
+table#table_carts tbody tr td a:link,
+table#table_carts tbody tr td a:hover,
+table#table_carts tbody tr td a:visited{
+color:Red;
+}
+</style>
+{% endif %} #}
+                                <a href="{{ real_product.get_absolute_url() }}">{{ real_product.title }}</a>
                             </td>
                             <td style="padding:0px;">
                                 <li style="float:left;list-style-type:none;line-height:22px;">
@@ -95,6 +106,7 @@ product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(req
                                        {# onchange="javascript:delete_on_off('delete1_{{ product.pk }}','delete2_{{ product.pk }}')" #}
                                        type="checkbox">
                             </td>
+                            <td>{{ real_product.check_product_availability[1]|safe }}</td>
                         </tr>
                     {% endfor %}
 
