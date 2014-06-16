@@ -1,7 +1,7 @@
 {% extends 'root.jinja2.html' %}
 {% block title %}{% if current_category is defined %}{% if current_category.meta_title %}{{ current_category.meta_title|capfirst }}{% else %}{{ current_category.title|capfirst }}{% endif %}{% else %}Страница поиска - магазина Кексик.{% endif %}{% endblock %}
 {% block description %}{% if current_category is defined %}{{ current_category.meta_description }}{% else %}Страница поиска товаров и категорий.{% endif %}{% endblock %}
-{% block keywords %}{% if current_category is defined %}{{ current_category.meta_keywords }}{% else %}товары,ингридиенты,инструменты{% endif %}{% endblock %}
+{% block keywords %}{% if current_category is defined %}{{ current_category.meta_keywords }}{% else %}товары,ингредиенты,инструменты{% endif %}{% endblock %}
 {% block category_header_css %}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/categories_products_style.css" />
 {% endblock %}
