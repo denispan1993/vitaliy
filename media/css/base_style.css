@@ -20,7 +20,10 @@ ul li{list-style:none outside none;}
     clear:Both;
 }
 .red{
-    color:red;
+    color:Red;
+}
+.lime{
+    color:Lime;
 }
 a img{
     line-height:0px;
