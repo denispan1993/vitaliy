@@ -138,11 +138,11 @@ try{
                     document.CurrencyChange.submit();
                 }
             </script>
-<style>
+{# <style>
 select option[selected]{
 font-weight:bold;
 }
-</style>
+</style> #}
             <select onchange="document.CurrencyChange.submit();"
                     {# onchange="CurrencyChange();" #}
                     name="currency">
@@ -151,7 +151,7 @@ font-weight:bold;
                         <option id="selected"
                                 value="{{ currency.pk }}"
                                 selected>
-                            <b>{{ currency.name_ru|capfirst }}</b>
+                            {# <b> #}{{ currency.name_ru|capfirst }}{# </b> #}
                         </option>
                     {% else %}
                         <option value="{{ currency.pk }}">{{ currency.name_ru|capfirst }}</option>
