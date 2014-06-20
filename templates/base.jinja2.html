@@ -58,8 +58,9 @@ try{jQuery(document).ready(function(e) {
 </head>
 <body style='background:url("{{ MEDIA_URL }}/img/background2.jpg") repeat fixed center top transparent;'>
 {# <!-- Google.Analytics --> #}{% include 'include/Google.Analytics.script' %}{# <!-- /Google.Analytics --> #}
-{# <!-- Yandex.Metrika counter --> #}{% include 'include/Yandex.Metrica.script' %}{# <!-- /Yandex.Metrika counter --> #}
+{# <!-- Yandex.Metrika counter --> #}{% include 'include/Yandex.Metrica.script' %}{# <!-- /Yandex.Metrika --> #}
 {# <!-- LiveInternet counter --> #}{% include 'include/LiveInternet.script' %}{# <!--/LiveInternet--> #}
+{# <!-- Mail.ru counter --> #}{% include 'include/Mail.ru.script' %}{# <!--/Mail.ru--> #}
 <div id="body">
 {% block content %}
 {% block content_center %}
@@ -68,8 +69,10 @@ try{jQuery(document).ready(function(e) {
 </div>
 <div id="footer">
 {# <!-- LiveInternet logo --> #}{% include 'include/LiveInternet.html' %}{# <!--/LiveInternet--> #}
-{# <!-- Yandex.Metrika informer --> #}{% include 'include/Yandex.Metrica.html' %}{# <!-- /Yandex.Metrika informer --> #}
-{# <!-- i.ua informer --> #}{% include 'include/i.ua.script' %}{# <!-- /i.ua informer --> #}
+{# <!-- Yandex.Metrika informer --> #}{% include 'include/Yandex.Metrica.html' %}{# <!-- /Yandex.Metrika --> #}
+{# <!-- i.ua informer --> #}{% include 'include/i.ua.script' %}{# <!-- /i.ua --> #}
+{# <!-- Mail.ru informer --> #}{% include 'include/Mail.ru.html' %}{# <!-- /Mail.ru --> #}
+{# <!-- rambler.ru informer --> #}{% include 'include/rambler.ru.script' %}{# <!-- /rambler.ru --> #}
 </div>
 </body>
 </html>
