@@ -18,7 +18,7 @@
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;"{#
+                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;" {#
                    rel="{{ block.pk }}"
                    href="javascript:void(0)"
                  #}src="/media/img/add_cart.png"
@@ -29,7 +29,7 @@
             <p>Доступен под заказ.</p>
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;"{#
+                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;" {#
                    rel="{{ block.pk }}"
                    href="javascript:void(0)"
                  #}src="/media/img/add_cart.png"
@@ -58,8 +58,8 @@
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;"
-{#                    onclick="animate_cart(this);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;" {#
+                   onclick="animate_cart(this);return false;"
                    rel="{{ block.pk }}"
                    href="javascript:void(0)"
                  #}src="/media/img/add_cart.png"
@@ -70,7 +70,7 @@
             <p>Доступен под заказ.</p>
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;"{#
+                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;" {#
                    rel="{{ block.pk }}"
                    href="javascript:void(0)"
                  #}src="/media/img/add_cart.png"
