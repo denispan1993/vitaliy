@@ -138,17 +138,20 @@ try{
                     document.CurrencyChange.submit();
                 }
             </script>
-
-            <select
-                    onchange="document.CurrencyChange.submit();"
+<style>
+select option[selected]{
+font-weight:bold;
+}
+</style>
+            <select onchange="document.CurrencyChange.submit();"
                     {# onchange="CurrencyChange();" #}
                     name="currency">
                 {% for currency in currency_ %}
                     {% if currency.pk == request.session.currency_pk %}
                         <option id="selected"
                                 value="{{ currency.pk }}"
-                                selected="">
-                            <strong>{{ currency.name_ru|capfirst }}</strong>
+                                selected>
+                            <b>{{ currency.name_ru|capfirst }}</b>
                         </option>
                     {% else %}
                         <option value="{{ currency.pk }}">{{ currency.name_ru|capfirst }}</option>
@@ -228,7 +231,7 @@ try{
                             <img src="{{ slide.slide.url }}"
                                  {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}
                                  {% if slide.title %}title="{{ slide.title }}"{% endif %}
-                                 id="wows1_{{ slide.order }}"/>
+                                 id="wows1_{{ slide.order }}">
                         </a>{{ slide.text }}
                     </li>
                 {% endfor %}
@@ -239,7 +242,7 @@ try{
                 {% for slide in slides_ %}
                     <a href="#" {% if slide.title %}title="{{ slide.title }}"{% endif %}>
                         <img src="{{ slide.slide.url_240x96 }}"
-                             {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}/>
+                             {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}>
                         {{ slide.order}}</a>
                 {% endfor %}
             </div>
@@ -270,7 +273,7 @@ try{
                 </li>
                 {% for cat in categories_basement_|sort(attribute='serial_number') recursive %}
                     {% set children = cat.children.all()|sort(attribute='serial_number') %}
-                    <li{% if children %} attribute="children_true"{% endif %}>
+                    <li{# {% if children %} attribute="children_true"{% endif %} #}>
                         <a {% if cat.shown_colored or cat.shown_bold or cat.shown_italic %}class="{% if cat.shown_colored %}colored {% endif %}{% if cat.shown_bold %}bold {% endif %}{% if cat.shown_italic %}italic{% endif %}" {% endif %}href="{{ cat.get_absolute_url() }}" style="font-size:{{ cat.font_px }}px;"
                            {# alt="{{ cat.name }}" #}
                            title="{{ cat.title }}">{{ cat.title }}</a>
