@@ -266,10 +266,7 @@ font-weight:bold;
             <a class="left_title" href="/категории/" title="Категории верхнего уровная">Категории</a>
             <ul id='accordion' class="menu basement">
                 <li>
-                    <a id="new_items"
-                       href="/">
-                        Новинки
-                    </a>
+                    <a id="new_items" href="/">Новинки</a>
                 </li>
                 {% for cat in categories_basement_|sort(attribute='serial_number') recursive %}
                     {% set children = cat.children.all()|sort(attribute='serial_number') %}
