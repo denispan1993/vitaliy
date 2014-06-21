@@ -149,12 +149,12 @@ div#header div#div_logo a#logo{
     padding-bottom:3px;
     /* padding-left:40px; */
 }
-.products_container{
+/*.products_container{
     margin-left:0px;
     overflow:hidden;
     max-width:984px;
     min-width:740px;
-}
+}*/
 div#main_right{
     display:inline-block;
     vertical-align:top;

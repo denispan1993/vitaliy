@@ -229,7 +229,7 @@ font-weight:bold;
                     <li>
                         <a href="{{ slide.url }}" target="_self">
                             <img src="{{ slide.slide.url }}"
-                                 {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}
+                                 {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}
                                  {% if slide.title %}title="{{ slide.title }}"{% endif %}
                                  id="wows1_{{ slide.order }}">
                         </a>{{ slide.text }}
@@ -242,7 +242,7 @@ font-weight:bold;
                 {% for slide in slides_ %}
                     <a href="#" {% if slide.title %}title="{{ slide.title }}"{% endif %}>
                         <img src="{{ slide.slide.url_240x96 }}"
-                             {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}>
+                             {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}>
                         {{ slide.order}}</a>
                 {% endfor %}
             </div>
