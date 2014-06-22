@@ -328,6 +328,7 @@ INSTALLED_APPS = (
     'apps.static',
     'apps.search',
     'apps.utils',
+    'apps.utils.captcha',
     'apps.handlers',
     'apps.admin',
     # 'static_sitemaps',

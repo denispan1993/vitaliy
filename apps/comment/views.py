@@ -112,10 +112,13 @@ def comment_add(request,
         from django.shortcuts import redirect
         return redirect(to='comment_add_successfully', product_url=product_url, id=id, )
 
+    from apps.utils.captcha.views import Captcha
+    keys = Captcha(request, )
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
-                                  dictionary={'error_message': error_message, },
+                                  dictionary={'error_message': error_message,
+                                              'keys': keys, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )
     return response

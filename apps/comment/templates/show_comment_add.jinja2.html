@@ -27,10 +27,13 @@
     <label for="commenter_email">Ваш email:</label>
     <input type="email" name="email_for_response" id="commenter_email">
     <br>
-    <label for="commenter_rating">Ваш рэйтинг:</label>
+    <label for="commenter_rating">Ваш рейтинг:</label>
     <input type="number" name="rating" id="commenter_rating">
     {# <input type="hidden" name="product_pk" value="{1{ product.pk }}" />
     <input type="hidden" name="product_url" value="{1{ product.url }}" /> #}
+    {% for key in 0,1,2 %}
+        <div style="background-image:url('/captcha/{{ keys[key].key }}.jpg');width:300px;height:300px;" id="capcha"></div>
+    {% endfor %}
     <br>
     <input type="submit" value="Добавить комментарий"{#  style="margin-top:2px;" #}>
 

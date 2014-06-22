@@ -15,6 +15,7 @@ urlpatterns = patterns(
     url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls, ), ),
+    url(r'^captcha/', include('apps.utils.captcha.urls', ), ),
 )
 
 #from apps.root.views import root_page
@@ -73,8 +74,11 @@ urlpatterns += patterns('apps',
         name='currency_change', ),
     url(ur'^Валюта/Изменение/$', 'currency.views.currency_change',
         name='currency_change', ),
-
 )
+
+#Капча
+#urlpatterns += patterns(url(r'^captcha/', include('apps.utils.captcha.urls', ), ), )
+
 #Admin panel
 urlpatterns += patterns('apps.admin.views',
                         url(ur'^админ/$', 'admin_panel',
