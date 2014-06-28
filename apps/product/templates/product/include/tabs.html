@@ -1,0 +1,130 @@
+{% if products_recommended %}
+<style>
+a.a-tab{
+background:#fff;
+border:1px solid #c2cfe0;
+border-bottom:0px;
+display:block;
+font-weight:bold;
+padding:0px 10px;
+position:relative;
+height:24px;
+line-height:24px;
+font-size:14px;
+color:#114989;
+text-decoration:none;
+border-radius:10px 10px 0 0;
+}
+li.tab{
+float:left;
+}
+li.tab.active a.a-tab{
+color:#fff;
+background:#329a1c;
+border-color:#329a1c;
+cursor:default;
+font-weight:bold;
+}
+</style>
+<script>
+function tab_click(element){
+    var recomendationElem = document.getElementById('li-recomendations');
+    var commentsElem = document.getElementById('li-comments');
+    if(element.id == 'li-recomendations'){
+        recomendationElem.classList.add('active');
+        commentsElem.classList.remove('active');
+    }
+    else if (element.id == 'li-comments'){
+        commentsElem.classList.add('active');
+        recomendationElem.classList.remove('active');
+    }
+}
+window.onload = function(){
+    var recomendationElem = document.getElementById('li-recomendations');
+    tab_click(recomendationElem);
+}
+</script>
+
+<div id="tabs" style="float:left;clear:both;">
+    <ul id="multi-tabs" style="list-style:none;margin-left:5px;">
+        <li class="tab"
+            onclick="javascript:tab_click(this);"
+            id="li-recomendations">
+            <a class="a-tab">Рекомендуемые ({{ length_products_recommended }})</a>
+        </li>
+        <li class="tab"
+            onclick="javascript:tab_click(this);"
+            id="li-comments">
+            <a class="a-tab">Комментарии</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+<div id="tab_contents"
+     style="width:{{ request.session.width_main_center }}px;">
+-{{ length_products_recommended }}
+{% if products_recommended %}
+<div id="recommended_products">
+{% if length_products_recommended > limit_products_recommended_on_string %}
+<script>try{
+$(document).ready(function($){
+$('ul#products').easyPaginate({
+    step:{{ limit_products_recommended_on_string }}, {# Defines a number of items visible on each "page". #}
+    delay:500, {# Items on each "page" fade in one by one. This parameter controls the pause between each item’s appearance so we can create "wave" effect. It is defined in milliseconds. #}
+    auto:false, {# Boolean. If set to true then the plugin will automatically rotate the "pages" #}
+    pause:1000, {# If set to auto pagination, this parameter controls the length of the pause in milliseconds between each "page turn". #}
+    clickstop:false {# If set to auto pagination, this parameter controls whether the pages will continue to automatically rotate. If you want to continue the rotation set this parameter to false. #}
+});
+});
+}catch(e){ alert(e) }
+</script>
+{% endif %}
+{% if length_products_recommended == 1 %}
+<p style="font-size:25px;color:Black;font-weight:bold;">Рекомендуемый товар</p>
+{% elif length_products_recommended > 1 %}
+<p style="font-size:25px;color:Black;font-weight:bold;">Рекомендуемые товары</p>
+{% endif %}
+<ul id="products">
+    {% for product_recommended in products_recommended %}
+        {{ one_block(product_recommended, request, 'li', 0, False, 'product')|safe }}
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
+</div>
+<style>
+#product_box_bottom_comment{
+    float:left;
+    clear:both;
+}
+</style>
+            <div id="product_box_bottom_comment">
+<script>
+function open_window_comment_add(){
+var param = 'width=500,height=400,menubar=no,toolbar=no,location=no,directories=no,status=no,resizable=no,scrollbars=no'
+var newWin = window.open('{{ product.get_absolute_url() }}комментарий/добавить/', 'Comment_add', param);
+
+newWin.focus();
+newWin.onload = function() {
+
+  // создать div в документе нового окна
+  var div = newWin.document.createElement('div');
+  div.innerHTML = 'Добро пожаловать!'
+  div.style.fontSize = '30px'
+
+
+  var body = newWin.document.body;
+
+  // вставить первым элементом в новое body
+  body.insertBefore(div, body.firstChild);
+}
+}
+</script>
+                {% for comment in product.comments.all() %}
+                    <p>{{ loop.index }}. Имя:{{ comment.name }}</p>
+                    <p>{{ loop.index }}. Комментарий:{{ comment.comment }}</p>
+                {% endfor %}
+                <input type="button"
+                       value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
+                       onclick="javascript:open_window_comment_add();">
+            </div>
