@@ -560,9 +560,9 @@ INSTALLED_APPS += (
 )
 USERENA_USE_MESSAGES = True
 #!!!=============== Django ToolBar ===================================
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
+#MIDDLEWARE_CLASSES += (
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#)
 
 INSTALLED_APPS += (
     'debug_toolbar',
@@ -650,7 +650,7 @@ IGNORED_TEMPLATES = ["debug_toolbar/*"]
 
 
 DEBUG_TOOLBAR_CONFIG = {
-    'EXCLUDE_URLS': ('/admin/', ), # данная опция находится в разработке
+    'EXCLUDE_URLS': ('/admin/', ),  # данная опция находится в разработке
     'INTERCEPT_REDIRECTS': False,
 }
 

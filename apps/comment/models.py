@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from mptt.models import MPTTModel
 
 
-class Comment(MPTTModel):
+class Comment(MPTTModel, ):
     from mptt import models as modelsTree
     comment_parent = modelsTree.TreeForeignKey('Comment',
                                                verbose_name=_(u'Комментарий на который отвечает этот комментарий', ),
@@ -91,12 +91,25 @@ class Comment(MPTTModel):
     updated_at = models.DateTimeField(auto_now=True, )
 
     # Вспомогательные поля
-    # from django.contrib.contenttypes import generic
-    # photo = generic.GenericRelation('Photo',
-    #                                 content_type_field='content_type',
-    #                                 object_id_field='object_id', )
+    from django.contrib.contenttypes import generic
+    # from apps.product.models import Product
+    # product = generic.GenericRelation(Product,
+    #                                   content_type_field='content_type',
+    #                                   object_id_field='object_id', )
 
     objects = models.Manager()
+
+#    @models.permalink
+    def get_absolute_url(self, ):
+#        return ('show_product', (),
+#                {'product_url': self.url,
+#                 'id': self.pk, }, )
+        # model = self.content_type.model_class()
+        # object = model.objects.get(pk=self.object_id, )
+        # url = object.get_absolute_url()
+        object = self.content_type.get_object_for_this_type(pk=self.object_id, )
+        url = object.get_absolute_url()
+        return u'%sкомментарий/%.6d/' % (url, self.pk, )
 
     def __unicode__(self):
         # """

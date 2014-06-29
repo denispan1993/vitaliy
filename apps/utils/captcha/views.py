@@ -99,7 +99,7 @@ def Captcha(request=None, ):
     # true = randint(0, len_qs_true, )
     # true = qs_true[true]
     true = choice(qs_true, )
-    print(true.key)
+    # print(true.key)
     """ сохраняем "правильный код" в Session """
     if request:
         request.session['capcha'] = true.key
@@ -132,7 +132,7 @@ def Captcha_Key_Generates(what_return=None, ):
     from random import randint
     for n in range(1, 100, ):
         choice = randint(1, len_all_images, )
-        print(n, choice, len_all_images)
+        # print(n, choice, len_all_images)
         image = all_images[choice - 1]
         Captcha_Key.objects.create(image=image, )
     # import datetime

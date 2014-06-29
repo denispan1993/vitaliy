@@ -3,10 +3,10 @@ __author__ = 'Sergey'
 
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
-from apps.product.models import Product
-from apps.product.models import ItemID
-from apps.product.models import IntermediateModelManufacturer
-from apps.product.models import Manufacturer
+#from apps.product.models import Product
+#from apps.product.models import ItemID
+#from apps.product.models import IntermediateModelManufacturer
+#from apps.product.models import Manufacturer
 
 
 #@receiver(post_save, sender=Product, )

@@ -61,7 +61,7 @@ def comment_add(request,
 
                             else:
                                 rating = request.POST.get(u'rating', None, )
-                                print(rating, )
+                                # print(rating, )
                                 if rating == u'':
                                     if request.user.is_authenticated() and request.user.is_active:
                                         user_id_ = request.session.get(u'_auth_user_id', None, )

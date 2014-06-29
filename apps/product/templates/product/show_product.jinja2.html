@@ -16,6 +16,8 @@
 <script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
 {% endblock %}
 {% endif %}
+{% set comments = product.comments.all() %}
+{% set length_comments = product.comments.all()|length %}
 {% block header_javascript1 %}
 <script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js"></script>
 {% endblock %}
@@ -316,7 +318,7 @@ function tab_click(element){
     var recomendationElem = document.getElementById('li-recomendations');
     var commentsElem = document.getElementById('li-comments');
     var tab_recomendationElem = document.getElementById('tab_recommended_products');
-    var tab_commentsElem = document.getElementById('tab_comments');
+    var tab_commentsElem = document.getElementById('tab-comments');
     if(element.id == 'li-recomendations') {
         commentsElem.classList.remove('active');
         tab_commentsElem.style.display = 'none';
@@ -336,8 +338,48 @@ window.onload = function(){
 }
 </script>
 
-<div id="tabs" style="float:left;clear:both;">
-    <ul id="multi-tabs" style="list-style:none;margin-top:5px;margin-left:0px;padding-left:0px;">
+<style>
+div.tabs{
+float:left;clear:both;width:100%;{# border-bottom:3px solid #329a1c; #}margin-bottom:10px;
+}
+ul#multi-tabs:before,ul#multi-tabs:after{content:'';display:block;position:absolute}
+ul#multi-tabs:before{background:#329a1c;width:200px;height:3px;right:0;bottom:-3px;
+background:-moz-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:-webkit-gradient(linear,left top,right top,color-stop(0%,#329a1c),color-stop(100%,#fff));
+background:-webkit-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:-o-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:-ms-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:linear-gradient(left,#329a1c 0%,#fff 100%)}
+/*ul#multi-tabs:after {background: url(http://i.rozetka.ua/design/catalog/details/menu-tabs-bg-l.jpg) no-repeat 0 100%;
+top: 0;
+bottom: -3px;
+width: 25px;
+left: -25px;
+}*/
+a.a-tab,a.a-tab:after{
+border-radius:10px 10px 0 0;
+}
+a.a-tab:after{
+content:'';
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+z-index:-1;
+box-shadow:-4px -5px 4px #000000;
+}
+</style>
+<div class="tabs">
+{# <style>
+div#tabs ul#multi-tabs:before{
+width:80px;
+height:3px;
+right:0px;
+bottom:-3px;
+}
+</style> #}
+    <ul id="multi-tabs" style="list-style:none;margin-top:5px;margin-left:0px;padding-left:0px;position:relative;border-bottom:3px solid #329a1c;height:25px;">
         <li class="tab"
             onclick="javascript:tab_click(this);"
             id="li-recomendations">
@@ -346,13 +388,13 @@ window.onload = function(){
         <li class="tab"
             onclick="javascript:tab_click(this);"
             id="li-comments">
-            <a class="a-tab">Комментарии</a>
+            <a class="a-tab">Комментарии{% if comments %} ({{ length_comments }}){% endif %}</a>
         </li>
     </ul>
 </div>
 {% endif %}
 <div id="product_box_bottom_tabs_contents"
-     style="width:{{ request.session.width_main_center }}px;float:left;clear:both;">
+     style="width:{{ request.session.width_main_center }}px;float:left;clear:both;text-align:left;">
 {% if products_recommended %}
 <div id="tab_recommended_products" style="margin:0px;padding:0px;display:none;">
  {% if length_products_recommended > limit_products_recommended_on_string %}
@@ -370,9 +412,9 @@ $('ul#products').easyPaginate({
 </script>
 {% endif %}
 {% if length_products_recommended == 1 %}
-<p style="font-size:25px;color:Black;font-weight:bold;margin-top:10px;margin-bottom:10px;">Рекомендуемый товар</p>
+<p style="font-size:25px;color:Black;font-weight:bold;margin-top:0px;margin-bottom:10px;">Рекомендуемый товар</p>
 {% elif length_products_recommended > 1 %}
-<p style="font-size:25px;color:Black;font-weight:bold;margin-top:10px;margin-bottom:10px;">Рекомендуемые товары</p>
+<p style="font-size:25px;color:Black;font-weight:bold;margin-top:0px;margin-bottom:10px;">Рекомендуемые товары</p>
 {% endif %}
 <ul id="products" style="margin-top:0px;margin-bottom:0px;padding-left:0px;">
     {% for product_recommended in products_recommended %}
@@ -387,36 +429,63 @@ $('ul#products').easyPaginate({
     clear:both;
 }
 </style> #}
-<div id="tab_comments" style="display:none;">
+<div id="tab-comments" style="display:none;">
+{% if comments %}
+<style>
+h2.comment-title{
+font-size:20px;
+padding-bottom:10px;
+}
+</style>
+<h2 class="comment-title">Отзывы покупателей о {{ product.title }}</h2>
 {#             <div id="product_box_bottom_comment"> #}
-                {% for comment in product.comments.all() %}
-                    <p>{{ loop.index }}. Имя:{{ comment.name }}</p>
-                    <p>{{ loop.index }}. Комментарий:{{ comment.comment }}</p>
+<ul>
+                {% for comment in comments %}
+                    <li>
+                        <div class="comment-vote">
+                            <header class="review-header">
+                                <span class="review-author">{{ comment.name }}</span>
+                                <time class="review-date">{{ comment.created_at }}</time>
+                            </header>
+                            <p class="review-comment">{{ comment.comment }}</p>
+                            <input type="button"
+                                   value="Ответить на комментарий"
+                                   onclick="javascript:open_window_comment_add({{ product.get_absolute_url() }}, {{ comment.get_absolute_url() }});">
+                        </div>
+                    </li>
                 {% endfor %}
+</ul>
+{% endif %}
 <div id="comment_add_button">
 <script>
-function open_window_comment_add(){
-var param = 'width=500,height=400,menubar=no,toolbar=no,location=no,directories=no,status=no,resizable=no,scrollbars=no'
-var newWin = window.open('{{ product.get_absolute_url() }}комментарий/добавить/', 'Comment_add', param);
+function open_window_comment_add(product_url, comment_url){
+var param = 'width=950,height=600,menubar=no,toolbar=no,location=no,directories=no,status=no,resizable=no,scrollbars=no'
+if (comment_url==null){
+    var url = product_url + 'комментарий/добавить/'
+}
+else{
+    var url = comment_url + 'добавить/'
+}
+var newWin = window.open(url, 'Comment_add', param);
 
 newWin.focus();
 newWin.onload = function() {
 
   // создать div в документе нового окна
-  var div = newWin.document.createElement('div');
-  div.innerHTML = 'Добро пожаловать!'
-  div.style.fontSize = '30px'
+  // var div = newWin.document.createElement('div');
+  // div.innerHTML = 'Добро пожаловать!'
+  // div.style.fontSize = '30px'
 
   var body = newWin.document.body;
 
   // вставить первым элементом в новое body
-  body.insertBefore(div, body.firstChild);
+  // body.insertBefore(div, body.firstChild);
 }
 }
 </script>
                 <input type="button"
                        value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
-                       onclick="javascript:open_window_comment_add();">
+                       onclick="javascript:open_window_comment_add({{ product.get_absolute_url() }}, null);">
 </div>
 </div>
 {% endif %}
