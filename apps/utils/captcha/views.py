@@ -92,7 +92,7 @@ def Captcha(request=None, ):
     qs_true = Captcha_Key.objects.filter(image_type=true, next_use__lte=datetime.now(), )
     """ Если нет, то генерим ключи """
     if not qs_true:
-        qs_true = Captcha_Key_Generates(true=true, )
+        qs_true = Captcha_Key_Generates(what_return=true, )
     if len(qs_true, ) < 100:
         Captcha_Key_Generates()
     """ Выбираем случайным образом "правильную" картинку """
@@ -131,7 +131,7 @@ def Captcha_Key_Generates(what_return=None, ):
     all_images = Captcha_Images.objects.all()
     len_all_images = len(all_images, )
     from random import randint
-    for n in range(1, 100, ):
+    for n in range(1, 10000, ):
         choice = randint(1, len_all_images, )
         # print(n, choice, len_all_images)
         image = all_images[choice - 1]
