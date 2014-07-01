@@ -50,6 +50,7 @@ class Captcha_Images(models.Model, ):
 class Captcha_Key(models.Model, ):
     from apps.utils.captcha.views import key_generator
     key = models.CharField(verbose_name=u'Капча код',
+                           unique=True,
                            max_length=8,
                            default=key_generator,
                            blank=False,
@@ -73,14 +74,20 @@ class Captcha_Key(models.Model, ):
         # from django.db.models import F
         # View.view_count = F('view_count') + 1
         from datetime import datetime, timedelta
-        """ Закидываем на один час вперед время следующего использования данного ключа """
-        timedelta = datetime.now() + timedelta(3600)
-        self.next_use = timedelta
-        # self.save()
-        return self.key
+        if self.created_at + timedelta(86400) < datetime.now():
+            """ Если дата ключа просрочена. Ключ убиваем. """
+            self.delete()
+            return None
+        else:
+            """ Закидываем на один час вперед время следующего использования данного ключа """
+            timedelta = datetime.now() + timedelta(3600)
+            self.next_use = timedelta
+            self.save()
+            return self.key
 
     def save(self, *args, **kwargs):
-        self.image_type = self.image.image_type
+        if self.image_type == 0:
+            self.image_type = self.image.image_type
         super(Captcha_Key, self, ).save(*args, **kwargs)
 
 #    @models.permalink

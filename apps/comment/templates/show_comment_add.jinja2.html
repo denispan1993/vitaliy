@@ -19,7 +19,7 @@
     <input type="text" name="commenter_name" id="commenter_name" required>
     <br>
     <label for="comment">Ваш комментарий:</label>
-    <input type="text" name="comment" id="comment" required>
+    <textarea name="comment" id="comment" cols="7" rows="50" required>Текст Вашего комментария</textarea>
     <br>
     <label for="request_a_response">Запрос на ответ:</label>
     <input type="checkbox" name="require_a_response" id="request_a_response">
@@ -33,7 +33,7 @@
     {# <input type="hidden" name="product_pk" value="{1{ product.pk }}" />
     <input type="hidden" name="product_url" value="{1{ product.url }}" /> #}
     {% for key in 0,1,2 %}
-        <div style="background-image:url('/captcha/{{ keys[key].key }}.jpg');width:300px;height:300px;float:left;" id="capcha"></div>
+        <div style="background-image:url('/captcha/{{ keys[key].key }}.jpg');width:200px;height:200px;float:left;" id="capcha"></div>
     {% endfor %}
     <br class="clearFloat">
     <input type="submit" value="Добавить комментарий"{#  style="margin-top:2px;" #}>

@@ -33,6 +33,7 @@ class Captcha_Image(object, ):
         if filename:
             from apps.utils.captcha.models import Captcha_Key
             key = Captcha_Key.objects.get(key=filename, )
+            # Находим как называется настоящий файл.
             self.filename = key.image.image.path
             self.key = key.update
             # self.img = self._read()
