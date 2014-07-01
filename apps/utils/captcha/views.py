@@ -135,6 +135,10 @@ def Captcha_Key_Generates(what_return=None, ):
         choice = randint(1, len_all_images, )
         # print(n, choice, len_all_images)
         image = all_images[choice - 1]
+        """
+            Создаем новую запись ключа подставляя в эту запись только реальный путь к картинке.
+            Ключ при этом генерится автоматически в самой модели.
+        """
         Captcha_Key.objects.create(image=image, )
     # import datetime
     from datetime import datetime
