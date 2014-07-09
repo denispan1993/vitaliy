@@ -125,14 +125,20 @@ def Captcha(request=None, ):
             i = +1
     return dict
 
+from django.db import transaction
 
+
+@transaction.atomic
 def Captcha_Key_Generates(what_return=None, ):
     from apps.utils.captcha.models import Captcha_Images, Captcha_Key
     all_images = Captcha_Images.objects.all()
     len_all_images = len(all_images, )
-    from random import randint
-    for n in range(1, 10000, ):
+    # from django.db import transaction
+    # with transaction.atomic():
+    for n in range(1, 100, ):
+        from random import randint
         choice = randint(1, len_all_images, )
+        print(n, choice)
         # print(n, choice, len_all_images)
         image = all_images[choice - 1]
         """
@@ -148,3 +154,23 @@ def Captcha_Key_Generates(what_return=None, ):
         return Captcha_Key.objects.filter(image_type=what_return, next_use__lte=datetime.now(), )
     else:
         return None
+
+
+def Captcha_Key_Deletes(key=None, datetime=None, ):
+    from apps.utils.captcha.models import Captcha_Key
+    if key:
+        try:
+            Captcha_Key.objects.get(key=key).delete()
+        except Captcha_Key.DoesNotExist:
+            return None
+    elif datetime:
+        try:
+            Captcha_Key.objects.filter(created_at__lte=datetime, ).delete()
+        except Captcha_Key.DoesNotExist:
+            return None
+    else:
+        try:
+            Captcha_Key.objects.all().delete()
+        except Captcha_Key.DoesNotExist:
+            return None
+    return None
