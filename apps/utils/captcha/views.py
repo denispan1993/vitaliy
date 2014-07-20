@@ -136,8 +136,8 @@ def Captcha_Key_Generates(what_return=None, ):
     # from django.db import transaction
     # with transaction.atomic():
     from datetime import datetime
-    datetime_start = datetime.now()
-    print datetime_start
+    # datetime_start = datetime.now()
+    # print datetime_start
     ins = '''insert into %s (key, image_id, image_type, next_use, created_at, updated_at)
              values ('%s', %d, %d, datetime('now'), datetime('now'), datetime('now'))'''
     from django.db import connection
@@ -182,8 +182,8 @@ def Captcha_Key_Generates(what_return=None, ):
             else:
                 success += 1
                 ok = False
-    datetime_end = datetime.now()
-    print datetime_start, ' - ', datetime_end
+    # datetime_end = datetime.now()
+    # print datetime_start, ' - ', datetime_end
     # import datetime
     from datetime import datetime
     # time_to_next_use = datetime.datetime.now() - datetime.timedelta(3600)
