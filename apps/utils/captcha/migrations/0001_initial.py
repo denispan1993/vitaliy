@@ -22,9 +22,10 @@ class Migration(SchemaMigration):
         # Adding model 'Captcha_Key'
         db.create_table('Captcha_Keys', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('key', self.gf('django.db.models.fields.CharField')(default='We4JWHDy', max_length=8)),
+            ('key', self.gf('django.db.models.fields.CharField')(default='Aq7EZMsK', unique=True, max_length=8)),
             ('image', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['captcha.Captcha_Images'])),
             ('image_type', self.gf('django.db.models.fields.PositiveSmallIntegerField')(default=0)),
+            ('next_use', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 7, 21, 0, 0))),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
@@ -55,7 +56,8 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['captcha.Captcha_Images']"}),
             'image_type': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0'}),
-            'key': ('django.db.models.fields.CharField', [], {'default': "'u6SFGqzq'", 'max_length': '8'}),
+            'key': ('django.db.models.fields.CharField', [], {'default': "'0cPVJhKq'", 'unique': 'True', 'max_length': '8'}),
+            'next_use': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 7, 21, 0, 0)'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         }
     }

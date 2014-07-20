@@ -61,6 +61,7 @@ class Captcha_Key(models.Model, ):
                                                   default=0,
                                                   blank=False,
                                                   null=False, )
+
     from datetime import datetime
     next_use = models.DateTimeField(default=datetime.now(), )
 

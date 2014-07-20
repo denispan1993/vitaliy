@@ -135,17 +135,55 @@ def Captcha_Key_Generates(what_return=None, ):
     len_all_images = len(all_images, )
     # from django.db import transaction
     # with transaction.atomic():
+    from datetime import datetime
+    datetime_start = datetime.now()
+    print datetime_start
+    ins = '''insert into %s (key, image_id, image_type, next_use, created_at, updated_at)
+             values ('%s', %d, %d, datetime('now'), datetime('now'), datetime('now'))'''
+    from django.db import connection
+    cursor = connection.cursor()
+
+    from random import randint
+    from django.db import IntegrityError
+    success = 0
+    unsuccess = 0
+
     for n in range(1, 100, ):
-        from random import randint
         choice = randint(1, len_all_images, )
-        print(n, choice)
         # print(n, choice, len_all_images)
         image = all_images[choice - 1]
         """
             Создаем новую запись ключа подставляя в эту запись только реальный путь к картинке.
             Ключ при этом генерится автоматически в самой модели.
         """
-        Captcha_Key.objects.create(image=image, )
+        ok = True
+        while ok:
+            """
+                IntegrityError:
+            """
+            key = key_generator(size=8, )
+            # print success, unsuccess, n, choice, type(image.pk), image.pk, type(image.image_type), image.image_type, key
+            insert = ins % ('Captcha_Keys',  # Captcha_Key.model._meta.db_table,
+                            key,
+                            image.pk,
+                            image.image_type, )
+            try:
+                with transaction.atomic():
+#                    print insert
+                    cursor.execute(insert, )
+                    # Captcha_Key.objects.create(image=image, )
+            except IntegrityError:
+                print 'IntegrityError', ' Key: ', key
+                unsuccess += 1
+            except Exception as inst:
+                print type(inst, )
+                print inst
+                unsuccess += 1
+            else:
+                success += 1
+                ok = False
+    datetime_end = datetime.now()
+    print datetime_start, ' - ', datetime_end
     # import datetime
     from datetime import datetime
     # time_to_next_use = datetime.datetime.now() - datetime.timedelta(3600)

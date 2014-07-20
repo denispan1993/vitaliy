@@ -1,0 +1,112 @@
+[
+{
+    "pk": 1, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 1, 
+        "created_at": "2014-06-22T11:14:24.741Z", 
+        "image": "captcha/01/gerbera1.jpg", 
+        "alt": "\u0413\u0435\u0440\u0431\u0435\u0440\u0430 1", 
+        "updated_at": "2014-06-22T11:14:24.741Z"
+    }
+},
+{
+    "pk": 2, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 1, 
+        "created_at": "2014-06-22T11:14:47.307Z", 
+        "image": "captcha/01/gerbera2.jpg", 
+        "alt": "\u0413\u0435\u0440\u0431\u0435\u0440\u0430 2", 
+        "updated_at": "2014-06-22T11:14:47.307Z"
+    }
+},
+{
+    "pk": 3, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 1, 
+        "created_at": "2014-06-22T11:15:02.814Z", 
+        "image": "captcha/01/gerbera3.jpg", 
+        "alt": "\u0413\u0435\u0440\u0431\u0435\u0440\u0430 3", 
+        "updated_at": "2014-06-22T11:15:02.814Z"
+    }
+},
+{
+    "pk": 4, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 3, 
+        "created_at": "2014-06-22T11:31:03.093Z", 
+        "image": "captcha/03/avto1.jpg", 
+        "alt": "\u0410\u0432\u0442\u043e 1", 
+        "updated_at": "2014-06-22T11:31:03.093Z"
+    }
+},
+{
+    "pk": 5, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 3, 
+        "created_at": "2014-06-22T11:31:19.070Z", 
+        "image": "captcha/03/avto2.jpg", 
+        "alt": "\u0410\u0432\u0442\u043e 2", 
+        "updated_at": "2014-06-22T11:31:19.070Z"
+    }
+},
+{
+    "pk": 6, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 3, 
+        "created_at": "2014-06-22T11:31:33.839Z", 
+        "image": "captcha/03/avto3.jpg", 
+        "alt": "\u0410\u0432\u0442\u043e 3", 
+        "updated_at": "2014-06-22T11:31:33.839Z"
+    }
+},
+{
+    "pk": 7, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 3, 
+        "created_at": "2014-06-22T11:31:51.752Z", 
+        "image": "captcha/03/avto4.jpg", 
+        "alt": "\u0410\u0432\u0442\u043e 4", 
+        "updated_at": "2014-06-22T11:31:51.752Z"
+    }
+},
+{
+    "pk": 8, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 9, 
+        "created_at": "2014-06-22T11:33:31.908Z", 
+        "image": "captcha/09/dom1.jpg", 
+        "alt": "\u0414\u043e\u043c 1", 
+        "updated_at": "2014-06-22T11:33:31.908Z"
+    }
+},
+{
+    "pk": 9, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 9, 
+        "created_at": "2014-06-22T11:33:46.421Z", 
+        "image": "captcha/09/dom2.jpg", 
+        "alt": "\u0414\u043e\u043c 2", 
+        "updated_at": "2014-06-22T11:33:46.421Z"
+    }
+},
+{
+    "pk": 10, 
+    "model": "captcha.captcha_images", 
+    "fields": {
+        "image_type": 9, 
+        "created_at": "2014-06-22T11:34:02.412Z", 
+        "image": "captcha/09/dom3.jpg", 
+        "alt": "\u0414\u043e\u043c 3", 
+        "updated_at": "2014-06-22T11:34:02.412Z"
+    }
+}
+]
