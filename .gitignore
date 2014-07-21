@@ -3,5 +3,5 @@
 *.pyc
 .idea
 local_setting*.*
-VirtEnv/*.*
-VirtEnv-Win32/*.*
+VirtEnv/
+VirtEnv-Win32/
