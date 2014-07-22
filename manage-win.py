@@ -1,4 +1,4 @@
-#!C:/PycharmProjects/VirtualEnvironment/Scripts/python.exe
+#!C:/PycharmProjects/Shop/VirtualEnvironment/Scripts/python.exe
 # coding=utf-8
 
 import os

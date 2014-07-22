@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'Sergey'
+__author__ = 'Alex Starov'
 
 #from apps.product.models import Product
 

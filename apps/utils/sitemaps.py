@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'user'
+__author__ = 'Alex Starov'
 
 from django.contrib.sitemaps import Sitemap
 

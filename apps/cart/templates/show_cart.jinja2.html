@@ -148,7 +148,7 @@ margin-bottom:10px;
 }
 </style>
             <p>Минимальная сумма заказа {{ 100|convert_currency(request) }} {{ get_currency(request) }}</p>
-            <input style="float:left;list-style-type:none;line-height:22px;margin-right:5px;"
+            <input style="float:left;list-style-type:none;line-height:24px;margin-right:5px;"
                    type="submit"
                    value="Пересчитать корзину"/>
         </form>
@@ -164,11 +164,14 @@ margin-bottom:10px;
                        {# checked="" #}
                        type="hidden"/>
             {% endfor %}
-            <input id="order_cart_input"
+            <input style="float:left;list-style-type:none;line-height:24px;margin-right:5px;"
+                   id="order_cart_input"
                    type="submit"
                    value="Оформить заказ"/>
+            <a style="float:left;list-style-type:none;line-height:24px;margin-right:5px;"
+               href="/"
+               title="Вернуться к покупкам">Продолжить покупки &gt;&gt;</a>
         </form>
-        <a href="/" title="Вернуться к покупкам">Продолжить покупки &gt;&gt;</a>
 <script>
 function ReCalcSumm(change){
     var summ=0;

@@ -236,7 +236,28 @@ class Product(models.Model):
         elif quantity < 1:
             quantity = 1
         self.quantity = quantity
-        self.save()
+        from django.db import OperationalError
+        ok = True
+        while ok:
+            try:
+                """
+                    Пытаемся записать до тех пор пока база не примет нашу запись.
+                """
+                self.save()
+            except OperationalError as inst:
+                """
+                    Иначе печатаем ИЗВЕСТНУЮ ошибку
+                """
+                print 'Type Error: ', type(inst, )
+                print 'Error: ', inst
+            except Exception as inst:
+                print 'Type Error: ', type(inst, )
+                print 'Error: ', inst
+                """
+                    Иначе печатаем НЕ ИЗВЕСТНУЮ ошибку
+                """
+            else:
+                ok = False
 
     def update_price_per_piece(self, ):
         """ Здесь будет расчёт цены со скидкой в зависимости от количества. """

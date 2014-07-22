@@ -56,7 +56,6 @@ function ReCalcSumm(change){
     // else{$("#order_cart_input").prop("disabled",false);}
 #}
 }
-$(document).ready(ReCalcSumm(true));
 </script>
                 <tbody>
                     {# {% set products=user_cart_.products %} #}
@@ -276,8 +275,9 @@ var newWin = window.open('/админ/заказ/редактор/товар/д�
         {% endif %}
     {% endfor %}
 {% endif %}
-
 newWin.focus();
+}
+{#
 newWin.onload = function() {
 
   // создать div в документе нового окна
@@ -290,9 +290,7 @@ newWin.onload = function() {
 
   // вставить первым элементом в новое body
   body.insertBefore(div, body.firstChild);
-}
-
-}
+#}
 </script>
             <input style="float:left;list-style-type:none;line-height:22px;margin-right:5px;"
                    onclick="javascript:open_window_add_product();"
@@ -306,7 +304,9 @@ newWin.onload = function() {
                    value="Отправить заказ покупателю.">
         </form>
     </div>
-
+<script>
+$(document).ready(ReCalcSumm(true));
+</script>
 </body>
 </html>
 {#

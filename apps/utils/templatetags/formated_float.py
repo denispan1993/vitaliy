@@ -1,6 +1,6 @@
-__author__ = 'user'
+__author__ = 'Alex Starov'
 
-from django_jinja.base import Library
+from django_jinja.library import Library
 
 register = Library()
 
