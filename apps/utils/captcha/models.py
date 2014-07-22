@@ -75,13 +75,19 @@ class Captcha_Key(models.Model, ):
         # from django.db.models import F
         # View.view_count = F('view_count') + 1
         from datetime import datetime, timedelta
-        if self.created_at + timedelta(86400) < datetime.now():
+        from django.utils import timezone
+        """
+            TypeError: can't compare offset-naive and offset-aware datetimes
+            Несовместимость реального времени и времени со сдвигом тайм-зоны
+            Нельзя сравнивать реальное время и время со сдвигом.
+        """
+        if self.created_at + timedelta(days=1, ) < timezone.now():
             """ Если дата ключа просрочена. Ключ убиваем. """
             self.delete()
             return None
         else:
             """ Закидываем на один час вперед время следующего использования данного ключа """
-            timedelta = datetime.now() + timedelta(3600)
+            timedelta = datetime.now() + timedelta(hours=1, )
             self.next_use = timedelta
             self.save()
             return self.key

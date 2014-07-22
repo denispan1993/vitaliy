@@ -1,4 +1,4 @@
-#!/home/user/PycharmProjects/Shop/VirtEnv/bin/python
+#!/home/user/PycharmProjects/Shop/VirtualEnvironment/bin/python
 # coding=utf-8
 
 import os

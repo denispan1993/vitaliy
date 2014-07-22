@@ -193,7 +193,7 @@ def Captcha_Key_Generates(what_return=None, ):
     else:
         return None
 
-#
+
 def Captcha_Key_Deletes(key=None, datetime=None, ):
     from apps.utils.captcha.models import Captcha_Key
     if key:

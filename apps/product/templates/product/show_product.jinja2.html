@@ -269,9 +269,9 @@ $(document).ready(onChange())
 				</form>
             {% endif %}
 			{% if product.is_availability == 2 %}
-				<p>Товар:&nbsp;<strong>ожидается</strong></p>
-			{% elif product.is_availability == 3 %}
 				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>При покупке товара под заказ, взымается предоплата 50% от стоимости заказаного товара.<br>Окончательный расчёт происходит после поступления товара на склад магазина Кексик.</p>
+			{% elif product.is_availability == 3 %}
+				<p>Товар:&nbsp;<strong>ожидается</strong></p>
 			{% elif product.is_availability == 4 %}
 				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}
@@ -444,13 +444,39 @@ padding-bottom:10px;
                     <li>
                         <div class="comment-vote">
                             <header class="review-header">
+<style>
+.review-author{
+font-size:18px;
+line-height:20px;
+color:#090;
+font-weight:bold;
+padding-right:15px;
+position:relative;
+}
+</style>
                                 <span class="review-author">{{ comment.name }}</span>
-                                <time class="review-date">{{ comment.created_at }}</time>
+<style>
+.review-date{
+font-size:13px;
+line-height:20px;
+color:#E0E0E0;
+padding-right:5px;
+}
+</style>
+                                <time class="review-date">{{ comment.created_at|date("d M Y") }}</time>{# "d-m-Y G:i:s" #}
                             </header>
+<style>
+.review-comment {
+font-size:18px;
+line-height:20px;
+margin:4px 0px 6px;
+padding:0;
+}
+</style>
                             <p class="review-comment">{{ comment.comment }}</p>
                             <input type="button"
                                    value="Ответить на комментарий"
-                                   onclick="javascript:open_window_comment_add({{ product.get_absolute_url() }}, {{ comment.get_absolute_url() }});">
+                                   onclick="javascript:open_window_comment_add('{{ product.get_absolute_url() }}', '{{ comment.get_absolute_url() }}');">
                         </div>
                     </li>
                 {% endfor %}
@@ -485,7 +511,7 @@ newWin.onload = function() {
 </script>
                 <input type="button"
                        value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
-                       onclick="javascript:open_window_comment_add({{ product.get_absolute_url() }}, null);">
+                       onclick="javascript:open_window_comment_add('{{ product.get_absolute_url() }}', null);">
 </div>
 </div>
 {% endif %}

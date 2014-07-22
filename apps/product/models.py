@@ -256,8 +256,8 @@ class Product(models.Model):
 #    )
     Availability = (
         (1, _(u'Есть в наличии', ), ),
-        (2, _(u'Ожидается', ), ),
-        (3, _(u'Под заказ', ), ),
+        (2, _(u'Под заказ', ), ),
+        (3, _(u'Ожидается', ), ),
         (4, _(u'Недоступен', ), ),
     )
 #    is_availability = models.BooleanField(verbose_name=_(u'Товар'),

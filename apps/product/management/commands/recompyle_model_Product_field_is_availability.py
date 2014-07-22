@@ -9,3 +9,4 @@ class Command(BaseCommand, ):
         from apps.product.models import Product
         Product.objects.filter(is_availability=2, ).update(is_availability=5, )
         Product.objects.filter(is_availability=3, ).update(is_availability=2, )
+        Product.objects.filter(is_availability=5, ).update(is_availability=3, )
