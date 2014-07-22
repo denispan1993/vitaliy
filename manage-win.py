@@ -1,4 +1,4 @@
-#!./VirtEnv/bin/python
+#!C:\PycharmProjects\VirtualEnvironment\Scripts\python.exe
 # coding=utf-8
 
 import os
