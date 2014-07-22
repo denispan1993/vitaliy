@@ -5,4 +5,5 @@
 local_setting*.*
 VirtEnv/
 VirtEnvironment/
+VirtualEnvironment/
 VirtEnv-Win32/
