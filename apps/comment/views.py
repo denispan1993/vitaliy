@@ -5,6 +5,7 @@ __author__ = 'Sergey'
 def comment_add(request,
                 product_url,
                 id,
+                comment_id,
                 template_name=u'show_comment_add.jinja2.html', ):
     from apps.comment.models import Comment
     error_message = None
@@ -35,76 +36,46 @@ def comment_add(request,
                             require_a_response = request.POST.get(u'require_a_response', None, )
                             if require_a_response:
                                 email_for_response = request.POST.get(u'email_for_response', None, )
-                                if email_for_response:
-                                    if request.user.is_authenticated() and request.user.is_active:
-                                        user_id_ = request.session.get(u'_auth_user_id', None, )
-                                        from django.contrib.auth.models import User
-                                        user_obj = User.objects.get(pk=user_id_, )
-                                        comment = Comment.objects.create(content_type=product.content_type,
-                                                                         object_id=product.pk,
-                                                                         user=user_obj,
-                                                                         sessionid=sessionid,
-                                                                         name=commenter_name,
-                                                                         comment=comment,
-                                                                         require_a_response=require_a_response,
-                                                                         email_for_response=email_for_response, )
-
-                                    else:
-                                        comment = Comment.objects.create(content_type=product.content_type,
-                                                                         object_id=product.pk,
-                                                                         user=None,
-                                                                         sessionid=sessionid,
-                                                                         name=commenter_name,
-                                                                         comment=comment,
-                                                                         require_a_response=require_a_response,
-                                                                         email_for_response=email_for_response, )
-
                             else:
-                                rating = request.POST.get(u'rating', None, )
-                                # print(rating, )
-                                if rating == u'':
-                                    if request.user.is_authenticated() and request.user.is_active:
-                                        user_id_ = request.session.get(u'_auth_user_id', None, )
-                                        from django.contrib.auth.models import User
-                                        user_obj = User.objects.get(pk=user_id_, )
-                                        comment = Comment.objects.create(content_type=product.content_type,
-                                                                         object_id=product.pk,
-                                                                         user=user_obj,
-                                                                         sessionid=sessionid,
-                                                                         name=commenter_name,
-                                                                         comment=comment, )
-                                    else:
-                                        comment = Comment.objects.create(content_type=product.content_type,
-                                                                         object_id=product.pk,
-                                                                         user=None,
-                                                                         sessionid=sessionid,
-                                                                         name=commenter_name,
-                                                                         comment=comment, )
+                                email_for_response = None
+                            if request.user.is_authenticated() and request.user.is_active:
+                                user_id_ = request.session.get(u'_auth_user_id', None, )
+                                from django.contrib.auth.models import User
+                                user_obj = User.objects.get(pk=user_id_, )
+                            else:
+                                user_obj = None
+                            rating = request.POST.get(u'rating', None, )
+                            if rating == u'':
+                                rating = None
+                            else:
+                                try:
+                                    rating = int(rating, )
+                                except ValueError:
+                                    rating = None
+                                    email_for_response = u'Неправильный рэйтинг товара.'
+                            if comment_id:
+                                try:
+                                    comment_id = int(comment_id, )
+                                except ValueError:
+                                    comment_id = None
                                 else:
+                                    from apps.comment.models import Comment
                                     try:
-                                        rating = int(rating, )
-                                    except ValueError:
-                                        email_for_response = u'Неправильный рэйтинг товара.'
-                                    else:
-                                        if request.user.is_authenticated() and request.user.is_active:
-                                            user_id_ = request.session.get(u'_auth_user_id', None, )
-                                            from django.contrib.auth.models import User
-                                            user_obj = User.objects.get(pk=user_id_, )
-                                            comment = Comment.objects.create(content_type=product.content_type,
-                                                                             object_id=product.pk,
-                                                                             user=user_obj,
-                                                                             sessionid=sessionid,
-                                                                             name=commenter_name,
-                                                                             comment=comment,
-                                                                             rating=rating, )
-                                        else:
-                                            comment = Comment.objects.create(content_type=product.content_type,
-                                                                             object_id=product.pk,
-                                                                             user=None,
-                                                                             sessionid=sessionid,
-                                                                             name=commenter_name,
-                                                                             comment=comment,
-                                                                             rating=rating, )
+                                        comment_id = Comment.objects.get(pk=comment_id, )
+                                    except Comment.DoesNotExist:
+                                        comment_id = None
+
+                            comment = Comment.objects.create(comment_parent=comment_id,
+                                                             content_type=product.content_type,
+                                                             object_id=product.pk,
+                                                             user=user_obj,
+                                                             sessionid=sessionid,
+                                                             name=commenter_name,
+                                                             comment=comment,
+                                                             require_a_response=require_a_response,
+                                                             email_for_response=email_for_response,
+                                                             rating=rating, )
+
     if isinstance(comment, Comment, ) and not error_message:
         """ Если комментарий добавлен в базу
         Говорим спасибо за оставленный комментарий или вопрос.

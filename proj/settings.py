@@ -258,7 +258,7 @@ MIDDLEWARE_CLASSES = (
     'compat.midlewareHTMLCompress.SpacelessMiddleware',
 )
 
-SESSION_SAVE_EVERY_REQUEST = True
+SESSION_SAVE_EVERY_REQUEST = False
 SESSION_COOKIE_AGE = 31622400  # 3600 * 24 * 366
 #SESSION_COOKIE_DOMAIN = u'.shop.mk.ua'
 #SESSION_ENGINE = 'cache_db'

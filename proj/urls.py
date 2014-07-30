@@ -39,14 +39,31 @@ urlpatterns += patterns('apps',
     url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$', 'product.views.show_product',
         {'template_name': u'product/show_product.jinja2.html', },
         name='show_product', ),
-    url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавить/$',
-        'comment.views.comment_add',
-        {'template_name': u'show_comment_add.jinja2.html', },
-        name='show_comment_add', ),
-    url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавлен/успешно/$',
-        'comment.views.comment_add_successfully',
-        {'template_name': u'show_comment_add_successfully.jinja2.html', },
-        name='comment_add_successfully', ),
+    )
+"""
+    Раздел:
+        Комментариев.
+"""
+urlpatterns += patterns('apps.comment',
+                        url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавить/$',
+                            'views.comment_add',
+                            {'template_name': u'show_comment_add.jinja2.html',
+                             'comment_id': None, },
+                            name='show_comment_add', ),
+                        url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/(?P<comment_id>\d{6})/добавить/$',
+                            'views.comment_add',
+                            {'template_name': u'show_comment_add.jinja2.html', },
+                            name='show_comment_add', ),
+                        url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавлен/успешно/$',
+                            'views.comment_add_successfully',
+                            {'template_name': u'show_comment_add_successfully.jinja2.html', },
+                            name='comment_add_successfully', ),
+                        )
+"""
+    Раздел:
+        Корзины.
+"""
+urlpatterns += patterns('apps',
     url(ur'^корзина/$', 'cart.views.show_cart',
         {'template_name': u'show_cart.jinja2.html', },
         name='show_cart', ),
