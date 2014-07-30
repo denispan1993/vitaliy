@@ -225,15 +225,19 @@ def show_product(request, product_url, id,
 
 
 def get_cart(request, ):
+    sessionid = request.COOKIES.get(u'sessionid', None, )
     from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
         from django.contrib.auth.models import User
         user_object_ = User.objects.get(pk=user_id_, )
-        cart, created = Cart.objects.get_or_create(user=user_object_, sessionid=None, )
     else:
-        sessionid = request.COOKIES.get(u'sessionid', None, )
-        cart, created = Cart.objects.get_or_create(user=None, sessionid=sessionid, )
+        user_object_ = None
+    from django.contrib.sessions.models import Session
+    session = Session.objects.get(session_key=request.session.session_key, )
+    cart, created = Cart.objects.get_or_create(user=user_object_,
+                                               sessionid=sessionid,
+                                               session=session, )
     return cart, created
 
 
