@@ -533,6 +533,7 @@ SOCIAL_AUTH_PROVIDERS = [
     )
 ]
 #!!!=============== Django Userena =========================
+#AUTH_USER_MODEL = 'auth.User'
 INSTALLED_APPS += (
     'userena',
     'guardian',

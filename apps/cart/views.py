@@ -21,6 +21,7 @@
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from apps.product.models import Country
 
 
 def show_cart(request,
@@ -88,7 +89,6 @@ def recalc_cart(request, ):
 
 def show_order(request,
                template_name=u'show_order.jinja2.html', ):
-    from apps.product.models import Country
     try:
         country_list = Country.objects.all()
     except Country.DoesNotExist:
@@ -107,7 +107,6 @@ def show_order(request,
                 from django.http import Http404
                 raise Http404
             else:
-                from apps.product.models import Country
                 country = Country.objects.get(pk=country, )
                 """ Взять или создать корзину пользователя """
                 """ Создать теоретически это не нормально """

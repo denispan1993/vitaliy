@@ -99,7 +99,6 @@ class Category(MPTTModel):
     from apps.product import managers
     manager = managers.Manager_Category()
 
-
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
 
@@ -959,7 +958,7 @@ class Currency(models.Model):
     """
         Валюта
     """
-    country = models.ForeignKey(Country,
+    country = models.ForeignKey('Country',
                                 verbose_name=u'Принадлежность валюты',
                                 null=True, blank=True, default=1, )
     name_ru = models.CharField(verbose_name=u'Название валюты Russian',

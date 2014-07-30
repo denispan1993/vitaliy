@@ -4,12 +4,14 @@ from django.db import models
 # Create your models here.
 
 from django.contrib.auth.models import User
+# from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from userena.models import UserenaBaseProfile, UserenaLanguageBaseProfile
 
 
 class Profile(UserenaLanguageBaseProfile):
     # Пользователь
+#     Users = get_user_model()
     user = models.OneToOneField(User,
                                 unique=True,
                                 verbose_name=_(u'Пользователь'),
@@ -83,6 +85,15 @@ class Profile(UserenaLanguageBaseProfile):
     birthday = models.DateField(verbose_name=_(u'День рождения'),
                                 blank=True,
                                 null=True, )
+    """
+        E-Mail рассылки
+    """
+    # Рассылка новых продуктов
+#    email_delivery_new_products = models.BooleanField(verbose_name=_(u'Новые продукты', ),
+#                                                      default=True, )
+    # Рассылка акций и новостей
+#    email_delivery_shares_news = models.BooleanField(verbose_name=_(u'Новости и Акции', ),
+#                                                     default=True, )
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
