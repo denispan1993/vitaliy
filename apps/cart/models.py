@@ -12,6 +12,11 @@ class Cart(models.Model):
                              verbose_name=u'Пользователь',
                              null=True,
                              blank=True, )
+    from django.contrib.sessions.models import Session
+    session = models.ForeignKey(to=Session,
+                                verbose_name=u'Session Foreign_Key',
+                                null=True,
+                                blank=True, )
     sessionid = models.CharField(verbose_name=u'SessionID',
                                  max_length=32,
                                  null=True,
