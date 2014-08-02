@@ -224,23 +224,6 @@ def show_product(request, product_url, id,
     return response
 
 
-def get_cart(request, ):
-    sessionid = request.COOKIES.get(u'sessionid', None, )
-    from apps.cart.models import Cart
-    if request.user.is_authenticated() and request.user.is_active:
-        user_id_ = request.session.get(u'_auth_user_id', None, )
-        from django.contrib.auth.models import User
-        user_object_ = User.objects.get(pk=user_id_, )
-    else:
-        user_object_ = None
-    from django.contrib.sessions.models import Session
-    session = Session.objects.get(session_key=request.session.session_key, )
-    cart, created = Cart.objects.get_or_create(user=user_object_,
-                                               sessionid=sessionid,
-                                               session=session, )
-    return cart, created
-
-
 def get_product(product_pk, product_url, ):
 #        # try to get product from cache
 #        product_cache_key = request.path
@@ -299,7 +282,8 @@ def add_to_cart(request,
 #        quantity = int(postdata.get('quantity', 1, ), )
     #get cart
     """ Взятие корзины, или создание если её нету """
-    product_cart, created = get_cart(request, )
+    from apps.cart.views import get_cart_or_create
+    product_cart, created = get_cart_or_create(request, )
     from apps.cart.models import Product
     try:
         """ Присутсвие конкретного продукта в корзине """

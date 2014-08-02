@@ -13,7 +13,7 @@ def context(request):
     from apps.static.models import Static
     try:
         static_pages = Static.objects.all()
-    except Slide.DoesNotExist:
+    except Static.DoesNotExist:
         static_pages = None
 
     from apps.product.models import Currency
@@ -66,11 +66,11 @@ def context(request):
 
     from django.contrib.sessions.models import Session
     session = Session.objects.get(session_key=request.session.session_key, )
-    sessionid = request.COOKIES.get(u'sessionid', None, )
+    # sessionid = request.COOKIES.get(u'sessionid', None, )
     from apps.cart.models import Cart
     try:
         user_cart = Cart.objects.get(user=user_object_,
-                                     sessionid=sessionid,
+                                     # sessionid=sessionid,
                                      session=session, )
     except Cart.DoesNotExist:
         user_cart = None
@@ -102,6 +102,7 @@ def context(request):
 #    else:
 #        product = None
 
+    sessionid = request.COOKIES.get(u'sessionid', None, )
     from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
         if 'product' in locals() and product:

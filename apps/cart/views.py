@@ -301,15 +301,24 @@ def show_order_success(request,
 
 
 def get_cart_or_create(request, ):
+    # sessionid = request.COOKIES.get(u'sessionid', None, )
+    from django.contrib.sessions.models import Session
+    session = Session.objects.get(session_key=request.session.session_key, )
     from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
         from django.contrib.auth.models import User
-        user_object_ = User.objects.get(pk=user_id_)
-        cart, created = Cart.objects.get_or_create(user=user_object_, sessionid=None, )
+        try:
+            user_id_ = int(user_id_, )
+        except ValueError:
+            user_object_ = None
+        else:
+            user_object_ = User.objects.get(pk=user_id_, )
     else:
-        sessionid = request.COOKIES.get(u'sessionid', None, )
-        cart, created = Cart.objects.get_or_create(user=None, sessionid=sessionid, )
+        user_object_ = None
+    cart, created = Cart.objects.get_or_create(user=user_object_,
+                                               session=session, )
+    print 'Cart:', cart, ' Created:', created
     return cart, created
 
 

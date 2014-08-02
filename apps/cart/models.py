@@ -17,10 +17,10 @@ class Cart(models.Model):
                                 verbose_name=u'Session Foreign_Key',
                                 null=True,
                                 blank=True, )
-    sessionid = models.CharField(verbose_name=u'SessionID',
-                                 max_length=32,
-                                 null=True,
-                                 blank=True, )
+    # sessionid = models.CharField(verbose_name=u'SessionID',
+    #                              max_length=32,
+    #                              null=True,
+    #                              blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
@@ -63,7 +63,7 @@ class Cart(models.Model):
             return '00'
 
     def __unicode__(self):
-        return u'Корзина пользователя:%s, SessionID:%s' % (self.user, self.sessionid, )
+        return u'Корзина пользователя:%s, session:%s' % (self.user, self.session.session_key, )
 
     class Meta:
         db_table = u'Cart'
