@@ -25,6 +25,53 @@
 
 
 class Process_SessionIDMiddleware(object):
+    def process_response(self, request, response, ):
+        # print 'Cookie'
+        """
+            Узнаем текущий key session.
+            Он лежит именно в COOKIES.
+        """
+        sessionid = request.COOKIES.get('sessionid', None, )
+        # print 'sessionid: ', sessionid
+        """
+            Узнаем предыдуший key session.
+            Если он конечно есть.
+            А если его еще нету значит пользователь у нас впервые.
+        """
+        session = request.COOKIES.get('session', False, )
+        # print 'session: ', session
+        if not session:
+            """
+                Вот здесь мы будем "что-то" делать........ чтобы понять откуда пришел пользователь
+                Так как он здесь в первые.
+            """
+            """
+                Но сначал нужно сам session запомнить. Иначе нифига не будет работать.
+            """
+            print 'Этот пользователь здесь впервые.'
+            print 'New User.'
+            # request.session['session'] = sessionid
+            response.set_cookie(key='session', value=sessionid, )
+            pass
+        elif session and session == sessionid:
+            """
+                Пользователь ничего не сделал.
+                Можно не обращать на это внимание.
+            """
+            pass
+        elif session and session != sessionid:
+            """
+                Вот тут самое интересное.
+                Пользователь "изменился".
+                Изменил свое "состояние".
+            """
+            # request.session['session'] = sessionid
+            response.set_cookie(key='session', value=sessionid, )
+            from apps.utils.update_sessionid import update_sessionid
+            update_sessionid(request, sessionid_old=session, sessionid_now=sessionid, )
+
+        return response
+
     def process_request(self, request, ):
         """ ajax_resolution """
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
@@ -98,52 +145,25 @@ class Process_SessionIDMiddleware(object):
             if "ajax_cookie" in request.session:
                 request.session.delete_test_cookie()
                 del request.session['ajax_cookie']
-        """
-            Узнаем текущий key session.
-            Он лежит именно в COOKIES.
-        """
-        sessionid = request.COOKIES.get('sessionid', None, )
-        print 'sessionid: ', sessionid
-        """
-            Узнаем предыдуший key session.
-            Если он конечно есть.
-            А если его еще нету значит пользователь у нас впервые.
-        """
-        session = request.session.get('session', None, )
-        print 'session: ', session
-        if not session:
-            """
-                Вот здесь мы будем "что-то" делать........ чтобы понять откуда пришел пользователь
-                Так как он здесь в первые.
-            """
-            """
-                Но сначал нужно сам session запомнить. Иначе нифига не будет работать.
-            """
-            print 'Этот пользователь здесь впервые.'
-            print 'New User.'
-            request.session['session'] = sessionid
-            pass
-        elif session and session == sessionid:
-            """
-                Пользователь ничего не сделал.
-                Можно не обращать на это внимание.
-            """
-            pass
-        elif session and session != sessionid:
-            """
-                Вот тут самое интересное.
-                Пользователье "изменился".
-                Из менил свое "состояние".
-            """
-            request.session['session'] = sessionid
-            from apps.utils.update_sessionid import update_sessionid
-            update_sessionid(request, sessionid_old=session, sessionid=sessionid, )
 
         """ Убираем ссылки на Продукт и Категорию из session """
-        if u"product" in request.session:
-            request.session[u'product'] = False
-        if u"category" in request.session:
-            request.session[u'category'] = False
+        if u'product' in request.session:
+            del request.session[u'product']  # = False
+        if u'category' in request.session:
+            del request.session[u'category']  # = False
+
+#        from apps.cart.models import Cart
+#        try:
+#            cart_all = Cart.objects.all()
+#        except Cart.DoesNotExist:
+#            pass
+#        else:
+#            print cart_all
+#            try:
+#                print cart_all[0]
+#                print cart_all[0].session.session_key
+#            except IndexError:
+#                pass
 
 
 

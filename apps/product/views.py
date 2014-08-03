@@ -283,7 +283,8 @@ def add_to_cart(request,
     #get cart
     """ Взятие корзины, или создание если её нету """
     from apps.cart.views import get_cart_or_create
-    product_cart, created = get_cart_or_create(request, )
+    product_cart, created = get_cart_or_create(request, created=True, )
+    # print 'Cart created:', created
     from apps.cart.models import Product
     try:
         """ Присутсвие конкретного продукта в корзине """

@@ -300,10 +300,10 @@ def show_order_success(request,
 #                              locals(), context_instance=RequestContext(request, ), )
 
 
-def get_cart_or_create(request, ):
-    # sessionid = request.COOKIES.get(u'sessionid', None, )
-    from django.contrib.sessions.models import Session
-    session = Session.objects.get(session_key=request.session.session_key, )
+def get_cart_or_create(request, created=True, ):
+    sessionid = request.COOKIES.get(u'sessionid', None, )
+    # from django.contrib.sessions.models import Session
+    # session = Session.objects.get(session_key=request.session.session_key, )
     from apps.cart.models import Cart
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
@@ -316,9 +316,18 @@ def get_cart_or_create(request, ):
             user_object_ = User.objects.get(pk=user_id_, )
     else:
         user_object_ = None
-    cart, created = Cart.objects.get_or_create(user=user_object_,
-                                               session=session, )
-    print 'Cart:', cart, ' Created:', created
+
+    if created:
+        cart, created = Cart.objects.get_or_create(user=user_object_,
+                                                   sessionid=sessionid, )
+    else:
+        try:
+            cart = Cart.objects.get(user=user_object_,
+                                    sessionid=sessionid, )
+        except Cart.DoesNotExist:
+            cart = None
+
+    # print 'Cart:', cart, ' Created:', created
     return cart, created
 
 

@@ -54,26 +54,8 @@ def context(request):
     except Category.DoesNotExist:
         categories_basement = None
 
-    if request.user.is_authenticated() and request.user.is_active:
-        user_id_ = request.session.get(u'_auth_user_id', None, )
-        if user_id_:
-            from django.contrib.auth.models import User
-            user_object_ = User.objects.get(pk=user_id_, )
-        else:
-            user_object_ = None
-    else:
-            user_object_ = None
-
-    from django.contrib.sessions.models import Session
-    session = Session.objects.get(session_key=request.session.session_key, )
-    # sessionid = request.COOKIES.get(u'sessionid', None, )
-    from apps.cart.models import Cart
-    try:
-        user_cart = Cart.objects.get(user=user_object_,
-                                     # sessionid=sessionid,
-                                     session=session, )
-    except Cart.DoesNotExist:
-        user_cart = None
+    from apps.cart.views import get_cart_or_create
+    user_cart = get_cart_or_create(request, created=False, )[0]
 
     from django.core.urlresolvers import resolve
     if request.method == 'GET':
