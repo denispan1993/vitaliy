@@ -1,10 +1,9 @@
 {% extends 'root.jinja2.html' %}
-{% block title %}Интернет магазин Кексик - {{ page.meta_title }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
 {% block description %}{{ page.meta_description }}{% endblock %}
 {% block keywords %}{{ page.meta_keywords }}{% endblock %}
 {% block header_css %}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/static_page_style.css" />
-{#  #}
 {% endblock %}
 {% block content_center %}
 <div id="stat_header">
