@@ -313,3 +313,55 @@ class Product(models.Model):
         ordering = [u'-created_at']
         verbose_name = u'Продукт в корзине'
         verbose_name_plural = u'Продукты в корзине'
+
+
+class HttpRequest_META(models.Model):
+    """
+        HttpRequest.META
+    """
+    from django.contrib.auth.models import User
+    user = models.ForeignKey(User,
+                             verbose_name=u'Пользователь',
+                             null=True,
+                             blank=True, )
+    # from django.contrib.sessions.models import Session
+    # session = models.ForeignKey(to=Session,
+    #                             verbose_name=u'Session Foreign_Key',
+    #                             null=True,
+    #                             blank=True, )
+    sessionid = models.CharField(verbose_name=u'SessionID',
+                                 max_length=32,
+                                 null=True,
+                                 blank=True, )
+
+    # CONTENT_LENGTH – the length of the request body (as a string).
+    content_length = models.CharField(verbose_name='CONTENT_LENGTH',
+                                      max_length=16,
+                                      null=True,
+                                      blank=True, )
+    # CONTENT_TYPE – the MIME type of the request body.
+    # HTTP_ACCEPT_ENCODING – Acceptable encodings for the response.
+    # HTTP_ACCEPT_LANGUAGE – Acceptable languages for the response.
+    # HTTP_HOST – The HTTP Host header sent by the client.
+    # HTTP_REFERER – The referring page, if any.
+    # HTTP_USER_AGENT – The client’s user-agent string.
+    # QUERY_STRING – The query string, as a single (unparsed) string.
+    # REMOTE_ADDR – The IP address of the client.
+    # REMOTE_HOST – The hostname of the client.
+    # REMOTE_USER – The user authenticated by the Web server, if any.
+    # REQUEST_METHOD – A string such as "GET" or "POST".
+    # SERVER_NAME – The hostname of the server.
+    # SERVER_PORT – The port of the server (as a string).
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Информация о первом входе:%s, session:%s' % (self.user, self.sessionid, )
+
+    class Meta:
+        db_table = u'Cart'
+        ordering = [u'-created_at']
+        verbose_name = u'Корзина'
+        verbose_name_plural = u'Корзины'
