@@ -28,13 +28,73 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'account', ['Profile'])
 
+        # Adding model 'Session_ID'
+        db.create_table(u'Session_ID', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True)),
+            ('sessionid', self.gf('django.db.models.fields.CharField')(max_length=32, unique=True, null=True, blank=True)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 8, 8, 0, 0), auto_now_add=True, blank=True)),
+            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 8, 8, 0, 0), auto_now=True, blank=True)),
+        ))
+        db.send_create_signal(u'account', ['Session_ID'])
+
+        # Adding model 'HttpRequest_META'
+        db.create_table(u'HttpRequest_META', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('session', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.Session_ID'])),
+            ('content_length', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('content_type', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('http_accept_encoding', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('http_accept_language', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('http_host', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('http_referer', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('http_user_agent', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('query_string', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('remote_addr', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('remote_host', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('remote_user', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('request_method', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('server_name', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('server_port', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+        ))
+        db.send_create_signal(u'account', ['HttpRequest_META'])
+
 
     def backwards(self, orm):
         # Deleting model 'Profile'
         db.delete_table(u'Profile')
 
+        # Deleting model 'Session_ID'
+        db.delete_table(u'Session_ID')
+
+        # Deleting model 'HttpRequest_META'
+        db.delete_table(u'HttpRequest_META')
+
 
     models = {
+        u'account.httprequest_meta': {
+            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'HttpRequest_META', 'db_table': "u'HttpRequest_META'"},
+            'content_length': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'content_type': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'http_accept_encoding': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'http_accept_language': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'http_host': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'http_referer': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'http_user_agent': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'query_string': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'remote_addr': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'remote_host': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'remote_user': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'request_method': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'server_name': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'server_port': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
+            'session': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Session_ID']"}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+        },
         u'account.profile': {
             'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Profile', 'db_table': "u'Profile'"},
             'area': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
@@ -52,6 +112,14 @@ class Migration(SchemaMigration):
             'settlement': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'profile'", 'unique': 'True', 'to': u"orm['auth.User']"})
+        },
+        u'account.session_id': {
+            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Session_ID', 'db_table': "u'Session_ID'"},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 8, 8, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'sessionid': ('django.db.models.fields.CharField', [], {'max_length': '32', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 8, 8, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},

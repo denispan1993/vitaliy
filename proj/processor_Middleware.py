@@ -39,8 +39,14 @@ class Process_SessionIDMiddleware(object):
             А если его еще нету значит пользователь у нас впервые.
         """
         session = request.COOKIES.get('session', False, )
+        """
+            Проверим,
+            а может пользователь у нас все же когда то был.
+        """
+        from apps.account.models import Session_ID
+        session_ID = Session_ID.objects.get(sessionid=sessionid, )
         # print 'session: ', session
-        if not session:
+        if not session and not session_ID:
             """
                 Вот здесь мы будем "что-то" делать........ чтобы понять откуда пришел пользователь
                 Так как он здесь в первые.
@@ -48,11 +54,22 @@ class Process_SessionIDMiddleware(object):
             """
                 Но сначал нужно сам session запомнить. Иначе нифига не будет работать.
             """
-            print 'Этот пользователь здесь впервые.'
-            print 'New User.'
+            print u'Этот пользователь здесь впервые.'
+            print u'New User.'
+            """
+                Так как это самый первый вход эт ого пользователя к нам на сайт,
+                то создаем для него "самую главную запись" ;-)
+            """
+            Session_ID.objects.create(sessionid=sessionid, )
             # request.session['session'] = sessionid
             response.set_cookie(key='session', value=sessionid, )
             pass
+        elif not session and session_ID:
+            """
+                Пользователь был у нас на сайте.
+                Но с тех пор почемуто исчез "наш" sesion из COOKIES.
+            """
+            response.set_cookie(key='session', value=sessionid, )
         elif session and session == sessionid:
             """
                 Пользователь ничего не сделал.

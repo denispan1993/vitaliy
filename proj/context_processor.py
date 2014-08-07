@@ -54,8 +54,20 @@ def context(request):
     except Category.DoesNotExist:
         categories_basement = None
 
+    if request.user.is_authenticated() and request.user.is_active:
+        user_id_ = request.session.get(u'_auth_user_id', None, )
+        from django.contrib.auth.models import User
+        try:
+            user_id_ = int(user_id_, )
+        except ValueError:
+            user_object = None
+        else:
+            user_object = User.objects.get(pk=user_id_, )
+    else:
+        user_object = None
+
     from apps.cart.views import get_cart_or_create
-    user_cart = get_cart_or_create(request, created=False, )[0]
+    user_cart = get_cart_or_create(request, user_object=user_object, created=False, )
 
     from django.core.urlresolvers import resolve
     if request.method == 'GET':
@@ -86,27 +98,16 @@ def context(request):
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
     from apps.product.models import Viewed
-    if request.user.is_authenticated() and request.user.is_active:
-        if 'product' in locals() and product:
-            viewed = Viewed.objects.filter(user_obj=user_object_,
-                                           sessionid=None, ).\
-                order_by('-last_viewed', ).\
-                exclude(content_type=product.content_type, object_id=product.pk, )
-        else:
-            viewed = Viewed.objects.filter(user_obj=user_object_,
-                                           sessionid=None, ).\
-                order_by('-last_viewed', )
+    if 'product' in locals() and product:
+        viewed = Viewed.objects.filter(user_obj=user_object,
+                                       sessionid=sessionid, ).\
+            order_by('-last_viewed', ).\
+            exclude(content_type=product.content_type, object_id=product.pk, )
     else:
-        if 'product' in locals() and product:
-            viewed = Viewed.objects.filter(user_obj=None,
-                                           sessionid=sessionid, ).\
-                order_by('-last_viewed', ).\
-                exclude(content_type=product.content_type, object_id=product.pk, )
-        else:
-            viewed = Viewed.objects.filter(user_obj=None,
-                                           sessionid=sessionid, ).\
-                order_by('-last_viewed', )
-    #                try:
+        viewed = Viewed.objects.filter(user_obj=user_object,
+                                       sessionid=sessionid, ).\
+            order_by('-last_viewed', )
+
     #                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_,
     #  order=None, account=None, package=None, ) #cartid=cartid,
     #                except:

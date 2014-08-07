@@ -20,7 +20,16 @@ def update_sessionid(request, sessionid_old, sessionid_now, ):
         Cart.objects.get(sessionid=sessionid_old, ).updated(user=user_object_,
                                                             sessionid=sessionid_now, )
     except Cart.DoesNotExist:
-        print 'Bad.'
+        print 'Cart not Existent.'
+        pass
+    else:
+        print 'Ok.'
+    from apps.account.models import Session_ID
+    try:
+        Session_ID.objects.get(sessionid=sessionid_old, ).updated(user=user_object_,
+                                                                  sessionid=sessionid_now, )
+    except Session_ID.DoesNotExist:
+        print 'Session_ID not Existent.'
         pass
     else:
         print 'Ok.'
