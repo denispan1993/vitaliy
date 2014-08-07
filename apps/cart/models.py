@@ -340,18 +340,70 @@ class HttpRequest_META(models.Model):
                                       null=True,
                                       blank=True, )
     # CONTENT_TYPE – the MIME type of the request body.
+    content_type = models.CharField(verbose_name='CONTENT_TYPE',
+                                    max_length=16,
+                                    null=True,
+                                    blank=True, )
     # HTTP_ACCEPT_ENCODING – Acceptable encodings for the response.
+    http_accept_encoding = models.CharField(verbose_name='HTTP_ACCEPT_ENCODING',
+                                            max_length=16,
+                                            null=True,
+                                            blank=True, )
     # HTTP_ACCEPT_LANGUAGE – Acceptable languages for the response.
+    http_accept_language = models.CharField(verbose_name='HTTP_ACCEPT_LANGUAGE',
+                                            max_length=16,
+                                            null=True,
+                                            blank=True, )
     # HTTP_HOST – The HTTP Host header sent by the client.
+    http_host = models.CharField(verbose_name='HTTP_HOST',
+                                 max_length=16,
+                                 null=True,
+                                 blank=True, )
     # HTTP_REFERER – The referring page, if any.
+    http_referer = models.CharField(verbose_name='HTTP_REFERER',
+                                    max_length=16,
+                                    null=True,
+                                    blank=True, )
     # HTTP_USER_AGENT – The client’s user-agent string.
+    http_user_agent = models.CharField(verbose_name='HTTP_USER_AGENT',
+                                       max_length=16,
+                                       null=True,
+                                       blank=True, )
     # QUERY_STRING – The query string, as a single (unparsed) string.
+    query_string = models.CharField(verbose_name='QUERY_STRING',
+                                    max_length=16,
+                                    null=True,
+                                    blank=True, )
     # REMOTE_ADDR – The IP address of the client.
+    remote_addr = models.CharField(verbose_name='REMOTE_ADDR',
+                                   max_length=16,
+                                   null=True,
+                                   blank=True, )
     # REMOTE_HOST – The hostname of the client.
+    remote_host = models.CharField(verbose_name='REMOTE_HOST',
+                                   max_length=16,
+                                   null=True,
+                                   blank=True, )
     # REMOTE_USER – The user authenticated by the Web server, if any.
+    remote_user = models.CharField(verbose_name='REMOTE_USER',
+                                   max_length=16,
+                                   null=True,
+                                   blank=True, )
     # REQUEST_METHOD – A string such as "GET" or "POST".
+    request_method = models.CharField(verbose_name='REMOTE_METHOD',
+                                      max_length=16,
+                                      null=True,
+                                      blank=True, )
     # SERVER_NAME – The hostname of the server.
+    server_name = models.CharField(verbose_name='SERVER_NAME',
+                                   max_length=16,
+                                   null=True,
+                                   blank=True, )
     # SERVER_PORT – The port of the server (as a string).
+    server_port = models.CharField(verbose_name='SERVER_PORT',
+                                   max_length=16,
+                                   null=True,
+                                   blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
