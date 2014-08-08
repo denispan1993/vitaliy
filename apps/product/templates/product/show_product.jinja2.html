@@ -16,7 +16,8 @@
 <script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
 {% endblock %}
 {% endif %}
-{% set comments = product.comments.all() %}
+{% set comments = product.comments.pass_moderation() %}
+{# {1% set comments = product.comments.filter(pass_moderation=True) %} #}
 {% set length_comments = product.comments.all()|length %}
 {% block header_javascript1 %}
 <script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js"></script>

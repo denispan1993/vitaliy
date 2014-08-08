@@ -97,7 +97,9 @@ class Comment(MPTTModel, ):
     #                                   content_type_field='content_type',
     #                                   object_id_field='object_id', )
 
-    objects = models.Manager()
+    # objects = models.Manager()
+    from apps.comment import managers
+    objects = managers.Manager()
 
 #    @models.permalink
     def get_absolute_url(self, ):

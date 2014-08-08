@@ -31,7 +31,7 @@ class Process_SessionIDMiddleware(object):
             Узнаем текущий key session.
             Он лежит именно в COOKIES.
         """
-        sessionid = request.COOKIES.get('sessionid', None, )
+        sessionid = request.COOKIES.get('sessionid', False, )
         # print 'sessionid: ', sessionid
         """
             Узнаем предыдуший key session.
@@ -44,7 +44,10 @@ class Process_SessionIDMiddleware(object):
             а может пользователь у нас все же когда то был.
         """
         from apps.account.models import Session_ID
-        session_ID = Session_ID.objects.get(sessionid=sessionid, )
+        try:
+            session_ID = Session_ID.objects.get(sessionid=sessionid, )
+        except Session_ID.DoesNotExist:
+            session_ID = False
         # print 'session: ', session
         if not session and not session_ID:
             """
