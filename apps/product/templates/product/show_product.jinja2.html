@@ -285,7 +285,7 @@ $(document).ready(onChange())
 		</div>
     </div>
 </div>
-{% if user.is_authenticated and user.is_staff %}
+{# {% if user.is_authenticated and user.is_staff %} #}
 {% if products_recommended %}
 <style>
 a.a-tab{
@@ -515,7 +515,7 @@ newWin.onload = function() {
                        onclick="javascript:open_window_comment_add('{{ product.get_absolute_url() }}', null);">
 </div>
 </div>
-{% endif %}
+{# {% endif %} #}
 </div>
 {% endblock %}
 {# {1% block content_right %}
