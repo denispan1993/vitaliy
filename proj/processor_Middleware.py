@@ -86,6 +86,7 @@ class Process_SessionIDMiddleware(object):
                 Изменил свое "состояние".
             """
             # request.session['session'] = sessionid
+            # print 'set session in COOKIES'
             response.set_cookie(key='session', value=sessionid, )
             from apps.utils.update_sessionid import update_sessionid
             update_sessionid(request, sessionid_old=session, sessionid_now=sessionid, )
@@ -93,6 +94,7 @@ class Process_SessionIDMiddleware(object):
         return response
 
     def process_request(self, request, ):
+        # print 'Inter request'
         """ ajax_resolution """
         ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
         if ajax_resolution_datetime:

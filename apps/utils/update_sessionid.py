@@ -18,20 +18,26 @@ def update_sessionid(request, sessionid_old, sessionid_now, ):
         user_object_ = None
     from apps.cart.models import Cart
     try:
-        Cart.objects.get(sessionid=sessionid_old, ).updated(user=user_object_,
-                                                            sessionid=sessionid_now, )
+        cart = Cart.objects.get(sessionid=sessionid_old, )
     except Cart.DoesNotExist:
-        print 'Cart not Existent.'
+        # print 'Cart not Existent.'
         pass
     else:
-        print 'Ok.'
+        # print user_object_
+        cart.user = user_object_
+        cart.sessionid = sessionid_now
+        cart.save()
+        # print cart.user, 'User - Ok.'
     from apps.account.models import Session_ID
     try:
-        Session_ID.objects.get(sessionid=sessionid_old, ).updated(user=user_object_,
-                                                                  sessionid=sessionid_now, )
+        session_id = Session_ID.objects.get(sessionid=sessionid_old, )
     except Session_ID.DoesNotExist:
-        print 'Session_ID not Existent.'
+        # print 'Session_ID not Existent.'
         pass
     else:
-        print 'Ok.'
+        # session_id.__dict__.update(user=user_object_, sessionid=sessionid_now, )
+        session_id.user = user_object_
+        session_id.sessionid = sessionid_now
+        session_id.save()
+        # print 'Ok.'
     return None

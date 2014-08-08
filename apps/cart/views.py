@@ -305,23 +305,26 @@ def get_cart_or_create(request, user_object=False, created=True, ):
     # from django.contrib.sessions.models import Session
     # session = Session.objects.get(session_key=request.session.session_key, )
     from apps.cart.models import Cart
-    if not user_object and request.user.is_authenticated() and request.user.is_active:
-        user_id_ = request.session.get(u'_auth_user_id', None, )
-        from django.contrib.auth.models import User
-        try:
-            user_id_ = int(user_id_, )
-        except ValueError:
-            user_object = None
+    if not user_object:
+        if request.user.is_authenticated() and request.user.is_active:
+            user_id_ = request.session.get(u'_auth_user_id', None, )
+            from django.contrib.auth.models import User
+            try:
+                user_id_ = int(user_id_, )
+            except ValueError:
+                user_object = None
+            else:
+                user_object = User.objects.get(pk=user_id_, )
         else:
-            user_object = User.objects.get(pk=user_id_, )
-    else:
-        user_object = None
+            user_object = None
 
     if created:
         cart, created = Cart.objects.get_or_create(user=user_object,
                                                    sessionid=sessionid, )
     else:
         try:
+            # print user_object
+            # print sessionid
             cart = Cart.objects.get(user=user_object,
                                     sessionid=sessionid, )
         except Cart.DoesNotExist:

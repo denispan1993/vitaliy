@@ -102,6 +102,7 @@ product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(req
                             <td style="text-align:center;">
                                 <input id="delete1_{{ product.pk }}"
                                        name="delete_{{ product.pk }}"
+                                       title="Для удаления товара, нажмите кнопку перечитать корзину."
                                        {# checked="" #}
                                        {# onchange="javascript:delete_on_off('delete1_{{ product.pk }}','delete2_{{ product.pk }}')" #}
                                        type="checkbox">
@@ -164,11 +165,11 @@ margin-bottom:10px;
                        {# checked="" #}
                        type="hidden"/>
             {% endfor %}
-            <input style="float:left;list-style-type:none;line-height:24px;margin-right:5px;"
+            <input style="float:left;list-style-type:none;line-height:24px;margin-right:5px;font-weight:bold;"
                    id="order_cart_input"
                    type="submit"
                    value="Оформить заказ"/>
-            <a style="float:left;list-style-type:none;line-height:24px;margin-right:5px;"
+            <a style="float:left;list-style-type:none;line-height:32px;margin-right:5px;"
                href="/"
                title="Вернуться к покупкам">Продолжить покупки &gt;&gt;</a>
         </form>
