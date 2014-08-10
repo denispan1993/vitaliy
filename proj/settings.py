@@ -395,9 +395,10 @@ LOGGING = {
             'propagate': False,
         },
     }
-}#!!!=============== Django Social Auth =========================
+}
+#!!!=============== Python Social Auth =========================
 INSTALLED_APPS += (
-    'social_auth',
+    'social',
 )
 
 #try:
@@ -409,8 +410,8 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.twitter.TwitterBackend',
     # 'social_auth.backends.facebook.FacebookBackend',
     # 'social_auth.backends.google.GoogleOAuthBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    # 'social_auth.backends.google.GoogleBackend',
+    # 'social_auth.backends.contrib.google.
+    'social.backends.google.GoogleOAuth2',
     # 'social_auth.backends.yahoo.YahooBackend',
     # 'social_auth.backends.browserid.BrowserIDBackend',
     # 'social_auth.backends.contrib.linkedin.LinkedinBackend',
@@ -419,25 +420,27 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.contrib.orkut.OrkutBackend',
     # 'social_auth.backends.contrib.foursquare.FoursquareBackend',
     # 'social_auth.backends.contrib.github.GithubBackend',
-    'social_auth.backends.contrib.yandex.YandexOAuth2Backend',
+    'social.backends.yandex.YandexOAuth2',
     # 'social_auth.backends.contrib.yandex.YandexBackend',
     # 'social_auth.backends.contrib.yandex.YaruBackend',
-    'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiBackend',
+    # 'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiBackend',
+    'social.backends.odnoklassniki.OdnoklassnikiOAuth2',
     # 'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiAppBackend',
-    ####'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
+    'social.backends.vk.VKOAuth2',
+    # 'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
     ####'social_auth.backends.contrib.vkontakte.VKontakteBackend',
     # 'social_auth.backends.contrib.live.LiveBackend',
     # 'social_auth.backends.contrib.skyrock.SkyrockBackend',
     # 'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
     # 'social_auth.backends.contrib.readability.ReadabilityBackend',
     # 'social_auth.backends.OpenIDBackend',
-    # 'userena.backends.UserenaAuthenticationBackend',
-    # 'guardian.backends.ObjectPermissionBackend',
-    # 'django.contrib.auth.backends.ModelBackend',
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
-    'social_auth.context_processors.social_auth_by_type_backends',
+    'social.apps.django_app.context_processors.backends',  # context_processors.social_auth_by_type_backends',
 )
 
 TWITTER_CONSUMER_KEY              = ''
@@ -533,12 +536,13 @@ SOCIAL_AUTH_PROVIDERS = [
     )
 ]
 #!!!=============== Django Userena =========================
-#AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'authModel.User'
 INSTALLED_APPS += (
     'userena',
     'guardian',
     'easy_thumbnails',
     'apps.account',
+    'apps.authModel',
 )
 AUTHENTICATION_BACKENDS += (
     'django.contrib.auth.backends.ModelBackend',

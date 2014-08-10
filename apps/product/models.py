@@ -83,8 +83,12 @@ class Category(MPTTModel):
                                           u' будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
     #Кто создал
-    from django.contrib.auth.models import User
-    user_obj = models.ForeignKey(User, verbose_name=u'ID Пользователя', blank=True, null=True, )
+    # from django.contrib.auth.models import User
+    from proj.settings import AUTH_USER_MODEL
+    user_obj = models.ForeignKey(AUTH_USER_MODEL,
+                                 verbose_name=u'ID Пользователя',
+                                 blank=True,
+                                 null=True, )
 
     # Вспомогательные поля
     from django.contrib.contenttypes import generic
@@ -333,8 +337,12 @@ class Product(models.Model):
     visibility = models.BooleanField(verbose_name=u'Признак видимости продукта',
                                      default=True, )
     #Кто создал
-    from django.contrib.auth.models import User
-    user_obj = models.ForeignKey(User, verbose_name=u'ID Пользователя', blank=True, null=True, )
+    # from django.contrib.auth.models import User
+    from proj.settings import AUTH_USER_MODEL
+    user_obj = models.ForeignKey(AUTH_USER_MODEL,
+                                 verbose_name=u'ID Пользователя',
+                                 blank=True,
+                                 null=True, )
     # Вспомогательные поля
     from django.contrib.contenttypes import generic
     photo = generic.GenericRelation('Photo',
@@ -1033,8 +1041,12 @@ class Viewed(models.Model):
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
     """ Кто смотрел """
-    from django.contrib.auth.models import User
-    user_obj = models.ForeignKey(User, verbose_name=u'ID Пользователя', blank=True, null=True, )
+    # from django.contrib.auth.models import User
+    from proj.settings import AUTH_USER_MODEL
+    user_obj = models.ForeignKey(to=AUTH_USER_MODEL,
+                                 verbose_name=u'ID Пользователя',
+                                 blank=True,
+                                 null=True, )
     sessionid = models.CharField(verbose_name=u'SessionID', max_length=32, blank=True, null=True, )
     """ Когда смотрел """
     from datetime import datetime

@@ -53,7 +53,7 @@ class Process_SessionIDMiddleware(object):
         if not session and not session_ID:
             """
                 Вот здесь мы будем "что-то" делать........ чтобы понять откуда пришел пользователь
-                Так как он здесь в первые.
+                Так как он здесь впервые.
             """
             """
                 Но сначал нужно сам session запомнить. Иначе нифига не будет работать.
@@ -64,7 +64,16 @@ class Process_SessionIDMiddleware(object):
                 Так как это самый первый вход эт ого пользователя к нам на сайт,
                 то создаем для него "самую главную запись" ;-)
             """
-            Session_ID.objects.create(sessionid=sessionid, )
+            from django.contrib.auth import get_user_model
+            UserModel = get_user_model()
+            user_obj = UserModel.create_user(username=sessionid, email=None,
+                                             is_staff=False, is_active=True,
+                                             is_superuser=False, )
+#        user = self.model(username=username, email=email,
+#                          is_staff=is_staff, is_active=True,
+#                          is_superuser=is_superuser, last_login=now,
+#                          date_joined=now, **extra_fields)
+            session_ID = Session_ID.objects.create(user=user_obj, sessionid=sessionid, )
             # request.session['session'] = sessionid
             response.set_cookie(key='session', value=sessionid, )
             pass

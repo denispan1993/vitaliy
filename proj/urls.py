@@ -208,7 +208,7 @@ urlpatterns += patterns('apps.root.views',
                         url(r'login/error/$', 'root_page',
                             {'template_name': u'login_error.jinja2.html', },
                             name='login_error', ),
-                        url(r'social/', include('social_auth.urls'),
+                        url(r'social/', include('social.apps.django_app.urls', namespace='social', ),
                             ),
                         )
 #!!!===================== Django Userena - Accounts - uMessages======================

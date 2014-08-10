@@ -57,8 +57,9 @@ class Comment(MPTTModel, ):
                             null=False,
                             blank=False,
                             help_text=_(u'Как человек представился, имя которое будет выводится на сайте.'), )
-    from django.contrib.auth.models import User
-    user = models.ForeignKey(User,
+    # from django.contrib.auth.models import User
+    from proj.settings import AUTH_USER_MODEL
+    user = models.ForeignKey(to=AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
                              null=True,
                              blank=True, )

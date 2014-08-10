@@ -7,8 +7,9 @@ class Cart(models.Model):
     """
     Корзина
     """
-    from django.contrib.auth.models import User
-    user = models.ForeignKey(User,
+    # from django.contrib.auth.models import User
+    from proj.settings import AUTH_USER_MODEL
+    user = models.ForeignKey(to=AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
                              null=True,
                              blank=True, )
@@ -76,8 +77,9 @@ class Order(models.Model):
     """
     Заказ
     """
-    from django.contrib.auth.models import User
-    user = models.ForeignKey(to=User,
+    # from django.contrib.auth.models import User
+    from proj.settings import AUTH_USER_MODEL
+    user = models.ForeignKey(to=AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
                              null=True,
                              blank=True, )

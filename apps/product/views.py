@@ -339,8 +339,10 @@ def get_or_create_Viewed(request,
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
             user_id_ = request.session.get(u'_auth_user_id', None, )
-            from django.contrib.auth.models import User
-            user_obj = User.objects.get(pk=user_id_, )
+            # from django.contrib.auth.models import User
+            from django.contrib.auth import get_user_model
+            UserModel = get_user_model()
+            user_obj = UserModel.objects.get(pk=user_id_, )
         viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
                                                        object_id=product.pk,
                                                        user_obj=user_obj,
