@@ -47,4 +47,6 @@ class Action(models.Model, ):
         verbose_name = u'Акция'
         verbose_name_plural = u'Акции'
 
+
+
 #User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
