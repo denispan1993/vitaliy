@@ -285,6 +285,10 @@ class Product(models.Model):
                                     blank=True,
                                     null=True,
                                     db_table='Product_to_Action', )
+    in_action = models.BooleanField(verbose_name=u'Продукт учавствует в Акции',
+                                    blank=False,
+                                    null=False,
+                                    default=False, )
     regular_price = models.DecimalField(verbose_name=_(u'Обычная цена'),
                                         max_digits=8,
                                         decimal_places=2,

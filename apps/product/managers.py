@@ -37,6 +37,12 @@ class Manager_Product(models.Manager):
     def published(self, ):
         return self.filter(visibility=True, ).order_by('-created_at')
 
+    def not_in_action(self, ):
+        return self.published().filter(in_action=False, )
+
+    def in_action(self, ):
+        return self.published().filter(in_action=True, )
+
 #    def recomendation(self, ):
 #        return self.recomendate.filter(is_availability=1, ).order_by('-created_at')
 

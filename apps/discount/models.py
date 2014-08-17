@@ -29,6 +29,7 @@ class Action(models.Model, ):
     auto_start = models.BooleanField(verbose_name=u'Авто старт', default=True, )
     auto_end = models.BooleanField(verbose_name=u'Авто стоп', default=True, )
     auto_del = models.BooleanField(verbose_name=u'Авто удаление акции', default=False, )
+    deleted = models.BooleanField(verbose_name=u'Удаленная акция', default=False, )
     auto_del_action_price = models.BooleanField(verbose_name=u'Авто удаление акционной цены', default=False, )
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
