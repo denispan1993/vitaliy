@@ -2,7 +2,7 @@
 from django.db import models
 
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser, AbstractUser, )
+    BaseUserManager, AbstractBaseUser, AbstractUser, UserManager, )
 # Create your models here.
 
 # from django.contrib.auth.models import User
@@ -39,6 +39,7 @@ class User(AbstractUser, ):
     # email = models.EmailField(verbose_name=_('email address'), blank=True, null=True, )
     # USERNAME_FIELD = 'username'
     # REQUIRED_FIELDS = ['username', ]
+    date_of_birth = models.DateField(verbose_name=u'День рождения', blank=True, null=True, )
 
     NONE = 0
     MALE = 1
@@ -113,8 +114,10 @@ class User(AbstractUser, ):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
-        return u'Пользователь: %s' % (self.user, )
+    # objects = UserManager()
+
+    # def __unicode__(self):
+    #     return u'Пользователь: %s' % (self.user, )
 
     class Meta:
         db_table = u'UserModel'

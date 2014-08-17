@@ -331,6 +331,7 @@ INSTALLED_APPS = (
     'apps.utils.captcha',
     'apps.handlers',
     'apps.admin',
+    'apps.discount',
     # 'static_sitemaps',
 )
 
@@ -537,6 +538,7 @@ SOCIAL_AUTH_PROVIDERS = [
 ]
 #!!!=============== Django Userena =========================
 AUTH_USER_MODEL = 'authModel.User'
+#AUTH_USER_MODEL = 'auth.User'
 INSTALLED_APPS += (
     'userena',
     'guardian',

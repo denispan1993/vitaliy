@@ -18,4 +18,7 @@ class StaticAdmin(admin.ModelAdmin, ):
 
     prepopulated_fields = {u'url': (u'title', ), u'meta_title': (u'title', ), }
 
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
+
 admin.site.register(Static, StaticAdmin, )

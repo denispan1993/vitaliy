@@ -7,7 +7,9 @@ def update_sessionid(request, sessionid_old, sessionid_now, ):
     # session_new = Session.objects.get(session_key=sessionid, )
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
-        from django.contrib.auth.models import User
+        # from django.contrib.auth.models import User
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         try:
             user_id_ = int(user_id_, )
         except ValueError:

@@ -255,8 +255,8 @@ class ProductAdmin(admin.ModelAdmin, ):
                                                               'recommended',
                                                               'minimal_quantity',
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
-                                                              'is_availability', 'regular_price', 'currency', 'price',
-                                                              'price_of_quantity', ], }, ),
+                                                              'is_availability', 'action', 'regular_price', 'currency',
+                                                              'price', 'price_of_quantity', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),
@@ -266,7 +266,7 @@ class ProductAdmin(admin.ModelAdmin, ):
 #    readonly_fields = u'url'
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
-    filter_horizontal = ('category', 'recommended', )
+    filter_horizontal = ('category', 'recommended', 'action', )
     inlines = [
         genericStacked_ItemID_InLine,
         genericStacked_IntermediateModelManufacturer_InLine,

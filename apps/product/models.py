@@ -271,10 +271,20 @@ class Product(models.Model):
 #    is_availability = models.PositiveSmallIntegerField(verbose_name=_(u'Товар'),
 #    is_availability = models.BooleanField(default=True, )
     is_availability = models.IntegerField(verbose_name=_(u'Товар'),
-                                                       choices=Availability,
-                                                       default=1,
-                                                       blank=False,
-                                                       null=False, )
+                                          choices=Availability,
+                                          default=1,
+                                          blank=False,
+                                          null=False, )
+    """
+        Акции
+    """
+    from apps.discount.models import Action
+    action = models.ManyToManyField(to=Action,
+                                    verbose_name=u'Акции',
+                                    related_name='action_set',
+                                    blank=True,
+                                    null=True,
+                                    db_table='Product_to_Action', )
     regular_price = models.DecimalField(verbose_name=_(u'Обычная цена'),
                                         max_digits=8,
                                         decimal_places=2,
