@@ -235,12 +235,27 @@ class Tabular_ExtendedPrice_InLine(admin.TabularInline, ):
     #     return qs.filter(author=request.user)
 
 from apps.product.models import Product
-#from django import forms
 
 
-#class ProductAdminForm(forms.ModelForm, ):
-#    class Meta:
-#        models = Product
+from django import forms
+
+
+class ProductAdminForm(forms.ModelForm):
+
+    class Meta:
+        models = Product
+        from django.forms import widgets
+        from suit_ckeditor.widgets import CKEditorWidget
+        from suit.widgets import AutosizedTextarea
+        widgets = {# 'name': widgets.TextInput(attrs={'size': 63, }, ),
+                   # 'title': widgets.TextInput(attrs={'size': 63, }, ),
+                   'name': AutosizedTextarea(attrs={'class': 'input-xxlarge', }, ),  # 'class': 'input-xlarge', 'style': 'with:500px;',
+                   'title': AutosizedTextarea(attrs={'class': 'input-xxlarge', }, ),
+                   # You can also specify html attributes
+                   # 'description': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}),
+                   # 'item_description': CKEditorWidget(editor_options={'startupFocus': False, }, ),
+                   'description': CKEditorWidget(editor_options={'startupFocus': False, }, ),
+                   }
 
 
 class ProductAdmin(admin.ModelAdmin, ):
@@ -248,6 +263,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'url', 'title', 'name', ]
     list_filter = ('title', 'name', )
     search_fields = ['title', 'name', ]
+    form = ProductAdminForm
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',

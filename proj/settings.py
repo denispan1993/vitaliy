@@ -308,6 +308,7 @@ INSTALLED_APPS = (
     # https://github.com/stefanklug/django/tree/nested-inline-support-1.5.x
     # Uncomment the next line to enable the admin:
     'suit',
+    'suit_ckeditor',
     'django.contrib.admin',
     'django.contrib.admindocs',
     # 'django.contrib.markup', depricated in v. 1.6
