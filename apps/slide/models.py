@@ -6,14 +6,26 @@ from django.utils.translation import ugettext as _
 
 
 class Slide(models.Model):
-    order = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
+    def default_slide_name():
+        from datetime import datetime
+        return u'Слайд от %s' % datetime.now()
+
+    name = models.CharField(verbose_name=_(u'Наименование слайда', ),
+                            max_length=128,
+                            blank=True,
+                            null=True,
+                            default=default_slide_name(), )
+    order = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                              # visibility=True,
                                              db_index=True,
                                              unique=True,
                                              blank=True,
                                              null=True,
                                              help_text=u'Цифры от 1 до 99', )
-    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
+    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив', ),
+                                    default=True,
+                                    blank=False,
+                                    null=False,
                                     help_text=u'Если мы хотим чтобы слайд не показывался,'
                                               u' ставим данное поле в False.')
     from django.contrib.contenttypes.models import ContentType
