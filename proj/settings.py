@@ -52,9 +52,9 @@ elif os.path.isfile(path('production.mysql', ), ):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'production_keksik_com_ua',    # Or path to database file if using sqlite3.
-            'USER': 'production_keksik_com_ua',    # Not used with sqlite3.
-            'PASSWORD': 'xadCwpsEdNpVvs46',        # Not used with sqlite3.
+            'NAME': 'p_keksik_com_ua',    # Or path to database file if using sqlite3.
+            'USER': 'p_keksik_com_ua',    # Not used with sqlite3.
+            'PASSWORD': 'MbmwjhZeCyHPEX8c',        # Not used with sqlite3.
             'HOST': '192.168.1.12',                # Set to empty string for localhost. Not used with sqlite3.
             'PORT': '3306',                        # Set to empty string for default. Not used with sqlite3.
         }
