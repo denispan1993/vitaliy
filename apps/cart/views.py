@@ -308,13 +308,15 @@ def get_cart_or_create(request, user_object=False, created=True, ):
     if not user_object:
         if request.user.is_authenticated() and request.user.is_active:
             user_id_ = request.session.get(u'_auth_user_id', None, )
-            from django.contrib.auth.models import User
+            from django.contrib.auth import get_user_model
+            UserModel = get_user_model()
+            # from django.contrib.auth.models import User
             try:
                 user_id_ = int(user_id_, )
             except ValueError:
                 user_object = None
             else:
-                user_object = User.objects.get(pk=user_id_, )
+                user_object = UserModel.objects.get(pk=user_id_, )
         else:
             user_object = None
 
