@@ -89,6 +89,7 @@ def recalc_cart(request, ):
 
 def show_order(request,
                template_name=u'show_order.jinja2.html', ):
+    email_error = False
     try:
         country_list = Country.objects.all()
     except Country.DoesNotExist:
@@ -96,128 +97,144 @@ def show_order(request,
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'order':
-            email = request.POST.get(u'email', None, )
-            FIO = request.POST.get(u'FIO', None, )
-            phone = request.POST.get(u'phone', None, )
-            comment = request.POST.get(u'comment', None, )
-            country = request.POST.get(u'select_country', None, )
-            try:
-                country = int(country)
-            except ValueError:
-                from django.http import Http404
-                raise Http404
+            email = request.POST.get(u'email', False, )
+            """
+                Здесь какт о нужно проверить email
+            """
+            if not email:
+                email_error = u'Вы забыли указать Ваш E-Mail.'
             else:
-                country = Country.objects.get(pk=country, )
-                """ Взять или создать корзину пользователя """
-                """ Создать теоретически это не нормально """
-                cart, create = get_cart_or_create(request, )
-            from apps.cart.models import Product
-            try:
-                """ Выборка всех продуктов из корзины """
-                all_products = cart.cart.all()
-            except Product.DoesNotExist:
-                """ Странно!!! В корзине нету продуктов!!! """
-                return redirect(to='show_cart', )
-            else:
-                """ Создаем ЗАКАЗ """
-                from apps.cart.models import Order
-                if country.pk == 1:
-                    """ для Украины """
-                    region = request.POST.get(u'region', None, )
-                    settlement = request.POST.get(u'settlement', None, )
-                    warehouse_number = request.POST.get(u'warehouse_number', None, )
-                    """ Создаем новый заказ """
-                    order = Order.objects.create(user=cart.user,
-                                                 sessionid=cart.sessionid,
-                                                 email=email,
-                                                 FIO=FIO,
-                                                 phone=phone,
-                                                 country=country,
-                                                 region=region,
-                                                 settlement=settlement,
-                                                 warehouse_number=warehouse_number,
-                                                 comment=comment, )
+                from validate_email import validate_email
+                is_valid = validate_email(email, check_mx=True, )
+                if not is_valid:
+                    email_error = u'Сервер указанный в Вашем E-Mail - отсутсвует'
                 else:
-                    """ для другого Государства """
-                    address = request.POST.get(u'address', None, )
-                    postcode = request.POST.get(u'postcode', None, )
-                    """ Создаем новый заказ """
-                    order = Order.objects.create(user=cart.user,
-                                                 sessionid=cart.sessionid,
-                                                 email=email,
-                                                 FIO=FIO,
-                                                 phone=phone,
-                                                 country=country,
-                                                 address=address,
-                                                 postcode=postcode,
-                                                 comment=comment, )
-                """ Берем указатель на model заказ """
-                from django.contrib.contenttypes.models import ContentType
-                ContentType_Order = ContentType.objects.get_for_model(Order, )
-                """ Перемещение всех продуктов из корзины в заказ """
-                """ Просто меняем 2-а поля назначения у всех продуктов в этой корзине """
-                all_products.update(content_type=ContentType_Order, object_id=order.pk, )
-                """ Удаляем старую корзину """
-                cart.delete()
-                """ Отправка заказа мэнеджеру """
-                subject = u'Заказ № %d. Кексик.' % order.pk
-                from django.template.loader import render_to_string
-                html_content = render_to_string('email_order_content.jinja2.html',
-                                                {'order': order, })
-                from django.utils.html import strip_tags
-                text_content = strip_tags(html_content, )
-                from_email = u'site@keksik.com.ua'
-#                to_email = u'mamager@keksik.com.ua'
-#                from proj.settings import SERVER
-#                if SERVER:
-#                    to_email = u'manager@keksik.com.ua'
-#                else:
-#                    to_email = u'alex.starov@keksik.com.ua'
+                    is_valid = validate_email(email, verify=True, )
+                    if not is_valid:
+                        email_error = u'Ваш E-Mail адрес не существует.'
+                    else:
+                        FIO = request.POST.get(u'FIO', None, )
+                        phone = request.POST.get(u'phone', None, )
+                        comment = request.POST.get(u'comment', None, )
+                        country = request.POST.get(u'select_country', None, )
+                        try:
+                            country = int(country, )
+                        except ValueError:
+                            from django.http import Http404
+                            raise Http404
+                        else:
+                            country = Country.objects.get(pk=country, )
+                            """ Взять или создать корзину пользователя """
+                            """ Создать теоретически это не нормально """
+                            cart, create = get_cart_or_create(request, )
+                        from apps.cart.models import Product
+                        try:
+                            """ Выборка всех продуктов из корзины """
+                            all_products = cart.cart.all()
+                        except Product.DoesNotExist:
+                            """ Странно!!! В корзине нету продуктов!!! """
+                            return redirect(to='show_cart', )
+                        else:
+                            """ Создаем ЗАКАЗ """
+                            from apps.cart.models import Order
+                            if country.pk == 1:
+                                """ для Украины """
+                                region = request.POST.get(u'region', None, )
+                                settlement = request.POST.get(u'settlement', None, )
+                                warehouse_number = request.POST.get(u'warehouse_number', None, )
+                                """ Создаем новый заказ """
+                                order = Order.objects.create(user=cart.user,
+                                                             sessionid=cart.sessionid,
+                                                             email=email,
+                                                             FIO=FIO,
+                                                             phone=phone,
+                                                             country=country,
+                                                             region=region,
+                                                             settlement=settlement,
+                                                             warehouse_number=warehouse_number,
+                                                             comment=comment, )
+                            else:
+                                """ для другого Государства """
+                                address = request.POST.get(u'address', None, )
+                                postcode = request.POST.get(u'postcode', None, )
+                                """ Создаем новый заказ """
+                                order = Order.objects.create(user=cart.user,
+                                                             sessionid=cart.sessionid,
+                                                             email=email,
+                                                             FIO=FIO,
+                                                             phone=phone,
+                                                             country=country,
+                                                             address=address,
+                                                             postcode=postcode,
+                                                             comment=comment, )
+                            """ Берем указатель на model заказ """
+                            from django.contrib.contenttypes.models import ContentType
+                            ContentType_Order = ContentType.objects.get_for_model(Order, )
+                            """ Перемещение всех продуктов из корзины в заказ """
+                            """ Просто меняем 2-а поля назначения у всех продуктов в этой корзине """
+                            all_products.update(content_type=ContentType_Order, object_id=order.pk, )
+                            """ Удаляем старую корзину """
+                            cart.delete()
+                            """ Отправка заказа мэнеджеру """
+                            subject = u'Заказ № %d. Кексик.' % order.pk
+                            from django.template.loader import render_to_string
+                            html_content = render_to_string('email_order_content.jinja2.html',
+                                                            {'order': order, })
+                            from django.utils.html import strip_tags
+                            text_content = strip_tags(html_content, )
+                            from_email = u'site@keksik.com.ua'
+            #                to_email = u'mamager@keksik.com.ua'
+            #                from proj.settings import SERVER
+            #                if SERVER:
+            #                    to_email = u'manager@keksik.com.ua'
+            #                else:
+            #                    to_email = u'alex.starov@keksik.com.ua'
 
-                from django.core.mail import get_connection
-                backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                                         fail_silently=False, )
-                from django.core.mail import EmailMultiAlternatives
-                from proj.settings import Email_MANAGER
-                msg = EmailMultiAlternatives(subject=subject,
-                                             body=text_content,
-                                             from_email=from_email,
-                                             to=[Email_MANAGER, ],
-                                             connection=backend, )
-                msg.attach_alternative(content=html_content,
-                                       mimetype="text/html", )
-                msg.send(fail_silently=False, )
-                """ Отправка благодарности клиенту. """
-                subject = u'Заказ № %d. Интернет магазин Кексик.'
-                html_content = render_to_string('email_suceessful_content.jinja2.html',
-                                                {'order': order, })
-                text_content = strip_tags(html_content, )
-                from_email = u'site@keksik.com.ua'
-                to_email = email
-                msg = EmailMultiAlternatives(subject=subject,
-                                             body=text_content,
-                                             from_email=from_email,
-                                             to=[to_email, ],
-                                             connection=backend, )
-                msg.attach_alternative(content=html_content,
-                                       mimetype="text/html", )
-                msg.send(fail_silently=False, )
+                            from django.core.mail import get_connection
+                            backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                                     fail_silently=False, )
+                            from django.core.mail import EmailMultiAlternatives
+                            from proj.settings import Email_MANAGER
+                            msg = EmailMultiAlternatives(subject=subject,
+                                                         body=text_content,
+                                                         from_email=from_email,
+                                                         to=[Email_MANAGER, ],
+                                                         connection=backend, )
+                            msg.attach_alternative(content=html_content,
+                                                   mimetype="text/html", )
+                            msg.send(fail_silently=False, )
+                            """ Отправка благодарности клиенту. """
+                            subject = u'Заказ № %d. Интернет магазин Кексик.'
+                            html_content = render_to_string('email_suceessful_content.jinja2.html',
+                                                            {'order': order, })
+                            text_content = strip_tags(html_content, )
+                            from_email = u'site@keksik.com.ua'
+                            to_email = email
+                            msg = EmailMultiAlternatives(subject=subject,
+                                                         body=text_content,
+                                                         from_email=from_email,
+                                                         to=[to_email, ],
+                                                         connection=backend, )
+                            msg.attach_alternative(content=html_content,
+                                                   mimetype="text/html", )
+                            msg.send(fail_silently=False, )
 
-#                from django.core.mail import send_mail
-##                from proj.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_BACKEND
-#                send_mail(subject=subject,
-#                          message='Here is the message.',
-#                          from_email='site@keksik.com.ua',
-#                          recipient_list=['alex.starov@keksik.com.ua', ],
-#                          fail_silently=False,
-#                          connection=backend, )
-##                          auth_user=EMAIL_HOST_USER,
-##                          auth_password=EMAIL_HOST_PASSWORD,
-##                          connection=EMAIL_BACKEND, )
-                from django.shortcuts import redirect
-                return redirect(to=u'/корзина/заказ/принят/', )
+            #                from django.core.mail import send_mail
+            ##                from proj.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_BACKEND
+            #                send_mail(subject=subject,
+            #                          message='Here is the message.',
+            #                          from_email='site@keksik.com.ua',
+            #                          recipient_list=['alex.starov@keksik.com.ua', ],
+            #                          fail_silently=False,
+            #                          connection=backend, )
+            ##                          auth_user=EMAIL_HOST_USER,
+            ##                          auth_password=EMAIL_HOST_PASSWORD,
+            ##                          connection=EMAIL_BACKEND, )
+                            from django.shortcuts import redirect
+                            return redirect(to=u'/корзина/заказ/принят/', )
     return render_to_response(template_name=template_name,
-                              dictionary={'country_list': country_list, },
+                              dictionary={'country_list': country_list,
+                                          'email_error': email_error, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
 

@@ -60,7 +60,11 @@
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
                 <input type="hidden" name="POST_NAME" value="order"/>
                 <label for="email">E-Mail</label>
-                <input type="email" name="email" id="email" required>
+                <input type="email" name="email" id="email" required
+                       title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ">
+                {% if email_error %}
+                    <p class="red">{{ email_error }}</p>
+                {% endif %}
                 <br>
                 <label for="FIO">ФИО</label>
                 <input type="text" name="FIO" id="FIO" required>
