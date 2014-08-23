@@ -243,8 +243,8 @@ font-weight:bold;
                 {% for slide in slides_ %}
                     <a href="#" {% if slide.title %}title="{{ slide.title }}"{% endif %}>
                         <img src="{{ slide.slide.url_240x96 }}"
-                             {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}>
-                        {{ slide.order}}</a>
+                             {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}>{#
+                        #}&#9885;</a>{# {{ slide.order}} #}
                 {% endfor %}
             </div>
         </div>

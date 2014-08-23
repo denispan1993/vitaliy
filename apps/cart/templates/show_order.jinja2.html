@@ -60,14 +60,14 @@
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
                 <input type="hidden" name="POST_NAME" value="order"/>
                 <label for="email">E-Mail</label>
-                <input type="email" name="email" id="email"/>
-                <br />
+                <input type="email" name="email" id="email" required>
+                <br>
                 <label for="FIO">ФИО</label>
-                <input type="text" name="FIO" id="FIO"/>
-                <br />
+                <input type="text" name="FIO" id="FIO" required>
+                <br>
                 <label for="phone">Номер мобильного телефона</label>
-                <input type="tel" name="phone" id="phone"/>
-                <br />
+                <input type="tel" name="phone" id="phone" required>
+                <br>
                 <select name="select_country"
                         id="select_country"
                         required=""
@@ -114,22 +114,22 @@ function sel_country() {
 //sel_country();
 </script>
                 </select>
-                <br />
+                <br>
                 <div id="dynamic_div">
-                <br />
+                <br>
                 <label for="region">Область</label>
-                <input type="text" name="region" id="region"/>
-                <br />
+                <input type="text" name="region" id="region" required>
+                <br>
                 <label for="settlement">Город (населённый пункт)</label>
-                <input type="text" name="settlement" id="settlement"/>
-                <br />
+                <input type="text" name="settlement" id="settlement" required>
+                <br>
                 <label for="warehouse_number">Номер склада "Новой почты"</label>
-                <input type="number" name="warehouse_number" id="warehouse_number"/>
+                <input type="number" name="warehouse_number" id="warehouse_number" required>
                 </div>
-                <br />
+                <br>
                 <label for="comment">Комментарий к заказу</label>
                 <textarea cols="50" rows="5" name="comment" id="comment"></textarea>
-                <br />
+                <br>
                 <label>С <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> согласен</label>
 <script type="text/javascript">
 function CheckboxIagree(){
