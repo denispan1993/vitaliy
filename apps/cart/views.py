@@ -89,7 +89,12 @@ def recalc_cart(request, ):
 
 def show_order(request,
                template_name=u'show_order.jinja2.html', ):
+    email = request.POST.get(u'email', False, )
     email_error = False
+    FIO = request.POST.get(u'FIO', None, )
+    phone = request.POST.get(u'phone', None, )
+    comment = request.POST.get(u'comment', None, )
+    country = request.POST.get(u'select_country', None, )
     try:
         country_list = Country.objects.all()
     except Country.DoesNotExist:
@@ -97,7 +102,6 @@ def show_order(request,
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'order':
-            email = request.POST.get(u'email', False, )
             """
                 Здесь какт о нужно проверить email
             """
@@ -113,10 +117,6 @@ def show_order(request,
                     if not is_valid:
                         email_error = u'Ваш E-Mail адрес не существует.'
                     else:
-                        FIO = request.POST.get(u'FIO', None, )
-                        phone = request.POST.get(u'phone', None, )
-                        comment = request.POST.get(u'comment', None, )
-                        country = request.POST.get(u'select_country', None, )
                         try:
                             country = int(country, )
                         except ValueError:
@@ -234,7 +234,12 @@ def show_order(request,
                             return redirect(to=u'/корзина/заказ/принят/', )
     return render_to_response(template_name=template_name,
                               dictionary={'country_list': country_list,
-                                          'email_error': email_error, },
+                                          'email': email,
+                                          'email_error': email_error,
+                                          'FIO': FIO,
+                                          'phone': phone,
+                                          'comment': comment,
+                                          'select_country': country, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
 

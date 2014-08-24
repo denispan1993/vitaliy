@@ -61,13 +61,20 @@
                 <input type="hidden" name="POST_NAME" value="order"/>
                 <label for="email">E-Mail</label>
                 <input type="email" name="email" id="email" required
-                       title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ">
+                       {% if email %}
+                           value="{{ email }}"
+                       {% endif %}
+                       title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
                 {% if email_error %}
                     <p class="red">{{ email_error }}</p>
                 {% endif %}
                 <br>
                 <label for="FIO">ФИО</label>
-                <input type="text" name="FIO" id="FIO" required>
+                <input type="text" name="FIO" id="FIO" required
+                       {% if FIO %}
+                           value="{{ FIO }}"
+                       {% endif %}
+                       title="Эти данные будут использоваться для оформления посылки в почтовой службе">
                 <br>
                 <label for="phone">Номер мобильного телефона</label>
                 <input type="tel" name="phone" id="phone" required>
@@ -132,7 +139,10 @@ function sel_country() {
                 </div>
                 <br>
                 <label for="comment">Комментарий к заказу</label>
-                <textarea cols="50" rows="5" name="comment" id="comment"></textarea>
+                <textarea cols="50" rows="5" name="comment" id="comment"
+                       {% if comment %}
+                           value="{{ comment }}"
+                       {% endif %}></textarea>
                 <br>
                 <label>С <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> согласен</label>
 <script type="text/javascript">
