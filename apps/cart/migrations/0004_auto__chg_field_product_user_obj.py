@@ -9,11 +9,11 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Changing field 'Product.user_obj'
-        db.alter_column('Cart', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['authModel.User'], null=True))
+        db.alter_column('Order', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['authModel.User'], null=True))
 
     def backwards(self, orm):
         # Changing field 'Product.user_obj'
-        db.alter_column('Cart', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True))
+        db.alter_column('Order', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True))
 
     models = {
         u'auth.group': {
