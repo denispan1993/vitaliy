@@ -411,7 +411,7 @@ LOGGING = {
 }
 #!!!=============== Python Social Auth =========================
 INSTALLED_APPS += (
-    'social',
+    'social.apps.django_app.default',
 )
 
 #try:
