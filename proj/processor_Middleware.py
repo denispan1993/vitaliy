@@ -48,9 +48,12 @@ class Process_SessionIDMiddleware(object):
         try:
             session_ID = Session_ID.objects.get(sessionid=sessionid, )
         except Session_ID.DoesNotExist:
-            session_ID = False
+            from django.contrib.sessions.backends.db import SessionStore
+            s = SessionStore()
+            s.save()
+            session_ID = s.session_key
         # print 'session: ', session
-        if not session and not session_ID:
+        if not session and not sessionid:
             """
                 Вот здесь мы будем "что-то" делать........ чтобы понять откуда пришел пользователь
                 Так как он здесь впервые.
@@ -66,14 +69,14 @@ class Process_SessionIDMiddleware(object):
             """
             from django.contrib.auth import get_user_model
             UserModel = get_user_model()
-            user_obj = UserModel.create_user(username=sessionid, email=None,
-                                             is_staff=False, is_active=True,
-                                             is_superuser=False, )
+            password = UserModel.objects.make_random_password()
+            # user_obj = UserModel.objects.create_user(username=session_ID, email=None, password=password, )
+
 #        user = self.model(username=username, email=email,
 #                          is_staff=is_staff, is_active=True,
 #                          is_superuser=is_superuser, last_login=now,
 #                          date_joined=now, **extra_fields)
-            session_ID = Session_ID.objects.create(user=user_obj, sessionid=sessionid, )
+            # session_ID = Session_ID.objects.create(user=user_obj, sessionid=sessionid, )
             # request.session['session'] = sessionid
             response.set_cookie(key='session', value=sessionid, )
             pass
