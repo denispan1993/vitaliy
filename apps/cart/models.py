@@ -249,8 +249,7 @@ class Product(models.Model):
             quantity = 1
         self.quantity = quantity
         from django.db import OperationalError
-        ok = True
-        while ok:
+        while True:
             try:
                 """
                     Пытаемся записать до тех пор пока база не примет нашу запись.
@@ -269,7 +268,7 @@ class Product(models.Model):
                     Иначе печатаем НЕ ИЗВЕСТНУЮ ошибку
                 """
             else:
-                ok = False
+                break
 
     def update_price_per_piece(self, ):
         """ Здесь будет расчёт цены со скидкой в зависимости от количества. """
