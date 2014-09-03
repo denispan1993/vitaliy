@@ -3,12 +3,12 @@ __author__ = 'Админ'
 
 from django.contrib import admin
 
-from apps.account.models import Profile
+#from apps.account.models import Profile
 
 
-class ProfileAdmin(admin.ModelAdmin, ):
-    pass
-admin.site.register(Profile, ProfileAdmin, )
+#class ProfileAdmin(admin.ModelAdmin, ):
+#    pass
+# admin.site.register(Profile, ProfileAdmin, )
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]
 #    fieldsets = [

@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from models import Profile
+from apps.account.models import Profile
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
