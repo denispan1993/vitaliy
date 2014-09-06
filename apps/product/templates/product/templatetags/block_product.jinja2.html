@@ -35,6 +35,8 @@
                  #}src="/media/img/add_cart.png"
                    title="Добавить в корзину 50% стоимости товара"
                    alt="Добавить товар в корзину">
+        {% elif block.is_availability == 3 %}
+            <p>Ожидается.</p>
         {% else %}
             <p>Нет на складе</p>
         {% endif %}

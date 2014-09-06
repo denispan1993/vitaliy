@@ -564,9 +564,9 @@ class Product(models.Model):
         if self.is_availability == 1:
             return 1, u''
         elif self.is_availability == 2:
-            return 2, u'Товара нет на складе'
+            return 2, u'Товар доступен под заказ'
         elif self.is_availability == 3:
-            return 3, u'Товар доступен под заказ'
+            return 3, u'Товар ожидается'
         elif self.is_availability == 4:
             return 4, u'<strong>Товар недоступен.</strong><br>Рекоммендуем его удалить из корзины.'
 

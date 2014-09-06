@@ -10,4 +10,6 @@ class Command(BaseCommand, ):
         # Product.objects.filter(is_availability=2, ).update(is_availability=5, )
         # Product.objects.filter(is_availability=3, ).update(is_availability=2, )
         # Product.objects.filter(is_availability=5, ).update(is_availability=3, )
-        Product.objects.filter(is_availability=3, ).update(is_availability=2, )
+        is_available = Product.objects.filter(is_availability=3, ).update(is_availability=2, )
+        print is_available
+        print len(is_available, )
