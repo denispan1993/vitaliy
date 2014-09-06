@@ -142,7 +142,7 @@ def show_product(request, product_url, id,
                         from django.http import Http404
                         raise Http404
                     else:
-                        if product.is_available == 2:
+                        if product.is_availability == 2:
                             available_to_order = True
                         else:
                             available_to_order = False
