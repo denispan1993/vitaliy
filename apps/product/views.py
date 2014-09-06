@@ -142,11 +142,16 @@ def show_product(request, product_url, id,
                         from django.http import Http404
                         raise Http404
                     else:
+                        if product.is_available == 2:
+                            available_to_order = True
+                        else:
+                            available_to_order = False
                         add_to_cart(request=request,
                                     product=product,
                                     int_product_pk=product_pk,
                                     product_url=product_url,
-                                    quantity=quantity_, )
+                                    quantity=quantity_,
+                                    available_to_order=available_to_order, )
 #                        if request.
 #                        try:
 #                            from apps.cart.models import Cart
@@ -295,25 +300,15 @@ def add_to_cart(request,
         if not quantity:
             quantity = product.minimal_quantity
         if available_to_order is True:
-            product_in_cart = Product.objects.create(key=product_cart,
-                                                     product=product,
-                                                     price=product.price/2,
-                                                     # True - Товар доступен под заказ.
-                                                     available_to_order=True,
-                                                     # 50% - предоплата.
-                                                     percentage_of_prepaid=50,
-                                                     quantity=quantity, )
-        else:
-            product_in_cart = Product.objects.create(key=product_cart,
-                                                     product=product,
-                                                     price=product.price,
-                                                     # None - Есть на складе, False - Товар не доступен
-                                                     # Теоретически False - быть не может.
-                                                     available_to_order=available_to_order,
-                                                     # 100% - предоплата
-                                                     percentage_of_prepaid=100,
-                                                     quantity=quantity, )
-        # product_in_cart.update_price_per_piece()
+            percentage_of_prepaid = 50
+        product_in_cart = Product.objects.create(key=product_cart,
+                                                 product=product,
+                                                 price=product.price/2,
+                                                 # True - Товар доступен под заказ.
+                                                 available_to_order=available_to_order,
+                                                 # 50% - предоплата.
+                                                 percentage_of_prepaid=percentage_of_prepaid,
+                                                 quantity=quantity, )
     else:
         if not quantity:
             quantity = product.quantity_of_complete

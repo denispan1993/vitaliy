@@ -277,7 +277,7 @@ class Product(models.Model):
             self.price = self.product.price
             self.percentage_of_prepaid = 100  # 100% стоимости товра
             self.available_to_order = None  # Товар в наличии на складе - поэтому это поле для нас не нужно
-        elif self.product.is_availability is 3:  # """ Если "Товар доступен под заказ" ТО: """
+        elif self.product.is_availability is 2:  # """ Если "Товар доступен под заказ" ТО: """
             """ Считаем цену 50% от стоимости """
             self.price = self.product.price/2
             self.percentage_of_prepaid = 50  # 50% стоимости товра
