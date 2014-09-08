@@ -127,6 +127,9 @@ def show_order(request,
                             """ Взять или создать корзину пользователя """
                             """ Создать теоретически это не нормально """
                             cart, create = get_cart_or_create(request, )
+                            if create:
+                                from django.shortcuts import redirect
+                                return redirect(to=u'/корзина/заказ/непринят/', )
                         from apps.cart.models import Product
                         try:
                             """ Выборка всех продуктов из корзины """
@@ -247,6 +250,18 @@ def show_order(request,
 def show_order_success(request,
                        template_name=u'show_order_success.jinja2.html',
                        ):
+    return render_to_response(template_name=template_name,
+                              dictionary={# 'country_list': country_list,
+                                          # 'page': page,
+                                          # 'html_text': html_text,
+                                          },
+                              context_instance=RequestContext(request, ),
+                              content_type='text/html', )
+
+
+def show_order_unsuccess(request,
+                         template_name=u'show_order_unsuccess.jinja2.html',
+                         ):
     return render_to_response(template_name=template_name,
                               dictionary={# 'country_list': country_list,
                                           # 'page': page,
