@@ -300,12 +300,14 @@ def add_to_cart(request,
         if not quantity:
             quantity = product.minimal_quantity
         if available_to_order is True:
+            price = product.price / 2
             percentage_of_prepaid = 50
         else:
+            price = product.price
             percentage_of_prepaid = 100
         product_in_cart = Product.objects.create(key=product_cart,
                                                  product=product,
-                                                 price=product.price/2,
+                                                 price=price,
                                                  # True - Товар доступен под заказ.
                                                  available_to_order=available_to_order,
                                                  # 50% - предоплата.
