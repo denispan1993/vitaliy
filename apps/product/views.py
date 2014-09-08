@@ -301,6 +301,8 @@ def add_to_cart(request,
             quantity = product.minimal_quantity
         if available_to_order is True:
             percentage_of_prepaid = 50
+        else:
+            percentage_of_prepaid = 100
         product_in_cart = Product.objects.create(key=product_cart,
                                                  product=product,
                                                  price=product.price/2,
