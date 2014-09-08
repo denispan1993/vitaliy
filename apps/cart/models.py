@@ -280,12 +280,12 @@ class Product(models.Model):
 
     def update_price_per_piece(self, ):
         """ Здесь будет расчёт цены со скидкой в зависимости от количества. """
-        if self.product.is_availability is 1:  # """ Если "Товар на складе" ТО:"""
+        if self.product.is_availability == 1:  # """ Если "Товар на складе" ТО:"""
             """ Производим расчёт цены по стандартной схеме """
             self.price = self.product.price
             self.percentage_of_prepaid = 100  # 100% стоимости товра
             self.available_to_order = None  # Товар в наличии на складе - поэтому это поле для нас не нужно
-        elif self.product.is_availability is 2:  # """ Если "Товар доступен под заказ" ТО: """
+        elif self.product.is_availability == 2:  # """ Если "Товар доступен под заказ" ТО: """
             """ Считаем цену 50% от стоимости """
             self.price = self.product.price/2
             self.percentage_of_prepaid = 50  # 50% стоимости товра
