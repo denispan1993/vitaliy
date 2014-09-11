@@ -115,8 +115,18 @@ def show_order(request,
                 else:
                     is_valid = validate_email(email, verify=True, )
                     if not is_valid:
-                        email_error = u'Ваш E-Mail адрес не существует.'
-                    else:
+                        """
+                            Делаем повторную проверку на просто валидацию E-Mail адреса
+                        """
+                        from django.forms import EmailField
+                        from django.core.exceptions import ValidationError
+                        try:
+                            EmailField().clean(email, )
+                        except ValidationError:
+                            email_error = u'Ваш E-Mail адрес не существует.'
+                        else:
+                            is_valid = True
+                    if is_valid and not email_error in locals():
                         try:
                             country = int(country, )
                         except ValueError:
@@ -207,7 +217,7 @@ def show_order(request,
                                                    mimetype="text/html", )
                             msg.send(fail_silently=False, )
                             """ Отправка благодарности клиенту. """
-                            subject = u'Заказ № %d. Интернет магазин Кексик.'
+                            subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
                             html_content = render_to_string('email_suceessful_content.jinja2.html',
                                                             {'order': order, })
                             text_content = strip_tags(html_content, )
