@@ -156,6 +156,9 @@ def show_product(request, product_url, id,
 #                        try:
 #                            from apps.cart.models import Cart
 #                            cart = Cart.objects.get(sessionid=, )
+                    if action == u'makeanorder':
+                        from django.shortcuts import redirect
+                        return redirect(to='show_cart', )
                     from apps.product.models import Category
                     try:
                         current_category = Category.objects.get(pk=int(current_category, ), )
