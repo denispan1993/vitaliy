@@ -21,7 +21,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', )  # 'date_of_birth', 'gender', 'phone',
+        fields = ('username', )  # 'date_of_birth', 'gender', 'phone',
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -49,7 +49,7 @@ class UserChangeForm(forms.ModelForm, ):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'is_active', )  # 'date_of_birth', 'is_admin',
+        fields = ('password', 'is_active', )  # 'date_of_birth', 'is_admin',
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -66,11 +66,11 @@ class UserAdmin(UserAdmin, ):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username', 'email', 'first_name', 'last_name', 'patronymic', 'gender',
+    list_display = ('username', 'first_name', 'last_name', 'patronymic', 'gender',
                     'date_of_birth', 'is_superuser', 'is_staff', 'is_active', )
     list_filter = ('is_superuser', 'is_staff', 'is_active', )
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password'), }, ),
+        (None, {'fields': ('username', 'password'), }, ),
         (_('Personal info', ), {'fields': ('first_name', 'last_name', 'patronymic',
                                            'gender', 'date_of_birth', ), }, ),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
@@ -82,11 +82,11 @@ class UserAdmin(UserAdmin, ):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'date_of_birth', 'password1', 'password2'), },
+            'fields': ('username', 'date_of_birth', 'password1', 'password2'), },
         ),
     )
-    search_fields = ('username', 'email', 'first_name', 'last_name', 'patronymic', )
-    ordering = ('email', )
+    search_fields = ('username', 'first_name', 'last_name', 'patronymic', )
+    ordering = ('username', )
     filter_horizontal = ('groups', 'user_permissions', )
 
 # Now register the new UserAdmin...

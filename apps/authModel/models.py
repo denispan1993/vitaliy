@@ -56,10 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin, ):
                                               blank=True,
                                               null=True, )
     # Номер телефона
-    phone = models.CharField(max_length=19,
-                             verbose_name=_(u'Номер телефона'),
-                             blank=True,
-                             null=True, )
+    # phone = models.CharField(max_length=19,
+    #                          verbose_name=_(u'Номер телефона'),
+    #                          blank=True,
+    #                          null=True, )
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = ['phone', ]
     # Отчество
@@ -101,15 +101,6 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     birthday = models.DateField(verbose_name=_(u'День рождения'),
                                 blank=True,
                                 null=True, )
-    """
-        E-Mail рассылки
-    """
-    # Рассылка новых продуктов
-    email_delivery_new_products = models.BooleanField(verbose_name=_(u'Новые продукты', ),
-                                                      default=True, )
-    # Рассылка акций и новостей
-    email_delivery_shares_news = models.BooleanField(verbose_name=_(u'Новости и Акции', ),
-                                                     default=True, )
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -134,6 +125,14 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     first_name = models.CharField(_('first name'), max_length=30, blank=True, )
     last_name = models.CharField(_('last name'), max_length=30, blank=True, )
     # email = models.EmailField(_('email address'), blank=True)
+
+    """
+        Заглушка
+    """
+    @property
+    def email(self, ):
+        return None
+
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text=_('Designates whether the user can log into this admin '
                                                'site.', ), )
@@ -146,7 +145,7 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
 
     def get_absolute_url(self):
         from django.utils.http import urlquote
@@ -215,3 +214,56 @@ class User(AbstractBaseUser, PermissionsMixin, ):
 
 #User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
 
+
+class Email(models.Model, ):
+    user = models.ForeignKey(to=User,
+                             verbose_name=_(u'Пользователь', ),
+                             related_name='email_parent_user', )
+    email = models.EmailField(_('email address'),
+                              blank=False,
+                              null=False, )
+    primary = models.BooleanField(verbose_name=_(u'Основной', ), default=False, )
+    """
+        E-Mail рассылки
+    """
+    # Рассылка новых продуктов
+    email_delivery_new_products = models.BooleanField(verbose_name=_(u'Новые продукты', ),
+                                                      default=True, )
+    # Рассылка акций и новостей
+    email_delivery_shares_news = models.BooleanField(verbose_name=_(u'Новости и Акции', ),
+                                                     default=True, )
+    # Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    class Meta:
+        db_table = u'EmailUserModel'
+        ordering = [u'-created_at', ]
+        verbose_name = u'Email пользователя'
+        verbose_name_plural = u"Email'ы пользователей"
+
+
+class Phone(models.Model, ):
+    user = models.ForeignKey(to=User,
+                             verbose_name=_(u'Пользователь', ),
+                             related_name='phone_parent_user', )
+    # Номер телефона
+    phone = models.CharField(max_length=19,
+                             verbose_name=_(u'Номер телефона'),
+                             blank=False,
+                             null=False, )
+    primary = models.BooleanField(verbose_name=_(u'Основной', ), default=False, )
+    """
+        SMS рассылки
+    """
+    sms_notification = models.BooleanField(verbose_name=_(u'SMS Рассылка', ),
+                                           default=True, )
+    # Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    class Meta:
+        db_table = u'PhoneUserModel'
+        ordering = [u'-created_at', ]
+        verbose_name = u'Телефон пользователя'
+        verbose_name_plural = u"Телнфоны пользователей"
