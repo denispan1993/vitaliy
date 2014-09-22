@@ -2,6 +2,13 @@
 {# {% load header_category %} #}
 {% block title %}Ваш заказ принят!!!{% endblock %}
 {% block content_center -%}
+<script>
+var yaParams = {
+    order_id: "{{ order_pk }}",
+    order_price: {{ order.summ_money_of_all_products(request) }},
+    currency: "{{ get_currency(request) }}",
+    exchange_rate: 1 };
+</script>
 <br>
 Ваш заказ принят!!!
 <br>

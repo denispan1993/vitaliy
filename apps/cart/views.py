@@ -245,6 +245,7 @@ def show_order(request,
         ##                          auth_user=EMAIL_HOST_USER,
         ##                          auth_password=EMAIL_HOST_PASSWORD,
         ##                          connection=EMAIL_BACKEND, )
+                        request.session[u'order_last'] = order.pk
                         from django.shortcuts import redirect
                         return redirect(to=u'/корзина/заказ/принят/', )
     return render_to_response(template_name=template_name,
@@ -262,9 +263,22 @@ def show_order(request,
 def show_order_success(request,
                        template_name=u'show_order_success.jinja2.html',
                        ):
+    order_pk = request.session.get(u'order_last', None, )
+    order = None
+    if order_pk is not None:
+        try:
+            order_pk = int(order_pk, )
+        except ValueError:
+            order_pk = None
+        else:
+            from apps.cart.models import Order
+            try:
+                order = Order.objects.get(pk=order_pk, )
+            except Order.DoesNotExist:
+                pass
     return render_to_response(template_name=template_name,
-                              dictionary={# 'country_list': country_list,
-                                          # 'page': page,
+                              dictionary={'order_pk': order_pk,
+                                          'order': order,
                                           # 'html_text': html_text,
                                           },
                               context_instance=RequestContext(request, ),

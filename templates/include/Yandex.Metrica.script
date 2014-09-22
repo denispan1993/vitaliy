@@ -2,12 +2,14 @@
 (function (d, w, c) {
     (w[c] = w[c] || []).push(function() {
         try {
-            w.yaCounter21943054 = new Ya.Metrika({id:21943054,
+            w.yaCounter21943054 = new Ya.Metrika({
+                    id:21943054,
                     webvisor:true,
                     clickmap:true,
                     trackLinks:true,
                     accurateTrackBounce:true,
-                    trackHash:true});
+                    trackHash:true,
+                    params:window.yaParams||{ }});
         } catch(e) { }
     });
 
