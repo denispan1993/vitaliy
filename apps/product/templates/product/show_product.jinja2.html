@@ -178,7 +178,7 @@
 				</p>
 			{% endif %}
 			<p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
-                <span class="{% if product.is_availability == 1 %}red{% else %}gray{% endif %}" itemprop="price"> {{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
+                <span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price"> {{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
             </p>
             {% if product.is_availability == 1 or product.is_availability == 2 %}
                 <p class="price_total">

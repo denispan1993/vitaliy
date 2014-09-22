@@ -19,11 +19,17 @@ ul li{list-style:none outside none;}
 .clearFloat{
     clear:Both;
 }
-.red{
+.Red{
     color:Red;
+}
+.DimGray{
+    color:DimGray;
 }
 .lime{
     color:#0000cd;
+}
+Gray{
+    color:Gray;
 }
 a img{
     line-height:0px;

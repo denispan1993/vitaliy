@@ -202,12 +202,6 @@ div#product_box_right p#product_box_right_price{
     padding-top:3px;
     color:Red;
 }
-div#product_box_right p#product_box_right_price span.red{
-    color:Red;
-}
-div#product_box_right p#product_box_right_price span.gray{
-    color:Gray;
-}
 div#product_box_right p.price_total{
 	padding-top:30px;/* 0px;*/
 	color:#333333;

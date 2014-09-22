@@ -14,7 +14,7 @@
        title="{{ block.title }}"></a>
     {# <div class="product_block_excerpt" title="{{ block.price }} грн.">{{ block.price }} грн.</div> #}
     <div class="product_block_bottom">
-        <div class="product_block_price{% if block.is_availability == 1 %} pink{% else %} gray{% endif %}">{{ block.get_price(request) }}&nbsp;<span>{{ get_currency(request) }}</span></div>
+        <div class="product_block_price{% if block.is_availability == 1 %} pink{% elif block.is_availability == 2 %} DimGray{% else %} Gray{% endif %}">{{ block.get_price(request) }}&nbsp;<span>{{ get_currency(request) }}</span></div>
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
