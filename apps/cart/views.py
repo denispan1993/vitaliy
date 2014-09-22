@@ -90,7 +90,8 @@ def recalc_cart(request, ):
 def show_order(request,
                template_name=u'show_order.jinja2.html', ):
     email = request.POST.get(u'email', False, )
-    email = email.strip()
+    if email:
+        email = email.strip()
     email_error = False
     FIO = request.POST.get(u'FIO', None, )
     phone = request.POST.get(u'phone', None, )
