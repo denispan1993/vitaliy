@@ -265,6 +265,7 @@ def show_order_success(request,
                        ):
     order_pk = request.session.get(u'order_last', None, )
     order = None
+    # order_sum = None
     if order_pk is not None:
         try:
             order_pk = int(order_pk, )
@@ -276,9 +277,12 @@ def show_order_success(request,
                 order = Order.objects.get(pk=order_pk, )
             except Order.DoesNotExist:
                 pass
+            # else:
+            #     order_sum = order.order_summ()
     return render_to_response(template_name=template_name,
                               dictionary={'order_pk': order_pk,
                                           'order': order,
+                                          # 'order_sum': order_sum,
                                           # 'html_text': html_text,
                                           },
                               context_instance=RequestContext(request, ),
