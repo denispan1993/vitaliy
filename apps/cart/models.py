@@ -147,7 +147,7 @@ class Order(models.Model):
         return self.order.all()
 
     @property
-    def order_sum(self, ):
+    def order_summ(self, ):
         all_products_sum = 0
         from decimal import Decimal
         for product in self.products:
