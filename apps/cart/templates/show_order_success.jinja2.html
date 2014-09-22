@@ -5,7 +5,7 @@
 <script>
 var yaParams = {
     order_id: "{{ order_pk }}",
-    order_price: {{ order.summ_money_of_all_products(request) }},
+    order_price: {{ order.order_summ() }},
     currency: "{{ get_currency(request) }}",
     exchange_rate: 1 };
 </script>
