@@ -38,6 +38,7 @@ class Command(BaseCommand, ):
                 user = True
             if user == []:
                 print user
+                print username
                 print u'Пользователь с таким username существует'
                 continue
             else:
@@ -47,6 +48,7 @@ class Command(BaseCommand, ):
                     email = True
                 if email == []:
                     print email
+                    print username
                     print u'Такой email существует у какогото пользователя'
                     continue
                 else:
@@ -56,6 +58,7 @@ class Command(BaseCommand, ):
                         phone = True
                     if phone == []:
                         print phone
+                        print username
                         print u'Такой номер телефона существует у какогото пользователя'
                         continue
                     else:
