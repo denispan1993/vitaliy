@@ -7,7 +7,7 @@ from django.db import models
 
 # from django.contrib.auth.models import User
 # from django.contrib.auth import get_user_model
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 # from userena.models import UserenaBaseProfile, UserenaLanguageBaseProfile
 
 from datetime import datetime, timedelta

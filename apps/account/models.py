@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from userena.models import UserenaBaseProfile, UserenaLanguageBaseProfile
 
 

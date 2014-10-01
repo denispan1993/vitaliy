@@ -2,7 +2,7 @@
 __author__ = 'Sergey'
 
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 #from south.modelsinspector import add_introspection_rules
 
 #================================
