@@ -100,7 +100,7 @@ urlpatterns += patterns('apps',
 #urlpatterns += patterns(url(r'^captcha/', include('apps.utils.captcha.urls', ), ), )
 
 #Admin panel
-urlpatterns += patterns('apps.admin.views',
+urlpatterns += patterns('apps.adminSite.views',
                         url(ur'^админ/$', 'admin_panel',
                             {'template_name': u'admin_panel.jinja2.html', },
                             name='admin_panel', ),

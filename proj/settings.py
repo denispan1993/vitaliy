@@ -342,7 +342,7 @@ INSTALLED_APPS = (
     'apps.utils',
     'apps.utils.captcha',
     'apps.handlers',
-    'apps.admin',
+    'apps.adminSite',
     'apps.discount',
     # 'static_sitemaps',
 )
@@ -555,7 +555,7 @@ INSTALLED_APPS += (
     'userena',
     'guardian',
     'easy_thumbnails',
-    'apps.account',
+    'apps.accountAuth',
     'apps.authModel',
 )
 AUTHENTICATION_BACKENDS += (

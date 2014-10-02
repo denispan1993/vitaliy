@@ -3,6 +3,7 @@
 
 import os
 import sys
+# import django
 
 if __name__ == "__main__":
     # cwd = os.path.dirname(__file__)
@@ -11,6 +12,7 @@ if __name__ == "__main__":
     #os.system('bash')
     # os.environ.setdefault(key="DJANGO_SETTINGS_MODULE", failobj="proj.settings", )
     os.environ["DJANGO_SETTINGS_MODULE"] = "proj.settings"
+    # django.setup()
     #DJANGO_SETTINGS_MODULE = os.getenv(key='DJANGO_SETTINGS_MODULE', )
     #print DJANGO_SETTINGS_MODULE
     from django.core.management import execute_from_command_line
