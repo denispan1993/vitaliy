@@ -555,7 +555,7 @@ INSTALLED_APPS += (
     'userena',
     'guardian',
     'easy_thumbnails',
-    'apps.accountAuth',
+    'apps.account',
     'apps.authModel',
 )
 AUTHENTICATION_BACKENDS += (

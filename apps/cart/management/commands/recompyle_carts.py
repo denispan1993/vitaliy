@@ -10,6 +10,7 @@ class Command(BaseCommand, ):
     def handle(self, *args, **options):
         from apps.cart.models import Order
         from apps.authModel.models import User, Email, Phone
+        from apps.account.models import Session_ID
         orders = Order.objects.all()
         for order in orders:
             print order
@@ -32,6 +33,8 @@ class Command(BaseCommand, ):
             username = ''.join(['%s' % slugify(k).capitalize() for k in last_name, first_name, patronymic], )
             # username = slugify(username, )
             print username
+            sessionID = order.sessionid
+            print sessionID
             try:
                 user = User.objects.filter(username=username, )
             except User.DoesNotExist:
@@ -62,9 +65,21 @@ class Command(BaseCommand, ):
                         print u'Такой номер телефона существует у какогото пользователя'
                         continue
                     else:
-                        user = User.objects.create(username=username,
-                                                   first_name=first_name,
-                                                   last_name=last_name,
-                                                   patronymic=patronymic, )
-                        email = Email.objects.create(user=user, email=email, )
-                        phone = Phone.objects.create(user=user, phone=phone, )
+                        try:
+                            sessionID = Session_ID.objects.filter(sessionid=sessionID, )
+                        except Session_ID.DoesNotExist:
+                            sessionID = True
+                        if sessionID == []:
+                            print sessionID
+                            print u'Пользователь с таким SessionID уже существует'
+                            continue
+                        else:
+                            user = User.objects.create(username=username,
+                                                       first_name=first_name,
+                                                       last_name=last_name,
+                                                       patronymic=patronymic, )
+                            email = Email.objects.create(user=user, email=email, )
+                            phone = Phone.objects.create(user=user, phone=phone, )
+                            sessionID = Session_ID.objects.create(user=user, sessionid=sessionID, )
+                            order.user = user
+                            order.save()
