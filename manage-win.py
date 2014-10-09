@@ -1,4 +1,4 @@
-#!C:/PycharmProjects/Shop/VirtualEnvironment/Scripts/python.exe
+###!#!C:/PycharmProjects/Shop/VirtualEnvironment/Scripts/python.exe
 # coding=utf-8
 
 import os
@@ -23,3 +23,4 @@ if __name__ == "__main__":
     execute_from_command_line(sys.argv)
     #print 2
 #    print /home/user/PycharmProjects/Shop/VirtualEnv/bin/python
+
