@@ -25,10 +25,13 @@ price_qty_array_{{ product.pk }}[1]=999;
 price_array_{{ product.pk }}[1]={{ real_product.get_price(request, price=None, calc_or_show='calc') }};
 	{# {% endif %} #}
 function Calculate_{{ product.pk }}(operation){
-	//var price=0.00;
+	{#//var price=0.00;
 	//var total=0.00;
-	var Qut=$("#quantity1_{{ product.pk }}").val();
-	//$("#quantity_order").val(Qut);
+	//var Qut=jQuery("#quantity1_{{ product.pk }}").val();#}
+	//Qut=jQuery("#quantity1_{{ product.pk }}").val();
+	var Qut=document.getElementById("quantity1_{{ product.pk }}").value
+	{#//alert(Qut);
+	//$("#quantity_order").val(Qut);#}
 	$("#errorMsg").html('');
 	if(CheckNumber(Qut)){
 		//calculate();

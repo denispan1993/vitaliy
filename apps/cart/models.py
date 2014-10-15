@@ -132,6 +132,20 @@ class Order(models.Model):
     comment = models.TextField(verbose_name=u'Комментарий к заказу',
                                null=True,
                                blank=True, )
+    '''
+        CheckBox - Я осознано сделал свой выбор и жду реквизиты для оплаты
+    '''
+    checkbox1 = models.BooleanField(verbose_name=u'Жду реквизиты',
+                                    null=False,
+                                    blank=False,
+                                    default=True, )
+    '''
+        CheckBox - Я жду звонка менеджера
+    '''
+    checkbox2 = models.BooleanField(verbose_name=u'Жду звонка',
+                                    null=False,
+                                    blank=False,
+                                    default=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )

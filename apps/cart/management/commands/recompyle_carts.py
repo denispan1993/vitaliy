@@ -108,5 +108,5 @@ class Command(BaseCommand, ):
                 phone.user = user
                 phone.save()
 
-            order.user = user
-            order.save()
+#            order.user = user
+#            order.save()

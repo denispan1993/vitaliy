@@ -45,7 +45,7 @@
                     <th colspan="2"
                         style="text-align:right;">Сумма:</th>
                     <th id="all_summ_of_quantity"
-                        style="text-align:center;color:Red;font-size:18px;">{{ user_cart_.summ_money_of_all_products(request) }} {{ get_currency(request) }}</th>
+                        style="text-align:center;color:Red;font-size:18px;">{{ user_cart_.summ_money_of_all_products(request) }} </th>
                 </tr>
             </tfoot>
         </table>
@@ -140,29 +140,36 @@ function sel_country() {
                 <br>
                 <label for="comment">Комментарий к заказу</label>
                 <textarea cols="50" rows="5" name="comment" id="comment"
-                       {% if comment %}
-                           value="{{ comment }}"
-                       {% endif %}></textarea>
+                    {% if comment %}
+                        value="{{ comment }}"
+                    {% endif %}></textarea>
                 <br>
-                <label>С <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> согласен</label>
-<script type="text/javascript">
+                <label for="choise1">Я сознательно сделал свой выбор и жду SMS с реквизитами для оплаты</label>
+                <input type="checkbox" name="choice1" id="choice1" checked>
+                <br>
+                <label for="choise2">Перезвоните мне для уточнения заказа</label>
+                <input type="checkbox" name="choice2" id="choice2">
+                <br>
+                <p>Нажимая кнопку отправить заказ я подтверждаю, что с <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> товара интернет-магазина Кексик, я ознакомлен</p>
+                {# <label>Нажимая кнопку оформить заказ я подтверждаю, что с <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> товара интернет магазина Кексик я ознакомлен</label> #}
+{# <script type="text/javascript">
 function CheckboxIagree(){
-    {# alert('asdfghjkl'); #}
-    {# var element_checkbox_I_agree = document.getElementsByName("checkbox_I_agree"); #}
-    {# var checkbox_checked = element_checkbox_I_agree.checked; #}
-    {# var checkboxIagree = document.getElementsByName("checkboxIagree"); #}
-    {# var checkbox_checked = document.getElementsByName("checkboxIagree").checked; #}
-    {# var inputsubmit = document.getElementsByName("inputsubmit"); #}
-    {# var checkbox_checked=document.forms["form_order"].checkbox_I_agree.checked; #}
-    {# alert($("input[name=namecheckboxIagree]").is(':checked')); #}
-    {# $("#isAgeSelected").is(':checked') #}
+    {# alert('asdfghjkl'); #1}
+    {# var element_checkbox_I_agree = document.getElementsByName("checkbox_I_agree"); #1}
+    {# var checkbox_checked = element_checkbox_I_agree.checked; #1}
+    {# var checkboxIagree = document.getElementsByName("checkboxIagree"); #1}
+    {# var checkbox_checked = document.getElementsByName("checkboxIagree").checked; #1}
+    {# var inputsubmit = document.getElementsByName("inputsubmit"); #1}
+    {# var checkbox_checked=document.forms["form_order"].checkbox_I_agree.checked; #1}
+    {# alert($("input[name=namecheckboxIagree]").is(':checked')); #1}
+    {# $("#isAgeSelected").is(':checked') #1}
     if($("input[name=checkboxIagree]").is(':checked')){
         {# alert(true); #}
-        {# document.getElementsByName("inputsubmit").disabled=false; #}
+        {# document.getElementsByName("inputsubmit").disabled=false; #1}
         $("input[name=inputsubmit]").prop("disabled",false);}
     else{
-        {# alert(false); #}
-        {# document.getElementsByName("inputsubmit").disabled=true; #}
+        {# alert(false); #1}
+        {# document.getElementsByName("inputsubmit").disabled=true; #1}
         $("input[name=inputsubmit]").prop("disabled",true);}
     return false;
 }
@@ -170,10 +177,10 @@ function CheckboxIagree(){
                 <input id="checkboxIagree"
                     name="checkboxIagree"
                     onchange="CheckboxIagree();"
-                    type="checkbox"/>
+                    type="checkbox"/> #}
                 <input type="submit"
                        name="inputsubmit"
-                       value="Отправить заказ" disabled="" />
+                       value="Отправить заказ"{# disabled="" / #}>
             </form>
         {% endif %}
     {% else %}

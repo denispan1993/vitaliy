@@ -174,26 +174,24 @@ path = lambda base: abspath(
     ).replace('\\', '/')
 )
 if not isfile(path('server.key', ), ):
-    from settings import DEBUG
-    if DEBUG or not DEBUG:
-        from sys import platform
-        if platform == 'win32':
-            urlpatterns += patterns('django.views.static',
-                                    url(r'^media/(?P<path>.*)$', 'serve',
-                                        {'document_root': path('media', ),
-                                         'show_indexes': True, },
-                                        ),
-                                    )
-        elif platform == 'linux2':
-            urlpatterns += patterns('django.views.static',
-                                    url(r'^media/(?P<path>.*)$', 'serve',
-                                        {'document_root': path('media', ),
-                                        'show_indexes': True, },
-                                        ),
-                                    )
-        # if sys.platform.startswith('freebsd'):
+    from sys import platform
+    if platform == 'win32':
+        urlpatterns += patterns('django.views.static',
+                                url(r'^media/(?P<path>.*)$', 'serve',
+                                    {'document_root': path('media', ),
+                                     'show_indexes': True, },
+                                    ),
+                                )
+    elif platform == 'linux2':
+        urlpatterns += patterns('django.views.static',
+                                url(r'^media/(?P<path>.*)$', 'serve',
+                                    {'document_root': path('media', ),
+                                    'show_indexes': True, },
+                                    ),
+                                )
+    # if sys.platform.startswith('freebsd'):
 from settings import DEBUG
-if DEBUG or not DEBUG:
+if DEBUG:
     from debug_toolbar import urls
     urlpatterns += patterns('',
                             url(r'^__debug__/',

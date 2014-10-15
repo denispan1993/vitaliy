@@ -128,11 +128,34 @@ function reselect_plus(IdString1, IdString2){
     return false;} #}
 <script>
 function delete_on_off(IdString1, IdString2){
-    var checked = document.getElementById(IdString1).checked
+    var checked = document.getElementById(IdString1).checked;
     document.getElementById(IdString2).checked = checked;
     return false;}
 </script>
                 </tbody>
+<style>
+div#show_cart form p{
+margin-bottom:10px;
+}
+tr#tr_minimal_sum_order{
+height:34px;
+}
+.blink1{
+-webkit-animation:blink1 3s linear infinite;
+animation:blink1 3s linear infinite;
+}
+@-webkit-keyframes blink1{
+{# Нужно изменить цвета #}
+0%{color:rgba(255, 16, 16, 1);}
+50%{color:rgba(255, 32, 32, 0);}
+100%{color:rgba(255, 64, 64, 1);}
+}
+@keyframes blink1{
+0%{color:rgba(255, 16, 16, 1);}
+50%{color:rgba(255, 32, 32, 0);}
+100%{color:rgba(255, 64, 64, 1);}
+}
+</style>
                 <tfoot>
                     <tr>
                         <th colspan="2"
@@ -141,14 +164,13 @@ function delete_on_off(IdString1, IdString2){
                             id="all_summ_of_quantity"
                             style="text-align:left;color:Red;font-size:18px;"></th>
                     </tr>
+                    <tr id="tr_minimal_sum_order">
+                        <th colspan="4">
+                            <p class="blink1" id="minimal_sum_order">Минимальная сумма заказа {{ 100|convert_currency(request) }} {{ get_currency(request) }}</p>
+                        </th>
+                    </tr>
                 </tfoot>
             </table>
-<style>
-div#show_cart form p{
-margin-bottom:10px;
-}
-</style>
-            <p>Минимальная сумма заказа {{ 100|convert_currency(request) }} {{ get_currency(request) }}</p>
             <input style="float:left;list-style-type:none;line-height:24px;margin-right:5px;"
                    type="submit"
                    value="Пересчитать корзину"/>
@@ -165,7 +187,8 @@ margin-bottom:10px;
                        {# checked="" #}
                        type="hidden"/>
             {% endfor %}
-            <input style="float:left;list-style-type:none;line-height:24px;margin-right:5px;font-weight:bold;"
+            <input class="blink1"
+                   style="float:left;list-style-type:none;line-height:24px;margin-right:5px;font-weight:bold;"
                    id="order_cart_input"
                    type="submit"
                    value="Оформить заказ"/>
@@ -183,8 +206,17 @@ function ReCalcSumm(change){
         }
     });
     if(change==true){$("#all_summ_of_quantity").html(summ.toFixed(2)+' {{ get_currency(request) }}');}
-    if(parseInt(summ)<={{ 100|convert_currency(request) }}){$("#order_cart_input").prop("disabled",true);}
-    else{$("#order_cart_input").prop("disabled",false);}
+    var minimal_sum_order=document.getElementById('minimal_sum_order');
+    if(parseInt(summ)<={{ 100|convert_currency(request) }}){
+{# Делаем кнопку НЕ активной и убираем мигание на кнопке заказа #}
+        $("#order_cart_input").prop("disabled",true).removeClass("blink1");
+{# Показываем надпись "Минимальная сумма заказа" #}
+        minimal_sum_order.style.display='block';}
+    else{
+{# Делаем кнопку активной и добавляем мигание на кнопке заказа #}
+        $("#order_cart_input").prop("disabled",false).addClass("blink1");
+{# Убираем надпись "Минимальная сумма заказа" #}
+        minimal_sum_order.style.display='none';}
 }
 $(document).ready(ReCalcSumm(true));
 </script>

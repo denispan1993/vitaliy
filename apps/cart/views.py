@@ -110,11 +110,15 @@ def show_order(request,
             if not email:
                 email_error = u'Вы забыли указать Ваш E-Mail.'
             else:
+                from os.path import isfile
+                from proj.settings import path
                 from validate_email import validate_email
-                is_valid = validate_email(email, check_mx=True, )
-                if not is_valid:
-                    email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
-                is_valid = validate_email(email, verify=True, )
+                is_valid = True
+                if isfile(path('server.key', ), ):
+                    is_valid = validate_email(email, check_mx=True, )
+                    if not is_valid:
+                        email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                    is_valid = validate_email(email, verify=True, )
                 if not is_valid:
                     """
                         Делаем повторную проверку на просто валидацию E-Mail адреса
@@ -151,6 +155,8 @@ def show_order(request,
                         return redirect(to='show_cart', )
                     else:
                         """ Создаем ЗАКАЗ """
+                        choice1 = request.POST.get(u'choice1', True, )
+                        choice2 = request.POST.get(u'choice2', False, )
                         from apps.cart.models import Order
                         if country.pk == 1:
                             """ для Украины """
@@ -167,7 +173,9 @@ def show_order(request,
                                                          region=region,
                                                          settlement=settlement,
                                                          warehouse_number=warehouse_number,
-                                                         comment=comment, )
+                                                         comment=comment,
+                                                         checkbox1=choice1,
+                                                         checkbox2=choice2, )
                         else:
                             """ для другого Государства """
                             address = request.POST.get(u'address', None, )
@@ -181,7 +189,9 @@ def show_order(request,
                                                          country=country,
                                                          address=address,
                                                          postcode=postcode,
-                                                         comment=comment, )
+                                                         comment=comment,
+                                                         checkbox1=choice1,
+                                                         checkbox2=choice2, )
                         """ Берем указатель на model заказ """
                         from django.contrib.contenttypes.models import ContentType
                         ContentType_Order = ContentType.objects.get_for_model(Order, )

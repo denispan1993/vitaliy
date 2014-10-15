@@ -14,6 +14,20 @@
 <p>Почтовый индекс: {{ order.postcode }}</p>
 {% endif %}
 <p>Комментарий к заказу: {{ order.comment }}</p>
+<p>Жду реквизиты: {{ order.choice1 }}</p>
+<p>Жду звонка: {{ order.choice2 }}</p>
+
+<p>{% set url = order.pk|int_to_string %}
+   {% set int_range = 6 - url|length %}
+   {% if int_range > 0 %}
+       {% for i in int_range|get_range %}
+           {% set url = '0' + url %}
+           {% if i == int_range - 1 %}
+               <a href="/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a>
+           {% endif %}
+       {% endfor %}
+   {% endif %}</p>
+
 
 <table id="table_carts" cols="6" summary="Корзина">
     <caption>Корзина</caption>

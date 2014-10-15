@@ -11,7 +11,7 @@ class Migration(SchemaMigration):
         # Adding model 'Cart'
         db.create_table(u'Cart', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['authModel.User'], null=True, blank=True)),
             ('sessionid', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
@@ -21,7 +21,7 @@ class Migration(SchemaMigration):
         # Adding model 'Order'
         db.create_table(u'Order', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['authModel.User'], null=True, blank=True)),
             ('sessionid', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, null=True, blank=True)),
             ('FIO', self.gf('django.db.models.fields.CharField')(max_length=64, null=True, blank=True)),
@@ -46,6 +46,8 @@ class Migration(SchemaMigration):
             ('product', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['product.Product'])),
             ('quantity', self.gf('django.db.models.fields.PositiveSmallIntegerField')()),
             ('price', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
+            ('percentage_of_prepaid', self.gf('django.db.models.fields.PositiveSmallIntegerField')(default=100)),
+            ('available_to_order', self.gf('django.db.models.fields.NullBooleanField')(default=None, null=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
@@ -77,11 +79,17 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
+        u'authModel.user': {
+            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'User', 'db_table': "u'UserModel'"},
+            'area': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'birthday': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'carrier': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '1', 'null': 'True', 'blank': 'True'}),
+            'country': ('django.db.models.fields.CharField', [], {'default': "u'\\u0423\\u043a\\u0440\\u0430\\u0438\\u043d\\u0430'", 'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'date_of_birth': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'gender': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
@@ -90,8 +98,11 @@ class Migration(SchemaMigration):
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'patronymic': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'settlement': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '32'})
         },
         u'cart.cart': {
             'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Cart', 'db_table': "u'Cart'"},
@@ -99,7 +110,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'sessionid': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['authModel.User']", 'null': 'True', 'blank': 'True'})
         },
         u'cart.order': {
             'FIO': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
@@ -116,15 +127,17 @@ class Migration(SchemaMigration):
             'sessionid': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
             'settlement': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['authModel.User']", 'null': 'True', 'blank': 'True'}),
             'warehouse_number': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'})
         },
         u'cart.product': {
             'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Product', 'db_table': "u'Product_in_Cart'"},
+            'available_to_order': ('django.db.models.fields.NullBooleanField', [], {'default': 'None', 'null': 'True', 'blank': 'True'}),
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'cart'", 'to': u"orm['contenttypes.ContentType']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'object_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'percentage_of_prepaid': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '100'}),
             'price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'}),
             'product': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['product.Product']"}),
             'quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
@@ -136,6 +149,20 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'discount.action': {
+            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Action', 'db_table': "u'Action'"},
+            'auto_del': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'auto_del_action_price': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'auto_end': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'auto_start': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'datetime_end': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 20, 0, 0)'}),
+            'datetime_start': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 10, 13, 0, 0)'}),
+            'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'default': "u'\\u0410\\u043a\\u0446\\u0438\\u044f \\u043e\\u0442 2014-10-13 21:05:30.208397'", 'max_length': '256'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         u'product.category': {
             'Meta': {'ordering': "['-created_at']", 'object_name': 'Category', 'db_table': "'Category'"},
@@ -161,7 +188,7 @@ class Migration(SchemaMigration):
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'url': ('compat.FormSlug.models.ModelSlugField', [], {'max_length': '50', 'db_index': 'True'}),
-            'user_obj': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'}),
+            'user_obj': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['authModel.User']", 'null': 'True', 'blank': 'True'}),
             'visibility': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
         },
         u'product.country': {
@@ -188,6 +215,7 @@ class Migration(SchemaMigration):
         },
         u'product.product': {
             'Meta': {'ordering': "['-created_at']", 'object_name': 'Product', 'db_table': "'Product'"},
+            'action': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'action_set'", 'to': u"orm['discount.Action']", 'db_table': "'Product_to_Action'", 'blank': 'True', 'symmetrical': 'False', 'null': 'True'}),
             'category': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "u'products'", 'symmetrical': 'False', 'to': u"orm['product.Category']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'currency': ('django.db.models.fields.related.ForeignKey', [], {'default': '1', 'to': u"orm['product.Currency']"}),
@@ -195,9 +223,10 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'disclose_product': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'in_action': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'in_main_page': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_availability': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '1'}),
+            'is_availability': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'is_bestseller': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_featured': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'item_description': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
@@ -217,7 +246,7 @@ class Migration(SchemaMigration):
             'unit_of_measurement': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['product.Unit_of_Measurement']"}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'url': ('compat.FormSlug.models.ModelSlugField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'user_obj': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'}),
+            'user_obj': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['authModel.User']", 'null': 'True', 'blank': 'True'}),
             'visibility': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'weight': ('django.db.models.fields.DecimalField', [], {'default': '0', 'null': 'True', 'max_digits': '8', 'decimal_places': '2', 'blank': 'True'})
         },

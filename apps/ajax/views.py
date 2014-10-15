@@ -169,7 +169,7 @@ def order_change(request, ):
             request_cookie = request.session.get(u'cookie', None, )
             if request_cookie:
                 action = request.POST.get(u'action', None, )
-                if action == 'change_in_the_quantity':
+                if action == 'change_in_the_quantity' or action == 'change_delete':
                     """ Изменение количества единиц конкретного товара
                     """
                     product_pk = request.POST.get(u'product_pk', None, )
@@ -181,16 +181,23 @@ def order_change(request, ):
                         else:
                             from apps.cart.models import Product
                             product = Product.objects.get(pk=product_pk, )
-                            quantity = request.POST.get(u'quantity', None, )
+                            quantity = 0
+                            if action is 'change_in_the_quantity':
+                                quantity = request.POST.get(u'quantity', None, )
                             try:
                                 quantity = int(quantity, )
                             except ValueError:
                                 return HttpResponse(status=400, )
                             else:
-                                product.update_quantity(quantity=quantity, )
-                                price = product.update_price_per_piece()
+                                price = 0
+                                if action == 'change_in_the_quantity':
+                                    product.update_quantity(quantity=quantity, )
+                                    price = product.update_price_per_piece()
+                                elif action == 'change_delete':
+                                    product.delete()
                                 response = {'product_pk': product_pk,
                                             'product_price': float(price, ),
+                                            'action': action,
                                             'result': 'Ok', }
                                 data = dumps(response, )
                                 mimetype = 'application/javascript'
