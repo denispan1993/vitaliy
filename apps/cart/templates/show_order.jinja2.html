@@ -36,7 +36,7 @@
                             {# </li> #}
                         </td>
                         <td><p id="summ_of_quantity_{{ product.pk }}"
-                               style="text-align:center;">{{ product.summ_of_quantity(request) }} {{ get_currency(request) }}</p></td>
+                               style="text-align:center;">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
                     </tr>
                 {% endfor %}
             </tbody>

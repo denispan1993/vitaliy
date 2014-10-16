@@ -44,10 +44,10 @@ class Cart(models.Model):
     # @property
     def summ_money_of_all_products(self, request, ):
         all_products = self.cart.all()
-        summ_money = 0
+        sum_money = 0
         for product in all_products:
-            summ_money += float(product.summ_of_quantity(request=request, ), )
-        return summ_money
+            sum_money += float(product.sum_of_quantity(request=request, calc_or_show='calc', ), )
+        return sum_money
 
     # @property
     def summ_money_of_all_products_integral(self, request, ):
@@ -228,7 +228,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def summ_of_quantity(self, request=None, ):
+    def sum_of_quantity(self, request=None, calc_or_show='show', ):
         """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта
         """
         from apps.product.views import get_product
@@ -239,14 +239,13 @@ class Product(models.Model):
         """
         from decimal import Decimal
         price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
-        """
-            Если товар доступен под заказ?
-            Показываем 50% стоимости.
-        """
-        if product.is_availability == 2:
-            price = price/2
-        # else:
-        #    price = self.quantity * (Decimal(product.get_price(price=None, calc_or_show='calc' ), ) / product.price_of_quantity)  # price=self.price,
+        if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
+            if product.is_availability == 2:  # Если товар доступен под заказ?
+                """
+                    Если товар доступен под заказ?
+                    Показываем 50% стоимости.
+                """
+                price = price/2            # Берём 50% от стоимости
         return u'%5.2f'.replace(',', '.', ) % price  # .replace(',', '.', ).strip()
 
     def summ_quantity(self, quantity=1, ):

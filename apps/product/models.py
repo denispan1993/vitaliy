@@ -546,7 +546,7 @@ class Product(models.Model):
                 ''' Приводим к текущей валюте сайта '''
                 price = intermediate_price*current_currency/current_exchange_rate
         if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
-            if self.is_availability == 3:  # Если товар доступен под заказ?
+            if self.is_availability == 2:  # Если товар доступен под заказ?
                 price = price/2            # Берём 50% от стоимости
         return u'%5.2f'.replace(',', '.', ).strip() % price
 
