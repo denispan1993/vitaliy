@@ -578,6 +578,7 @@ INSTALLED_APPS += (
     'userena.contrib.umessages',
 )
 USERENA_USE_MESSAGES = True
+
 #!!!=============== Django ToolBar ===================================
 #MIDDLEWARE_CLASSES += (
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
