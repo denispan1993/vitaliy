@@ -19,6 +19,9 @@ ul li{list-style:none outside none;}
 .clearFloat{
     clear:Both;
 }
+.Black{
+    color:Black;
+}
 .Red{
     color:Red;
 }
