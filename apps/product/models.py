@@ -559,12 +559,14 @@ class Product(models.Model):
 #        (3, _(u'Под заказ', ), ),
 #        (4, _(u'Недоступен', ), ),
 
-    @property
-    def check_product_availability(self, ):
+    def check_product_availability(self, product_cart='product', ):
         if self.is_availability == 1:
             return 1, u''
         elif self.is_availability == 2:
-            return 2, u'Товар доступен под заказ'
+            if product_cart == 'product':
+                return 2, u'Товар доступен под заказ'
+            elif product_cart == 'cart':
+                return 2, u'Товар под заказ'
         elif self.is_availability == 3:
             return 3, u'Товар ожидается'
         elif self.is_availability == 4:

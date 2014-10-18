@@ -105,7 +105,7 @@ function onChange_{{ product.pk }}(){
 	return true;
 }
 </script>
-                        <tr{% if real_product.check_product_availability[0] != 1 %} class="lime"{% endif %}>
+                        <tr{% if real_product.check_product_availability()[0] != 1 %} class="lime"{% endif %}>
                             <td>
                                 <input type="hidden"
                                        name="product_in_request_{{ product.pk }}"
@@ -121,7 +121,7 @@ color:Red;
 }
 </style>
 {% endif %} #}
-                                <a href="{{ real_product.get_absolute_url() }}"{% if real_product.check_product_availability[0] != 1 %} class="lime"{% endif %}>{{ real_product.title }}</a>
+                                <a href="{{ real_product.get_absolute_url() }}"{% if real_product.check_product_availability()[0] != 1 %} class="lime"{% endif %}>{{ real_product.title }}</a>
                             </td>
                             <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
                             <td style="padding:0px;">
@@ -169,7 +169,7 @@ product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quanti
                                        {# onchange="javascript:delete_on_off('delete1_{{ product.pk }}','delete2_{{ product.pk }}')" #}
                                        type="checkbox">
                             </td>
-                            <td>{{ real_product.check_product_availability[1]|safe }}</td>
+                            <td>{{ real_product.check_product_availability(product_cart='cart')[1]|safe }}</td>
                         </tr>
                     {% endfor %}
 
