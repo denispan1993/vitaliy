@@ -160,7 +160,6 @@ class Order(models.Model):
     def products(self, ):
         return self.order.all()
 
-    @property
     def order_sum(self, calc_or_show='show', ):
         all_products_sum = 0
         # from decimal import Decimal
