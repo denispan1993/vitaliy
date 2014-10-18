@@ -16,10 +16,10 @@
                         {# <th scope="col">Цвет</th> #}
                         {# <th scope="col">Размер</th> #}
                         {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
-                        <th scope="col" style="width:85px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Цена</th>
+                        <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Цена</th>
                         <th scope="col" style="width:73px;text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Кол-во</th>
-                        <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Итого</th>
-                        <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Сумма предоплаты</th>
+                        <th scope="col" style="width:110px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Итого</th>
+                        <th scope="col" style="width:110px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Сумма предоплаты</th>
                         {# <th scope="col" style="text-align:center;">Под заказ</th> #}
                         <th scope="col" style="text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Удаление</th>
                         <th></th>
@@ -148,8 +148,8 @@ color:Red;
                             {# {% set product_summ_of_quantity = product.summ_of_quantity %}
                             {% set real_product_price_of_quantity = real_product.price_of_quantity %}
                             {% set summ_of_quantity =  product_summ_of_quantity/real_product_price_of_quantity %} {{ summ_of_quantity }} #}
-                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_in_order_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
-                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_for_pay_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
+                            <td style="width:110px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_in_order_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
+                            <td style="width:110px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_for_pay_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
 <script>
 product_sum_of_quantity_in_order_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='show') }};{# |replace(",", ".") #} {# |trim_whitespace #}
 product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='calc') }};{# |replace(",", ".") #} {# |trim_whitespace #}
