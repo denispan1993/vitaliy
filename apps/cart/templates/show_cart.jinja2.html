@@ -12,16 +12,16 @@
                 <thead>
                     <tr>
                         {# <th scope="col" class="center">Фото</td> #}
-                        <th scope="col" style="border-width:0px 0px 1px 0px;border-color:Black;border-style:dotted;">Наименование</th>
+                        <th scope="col" style="border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Наименование</th>
                         {# <th scope="col">Цвет</th> #}
                         {# <th scope="col">Размер</th> #}
                         {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
-                        <th scope="col" style="width:85px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:dotted;">Цена</th>
-                        <th scope="col" style="width:73px;text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:dotted;">Кол-во</th>
-                        <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:dotted;">Итого</th>
-                        <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:dotted;">Сумма предоплаты</th>
+                        <th scope="col" style="width:85px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Цена</th>
+                        <th scope="col" style="width:73px;text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Кол-во</th>
+                        <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Итого</th>
+                        <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Сумма предоплаты</th>
                         {# <th scope="col" style="text-align:center;">Под заказ</th> #}
-                        <th scope="col" style="text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:dotted;">Удаление</th>
+                        <th scope="col" style="text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Удаление</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -40,14 +40,71 @@ function CheckNumber(String){
 	}
 	return false;
 }
-var product_summ_of_quantity_array = new Array();
-product_summ_of_quantity_array[0]=0;
+var product_sum_of_quantity_in_order_array = new Array();
+product_sum_of_quantity_in_order_array[0]=0;
+var product_sum_of_quantity_for_pay_array = new Array();
+product_sum_of_quantity_for_pay_array[0]=0;
 //product_summ_of_quantity_array[999999]=0;
 </script>
 {# {% set loop_style = 0 %} #}
                     {% for product in user_cart_.products %}
                     {% set real_product=product.product %}
-{% include 'include/calc.script' %}
+{# {% include 'include/calc.script' %} #}
+<script>
+var price_qty_array_{{ product.pk }} = new Array();
+var price_array_in_order_{{ product.pk }} = new Array();
+var price_array_for_pay_{{ product.pk }} = new Array();
+price_qty_array_{{ product.pk }}[0]=1;
+price_array_in_order_{{ product.pk }}[0]={{ real_product.get_price(request, price=None, calc_or_show='show') }};
+price_array_for_pay_{{ product.pk }}[0]={{ real_product.get_price(request, price=None, calc_or_show='calc') }};
+price_qty_array_{{ product.pk }}[1]=999;
+price_array_in_order_{{ product.pk }}[1]={{ real_product.get_price(request, price=None, calc_or_show='show') }};
+price_array_for_pay_{{ product.pk }}[1]={{ real_product.get_price(request, price=None, calc_or_show='calc') }};
+function Calculate_{{ product.pk }}(operation){
+	var Qut=document.getElementById("quantity1_{{ product.pk }}").value;
+	$("#errorMsg").html('');
+	if(CheckNumber(Qut)){
+		$("#errorMsg").html('Количество вводится цифрами!!!.');
+		return false;
+	}
+	Qut=parseFloat(Qut);
+	if(operation=='+'){Qut+={{ real_product.quantity_of_complete }}};
+	if(operation=='-'){Qut-={{ real_product.quantity_of_complete }}};
+	var minimal_quantity={{ real_product.minimal_quantity }};
+	var quantity_of_complete={{ real_product.quantity_of_complete }};
+	var intermediate_result=Qut-{{ real_product.minimal_quantity }};
+	var result=intermediate_result%quantity_of_complete;
+	if(result!=0&&intermediate_result!=0){
+		result=Math.ceil(intermediate_result/quantity_of_complete);
+		Qut=(result*quantity_of_complete)+minimal_quantity;
+	}
+	if(Qut<{{ real_product.minimal_quantity }}){
+		Qut=minimal_quantity;
+	}
+	if(Qut>999){
+        Qut=999;
+	}
+	$("#quantity1_{{ product.pk }}").val(Qut);
+	$("#quantity2_{{ product.pk }}").val(Qut);
+	$.each(price_qty_array_{{ product.pk }},function(i,val){
+		if(val<=Qut&&Qut<price_qty_array_{{ product.pk }}[eval(i+1)]){
+			var total=price_array_in_order_{{ product.pk }}[i]/{{ real_product.price_of_quantity }}*Qut;
+			$("#sum_of_quantity_in_order_{{ product.pk }}").html(total.toFixed(2)+' {{ get_currency(request) }}');
+			product_sum_of_quantity_in_order_array[{{ product.pk }}]=total.toFixed(2);
+			var total=price_array_for_pay_{{ product.pk }}[i]/{{ real_product.price_of_quantity }}*Qut;
+			$("#sum_of_quantity_for_pay_{{ product.pk }}").html(total.toFixed(2)+' {{ get_currency(request) }}');
+			product_sum_of_quantity_for_pay_array[{{ product.pk }}]=total.toFixed(2);
+		}
+	});
+	ReCalcSum(true);
+    return true;
+}
+function onChange_{{ product.pk }}(){
+	window.setInterval("Calculate_{{ product.pk }}('|')",5000);
+	//setTimeout(calculate(value),1500);
+	return true;
+}
+</script>
                         <tr{% if real_product.check_product_availability[0] != 1 %} class="lime"{% endif %}>
                             <td>
                                 <input type="hidden"
@@ -66,7 +123,7 @@ color:Red;
 {% endif %} #}
                                 <a href="{{ real_product.get_absolute_url() }}"{% if real_product.check_product_availability[0] != 1 %} class="lime"{% endif %}>{{ real_product.title }}</a>
                             </td>
-                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:dotted;"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
+                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
                             <td style="padding:0px;">
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <a href="javascript:void(0)">
@@ -91,10 +148,11 @@ color:Red;
                             {# {% set product_summ_of_quantity = product.summ_of_quantity %}
                             {% set real_product_price_of_quantity = real_product.price_of_quantity %}
                             {% set summ_of_quantity =  product_summ_of_quantity/real_product_price_of_quantity %} {{ summ_of_quantity }} #}
-                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:dotted;"><p id="sum_of_quantity_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
-                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:dotted;"><p id="summ_of_quantity_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
+                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_in_order_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
+                            <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_for_pay_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
 <script>
-product_summ_of_quantity_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='calc') }};{# |replace(",", ".") #} {# |trim_whitespace #}
+product_sum_of_quantity_in_order_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='show') }};{# |replace(",", ".") #} {# |trim_whitespace #}
+product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='calc') }};{# |replace(",", ".") #} {# |trim_whitespace #}
 </script>
 {#                             <td style="text-align:center;">
                                 {% if real_product.is_availability == 3 %}
@@ -165,9 +223,9 @@ animation:blink1 3s linear infinite;
                         <th colspan="3"
                             style="text-align:right;">Сумма заказа:</th>
                         <th colspan="1"
-                            id="all_summ_of_quantity_in_order"
-                            style="text-align:center;color:Red;font-size:18px;border-width:1px;border-color:Black;border-style:dotted;"></th>
-                        <th colspan="1" style="border-width:0px 1px;border-color:Black;border-style:dotted;"></th>
+                            id="all_sum_of_quantity_in_order"
+                            style="text-align:center;color:Red;font-size:18px;border-width:1px;border-color:Black;border-style:solid;"></th>
+                        <th colspan="1" style="border-width:0px 1px;border-color:Black;border-style:solid;"></th>
                         <th colspan="1"></th>
                     </tr>
                     <tr>
@@ -175,7 +233,7 @@ animation:blink1 3s linear infinite;
                             style="text-align:right;">Сумма предоплаты:</th>
                         <th colspan="1"
                             id="all_sum_of_quantity_for_pay"
-                            style="text-align:center;color:Red;font-size:18px;border-width:1px;border-color:Black;border-style:dotted;"></th>
+                            style="text-align:center;color:Red;font-size:18px;border-width:1px;border-color:Black;border-style:solid;"></th>
                         <th colspan="1"></th>
                     </tr>
                     <tr id="tr_minimal_sum_order">
@@ -211,17 +269,25 @@ animation:blink1 3s linear infinite;
                title="Вернуться к покупкам">Продолжить покупки &gt;&gt;</a>
         </form>
 <script>
-function ReCalcSumm(change){
-    var summ=0;
-	$.each(product_summ_of_quantity_array,function(i){
-        var val=parseFloat(product_summ_of_quantity_array[i])
+function ReCalcSum(change){
+    var sum_in_order=0;
+	$.each(product_sum_of_quantity_in_order_array,function(i){
+        var val=parseFloat(product_sum_of_quantity_in_order_array[i])
         if(0<=val&&val<=999999){
-            summ+=val;
+            sum_in_order+=val;
         }
     });
-    if(change==true){$("#all_sum_of_quantity_for_pay").html(summ.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');}
+    var sum_for_pay=0;
+	$.each(product_sum_of_quantity_for_pay_array,function(i){
+        var val=parseFloat(product_sum_of_quantity_for_pay_array[i])
+        if(0<=val&&val<=999999){
+            sum_for_pay+=val;
+        }
+    });
+    if(change==true){$("#all_sum_of_quantity_in_order").html(sum_in_order.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');}
+    if(change==true){$("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');}
     var minimal_sum_order=document.getElementById('minimal_sum_order');
-    if(parseInt(summ)<={{ 100|convert_currency(request) }}){
+    if(parseInt(sum_in_order)<={{ 100|convert_currency(request) }}){
 {# Делаем кнопку НЕ активной и убираем мигание на кнопке заказа #}
         $("#order_cart_input").prop("disabled",true).removeClass("blink1");
 {# Показываем надпись "Минимальная сумма заказа" #}
@@ -232,7 +298,7 @@ function ReCalcSumm(change){
 {# Убираем надпись "Минимальная сумма заказа" #}
         minimal_sum_order.style.display='none';}
 }
-$(document).ready(ReCalcSumm(true));
+$(document).ready(ReCalcSum(true));
 </script>
     {% else %}
         <p>Ваша корзина пуста<br>

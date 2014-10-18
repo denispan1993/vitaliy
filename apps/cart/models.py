@@ -233,7 +233,7 @@ class Product(models.Model):
         """
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
-        price = product.get_price(request, price=None, calc_or_show='calc', )  # price=self.price,
+        price = product.get_price(request, price=None, calc_or_show='show', )  # price=self.price,
         """
             Расчитываем цену товара.
         """
