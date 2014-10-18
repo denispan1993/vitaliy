@@ -22,8 +22,8 @@
         <p>Почтовый индекс: {{ order.postcode }}</p>
         {% endif %}
         <p>Комментарий к заказу: {{ order.comment }}</p>
-        <p>Жду реквизиты: {{ order.choice1|true_false }}</p>
-        <p>Жду звонка: {{ order.choice2|true_false }}</p>
+        <p>Жду реквизиты: {{ order.checkbox1|true_false }}</p>
+        <p>Жду звонка: {{ order.checkbox2|true_false }}</p>
 
         <p>{% set url = order.pk|int_to_string %}
            {% set int_range = 6 - url|length %}
