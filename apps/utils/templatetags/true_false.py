@@ -9,9 +9,11 @@ register = Library()
 @register.filter(name='true_false', )
 def true_false(value, ):
     if bool(value):
-        if value is True:
+        if value:
             return u'Да'
-        elif value is False:
+        elif not value:
             return u'Нет'
+        else:
+            return u'Что-то ещё'
     else:
-        return False
+        return u'Не boolean'
