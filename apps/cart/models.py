@@ -164,7 +164,7 @@ class Order(models.Model):
         all_products_sum = 0
         # from decimal import Decimal
         for product in self.products:
-            all_products_sum += float(product.summ_of_quantity(calc_or_show=calc_or_show), )  # .replace('.', ',', )
+            all_products_sum += float(product.sum_of_quantity(calc_or_show=calc_or_show), )  # .replace('.', ',', )
         return all_products_sum
 
     def __unicode__(self):
