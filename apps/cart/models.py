@@ -41,25 +41,25 @@ class Cart(models.Model):
     def count_name_of_products(self, ):
         return self.cart.count()
 
-    # @property
-    def summ_money_of_all_products(self, request, ):
+    """ Расчитывает сумму всех товаров в корзине 'посчитанную' """
+    def sum_money_of_all_products(self, request, ):
         all_products = self.cart.all()
         sum_money = 0
         for product in all_products:
             sum_money += float(product.sum_of_quantity(request=request, calc_or_show='calc', ), )
         return sum_money
 
-    # @property
-    def summ_money_of_all_products_integral(self, request, ):
-        return int(self.summ_money_of_all_products(request=request, ), )
+    """ Возвращает целое число суммы корзины """
+    def sum_money_of_all_products_integral(self, request, ):
+        return int(self.sum_money_of_all_products(request=request, ), )
 
-    # @property
-    def summ_money_of_all_products_fractional(self, request, ):
-        summ = self.summ_money_of_all_products(request=request, )
-        summ_int = int(summ, )
-        summ_float = summ - summ_int
-        if summ_float > 0:
-            return str('%.2f' % summ_float, ).split('.', )[1]
+    """ Возвращает дробную часть суммы корзины """
+    def sum_money_of_all_products_fractional(self, request, ):
+        sum = self.sum_money_of_all_products(request=request, )
+        sum_int = int(sum, )
+        sum_float = sum - sum_int
+        if sum_float > 0:
+            return str('%.2f' % sum_float, ).split('.', )[1]
         else:
             return '00'
 
@@ -161,11 +161,11 @@ class Order(models.Model):
         return self.order.all()
 
     @property
-    def order_sum(self, ):
+    def order_sum(self, calc_or_show='show', ):
         all_products_sum = 0
         # from decimal import Decimal
         for product in self.products:
-            all_products_sum += float(product.summ_of_quantity(), )  # .replace('.', ',', )
+            all_products_sum += float(product.summ_of_quantity(calc_or_show=calc_or_show), )  # .replace('.', ',', )
         return all_products_sum
 
     def __unicode__(self):
