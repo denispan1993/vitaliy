@@ -1,11 +1,10 @@
 {% extends 'root.jinja2.html' %}
-{# {% load header_category %} #}
 {% block title %}Ваш заказ принят!!!{% endblock %}
-{% block content_center -%}
+{% block content_center %}
 <script>
 var yaParams = {
     order_id: "{{ order_pk }}",
-    order_price: {{ order.order_sum }},
+    order_price: {{ order.order_sum(calc_or_show='show') }},
     currency: "грн",
     exchange_rate: 1 };
 </script>
@@ -16,4 +15,4 @@ var yaParams = {
 <br>
 Спасибо за покупки...
 <br>
-{%- endblock %}
+{% endblock %}
