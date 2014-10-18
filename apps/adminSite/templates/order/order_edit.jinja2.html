@@ -7,6 +7,35 @@
 </head>
 <body>
     <div id="show_cart" style="color:Black;text-align:left;">
+        {% if order.user %}<p>User: {{ order.user }}</p>{% endif %}
+        {% if order.sessionid %}<p>SessionId: {{ order.sessionid }}</p>{% endif %}
+        <p>ФИО: {{ order.FIO }}</p>
+        <p>E-Mail: {{ order.email }}</p>
+        <p>Номер мобильного телефона: {{ order.phone }}</p>
+        <p>Страна: {{ order.country.name_ru }}</p>
+        {% if order.country.pk == 1 %}
+        <p>Область: {{ order.region }}</p>
+        <p>Населённый пункт: {{ order.settlement }}</p>
+        <p>Номер склада "Новая почта": {{ order.warehouse_number }}</p>
+        {% else %}
+        <p>Адресс: {{ order.address }}</p>
+        <p>Почтовый индекс: {{ order.postcode }}</p>
+        {% endif %}
+        <p>Комментарий к заказу: {{ order.comment }}</p>
+        <p>Жду реквизиты: {{ order.choice1 }}</p>
+        <p>Жду звонка: {{ order.choice2 }}</p>
+
+        <p>{% set url = order.pk|int_to_string %}
+           {% set int_range = 6 - url|length %}
+           {% if int_range > 0 %}
+               {% for i in int_range|get_range %}
+                   {% set url = '0' + url %}
+                   {% if i == int_range - 1 %}
+                       <a href="/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a>
+                   {% endif %}
+               {% endfor %}
+           {% endif %}</p>
+
         <form method="POST" action="/админ/заказ/отправка/">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="order_dispatch ">
@@ -216,12 +245,12 @@ function onChange_{{ product.pk }}(){
                                     </a>
                                 </li>
                             </td>
-                            {# {% set product_summ_of_quantity = product.summ_of_quantity %}
+                            {# {% set product_summ_of_quantity = product.sum_of_quantity %}
                             {% set real_product_price_of_quantity = real_product.price_of_quantity %}
                             {% set summ_of_quantity =  product_summ_of_quantity/real_product_price_of_quantity %} {{ summ_of_quantity }} #}
-                            <td><p id="summ_of_quantity_{{ product.pk }}">{{ product.summ_of_quantity(request) }} {{ get_currency(request) }}</p></td>
+                            <td><p id="summ_of_quantity_{{ product.pk }}">{{ product.sum_of_quantity(request) }} {{ get_currency(request) }}</p></td>
 <script>
-product_summ_of_quantity_array[{{ product.pk }}]={{ product.summ_of_quantity(request) }};{# |replace(",", ".") #} {# |trim_whitespace #}
+product_summ_of_quantity_array[{{ product.pk }}]={{ product.sum_of_quantity(request) }};{# |replace(",", ".") #} {# |trim_whitespace #}
 </script>
                              <td style="text-align:center;">
                                 {% if real_product.is_availability == 3 %}
