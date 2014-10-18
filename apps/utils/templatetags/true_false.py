@@ -8,12 +8,12 @@ register = Library()
 
 @register.filter(name='true_false', )
 def true_false(value, ):
-    if bool(value):
+#    if bool(value):
         if value:
             return u'Да'
         elif not value:
             return u'Нет'
         else:
             return u'Что-то ещё'
-    else:
-        return str(value)
+#    else:
+#        return str(value)
