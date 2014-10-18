@@ -16,4 +16,4 @@ def true_false(value, ):
         else:
             return u'Что-то ещё'
     else:
-        return u'Не boolean'
+        return str(value)
