@@ -22,6 +22,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from apps.product.models import Country
+from django.shortcuts import redirect
 
 
 def show_cart(request,
@@ -51,7 +52,6 @@ def show_cart(request,
 
 
 def recalc_cart(request, ):
-    from django.shortcuts import redirect
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'recalc_cart':
@@ -110,11 +110,10 @@ def show_order(request,
             if not email:
                 email_error = u'Вы забыли указать Ваш E-Mail.'
             else:
-                from os.path import isfile
-                from proj.settings import path
+                from proj.settings import SERVER
                 from validate_email import validate_email
                 is_valid = True
-                if isfile(path('server.key', ), ):
+                if SERVER:
                     is_valid = validate_email(email, check_mx=True, )
                     if not is_valid:
                         email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
@@ -144,7 +143,6 @@ def show_order(request,
                         """ Создать теоретически это не нормально """
                         cart, create = get_cart_or_create(request, )
                         if create:
-                            from django.shortcuts import redirect
                             return redirect(to=u'/корзина/заказ/непринят/', )
                     from apps.cart.models import Product
                     try:
@@ -256,7 +254,6 @@ def show_order(request,
         ##                          auth_password=EMAIL_HOST_PASSWORD,
         ##                          connection=EMAIL_BACKEND, )
                         request.session[u'order_last'] = order.pk
-                        from django.shortcuts import redirect
                         return redirect(to=u'/корзина/заказ/принят/', )
     return render_to_response(template_name=template_name,
                               dictionary={'country_list': country_list,

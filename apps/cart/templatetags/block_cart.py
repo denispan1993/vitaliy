@@ -13,11 +13,15 @@ def block_cart(request, cart, place_of_use='cart', ):
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
     request_csrf_token = None
     template_name = u'templatetags/block_cart.jinja2.html'
-    form1_action = u'/корзина/пересчитать/'
-    form2_action = u'/корзина/заказ/'
+    form1_action = None
+    form2_action = None
     if place_of_use == 'cart':
+        form1_action = u'/корзина/пересчитать/'
+        form2_action = u'/корзина/заказ/'
         from django.middleware.csrf import get_token
         request_csrf_token = get_token(request, )
+    elif place_of_use == 'order':
+        pass
 
     return render_to_string(template_name,
                             dictionary={'request': request,

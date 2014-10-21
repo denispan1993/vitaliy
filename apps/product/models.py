@@ -566,7 +566,9 @@ class Product(models.Model):
             if product_cart == 'product':
                 return 2, u'Товар доступен под заказ'
             elif product_cart == 'cart':
-                return 2, u'Товар под заказ'
+                return 2, u'Товар под заказ (предоплата 50%)'
+            elif product_cart == 'order':
+                return 2, u'Товар под заказ (предоплата 50%)'
         elif self.is_availability == 3:
             return 3, u'Товар ожидается'
         elif self.is_availability == 4:
