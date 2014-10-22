@@ -71,7 +71,7 @@ def recalc_cart(request, ):
                     product_in_request = request.POST.get(u'product_in_request_%d' % product_in_cart.pk, None, )
                     try:
                         product_in_request = int(product_in_request, )
-                    except ValueError:
+                    except (ValueError, TypeError, ):
                         continue
                     if product_in_request == product_in_cart.pk:
                         product_del = request.POST.get(u'delete_%d' % product_in_cart.pk, None, )
@@ -89,6 +89,7 @@ def recalc_cart(request, ):
 
 def show_order(request,
                template_name=u'show_order.jinja2.html', ):
+    test_value = False
     email = request.POST.get(u'email', False, )
     if email:
         email = email.strip()
@@ -105,7 +106,7 @@ def show_order(request,
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'order':
             """
-                Здесь какт о нужно проверить email
+                Здесь как-то нужно проверить email
             """
             if not email:
                 email_error = u'Вы забыли указать Ваш E-Mail.'
@@ -255,8 +256,40 @@ def show_order(request,
         ##                          connection=EMAIL_BACKEND, )
                         request.session[u'order_last'] = order.pk
                         return redirect(to=u'/корзина/заказ/принят/', )
+        elif POST_NAME == 'order_cart':
+            """ Взять корзину """
+            product_cart, created = get_cart_or_create(request, )
+            from apps.cart.models import Product
+            try:
+                """ Выборка всех продуктов из корзины """
+                products_in_cart = product_cart.cart.all()
+            except Product.DoesNotExist:
+                """ Странно!!! В корзине нету продуктов!!! """
+                return redirect(to='show_cart', )
+            else:
+                for product_in_cart in products_in_cart:
+                    """ Нужно проверить, есть ли вообще такой продукт в корзине? """
+                    product_in_request = request.POST.get(u'product_in_request_%d' % product_in_cart.pk, None, )
+                    test_value = product_in_request
+                    try:
+                        product_in_request = int(product_in_request, )
+#                    except (ValueError, TypeError, ):
+                    except ValueError:
+                        continue
+                    if product_in_request == product_in_cart.pk:
+                        product_del = request.POST.get(u'delete_%d' % product_in_cart.pk, None, )
+                        if product_del:
+                            product_in_cart.product_delete
+                            continue
+                        product_quantity = request.POST.get(u'quantity_%d' % product_in_cart.pk, None, )
+                        if product_quantity != product_in_cart.quantity:
+                            product_in_cart.update_quantity(product_quantity, )
+                            continue
+                    else:
+                        continue
     return render_to_response(template_name=template_name,
                               dictionary={'country_list': country_list,
+                                          'test_value': test_value,
                                           'email': email,
                                           'email_error': email_error,
                                           'FIO': FIO,

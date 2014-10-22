@@ -21,7 +21,7 @@ def block_cart(request, cart, place_of_use='cart', ):
         from django.middleware.csrf import get_token
         request_csrf_token = get_token(request, )
     elif place_of_use == 'order':
-        pass
+        template_name = u'templatetags/block_order.jinja2.html'
 
     return render_to_string(template_name,
                             dictionary={'request': request,
