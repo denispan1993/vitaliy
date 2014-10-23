@@ -89,7 +89,6 @@ def recalc_cart(request, ):
 
 def show_order(request,
                template_name=u'show_order.jinja2.html', ):
-    test_value = False
     email = request.POST.get(u'email', False, )
     if email:
         email = email.strip()
@@ -270,11 +269,9 @@ def show_order(request,
                 for product_in_cart in products_in_cart:
                     """ Нужно проверить, есть ли вообще такой продукт в корзине? """
                     product_in_request = request.POST.get(u'product_in_request_%d' % product_in_cart.pk, None, )
-                    test_value = product_in_request
                     try:
                         product_in_request = int(product_in_request, )
-#                    except (ValueError, TypeError, ):
-                    except ValueError:
+                    except (ValueError, TypeError, ):
                         continue
                     if product_in_request == product_in_cart.pk:
                         product_del = request.POST.get(u'delete_%d' % product_in_cart.pk, None, )
@@ -289,7 +286,6 @@ def show_order(request,
                         continue
     return render_to_response(template_name=template_name,
                               dictionary={'country_list': country_list,
-                                          'test_value': test_value,
                                           'email': email,
                                           'email_error': email_error,
                                           'FIO': FIO,
