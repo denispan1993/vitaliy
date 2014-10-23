@@ -94,9 +94,9 @@ function onChange_{{ product.pk }}(){
 </script>
                     <tr{% if real_product.check_product_availability()[0] != 1 %} class="lime"{% endif %}>
                         <td>
-                            <input type="hidden"
-                                   name="product_in_request_{{ product.pk }}"
-                                   value="{{ product.pk }}"/>
+                            <input name="product_in_request_{{ product.pk }}"
+                                   value="{{ product.pk }}"
+                                   type="hidden">
                             <a href="{{ real_product.get_absolute_url() }}"{% if real_product.check_product_availability()[0] != 1 %} class="lime"{% endif %}>{{ real_product.title }}</a>
                         </td>
                         <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
@@ -226,19 +226,22 @@ $(document).ready(ReCalcSum(true));
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
         <input type="hidden" name="POST_NAME" value="order_cart"/>
         {% for product in cart.products %}
+            <input name="product_in_request_{{ product.pk }}"
+                   value="{{ product.pk }}"
+                   type="hidden">
             <input id="quantity2_{{ product.pk }}"
                    name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
-                   type="hidden"/>
+                   type="hidden">
             <input id="delete2_{{ product.pk }}"
                    name="delete_{{ product.pk }}"
                    {# checked="" #}
-                   type="hidden"/>
+                   type="hidden">
         {% endfor %}
         <input class="blink1"
                style="float:left;list-style-type:none;line-height:24px;margin-right:5px;font-weight:bold;"
                id="order_cart_input"
                type="submit"
-               value="Оформить заказ"/>
+               value="Оформить заказ">
         <a style="float:left;list-style-type:none;line-height:32px;margin-right:5px;"
            href="/"
            title="Вернуться к покупкам">Продолжить покупки &gt;&gt;</a>
