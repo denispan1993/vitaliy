@@ -121,40 +121,42 @@ def sel_country(request, ):
 def product_to_cart(request, ):
     if request.is_ajax():
         if request.method == 'POST':
-            request_cookie = request.session.get(u'cookie', None, )
-            if request_cookie:
-                product_pk = request.POST.get(u'product_pk', None, )
-                available_to_order = request.POST.get(u'available_to_order', False, )
-                if product_pk:
-                    try:
-                        product_pk = int(product_pk, )
-                    except ValueError:
-                        return HttpResponse(status=400, )
-                    else:
-                        from apps.product.views import add_to_cart
-                        # print product_pk
-                        cart, product_in_cart = add_to_cart(request=request,
-                                                            int_product_pk=product_pk,
-                                                            available_to_order=available_to_order, )
-                        # print cart
-                        # print product_in_cart
-                        html = '<b>Позиций:</b> %s' \
-                               '<br>' \
-                               '<b>На сумму:</b> %s грн. ' \
-                               '%s ' \
-                               'коп.<br>' % (cart.count_name_of_products,
-                                             cart.sum_money_of_all_products_integral(request, ),
-                                             cart.sum_money_of_all_products_fractional(request, ), )
-                        response = {'product_pk': product_pk,
-                                    'result': 'Ok',
-                                    'html': html, }
-                        data = dumps(response, )
-                        mimetype = 'application/javascript'
-                        return HttpResponse(data, mimetype, )
-                else:
+            """ Да мне должно быть пофиг на этом этапе,
+            обрабатывает клиент cookies или нет """
+            # request_cookie = request.session.get(u'cookie', None, )
+            # if request_cookie:
+            product_pk = request.POST.get(u'product_pk', None, )
+            available_to_order = request.POST.get(u'available_to_order', False, )
+            if product_pk:
+                try:
+                    product_pk = int(product_pk, )
+                except ValueError:
                     return HttpResponse(status=400, )
+                else:
+                    from apps.product.views import add_to_cart
+                    # print product_pk
+                    cart, product_in_cart = add_to_cart(request=request,
+                                                        int_product_pk=product_pk,
+                                                        available_to_order=available_to_order, )
+                    # print cart
+                    # print product_in_cart
+                    html = '<b>Позиций:</b> %s' \
+                           '<br>' \
+                           '<b>На сумму:</b> %s грн. ' \
+                           '%s ' \
+                           'коп.<br>' % (cart.count_name_of_products,
+                                         cart.sum_money_of_all_products_integral(request, ),
+                                         cart.sum_money_of_all_products_fractional(request, ), )
+                    response = {'product_pk': product_pk,
+                                'result': 'Ok',
+                                'html': html, }
+                    data = dumps(response, )
+                    mimetype = 'application/javascript'
+                    return HttpResponse(data, mimetype, )
             else:
                 return HttpResponse(status=400, )
+            # else:
+            #     return HttpResponse(status=400, )
         elif request.method == 'GET':
             return HttpResponse(status=400, )
         else:
