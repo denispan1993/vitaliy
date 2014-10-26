@@ -274,7 +274,13 @@ font-weight:bold;
                     <li{# {% if children %} attribute="children_true"{% endif %} #}>
                         <a {% if cat.shown_colored or cat.shown_bold or cat.shown_italic %}class="{% if cat.shown_colored %}colored {% endif %}{% if cat.shown_bold %}bold {% endif %}{% if cat.shown_italic %}italic{% endif %}" {% endif %}
                            href="{{ cat.get_absolute_url() }}"
-                           style="font-size:{{ cat.font_px }}px;color:{{ cat.font_color }};"
+                           style="font-size:{{ cat.font_px }}px;color:{{ cat.font_color }};
+                                   {% if cat.shadow_color or cat.shadow_px or cat.shadow_blur_px %}
+                                       text-shadow:0 {% if cat.shadow_px %}{{ cat.shadow_px }}px{% else %}0{% endif %} {% if cat.shadow_blur_px %}{{ cat.shadow_blur_px }}px{% else %}0{% endif %} {% if cat.shadow_color %}{{ cat.shadow_color }}{% else %}Black{% endif %},
+                                                   {% if cat.shadow_px %}{{ cat.shadow_px }}px{% else %}0{% endif %} 0 {% if cat.shadow_blur_px %}{{ cat.shadow_blur_px }}px{% else %}0{% endif %} {% if cat.shadow_color %}{{ cat.shadow_color }}{% else %}Black{% endif %},
+                                                   0 {% if cat.shadow_px %}-{{ cat.shadow_px }}px{% else %}0{% endif %} {% if cat.shadow_blur_px %}{{ cat.shadow_blur_px }}px{% else %}0{% endif %} {% if cat.shadow_color %}{{ cat.shadow_color }}{% else %}Black{% endif %},
+                                                   {% if cat.shadow_px %}-{{ cat.shadow_px }}px{% else %}0{% endif %} 0 {% if cat.shadow_blur_px %}{{ cat.shadow_blur_px }}px{% else %}0{% endif %} {% if cat.shadow_color %}{{ cat.shadow_color }}{% else %}Black{% endif %};
+                                   {% endif %}"
                            {# alt="{{ cat.name }}" #}
                            title="{{ cat.title }}">{{ cat.title }}</a>
                         {% if children %}

@@ -32,6 +32,21 @@ class Category(MPTTModel):
                                   null=True,
                                   help_text=u'Задаем цвет шрифта категории'
                                             u'в формате "#FE45D5" или словами "Red", "Blue",', )
+    shadow_color = models.CharField(verbose_name=_(u'Цвет обводки шрифта'),
+                                    max_length=32,
+                                    blank=True,
+                                    null=True,
+                                    help_text=u'Задаем цвет обводки шрифта категории'
+                                              u'в формате "#FE45D5" или словами "Red", "Blue",', )
+    shadow_px = models.PositiveSmallIntegerField(verbose_name=_(u'Размер обводки шрифта'),
+                                                 blank=True,
+                                                 null=True,
+                                                 help_text=u'Задаем размер в px обводки шрифта категории', )
+    # blur - размытие
+    shadow_blur_px = models.PositiveSmallIntegerField(verbose_name=_(u'Размер размытия обводки шрифта'),
+                                                      blank=True,
+                                                      null=True,
+                                                      help_text=u'Задаем размер в px размытия обводки шрифта категории', )
     shown_bold = models.BooleanField(verbose_name=_(u'Выделить жирным'),
                                      default=False,
                                      blank=False,
