@@ -26,6 +26,12 @@ class Category(MPTTModel):
                                         null=False,
                                         help_text=u'Если мы хотим чтобы категория была выделена цветом Фуксия,'
                                                   u' ставим данное поле в True.')
+    font_color = models.CharField(verbose_name=_(u'Цвет шрифта'),
+                                  max_length=32,
+                                  blank=True,
+                                  null=True,
+                                  help_text=u'Задаем цвет шрифта категории'
+                                            u'в формате "#FE45D5" или словами "Red", "Blue",', )
     shown_bold = models.BooleanField(verbose_name=_(u'Выделить жирным'),
                                      default=False,
                                      blank=False,
