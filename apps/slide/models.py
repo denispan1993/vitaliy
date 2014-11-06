@@ -82,17 +82,19 @@ class Slide(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )
 
     from apps.slide import managers
-    manager = managers.Manager_Slide()
+    manager = managers.ManagerSlide()
 
     @property
     def url(self, ):
         return self.parent.get_absolute_url()
 
     def __unicode__(self, ):
-        if self.is_active:
-            return u'Слайд: %s - %s Активный' % (self.title, self.text, )
-        else:
-            return u'Слайд: %s - %s Пасивный' % (self.title, self.text, )
+        text = u'Активный' if self.is_active else text = u'Пасивный'
+        return u'Слайд: %s - %s %s' % (self.title, self.text, text, )
+#        if self.is_active:
+#            return u'Слайд: %s - %s Активный' % (self.title, self.text, )
+#        else:
+#            return u'Слайд: %s - %s Пасивный' % (self.title, self.text, )
 
     class Meta:
         db_table = 'Slide'
