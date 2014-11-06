@@ -77,20 +77,20 @@ def show_category(request,
         raise Http404
     else:
         request.session[u'current_category'] = current_category.pk
-        categories_at_current_category_ = current_category.children.all()
-        from apps.product.models import Product
-        try:
-            current_products_ = current_category.products.all()
-        except Product.DoesNotExist:
-            current_products_ = None
+        #categories_at_current_category_ = current_category.children.all()
+        #from apps.product.models import Product
+        #try:
+        #    current_products_ = current_category.products.all()
+        #except Product.DoesNotExist:
+        #    current_products_ = None
 
     from django.template.loader import get_template
     template_name = u'category/show_content_center.jinja2.html'
     t = get_template(template_name)
     from django.template import RequestContext
-    c = RequestContext(request, {'current_category': current_category,
-                                 'categories_at_current_category_': categories_at_current_category_,
-                                 'current_products_': current_products_, }, )
+    c = RequestContext(request, {'current_category': current_category, }, )
+                                 # 'categories_at_current_category_': categories_at_current_category_,
+                                 # 'current_products_': current_products_, }, )
 #    from django.template import Context
 #    c = Context({'current_category': current_category,
 #                 'categories_at_current_category_': categories_at_current_category_,

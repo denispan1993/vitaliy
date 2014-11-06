@@ -50,7 +50,7 @@ def context(request):
 
     from apps.product.models import Category
     try:
-        categories_basement = Category.manager.basement()
+        categories_basement = Category.objects.basement()
     except Category.DoesNotExist:
         categories_basement = None
 

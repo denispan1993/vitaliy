@@ -26,10 +26,13 @@ class Manager_Category(models.Manager):
         return self.filter(visibility=True, is_active=True, )
 
     def published(self):
-        return self.visible().order_by('-created_at')
+        return self.visible().order_by('-created_at', )
+
+    def serial_number(self):
+        return self.published().order_by('serial_number', )
 
     def basement(self):
-        return self.visible().filter(parent__isnull=True, )
+        return self.serial_number().filter(parent__isnull=True, )
 
 
 class Manager_Product(models.Manager):

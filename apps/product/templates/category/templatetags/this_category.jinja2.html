@@ -4,8 +4,9 @@
        title="{{ category.title }}">{{ category.name }}</a> #}
     <div id="current_category" style="position:relative;padding-top:10px;">
         <figure class="current_category_img" style="display:block;float:left;{# padding-bottom:10px; #}">
-            <a href="{{ category.get_absolute_url() }}" style="line-height:0px;"
-               {% if category.main_photo.meta_title %}title="{{ category.main_photo.meta_title }}">{% endif %}
+            <a href="{{ category.get_absolute_url() }}"
+               style="line-height:0px;"
+               {% if category.main_photo.meta_title %}title="{{ category.main_photo.meta_title }}"{% endif %}>
                 <img src="{{ category.main_photo.photo.url_210x160 }}"
                      {# {% if category.main_photo.meta_alt %} #}alt="{{ category.main_photo.meta_alt }}"{# {% endif %} #} border="0">
             </a>

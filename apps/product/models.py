@@ -99,9 +99,10 @@ class Category(MPTTModel):
 #    from apps.product.managers import Manager
 #    objects = Manager()
 
-    objects = models.Manager()
+#    objects = models.Manager()
     from apps.product import managers
-    manager = managers.Manager_Category()
+    objects = managers.Manager_Category()
+#    manager = managers.Manager_Category()
 
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')

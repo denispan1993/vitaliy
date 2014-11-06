@@ -13,7 +13,7 @@
         {{ this_category(current_category, request.session.width_this_category)|safe }}
     {% endif %}
     {% if current_category is defined %}
-        {% set categories = current_category.children.all() %}{# .order_by('-created_at', 'serial_number') #}
+        {% set categories = current_category.children.serial_number() %}{# .order_by('-created_at', 'serial_number') #}
     {% endif %}
     {% if categories %}
         <br class="clearFloat">
