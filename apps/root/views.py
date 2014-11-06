@@ -5,7 +5,7 @@ from django.template import RequestContext
 def root_page(request, template_name=u'index.jinja2.html', ):
     from apps.product.models import Category
     try:
-        categories_basement = Category.manager.basement()
+        categories_basement = Category.objects.basement()
     except Category.DoesNotExist:
         categories_basement = None
 
