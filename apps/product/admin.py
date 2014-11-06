@@ -30,7 +30,9 @@ class CategoryAdmin(MPTTModelAdmin, ):
     search_fields = ['title', ]
     fieldsets = [
         (None,   {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
-                                                  'shown_colored', 'shown_bold', 'shown_italic', 'font_px',
+                                                  'shown_colored', 'font_color',
+                                                  'shadow_color', 'shadow_px', 'shadow_blur_px',
+                                                  'shown_bold', 'shown_italic', 'font_px',
                                                   #'disclose_product',
                                                   'url', 'title',
                                                   #'letter_to_article',
