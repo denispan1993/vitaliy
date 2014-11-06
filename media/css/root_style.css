@@ -88,7 +88,8 @@ div#header div#div_logo a#logo{
     left:5%;
     position: absolute;
     top:105px;
-    width:113px;
+    /*width:113px; - Обычный логотип. */
+    width:148px;/* - Логотип с новогодней шапкой. */
     z-index:100;
 }
 #main{
