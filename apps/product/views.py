@@ -30,7 +30,7 @@ def show_basement_category(request,
                            ):
     from apps.product.models import Category
     try:
-        basement_categories = Category.manager.basement()
+        basement_categories = Category.objects.basement()
     except Category.DoesNotExist:
         from django.http import Http404
         raise Http404
