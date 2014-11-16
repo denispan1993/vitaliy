@@ -24,12 +24,12 @@ class Command(BaseCommand, ):
                         Помечаеит товар как учавствующий в акции
                     """
                     product.in_action = True
-                    """
-                        Меняем местами акционную нынешнюю
-                    """
-                    price = product.regular_price
-                    product.regular_price = product.price
-                    product.price = price
+                    # """
+                    #     Меняем местами акционную нынешнюю
+                    # """
+                    # price = product.regular_price
+                    # product.regular_price = product.price
+                    # product.price = price
                     product.save()
 
         action_not_active = Action.objects.not_active()
@@ -48,16 +48,16 @@ class Command(BaseCommand, ):
                     """
                         Помечаеит товар как не учавствующий в акции
                     """
-                    product.in_action = True
-                    """
-                        Меняем местами нынешнюю и акционные цены местами
-                    """
-                    price = product.price
-                    product.price = product.regular_price
-                    if action.auto_del_action_price:
-                        product.regular_price = 0
-                    else:
-                        product.regular_price = price
+                    product.in_action = False
+                    # """
+                    #     Меняем местами нынешнюю и акционные цены местами
+                    # """
+                    # price = product.price
+                    # product.price = product.regular_price
+                    # if action.auto_del_action_price:
+                    #     product.regular_price = 0
+                    # else:
+                    #     product.regular_price = price
                     product.action.delete(action, )
                     product.save()
                 if action.auto_del:

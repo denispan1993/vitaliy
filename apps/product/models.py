@@ -322,12 +322,18 @@ class Product(models.Model):
                                  blank=False,
                                  null=False,
                                  default=1, )
-    price = models.DecimalField(verbose_name=u'Цена',
+    price = models.DecimalField(verbose_name=_(u'Цена', ),
                                 max_digits=10,
                                 decimal_places=2,
                                 default=0,
                                 blank=False,
                                 null=False, )
+    action_price = models.DecimalField(verbose_name=_(u'Акционная цена', ),
+                                       max_digits=10,
+                                       decimal_places=2,
+                                       default=0,
+                                       blank=False,
+                                       null=False, )
     price_of_quantity = models.DecimalField(verbose_name=u'Цена за сколько?',
                                             max_digits=15,
                                             decimal_places=5,

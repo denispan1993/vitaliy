@@ -5,6 +5,9 @@
 {% block product_header_css %}
 {# <link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css"> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/easypaginate/easypaginate.css" media="all">
+{% if product.in_action %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/flipclock/flipclock.css">
+{% endif %}
 {% endblock %}
 {# {% set products_recommended = product.recomendate.all()%} #}
 {# {% set products_recommended = product.recomendate.all()|custom_QuerySet_filter('is_availability', '=', 1) %} #}
@@ -177,9 +180,32 @@
 					<span> {{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
 				</p>
 			{% endif %}
-			<p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Акционная цена{% else %}Цена{% endif %}:
+			<p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи{% else %}Цена{% endif %}:
                 <span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price"> {{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
             </p>
+            {% if product.in_action %}
+                <p id="product_box_right_action_price">Акционная цена:
+                    <span class="Red"> {{ product.get_price(request, product.action_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
+                </p>
+                <div class="clock" style="margin:2em;"></div>
+                <script src="{{ MEDIA_URL }}js/jquery/flipclock/flipclock.min.js"></script>
+                <script>
+var clock;
+$(document).ready(function() {
+// Grab the current date
+var currentDate = new Date();
+// Set some date in the future. In this case, it's always Jan 1
+var futureDate = new Date(currentDate.getFullYear() + 1, 0, 1);
+// Calculate the difference in seconds between the future and current date
+var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
+// Instantiate a coutdown FlipClock
+clock = $('.clock').FlipClock(diff, {
+clockFace: 'DailyCounter',
+countdown: true
+});
+});
+                </script>
+            {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}
                 <p class="price_total">
                     <span id="cart_quant">{{ quantity_ }}</span>{{ product.unit_of_measurement }}&nbsp;×&nbsp;
