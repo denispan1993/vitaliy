@@ -22,7 +22,7 @@
         {% endif %}
     {% endif %}
     {% if current_category is defined %}
-        {% set products = current_category.products.all() %}{# .order_by('-created_at', 'serial_number') #}
+        {% set products = current_category.products.published() %}{# .order_by('-created_at', 'serial_number') #}
     {% endif %}
     {% if products %}
         <br class="clearFloat">

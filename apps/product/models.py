@@ -250,7 +250,7 @@ class Product(models.Model):
     # Описание продукта
     item_description = models.CharField(verbose_name=u'Краткое описание продукта',
                                         max_length=128, )  # null=True, blank=True, )
-    description = models.TextField(verbose_name=u'Полное писание продукта',
+    description = models.TextField(verbose_name=u'Полное описание продукта',
                                    null=True, blank=True, )
     #recommended recomendate
     recommended = models.ManyToManyField('Product',
@@ -596,9 +596,10 @@ class Product(models.Model):
         elif self.is_availability == 4:
             return 4, u'<strong>Товар недоступен.</strong><br>Рекоммендуем его удалить из корзины.'
 
-    objects = models.Manager()
+    # objects = models.Manager()
     from apps.product import managers
-    manager = managers.Manager_Product()
+    # manager = managers.Manager_Product()
+    objects = managers.Manager_Product()
 
 #    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
 #        super(Product, self).save(*args, **kwargs)

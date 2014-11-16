@@ -4,7 +4,7 @@ __author__ = 'Sergey'
 
 def search_page(request,
                 query,
-                template_name=u'category/show_content_center.jinja2.html', ):
+                template_name=u'category/show_category.jinja2.html', ):
     if request.method == 'POST':
         if 'query' in request.POST and request.POST['query']:
             query = request.POST.get('query', None, )
@@ -21,6 +21,25 @@ def search_page(request,
                                                   | Q(description__icontains=query))
             except Product.DoesNotExist:
                 products = None
+            from apps.product.models import ItemID
+            try:
+                ItemsID = ItemID.objects.filter(Q(ItemID__icontains=query, ), )
+            except ItemID.DoesNotExist:
+                ItemsID = None
+            else:
+                for item in ItemsID:
+                    from apps.product.models import Product
+                    try:
+                        product = Product.objects.filter(ItemID=item, )
+                    except Product.DoesNotExist:
+                        pass
+                    else:
+                        products = products | product
+
+            # if products and ItemsID:
+            #     products = products + ItemsID
+            # elif not products and ItemsID:
+            #     products = ItemsID
         else:
             categories = None
             products = None
@@ -28,7 +47,7 @@ def search_page(request,
         categories = None
         products = None
     from django.template.loader import get_template
-    template_name = u'category/show_content_center.jinja2.html'
+    template_name = u'category/show_category.jinja2.html'
     t = get_template(template_name)
     from django.template import RequestContext
     c = RequestContext(request, {'categories': categories,

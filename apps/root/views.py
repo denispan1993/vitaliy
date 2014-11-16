@@ -3,22 +3,22 @@ from django.template import RequestContext
 
 
 def root_page(request, template_name=u'index.jinja2.html', ):
-    from apps.product.models import Category
-    try:
-        categories_basement = Category.objects.basement()
-    except Category.DoesNotExist:
-        categories_basement = None
+    # from apps.product.models import Category
+    # try:
+    #     categories_basement = Category.objects.basement()
+    # except Category.DoesNotExist:
+    #     categories_basement = None
 
-    try:
-        categories_first = Category.objects.get(pk=1)
-    except Category.DoesNotExist:
-        categories_first = None
+    # try:
+    #     categories_first = Category.objects.get(pk=1)
+    # except Category.DoesNotExist:
+    #     categories_first = None
 
-    from apps.product.models import Product
-    try:
-        all_products = Product.manager.published()
-    except Product.DoesNotExist:
-        all_products = None
+    # from apps.product.models import Product
+    # try:
+    #     all_products = Product.objects.published()
+    # except Product.DoesNotExist:
+    #     all_products = None
 
     # limit_on_page = request.session.get(u'limit_on_page', None, )
     # try:
@@ -27,7 +27,11 @@ def root_page(request, template_name=u'index.jinja2.html', ):
     #     limit_on_page = 12
     # finally:
     #     in_main_page = Product.manager.in_main_page(limit_on_page, )
-    in_main_page = Product.manager.in_main_page(no_limit=True, )  # limit_on_page, )
+    from apps.product.models import Product
+    try:
+        in_main_page = Product.objects.in_main_page(no_limit=True, )  # limit_on_page, )
+    except Product.DoesNotExist:
+        in_main_page = None
 
     # children_categories = categories_first.children.all()
 
