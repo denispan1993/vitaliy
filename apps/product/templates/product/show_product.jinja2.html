@@ -187,24 +187,58 @@
                 <p id="product_box_right_action_price">Акционная цена:
                     <span class="Red"> {{ product.get_price(request, product.action_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
                 </p>
-                <div class="clock" style="margin:2em;"></div>
-                <script src="{{ MEDIA_URL }}js/jquery/flipclock/flipclock.min.js"></script>
-                <script>
+                <div id="product_box_time_action_price">
+<style>
+.flip-clock-divider .flip-clock-label{
+    right:-48px;
+}
+.flip-clock-divider.minutes .flip-clock-label{
+    right:-48px;
+}
+.flip-clock-divider.seconds .flip-clock-label{
+    right:-51px;
+}
+.flip-clock-dot.top{
+    top:20px;
+}
+.flip-clock-dot.bottom{
+    bottom:55px;
+}
+.flip-clock-wrapper ul{
+    height:50px;
+    width: 25px;
+}
+.flip-clock-wrapper ul li{
+    line-height:50px;
+}
+.flip-clock-wrapper ul li a div div.inn{
+    font-size:40px;
+}
+</style>
+                    <p style="font-size:22px;font-weight:bold;color:Red;">До окончания акции осталось:</p>
+                    <div class="clock" style="margin:2em;"></div>
+                    <script src="{{ MEDIA_URL }}js/jquery/flipclock/flipclock.min.js"></script>
+                    <script>
 var clock;
 $(document).ready(function() {
 // Grab the current date
 var currentDate = new Date();
+    {% set actions = product.action.all() %}
+    {% set action = actions[0] %}
+    {% set datetime_end = action.datetime_end %}
 // Set some date in the future. In this case, it's always Jan 1
-var futureDate = new Date(currentDate.getFullYear() + 1, 0, 1);
+var futureDate = new Date("{{ datetime_end.isoformat() }}");
 // Calculate the difference in seconds between the future and current date
 var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
 // Instantiate a coutdown FlipClock
 clock = $('.clock').FlipClock(diff, {
-clockFace: 'DailyCounter',
-countdown: true
+clockFace:'DailyCounter',
+countdown:true,
+language:'ru'
 });
 });
-                </script>
+                    </script>
+                </div>
             {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}
                 <p class="price_total">
