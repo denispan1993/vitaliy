@@ -303,7 +303,7 @@ class Product(models.Model):
     from apps.discount.models import Action
     action = models.ManyToManyField(to=Action,
                                     verbose_name=u'Акции',
-                                    related_name='action_set',
+                                    related_name='product_in_action',
                                     blank=True,
                                     null=True,
                                     db_table='Product_to_Action', )

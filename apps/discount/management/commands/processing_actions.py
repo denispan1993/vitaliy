@@ -13,15 +13,15 @@ class Command(BaseCommand, ):
             action_category = None
         from apps.discount.models import Action
         action_active = Action.objects.active()
-        print action_active
+        print 'Action - ACTIVE:', action_active
         for action in action_active:
-            print action
+            # print action
             """
                 Если акция с автостартом,
                 то мы еЁ стартуем.
             """
             if action.auto_start:
-                products_of_action = action.action_set.not_in_action()
+                products_of_action = action.product_in_action.not_in_action()
                 print products_of_action
                 for product in products_of_action:
                     print product
@@ -39,15 +39,15 @@ class Command(BaseCommand, ):
                     product.save()
 
         action_not_active = Action.objects.not_active()
-        print action_not_active
+        print 'Action - NOT ACTIVE:', action_not_active
         for action in action_not_active:
-            print action
+            # print action
             """
                 Если акция с авто окончанием,
                 то заканчиваем еЁ.
             """
             if action.auto_end:
-                products_of_action = action.action_set.in_action()
+                products_of_action = action.product_in_action.in_action()
                 print products_of_action
                 for product in products_of_action:
                     print product
@@ -65,7 +65,7 @@ class Command(BaseCommand, ):
                     #     product.regular_price = 0
                     # else:
                     #     product.regular_price = price
-                    product.action.delete(action, )
+                    product.action.remove(action, )
                     product.save()
                 if action.auto_del:
                     action.deleted = True
