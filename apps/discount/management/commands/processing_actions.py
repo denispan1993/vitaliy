@@ -15,6 +15,8 @@ class Command(BaseCommand, ):
         action_active = Action.objects.active()
         print 'Action - ACTIVE:', action_active
         for action in action_active:
+            products_of_action = action.product_in_action.all()
+            print 'All products:', products_of_action
             # print action
             """
                 Если акция с автостартом,
@@ -41,6 +43,8 @@ class Command(BaseCommand, ):
         action_not_active = Action.objects.not_active()
         print 'Action - NOT ACTIVE:', action_not_active
         for action in action_not_active:
+            products_of_action = action.product_in_action.all()
+            print 'All products:', products_of_action
             # print action
             """
                 Если акция с авто окончанием,
