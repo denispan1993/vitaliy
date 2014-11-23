@@ -74,3 +74,10 @@ class Command(BaseCommand, ):
         # Product.objects.filter(is_availability=2, ).update(is_availability=5, )
         # Product.objects.filter(is_availability=3, ).update(is_availability=2, )
         # Product.objects.filter(is_availability=5, ).update(is_availability=3, )
+
+        all_actions_products = action_category.products.all()
+        if len(all_actions_products) != 0:
+            action_category.is_active = True
+        else:
+            action_category.is_active = False
+        action_category.save()
