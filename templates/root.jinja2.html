@@ -173,7 +173,7 @@ font-weight:bold;
                 {% if user_cart_ %}
                     <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
                     <br>
-                    <b>На сумму:</b> {{ user_cart_.sum_money_of_all_products_integral(request) }} {{ get_currency(request) }} {{ user_cart_.sum_money_of_all_products_fractional(request) }} {{ get_currency(request) }}
+                    <b>На сумму:</b> {{ user_cart_.sum_money_of_all_products_integral(request) }} {{ get_currency(request) }} {{ user_cart_.sum_money_of_all_products_fractional(request) }} {{ get_currency(request) }}{# нужно выводить единицу измерения в копейках, центах, и евроцентах #}
                     <br>
                 {% else %}
                     <strong>Ваша корзина пуста!!!</strong>

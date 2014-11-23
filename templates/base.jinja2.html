@@ -68,10 +68,16 @@ try{jQuery(document).ready(function(e) {
 {% endblock %}
 </div>
 <div id="footer">
+{% if user.is_authenticated and user.is_staff %}
 {# <!-- LiveInternet logo --> #}{% include 'include/LiveInternet.html' %}{# <!--/LiveInternet--> #}
+{% endif %}
+{% if user.is_authenticated and user.is_staff %}
 {# <!-- Yandex.Metrika informer --> #}{% include 'include/Yandex.Metrica.html' %}{# <!-- /Yandex.Metrika --> #}
+{% endif %}
 {# <!-- i.ua informer --> #}{% include 'include/i.ua.script' %}{# <!-- /i.ua --> #}
+{% if user.is_authenticated and user.is_staff %}
 {# <!-- Mail.ru informer --> #}{% include 'include/Mail.ru.html' %}{# <!-- /Mail.ru --> #}
+{% endif %}
 {# <!-- rambler.ru informer --> #}{% include 'include/rambler.ru.script' %}{# <!-- /rambler.ru --> #}
 </div>
 </body>

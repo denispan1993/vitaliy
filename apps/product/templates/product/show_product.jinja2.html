@@ -180,15 +180,15 @@
 					<span> {{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
 				</p>
 			{% endif %}
-			<p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи{% else %}Цена{% endif %}:
-                <span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price"> {{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span>
-            </p>
-            {% if product.in_action %}
-                <p id="product_box_right_action_price">Акционная цена:
-                    <span class="Red"> {{ product.get_price(request, product.action_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
-                </p>
+            {% if not product.in_action %}
+                <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи{% else %}Цена{% endif %}:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">&nbsp;{{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
+            {% else %}
+                <p id="product_box_right_action_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Акционная цена:&nbsp;<span class="Red" itemprop="price">{{ product.get_price(request, product.action_price)|replace(",", ".") }}</span>&nbsp;{{ get_currency(request) }}</p>
                 <div id="product_box_time_action_price">
 <style>
+.flip-clock-divider{
+    height:40px;
+}
 .flip-clock-divider .flip-clock-label{
     right:-48px;
 }
@@ -198,27 +198,37 @@
 .flip-clock-divider.seconds .flip-clock-label{
     right:-51px;
 }
+.flip-clock-dot{
+    height:7px;
+    width:7px;
+}
 .flip-clock-dot.top{
-    top:20px;
+    top:10px;
 }
 .flip-clock-dot.bottom{
-    bottom:55px;
+    bottom:8px;
+}
+.flip-clock-wrapper{
+    margin:0;
 }
 .flip-clock-wrapper ul{
-    height:50px;
-    width: 25px;
+    height:30px;
+    width:16px;
 }
 .flip-clock-wrapper ul li{
-    line-height:50px;
+    line-height:30px;
 }
 .flip-clock-wrapper ul li a div div.inn{
-    font-size:40px;
+    font-size:25px;
+}
+.clock{
+    padding-top:25px;
 }
 </style>
                     <p style="font-size:22px;font-weight:bold;color:Red;">До окончания акции осталось:</p>
-                    <div class="clock" style="margin:2em;"></div>
-                    <script src="{{ MEDIA_URL }}js/jquery/flipclock/flipclock.min.js"></script>
-                    <script>
+                    <div class="clock"{#  style="margin:2em;" #}></div>
+<script src="{{ MEDIA_URL }}js/jquery/flipclock/flipclock.min.js"></script>
+<script>
 var clock;
 $(document).ready(function() {
 // Grab the current date
@@ -237,7 +247,7 @@ countdown:true,
 language:'ru'
 });
 });
-                    </script>
+</script>
                 </div>
             {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}

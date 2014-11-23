@@ -11,7 +11,11 @@
     <a class="product_block_img"
        style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}');"
        href="{{ block.get_absolute_url() }}"
-       title="{{ block.title }}"></a>
+       title="{{ block.title }}">
+        {% if block.in_action %}
+            <img style="position:absolute;right:0;" src="{{ MEDIA_URL }}img/action.png">
+        {% endif %}
+    </a>
     {# <div class="product_block_excerpt" title="{{ block.price }} грн.">{{ block.price }} грн.</div> #}
     <div class="product_block_bottom">
         <div class="product_block_price{% if block.is_availability == 1 %} pink{% elif block.is_availability == 2 %} DimGray{% else %} Gray{% endif %}">{{ block.get_price(request) }}&nbsp;<span>{{ get_currency(request) }}</span></div>
@@ -53,7 +57,11 @@
     <a class="product_block_img fancybox"
        style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/empty_210x160.jpg{% endif %}');"
        href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}"
-       title="{{ block.title }}"></a>
+       title="{{ block.title }}">
+        {% if block.in_action %}
+            <img style="position:absolute;right:0;" src="{{ MEDIA_URL }}img/action.png">
+        {% endif %}
+    </a>
     {# <div class="product_block_excerpt" title="цена за ед. {{ block.get_price(request) }} грн.">цена за ед. {{ block.get_price(request) }} грн.</div> #}
     <div class="product_block_bottom">
         <div class="product_block_price{% if block.is_availability == 1 %} pink{% else %} gray{% endif %}">{{ block.get_price(request) }}&nbsp;<span>{{ get_currency(request) }}</span></div>

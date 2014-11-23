@@ -41,9 +41,11 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
         template_name = u'category/templatetags/block_category.jinja2.html'
     # elif category_or_product == 'product':
     #     template_name = u'product/templatetags/block_product.jinja2.html'
+    from proj.settings import MEDIA_URL
     return render_to_string(template_name,
                             dictionary={'block': block,
                                         'request': request,
+                                        'MEDIA_URL': MEDIA_URL,
                                         'choice': choice,
                                         'margin_bottom': margin_bottom,
                                         'margin_left': margin_left, }, )

@@ -13,6 +13,7 @@ def block_products(products, request, ):
     request_csrf_token = get_token(request, )
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
+    # from proj.settings import MEDIA_URL
     return render_to_string(template_name=u'product/templatetags/block_products.jinja2.html',
                             dictionary={'products': products,
                                         'request': request,

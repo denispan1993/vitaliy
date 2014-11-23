@@ -6,6 +6,11 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand, ):
     def handle(self, *args, **options):
+        from apps.product.models import Category
+        try:
+            action_category = Category.objects.get(url=u'акции', )
+        except Category.DoesNotExist:
+            action_category = None
         from apps.discount.models import Action
         action_active = Action.objects.active()
         print action_active
@@ -23,6 +28,7 @@ class Command(BaseCommand, ):
                     """
                         Помечаеит товар как учавствующий в акции
                     """
+                    product.category.add(action_category, )
                     product.in_action = True
                     # """
                     #     Меняем местами акционную нынешнюю
@@ -46,8 +52,9 @@ class Command(BaseCommand, ):
                 for product in products_of_action:
                     print product
                     """
-                        Помечаеит товар как не учавствующий в акции
+                        Помечает товар как не учавствующий в акции
                     """
+                    product.category.remove(action_category, )
                     product.in_action = False
                     # """
                     #     Меняем местами нынешнюю и акционные цены местами

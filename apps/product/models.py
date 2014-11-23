@@ -541,7 +541,10 @@ class Product(models.Model):
                 except ValueError:
                     pass
         if not price:
-            price = self.price
+            if self.in_action:
+                price = self.action_price
+            else:
+                price = self.price
         from apps.product.models import Currency
         try:
             current_currency_object = Currency.objects.get(pk=currency_pk, )
