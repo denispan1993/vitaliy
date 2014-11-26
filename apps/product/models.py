@@ -7,11 +7,11 @@ from mptt.models import MPTTModel
 
 class Category(MPTTModel):
     from mptt import models as modelsTree
-    parent = modelsTree.TreeForeignKey('Category',
-                                       verbose_name=u'Вышестоящая категория',
-                                       null=True,
-                                       blank=True,
-                                       related_name=u'children', )
+    parent = modelsTree.TreeForeignKey(to='Category',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       verbose_name=u'Вышестоящая категория',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       null=True,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       blank=True,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       related_name=u'children', )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
                                                      # visibility=True,
                                                      default=1,
