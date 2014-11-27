@@ -170,9 +170,15 @@ def show_product(request, product_url, id,
                         return HttpResponseRedirect(current_category.get_absolute_url(), )
 #            elif action == u'makeanorder':
 #                pass
-#            else:
-#                from django.http import Http404
-#                raise Http404
+                else:
+                    from django.http import Http404
+                    raise Http404
+            else:
+                from django.http import Http404
+                raise Http404
+        else:
+            from django.http import Http404
+            raise Http404
     else:
 #        request.session.set_test_cookie()
         product = get_product(product_pk=id, product_url=product_url, )

@@ -276,7 +276,7 @@ language:'ru'
                 }
                 </style>
 {% include 'product/include/calc.script' %}
-				<form method="POST" action="." style="padding-top:15px;">
+				<form method="POST" action="." style="padding-top:15px;display:inline;">
 					<ul class="quantity">
 						<li>Количество:</li>
 						<li>
@@ -329,7 +329,7 @@ margin:0;
 $(document).ready(onChange())
 </script>
 {#              <br class="clearFloat" /> #}
-				<form method="POST" action=".">
+				<form method="POST" action="." style="display:inline;position:absolute;margin-top:2px;margin-left:5px;">
 					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
 					<input type="hidden" name="product_pk" value="{{ product.pk }}" />
 					<input type="hidden" name="product_url" value="{{ product.url }}" />
@@ -348,7 +348,7 @@ $(document).ready(onChange())
 			{% endif %}
             <div id="product_box_bottom"
 {#                     class="clearFloat" #}
-                    style="position:relative;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;"
+                    style="position:absolute;font-size:15px;color:Black;text-align:justify;line-height:20px;padding:7px 5px 5px 0px;letter-spacing:1px;"
                     itemprop="description">
                 {{ product.description|safe }}
             </div>
