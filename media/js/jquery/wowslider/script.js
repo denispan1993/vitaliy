@@ -43,11 +43,11 @@ function ws_fly(c,a,b){
 // Obfuscated by Javascript Obfuscator
 // http://javascript-source.com
 //***********************************************effect:"fly",prev:"",next:"",duration:31*100,delay:151*100,width:960,height:360,
-$("#wowslider-container1").wowSlider({effect:"fly",prev:"",next:"",duration:40*100,delay:60*100,width:960,height:360,autoPlay:true,stopOnHover:true,loop:false,bullets:true,caption:true,captionEffect:"slide",controls:true,onBeforeStep:function(i,c){return (i+1 + Math.floor((c-1)*Math.random()))},images:0});
+//$("#wowslider-container1").wowSlider({effect:"fly",prev:"",next:"",duration:40*100,delay:60*100,width:960,height:360,autoPlay:true,stopOnHover:true,loop:false,bullets:true,caption:true,captionEffect:"slide",controls:true,onBeforeStep:function(i,c){return (i+1 + Math.floor((c-1)*Math.random()))},images:0});
 
-//var effects = 'fly,seven,cube,brick';
-//var duration = 1700, delay = 4500;
+var effects = 'fly,seven,cube,brick,blinds';
+var duration = 1700, delay = 4500;
 //var cSlide, bkpCont, wowInstance, timeout;
 
 //var wowSlider =
-//$("#wowslider-container1").wowSlider({effect: effects || "blinds",prev:"",next:"",duration:duration,delay:delay,width:960,height:360,fullScreen:true,autoPlay:true,autoPlayVideo:false,stopOnHover:true,loop:false,bullets:true,caption:true,captionEffect:"move,slide",controls:true});
+$("#wowslider-container1").wowSlider({effect:effects,prev:"",next:"",duration:duration,delay:delay,width:960,height:360,fullScreen:true,autoPlay:true,autoPlayVideo:false,stopOnHover:true,loop:false,bullets:true,caption:true,captionEffect:"move,slide",controls:true});
