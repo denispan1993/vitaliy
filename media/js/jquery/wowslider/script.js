@@ -45,10 +45,10 @@
 //***********************************************effect:"fly",prev:"",next:"",duration:31*100,delay:151*100,width:960,height:360,
 //$("#wowslider-container1").wowSlider({effect:"fly",prev:"",next:"",duration:40*100,delay:60*100,width:960,height:360,autoPlay:true,stopOnHover:true,loop:false,bullets:true,caption:true,captionEffect:"slide",controls:true,onBeforeStep:function(i,c){return (i+1 + Math.floor((c-1)*Math.random()))},images:0});
 
-var effects = 'fly,seven,cube,brick,blinds';
+var effects = 'fly,seven,cube,brick,blinds'; // bubbles,dribbles,glass_parallax,parallax,brick,collage,seven,kenburns,cube,blur,book,rotate,domino,slices,blast,blinds,basic,basic_linear,fade,fly,flip,page,stack,stack_vertical
 var duration = 1700, delay = 4500;
 //var cSlide, bkpCont, wowInstance, timeout;
 
 //var wowSlider =
 //$("#wowslider-container1").wowSlider({effect:effects,prev:"",next:"",duration:duration,delay:delay,width:960,height:360,fullScreen:true,autoPlay:true,autoPlayVideo:false,stopOnHover:true,loop:false,bullets:true,caption:true,captionEffect:"move,slide",controls:true});
-$("#wowslider-container1").wowSlider({effect:"bubbles,dribbles,glass_parallax,parallax,brick,collage,seven,kenburns,cube,blur,book,rotate,domino,slices,blast,blinds,basic,basic_linear,fade,fly,flip,page,stack,stack_vertical",prev:"",next:"",duration:duration,delay:delay,width:960,height:360,autoPlay:true,autoPlayVideo:false,playPause:true,stopOnHover:false,loop:false,bullets:1,caption:true,captionEffect:"parallax",controls:true,responsive:1,fullScreen:false,gestures:2,onBeforeStep:0,images:0});
+$("#wowslider-container1").wowSlider({effect:"fly",prev:"",next:"",duration:duration,delay:delay,width:960,height:360,autoPlay:true,autoPlayVideo:false,playPause:true,stopOnHover:true,loop:false,bullets:1,caption:true,captionEffect:"parallax",controls:true,responsive:1,fullScreen:false,gestures:2,onBeforeStep:0,images:0});
