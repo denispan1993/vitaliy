@@ -51,4 +51,4 @@ var duration = 1700, delay = 4500;
 
 //var wowSlider =
 //$("#wowslider-container1").wowSlider({effect:effects,prev:"",next:"",duration:duration,delay:delay,width:960,height:360,fullScreen:true,autoPlay:true,autoPlayVideo:false,stopOnHover:true,loop:false,bullets:true,caption:true,captionEffect:"move,slide,parallax",controls:true});
-$("#wowslider-container1").wowSlider({effect:"fly",prev:"",next:"",duration:duration,delay:delay,width:960,height:360,autoPlay:true,autoPlayVideo:false,playPause:true,stopOnHover:true,loop:true,bullets:true,caption:true,captionEffect:"slide",controls:true,responsive:1,fullScreen:false,gestures:2,onBeforeStep:0,images:0});
+$("#wowslider-container1").wowSlider({effect:"bubbles",prev:"",next:"",duration:duration,delay:delay,width:960,height:360,autoPlay:true,autoPlayVideo:false,playPause:true,stopOnHover:true,loop:true,bullets:true,caption:true,captionEffect:"slide",controls:true,responsive:1,fullScreen:false,gestures:2,onBeforeStep:0,images:0});
