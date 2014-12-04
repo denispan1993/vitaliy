@@ -565,12 +565,22 @@ class Product(models.Model):
                     2. умножаем на курс
                 '''
                 price = price/product_currency*product_exchange_rate
+                # Округляем до целого значения
+                price = round(price, )
             elif current_currency_pk != 1 and product_currency_pk == 1:
                 ''' Приводим к нужной валюте:
                     1. умножаем на количество гривен
                     2. делим на курс
                 '''
                 price = price*current_currency/current_exchange_rate
+            elif current_currency_pk == 2 and product_currency_pk != 1:
+                ''' Приводим к рублю:
+                    1. цену делим на количество гривен
+                    2. умножаем на курс
+                '''
+                price = price/product_currency*product_exchange_rate
+                # Округляем до целого значения
+                price = round(price, )
             elif current_currency_pk != 1 and product_currency_pk != 1:
                 ''' Сначала приводим к гривне '''
                 intermediate_price = price/product_currency*product_exchange_rate
