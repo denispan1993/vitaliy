@@ -74,11 +74,23 @@ try{jQuery(document).ready(function(e) {
 {% if user.is_authenticated and user.is_staff %}
 {# <!-- Yandex.Metrika informer --> #}{% include 'include/Yandex.Metrica.html' %}{# <!-- /Yandex.Metrika --> #}
 {% endif %}
+{% if not user.is_staff %}
+<div style="display:none">
+{% endif %}
 {# <!-- i.ua informer --> #}{% include 'include/i.ua.script' %}{# <!-- /i.ua --> #}
+{% if not user.is_staff %}
+</div>
+{% endif %}
 {% if user.is_authenticated and user.is_staff %}
 {# <!-- Mail.ru informer --> #}{% include 'include/Mail.ru.html' %}{# <!-- /Mail.ru --> #}
 {% endif %}
+{% if not user.is_staff %}
+<div style="display:none">
+{% endif %}
 {# <!-- rambler.ru informer --> #}{% include 'include/rambler.ru.script' %}{# <!-- /rambler.ru --> #}
+{% if not user.is_staff %}
+</div>
+{% endif %}
 </div>
 </body>
 </html>
