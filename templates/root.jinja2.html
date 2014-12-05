@@ -231,7 +231,7 @@ font-weight:bold;
                         <a href="{{ slide.url }}" target="_self">
                             <img src="{{ slide.slide.url }}"
                                  {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}
-                                 {% if slide.title %}title="{{ slide.title }}"{% endif %}
+                                 title="{% if slide.title %}{{ slide.title }}{% endif %}"
                                  id="wows1_{{ slide.order }}">
                         </a>{{ slide.text }}
                     </li>
