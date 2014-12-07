@@ -204,35 +204,33 @@
 #wowslider-container1 .ws_video_btn.ws_vimeo div {
 	background-position: 0 100%;
 }
-#wowslider-container1 .ws_video_btn.ws_vimeo:hover div {
-	background-position: 100% 100%;
+#wowslider-container1 .ws_video_btn.ws_vimeo:hover div{
+	background-position:100% 100%;
 }
-
-#wowslider-container1 .ws_playpause.ws_hide {
+#wowslider-container1 .ws_playpause.ws_hide{
 	display: none !important;
 }
-
-#wowslider-container1  .ws_bullets { 
-	padding: 10px; 
+#wowslider-container1 .ws_bullets{
+	padding:10px;
 }
-#wowslider-container1 .ws_bullets a { 
+#wowslider-container1 .ws_bullets a{
 	position:relative;
-	display: inline-block;
-	margin: 4px 10px;
-	padding: 7px;
-	width: 0;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
-	-webkit-box-shadow: 0 0 0 2px #fff;
-	-moz-box-shadow: 0 0 0 2px #fff;
-	box-shadow: 0 0 0 2px #fff;
+	display:inline-block;
+	margin:4px 10px;
+	padding:7px;
+	width:20px;
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	border-radius:50%;
+	-webkit-box-shadow:0 0 0 2px #fff;
+	-moz-box-shadow:0 0 0 2px #fff;
+	box-shadow:0 0 0 2px #fff;
 	
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	-ms-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
+	-webkit-transition:all 0.3s;
+	-moz-transition:all 0.3s;
+	-ms-transition:all 0.3s;
+	-o-transition:all 0.3s;
+	transition:all 0.3s;
 }
 #wowslider-container1 .ws_bullets a:hover:after{
 	background-color: #60CAC0;
@@ -268,12 +266,12 @@
 	-o-transform:scale(0.4);
 	transform:scale(0.4);	
 }
-@-webkit-keyframes nextArrow {
+@-webkit-keyframes nextArrow{
 	49% { -webkit-transform: translate(100%); }
 	50% { opacity: 0; -webkit-transform: translate(-100%); }
 	51% { opacity: 1; }
 }
-@-moz-keyframes nextArrow {
+@-moz-keyframes nextArrow{
 	49% { -moz-transform: translate(100%); }
 	50% { opacity: 0; -moz-transform: translate(-100%); }
 	51% { opacity: 1; }
@@ -299,17 +297,17 @@
 	50% { opacity: 0; transform: translate(100%); }
 	51% { opacity: 1; }
 }
-#wowslider-container1 a.ws_next, #wowslider-container1 a.ws_prev {
-	font: 2.8em "controls";
+#wowslider-container1 a.ws_next, #wowslider-container1 a.ws_prev{
+	font:2.8em "controls";
 	z-index:60;
-	color: #60CAC0;
+	color:#60CAC0;
 	background-color:#fff;
 	overflow: hidden;
 	width: 1.6em;
 	height: 1.6em;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	border-radius:50%;
 	
 	-webkit-transition: all .4s ease;
   	-moz-transition: all .4s ease;
