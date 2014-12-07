@@ -73,7 +73,7 @@ class Slide(models.Model):
     from compat.ImageWithThumbs import models as ImageModels
     slide = ImageModels.ImageWithThumbsField(verbose_name=u'Слайд',
                                              upload_to=set_path_photo,
-                                             sizes=((240, 96), ),
+                                             sizes=((240, 96), (128, 48), ),
                                              blank=False,
                                              null=False,
                                              help_text=u'Слайд должен быть в разрешении 960x360', )
