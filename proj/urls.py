@@ -224,7 +224,7 @@ urlpatterns += patterns('apps.static.views',
                         url(ur'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$',
                             'show_static_page',
                             {'template_name': u'static_page.jinja2.html', },
-                            name='show_category', ),
+                            name='show_static_page', ),
                         )
 
 

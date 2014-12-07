@@ -29,7 +29,7 @@ jQuery.fn.wowSlider=function(aj){var aF=jQuery;var H=this;var y=H.get(0);window.
                 aF(a1.get(a7)).addClass("ws_overbull");
                 aU.show();
                 var a8={
-                    left:a1.get(a7).offsetLeft-aU.width()/2+50,
+                    left:a1.get(a7).offsetLeft-aU.width()/2+100,
                     "margin-top":a1.get(a7).offsetTop-a1.get(0).offsetTop+"px",
                     "margin-bottom":-a1.get(a7).offsetTop+a1.get(a1.length-1).offsetTop+"px"
                 };
