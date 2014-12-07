@@ -242,7 +242,7 @@ font-weight:bold;
             <div>
                 {% for slide in slides_ %}
                     <a href="#" {% if slide.title %}title="{{ slide.title }}"{% endif %}>
-                        <img src="{{ slide.slide.url_248x96 }}"
+                        <img src="{{ slide.slide.url_240x96 }}"
                              {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}>{#
                         #}&#10022;</a>{# {{ slide.order}} #}{# &#8987; - песочніе часі &#9885; - звездочка #}
                 {% endfor %}
