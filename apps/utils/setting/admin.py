@@ -11,14 +11,15 @@ class genericStacked_Photo_InLine(generic.GenericStackedInline, ):
     extra = 1
 
 
-from apps.setting.models import Setting
+from apps.utils.setting.models import Setting
 
 
 class SettingAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'variable_name', ]
     list_display_links = ['pk', 'name', 'variable_name', ]
     fieldsets = [
-        (None, {'classes': ['wide'], 'fields': ['name', 'variable_name', 'variable', 'description', ], }),
+        (None, {'classes': ['wide'], 'fields': ['name', 'variable_name', 'variable_char',
+                                                'variable_positivesmallinteger', 'description', ], }),
     ]
     inlines = [
         genericStacked_Photo_InLine,

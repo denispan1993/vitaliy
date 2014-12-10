@@ -17,10 +17,13 @@ class Setting(models.Model):
                                      blank=False,
                                      null=False,
                                      default='', )
-    variable = models.CharField(verbose_name=_(u'Переменная', ),
-                                max_length=128,
-                                blank=True,
-                                null=True, )
+    variable_char = models.CharField(verbose_name=_(u'Char', ),
+                                     max_length=256,
+                                     blank=True,
+                                     null=True, )
+    variable_positivesmallinteger = models.PositiveSmallIntegerField(verbose_name=_(u'PositiveSmallInteger', ),
+                                                                     blank=True,
+                                                                     null=True, )
     description = models.TextField(verbose_name=_(u'Описание настройки', ),
                                    blank=True,
                                    null=True, )

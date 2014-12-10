@@ -340,7 +340,7 @@ INSTALLED_APPS = (
     'apps.static',
     'apps.search',
     'apps.utils',
-    'apps.setting',
+    'apps.utils.setting',
     'apps.utils.captcha',
     'apps.handlers',
     'apps.adminSite',
