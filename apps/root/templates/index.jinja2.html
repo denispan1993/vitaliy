@@ -1,7 +1,7 @@
 {% extends "root.jinja2.html" %}
-{% block title %}Кексик - магазин кондитерских инструментов и ингредиентов.{% endblock %}
-{% block description %}Гелиевые краски,цветочная пыльца,молды,кандурин,ингредиенты для мастики и тортов.Печать фотографий на сахарной бумаге.Силиконовые молды.Мастика для тортов.{% endblock %}
-{% block keywords %}кондитерский гель,пищевые красители,сахарная мастика,инструменты для мастики,ганаш{% endblock %}
+{% block title %}{{ get_value_variable('root_page_title', 'char') }}{% endblock %}
+{% block description %}{{ get_value_variable('root_page_description', 'char') }}{% endblock %}
+{% block keywords %}{{ get_value_variable('root_page_keywords', 'char') }}{% endblock %}
 {% block content_center %}
 <h1 class="center_title">Новинки магазина Кексик</h1>
     {# <div class="products_container"> #}

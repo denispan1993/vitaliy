@@ -17,25 +17,31 @@ class Setting(models.Model):
                                      blank=False,
                                      null=False,
                                      default='', )
-    variable_char = models.CharField(verbose_name=_(u'Char', ),
-                                     max_length=256,
-                                     blank=True,
-                                     null=True, )
-    variable_positivesmallinteger = models.PositiveSmallIntegerField(verbose_name=_(u'PositiveSmallInteger', ),
-                                                                     blank=True,
-                                                                     null=True, )
     description = models.TextField(verbose_name=_(u'Описание настройки', ),
                                    blank=True,
                                    null=True, )
+    char = models.CharField(verbose_name=_(u'Char', ),
+                            max_length=256,
+                            blank=True,
+                            null=True, )
+    text = models.TextField(verbose_name=_(u'Text', ),
+                            blank=True,
+                            null=True, )
+    integer = models.IntegerField(verbose_name=_(u'Integer', ),
+                                  blank=True,
+                                  null=True, )
+    positivesmallinteger = models.PositiveSmallIntegerField(verbose_name=_(u'PositiveSmallInteger', ),
+                                                            blank=True,
+                                                            null=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )
 
     from django.contrib.contenttypes import generic
     from apps.product.models import Photo
-    photo = generic.GenericRelation(Photo,
-                                    content_type_field='content_type',
-                                    object_id_field='object_id', )
+    img = generic.GenericRelation(Photo,
+                                  content_type_field='content_type',
+                                  object_id_field='object_id', )
 
     def __unicode__(self, ):
         return u'%s - %s' % (self.name, self.variable_name, )

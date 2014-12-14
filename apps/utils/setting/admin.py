@@ -6,7 +6,7 @@ from django.contrib.contenttypes import generic
 from apps.product.models import Photo
 
 
-class genericStacked_Photo_InLine(generic.GenericStackedInline, ):
+class genericStacked_Img_InLine(generic.GenericStackedInline, ):
     model = Photo
     extra = 1
 
@@ -18,11 +18,12 @@ class SettingAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'variable_name', ]
     list_display_links = ['pk', 'name', 'variable_name', ]
     fieldsets = [
-        (None, {'classes': ['wide'], 'fields': ['name', 'variable_name', 'variable_char',
-                                                'variable_positivesmallinteger', 'description', ], }),
+        (None, {'classes': ['wide'], 'fields': ['name', 'variable_name', 'description',
+                                                'char', 'text',
+                                                'positivesmallinteger', ], }),
     ]
     inlines = [
-        genericStacked_Photo_InLine,
+        genericStacked_Img_InLine,
     ]
 
     # readonly_fields = ('pk', )

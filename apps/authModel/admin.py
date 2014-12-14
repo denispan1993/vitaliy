@@ -6,10 +6,11 @@ from django.contrib import admin
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+#from django.contrib.auth.models import User
 from apps.authModel.models import User
 
 
@@ -58,7 +59,7 @@ class UserChangeForm(forms.ModelForm, ):
         return self.initial["password"]
 
 
-class UserAdmin(UserAdmin, ):
+class UserAdmin(DjangoUserAdmin, ):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
@@ -66,8 +67,9 @@ class UserAdmin(UserAdmin, ):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username', 'first_name', 'last_name', 'patronymic', 'gender',
-                    'date_of_birth', 'is_superuser', 'is_staff', 'is_active', )
+    list_display = ('pk', 'username', 'first_name', 'last_name', 'patronymic', 'gender', 'date_of_birth',
+                    'is_superuser', 'is_staff', 'is_active', )
+    list_display_links = ('pk', 'username', 'first_name', 'last_name', 'patronymic', 'gender', 'date_of_birth', )
     list_filter = ('is_superuser', 'is_staff', 'is_active', )
     fieldsets = (
         (None, {'fields': ('username', 'password'), }, ),
@@ -83,7 +85,7 @@ class UserAdmin(UserAdmin, ):
         (None, {
             'classes': ('wide',),
             'fields': ('username', 'date_of_birth', 'password1', 'password2'), },
-        ),
+         ),
     )
     search_fields = ('username', 'first_name', 'last_name', 'patronymic', )
     ordering = ('username', )
@@ -94,4 +96,34 @@ admin.site.unregister(User, )
 admin.site.register(User, UserAdmin, )
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
-# admin.site.unregister(Group, )
+admin.site.unregister(Group, )
+
+from django.contrib.auth.admin import GroupAdmin #  as DjangoGroupAdmin
+
+
+class MyGroupAdmin(GroupAdmin, ):
+    list_display = ('pk', 'name', )
+    list_display_links = ('pk', 'name', )
+    # list_filter = ('is_superuser', 'is_staff', 'is_active', )
+
+# admin.site.unregister(GroupAdmin, )
+admin.site.register(Group, MyGroupAdmin, )
+#admin.site.register(Permission, )
+
+
+from django.contrib.auth.models import Permission
+#from django.contrib.auth.admin import
+
+
+class PermissionAdmin(admin.ModelAdmin, ):
+    list_display = ('pk', 'name', 'content_type', 'codename', )
+    list_display_links = ('pk', 'name', 'content_type', 'codename', )
+    # list_filter = ('is_superuser', 'is_staff', 'is_active', )
+
+## admin.site.unregister(Permission, )
+admin.site.register(Permission, PermissionAdmin, )
+#admin.site.register(Permission, )
+
+from django.contrib.contenttypes.models import ContentType
+#admin.site.unregister(ContentType, )
+admin.site.register(ContentType, )

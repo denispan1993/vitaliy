@@ -41,13 +41,13 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     # REQUIRED_FIELDS = ['username', ]
     date_of_birth = models.DateField(verbose_name=u'День рождения', blank=True, null=True, )
 
-    NONE=0
-    MALE=1
-    FEMALE=2
-    gender_CHOICES=(
-        (NONE, _(u'Не определено')),
-        (MALE, _(u'Мужчина')),
-        (FEMALE, _(u'Женщина')),
+    NONE = 0
+    MALE = 1
+    FEMALE = 2
+    gender_CHOICES = (
+        (NONE, _(u'Не определено'), ),
+        (MALE, _(u'Мужчина'), ),
+        (FEMALE, _(u'Женщина'), ),
     )
     # Пол
     gender = models.PositiveSmallIntegerField(choices=gender_CHOICES,
@@ -120,7 +120,9 @@ class User(AbstractBaseUser, PermissionsMixin, ):
                                 help_text=_('Required. 32 characters or fewer. Letters, numbers and '
                                             '@/./+/-/_ characters', ),
                                 validators=[
-                                    validators.RegexValidator(re.compile('^[\w.@+-]+$'), _('Enter a valid username.'), 'invalid'),
+                                    validators.RegexValidator(re.compile('^[\w.@+-]+$'),
+                                                              _('Enter a valid username.'),
+                                                              'invalid', ),
                                 ], )
     first_name = models.CharField(_('first name'), max_length=30, blank=True, )
     last_name = models.CharField(_('last name'), max_length=30, blank=True, )
@@ -131,6 +133,7 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     """
     @property
     def email(self, ):
+        emails = Email.email_parent_user.all()
         return None
 
     is_staff = models.BooleanField(_('staff status'), default=False,
