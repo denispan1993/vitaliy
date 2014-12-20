@@ -124,6 +124,17 @@ urlpatterns += patterns('apps.adminSite.views',
                         url(ur'^админ/комментарий/редактор/(?P<id>\d{6})/$', 'comment_edit',
                             {'template_name': u'comment/comment_edit.jinja2.html', },
                             name='comment_edit', ),
+                        # """ Админ панель Купонов. """
+                        url(ur'^админ/купон/группа/поиск/$', 'coupon_group_search',
+                            {'template_name': u'coupon/coupon_group_search.jinja2.html', },
+                            name='coupon_group_search', ),
+                        url(ur'^админ/купон/редактор/$', 'coupon_group_edit',
+                            {'template_name': u'coupon/coupon_group_edit.jinja2.html',
+                             'id': 0, },
+                            name='coupon_add', ),
+                        url(ur'^админ/купон/редактор/(?P<id>\d{6})/$', 'coupon_group_edit',
+                            {'template_name': u'coupon/coupon_group_edit.jinja2.html', },
+                            name='coupon_edit', ),
                         )
 
 #Search

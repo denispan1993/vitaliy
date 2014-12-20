@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<title>Страница поиска заказа по номеру.</title>
+<title>Страница поиска группы купонов.</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <style>
 body{
@@ -23,37 +23,45 @@ body{
     margin:auto; /* Выравниваем по центру */
     {# background:#fc0; /* Цвет фона */ #}
 }
-#orders{
-    margin-left:auto;
-    margin-right:auto;
-}
 </style>
 </head>
 <body>
     <div id="flex-container">
         <div id="flexed-center">
-            <form method="POST" action="/админ/заказ/поиск/">
+            <form method="POST" action="/админ/купон/группа/поиск/">
                 {% if error_message %}<p style="color:Red;">{{ error_message }}</p>{% endif %}
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                <input type="hidden" name="POST_NAME" value="order_search">
-                <input type="text" name="order_id">
-                <input type="submit" value="Искать заказ">
+                <input type="hidden" name="POST_NAME" value="coupon_group_search">
+                <input type="text" name="coupon_group_id">
+                <input type="submit" value="Искать группу купонов">
+            </form>
+            <form method="POST" action="/админ/купон/группа/редактор/">
+                {% if error_message %}<p style="color:Red;">{{ error_message }}</p>{% endif %}
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="POST_NAME" value="coupon_group_edit">
+                <input type="submit" value="Добавить группу купонов">
             </form>
         </div>
     </div>
-    <div id="orders"{# style="clear:both;" #}>
+<style>
+#coupon_groups{
+    margin-left:auto;
+    margin-right:auto;
+}
+</style>
+    <div id="coupon_groups"{# style="clear:both;" #}>
         <table>
             <tbody>
-                {% for order in orders %}
+                {% for coupon_group in coupon_groups %}
                 <tr>
                     <td>
-                        {% set url = order.pk|int_to_string %}
+                        {% set url = coupon_group.pk|int_to_string %}
                         {% set int_range = 6 - url|length %}
                         {% if int_range > 0 %}
                             {% for i in int_range|get_range %}
                                 {% set url = '0' + url %}
                                 {% if i == int_range - 1 %}
-                                    <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a>
+                                    <a href="/админ/купон/группа/редактор/{{ url }}/">{{ coupon_group.pk }}</a>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -62,57 +70,28 @@ body{
                         {# <a href="{1{ url('order_edit', order.pk) }}">{{ order.pk }}</a> #}
                     </td>
                     <td>
-                        {% if order.user %}
-                            {{ order.user }}
-                        {% elif order.sessionid %}
-                            {{ order.sessionid }}
-                        {% endif %}
+                        {{ coupon_group.name }}
                     </td>
                     <td>
-                        {{ order.email }}
+                        {{ coupon_group.how_much_coupons }}
                     </td>
                     <td>
-                        {{ order.FIO }}
+                        {{ coupon_group.number_of_possible_uses }}
                     </td>
                     <td>
-                        {{ order.phone }}
+                        {{ coupon_group.percentage_discount }}
                     </td>
                     <td>
-                        {{ order.country }}
+                        {{ coupon_group.start_of_the_coupon|date("d-M-Y H:i:s") }}
                     </td>
                     <td>
-                        {% if order.region %}
-                            {{ order.region }}
-                        {% endif %}
+                        {{ coupon_group.end_of_the_coupon|date("d-M-Y H:i:s") }}
                     </td>
                     <td>
-                        {% if order.settlement %}
-                            {{ order.settlement }}
-                        {% endif %}
+                        {{ coupon_group.created_at|date("d-M-Y H:i:s") }}
                     </td>
                     <td>
-                        {% if order.warehouse_number %}
-                            {{ order.warehouse_number }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if order.address %}
-                            {{ order.address }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if order.postcode %}
-                            {{ order.postcode }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{ order.comment }}
-                    </td>
-                    <td>
-                        {{ order.created_at|date("d-M-Y H:i:s") }}
-                    </td>
-                    <td>
-                        {{ order.updated_at|date("d-M-Y H:i:s") }}
+                        {{ coupon_group.updated_at|date("d-M-Y H:i:s") }}
                     </td>
                 </tr>
                 {% endfor %}
