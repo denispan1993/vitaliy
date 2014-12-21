@@ -82,6 +82,12 @@ class Coupon(models.Model, ):
                                      blank=True,
                                      null=True,
                                      help_text=u'Ссылка на групу купонов', )
+    from apps.utils.captcha.views import key_generator
+    key = models.CharField(verbose_name=_(u'Ключ купона', ),
+                           max_length=8,
+                           blank=False,
+                           null=False,
+                           default=key_generator(), )
     """
         Какая корзина создала этот купон.
     """

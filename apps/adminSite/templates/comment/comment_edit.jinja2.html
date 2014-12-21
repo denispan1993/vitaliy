@@ -108,10 +108,10 @@ function button_click(action, tag_type, tag_id){
             <input type="email" id="comment_email_for_response" value="{{ comment.email_for_response }}">
             <br>
             <label for="comment_created_at">Дата и врямя создания:</label>
-            <input type="datetime" id="comment_created_at" value="{{ comment.created_at }}">
+            <input type="datetime" id="comment_created_at" value="{{ comment.created_at }}" disabled>
             <br>
             <label for="comment_updated_at">Дата и врямя изменения:</label>
-            <input type="datetime" id="comment_updated_at" value="{{ comment.updated_at }}">
+            <input type="datetime" id="comment_updated_at" value="{{ comment.updated_at }}" disabled>
             <br>
             <input type="button" value="Ответить">
             <input type="button" value="Сохранить">
