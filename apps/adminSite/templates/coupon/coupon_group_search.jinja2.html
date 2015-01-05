@@ -21,6 +21,7 @@ body{
     {# width:200px; /* Ширина элемента в пикселах */ #}
     {# padding:10px; /* Поля вокруг текста */ #}
     margin:auto; /* Выравниваем по центру */
+    display:flex;
     {# background:#fc0; /* Цвет фона */ #}
 }
 </style>
@@ -35,7 +36,7 @@ body{
                 <input type="text" name="coupon_group_id">
                 <input type="submit" value="Искать группу купонов">
             </form>
-            <form method="POST" action="/админ/купон/группа/редактор/">
+            <form method="POST" action="{{ url('coupon_group_add') }}">
                 {% if error_message %}<p style="color:Red;">{{ error_message }}</p>{% endif %}
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <input type="hidden" name="POST_NAME" value="coupon_group_edit">

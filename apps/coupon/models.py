@@ -9,7 +9,7 @@ from datetime import date, datetime
 def add_months(d, x, ):
     new_month = (((d.month - 1) + x) % 12) + 1
     new_year = d.year + (((d.month - 1) + x) / 12)
-    return date(new_year, new_month, d.day)
+    return datetime(new_year, new_month, d.day, d.hour, d.minute, d.second, d.microsecond, )
 
 
 def add_three_month():
@@ -23,29 +23,40 @@ class CouponGroup(models.Model, ):
                             null=True,
                             default=datetime.now().isoformat(), )
     how_much_coupons = models.PositiveSmallIntegerField(verbose_name=_(u'Количество сгенерированных купонов', ),
-                                                        blank=False,
-                                                        null=False,
+                                                        blank=True,
+                                                        null=True,
                                                         default=10, )
     number_of_possible_uses = models.PositiveSmallIntegerField(verbose_name=_(u'Количество возможных использований', ),
-                                                               blank=False,
-                                                               null=False,
+                                                               blank=True,
+                                                               null=True,
                                                                default=1, )
 
     percentage_discount = models.PositiveSmallIntegerField(verbose_name=_(u'Процент скидки', ),
-                                                           blank=False,
-                                                           null=False,
+                                                           blank=True,
+                                                           null=True,
                                                            default=10, )
     start_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя начала действия купонов', ),
-                                               blank=False,
-                                               null=False,
-                                               auto_now_add=True, )
+                                               blank=True,
+                                               null=True,
+                                               default=datetime.now(), )
     end_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя окончания действия купонов', ),
-                                             blank=False,
-                                             null=False,
+                                             blank=True,
+                                             null=True,
                                              default=add_three_month(), )
     #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+    updated_at = models.DateTimeField(verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+
+    @models.permalink
+    def get_absolute_url(self, ):
+        return ('coupon_group_edit', (),
+                {'coupon_group_id': self.pk, }, )
 
     def __unicode__(self):
         # """
@@ -63,6 +74,13 @@ class CouponGroup(models.Model, ):
         # Proverka123  -ф123
         # """
         return u'Группа купонов: № %6d - %s' % (self.pk, self.name, )
+
+#    def save(self, *args, **kwargs):
+#        from django.utils.timezone import now
+#        if not self.created_at:
+#            self.created_at = now()
+#        self.updated_at = now()
+#        return super(CouponGroup, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'CouponGroup'
@@ -127,8 +145,14 @@ class Coupon(models.Model, ):
                                              default=add_three_month(), )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
+                                      blank=False,
+                                      null=False,
+                                      default=datetime.now(), )
+    updated_at = models.DateTimeField(verbose_name=_(u'Дата обновления', ),
+                                      blank=False,
+                                      null=False,
+                                      default=datetime.now(), )
 
     # from apps.comment import managers
     # objects = managers.Manager()
@@ -144,6 +168,11 @@ class Coupon(models.Model, ):
 #        object = self.content_type.get_object_for_this_type(pk=self.object_id, )
 #        url = object.get_absolute_url()
 #        return u'%sкомментарий/%.6d/' % (url, self.pk, )
+
+    @models.permalink
+    def get_absolute_url(self, ):
+        return 'coupon_edit', self.pk,
+                #{'coupon_id': self.pk, }, )
 
     def __unicode__(self):
         # """
@@ -161,6 +190,13 @@ class Coupon(models.Model, ):
         # Proverka123  -ф123
         # """
         return u'Купон: № %6d - %s' % (self.pk, self.name, )
+
+    def save(self, *args, **kwargs):
+        from django.utils.timezone import now
+        if not self.created_at:
+            self.created_at = now()
+        self.updated_at = now()
+        return super(Coupon, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'Coupon'

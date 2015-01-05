@@ -99,8 +99,8 @@ urlpatterns += patterns('apps',
 #Капча
 #urlpatterns += patterns(url(r'^captcha/', include('apps.utils.captcha.urls', ), ), )
 
-#from apps.utils.decorators import manager_required, member_required
-#from apps.adminSite.views import CouponGroupCreateEdit
+from apps.utils.decorators import manager_required, member_required
+from apps.adminSite.views import CouponGroupCreateEdit, CouponCreateEdit
 #Admin panel
 urlpatterns += patterns('apps.adminSite.views',
                         url(ur'^админ/$', 'admin_panel',
@@ -130,14 +130,12 @@ urlpatterns += patterns('apps.adminSite.views',
                         url(ur'^админ/купон/группа/поиск/$', 'coupon_group_search',
                             {'template_name': u'coupon/coupon_group_search.jinja2.html', },
                             name='coupon_group_search', ),
-                        url(ur'^админ/купон/группа/редактор/$', 'coupon_group_edit',
-                            {'template_name': u'coupon/coupon_group_edit.jinja2.html',
-                             'coupon_group_id': '000000', },
-                            # manager_required(CouponGroupCreateEdit.as_view(), ),
-                            name='coupon_add', ),
-                        url(ur'^админ/купон/группа/редактор/(?P<coupon_group_id>\d{6})/$', 'coupon_group_edit',
-                            {'template_name': u'coupon/coupon_group_edit.jinja2.html', },
-                            name='coupon_edit', ),
+                        url(ur'^админ/купон/группа/редактор/добавить/$',
+                            manager_required(CouponGroupCreateEdit.as_view(), ),
+                            name='coupon_group_add', ),
+                        url(ur'^админ/купон/группа/редактор/(?P<coupon_group_id>\d{6})/$',
+                            manager_required(CouponGroupCreateEdit.as_view(), ),
+                            name='coupon_group_edit', ),
                         )
 
 #Search
@@ -156,6 +154,14 @@ urlpatterns += patterns('apps.search.views',
                         url(r'^search/(?P<query>\d+)$', 'search_page',
                             {'template_name': u'category/show_category.jinja2.html', },
                             name='show_search', ),
+                        )
+urlpatterns += patterns('apps.adminSite.views',
+                        url(ur'^админ/купон/редактор/добавить/$',
+                            manager_required(CouponCreateEdit.as_view(), ),
+                            name='coupon_add', ),
+                        url(ur'^админ/купон/редактор/(?P<coupon_id>\d{6})/$',
+                            manager_required(CouponCreateEdit.as_view(), ),
+                            name='coupon_edit', ),
                         )
 #Ajax
 urlpatterns += patterns('apps.ajax.views',

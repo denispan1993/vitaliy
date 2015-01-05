@@ -273,22 +273,98 @@ def coupon_group_search(request,
 #        from modules.creative.models import Creative
 #        return Creative.objects.all()
 
-#from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView, View, ProcessFormView
 
 
-#class CouponGroupCreateEdit(FormView, ):
-#    from apps.coupon.forms import CouponGroupCreateEditForm
-#    form_class = CouponGroupCreateEditForm
-#    template_name = 'coupon/coupon_group_edit.jinja2.html'
-#    success_url = '/админ/купон/группа/редактор/'
+class CouponGroupCreateEdit(FormView, ):
+    from apps.coupon.forms import CouponGroupCreateEditForm
+    form_class = CouponGroupCreateEditForm
+    template_name = 'coupon/coupon_group_edit.jingo.html'
+    success_url = '/админ/купон/группа/редактор/добавить/'
+    coupon_group = None
 
-#    def form_valid(self, form, ):
-#        from apps.coupon.models import CouponGroup
-#        CouponGroup.objects.create(**form.cleaned_data)
-#        return super(CouponGroupCreateEdit, self, ).form_valid(form, )
+    def form_valid(self, form, ):
+        #print form
+        #print form.cleaned_data
+        #print form.cleaned_data.get('POST_NAME', None, )
+        if form.cleaned_data.get('name', None, ):
+            print 'Ok'
+            from apps.coupon.models import CouponGroup
+            self.coupon_group = CouponGroup.objects.create(**form.cleaned_data)
+        else:
+            print 'Bad'
+#        from apps.coupon.models import Coupon
+#        how_much_coupons = form.cleaned_data.get('how_much_coupons', 0, )
+#        from datetime import datetime
+#        for i in range(how_much_coupons, ):
+#            name = form.cleaned_data.get('name', None, )
+#            number_of_possible_uses = form.cleaned_data.get('number_of_possible_uses', 0, )
+#            percentage_discount = form.cleaned_data.get('percentage_discount', 0, )
+#            start_of_the_coupon = form.cleaned_data.get('start_of_the_coupon', datetime.now(), )
+#            end_of_the_coupon = form.cleaned_data.get('end_of_the_coupon', datetime.now(), )
+#            Coupon.objects.create(name=name,
+#                                  coupon_group=coupon_group,
+#                                  number_of_possible_uses=number_of_possible_uses,
+#                                  percentage_discount=percentage_discount,
+#                                  start_of_the_coupon=start_of_the_coupon,
+#                                  end_of_the_coupon=end_of_the_coupon, )
+        return super(CouponGroupCreateEdit, self, ).form_valid(form, )
 
+    def get_success_url(self, **kwargs):
+        url = super(CouponGroupCreateEdit, self).get_success_url()
+        if self.coupon_group:
+            return '/админ/купон/группа/редактор/%.6d/' % int(self.coupon_group.pk, )
+        else:
+            return url
 
+    def get_context_data(self, **kwargs):
+        context = super(CouponGroupCreateEdit, self).get_context_data(**kwargs)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        context['form'] = form
+        # print context
+        # print kwargs
+        # print self.kwargs
+        #for k, i in kwargs:
+        #print kwargs
+        #    # print k, i
+        #pk = self.kwargs['coupon_group_id']
+        pk = self.kwargs.get('coupon_group_id', None, )
+        context['disable'] = False
+        context['coupons'] = False
+        context['coupon_group_pk'] = False
+        if pk:
+            try:
+                pk_int = int(pk, )
+            except ValueError:
+                pass
+            else:
+                context['disable'] = True
+                context['coupon_group_pk'] = pk_int
+                from apps.coupon.models import CouponGroup
+                try:
+                    coupon_group = CouponGroup.objects.get(pk=pk_int, )
+                except CouponGroup.DoesNotExist:
+                    pass
+                else:
+                    from apps.coupon.models import Coupon
+                    try:
+                        coupons = Coupon.objects.filter(coupon_group=coupon_group, )
+                    except Coupon.DoesNotExist:
+                        pass
+                    else:
+                        context['coupons'] = coupons
+        #print pk
+        #print form.fields
+        #print context['form']
+        ## print context['form'].get('pk')
+        #context['disable'] = True
+        #print context
+        return context
 
+    def post(self, request, *args, **kwargs):
+        print '1', request.POST.get('POST_NAME', None, )
+        return super(CouponGroupCreateEdit, self, ).post(self, request, *args, **kwargs)
 
 @staff_member_required
 def coupon_group_edit(request,
@@ -356,3 +432,11 @@ def coupon_group_edit(request,
                                           'error_message': error_message, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
+
+
+class CouponCreateEdit(FormView, ):
+    from apps.coupon.forms import CouponCreateEditForm
+    form_class = CouponCreateEditForm
+    template_name = 'coupon/coupon_edit.jingo.html'
+    success_url = '/админ/купон/редактор/добавить/'
+

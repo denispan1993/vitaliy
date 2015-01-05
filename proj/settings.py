@@ -196,6 +196,7 @@ TEMPLATE_LOADERS = (
     # ('coffin.template.loaders.JinjaCachedLoader',
     ('django.template.loaders.cached.Loader',
      (
+         'jingo.Loader',
          'django_jinja.loaders.AppLoader',
          'django_jinja.loaders.FileSystemLoader',
          # 'django.template.loaders.app_directories.Loader',
@@ -222,6 +223,12 @@ TEMPLATE_LOADERS = (
 
 
 DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2.html'
+
+JINGO_INCLUDE_PATTERN = r'\.jingo.html'
+
+JINGO_EXCLUDE_APPS = ('debug_toolbar',
+                      'django.contrib.admin',
+                      'django.contrib.admindocs', )
 
 #TEMPLATE_LOADERS = (
 #    'django.template.loaders.filesystem.Loader',
@@ -327,6 +334,7 @@ INSTALLED_APPS = (
     'mptt',
     'django_mptt_admin',
     'django_jinja',
+    'bootstrap',
     'bootstrap3',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',

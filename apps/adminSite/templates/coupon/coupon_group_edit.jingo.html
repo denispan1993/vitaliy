@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+{% from "bootstrap/macros.html" import debugmin %}
+<title>Страница добавления/редактирования Групы купонов.</title>
+<meta charset="utf-8">
+<link href="{{ STATIC_URL }}css/bootstrap{{ debugmin() }}.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<link href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" media="screen" type="text/css" rel="stylesheet">
+<script src="/media/js/moment.js"></script>
+{# <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css"> #}
+{# <script src="/media/js/jquery/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script> #}
+<script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
+<script src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/ru.js"></script>
+{# <link href="/media/css/site.css" media="screen" type="text/css" rel="stylesheet"> #}
+{# <script src="/media/js/jquery/bootstrap-datetimepicker/locales/bootstrap-datetimepicker/ru.js"></script> #}
+</head>
+<body>
+{# {1% set coupon_group = form %}
+{% if form.id %}
+    {% set disable = True %}
+{% else %}
+    {% set disable = False %}
+{% endif %} #}
+    <div id="show_coupon_group" style="color:Black;text-align:left;">
+{{ form.non_field_errors() }}
+        {% if not disable %}
+            <form action="{{ url('coupon_group_add') }}" method="post">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="POST_NAME" value="coupon_group_dispatch">
+        {% elif coupon_group_pk %}
+            <label for="coupon_group_pk">№ группы купонов:</label>
+            <input type="text"
+                   name="pk"
+                   id="coupon_group_pk"
+                   value="{{ coupon_group_pk }}" disabled>
+            <br>
+        {% endif %}
+            {{ form.name.errors }}
+            <label for="coupon_grouper_name">Наименование группы купонов:</label>
+            <input type="text"
+                   name="name"
+                   id="coupon_grouper_name"
+                   value="{% if form is defined %}{{ form.name.value() }}{% endif %}"
+                   {% if disable %}disabled{% endif %}>
+            <br>
+            {{ form.how_much_coupons.errors }}
+            <label for="coupon_group_how_much_coupons">Количество купонов которое нужно сгенерировать:</label>
+            <input type="text"
+                   name="how_much_coupons"
+                   id="coupon_group_how_much_coupons"
+                   value="{% if form is defined %}{{ form.how_much_coupons.value() }}{% endif %}"
+                   {% if disable %}disabled{% endif %}>
+            <br>
+            {{ form.number_of_possible_uses.errors }}
+            <label for="coupon_group_number_of_possible_uses">Количество возможных использований:</label>
+            <input type="text"
+                   name="number_of_possible_uses"
+                   id="coupon_group_number_of_possible_uses"
+                   value="{% if form is defined %}{{ form.number_of_possible_uses.value() }}{% endif %}"
+                   {% if disable %}disabled{% endif %}>
+            <br>
+            {{ form.percentage_discount.errors }}
+            <label for="coupon_group_percentage_discount">Процент скидки:</label>
+            <input type="text"
+                   name="percentage_discount"
+                   id="coupon_group_percentage_discount"
+                   value="{% if form is defined %}{{ form.percentage_discount.value() }}{% endif %}"
+                   {% if disable %}disabled{% endif %}>
+            <br>
+{% if not disable %}
+<style>
+.glyphicon-calendar:before{
+    content: "\e109";
+}
+.input-group-addon{
+    width:auto;
+}
+</style>
+{% endif %}
+            <div class="form-group">
+                <div class='input-group date' id='div_coupon_group_start_of_the_coupon'>
+                    {{ form.start_of_the_coupon.errors }}
+                    <label for="coupon_group_start_of_the_coupon">Врямя начала действия купонов:</label>
+                    <input type="datetime"
+                           name="start_of_the_coupon"
+                           id="coupon_group_start_of_the_coupon"
+                           data-date-format="DD.MM.YYYY HH:mm:ss"
+                           class="form-control"
+                           value="{% if form is defined %}{{ form.start_of_the_coupon.value() }}{% endif %}"
+                           {% if disable %}disabled{% endif %}>
+                    {% if not disable %}
+                        <span class="input-group-addon datepickerbutton">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class='input-group date' id='div_coupon_group_end_of_the_coupon'>
+                    {{ form.end_of_the_coupon.errors }}
+                    <label for="coupon_group_end_of_the_coupon">Врямя окончания действия купонов:</label>
+                    <input type="datetime"
+                           name="end_of_the_coupon"
+                           id="coupon_group_end_of_the_coupon"
+                           data-date-format="DD/MM/YYYY HH:mm:ss"
+                           class="form-control"
+                           value="{% if form is defined %}{{ form.end_of_the_coupon.value() }}{% endif %}"
+                           {% if disable %}disabled{% endif %}>
+                    {% if not disable %}
+                        <span class="input-group-addon datepickerbutton">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+{% if not disable %}
+<script>
+$(function(){
+    $('#div_coupon_group_start_of_the_coupon, #div_coupon_group_end_of_the_coupon').datetimepicker({
+        language:'ru',
+        pick12HourFormat:false
+    });
+});
+</script>
+{% endif %}
+            <br>
+            {{ form.created_at.errors }}
+            <label for="coupon_group_created_at">Дата и врямя создания:</label>
+            <input type="datetime"
+                   id="coupon_group_created_at"
+                   value="{% if form is defined %}{{ form.created_at.value() }}{% endif %}"
+                   disabled>
+            <br>
+            {{ form.updated_at.errors }}
+            <label for="coupon_group_updated_at">Дата и врямя изменения:</label>
+            <input type="datetime"
+                   id="coupon_group_updated_at"
+                   value="{% if form is defined %}{{ form.updated_at.value() }}{% endif %}"
+                   disabled>
+            <br>
+        {% if not disable %}
+            <button type="submit" class="btn btn-primary">Генерация купонов</button>
+            </form>
+        {% endif %}
+    </div>
+    {% if coupons %}
+        <div class="coupons">
+            {% for coupon in coupons %}
+                <div class="coupon">
+                    <a href="{{ coupon.get_absolute_url() }}">{{ coupon }}</a>
+                </div>
+            {% else %}
+                <p>Coupons is Empty</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

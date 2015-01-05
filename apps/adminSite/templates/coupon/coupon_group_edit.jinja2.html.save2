@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+{% from "bootstrap/macros.html" import debugmin %}
 <title>Страница добавления/редактирования Групы купонов.</title>
 <meta charset="utf-8">
+<link href="{{ STATIC_URL }}css/bootstrap{{ debugmin() }}.css" rel="stylesheet">
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -16,7 +18,19 @@
 {# <script src="/media/js/jquery/bootstrap-datetimepicker/locales/bootstrap-datetimepicker/ru.js"></script> #}
 </head>
 <body>
+{% set coupon_group = form %}
+{% if form.id %}
+    {% set disable = True %}
+{% else %}
+    {% set disable = False %}
+{% endif %}
     <div id="show_coupon_group" style="color:Black;text-align:left;">
+        {{ form|safe }}
+    </div>
+</body>
+</html>
+
+
         {% if coupon_group is defined %}
             {% set url = coupon_group.pk|int_to_string %}
             {% set int_range = 6 - url|length %}
@@ -46,11 +60,14 @@
                        id="coupon_group_id"
                        value="{% if coupon_group is defined %}{{ coupon_group.pk }}{% endif %}" disabled>
                 <br>
-                <label for="coupon_grouper_name">Наименование группы купонов:</label>
-                <input type="text"
+                {% if coupon_group is defined %}{{ coupon_group.name.errors }}{% endif %}
+                {% if coupon_group is defined %}{{ coupon_group.name.label_tag() }}{% endif %}
+                {# <label for="coupon_grouper_name">Наименование группы купонов:</label> #}
+                {% if coupon_group is defined %}{{ coupon_group.name }}{% endif %}
+                {# <input type="text"
                        name="name"
                        id="coupon_grouper_name"
-                       value="{% if coupon_group is defined %}{{ coupon_group.name }}{% endif %}">
+                       value="{% if coupon_group is defined %}{{ coupon_group.name }}{% endif %}"> #}
                 <br>
     {#             {% if coupon_group.user %}
                     <label for="coupon_grouper_user">Пользователь комментатор:</label>
@@ -60,23 +77,33 @@
                 <label for="coupon_grouper_sessionid">SessionID комментатора:</label>
                 <input type="text" id="coupon_grouper_sessionid" value="{{ coupon_group.sessionid }}" disabled>
                 <br> #}
-                <label for="coupon_group_how_much_coupons">Количество купонов которое нужно сгенерировать:</label>
+                {% if coupon_group is defined %}{{ coupon_group.how_much_coupons.errors }}{% endif %}
+                {% if coupon_group is defined %}{{ coupon_group.how_much_coupons.label_tag() }}{% endif %}
+                {# <label for="coupon_grouper_name">Наименование группы купонов:</label> #}
+                {% if coupon_group is defined %}{{ coupon_group.how_much_coupons }}{% endif %}
+                {# <label for="coupon_group_how_much_coupons">Количество купонов которое нужно сгенерировать:</label>
                 <input type="text"
                        name="how_much_coupons"
                        id="coupon_group_how_much_coupons"
-                       value="{% if coupon_group is defined %}{{ coupon_group.how_much_coupons }}{% endif %}">
+                       value="{% if coupon_group is defined %}{{ coupon_group.how_much_coupons }}{% endif %}"> #}
                 <br>
-                <label for="coupon_group_number_of_possible_uses">Количество возможных использований:</label>
+                {% if coupon_group is defined %}{{ coupon_group.number_of_possible_uses.errors }}{% endif %}
+                {% if coupon_group is defined %}{{ coupon_group.number_of_possible_uses.label_tag() }}{% endif %}
+                {% if coupon_group is defined %}{{ coupon_group.number_of_possible_uses }}{% endif %}
+                {# <label for="coupon_group_number_of_possible_uses">Количество возможных использований:</label>
                 <input type="text"
                        name="number_of_possible_uses"
                        id="coupon_group_number_of_possible_uses"
-                       value="{% if coupon_group is defined %}{{ coupon_group.number_of_possible_uses }}{% endif %}">
+                       value="{% if coupon_group is defined %}{{ coupon_group.number_of_possible_uses }}{% endif %}"> #}
                 <br>
-                <label for="coupon_group_percentage_discount">Процент скидки:</label>
+                {% if coupon_group is defined %}{{ coupon_group.percentage_discount.errors }}{% endif %}
+                {% if coupon_group is defined %}{{ coupon_group.percentage_discount.label_tag() }}{% endif %}
+                {% if coupon_group is defined %}{{ coupon_group.percentage_discount }}{% endif %}
+                {# <label for="coupon_group_percentage_discount">Процент скидки:</label>
                 <input type="text"
                        name="percentage_discount"
                        id="coupon_group_percentage_discount"
-                       value="{% if coupon_group is defined %}{{ coupon_group.percentage_discount }}{% endif %}">
+                       value="{% if coupon_group is defined %}{{ coupon_group.percentage_discount }}{% endif %}"> #}
                 <br>
 <style>
 .glyphicon-calendar:before{
@@ -94,7 +121,7 @@
                                 id="coupon_group_start_of_the_coupon"
                                 data-date-format="DD/MM/YYYY HH:mm:ss"
                                 class="form-control"
-                                value="{% if coupon_group is defined %}{{ coupon_group.start_of_the_coupon }}{% endif %}">
+                                value="{% if coupon_group is defined %}{{ coupon_group.start_of_the_coupon.value() }}{% endif %}">
                         <span class="input-group-addon datepickerbutton">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -108,7 +135,7 @@
                                 id="coupon_group_end_of_the_coupon"
                                 data-date-format="DD/MM/YYYY HH:mm:ss"
                                 class="form-control"
-                                value="{% if coupon_group is defined %}{{ coupon_group.end_of_the_coupon }}{% endif %}">
+                                value="{% if coupon_group is defined %}{{ coupon_group.end_of_the_coupon.value() }}{% endif %}">
                         <span class="input-group-addon datepickerbutton">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -123,21 +150,19 @@ $(function () {
                     </div>
                 </div>
                 <br>
+                {# {% set hidden_fields = coupon_group.hidden_fields() %} #}
                 <label for="coupon_group_created_at">Дата и врямя создания:</label>
                 <input type="datetime"
                        id="coupon_group_created_at"
-                       value="{% if coupon_group is defined %}{{ coupon_group.created_at }}{% endif %}" disabled>
+                       value="{% if coupon_group is defined %}{{ coupon_group.created_at.value() }}{% endif %}" disabled>
                 <br>
                 <label for="coupon_group_updated_at">Дата и врямя изменения:</label>
                 <input type="datetime"
                        id="coupon_group_updated_at"
-                       value="{% if coupon_group is defined %}{{ coupon_group.updated_at }}{% endif %}" disabled>
+                       value="{% if coupon_group is defined %}{{ coupon_group.updated_at.value() }}{% endif %}" disabled>
                 <br>
                 <button type="submit" class="btn btn-primary">Генерация купонов</button>
                 {# <button type="submit" class="btn btn-default">Сохранить группу</button> #}
                 {# <button type="button" class="btn btn-default">Удалить</button> #}
                 {# <button type="button" class="btn btn-default">Назад</button> #}
             </form>
-    </div>
-</body>
-</html>
