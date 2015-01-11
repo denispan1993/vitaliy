@@ -71,6 +71,16 @@ def context(request):
     from apps.cart.views import get_cart_or_create
     user_cart = get_cart_or_create(request, user_object=user_object, created=False, )
 
+    if user_cart:
+        coupons = user_cart.Cart_child.all()
+        if coupons != []:
+            coupon = coupons[0]
+        else:
+            coupon = None
+
+    else:
+        coupon = None
+
     from django.core.urlresolvers import resolve
     if request.method == 'GET':
         pass
@@ -124,6 +134,7 @@ def context(request):
                 slides_=slides,
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,
+                coupon_=coupon,
                 viewed_=viewed,
                 # viewed_count_=viewed_count,
                 # view_=view,

@@ -18,6 +18,11 @@
             </thead>
             <tbody>
 <script>
+{% if coupon %}
+    var percentage_discount_coupon = {{ coupon.percentage_discount }};
+{% else %}
+    var percentage_discount_coupon = 0;
+{% endif %}
 var product_sum_of_quantity_in_order_array = new Array();
 var product_sum_of_quantity_for_pay_array = new Array();
 
@@ -188,18 +193,22 @@ animation:blink1 3s linear infinite;
 function ReCalcSum(change){
     var sum_in_order=0;
 	$.each(product_sum_of_quantity_in_order_array,function(i){
-        var val=parseFloat(product_sum_of_quantity_in_order_array[i])
+        var val=parseFloat(product_sum_of_quantity_in_order_array[i]);
         if(0<=val&&val<=999999){
             sum_in_order+=val;
         }
     });
     var sum_for_pay=0;
 	$.each(product_sum_of_quantity_for_pay_array,function(i){
-        var val=parseFloat(product_sum_of_quantity_for_pay_array[i])
+        var val=parseFloat(product_sum_of_quantity_for_pay_array[i]);
         if(0<=val&&val<=999999){
             sum_for_pay+=val;
         }
     });
+    if(percentage_discount_coupon!=0) {
+        sum_in_order = sum_in_order - sum_in_order / 100 * percentage_discount_coupon;
+        sum_for_pay = sum_for_pay - sum_for_pay/100*percentage_discount_coupon;
+    }
     if(change==true){$("#all_sum_of_quantity_in_order").html(sum_in_order.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');}
     if(change==true){$("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');}
     var minimal_sum_order=document.getElementById('minimal_sum_order');

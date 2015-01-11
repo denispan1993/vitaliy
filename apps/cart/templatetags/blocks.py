@@ -8,7 +8,7 @@ register = Library()
 
 
 @register.global_function()
-def block_cart(request, cart, place_of_use='cart', ):
+def block_cart(request, cart, coupon, place_of_use='cart', ):
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
     request_csrf_token = None
@@ -26,6 +26,7 @@ def block_cart(request, cart, place_of_use='cart', ):
     return render_to_string(template_name,
                             dictionary={'request': request,
                                         'cart': cart,
+                                        'coupon': coupon,
                                         'place_of_use': place_of_use,
                                         'form1_action': form1_action,
                                         'form2_action': form2_action,

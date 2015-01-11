@@ -55,7 +55,7 @@ class CouponGroup(models.Model, ):
 
     @models.permalink
     def get_absolute_url(self, ):
-        return ('coupon_group_edit', (),
+        return ('coupon_group_edit',
                 {'coupon_group_id': self.pk, }, )
 
     def __unicode__(self):
@@ -101,17 +101,18 @@ class Coupon(models.Model, ):
                                      null=True,
                                      help_text=u'Ссылка на групу купонов', )
     from apps.utils.captcha.views import key_generator
+    from string import ascii_lowercase, digits
     key = models.CharField(verbose_name=_(u'Ключ купона', ),
                            max_length=8,
                            blank=False,
                            null=False,
-                           default=key_generator(), )
+                           default=key_generator(size=6, chars=ascii_lowercase + digits, ), )
     """
-        Какая корзина создала этот купон.
+        Какой заказ создал этот купон.
     """
-    from apps.cart.models import Order
+    from apps.cart.models import Cart, Order
     parent = models.ForeignKey(to=Order,
-                               verbose_name=_(u'Корзина которая создала этот купон', ),
+                               verbose_name=_(u'Заказ который создал этот купон', ),
                                blank=True,
                                null=True, )
 
@@ -124,13 +125,18 @@ class Coupon(models.Model, ):
                                                       null=False,
                                                       default=0, )
     """
-        Какая корзина использовала этот купон.
+        Какие корзины и заказы использовали этот купон.
     """
-    child = models.ManyToManyField(to=Order,
-                                   related_name=u'Order_child',
-                                   verbose_name=_(u'Корзины которые использовали этот купон', ),
-                                   blank=True,
-                                   null=True, )
+    child_cart = models.ManyToManyField(to=Cart,
+                                        related_name=u'Cart_child',
+                                        verbose_name=_(u'Корзины которые использовали этот купон', ),
+                                        blank=True,
+                                        null=True, )
+    child_order = models.ManyToManyField(to=Order,
+                                         related_name=u'Order_child',
+                                         verbose_name=_(u'Заказы которые использовали этот купон', ),
+                                         blank=True,
+                                         null=True, )
     percentage_discount = models.PositiveSmallIntegerField(verbose_name=_(u'Процент скидки', ),
                                                            blank=False,
                                                            null=False,
@@ -169,10 +175,14 @@ class Coupon(models.Model, ):
 #        url = object.get_absolute_url()
 #        return u'%sкомментарий/%.6d/' % (url, self.pk, )
 
-    @models.permalink
+    #@staticmethod
+    #@models.permalink
     def get_absolute_url(self, ):
-        return 'coupon_edit', self.pk,
-                #{'coupon_id': self.pk, }, )
+        return u'/админ/купон/редактор/%.6d/' % self.pk
+#        return ('coupon_edit', (self.pk, ), )
+#                {'aaa': self.pk, }, )
+
+#    get_url = property(get_absolute_url)
 
     def __unicode__(self):
         # """
@@ -189,7 +199,7 @@ class Coupon(models.Model, ):
         # >>> print category.title
         # Proverka123  -ф123
         # """
-        return u'Купон: № %6d - %s' % (self.pk, self.name, )
+        return u'Coupon: %6d - %s' % (self.pk, self.name, )
 
     def save(self, *args, **kwargs):
         from django.utils.timezone import now

@@ -39,7 +39,7 @@ body{
             <form method="POST" action="{{ url('coupon_group_add') }}">
                 {% if error_message %}<p style="color:Red;">{{ error_message }}</p>{% endif %}
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                <input type="hidden" name="POST_NAME" value="coupon_group_edit">
+                <input type="hidden" name="POST_NAME" value="coupon_group_search">
                 <input type="submit" value="Добавить группу купонов">
             </form>
         </div>

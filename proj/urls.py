@@ -2,6 +2,7 @@
 # from django.conf.urls import patterns, include, url
 try:
     from django.conf.urls import patterns, include, url
+    from django.conf.urls.i18n import i18n_patterns
 except ImportError:  # django < 1.4
     from django.conf.urls.defaults import patterns, include, url
 
@@ -99,8 +100,6 @@ urlpatterns += patterns('apps',
 #Капча
 #urlpatterns += patterns(url(r'^captcha/', include('apps.utils.captcha.urls', ), ), )
 
-from apps.utils.decorators import manager_required, member_required
-from apps.adminSite.views import CouponGroupCreateEdit, CouponCreateEdit
 #Admin panel
 urlpatterns += patterns('apps.adminSite.views',
                         url(ur'^админ/$', 'admin_panel',
@@ -126,16 +125,6 @@ urlpatterns += patterns('apps.adminSite.views',
                         url(ur'^админ/комментарий/редактор/(?P<id>\d{6})/$', 'comment_edit',
                             {'template_name': u'comment/comment_edit.jinja2.html', },
                             name='comment_edit', ),
-                        # """ Админ панель Купонов. """
-                        url(ur'^админ/купон/группа/поиск/$', 'coupon_group_search',
-                            {'template_name': u'coupon/coupon_group_search.jinja2.html', },
-                            name='coupon_group_search', ),
-                        url(ur'^админ/купон/группа/редактор/добавить/$',
-                            manager_required(CouponGroupCreateEdit.as_view(), ),
-                            name='coupon_group_add', ),
-                        url(ur'^админ/купон/группа/редактор/(?P<coupon_group_id>\d{6})/$',
-                            manager_required(CouponGroupCreateEdit.as_view(), ),
-                            name='coupon_group_edit', ),
                         )
 
 #Search
@@ -155,13 +144,10 @@ urlpatterns += patterns('apps.search.views',
                             {'template_name': u'category/show_category.jinja2.html', },
                             name='show_search', ),
                         )
-urlpatterns += patterns('apps.adminSite.views',
-                        url(ur'^админ/купон/редактор/добавить/$',
-                            manager_required(CouponCreateEdit.as_view(), ),
-                            name='coupon_add', ),
-                        url(ur'^админ/купон/редактор/(?P<coupon_id>\d{6})/$',
-                            manager_required(CouponCreateEdit.as_view(), ),
-                            name='coupon_edit', ),
+#Admin panel
+urlpatterns += patterns('',
+                        # """ Админ панель Купонов. """
+                        url(ur'^админ/купон/', include('apps.adminSite.urls'), ),
                         )
 #Ajax
 urlpatterns += patterns('apps.ajax.views',
@@ -184,6 +170,9 @@ urlpatterns += patterns('apps.ajax.views',
 urlpatterns += patterns('apps.ajax.comment',
                         url(r'^ajax/comment/change/$', 'comment_change',
                             name='ajax_comment_change', ),
+                        )
+urlpatterns += patterns('',
+                        url(r'^ajax/coupon/', include('apps.ajax.urls', ), ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile
