@@ -175,7 +175,7 @@ function Calculate_{{ product.pk }}(operation){
 			product_summ_of_quantity_array[{{ product.pk }}]=total.toFixed(2);
 		}
 	})
-    jQuery.post("/ajax/order/change/", {
+    $.post("/ajax/order/change/", {
             csrfmiddlewaretoken:'{{ csrf_token }}',
             action:ajax_action,
             product_pk:{{ product.pk }},

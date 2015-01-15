@@ -10,10 +10,12 @@ except ImportError:  # django < 1.4
 from django.contrib import admin
 admin.autodiscover()
 
+# from filebrowser.sites import site
 #Admin
 urlpatterns = patterns(
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls', ), ),
+#    url(r'^admin/filebrowser/', include(site.urls, ), ),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls, ), ),
     url(r'^captcha/', include('apps.utils.captcha.urls', ), ),
@@ -105,19 +107,6 @@ urlpatterns += patterns('apps.adminSite.views',
                         url(ur'^админ/$', 'admin_panel',
                             {'template_name': u'admin_panel.jinja2.html', },
                             name='admin_panel', ),
-                        # """ Админ панель Заказов. """
-                        url(ur'^админ/заказ/поиск/$', 'order_search',
-                            {'template_name': u'order/order_search.jinja2.html', },
-                            name='order_search', ),
-                        url(ur'^админ/заказ/редактор/(?P<id>\d{6})/$', 'order_edit',
-                        # url(ur'^админ/заказ/редактор/(?P<id>\d)/$', 'order_edit',
-                        # url(ur'^админ/заказ/редактор/([\d{6}])/$', 'order_edit',
-                            {'template_name': u'order/order_edit.jinja2.html', },
-                            name='order_edit', ),
-                        # url(ur'^админ/заказ/редактор/товар/добавить/([\d{6}])/$', 'order_edit_product_add',
-                        url(ur'^админ/заказ/редактор/товар/добавить/(?P<id>\d{6})/$', 'order_edit_product_add',
-                            {'template_name': u'order/order_edit_product_add.jinja2.html', },
-                            name='order_edit_product_add', ),
                         # """ Админ панель Комментариев. """
                         url(ur'^админ/комментарий/поиск/$', 'comment_search',
                             {'template_name': u'comment/comment_search.jinja2.html', },
@@ -144,10 +133,14 @@ urlpatterns += patterns('apps.search.views',
                             {'template_name': u'category/show_category.jinja2.html', },
                             name='show_search', ),
                         )
-#Admin panel
+urlpatterns += patterns('',
+                        # """ Админ панель Заказов. """
+                        url(ur'^админ/заказ/', include('apps.adminSite.order.urls'), ),
+                        )
+
 urlpatterns += patterns('',
                         # """ Админ панель Купонов. """
-                        url(ur'^админ/купон/', include('apps.adminSite.urls'), ),
+                        url(ur'^админ/купон/', include('apps.adminSite.coupon.urls'), ),
                         )
 #Ajax
 urlpatterns += patterns('apps.ajax.views',

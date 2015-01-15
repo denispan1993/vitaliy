@@ -3,6 +3,7 @@
 <head>
 <title>Страница добавления товара</title>
 <meta charset="utf-8">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
 <script src="{{ MEDIA_URL }}js/jquery/jquery-1.10.2.js"></script>
 <script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js"></script>
 </head>
@@ -13,16 +14,95 @@
     <input type="text" name="q" id="query">
 <script>
     try{
-        jQuery(document).ready(
-                jQuery('#query').autocomplete({
-                    source:'/ajax/order/add/search/',
+        $(document).ready(
+                $('#query').autocomplete({
+                    source:function(request, response){
+                        $.post({
+                            url:'/ajax/order/add/search/',
+                            data:{
+                                csrfmiddlewaretoken:'{{ csrf_token }}',
+                                QueryString:request.term // поисковая фраза
+                            },
+                            success:function(data, textStatus, jqXHR){
+                                if(data.result='Ok'){
+                                    response(
+                                            $.map(
+                                                    data.suggestions,
+                                                    function(item){
+                                                        return{
+                                                            pk:item.pk,
+                                                            label:item.name
+                                                            // title: item.title
+                                                        }
+                                                    }
+                                            )
+                                    )
+                                }
+                            },
+                            dataType: 'json'
+                        })
+                    },
+                    select:function(event, ui){
+                        $.post({
+                            url:'/ajax/order/change/',
+                            data:{
+                                csrfmiddlewaretoken:'{{ csrf_token }}',
+                                action:'change_add',
+                                order:2,
+                                product_pk:ui.item.pk
+                            },
+                            success:function(data, textStatus, jqXHR){
+                                if(data.result='Ok'){
+                                    location.reload();
+                                    return false;
+                                }
+                            },
+                            dataType: 'json'
+                        });
+                    },
+                    minLength:2
+                }) // начинать поиск с трех символов
+        );
+        {#                     // source:'/ajax/order/add/search/',
+
+                            success:function(data, textStatus, jqXHR){
+                                    response(
+                                            $.map(data.suggestions, function(item){
+                                                return{
+                                                    pk:item.pk,
+                                                    label:item.name,
+                                                    title:item.title
+                                                }
+                                            })
+                                    )
+                            },
+                            dataType:'json'
+                        })
+                    },
+                    select:function(event, ui){
+                        $.post({
+                            url:'/ajax/order/change/',
+                            data:{
+                                csrfmiddlewaretoken:'{{ csrf_token }}',
+                                action:'change_add',
+                                product_pk:ui.item.pk
+                            },
+                            success:function(data, textStatus, jqXHR){
+                            },
+                            dataType: 'json'
+                        });
+                        location.reload();
+                        return false;
+                    },
+
+
                     maxHeight:400, // Максимальная высота списка подсказок, в пикселях
                     width:300, // Ширина списка
                     minChars:2, // Минимальная длина запроса для срабатывания автозаполнения
-                    deferRequestBy:0 // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов,
+                    deferRequestBy:300 // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов,
                     // пока пользователь печатает. Я обычно ставлю 300.
                 })
-        )
+        ) #}
     }
     catch(e){alert(e)}
 

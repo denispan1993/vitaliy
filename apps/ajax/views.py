@@ -170,44 +170,54 @@ def order_change(request, ):
         if request.method == 'POST':
             request_cookie = request.session.get(u'cookie', None, )
             if request_cookie:
-                action = request.POST.get(u'action', None, )
-                if action == 'change_in_the_quantity' or action == 'change_delete':
-                    """ Изменение количества единиц конкретного товара
-                    """
-                    product_pk = request.POST.get(u'product_pk', None, )
-                    if product_pk:
+                product_pk = request.POST.get(u'product_pk', None, )
+                try:
+                    product_pk = int(product_pk, )
+                except ValueError:
+                    return HttpResponse(status=400, )
+                else:
+                    action = request.POST.get(u'action', None, )
+                    if action is 'change_in_the_quantity'\
+                            or action is 'change_delete':
+                        from apps.cart.models import Product
+                        product = Product.objects.get(pk=product_pk, )
+                        quantity = 0
+                        if action is 'change_in_the_quantity':
+                            quantity = request.POST.get(u'quantity', None, )
                         try:
-                            product_pk = int(product_pk, )
+                            quantity = int(quantity, )
                         except ValueError:
                             return HttpResponse(status=400, )
                         else:
-                            from apps.cart.models import Product
-                            product = Product.objects.get(pk=product_pk, )
-                            quantity = 0
-                            if action is 'change_in_the_quantity':
-                                quantity = request.POST.get(u'quantity', None, )
+                            price = 0
+                            if action == 'change_in_the_quantity':
+                                product.update_quantity(quantity=quantity, )
+                                price = product.update_price_per_piece()
+                            elif action == 'change_delete':
+                                product.delete()
+                            response = {'product_pk': product_pk,
+                                        'product_price': float(price, ),
+                                        'action': action,
+                                        'result': 'Ok', }
+                    elif action is 'change_add':
+                        order = request.POST.get(u'order', None, )
+                        try:
+                            order = int(order, )
+                        except ValueError:
+                            return HttpResponse(status=400, )
+                        else:
+                            from apps.product.models import Product
                             try:
-                                quantity = int(quantity, )
-                            except ValueError:
+                                product = Product.objects.get(pk=product_pk, )
+                            except Product.DoesNotExist:
                                 return HttpResponse(status=400, )
-                            else:
-                                price = 0
-                                if action == 'change_in_the_quantity':
-                                    product.update_quantity(quantity=quantity, )
-                                    price = product.update_price_per_piece()
-                                elif action == 'change_delete':
-                                    product.delete()
-                                response = {'product_pk': product_pk,
-                                            'product_price': float(price, ),
-                                            'action': action,
-                                            'result': 'Ok', }
-                                data = dumps(response, )
-                                mimetype = 'application/javascript'
-                                return HttpResponse(data, mimetype, )
+
+
                     else:
                         return HttpResponse(status=400, )
-                else:
-                    return HttpResponse(status=400, )
+                    data = dumps(response, )
+                    mimetype = 'application/javascript'
+                    return HttpResponse(data, mimetype, )
             else:
                 return HttpResponse(status=400, )
         elif request.method == 'GET':
@@ -217,27 +227,36 @@ def order_change(request, ):
     else:
         return HttpResponse(status=400, )
 
-
+""" Вызывается из админ панели. -> Добавление товара в заказ. -> Поиск товара """
 def order_add_search(request, ):
     if request.is_ajax():
-        if request.method == 'GET':
-            search_string = request.GET.get(u'term', None, )
+        if request.method == 'POST':
+            search_string = request.POST.get(u'QueryString', None, )
+            # print request.POST
             if search_string:
-                """ Поиск товара по полученной строке
-                """
+                """ Поиск товара по полученной строке """
                 from django.db.models import Q
                 q = Q(title__contains=search_string)# | Q(name__contains=search_string)
+                # print search_string
                 from apps.product.models import Product
                 try:
                     products = Product.objects.filter(q, )
                 except Product.DoesNotExist:
                     return HttpResponse(status=400, )
                 else:
+                    # print products
                     if products:
-                        response = {'products': products,
+                        results = []
+                        for product in products:
+                            results.append({'id': product.pk,
+                                            'name': product.name, })
+                                            # 'title': product.title, })
+                        response = {'suggestions': results,
+                                    # 'query': 'Unit',
                                     'result': 'Ok', }
                     else:
                         response = {'result': 'Bad', }
+                    # print request.REQUEST['callback']
                     data = dumps(response, )
                     mimetype = 'application/javascript'
                     return HttpResponse(data, mimetype, )

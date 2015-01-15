@@ -9,9 +9,9 @@ except ImportError:  # django < 1.4
 
 
 from apps.utils.decorators import manager_required, member_required
-from apps.adminSite.coupon import CouponGroupCreateEdit, CouponCreateEdit
+from apps.adminSite.coupon.views import CouponGroupCreateEdit, CouponCreateEdit
 #Admin panel
-urlpatterns = patterns('apps.adminSite.coupon',
+urlpatterns = patterns('apps.adminSite.coupon.views',
                        # """ Админ панель Купонов. """
                        url(ur'^группа/поиск/$', 'coupon_group_search',
                            {'template_name': u'coupon/coupon_group_search.jinja2.html', },

@@ -327,6 +327,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'suit',
     'suit_ckeditor',
+#    'filebrowser',
     'django.contrib.admin',
     'django.contrib.admindocs',
     # 'django.contrib.markup', depricated in v. 1.6
