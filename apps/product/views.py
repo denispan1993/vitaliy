@@ -308,6 +308,8 @@ def add_to_cart(request,
         """ Занесение продукта в корзину если его нету """
         if not quantity:
             quantity = product.minimal_quantity
+        if available_to_order is None:
+            available_to_order = product.is_availability == 2
         if available_to_order is True:
             price = product.price / 2
             percentage_of_prepaid = 50

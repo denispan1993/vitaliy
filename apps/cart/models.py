@@ -172,12 +172,12 @@ class Order(models.Model):
                 return self, False
         try:
             """ Присутсвие конкретного продукта в корзине """
-            product_in_cart = self.cart_or_order.get(product=obj_product, )
+            product_in_cart = self.order.get(product=obj_product, )
         except Product.DoesNotExist:
             """ Занесение продукта в корзину если его нету """
             if not quantity:
                 quantity = obj_product.minimal_quantity
-            if obj_product.available_to_order is True:
+            if obj_product.is_availability == 2:  # Товар доступен под заказ
                 price = obj_product.price / 2
                 percentage_of_prepaid = 50
             else:
@@ -187,7 +187,7 @@ class Order(models.Model):
                                                      product=obj_product,
                                                      price=price,
                                                      # True - Товар доступен под заказ.
-                                                     available_to_order=obj_product.available_to_order,
+                                                     available_to_order=obj_product.is_availability == 2,
                                                      # 50% - предоплата.
                                                      percentage_of_prepaid=percentage_of_prepaid,
                                                      quantity=quantity, )

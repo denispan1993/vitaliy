@@ -462,7 +462,10 @@ class Product(models.Model):
     def get_ItemID(self, ):
         """ Взять артикул товара """
         ItemID = self.ItemID.all()
-        return ItemID[0].ItemID
+        try:
+            return ItemID[0].ItemID
+        except IndexError:
+            return self.get_or_create_ItemID.ItemID
 
     @property
     def get_manufacturer(self, ):

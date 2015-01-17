@@ -357,44 +357,39 @@ newWin.onload = function() {
         $(document).ready(
                 $('#query').autocomplete({
                     source:function(request, response){
-                        $.post({
+                        $.ajax({
+                            type:'POST',
+                            dataType:'json',
                             url:'/ajax/order/add/search/',
                             data:{
                                 csrfmiddlewaretoken:'{{ csrf_token }}',
                                 QueryString:request.term // поисковая фраза
                             },
                             success:function(data, textStatus, jqXHR){
-                                alert('a');
-                                if(data.result='Ok'){
-                                    alert('b')}}
-{#                                  response(
-                                            $.map(
-                                                    data.suggestions,
+                                response(
+                                        $.map(
+                                                data.results,
                                                     function(item){
-                                                        alert('c')
                                                         return{
                                                             pk:item.pk,
-                                                            label:item.name
-                                                            // title: item.title
+                                                            label:item.name,
+                                                            title:item.title
                                                         }
                                                     }
-                                            )
-                                    )
-                                }
-                                else{
-                                    response(function(){alert('d');return{label:'Empty'}})
-                                }
-                            } #},
-                            dataType: 'json'
+                                        )
+                                )
+                            }
                         });
                     },
                     select:function(event, ui){
-                        $.post({
+                        $.ajax({
+                            type:'POST',
+                            dataType:'json',
                             url:'/ajax/order/change/',
                             data:{
                                 csrfmiddlewaretoken:'{{ csrf_token }}',
                                 action:'change_add',
-                                order:{{ order.pk }},
+                                order_pk:{{ order.pk }},
                                 product_pk:ui.item.pk
                             },
                             success:function(data, textStatus, jqXHR){
@@ -402,8 +397,7 @@ newWin.onload = function() {
                                     location.reload();
                                     return false;
                                 }
-                            },
-                            dataType: 'json'
+                            }
                         });
                     },
                     minLength:2

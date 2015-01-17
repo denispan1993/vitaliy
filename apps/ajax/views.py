@@ -168,17 +168,18 @@ def product_to_cart(request, ):
 def order_change(request, ):
     if request.is_ajax():
         if request.method == 'POST':
-            request_cookie = request.session.get(u'cookie', None, )
-            if request_cookie:
+            # request_cookie = request.session.get(u'cookie', None, )
+            # if request_cookie:
                 product_pk = request.POST.get(u'product_pk', None, )
                 try:
                     product_pk = int(product_pk, )
                 except ValueError:
+                    print '9'
                     return HttpResponse(status=400, )
                 else:
                     action = request.POST.get(u'action', None, )
-                    if action is 'change_in_the_quantity'\
-                            or action is 'change_delete':
+                    if action == 'change_in_the_quantity'\
+                            or action == 'change_delete':
                         from apps.cart.models import Product
                         product = Product.objects.get(pk=product_pk, )
                         quantity = 0
@@ -199,8 +200,8 @@ def order_change(request, ):
                                         'product_price': float(price, ),
                                         'action': action,
                                         'result': 'Ok', }
-                    elif action is 'change_add':
-                        order = request.POST.get(u'order', None, )
+                    elif action == 'change_add':
+                        order = request.POST.get(u'order_pk', None, )
                         try:
                             order = int(order, )
                         except ValueError:
@@ -210,12 +211,14 @@ def order_change(request, ):
                             try:
                                 order = Order.objects.get(pk=order, )
                             except Order.DoesNotExist:
+                                print '2'
                                 return HttpResponse(status=400, )
                             else:
                                 from apps.product.models import Product
                                 try:
                                     product = Product.objects.get(pk=product_pk, )
                                 except Product.DoesNotExist:
+                                    print '3'
                                     return HttpResponse(status=400, )
                                 else:
                                     order, product_in_cart = order.product_add(obj_product=product, )
@@ -225,12 +228,14 @@ def order_change(request, ):
                                     'action': action,
                                     'result': 'Ok', }
                     else:
+                        print '5'
                         return HttpResponse(status=400, )
                     data = dumps(response, )
                     mimetype = 'application/javascript'
                     return HttpResponse(data, mimetype, )
-            else:
-                return HttpResponse(status=400, )
+            # else:
+            #     print '6'
+            #     return HttpResponse(status=400, )
         elif request.method == 'GET':
             return HttpResponse(status=400, )
         else:
@@ -240,7 +245,6 @@ def order_change(request, ):
 
 """ Вызывается из админ панели. -> Добавление товара в заказ. -> Поиск товара """
 def order_add_search(request, ):
-    print '1'
     if request.is_ajax():
         if request.method == 'POST':
             search_string = request.POST.get(u'QueryString', None, )
@@ -260,10 +264,11 @@ def order_add_search(request, ):
                     if products:
                         results = []
                         for product in products:
-                            results.append({'id': product.pk,
-                                            'name': product.name, })
-                                            # 'title': product.title, })
-                        response = {'suggestions': results,
+                            results.append({'pk': product.pk,
+                                            'name': product.name,
+                                            'ItemID': product.get_ItemID,
+                                            'title': product.title, })
+                        response = {'results': results,
                                     # 'query': 'Unit',
                                     'result': 'Ok', }
                     else:
