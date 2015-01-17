@@ -206,13 +206,24 @@ def order_change(request, ):
                         except ValueError:
                             return HttpResponse(status=400, )
                         else:
-                            from apps.product.models import Product
+                            from apps.cart.models import Order
                             try:
-                                product = Product.objects.get(pk=product_pk, )
-                            except Product.DoesNotExist:
+                                order = Order.objects.get(pk=order, )
+                            except Order.DoesNotExist:
                                 return HttpResponse(status=400, )
-
-
+                            else:
+                                from apps.product.models import Product
+                                try:
+                                    product = Product.objects.get(pk=product_pk, )
+                                except Product.DoesNotExist:
+                                    return HttpResponse(status=400, )
+                                else:
+                                    order, product_in_cart = order.product_add(obj_product=product, )
+                        response = {'product_pk': product_in_cart.pk,
+                                    'product_price': float(product_in_cart.price, ),
+                                    'order_pk': order.pk,
+                                    'action': action,
+                                    'result': 'Ok', }
                     else:
                         return HttpResponse(status=400, )
                     data = dumps(response, )
@@ -229,6 +240,7 @@ def order_change(request, ):
 
 """ Вызывается из админ панели. -> Добавление товара в заказ. -> Поиск товара """
 def order_add_search(request, ):
+    print '1'
     if request.is_ajax():
         if request.method == 'POST':
             search_string = request.POST.get(u'QueryString', None, )

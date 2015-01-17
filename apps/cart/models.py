@@ -160,6 +160,44 @@ class Order(models.Model):
     def products(self, ):
         return self.order.all()
 
+    def product_add(self,
+                    int_product_pk=None,
+                    obj_product=None,
+                    quantity=None, ):
+        if not obj_product:
+            from apps.product.models import Product as real_Product
+            try:
+                obj_product = real_Product.objects.get(pk=int_product_pk, )
+            except Product.DoesNotExist:
+                return self, False
+        try:
+            """ Присутсвие конкретного продукта в корзине """
+            product_in_cart = self.cart_or_order.get(product=obj_product, )
+        except Product.DoesNotExist:
+            """ Занесение продукта в корзину если его нету """
+            if not quantity:
+                quantity = obj_product.minimal_quantity
+            if obj_product.available_to_order is True:
+                price = obj_product.price / 2
+                percentage_of_prepaid = 50
+            else:
+                price = obj_product.price
+                percentage_of_prepaid = 100
+            product_in_cart = Product.objects.create(key=self,
+                                                     product=obj_product,
+                                                     price=price,
+                                                     # True - Товар доступен под заказ.
+                                                     available_to_order=obj_product.available_to_order,
+                                                     # 50% - предоплата.
+                                                     percentage_of_prepaid=percentage_of_prepaid,
+                                                     quantity=quantity, )
+        else:
+            if not quantity:
+                quantity = obj_product.quantity_of_complete
+            product_in_cart.summ_quantity(quantity, )  # quantity += exist_cart_option.quantity
+            product_in_cart.update_price_per_piece()
+        return self, product_in_cart
+
     def order_sum(self, calc_or_show='show', ):
         all_products_sum = 0
         # from decimal import Decimal
@@ -183,7 +221,7 @@ class Product(models.Model):
     """
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType,
-                                     related_name='cart',
+                                     related_name='cart_or_order',
                                      verbose_name=u'Корзина',
                                      blank=False,
                                      null=False, )
@@ -311,7 +349,7 @@ class Product(models.Model):
         product_cart = self.key
         """ Теперь нужно выяснить, "проверить", есть ли этот продукт в этой корзине ? """
         try:
-            product_cart.cart.get(pk=self.pk, )
+            product_cart.cart_or_order.get(pk=self.pk, )
         except Product.DoesNotExist:
             """ Если нет, то возвращаем False """
             return False

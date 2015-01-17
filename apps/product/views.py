@@ -302,7 +302,7 @@ def add_to_cart(request,
     from apps.cart.models import Product
     try:
         """ Присутсвие конкретного продукта в корзине """
-        product_in_cart = product_cart.cart.get(product=product, )
+        product_in_cart = product_cart.cart_or_order.get(product=product, )
     #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
     except Product.DoesNotExist:
         """ Занесение продукта в корзину если его нету """
