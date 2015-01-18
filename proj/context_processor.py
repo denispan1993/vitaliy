@@ -73,7 +73,8 @@ def context(request):
 
     if user_cart:
         coupons = user_cart.Cart_child.all()
-        if coupons is not []:
+        """ Проверяем СПИСОК [] на пустоту """
+        if coupons:
             coupon = coupons[0]
         else:
             coupon = None
