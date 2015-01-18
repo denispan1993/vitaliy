@@ -352,6 +352,11 @@ newWin.onload = function() {
         <div>
             <label for="query">Строка поиска и добавления товара</label>
             <input type="text" name="query-string" id="query">
+<style>
+ul.ui-autocomplete li.ui-menu-item a.ui-corner-all span{
+font-weight:bold;
+}
+</style>
 <script>
     try{
         $(document).ready(
@@ -366,13 +371,19 @@ newWin.onload = function() {
                                 QueryString:request.term // поисковая фраза
                             },
                             success:function(data, textStatus, jqXHR){
+                                var SearchString = document.getElementById('query').value;
+                                Lower_SearchString = SearchString.toLowerCase();
+                                var len_SearchString = SearchString.length;
                                 response(
                                         $.map(
                                                 data.results,
                                                     function(item){
+                                                        item_name = item.name;
+                                                        index_item_name = item_name.toLowerCase().indexOf(Lower_SearchString);
+                                                        name = item_name.substring(0, index_item_name) + '<span>' + SearchString + '</span>' + item_name.substring(index_item_name + len_SearchString);
                                                         return{
                                                             pk:item.pk,
-                                                            label:item.name,
+                                                            label:item.itemid + ' | ' + name,
                                                             title:item.title
                                                         }
                                                     }
@@ -400,8 +411,13 @@ newWin.onload = function() {
                             }
                         });
                     },
-                    minLength:2
-                }) // начинать поиск с трех символов
+                    minLength:2 // начинать поиск с трех символов
+                }).data("ui-autocomplete")._renderItem = function(ul, item){
+                    return $("<li></li>")
+                        .data("ui-autocomplete-item", item)
+                        .append("<a>" + item.label + "</a>")
+                        .appendTo(ul);
+        }
         );
         {#                     // source:'/ajax/order/add/search/',
 

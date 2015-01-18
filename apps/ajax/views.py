@@ -250,23 +250,40 @@ def order_add_search(request, ):
             search_string = request.POST.get(u'QueryString', None, )
             # print request.POST
             if search_string:
+                # len_search_string = len(search_string, )
                 """ Поиск товара по полученной строке """
                 from django.db.models import Q
-                q = Q(title__contains=search_string)# | Q(name__contains=search_string)
+                q = Q(name__contains=search_string)# | Q(name__contains=search_string)
                 # print search_string
                 from apps.product.models import Product
                 try:
                     products = Product.objects.filter(q, )
                 except Product.DoesNotExist:
-                    return HttpResponse(status=400, )
+                    products = None
                 else:
-                    # print products
+                    from apps.product.models import ItemID
+                    try:
+                        ItemsID = ItemID.objects.filter(Q(ItemID__icontains=search_string, ), )
+                    except ItemID.DoesNotExist:
+                        ItemsID = None
+                    else:
+                        for item in ItemsID:
+                            from apps.product.models import Product
+                            try:
+                                product = Product.objects.filter(ItemID=item, )
+                            except Product.DoesNotExist:
+                                pass
+                            else:
+                                products = product | products
                     if products:
                         results = []
                         for product in products:
+                            # product_name = product.name
+                            # index_search_string = product_name.find(search_string, )
+                            # product_name = product_name[:index_search_string] + '<span>' + product_name[index_search_string:index_search_string+len_search_string] + '</span>' + product_name[index_search_string+len_search_string:]
                             results.append({'pk': product.pk,
                                             'name': product.name,
-                                            'ItemID': product.get_ItemID,
+                                            'itemid': product.get_ItemID,
                                             'title': product.title, })
                         response = {'results': results,
                                     # 'query': 'Unit',

@@ -92,19 +92,19 @@ def order_edit_product_add(request,
 
 @staff_member_required
 def order_edit(request,
-               id,
-               template_name=u'order/order_edit.jinja2.html', ):
+               order_id,
+               template_name=u'order/order_edit.jingo.html', ):
     from django.shortcuts import redirect
-    if id:
+    if order_id:
         try:
-            order_id = int(id, )
+            order_id = int(order_id, )
         except ValueError:
             error_message = u'Некорректно введен номер заказа.'
             return redirect(to='order_search', )
         else:
             from apps.cart.models import Order
             try:
-                order = Order.objects.get(pk=id, )
+                order = Order.objects.get(pk=order_id, )
             except Order.DoesNotExist:
                 error_message = u'В базе отсутсвует заказ с таким номером.'
                 return redirect(to='order_search', )
