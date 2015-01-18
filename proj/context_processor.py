@@ -73,7 +73,7 @@ def context(request):
 
     if user_cart:
         coupons = user_cart.Cart_child.all()
-        if coupons != []:
+        if coupons is not []:
             coupon = coupons[0]
         else:
             coupon = None
