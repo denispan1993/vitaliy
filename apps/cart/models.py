@@ -349,7 +349,7 @@ class Product(models.Model):
         product_cart = self.key
         """ Теперь нужно выяснить, "проверить", есть ли этот продукт в этой корзине ? """
         try:
-            product_cart.cart_or_order.get(pk=self.pk, )
+            product_cart.cart.get(pk=self.pk, )
         except Product.DoesNotExist:
             """ Если нет, то возвращаем False """
             return False
