@@ -30,8 +30,11 @@ def order_search(request,
     # from datetime import datetime
 #    from apps.utils.datetime2rfc import datetime2rfc
 #    response['Last-Modified'] = datetime2rfc(page.updated_at, )
+    from datetime import datetime, timedelta
+    filter_datetime = datetime.now() - timedelta(days=31, )
+    print filter_datetime
     from apps.cart.models import Order
-    orders = Order.objects.all()
+    orders = Order.objects.filter(created_at__gte=filter_datetime, )
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
