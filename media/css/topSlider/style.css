@@ -254,7 +254,7 @@ background-position:100% 100% !important;
 }
 /* bottom center */
 #wowslider-container1 .ws_bullets{
-bottom:0px;
+bottom:0;
 left:80%;
 }
 #wowslider-container1 .ws_bullets div{
@@ -268,7 +268,7 @@ left:0;
 margin-right:0.7em;
 color:#959695;
 z-index:50;
-font-family:'Economica', Trebuchet MS, Helvetica, sans-serif;
+font-family:Arial;/*'Economica', Trebuchet MS, Helvetica, sans-serif;*/
 line-height:2.9em;
 }
 #wowslider-container1 .ws-title div,#wowslider-container1 .ws-title span{
@@ -285,13 +285,13 @@ filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90);
 #wowslider-container1 .ws-title div{
 display:block;
 color:#000000;
-font-size:2em;
+font-size:3em;
 font-weight:normal;
 line-height:13px;
 margin-top:0.5em;
 }
 #wowslider-container1 .ws-title span{
-font-size:2.7em;
+font-size:2em;
 padding:3px;
 /*margin-left:2px;*/
 }
