@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+{% from "bootstrap/macros.html" import debugmin %}
 <title>Страница поиска заказа по номеру.</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+{% block css_bootstrap %}
+<link href="{{ STATIC_URL }}css/bootstrap{{ debugmin() }}.css" rel="stylesheet">
+{% endblock %}
+{% block css_bootstrap_responsive %}
+<link href="{{ STATIC_URL }}css/bootstrap-responsive{{ debugmin() }}.css" rel="stylesheet">
+{% endblock %}
+{% block js_html5_shim %}
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+{% endblock %}
 <style>
 body{
     display:table;

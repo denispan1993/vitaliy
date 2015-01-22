@@ -132,7 +132,7 @@ def show_product(request, product_url, id,
                 if current_category:
                     product_pk = request.POST.get(u'product_pk', None, )
                     product_url = request.POST.get(u'product_url', None, )
-                    quantity_ = request.POST.get(u'quantity', None, )
+                    quantity = request.POST.get(u'quantity', None, )
                     from apps.product.models import Product
                     try:
                         product = Product.objects.get(pk=product_pk, url=product_url, )
@@ -150,7 +150,7 @@ def show_product(request, product_url, id,
                                     product=product,
                                     int_product_pk=product_pk,
                                     product_url=product_url,
-                                    quantity=quantity_,
+                                    quantity=quantity,
                                     available_to_order=available_to_order, )
 #                        if request.
 #                        try:
@@ -316,6 +316,13 @@ def add_to_cart(request,
         else:
             price = product.price
             percentage_of_prepaid = 100
+        """ Временная хрень.
+         Так как потом возможно нужно будет перейти на количество с дробной частью.
+        """
+        try:
+            quantity = int(quantity, )
+        except ValueError:
+            pass
         product_in_cart = Product.objects.create(key=product_cart,
                                                  product=product,
                                                  price=price,
