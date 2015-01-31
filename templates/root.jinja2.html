@@ -298,6 +298,11 @@ font-weight:bold;
                 </li> #}
             </ul>
         </div>
+        {% if user.is_authenticated and user.is_staff %}
+            <div id="form_slide_left">
+
+            </div>
+        {% endif %}
     </div>
 {# <style>
 #main_center{

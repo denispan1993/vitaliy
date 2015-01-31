@@ -127,6 +127,20 @@ def context(request):
     #                    sessionid_carts = None
 
     #viewed_count = viewed.count()
+    product = None
+    from apps.product.models import Product
+    try:
+        product_count = Product.objects.count()
+    except Product.DoesNotExist:
+        pass
+    else:
+        if product_count > 0:
+            from random import randint
+            product_pk = randint(1, product_count, )
+            try:
+                product = Product.objects.get(pk=product_pk, )
+            except Product.DoesNotExist:
+                pass
 
     return dict(#request=request,
                 static_pages_=static_pages,
@@ -137,6 +151,7 @@ def context(request):
                 user_cart_=user_cart,
                 coupon_=coupon,
                 viewed_=viewed,
+                product_random_test_=product,
                 # viewed_count_=viewed_count,
                 # view_=view,
                 #args_=args,
