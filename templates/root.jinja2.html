@@ -298,17 +298,32 @@ font-weight:bold;
                 </li> #}
             </ul>
         </div>
-        {% if user.is_authenticated and user.is_staff %}
-            <div id="form_slide_left">
-
-            </div>
-        {% endif %}
     </div>
-{# <style>
-#main_center{
-    float:left;
-}
-</style> #}
+    {% if user.is_authenticated and user.is_staff %}
+        <div id="form_slide_left" style="margin-left:-10px;">
+            {{ one_block(product_random_test_, request, 'div', 1, 1, 'product')|safe }}
+        </div>
+<script src="/media/js/jquery/inview/inview.js"></script>
+<script>
+try{
+    document.onload = $('#form_slide_left').bind('inview', function(event, visible, visiblePartX, visiblePartY){
+        var form_slide_left = document.getElementById('form_slide_left');
+        if (visible == true && form_slide_left.className == ''){
+            form_slide_left.className = 'reviewed';
+            var main_left_Height = document.getElementById('main_left').offsetHeight;
+            var main_center_Height = document.getElementById('main_center').offsetHeight;
+            $.post("/ajax/left_slide/",{
+                    main_left_Height:main_left_Height,
+                    main_center_Height:main_center_Height,
+                    csrfmiddlewaretoken:'{{ csrf_token }}'
+                },
+                function(data){alert(data);}
+            );
+        }
+    });
+}catch(e){alert(e)}
+</script>
+    {% endif %}
     <div id="main_center" style="width:{{ request.session.width_main_center }}px;" class="clearFloat">
         {% block content_center %}
         {% endblock %}
