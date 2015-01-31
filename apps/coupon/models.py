@@ -9,7 +9,9 @@ from datetime import date, datetime
 def add_months(d, x, ):
     new_month = (((d.month - 1) + x) % 12) + 1
     new_year = d.year + (((d.month - 1) + x) / 12)
-    return datetime(new_year, new_month, d.day, d.hour, d.minute, d.second, d.microsecond, )
+    import calendar
+    new_day = min(d.day, calendar.monthrange(new_year, new_month, )[1], )
+    return datetime(new_year, new_month, new_day, d.hour, d.minute, d.second, d.microsecond, )
 
 
 def add_three_month():

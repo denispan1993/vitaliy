@@ -116,7 +116,8 @@ def show_order(request,
                 if SERVER:
                     is_valid = validate_email(email, check_mx=True, )
                     if not is_valid:
-                        email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                        # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                        email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
                     is_valid = validate_email(email, verify=True, )
                 if not is_valid:
                     """
@@ -134,7 +135,7 @@ def show_order(request,
                 if is_valid and not email_error in locals():
                     try:
                         country = int(country, )
-                    except ValueError:
+                    except (ValueError, TypeError):
                         from django.http import Http404
                         raise Http404
                     else:
@@ -302,7 +303,9 @@ def show_order_success(request,
     order_pk = request.session.get(u'order_last', None, )
     order = None
     # order_sum = None
-    if order_pk is not None:
+    if order_pk is None:
+        return redirect(to='show_order_unsuccess', )
+    else:
         try:
             order_pk = int(order_pk, )
         except ValueError:
