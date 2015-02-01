@@ -165,6 +165,8 @@ def product_to_cart(request, ):
         return HttpResponse(status=400, )
 
 
+
+
 def order_change(request, ):
     if request.is_ajax():
         if request.method == 'POST':
@@ -242,6 +244,7 @@ def order_change(request, ):
             return HttpResponse(status=400, )
     else:
         return HttpResponse(status=400, )
+
 
 """ Вызывается из админ панели. -> Добавление товара в заказ. -> Поиск товара """
 def order_add_search(request, ):

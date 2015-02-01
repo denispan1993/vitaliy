@@ -83,6 +83,7 @@ try{
     feedbackTab.init();
 }catch(e){ alert(e) } #}
 {# </script> #}
+{# <script src="/media/js/jquery/inview/inview.js"></script> #}
 {% endblock %}
 {% block content %}
 <div class="feedback-panel" style="z-index:200;">
@@ -298,33 +299,57 @@ font-weight:bold;
                 </li> #}
             </ul>
         </div>
-    </div>
-    {% if user.is_authenticated and user.is_staff %}
-        <div id="form_slide_left" style="margin-left:-10px;">
-            {{ one_block(product_random_test_, request, 'div', 1, 1, 'product')|safe }}
-        </div>
-<script src="/media/js/jquery/inview/inview.js"></script>
+        {% if user.is_authenticated and user.is_staff %}
+            <div id="form_slide_left" style="margin-left:-10px;">
+                {# {{ one_block(product_random_test_, request, 'div', 1, 1, 'product')|safe }} #}
+            </div>
+{# <script src="/media/js/jquery/inview/inview.js"></script> #}
 <script>
 try{
-    document.onload = $('#form_slide_left').bind('inview', function(event, visible, visiblePartX, visiblePartY){
-        var form_slide_left = document.getElementById('form_slide_left');
-        if (visible == true && form_slide_left.className == ''){
-            form_slide_left.className = 'reviewed';
-            var main_left_Height = document.getElementById('main_left').offsetHeight;
-            var main_center_Height = document.getElementById('main_center').offsetHeight;
-            $.post("/ajax/left_slide/",{
-                    main_left_Height:main_left_Height,
-                    main_center_Height:main_center_Height,
-                    csrfmiddlewaretoken:'{{ csrf_token }}'
-                },
-                function(data){alert(data);}
-            );
-        }
-    });
+    $(document).ready(function(){
+        var div_for_script = document.getElementById('form_slide_left');
+        var script_jquery_inview = document.createElement('script');
+        script_jquery_inview.src = "{{ MEDIA_URL }}js/jquery/inview/inview.js";
+        //document.documentElement.appendChild(script_jquery_inview);
+        div_for_script.appendChild(script_jquery_inview);
+
+        script_jquery_inview.onload = script_jquery_inview.onerror = function(){
+            if(!this.executed){ // выполнится только один раз
+                this.executed = true;
+                $('#form_slide_left').bind('inview', function(event, visible, visiblePartX, visiblePartY){
+                    var form_slide_left = document.getElementById('form_slide_left');
+                    if (visible == true && form_slide_left.className == ''){
+                        form_slide_left.className = 'reviewed';
+                        var main_left_Height = document.getElementById('main_left').offsetHeight;
+                        var main_center_Height = document.getElementById('main_center').offsetHeight;
+                        $.post("/ajax/slides/left/",{
+                                main_left_Height:main_left_Height,
+                                main_center_Height:main_center_Height,
+                                csrfmiddlewaretoken:'{{ csrf_token }}'
+                            },
+                            function(data){alert(data);}
+                        );
+                    }
+                });
+            }
+        };
+
+        script_jquery_inview.onreadystatechange = function(){
+            alert('hhh1');
+            var self = this;
+            if (this.readyState == "complete" || this.readyState == "loaded"){
+                alert('bbb1');
+                setTimeout(function() { self.onload() }, 0);// сохранить "this" для onload
+            }
+        };
+    })
 }catch(e){alert(e)}
 </script>
-    {% endif %}
-    <div id="main_center" style="width:{{ request.session.width_main_center }}px;" class="clearFloat">
+        {% endif %}
+    </div>
+    <div id="main_center"
+         style="width:{{ request.session.width_main_center }}px;"
+         class="clearFloat">
         {% block content_center %}
         {% endblock %}
     </div>
@@ -396,4 +421,18 @@ try{
 {% endif %}
 {# <div style="width:100%;height:1px;clear:both;"></div> #}
 </div>
+{# <script>
+function setEqualHeight(columns){
+    var tallestcolumn = 0;
+    columns.each(function(){
+        currentHeight = $(this).height();
+        if(currentHeight > tallestcolumn){
+            tallestcolumn = currentHeight;
+        }
+    });
+    columns.height(tallestcolumn);
+}
+
+document.onload=setEqualHeight($("#main > div"));
+</script> #}
 {% endblock %}

@@ -5,7 +5,9 @@ try:
 except ImportError:  # django < 1.4
     from django.conf.urls.defaults import patterns, include, url
 
-urlpatterns = patterns('apps.ajax.coupon',
-                       url(r'^test/$', 'coupon_test',
+urlpatterns = patterns('apps.ajax',
+                       url(r'^test/$', 'coupon.coupon_test',
                            name='ajax_coupon_text', ),
+                       url(r'^left/$', 'slides.left',
+                           name='ajax_slide_left', ),
                        )
