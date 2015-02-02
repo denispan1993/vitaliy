@@ -323,6 +323,7 @@ try{
                         var main_left_Height = document.getElementById('main_left').offsetHeight;
                         var main_center_Height = document.getElementById('main_center').offsetHeight;
                         $.post("/ajax/slides/left/",{
+                                url_path:'{{ request.get_full_path() }}',
                                 main_left_Height:main_left_Height,
                                 main_center_Height:main_center_Height,
                                 csrfmiddlewaretoken:'{{ csrf_token }}'
