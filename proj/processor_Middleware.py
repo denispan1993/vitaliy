@@ -50,7 +50,16 @@ class Process_SessionIDMiddleware(object):
         except Session_ID.DoesNotExist:
             from django.contrib.sessions.backends.db import SessionStore
             s = SessionStore()
-            s.save()
+            s_save = False
+            from django.db import OperationalError
+            while s_save:
+                try:
+                    s.save()
+                except OperationalError:
+                    print 'S.save() Error: "OperationalError: database is locked" '
+                    # pass
+                else:
+                    s_save = True
             session_ID = s.session_key
         # print 'session: ', session
         if not session and not sessionid:

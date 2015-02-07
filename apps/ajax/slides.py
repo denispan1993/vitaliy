@@ -28,7 +28,7 @@ def left(request, ):
                 if main_center_Height > main_left_Height:
                     from math import floor
                     lambda_Height = main_center_Height - main_left_Height
-                    product_block_count = floor(lambda_Height/300, )
+                    product_block_count = int(floor(lambda_Height/300, ), )
                 if product_block_count > 0 and url_path:
                     if url_path == '/':
                         dict_products = []
