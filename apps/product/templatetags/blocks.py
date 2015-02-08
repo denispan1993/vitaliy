@@ -8,7 +8,7 @@ register = Library()
 
 
 @register.global_function()
-def many_blocks(blocks, request, category_or_product, top_border, ):
+def many_blocks(blocks, request, category_or_product, top_border, limit_on_string=0, attachment='', ):
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
     request_csrf_token = None
@@ -22,7 +22,9 @@ def many_blocks(blocks, request, category_or_product, top_border, ):
                             dictionary={'blocks': blocks,
                                         'request': request,
                                         'csrf_token': request_csrf_token,
-                                        'top_border': top_border, }, )
+                                        'top_border': top_border,
+                                        'limit_on_string': limit_on_string,
+                                        'attachment': attachment, }, )
 
 
 @register.global_function()

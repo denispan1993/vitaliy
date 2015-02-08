@@ -461,7 +461,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.OpenIDBackend',
     'userena.backends.UserenaAuthenticationBackend',
     'guardian.backends.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -687,7 +687,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
-INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
+INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '172.22.120.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
 #!!!=============== Django ToolBar ===================================
 #INSTALLED_APPS = (
 #    'static_sitemaps',

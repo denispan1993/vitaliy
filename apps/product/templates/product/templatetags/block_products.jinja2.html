@@ -1,4 +1,4 @@
-<div id="products_block"{% if top_border %} style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
+<div id="products_block{% if attachment != '' %}_{{ attachment }}{% endif %}"{% if top_border %} style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
 <script>
 function ajax_product_to_cart(product_pk, available_to_order){
     var request_dict = {
@@ -23,19 +23,22 @@ function product_to_cart(data, product_pk, available_to_order){
     {% set cycle = 1 %}
     {% set last_loop = False %}
     {% set revcounter = blocks|length %}
-    {% if revcounter <= request.session.limit_on_string %}
+    {% if limit_on_string == 0 %}{# Для вставок в одну линию #}
+        {% set limit_on_string = request.session.limit_on_string %}
+    {% endif %}
+    {% if revcounter <= limit_on_string %}
         {% set last_loop = True %}
     {% else %}
         {% set last_loop = False %}
     {% endif %}
     {% for product in blocks|sort(attribute='serial_number')|sort(attribute='is_availability') %}
         {{ one_block(product, request, 'div', cycle, last_loop, 'product')|safe }}
-        {% if cycle < request.session.limit_on_string %}
+        {% if cycle < limit_on_string %}
             {% set cycle = cycle + 1 %}
         {% else %}
             {% set cycle = 1 %}
-            {% set revcounter = revcounter - request.session.limit_on_string %}
-            {% if revcounter <= request.session.limit_on_string %}
+            {% set revcounter = revcounter - limit_on_string %}
+            {% if revcounter <= limit_on_string %}
                 {% set last_loop = True %}
             {% endif %}
         {% endif %}
