@@ -300,11 +300,11 @@ class ProductAdmin(admin.ModelAdmin, ):
     ordering = ['-created_at', ]
 
     # Тут начинается магия, СуперАдмину показываем всё, а пользователю, показываем только его объекты
-    def queryset(self, request, ):
-        if request.user.is_superuser:
-            return super(ProductAdmin, self).queryset(request, )
-        else:
-            return super(ProductAdmin, self).queryset(request).filter(user_obj=request.user, )
+    # def queryset(self, request, ):
+    #     if request.user.is_superuser:
+    #         return super(ProductAdmin, self).queryset(request, )
+    #     else:
+    #         return super(ProductAdmin, self).queryset(request).filter(user_obj=request.user, )
 
     # Так решим вторую задачу, в поле author подставляем request.user
     def save_model(self, request, obj, form, change, ):
