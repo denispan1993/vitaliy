@@ -328,15 +328,16 @@ try{
                     var form_slide_left = document.getElementById('form_slide_left');
                     if (visible == true && form_slide_left.className == ''){
                         form_slide_left.className = 'reviewed';
-                        {# var main_left_Height = document.getElementById('main_left').offsetHeight; #}
                         var height_visible_part_of_window = window.innerHeight
                             || document.documentElement.clientHeight
                             || document.body.clientHeight;
+                        var main_left_Height = document.getElementById('main_left').offsetHeight;
                         var main_center_Height = document.getElementById('main_center').offsetHeight;
                         $.post(url="/ajax/slides/left/",
                                 data={
                                     url_path:'{{ url }}',
                                     height_visible_part_of_window:height_visible_part_of_window,
+                                    main_left_Height:main_left_Height,
                                     main_center_Height:main_center_Height,
                                     csrfmiddlewaretoken:'{{ csrf_token }}'
                                 },

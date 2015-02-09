@@ -17,6 +17,7 @@ def left(request, ):
             request_cookie = request.session.get(u'cookie', None, )
             if request_cookie:
                 url_path = request.POST.get(u'url_path', None, )
+                height_visible_part_of_window = request.POST.get(u'height_visible_part_of_window', None, )
                 main_left_Height = request.POST.get(u'main_left_Height', None, )
                 main_center_Height = request.POST.get(u'main_center_Height', None, )
                 if main_left_Height:
@@ -28,6 +29,8 @@ def left(request, ):
                 if main_center_Height > main_left_Height:
                     from math import floor
                     lambda_Height = main_center_Height - main_left_Height
+                    if lambda_Height > height_visible_part_of_window:
+                        lambda_Height = height_visible_part_of_window
                     product_block_count = int(floor(lambda_Height/300, ), )
                 if product_block_count > 0 and url_path:
                     print url_path
