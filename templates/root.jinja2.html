@@ -318,15 +318,18 @@ try{
         var div_for_script = document.getElementById('form_slide_left');
         var script_jquery_inview = document.createElement('script');
         script_jquery_inview.src = "{{ MEDIA_URL }}js/jquery/inview/inview.js";
-        //document.documentElement.appendChild(script_jquery_inview);
         div_for_script.appendChild(script_jquery_inview);
-
         script_jquery_inview.onload = script_jquery_inview.onerror = function(){
             if(!this.executed){ // выполнится только один раз
                 this.executed = true;
                 $('#form_slide_left').bind('inview', function(event, visible, visiblePartX, visiblePartY){
                     var form_slide_left = document.getElementById('form_slide_left');
                     if (visible == true && form_slide_left.className == ''){
+        var script_jquery_stickyfloat = document.createElement('script');
+        script_jquery_stickyfloat.src = "{{ MEDIA_URL }}js/jquery/stickyfloat/script.js";
+        div_for_script.appendChild(script_jquery_stickyfloat);
+
+        //script_jquery_stickyfloat.onload = function(){alert('stickyfloat - Load')};
                         form_slide_left.className = 'reviewed';
                         var height_visible_part_of_window = window.innerHeight
                             || document.documentElement.clientHeight
@@ -342,7 +345,20 @@ try{
                                     csrfmiddlewaretoken:'{{ csrf_token }}'
                                 },
                                 function(data, textStatus, jqXHR){
-                                    div_for_script.insertAdjacentHTML('afterEnd', data.html_block);
+                                    if(data.html_block){
+                                        //var script_jquery_myScrollBar = document.createElement('script');
+                                        //script_jquery_myScrollBar.src = "{{ MEDIA_URL }}js/jquery/myScrollBar/script.js";
+                                        div_for_script.insertAdjacentHTML('afterEnd', data.html_block);
+                                        //div_for_script.appendChild(script_jquery_stickyfloat);
+                                        //jQuery.easing.def = "easeInOutBack";
+//$(function()
+//    {
+//        jQuery('#products_block_left').stickyfloat();
+//    }
+//);
+                                        jQuery('#products_block_left').stickyfloat('update', {duration:2000, delay:1000});
+                                        //div_for_script.appendChild(script_jquery_myScrollBar);
+                                    }
                                 },
                                 dataType="json"
                         );
