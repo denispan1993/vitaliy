@@ -86,7 +86,7 @@ div#header div#div_logo a#logo{
     background-repeat:no-repeat;
     background-color:transparent;
     background-attachment:scroll;
-    background-image:url("/media/img/logoNewYear2.png");
+    /*background-image:url("/media/img/logoNewYear2.png");*/
     display:block;
     height:132px;
     left:5%;
