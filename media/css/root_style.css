@@ -82,7 +82,11 @@ div#auth{
     z-index:200;
 }
 div#header div#div_logo a#logo{
-    background:url("/media/img/logoNewYear2.png") no-repeat scroll 0 0 transparent;
+    background-position:top left;
+    background-repeat:no-repeat;
+    background-color:transparent;
+    background-attachment:scroll;
+    background-image:url("/media/img/logoNewYear2.png");
     display:block;
     height:132px;
     left:5%;
