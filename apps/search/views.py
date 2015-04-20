@@ -11,14 +11,12 @@ def search_page(request,
             from django.db.models import Q
             from apps.product.models import Category
             try:
-                categories = Category.objects.filter(Q(title__icontains=query)
-                                                     | Q(description__icontains=query))
+                categories = Category.objects.filter(Q(title__icontains=query), )  # | Q(description__icontains=query))
             except Category.DoesNotExist:
                 categories = None
             from apps.product.models import Product
             try:
-                products = Product.objects.filter(Q(title__icontains=query)
-                                                  | Q(description__icontains=query))
+                products = Product.objects.filter(Q(title__icontains=query), )  # | Q(description__icontains=query))
             except Product.DoesNotExist:
                 products = None
             from apps.product.models import ItemID
