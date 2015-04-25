@@ -427,7 +427,8 @@ class Product(models.Model):
     @property
     def recomendation(self, ):
         """ Вернуть все рекоммендованные товары с учётом их наличия на складе """
-        return self.recommended.filter(is_availability=1, )
+        """ Перемешать вывод https://docs.djangoproject.com/en/dev/ref/models/querysets/#order-by-fields """
+        return self.recommended.filter(is_availability=1, ).order_by('?')
 
     @property
     def get_or_create_ItemID(self, ):
