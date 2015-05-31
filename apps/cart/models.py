@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
 
@@ -107,6 +108,8 @@ class Order(models.Model):
     from apps.product.models import Country
     country = models.ForeignKey(Country,
                                 verbose_name=u'Страна', )
+    delivery_company = models.ForeignKey(to='DeliveryCompany',
+                                         verbose_name=_(u'Компания доставщик', ), )
     '''Если страна Украина '''
     region = models.CharField(verbose_name=u'Область',
                               max_length=64,
@@ -372,3 +375,39 @@ class Product(models.Model):
         ordering = [u'-created_at']
         verbose_name = u'Продукт в корзине'
         verbose_name_plural = u'Продукты в корзине'
+
+class DeliveryCompany(models.Model, ):
+    order_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
+                                                    # visibility=True,
+                                                    default=1,
+                                                    blank=True,
+                                                    null=True, )
+    select_number = models.PositiveSmallIntegerField(verbose_name=_(u'Номер в выводе', ),
+                                                     # visibility=True,
+                                                     default=1,
+                                                     blank=True,
+                                                     null=True, )
+    name = models.CharField(verbose_name=_(u'Имя компании', ),
+                            max_length=64,
+                            null=True,
+                            blank=True, )
+    select_string = models.CharField(verbose_name=_(u'Строка в выводе', ),
+                                     max_length=64,
+                                     null=True,
+                                     blank=True, )
+    description = models.TextField(verbose_name=_(u'Описание компании', ),
+                                   null=True,
+                                   blank=True, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Компания доставщик:%s, номер по порядку:%s' % (self.name, self.order_number, )
+
+    class Meta:
+        db_table = u'DeliveryCompany'
+        ordering = [u'-created_at']
+        verbose_name = u'Компании доставщики'
+        verbose_name_plural = u'Компания доставщик'

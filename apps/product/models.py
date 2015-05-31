@@ -8,25 +8,25 @@ from mptt.models import MPTTModel
 class Category(MPTTModel):
     from mptt import models as modelsTree
     parent = modelsTree.TreeForeignKey(to='Category',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       verbose_name=u'Вышестоящая категория',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       null=True,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       blank=True,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       related_name=u'children', )
-    serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
+                                       verbose_name=_(u'Вышестоящая категория', ),
+                                       null=True,
+                                       blank=True,
+                                       related_name=u'children', )
+    serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                                      # visibility=True,
                                                      default=1,
                                                      blank=True,
                                                      null=True, )
-    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
+    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.', ), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы категория нигде не показывалась,'
-                                              u' ставим данное поле в False.')
-    shown_colored = models.BooleanField(verbose_name=_(u'Выделить цветом'),
+                                              u' ставим данное поле в False.', )
+    shown_colored = models.BooleanField(verbose_name=_(u'Выделить цветом', ),
                                         default=False,
                                         blank=False,
                                         null=False,
                                         help_text=u'Если мы хотим чтобы категория была выделена цветом Фуксия,'
-                                                  u' ставим данное поле в True.')
-    font_color = models.CharField(verbose_name=_(u'Цвет шрифта'),
+                                                  u' ставим данное поле в True.', )
+    font_color = models.CharField(verbose_name=_(u'Цвет шрифта', ),
                                   max_length=32,
                                   blank=True,
                                   null=True,

@@ -26,7 +26,7 @@
 {% block ajax %}
 {% if request.session.ajax_resolution %}
 <script>
-try{jQuery(document).ready(function(e) {
+try{$(document).ready(function(e) {
         var browserWindow = $(window);
         var width = browserWindow.width();
         var height = browserWindow.height();
@@ -43,8 +43,8 @@ try{jQuery(document).ready(function(e) {
 {% endif %}
 {% if request.session.ajax_cookie %}
 <script>
-try{jQuery(document).ready(function(e) {
-        jQuery.post("/ajax/cookie/", {
+try{$(document).ready(function(e) {
+        $.post("/ajax/cookie/", {
                 csrfmiddlewaretoken:'{{ csrf_token }}'
             },
             function(data){alert(data);}
