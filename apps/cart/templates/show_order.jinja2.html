@@ -60,8 +60,15 @@
                     {% endfor %}
                 </select>
 <script type="text/javascript">
-function sel_country() {
-	var country_pk=document.forms["form_order"].select_country.selectedIndex;
+{% if not select_country or select_country == '1000' %}
+{% set ajax_select_country = 1 %}
+{% else %}
+{% set ajax_select_country = select_country %}
+{% endif %}
+$(document).ready(sel_country({{ ajax_select_country }}));
+function sel_country(select_country){
+    {# // если select_country - ложное значение(undefined, 0, false...) - подставить следующее значение #}
+	var country_pk= select_country || document.forms["form_order"].select_country.selectedIndex;
 	var request_dict = {
         csrfmiddlewaretoken: '{{ csrf_token }}',
 		country_pk: country_pk };
@@ -82,7 +89,7 @@ function sel_country() {
 </script>
                 <br>
                 <div id="dynamic_div">
-{% if user.is_authenticated and user.is_staff %}
+{# {% if user.is_authenticated and user.is_staff %}
                 <br>
                 <select name="select_delivery_company"
                         id="select_delivery_company"
@@ -116,7 +123,7 @@ function sel_country() {
                 <input type="text" name="settlement" id="settlement" required>
                 <br>
                 <label for="warehouse_number">Номер склада "Новой почты"</label>
-                <input type="number" name="warehouse_number" id="warehouse_number" required>
+                <input type="number" name="warehouse_number" id="warehouse_number" required> #}
                 </div>
                 <br>
                 <label for="comment">Комментарий к заказу</label>

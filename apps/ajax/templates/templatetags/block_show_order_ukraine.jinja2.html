@@ -1,0 +1,35 @@
+{% if user.is_authenticated and user.is_staff %}
+                <br>
+                <select name="select_delivery_company"
+                        id="select_delivery_company"
+                        required=""
+                        style="float:left;width:240px;">
+                    {% if not select_delivery_company or select_delivery_company == '1000' %}
+                        <option value="1000"
+                            selected=""
+                            disabled="disabled">Компания доставщик
+                        </option>
+                    {% endif %}
+                    {% for delivery_company in delivery_companies_list %}
+                        {% if select_delivery_company == delivery_company.select_number and select_delivery_company != 1000 %}
+                            <option value="{{ delivery_company.select_number }}"
+                                    selected="">
+                                <strong>{{ delivery_company.select_string_ru }}</strong>
+                            </option>
+                        {% else %}
+                            <option value="{{ delivery_company.select_number }}">
+                                {{ delivery_company.select_string_ru }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+{% endif %}
+                <br>
+                <label for="region">Область</label>
+                <input type="text" name="region" id="region" required>
+                <br>
+                <label for="settlement">Город (населённый пункт)</label>
+                <input type="text" name="settlement" id="settlement" required>
+                <br>
+                <label for="warehouse_number">Номер склада "Новой почты"</label>
+                <input type="number" name="warehouse_number" id="warehouse_number" required>

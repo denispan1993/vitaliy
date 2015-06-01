@@ -84,16 +84,28 @@ def sel_country(request, ):
             request_cookie = request.session.get(u'cookie', None, )
             if request_cookie:
                 country_pk = request.POST.get(u'country_pk', None, )
+                from django.template.loader import render_to_string
+
                 if country_pk == '1':
-                    html = '<br />' \
-                           '<label for="region">Область</label>' \
-                           '<input type="text" name="region" id="region"/>' \
-                           '<br />' \
-                           '<label for="settlement">Город (населённый пункт)</label>' \
-                           '<input type="text" name="settlement" id="settlement"/>' \
-                           '<br />' \
-                           '<label for="warehouse_number">Номер склада "Новой почты"</label>' \
-                           '<input type="number" name="warehouse_number" id="warehouse_number"/>'
+                    template_name = u'templatetags/block_show_order_ukraine.jinja2.html'
+                    from apps.cart.models import DeliveryCompany
+                    try:
+                        delivery_companies_list = DeliveryCompany.objects.all()
+                    except DeliveryCompany.DoesNotExist:
+                        delivery_companies_list = None
+
+                    html = render_to_string(template_name,
+                                            dictionary={'request': request,
+                                                        'delivery_companies_list': delivery_companies_list, }, )
+                    # html = '<br />' \
+                    #        '<label for="region">Область</label>' \
+                    #        '<input type="text" name="region" id="region"/>' \
+                    #        '<br />' \
+                    #        '<label for="settlement">Город (населённый пункт)</label>' \
+                    #        '<input type="text" name="settlement" id="settlement"/>' \
+                    #        '<br />' \
+                    #        '<label for="warehouse_number">Номер склада "Новой почты"</label>' \
+                    #        '<input type="number" name="warehouse_number" id="warehouse_number"/>'
                     response = {'result': 'Ok',
                                 'sel_country': 1,
                                 'html': html, }
