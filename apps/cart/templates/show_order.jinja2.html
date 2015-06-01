@@ -15,22 +15,35 @@
             <form method="POST" action="." id="form_order" name="form_order">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
                 <input type="hidden" name="POST_NAME" value="order"/>
-                <label for="email">E-Mail</label>
-                <input type="email" name="email" id="email" required
-                       {% if email %}
-                           value="{{ email }}"
-                       {% endif %}
-                       title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
-                {% if email_error %}
-                    <p class="red">{{ email_error }}</p>
-                {% endif %}
-                <br>
-                <label for="FIO">ФИО</label>
-                <input type="text" name="FIO" id="FIO" required
-                       {% if FIO %}
-                           value="{{ FIO }}"
-                       {% endif %}
-                       title="Эти данные будут использоваться для оформления посылки в почтовой службе">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="email">E-Mail</label>
+                        </td>
+                        <td>
+                            <input type="email" name="email" id="email" required
+                                   {% if email %}
+                                       value="{{ email }}"
+                                   {% endif %}
+                                   title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
+                            {% if email_error %}
+                                <p class="red">{{ email_error }}</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="FIO">ФИО</label>
+                        </td>
+                        <td>
+                            <input type="text" name="FIO" id="FIO" required
+                                   {% if FIO %}
+                                       value="{{ FIO }}"
+                                   {% endif %}
+                                   title="Эти данные будут использоваться для оформления посылки в почтовой службе">
+                        </td>
+                    </tr>
+                </table>
                 <br>
                 <label for="phone">Номер мобильного телефона</label>
                 <input type="tel" name="phone" id="phone" required>
