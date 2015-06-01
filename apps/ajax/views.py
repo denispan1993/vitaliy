@@ -87,7 +87,7 @@ def sel_country(request, ):
                 from django.template.loader import render_to_string
 
                 if country_pk == '1':
-                    template_name = u'ajax/templates/templatetags/block_show_order_ukraine.jinja2.html'
+                    template_name = u'templates/templatetags/block_show_order_ukraine.jinja2.html'
                     from apps.cart.models import DeliveryCompany
                     try:
                         delivery_companies_list = DeliveryCompany.objects.all()
