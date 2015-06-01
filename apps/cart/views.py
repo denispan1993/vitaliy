@@ -169,8 +169,14 @@ def show_order(request,
                             region = request.POST.get(u'region', None, )
                             settlement = request.POST.get(u'settlement', None, )
                             warehouse_number = request.POST.get(u'warehouse_number', None, )
-                            if delivery_company == None:
+                            print type(delivery_company)
+                            if delivery_company is None:
                                 delivery_company = 1
+                            elif type(delivery_company) == str:
+                                try:
+                                    delivery_company = int(delivery_company, )
+                                except ValueError:
+                                    delivery_company = 1
                             """ Создаем новый заказ """
                             order = Order.objects.create(user=cart.user,
                                                          sessionid=cart.sessionid,
