@@ -1,4 +1,4 @@
-{% if user.is_authenticated and user.is_staff %}
+{% if request.user.is_authenticated and request.user.is_staff %}
                 <br>
                 <select name="select_delivery_company"
                         id="select_delivery_company"
