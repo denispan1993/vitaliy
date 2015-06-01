@@ -15,9 +15,14 @@
             <form method="POST" action="." id="form_order" name="form_order">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
                 <input type="hidden" name="POST_NAME" value="order"/>
+                <style>
+                    div#show_order form#form_order table tr td#first_column{
+                        text-align:right;
+                    }
+                </style>
                 <table>
                     <tr>
-                        <td>
+                        <td id="first_column">
                             <label for="email">E-Mail</label>
                         </td>
                         <td>
@@ -30,9 +35,10 @@
                                 <p class="red">{{ email_error }}</p>
                             {% endif %}
                         </td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td>
+                        <td id="first_column">
                             <label for="FIO">ФИО</label>
                         </td>
                         <td>
@@ -42,36 +48,46 @@
                                    {% endif %}
                                    title="Эти данные будут использоваться для оформления посылки в почтовой службе">
                         </td>
+                        <td></td>
                     </tr>
-                </table>
-                <br>
-                <label for="phone">Номер мобильного телефона</label>
-                <input type="tel" name="phone" id="phone" required>
-                <br>
-                <select name="select_country"
-                        id="select_country"
-                        required=""
-                        style="float:left;width:240px;"
-                        onKeyDown="javascript:window.setTimeout('sel_country();', 0);"
-                        onChange="javascript:sel_country();">
-                    {% if not select_country or select_country == '1000' %}
-                        <option value="1000"
-                                selected=""
-                                disabled="disabled">Страна
-                        </option>
-                    {% endif %}
-                    {% for country_select in country_list %}
-                        {% if select_country == country_select and select_country != 1000 %}
-                            <option value="{{ country_select.pk }}"
-                                    selected="">
-                                <strong>{{ country_select.name_ru }}</strong>
-                            </option>
-                        {% else %}
-                            <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
-                            </option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
+                    <tr>
+                        <td id="first_column">
+                            <label for="phone">Номер мобильного телефона</label>
+                        </td>
+                        <td>
+                            <input type="tel" name="phone" id="phone" required>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td id="first_column">
+                            <label for="select_country">Страна</label>
+                        </td>
+                        <td>
+                            <select name="select_country"
+                                    id="select_country"
+                                    required=""
+                                    style="float:left;width:240px;"
+                                    onKeyDown="javascript:window.setTimeout('sel_country();', 0);"
+                                    onChange="javascript:sel_country();">
+                                {% if not select_country or select_country == '1000' %}
+                                    <option value="1000"
+                                            selected=""
+                                            disabled="disabled">Страна
+                                    </option>
+                                {% endif %}
+                                {% for country_select in country_list %}
+                                    {% if select_country == country_select and select_country != 1000 %}
+                                        <option value="{{ country_select.pk }}"
+                                                selected="">
+                                            <strong>{{ country_select.name_ru }}</strong>
+                                        </option>
+                                    {% else %}
+                                        <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
 <script type="text/javascript">
 {% if not select_country or select_country == '1000' %}
 {% set ajax_select_country = 1 %}
@@ -80,7 +96,7 @@
 {% endif %}
 $(document).ready(sel_country({{ ajax_select_country }}));
 function sel_country(select_country){
-    {# // если select_country - ложное значение(undefined, 0, false...) - подставить следующее значение #}
+{# // если select_country - ложное значение(undefined, 0, false...) - подставить следующее значение #}
 	var country_pk= select_country || document.forms["form_order"].select_country.selectedIndex;
 	var request_dict = {
         csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -100,7 +116,9 @@ function sel_country(select_country){
 }
 //sel_country();
 </script>
-                <br>
+                        </td>
+                    </tr>
+                </table>
                 <div id="dynamic_div">
 {# {% if user.is_authenticated and user.is_staff %}
                 <br>
