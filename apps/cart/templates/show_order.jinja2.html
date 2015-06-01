@@ -51,14 +51,14 @@
                         {% if select_country == country_select and select_country != 1000 %}
                             <option value="{{ country_select.pk }}"
                                     selected="">
-                                <strong>{{ country_select.name_ru }}
-                                </strong>
+                                <strong>{{ country_select.name_ru }}</strong>
                             </option>
                         {% else %}
                             <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
                             </option>
                         {% endif %}
                     {% endfor %}
+                </select>
 <script type="text/javascript">
 function sel_country() {
 	var country_pk=document.forms["form_order"].select_country.selectedIndex;
@@ -80,9 +80,34 @@ function sel_country() {
 }
 //sel_country();
 </script>
-                </select>
                 <br>
                 <div id="dynamic_div">
+{% if user.is_authenticated and user.is_staff %}
+                <br>
+                <select name="select_delivery_company"
+                        id="select_delivery_company"
+                        required=""
+                        style="float:left;width:240px;">
+                    {% if not select_delivery_company or select_delivery_company == '1000' %}
+                        <option value="1000"
+                            selected=""
+                            disabled="disabled">Компания доставщик
+                        </option>
+                    {% endif %}
+                    {% for delivery_company in delivery_companies_list %}
+                        {% if select_delivery_company == delivery_company.select_number and select_delivery_company != 1000 %}
+                            <option value="{{ delivery_company.select_number }}"
+                                    selected="">
+                                <strong>{{ delivery_company.select_string_ru }}</strong>
+                            </option>
+                        {% else %}
+                            <option value="{{ delivery_company.select_number }}">
+                                {{ delivery_company.select_string_ru }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+{% endif %}
                 <br>
                 <label for="region">Область</label>
                 <input type="text" name="region" id="region" required>

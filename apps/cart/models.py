@@ -391,7 +391,7 @@ class DeliveryCompany(models.Model, ):
                             max_length=64,
                             null=True,
                             blank=True, )
-    select_string = models.CharField(verbose_name=_(u'Строка в выводе', ),
+    select_string_ru = models.CharField(verbose_name=_(u'Строка в выводе', ),
                                      max_length=64,
                                      null=True,
                                      blank=True, )

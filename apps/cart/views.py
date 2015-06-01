@@ -101,6 +101,13 @@ def show_order(request,
         country_list = Country.objects.all()
     except Country.DoesNotExist:
         country_list = None
+    delivery_company = request.POST.get(u'select_delivery_company', None, )
+    from apps.cart.models import DeliveryCompany
+    try:
+        delivery_companies_list = DeliveryCompany.objects.all()
+    except DeliveryCompany.DoesNotExist:
+        delivery_companies_list = None
+
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'order':
@@ -162,6 +169,8 @@ def show_order(request,
                             region = request.POST.get(u'region', None, )
                             settlement = request.POST.get(u'settlement', None, )
                             warehouse_number = request.POST.get(u'warehouse_number', None, )
+                            if delivery_company == None:
+                                delivery_company = 1
                             """ Создаем новый заказ """
                             order = Order.objects.create(user=cart.user,
                                                          sessionid=cart.sessionid,
@@ -169,6 +178,7 @@ def show_order(request,
                                                          FIO=FIO,
                                                          phone=phone,
                                                          country=country,
+                                                         delivery_company=delivery_company,
                                                          region=region,
                                                          settlement=settlement,
                                                          warehouse_number=warehouse_number,
@@ -287,12 +297,14 @@ def show_order(request,
                         continue
     return render_to_response(template_name=template_name,
                               dictionary={'country_list': country_list,
+                                          'delivery_companies_list': delivery_companies_list,
                                           'email': email,
                                           'email_error': email_error,
                                           'FIO': FIO,
                                           'phone': phone,
                                           'comment': comment,
-                                          'select_country': country, },
+                                          'select_country': country,
+                                          'select_delivery_company': delivery_company, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
 

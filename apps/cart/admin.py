@@ -48,3 +48,10 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'object_id', 'product', 'quantity', 'price', ]
     list_display_links = ['pk', 'object_id', 'product', 'quantity', 'price', ]
 admin.site.register(Product, ProductAdmin, )
+
+from apps.cart.models import DeliveryCompany
+
+
+class DeliveryCompanyAdmin(admin.ModelAdmin, ):
+    pass
+admin.site.register(DeliveryCompany, DeliveryCompanyAdmin, )
