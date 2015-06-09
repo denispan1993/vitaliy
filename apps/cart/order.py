@@ -67,7 +67,7 @@ def result_ordering_step_one(request,
                                 from django.http import Http404
                                 raise Http404
                             else:
-                                country = country_list.get(pk=pk_country, None, )
+                                country = country_list.get(pk=pk_country, )
                                 if country:
                                     request.session[u'pk_country'] = pk_country
                                 """ Взять или создать корзину пользователя """
