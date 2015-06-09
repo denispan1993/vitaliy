@@ -6,7 +6,7 @@ from django.template import RequestContext
 from django.shortcuts import redirect
 
 def ordering_step_one(request,
-                      template_name=u'step_one.jinja2.html', ):
+                      template_name=u'order/step_one.jinja2.html', ):
     from apps.product.models import Country
     try:
         country_list = Country.objects.all()
@@ -20,11 +20,12 @@ def ordering_step_one(request,
                               content_type='text/html', )
 
 def result_ordering_step_one(request,
-                             template_name = u'step_two.jinja2.html', ):
+                             template_name=u'order/step_two.jinja2.html', ):
     FIO = request.POST.get(u'FIO', None, )
     if FIO:
         request.session[u'FIO'] = FIO
     email = request.POST.get(u'email', False, )
+    email_error = False
     phone = request.POST.get(u'phone', None, )
     if phone:
         request.session[u'phone'] = phone
@@ -43,7 +44,6 @@ def result_ordering_step_one(request,
                 email = email.strip()
                 from proj.settings import SERVER
                 from validate_email import validate_email
-                email_error = False
                 if SERVER:
                     if validate_email(email, check_mx=True, ):
                         """ Если проверка на существование сервера прошла...
@@ -83,25 +83,17 @@ def result_ordering_step_one(request,
             else:
                 email_error = u'Вы забыли указать Ваш E-Mail.'
             if email_error:
-                template_name = u'step_one.jinja2.html'
-                return render_to_response(template_name=template_name,
-                                          dictionary={'country_list': country_list,
-                                                      'FIO': FIO,
-                                                      'email': email,
-                                                      'email_error': email_error,
-                                                      'phone': phone,
-                                                      'select_country': country, },
-                                          context_instance=RequestContext(request, ),
-                                          content_type='text/html', )
+                template_name = u'order/step_one.jinja2.html'
         else:
             from django.http import Http404
             raise Http404
     else:
-        template_name = u'step_one.jinja2.html'
+        template_name = u'order/step_one.jinja2.html'
     return render_to_response(template_name=template_name,
                               dictionary={'country_list': country_list,
                                           'FIO': FIO,
                                           'email': email,
+                                          'email_error': email_error,
                                           'phone': phone,
                                           'select_country': country, },
                               context_instance=RequestContext(request, ),
