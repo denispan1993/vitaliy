@@ -1,68 +1,111 @@
 # -*- coding: utf-8 -*-
 __author__ = 'user'
 
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.shortcuts import redirect
 
 def ordering_step_one(request,
                       template_name=u'step_one.jinja2.html', ):
     from apps.product.models import Country
+    try:
+        country_list = Country.objects.all()
+    except Country.DoesNotExist:
+        from django.http import Http404
+        raise Http404
+    return render_to_response(template_name=template_name,
+                              dictionary={'country_list': country_list,
+                                          'form_action_next': u'/заказ/второй-шаг/', },
+                              context_instance=RequestContext(request, ),
+                              content_type='text/html', )
+
+def result_ordering_step_one(request,
+                             template_name = u'step_two.jinja2.html', ):
+    FIO = request.POST.get(u'FIO', None, )
+    if FIO:
+        request.session[u'FIO'] = FIO
+    email = request.POST.get(u'email', False, )
+    phone = request.POST.get(u'phone', None, )
+    if phone:
+        request.session[u'phone'] = phone
+    country = request.POST.get(u'select_country', None, )
+    from apps.product.models import Country
+    try:
+        country_list = Country.objects.all()
+    except Country.DoesNotExist:
+        from django.http import Http404
+        raise Http404
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
-        if POST_NAME == 'order_step_one':
-            """
-                Здесь как-то нужно проверить email
-            """
-            email = request.POST.get(u'email', False, )
+        if POST_NAME == 'ordering_step_one':
+            """ Здесь как-то нужно проверить email """
             if email:
                 email = email.strip()
-            if not email:
-                email_error = u'Вы забыли указать Ваш E-Mail.'
-            else:
                 from proj.settings import SERVER
                 from validate_email import validate_email
                 email_error = False
-                is_valid = True
                 if SERVER:
-                    is_valid = validate_email(email, check_mx=True, )
-                    if not is_valid:
-                        # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
-                        email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
-                    else:
-                        """
-                            Если проверка на существование сервера прошла...
-                            То делаем полную проверку адреса на существование...
-                        """
-                        is_valid = validate_email(email, verify=True, )
-                        if not is_valid:
-                            """
-                                Делаем повторную проверку на просто валидацию E-Mail адреса
-                            """
+                    if validate_email(email, check_mx=True, ):
+                        """ Если проверка на существование сервера прошла...
+                            То делаем полную проверку адреса на существование... """
+                        is_validate = validate_email(email, verify=True, )
+                        if not is_validate:
+                            """ Делаем повторную проверку на просто валидацию E-Mail адреса """
                             from django.forms import EmailField
                             from django.core.exceptions import ValidationError
                             try:
                                 EmailField().clean(email, )
                             except ValidationError:
                                 email_error = u'Ваш E-Mail адрес не существует.'
-                if is_valid and not email_error:
-                    country = request.POST.get(u'select_country', None, )
-                    try:
-                        country = int(country, )
-                    except (ValueError, TypeError):
-                        from django.http import Http404
-                        raise Http404
+                            else:
+                                is_validate = True
+                        if is_validate and not email_error:
+                            request.session[u'email'] = email
+                            try:
+                                pk_country = int(country, )
+                            except (ValueError, TypeError):
+                                from django.http import Http404
+                                raise Http404
+                            else:
+                                country = country_list.get(pk=pk_country, None, )
+                                if country:
+                                    request.session[u'pk_country'] = pk_country
+                                """ Взять или создать корзину пользователя """
+                                """ Создать теоретически это не нормально """
+                                from apps.cart.views import get_cart_or_create
+                                cart, create = get_cart_or_create(request, )
+                                if create:
+                                    return redirect(to=u'/корзина/заказ/непринят/', )
                     else:
-                        country = Country.objects.get(pk=country, )
-                        """ Взять или создать корзину пользователя """
-                        """ Создать теоретически это не нормально """
-                        cart, create = get_cart_or_create(request, )
-                        if create:
-                            return redirect(to=u'/корзина/заказ/непринят/', )
-    FIO = request.POST.get(u'FIO', None, )
-    phone = request.POST.get(u'phone', None, )
-    comment = request.POST.get(u'comment', None, )
-    try:
-        country_list = Country.objects.all()
-    except Country.DoesNotExist:
-        country_list = None
+                        # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                        email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
+
+            else:
+                email_error = u'Вы забыли указать Ваш E-Mail.'
+            if email_error:
+                template_name = u'step_one.jinja2.html'
+                return render_to_response(template_name=template_name,
+                                          dictionary={'country_list': country_list,
+                                                      'FIO': FIO,
+                                                      'email': email,
+                                                      'email_error': email_error,
+                                                      'phone': phone,
+                                                      'select_country': country, },
+                                          context_instance=RequestContext(request, ),
+                                          content_type='text/html', )
+        else:
+            from django.http import Http404
+            raise Http404
+    else:
+        template_name = u'step_one.jinja2.html'
+    return render_to_response(template_name=template_name,
+                              dictionary={'country_list': country_list,
+                                          'FIO': FIO,
+                                          'email': email,
+                                          'phone': phone,
+                                          'select_country': country, },
+                              context_instance=RequestContext(request, ),
+                              content_type='text/html', )
 
 
 def ordering_step_two(request,
