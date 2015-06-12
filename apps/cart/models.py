@@ -378,6 +378,7 @@ class Product(models.Model):
         verbose_name = u'Продукт в корзине'
         verbose_name_plural = u'Продукты в корзине'
 
+
 class DeliveryCompany(models.Model, ):
     order_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                                     # visibility=True,
@@ -394,9 +395,9 @@ class DeliveryCompany(models.Model, ):
                             null=True,
                             blank=True, )
     select_string_ru = models.CharField(verbose_name=_(u'Строка в выводе', ),
-                                     max_length=64,
-                                     null=True,
-                                     blank=True, )
+                                        max_length=64,
+                                        null=True,
+                                        blank=True, )
     description = models.TextField(verbose_name=_(u'Описание компании', ),
                                    null=True,
                                    blank=True, )

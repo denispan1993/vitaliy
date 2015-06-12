@@ -8,7 +8,8 @@
 {% if order.country.pk == 1 %}
 <p>Область: {{ order.region }}</p>
 <p>Населённый пункт: {{ order.settlement }}</p>
-<p>Номер склада "Новая почта": {{ order.warehouse_number }}</p>
+<p>Транспортная компания: {{ order.delivery_company.select_string_ru }}</p>
+<p>Номер склада транспортной компании: {{ order.warehouse_number }}</p>
 {% else %}
 <p>Адресс: {{ order.address }}</p>
 <p>Почтовый индекс: {{ order.postcode }}</p>

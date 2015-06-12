@@ -1,0 +1,19 @@
+{% extends 'step_two.jinja2.html' %}
+{% block order_content %}
+<tr>
+    <td id="first_column">
+        <label for="address">Полный адрес</label>
+    </td>
+    <td colspan="2">
+        <textarea cols="50" rows="5" name="address" id="address"></textarea>
+    </td>
+</tr>
+<tr>
+    <td id="first_column">
+        <label for="postcode">Почтовый индекс</label>
+    </td>
+    <td>
+        <input type="number" name="postcode" id="postcode"/>
+    </td>
+</tr>
+{% endblock %}

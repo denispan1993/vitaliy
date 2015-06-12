@@ -13,18 +13,26 @@ def ordering_step_one(request,
     except Country.DoesNotExist:
         from django.http import Http404
         raise Http404
+    FIO = request.session.get(u'FIO', None, )
+    email = request.session.get(u'email', None, )
+    phone = request.session.get(u'phone', None, )
+    select_country = request.session.get(u'select_country', None, )
     return render_to_response(template_name=template_name,
-                              dictionary={'country_list': country_list,
-                                          'form_action_next': u'/заказ/второй-шаг/', },
+                              dictionary={'form_action_next': u'/заказ/второй-шаг/',
+                                          'FIO': FIO,
+                                          'email': email,
+                                          'phone': phone,
+                                          'country_list': country_list,
+                                          'select_country': select_country, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
 
-def result_ordering_step_one(request,
-                             template_name=u'order/step_two.jinja2.html', ):
+def ordering_step_two(request,
+                      template_name=u'order/step_two_ua.jinja2.html', ):
     FIO = request.POST.get(u'FIO', None, )
     if FIO:
         request.session[u'FIO'] = FIO
-    email = request.POST.get(u'email', False, )
+    email = request.POST.get(u'email', None, )
     email_error = False
     phone = request.POST.get(u'phone', None, )
     if phone:
@@ -33,6 +41,26 @@ def result_ordering_step_one(request,
     from apps.product.models import Country
     try:
         country_list = Country.objects.all()
+    except Country.DoesNotExist:
+        from django.http import Http404
+        raise Http404
+    else:
+        try:
+            select_country = int(country, )
+        except (ValueError, TypeError):
+            from django.http import Http404
+            raise Http404
+        else:
+            country = country_list.get(pk=select_country, )
+            if country:
+                request.session[u'select_country'] = select_country
+            if select_country != 1:
+                """ Если страна не Украина """
+                template_name = u'order/step_two_other.jinja2.html'
+
+    from apps.cart.models import DeliveryCompany
+    try:
+        delivery_companies_list = DeliveryCompany.objects.all()
     except Country.DoesNotExist:
         from django.http import Http404
         raise Http404
@@ -61,21 +89,12 @@ def result_ordering_step_one(request,
                                 is_validate = True
                         if is_validate and not email_error:
                             request.session[u'email'] = email
-                            try:
-                                pk_country = int(country, )
-                            except (ValueError, TypeError):
-                                from django.http import Http404
-                                raise Http404
-                            else:
-                                country = country_list.get(pk=pk_country, )
-                                if country:
-                                    request.session[u'pk_country'] = pk_country
-                                """ Взять или создать корзину пользователя """
-                                """ Создать теоретически это не нормально """
-                                from apps.cart.views import get_cart_or_create
-                                cart, create = get_cart_or_create(request, )
-                                if create:
-                                    return redirect(to=u'/корзина/заказ/непринят/', )
+                            """ Взять или создать корзину пользователя """
+                            """ Создать теоретически это не нормально """
+                            from apps.cart.views import get_cart_or_create
+                            cart, create = get_cart_or_create(request, )
+                            if create:
+                                return redirect(to=u'/корзина/заказ/непринят/', )
                     else:
                         # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
                         email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
@@ -87,10 +106,12 @@ def result_ordering_step_one(request,
         else:
             from django.http import Http404
             raise Http404
-    else:
-        template_name = u'order/step_one.jinja2.html'
+    # else:
+    #     template_name = u'order/step_one.jinja2.html'
     return render_to_response(template_name=template_name,
-                              dictionary={'country_list': country_list,
+                              dictionary={'form_action_next': u'/заказ/результат-оформления/',
+                                          'delivery_companies_list': delivery_companies_list,
+                                          'country_list': country_list,
                                           'FIO': FIO,
                                           'email': email,
                                           'email_error': email_error,
@@ -100,88 +121,80 @@ def result_ordering_step_one(request,
                               content_type='text/html', )
 
 
-def ordering_step_two(request,
-                      template_name=u'step_two.jinja2.html', ):
-    delivery_company = request.POST.get(u'select_delivery_company', None, )
-    from apps.cart.models import DeliveryCompany
-    try:
-        delivery_companies_list = DeliveryCompany.objects.all()
-    except DeliveryCompany.DoesNotExist:
-        delivery_companies_list = None
-
+def result_ordering(request, ):
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
-        if POST_NAME == 'order':
-            """
-                Здесь как-то нужно проверить email
-            """
-            if not email:
-                email_error = u'Вы забыли указать Ваш E-Mail.'
+        if POST_NAME == 'ordering_step_two':
+            FIO = request.session.get(u'FIO', None, )
+            email = request.session.get(u'email', None, )
+            phone = request.session.get(u'phone', None, )
+            select_country = request.session.get(u'select_country', None, )
+            from apps.cart.models import Order
+            order = Order(FIO=FIO,
+                          email=email,
+                          phone=phone,
+                          select_country_id=select_country, )
+            if select_country == 1:
+                """ Страна Украина """
+                region = request.POST.get(u'region', None, )
+                order.region = region
+                settlement = request.POST.get(u'settlement', None, )
+                order.settlement = settlement
+                delivery_company = request.POST.get(u'select_delivery_company', None, )
+                if delivery_company is None:
+                    delivery_company = 1
+                elif type(delivery_company) == unicode:
+                    try:
+                        delivery_company = int(delivery_company, )
+                    except (TypeError, ValueError, ):
+                        delivery_company = 1
+                # from apps.cart.models import DeliveryCompany
+                # try:
+                #     delivery_company = DeliveryCompany.objects.get(select_number=delivery_company, )
+                # except DeliveryCompany.DoesNotExist:
+                #     delivery_company = None
+                order.delivery_company_id = delivery_company
+                warehouse_number = request.POST.get(u'warehouse_number', None, )
+                order.warehouse_number = warehouse_number
+                choice1 = request.POST.get(u'choice1', True, )
+                order.checkbox1 = choice1
+                choice2 = request.POST.get(u'choice2', False, )
+                order.checkbox2 = choice2
             else:
-                from proj.settings import SERVER
-                from validate_email import validate_email
-                is_valid = True
-                if SERVER:
-                    is_valid = validate_email(email, check_mx=True, )
-                    if not is_valid:
-                        # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
-                        email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
-                    is_valid = validate_email(email, verify=True, )
-                if not is_valid:
-                    """
-                        Делаем повторную проверку на просто валидацию E-Mail адреса
-                    """
-                    from django.forms import EmailField
-                    from django.core.exceptions import ValidationError
-                    try:
-                        EmailField().clean(email, )
-                    except ValidationError:
-                        email_error = u'Ваш E-Mail адрес не существует.'
-                    else:
-                        email_error = False
-                        is_valid = True
-                if is_valid and not email_error in locals():
-                    try:
-                        country = int(country, )
-                    except (ValueError, TypeError):
-                        from django.http import Http404
-                        raise Http404
-                    else:
-                        country = Country.objects.get(pk=country, )
-                        """ Взять или создать корзину пользователя """
-                        """ Создать теоретически это не нормально """
-                        cart, create = get_cart_or_create(request, )
-                        if create:
-                            return redirect(to=u'/корзина/заказ/непринят/', )
-                    from apps.cart.models import Product
-                    try:
-                        """ Выборка всех продуктов из корзины """
-                        all_products = cart.cart.all()
-                    except Product.DoesNotExist:
-                        """ Странно!!! В корзине нету продуктов!!! """
-                        return redirect(to='show_cart', )
-                    else:
+                """ для любого другого Государства """
+                address = request.POST.get(u'address', None, )
+                order.address = address
+                postcode = request.POST.get(u'postcode', None, )
+                order.postcode = postcode
+            comment = request.POST.get(u'comment', None, )
+            order.comment = comment
+            order.save()
+            from apps.cart.views import get_cart_or_create
+            cart, create = get_cart_or_create(request, )
+            if create:
+                return redirect(to=u'/корзина/заказ/непринят/', )
+            from apps.cart.models import Product
+            try:
+                """ Выборка всех продуктов из корзины """
+                all_products = cart.cart.all()
+            except Product.DoesNotExist:
+                """ Странно!!! В корзине нету продуктов!!! """
+                return redirect(to='show_cart', )
+            else:
+                """ Берем указатель на model заказ """
+                from django.contrib.contenttypes.models import ContentType
+                ContentType_Order = ContentType.objects.get_for_model(Order, )
+                """ Перемещение всех продуктов из корзины в заказ """
+                """ Просто меняем 2-а поля назначения у всех продуктов в этой корзине """
+                all_products.update(content_type=ContentType_Order, object_id=order.pk, )
+                """ Удаляем старую корзину """
+                cart.delete()
+
+
                         """ Создаем ЗАКАЗ """
-                        choice1 = request.POST.get(u'choice1', True, )
-                        choice2 = request.POST.get(u'choice2', False, )
                         from apps.cart.models import Order
                         if country.pk == 1:
                             """ для Украины """
-                            region = request.POST.get(u'region', None, )
-                            settlement = request.POST.get(u'settlement', None, )
-                            warehouse_number = request.POST.get(u'warehouse_number', None, )
-                            # print type(delivery_company)
-                            if delivery_company is None:
-                                delivery_company = 1
-                            elif type(delivery_company) == unicode:
-                                try:
-                                    delivery_company = int(delivery_company, )
-                                except ValueError:
-                                    delivery_company = 1
-                            try:
-                                delivery_company = DeliveryCompany.objects.get(select_number=delivery_company, )
-                            except DeliveryCompany.DoesNotExist:
-                                delivery_company = None
                             """ Создаем новый заказ """
                             order = Order.objects.create(user=cart.user,
                                                          sessionid=cart.sessionid,
@@ -212,14 +225,6 @@ def ordering_step_two(request,
                                                          comment=comment,
                                                          checkbox1=choice1,
                                                          checkbox2=choice2, )
-                        """ Берем указатель на model заказ """
-                        from django.contrib.contenttypes.models import ContentType
-                        ContentType_Order = ContentType.objects.get_for_model(Order, )
-                        """ Перемещение всех продуктов из корзины в заказ """
-                        """ Просто меняем 2-а поля назначения у всех продуктов в этой корзине """
-                        all_products.update(content_type=ContentType_Order, object_id=order.pk, )
-                        """ Удаляем старую корзину """
-                        cart.delete()
                         """ Отправка заказа мэнеджеру """
                         subject = u'Заказ № %d. Кексик.' % order.pk
                         from django.template.loader import render_to_string
