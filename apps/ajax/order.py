@@ -22,24 +22,24 @@ def order_email_test(request, ):
                     from proj.settings import SERVER
                     from validate_email import validate_email
                     if SERVER:
-                        is_validate = validate_email(email, check_mx=True, verify=False, )
+                        is_validate = False
                         email_error = None
-                        if is_validate:
-                            """ Если проверка на существование сервера прошла...
-                                То делаем полную проверку адреса на существование... """
-                            is_validate = validate_email(email, verify=True, )
-                            if not is_validate:
-                                """ Делаем повторную проверку на просто валидацию E-Mail адреса """
-                                from django.forms import EmailField
-                                from django.core.exceptions import ValidationError
-                                try:
-                                    EmailField().clean(email, )
-                                except ValidationError:
-                                    email_error = u'Ваш E-Mail адрес не существует.'
-                                else:
-                                    is_validate = True
+                        from django.core.validators import validate_email
+                        from django.core.exceptions import ValidationError
+                        try:
+                            validate_email(email)
+                        except ValidationError:
+                            email_error = u'Вы допустили ошибку при наборе Вашего E-Mail адреса'
                         else:
-                            email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                            is_validate = validate_email(email, check_mx=True, verify=False, )
+                            if is_validate:
+                                """ Если проверка на существование сервера прошла...
+                                    То делаем полную проверку адреса на существование... """
+                                is_validate = validate_email(email, verify=True, )
+                                if not is_validate:
+                                    email_error = u'Ваш E-Mail адрес не существует.'
+                            else:
+                                email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
                         if is_validate:
                             response = {'result': 'Ok', }
                             data = dumps(response, )
