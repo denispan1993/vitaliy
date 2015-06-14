@@ -128,7 +128,7 @@ def ordering_step_two(request,
                             from apps.cart.views import get_cart_or_create
                             cart, create = get_cart_or_create(request, )
                             if create:
-                                return redirect(to=u'/корзина/заказ/непринят/', )
+                                return redirect(to=u'/заказ/вы-где-то-оступились/', )
                     else:
                         # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
                         email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
@@ -252,8 +252,8 @@ def result_ordering(request, ):
                 msg.send(fail_silently=False, )
                 """ Отправка благодарности клиенту. """
                 subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
-                html_content = render_to_string('email_suceessful_content.jinja2.html',
-                                                {'order': order, })
+                html_content = render_to_string('email_successful_content.jinja2.html',
+                                                {'order': order, }, )
                 text_content = strip_tags(html_content, )
                 from_email = u'site@keksik.com.ua'
                 to_email = email
@@ -283,3 +283,32 @@ def result_ordering(request, ):
             return redirect(to=u'/заказ/вы-где-то-оступились/', )
     else:
         return redirect(to=u'/заказ/вы-где-то-оступились/', )
+
+def order_success(request,
+                  template_name=u'order/success.jinja2.html', ):
+    order_pk = request.session.get(u'order_last', None, )
+    order = None
+    if order_pk is None:
+        return redirect(to='order_unsuccessful_ru', )
+    else:
+        try:
+            order_pk = int(order_pk, )
+        except ValueError:
+            order_pk = None
+        else:
+            from apps.cart.models import Order
+            try:
+                order = Order.objects.get(pk=order_pk, )
+            except Order.DoesNotExist:
+                pass
+    return render_to_response(template_name=template_name,
+                              dictionary={'order_pk': order_pk,
+                                          'order': order, },
+                              context_instance=RequestContext(request, ),
+                              content_type='text/html', )
+
+def order_unsuccessful(request,
+                       template_name=u'show_order_unsuccess.jinja2.html', ):
+    return render_to_response(template_name=template_name,
+                              context_instance=RequestContext(request, ),
+                              content_type='text/html', )
