@@ -166,7 +166,7 @@ def result_ordering(request, ):
             order = Order(FIO=FIO,
                           email=email,
                           phone=phone,
-                          select_country_id=select_country, )
+                          country_id=select_country, )
             if select_country == 1:
                 """ Страна Украина """
                 region = request.POST.get(u'region', None, )
