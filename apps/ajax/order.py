@@ -22,7 +22,7 @@ def order_email_test(request, ):
                     from proj.settings import SERVER
                     from validate_email import validate_email
                     if SERVER:
-                        is_validate = validate_email(email, check_mx=True, )
+                        is_validate = validate_email(email, check_mx=True, verify=False, )
                         email_error = None
                         if is_validate:
                             """ Если проверка на существование сервера прошла...
