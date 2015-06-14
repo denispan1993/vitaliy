@@ -127,13 +127,16 @@ document.getElementById('email').onchange = function(){
                         <td colspan="3">
                             <input type="submit"
                                    id="inputsubmit"
+                                   onclick="Alert_On_Click()"
                                    name="inputsubmit"
                                    value="Продолжить оформление заказа">
 <script>
-document.getElementById('inputsubmit').onclick = function(){
+function Alert_On_Click(){
+    {# document.getElementById('inputsubmit').onclick = function(){ #}
     var value = document.getElementById('inputsubmit').disabled;
     alert(value);
     if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
+    else{document.getElementById('inputsubmit').value='Подождите. Идет обработка заказа!!!'};
 }
 </script>
                         </td>
