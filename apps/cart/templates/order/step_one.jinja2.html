@@ -46,16 +46,28 @@ div#show_order form#form_order table tr td#first_column{
                                    {% endif %}
                                    title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
 <script>
-document.getElementById('email').onchange = function() {
+document.getElementById('email').onchange = function(){
     var value = document.getElementById('email').value;
     jQuery.post("/ajax/order/email/test/",{
             csrfmiddlewaretoken:'{{ csrf_token }}',
             value:value
         },
 		function(data, textStatus, jqXHR){
-            if(data.result=='Bad'){
-                jQuery('#email_error').html(data.email_error);
-            }else{jQuery('#email_error').html('');}
+            if(data.result=='Bad'){{#
+                $('#email_error').html(data.email_error);
+                 #}document.getElementById('email_error').innerHTML=data.emain_error;
+                document.getElementById('inputsubmit').disabled=true;{#
+                $("#inputsubmit").prop("disabled",true);
+             #}}else{{#
+                $('#email_error').html('');
+                 #}document.getElementById('email_error').innerHTML='';
+                document.getElementById('inputsubmit').disabled=false;{#
+                $("#inputsubmit").prop("disabled",false);
+#}}
+document.getElementById('inputsubmit').onclick = function(){
+    var value = document.getElementById('inputsubmit').disabled;
+    if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
+}
             {# $('#result-html').html(data);
                         if(data.action=='change_delete'){
                 var tr_id=document.getElementById('tr_id_{{ product.pk }}');
@@ -118,6 +130,7 @@ document.getElementById('email').onchange = function() {
                     <tr>
                         <td colspan="3">
                             <input type="submit"
+                                   id="inputsubmit"
                                    name="inputsubmit"
                                    value="Продолжить оформление заказа">
                         </td>
