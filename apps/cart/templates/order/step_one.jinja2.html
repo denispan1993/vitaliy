@@ -55,7 +55,7 @@ document.getElementById('email').onchange = function(){
 		function(data, textStatus, jqXHR){
             if(data.result=='Bad'){
                 {# $('#email_error').html(data.email_error);
-                 #}document.getElementById('email_error').innerHTML=data.emain_error;
+                 #}document.getElementById('email_error').innerHTML=data.email_error;
                 document.getElementById('inputsubmit').disabled=true;{#
                 $("#inputsubmit").prop("disabled",true);
              #}}else{
