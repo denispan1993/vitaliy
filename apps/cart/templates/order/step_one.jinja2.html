@@ -53,13 +53,13 @@ document.getElementById('email').onchange = function(){
             value:value
         },
 		function(data, textStatus, jqXHR){
-            if(data.result=='Bad'){{#
-                $('#email_error').html(data.email_error);
+            if(data.result=='Bad'){
+                {# $('#email_error').html(data.email_error);
                  #}document.getElementById('email_error').innerHTML=data.emain_error;
                 document.getElementById('inputsubmit').disabled=true;{#
                 $("#inputsubmit").prop("disabled",true);
-             #}}else{{#
-                $('#email_error').html('');
+             #}}else{
+             {# $('#email_error').html('');
                  #}document.getElementById('email_error').innerHTML='';
                 document.getElementById('inputsubmit').disabled=false;{#
                 $("#inputsubmit").prop("disabled",false);
