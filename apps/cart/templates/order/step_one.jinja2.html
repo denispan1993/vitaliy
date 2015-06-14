@@ -76,11 +76,6 @@ document.getElementById('email').onchange = function(){
 		},
 		"json");
 };
-document.getElementById('inputsubmit').onclick = function(){
-    var value = document.getElementById('inputsubmit').disabled;
-    alert(value);
-    if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
-}
 </script>
                         </td>
                         <td>
@@ -134,6 +129,13 @@ document.getElementById('inputsubmit').onclick = function(){
                                    id="inputsubmit"
                                    name="inputsubmit"
                                    value="Продолжить оформление заказа">
+<script>
+document.getElementById('inputsubmit').onclick = function(){
+    var value = document.getElementById('inputsubmit').disabled;
+    alert(value);
+    if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
+}
+</script>
                         </td>
                     </tr>
                 </table>
