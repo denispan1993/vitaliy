@@ -63,12 +63,7 @@ document.getElementById('email').onchange = function(){
                  #}document.getElementById('email_error').innerHTML='';
                 document.getElementById('inputsubmit').disabled=false;{#
                 $("#inputsubmit").prop("disabled",false);
-#}}
-document.getElementById('inputsubmit').onclick = function(){
-    var value = document.getElementById('inputsubmit').disabled;
-    alert(value);
-    if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
-}
+            #}}
             {# $('#result-html').html(data);
                         if(data.action=='change_delete'){
                 var tr_id=document.getElementById('tr_id_{{ product.pk }}');
@@ -80,6 +75,11 @@ document.getElementById('inputsubmit').onclick = function(){
 			{# // jQuery('#dynamic_div_showcart').html(data.html); #}
 		},
 		"json");
+}
+document.getElementById('inputsubmit').onclick = function(){
+    var value = document.getElementById('inputsubmit').disabled;
+    alert(value);
+    if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
 }
 </script>
                         </td>
