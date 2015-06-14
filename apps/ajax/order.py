@@ -32,14 +32,18 @@ def order_email_test(request, ):
                         else:
                             from validate_email import validate_email
                             is_validate = validate_email(email, check_mx=True, verify=False, )
-                            if is_validate:
-                                """ Если проверка на существование сервера прошла...
-                                    То делаем полную проверку адреса на существование... """
-                                is_validate = validate_email(email, verify=True, )
-                                if not is_validate:
-                                    email_error = u'Ваш E-Mail адрес не существует.'
-                            else:
+                            # if is_validate:
+                            #     """ Если проверка на существование сервера прошла...
+                            #         То делаем полную проверку адреса на существование... """
+                            #     is_validate = validate_email(email, verify=True, )
+                            #     if not is_validate:
+                            #         email_error = u'Ваш E-Mail адрес не существует.'
+                            # else:
+                            #     email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                            if not is_validate:
                                 email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                            else:
+                                is_validate = True
                         if is_validate:
                             response = {'result': 'Ok', }
                             data = dumps(response, )
