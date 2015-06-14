@@ -188,7 +188,6 @@ def order_change(request, ):
                 try:
                     product_pk = int(product_pk, )
                 except ValueError:
-                    print '9'
                     return HttpResponse(status=400, )
                 else:
                     action = request.POST.get(u'action', None, )
@@ -225,14 +224,12 @@ def order_change(request, ):
                             try:
                                 order = Order.objects.get(pk=order, )
                             except Order.DoesNotExist:
-                                print '2'
                                 return HttpResponse(status=400, )
                             else:
                                 from apps.product.models import Product
                                 try:
                                     product = Product.objects.get(pk=product_pk, )
                                 except Product.DoesNotExist:
-                                    print '3'
                                     return HttpResponse(status=400, )
                                 else:
                                     order, product_in_cart = order.product_add(obj_product=product, )
@@ -242,7 +239,6 @@ def order_change(request, ):
                                     'action': action,
                                     'result': 'Ok', }
                     else:
-                        print '5'
                         return HttpResponse(status=400, )
                     data = dumps(response, )
                     mimetype = 'application/javascript'

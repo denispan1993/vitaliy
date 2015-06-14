@@ -163,12 +163,6 @@ urlpatterns += patterns('apps.ajax.views',
                             name='ajax_country', ),
                         url(r'^ajax/product_to_cart/$', 'product_to_cart',
                             name='ajax_product_to_cart', ),
-                        url(r'^ajax/order/change/$', 'order_change',
-                            name='ajax_order_change', ),
-                        url(r'^ajax/order/add/search/$', 'order_add_search',
-                            name='ajax_order_add_search', ),
-                        url(r'^ajax/order/add/$', 'order_add',
-                            name='ajax_order_add', ),
                         )
 # """ Изменение комментария """
 urlpatterns += patterns('apps.ajax.comment',
@@ -178,6 +172,7 @@ urlpatterns += patterns('apps.ajax.comment',
 urlpatterns += patterns('',
                         url(r'^ajax/coupon/', include('apps.ajax.urls', ), ),
                         url(r'^ajax/slides/', include('apps.ajax.urls', ), ),
+                        url(r'^ajax/order/', include('apps.ajax.urls', ), ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile

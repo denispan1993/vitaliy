@@ -45,11 +45,33 @@ div#show_order form#form_order table tr td#first_column{
                                        value="{{ email }}"
                                    {% endif %}
                                    title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
+<script>
+document.getElementById('email').onchange = function() {
+    var value = document.getElementById('email').value;
+    jQuery.post("/ajax/order/email/test/",{
+            csrfmiddlewaretoken:'{{ csrf_token }}',
+            value:value
+        },
+		function(data, textStatus, jqXHR){
+            if(data.result=='Bad'){
+                jQuery('#email_error').html(data.email_error);
+            }else{jQuery('#email_error').html('');}
+            {# $('#result-html').html(data);
+                        if(data.action=='change_delete'){
+                var tr_id=document.getElementById('tr_id_{{ product.pk }}');
+                tr_id.style.display='none';
+                product_summ_of_quantity_array.splice({{ product.pk }}, 1);
+                ReCalcSumm(true);
+            }, #}
+		    {# alert(data.result); #}
+			{# // jQuery('#dynamic_div_showcart').html(data.html); #}
+		},
+		"json");
+}
+</script>
                         </td>
                         <td>
-                            {% if email_error %}
-                                <p class="red">{{ email_error }}</p>
-                            {% endif %}
+                            <p id="email_error" class="red">{{ email_error }}</p>
                         </td>
                     </tr>
                     <tr>

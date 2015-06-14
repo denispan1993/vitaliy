@@ -5,9 +5,24 @@ try:
 except ImportError:  # django < 1.4
     from django.conf.urls.defaults import patterns, include, url
 
-urlpatterns = patterns('apps.ajax',
-                       url(r'^test/$', 'coupon.coupon_test',
+urlpatterns = patterns('apps.ajax.coupon',
+                       url(r'^test/$', 'coupon_test',
                            name='ajax_coupon_text', ),
-                       url(r'^left/$', 'slides.left',
-                           name='ajax_slide_left', ),
                        )
+urlpatterns += patterns('apps.ajax.slides',
+                        url(r'^left/$', 'left',
+                            name='ajax_slide_left', ),
+                        )
+#/ajax/order/
+urlpatterns += patterns('apps.ajax.views',
+                        url(r'^change/$', 'order_change',
+                            name='ajax_order_change', ),
+                        url(r'^add/search/$', 'order_add_search',
+                            name='ajax_order_add_search', ),
+                        url(r'^add/$', 'order_add',
+                            name='ajax_order_add', ),
+                        )
+urlpatterns += patterns('apps.ajax.order',
+                        url(r'^email/test/$', 'order_email_test',
+                            name='ajax_order_email_test', ),
+                        )
