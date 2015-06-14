@@ -56,12 +56,14 @@ document.getElementById('email').onchange = function(){
             if(data.result=='Bad'){
                 {# $('#email_error').html(data.email_error);
                  #}document.getElementById('email_error').innerHTML=data.email_error;
-                document.getElementById('inputsubmit').disabled=true;{#
+                document.getElementById('inputsubmit').readonly=true;{#
+                document.getElementById('inputsubmit').disabled=true;
                 $("#inputsubmit").prop("disabled",true);
              #}}else{
              {# $('#email_error').html('');
                  #}document.getElementById('email_error').innerHTML='';
-                document.getElementById('inputsubmit').disabled=false;{#
+                document.getElementById('inputsubmit').readonly=false;{#
+                document.getElementById('inputsubmit').disabled=false;
                 $("#inputsubmit").prop("disabled",false);
             #}}
             {# $('#result-html').html(data);
@@ -134,7 +136,8 @@ document.getElementById('email').onchange = function(){
 function Alert_On_Click(){
     {# document.getElementById('inputsubmit').onclick = function(){ #}
     var value = document.getElementById('inputsubmit').disabled;
-    alert(value);
+    var value2 = document.getElementById('inputsubmit').readonly;
+    alert(value, value2);
     if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
     else{document.getElementById('inputsubmit').value='Подождите. Идет обработка заказа!!!'};
 }
