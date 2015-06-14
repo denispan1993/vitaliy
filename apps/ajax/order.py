@@ -20,7 +20,6 @@ def order_email_test(request, ):
                 if email:
                     email = email.strip()
                     from proj.settings import SERVER
-                    from validate_email import validate_email
                     if SERVER:
                         is_validate = False
                         email_error = None
@@ -31,6 +30,7 @@ def order_email_test(request, ):
                         except ValidationError:
                             email_error = u'Вы допустили ошибку при наборе Вашего E-Mail адреса'
                         else:
+                            from validate_email import validate_email
                             is_validate = validate_email(email, check_mx=True, verify=False, )
                             if is_validate:
                                 """ Если проверка на существование сервера прошла...
