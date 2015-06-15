@@ -12,7 +12,7 @@
                 <a href="/корзина/" title="Редактировать корзину">&gt;&gt;&nbsp;Редактировать корзину</a>
              </div>
         {% else %}
-            <form method="POST" action="{{ form_action_next }}" id="form_order" name="form_order">
+            <form method="POST" action="{{ form_action_next }}" id="form_order" name="form_order" onsubmit="Click_On_Submit_Button();">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
                 <input type="hidden" name="POST_NAME" value="ordering_step_one"/>
 <style>
