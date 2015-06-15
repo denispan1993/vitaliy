@@ -145,14 +145,15 @@ background-color:#ffffff;
                                    value="Продолжить оформление заказа">
 <script>
     {# function Alert_On_Click(){ #}
-document.getElementById('inputsubmit').onclick=Click_On_Submit_Button();
-var submit_button=document.forms["form_order"].elements["inputsubmit"];
-submit_button.onchange=Click_On_Submit_Button();
+    {# document.getElementById('inputsubmit').onclick=Click_On_Submit_Button(); #}
+    {# var submit_button=document.forms["form_order"].elements["inputsubmit"];
+submit_button.onchange=Click_On_Submit_Button(); #}
 var submit_form=document.forms["form_order"];
 submit_form.onsubmit=Click_On_Submit_Button();
 function Click_On_Submit_Button(){
     {#     var value = document.getElementById('inputsubmit').disabled;
     var value2 = document.getElementById('inputsubmit').readonly; #}
+    alert(submit_disable);
     if(submit_disable){
         alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');
         return false;
