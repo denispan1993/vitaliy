@@ -148,12 +148,14 @@ background-color:#ffffff;
     {# document.getElementById('inputsubmit').onclick=Click_On_Submit_Button(); #}
     {# var submit_button=document.forms["form_order"].elements["inputsubmit"];
 submit_button.onchange=Click_On_Submit_Button(); #}
-var submit_form=document.forms["form_order"];
-submit_form.onsubmit=Click_On_Submit_Button();
+    {# var submit_form=document.forms["form_order"];
+submit_form.onsubmit=Click_On_Submit_Button(); #}
+
 function Click_On_Submit_Button(){
     {#     var value = document.getElementById('inputsubmit').disabled;
     var value2 = document.getElementById('inputsubmit').readonly; #}
     alert(submit_disable);
+    return false;
     if(submit_disable){
         alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');
         return false;
@@ -162,7 +164,9 @@ function Click_On_Submit_Button(){
         document.getElementById('inputsubmit').value='Подождите. Идет обработка заказа!!!';
         return true;
     }
+    return false;
 }
+document.getElementById('form_order').onsubmit=Click_On_Submit_Button();
 </script>
                         </td>
                     </tr>
