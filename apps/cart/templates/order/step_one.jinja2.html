@@ -46,7 +46,8 @@ div#show_order form#form_order table tr td#first_column{
                                    {% endif %}
                                    title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
 <script>
-document.getElementById('email').onchange = function(){
+var submit_disable=false;
+document.getElementById('email').onchange=function(){
     var value = document.getElementById('email').value;
     jQuery.post("/ajax/order/email/test/",{
             csrfmiddlewaretoken:'{{ csrf_token }}',
@@ -54,15 +55,19 @@ document.getElementById('email').onchange = function(){
         },
 		function(data, textStatus, jqXHR){
             if(data.result=='Bad'){
+                submit_disable=true;
+                document.getElementById('inputsubmit').classList.add('disabled_button');
                 {# $('#email_error').html(data.email_error);
-                 #}document.getElementById('email_error').innerHTML=data.email_error;
-                document.getElementById('inputsubmit').readonly=true;{#
+                 #}document.getElementById('email_error').innerHTML=data.email_error;{#
+                document.getElementById('inputsubmit').readonly=true;
                 document.getElementById('inputsubmit').disabled=true;
                 $("#inputsubmit").prop("disabled",true);
              #}}else{
+                submit_disable=false;
+                document.getElementById('inputsubmit').classList.remove('disabled_button');
              {# $('#email_error').html('');
-                 #}document.getElementById('email_error').innerHTML='';
-                document.getElementById('inputsubmit').readonly=false;{#
+                 #}document.getElementById('email_error').innerHTML='';{#
+                document.getElementById('inputsubmit').readonly=false;
                 document.getElementById('inputsubmit').disabled=false;
                 $("#inputsubmit").prop("disabled",false);
             #}}
@@ -127,19 +132,35 @@ document.getElementById('email').onchange = function(){
                     </tr>
                     <tr>
                         <td colspan="3">
+<style>
+.disabled_button{
+color:#c0c0c0;
+background-color:#ffffff;
+}
+</style>
                             <input type="submit"
                                    id="inputsubmit"
-                                   onclick="Alert_On_Click()"
+{#                                    onclick="Alert_On_Click()" #}
                                    name="inputsubmit"
                                    value="Продолжить оформление заказа">
 <script>
-function Alert_On_Click(){
-    {# document.getElementById('inputsubmit').onclick = function(){ #}
-    var value = document.getElementById('inputsubmit').disabled;
-    var value2 = document.getElementById('inputsubmit').readonly;
-    alert(value, value2);
-    if(value){alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');}
-    else{document.getElementById('inputsubmit').value='Подождите. Идет обработка заказа!!!'};
+    {# function Alert_On_Click(){ #}
+document.getElementById('inputsubmit').onclick=Click_On_Submit_Button();
+var submit_button=document.forms["form_order"].elements["inputsubmit"];
+submit_button.onchange=Click_On_Submit_Button();
+var submit_form=document.forms["form_order"];
+submit_form.onsubmit=Click_On_Submit_Button();
+function Click_On_Submit_Button(){
+    {#     var value = document.getElementById('inputsubmit').disabled;
+    var value2 = document.getElementById('inputsubmit').readonly; #}
+    if(submit_disable){
+        alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');
+        return false;
+    }
+    else{
+        document.getElementById('inputsubmit').value='Подождите. Идет обработка заказа!!!';
+        return true;
+    }
 }
 </script>
                         </td>
