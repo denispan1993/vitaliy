@@ -12,12 +12,19 @@
                 <a href="/корзина/" title="Редактировать корзину">&gt;&gt;&nbsp;Редактировать корзину</a>
              </div>
         {% else %}
-            <form method="POST" action="{{ form_action_next }}" id="form_order" name="form_order" onSubmit="return aaa(event);">
+            <form method="POST" action="{{ form_action_next }}" id="form_order" name="form_order" onSubmit="return Submit_Form();">
 <script>
-    function aaa(e){
-        alert('submit');
-        e.returnValue=false;
+var submit_disable=false;
+function Submit_Form(){
+    if(submit_disable){
+        alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');
+        return false;
     }
+    else{
+        document.getElementById('inputsubmit').value='Подождите. Идет обработка заказа!!!';
+        return true;
+    }
+}
 </script>
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <input type="hidden" name="POST_NAME" value="ordering_step_one">
@@ -52,7 +59,6 @@ div#show_order form#form_order table tr td#first_column{
                                    {% endif %}
                                    title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
 <script>
-var submit_disable=false;
 document.getElementById('email').onchange=function(){
     var value = document.getElementById('email').value;
     jQuery.post("/ajax/order/email/test/",{
@@ -92,7 +98,7 @@ document.getElementById('email').onchange=function(){
 </script>
                         </td>
                         <td>
-                            <p id="email_error" class="Red">{{ email_error }}</p>
+                            <p id="email_error" class="Red">{% if email_error %}{{ email_error }}{% endif %}</p>
                         </td>
                     </tr>
                     <tr>
@@ -157,10 +163,10 @@ submit_button.onchange=Click_On_Submit_Button(); #}
     {# var submit_form=document.forms["form_order"];
 submit_form.onsubmit=Click_On_Submit_Button(); #}
 
-function Click_On_Submit_Button(){
+    {# function Click_On_Submit_Button(){ #}
     {#     var value = document.getElementById('inputsubmit').disabled;
     var value2 = document.getElementById('inputsubmit').readonly; #}
-    alert(submit_disable);
+    {#     alert(submit_disable);
     return false;
     if(submit_disable){
         alert('Пожалуйста, исправьте введенный Вами E-Mail адрес!!!');
@@ -172,7 +178,7 @@ function Click_On_Submit_Button(){
     }
     return false;
 }
-document.getElementById('form_order').onsubmit=Click_On_Submit_Button();
+document.getElementById('form_order').onsubmit=Click_On_Submit_Button(); #}
 </script>
                         </td>
                     </tr>

@@ -20,7 +20,7 @@ def order_email_test(request, ):
                 if email:
                     email = email.strip()
                     from proj.settings import SERVER
-                    if SERVER:
+                    if SERVER or not SERVER:
                         is_validate = False
                         email_error = None
                         from django.core.validators import validate_email
