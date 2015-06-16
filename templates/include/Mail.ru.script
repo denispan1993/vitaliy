@@ -1,5 +1,5 @@
 <!-- Rating@Mail.ru counter -->
-<script type="text/javascript">
+<script async=""{# type="text/javascript" #}>
 var _tmr = _tmr || [];
 _tmr.push({id: "2535504", type: "pageView", start: (new Date()).getTime()});
 (function (d, w) {
