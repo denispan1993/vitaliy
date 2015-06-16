@@ -176,17 +176,15 @@ $(document).ready(function(){
             <div id="clbh_banner_pr_line_left" class="clbh_banner-pr-line-left" style="width: 97%;"></div>
         </div>
         <div class="clbh_banner-pr-line-right-wrapper">
-            <div id="clbh_banner_pr_line_right" class="clbh_banner-pr-line-right" style="width: 97%;">
-
-            </div>
+            <div id="clbh_banner_pr_line_right" class="clbh_banner-pr-line-right" style="width: 97%;"></div>
         </div>
     </div>
     <div id="clbh_div_ban" class="clbh_banner clbh_closed">
-        <div id="clbh_exit" class="clbh_banner-exit"></div>
+        <div id="clbh_exit"
+             class="clbh_banner-exit"
+                onClick="MouseClick_Close();"></div>
         <div class="clbh_banner-body">
-            <div id="clbh_banner_h1" class="clbh_banner-h1">
-
-            </div>
+            <div id="clbh_banner_h1" class="clbh_banner-h1"></div>
             <div style="display:none;" id="clbh_banner_choose_office" class="clbh_banner-choose-office"></div>
             <div class="clbh_banner-form-row-1">
                 <div id="clbh_banner_content" class="clbh_banner-form"></div>
@@ -195,18 +193,46 @@ $(document).ready(function(){
                 <span id="clbh_stat" style="display: none;"></span>
             </div>
         </div>
-        <div id="clbh_banner_work_to" class="clbh_banner-work-to">
-            <a href="http://callbackhunter.com/free?utm_source=widget" id="clbh_banner_work_to_link" target="blank">Powered by technology CallbackHunter.com</a>
-        </div>
     </div>
     <div id="clbh_banner_bg" class="clbh_banner_bg"></div>
 </div>
 <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker_phoneicon.css">
-<div id="clbh_phone_div" class="cbh-phone cbh-green cbh-show cbh-static" style="top: 15px; left: 867px;">
+<div id="clbh_phone_div"
+     class="cbh-phone cbh-green cbh-show cbh-static"
+     style="top: 15px; left: 867px;"
+        onmouseover="MouseOver();"
+        onmouseout="MouseOut();"
+        onclick="MouseClick();">
     <div class="cbh-ph-circle"></div>
     <div class="cbh-ph-circle-fill"></div>
     <div class="cbh-ph-img-circle"></div>
 </div>
+<script>
+    {# document.getElementById('clbh_phone_div').onMouseEnter=function(){
+    alert('Enter'); #}
+function MouseOver(){
+    document.getElementById('clbh_phone_div').classList.remove('cbh-static');
+    document.getElementById('clbh_phone_div').classList.add('cbh-hover');
+}
+    {# document.getElementById('clbh_phone_div').onMouseOver=function(){
+    alert('Over'); #}
+function MouseOut(){
+    document.getElementById('clbh_phone_div').classList.remove('cbh-hover');
+    document.getElementById('clbh_phone_div').classList.add('cbh-static');
+}
+function MouseClick(){
+    document.getElementById('clbh_banner_bg').style.display="block";
+    document.getElementById('clbh_div_ban').classList.remove('clbh_closed');
+    document.getElementById('body').classList.add('clbh_blur');
+    document.getElementById('footer').classList.add('clbh_blur');
+}
+function MouseClick_Close(){
+    document.getElementById('clbh_banner_bg').style.display="none";
+    document.getElementById('clbh_div_ban').classList.add('clbh_closed');
+    document.getElementById('body').classList.remove('clbh_blur');
+    document.getElementById('footer').classList.remove('clbh_blur');
+}
+</script>
 {% endif %}
 </body>
 </html>
