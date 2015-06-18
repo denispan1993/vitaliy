@@ -1,5 +1,5 @@
-# coding=utf-8
-__author__ = 'user'
+# -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'
 
 try:
     from django.utils.simplejson import dumps

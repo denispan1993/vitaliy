@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'
 try:
     from django.conf.urls import patterns, include, url
     from django.conf.urls.i18n import i18n_patterns
@@ -25,4 +26,9 @@ urlpatterns += patterns('apps.ajax.views',
 urlpatterns += patterns('apps.ajax.order',
                         url(r'^email/test/$', 'order_email_test',
                             name='ajax_order_email_test', ),
+                        )
+
+urlpatterns += patterns('apps.ajax.callback',
+                        url(r'^send/$', 'callback_data_send',
+                            name='ajax_callback_data_send', ),
                         )
