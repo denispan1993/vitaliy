@@ -249,7 +249,7 @@ def show_order(request,
                         msg.send(fail_silently=False, )
                         """ Отправка благодарности клиенту. """
                         subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
-                        html_content = render_to_string('email_succeessful_content.jinja2.html',
+                        html_content = render_to_string('email_successful_content.jinja2.html',
                                                         {'order': order, })
                         text_content = strip_tags(html_content, )
                         from_email = u'site@keksik.com.ua'
