@@ -171,23 +171,32 @@ $(document).ready(function(){
 {% if user.is_authenticated and user.is_staff %}
 <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css">
 <div id="clbh_div" class="clbh_banner-wrapper">
-    <div style="display: none;" id="clbh_banner_pr_line_wrapper" class="clbh_banner-line-wrapper">
-        <div class="clbh_banner-pr-line-left-wrapper">
-            <div id="clbh_banner_pr_line_left" class="clbh_banner-pr-line-left" style="width: 97%;"></div>
-        </div>
-        <div class="clbh_banner-pr-line-right-wrapper">
-            <div id="clbh_banner_pr_line_right" class="clbh_banner-pr-line-right" style="width: 97%;"></div>
-        </div>
-    </div>
     <div id="clbh_div_ban" class="clbh_banner clbh_closed">
         <div id="clbh_exit"
              class="clbh_banner-exit"
                 onClick="MouseClick_Close();"></div>
         <div class="clbh_banner-body">
-            <div id="clbh_banner_h1" class="clbh_banner-h1"></div>
-            <div style="display:none;" id="clbh_banner_choose_office" class="clbh_banner-choose-office"></div>
+            <div id="clbh_banner_h1" class="clbh_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
             <div class="clbh_banner-form-row-1">
-                <div id="clbh_banner_content" class="clbh_banner-form"></div>
+                <div id="clbh_banner_content" class="clbh_banner-form">
+                    <div class="clbh_banner-arrow"></div>
+                    <div id="clbh_name_line" class="clbh_name_line">
+<style>
+input{width: 300px !important;margin-bottom:5px;}
+</style>
+                        <input type="text" maxlength="32" value="" id="clbh_name" placeholder="Enter your Name" class="clbh_banner-textbox">
+                    </div>
+                    <div id="clbh_phone_line" class="clbh_phone_line">
+                        <input type="text" maxlength="32" value="" id="clbh_phone" placeholder="Enter your phone number" class="clbh_banner-textbox">
+                    </div>
+                    <div id="clbh_email_line" class="clbh_email_line">
+                        <input type="text" maxlength="32" value="" id="clbh_email" placeholder="Enter your E-Mail" class="clbh_banner-textbox">
+                        <button id="clbh_send" class="clbh_banner-button">Call me!</button>
+                    </div>
+                    <div style="display: none;" class="clbh_timer">
+                        <p id="clbh_timer_result">00:25,99</p>
+                    </div>
+                </div>
             </div>
             <div class="clbh_banner-form-row-2">
                 <span id="clbh_stat" style="display: none;"></span>
