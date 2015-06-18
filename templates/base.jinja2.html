@@ -211,14 +211,18 @@ $(document).ready(function(){
     {# document.getElementById('clbh_phone_div').onMouseEnter=function(){
     alert('Enter'); #}
 function MouseOver(){
-    document.getElementById('clbh_phone_div').classList.remove('cbh-static');
     document.getElementById('clbh_phone_div').classList.add('cbh-hover');
+    setTimeout(
+            document.getElementById('clbh_phone_div').classList.remove('cbh-static'),
+            5000);
 }
     {# document.getElementById('clbh_phone_div').onMouseOver=function(){
     alert('Over'); #}
 function MouseOut(){
     document.getElementById('clbh_phone_div').classList.remove('cbh-hover');
-    document.getElementById('clbh_phone_div').classList.add('cbh-static');
+    setTimeout(
+            document.getElementById('clbh_phone_div').classList.add('cbh-static'),
+            5000);
 }
 function MouseClick(){
     document.getElementById('clbh_banner_bg').style.display="block";
