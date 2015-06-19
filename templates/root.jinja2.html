@@ -27,12 +27,12 @@
 try{
     $(document).ready(function() {
         $(".fancybox").fancybox({
-            prevEffect		: 'elastic',
-            nextEffect		: 'elastic',
-            closeBtn		: true,
-            helpers		: {
-                title	: { type : 'inside' }
-        {1#                 buttons	: {} #1}
+            prevEffect		:'elastic',
+            nextEffect		:'elastic',
+            closeBtn		:true,
+            helpers		:{
+                title	:{ type :'inside' }
+        {1#                 buttons	:{} #1}
             }
         });
     })
@@ -44,10 +44,10 @@ try{
 <script src="/media/js/jquery/tabSlider/TopInit.js"></script>
 {# try{jQuery(document).ready(function() {
         $('.feedback-panel').tabSlideOut({
-            tabHandle: '.feedback-tab',                   //class of the element that will be your tab -doesnt have to be an anchor
-            pathToTabImage: '/media/img/feedbacktab.gif', //relative path to the image for the tab
-            imageHeight: '99px',                          //height of tab image
-            imageWidth: '30px'                            //width of tab image
+            tabHandle:'.feedback-tab',                   //class of the element that will be your tab -doesnt have to be an anchor
+            pathToTabImage:'/media/img/feedbacktab.gif', //relative path to the image for the tab
+            imageHeight:'99px',                          //height of tab image
+            imageWidth:'30px'                            //width of tab image
         });
     })
 }catch(e){ alert(e) }
@@ -88,6 +88,18 @@ try{
 {% block content %}
 {% if user.is_authenticated and user.is_staff %}
 <style>
+.feedback-panel{
+    background-color:rgba(255, 255, 255, 0.7);
+    border-radius:0px 16px 16px 0px;
+    height:390px;
+    margin:0 auto;
+    padding-left:20px;
+    position:relative;
+    top:100px;
+    transition:all 0.6s ease-out 0s;
+    width:500px;
+    z-index:200;
+}
 .feedback_banner-h1{
     font-size:24px;
     line-height:34px;
@@ -106,7 +118,6 @@ try{
 }
 .feedback_line{
     position:relative;
-    z-index:20001;
     float:left;
 }
 .feedback_banner-textbox{
@@ -134,7 +145,7 @@ try{
     left:auto;
 }
 </style>
-<div class="feedback-panel" style="z-index:200;">
+<div class="feedback-panel">
     <a class="feedback-tab" href="http://www.keksik.com.ua/"></a>
     <div id="feedback-banner_h1" class="feedback_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
     <div class="feedback_banner-form-row-1">
@@ -204,7 +215,7 @@ font-weight:bold;
             <img width="60" src="{{ MEDIA_URL }}img/shopping_cart.png" alt="Корзина покупателя магазина Кексик.com.ua">
         </a>
     </div>
-    <div id="showcart" style="background:none repeat scroll 0 0 #fff6c9;border:1px solid #CECECE;border-radius:15px 0 0 15px;margin-left:70px;padding:10px;display:block;">{# googleoff: all #}
+    <div id="showcart" style="background:none repeat scroll 0 0 #fff6c9;border:1px solid #CECECE;border-radius:15px 0 0 15px;margin-left:70px;padding:10px;display:block;">{# googleoff:all #}
         {# <noindex> #}
             <div id="dynamic_div_showcart" style="color:Black;">
                 {% if user_cart_ %}
@@ -217,7 +228,7 @@ font-weight:bold;
                 {% endif %}
             </div>
             <b><a href="/корзина/" style="font-size:18px;margin-top:7px;display:block;">Перейти в корзину</a></b>
-        {# </noindex> #}{# googleon: all #}
+        {# </noindex> #}{# googleon:all #}
     </div>
 </div>
 <div id="header">
@@ -239,10 +250,10 @@ font-weight:bold;
         </div>
     </div>
     {# <div id="cart"><a href="/корзина/">Корзина:</a></div> #}
-    {#             <p>User: {{ user }}</p>
-                <p>Authenticated: {{ user.is_authenticated }}</p>
-                <p>Anonymous: {{ user.is_anonymous }}</p>
-                <p>Staff: {{ user.is_staff }}</p> #}
+    {#             <p>User:{{ user }}</p>
+                <p>Authenticated:{{ user.is_authenticated }}</p>
+                <p>Anonymous:{{ user.is_anonymous }}</p>
+                <p>Staff:{{ user.is_staff }}</p> #}
     {% if user.is_authenticated and user.is_staff %}
         {% if request.session.category %}
             <div id="category_admin"><a href="/admin/product/category/{{ current_category.pk }}/">{{ current_category.title }}</a></div>
