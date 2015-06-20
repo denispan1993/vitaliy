@@ -20,7 +20,6 @@ def callback_data_send(request, ):
                 userid = request.POST.get(u'userid', None, )
                 name = request.POST.get(u'name', None, )
                 email = request.POST.get(u'email', None, )
-                emailok = request.POST.get(u'emailok', None, )
                 phone = request.POST.get(u'phone', None, )
                 from apps.callback.models import CallBack
                 try:
@@ -28,7 +27,6 @@ def callback_data_send(request, ):
                                             user_id=userid,
                                             name=name,
                                             email=email,
-                                            emailok=emailok,
                                             phone=phone, )
                 except Exception as e:
                     print e.message
