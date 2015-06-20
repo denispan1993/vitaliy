@@ -25,7 +25,7 @@ def callback_data_send(request, ):
                 from apps.callback.models import CallBack
                 try:
                     CallBack.objects.create(sessionid=sessionid,
-                                            userid=userid,
+                                            user_id=userid,
                                             name=name,
                                             email=email,
                                             emailok=emailok,
