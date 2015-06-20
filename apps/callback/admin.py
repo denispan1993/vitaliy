@@ -3,12 +3,12 @@ __author__ = 'Alex Starov'
 
 from django.contrib import admin
 
-from apps.cart.models import Cart
+#from apps.cart.models import Cart
 
 
-class CartAdmin(admin.ModelAdmin, ):
-    pass
-admin.site.register(Cart, CartAdmin, )
+#class CartAdmin(admin.ModelAdmin, ):
+#    pass
+#admin.site.register(Cart, CartAdmin, )
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]
 #    fieldsets = [
@@ -33,25 +33,25 @@ admin.site.register(Cart, CartAdmin, )
 #    class Media:
 #        js = ('/media/js/admin/ruslug-urlify.js', )
 
-from apps.cart.models import Order
+#from apps.cart.models import Order
 
 
-class OrderAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'user', 'sessionid', 'email', 'phone', ]
-    list_display_links = ['pk', 'user', 'sessionid', 'email', 'phone', ]
-admin.site.register(Order, OrderAdmin, )
+#class OrderAdmin(admin.ModelAdmin, ):
+#    list_display = ['pk', 'user', 'sessionid', 'email', 'phone', ]
+#    list_display_links = ['pk', 'user', 'sessionid', 'email', 'phone', ]
+#admin.site.register(Order, OrderAdmin, )
 
-from apps.cart.models import Product
-
-
-class ProductAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'object_id', 'product', 'quantity', 'price', ]
-    list_display_links = ['pk', 'object_id', 'product', 'quantity', 'price', ]
-admin.site.register(Product, ProductAdmin, )
-
-from apps.cart.models import DeliveryCompany
+#from apps.cart.models import Product
 
 
-class DeliveryCompanyAdmin(admin.ModelAdmin, ):
-    pass
-admin.site.register(DeliveryCompany, DeliveryCompanyAdmin, )
+#class ProductAdmin(admin.ModelAdmin, ):
+#    list_display = ['pk', 'object_id', 'product', 'quantity', 'price', ]
+#    list_display_links = ['pk', 'object_id', 'product', 'quantity', 'price', ]
+#admin.site.register(Product, ProductAdmin, )
+
+#from apps.cart.models import DeliveryCompany
+
+
+#class DeliveryCompanyAdmin(admin.ModelAdmin, ):
+#    pass
+#admin.site.register(DeliveryCompany, DeliveryCompanyAdmin, )
