@@ -32,8 +32,7 @@ def comment_change(request, ):
                             response = {}
                             action = request.POST.get(u'action', None, )
                             if action == 'commenter_name_change':
-                                """ Изменение имени "Комментатора"
-                                """
+                                """ Изменение имени "Комментатора" """
                                 commenter_name = request.POST.get(u'commenter_name', None, )
                                 if commenter_name and commenter_name != u'':
                                     queryset_comment.name = commenter_name
@@ -41,8 +40,7 @@ def comment_change(request, ):
                                     response = {'comment_pk': comment_pk,
                                                 'result': 'Ok', }
                             elif action == 'comment_change':
-                                """ Изменение самого "Комментатария"
-                                """
+                                """ Изменение самого "Комментатария" """
                                 comment = request.POST.get(u'comment', None, )
                                 if comment and comment != u'':
                                     queryset_comment.comment = comment
@@ -50,8 +48,7 @@ def comment_change(request, ):
                                     response = {'comment_pk': comment_pk,
                                                 'result': 'Ok', }
                             elif action == 'comment_pass_moderation_change':
-                                """ Изменение статуса модерации "Комментатария"
-                                """
+                                """ Изменение статуса модерации "Комментатария" """
                                 comment_pass_moderation = request.POST.get(u'comment_pass_moderation', None, )
                                 if comment_pass_moderation and comment_pass_moderation != u'':
                                     if comment_pass_moderation == 'true':
@@ -64,12 +61,11 @@ def comment_change(request, ):
                                                 'comment_pass_moderation': comment_pass_moderation,
                                                 'result': 'Ok', }
                             elif action == 'comment_delete':
-                                """ Удаление "Комментатария"
-                                """
+                                """ Удаление "Комментатария" """
                                 queryset_comment.delete()
                                 response = {'comment_pk': comment_pk,
                                             'result': 'Ok', }
-                            #--------------------------
+                            # --------------------------
                             data = dumps(response, )
                             mimetype = 'application/javascript'
                             return HttpResponse(data, mimetype, )

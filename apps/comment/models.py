@@ -9,13 +9,18 @@ class Comment(MPTTModel, ):
     from mptt import models as modelsTree
     comment_parent = modelsTree.TreeForeignKey('Comment',
                                                verbose_name=_(u'Комментарий на который отвечает этот комментарий', ),
-                                               null=True,
                                                blank=True,
+                                               null=True,
                                                related_name=u'children', )
     """ Ссылка на главную запись """
     from django.contrib.contenttypes.models import ContentType
-    content_type = models.ForeignKey(ContentType, related_name='related_Product', )
-    object_id = models.PositiveIntegerField(db_index=True, )
+    content_type = models.ForeignKey(ContentType,
+                                     related_name='related_Product',
+                                     blank=True,
+                                     null=True, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            blank=True,
+                                            null=True, )
     from django.contrib.contenttypes import generic
     record_parent = generic.GenericForeignKey('content_type', 'object_id', )
 

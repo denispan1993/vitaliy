@@ -356,6 +356,7 @@ INSTALLED_APPS = (
     'apps.adminSite',
     'apps.discount',
     'apps.coupon',
+    'apps.callback',
     'apps.ajax',
     # 'static_sitemaps',
 )

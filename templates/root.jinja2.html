@@ -89,22 +89,23 @@ try{
 {% if user.is_authenticated and user.is_staff %}
 <style>
 .feedback-panel{
-    background-color:rgba(255, 255, 255, 0.7);
-    border-radius:0px 16px 16px 0px;
-    height:390px;
+    background-color:rgba(255, 255, 255, 0.85);
+    border-radius:0 16px 16px 0;
+    height:440px;
     margin:0 auto;
+    padding-top:10px;
     padding-left:20px;
     position:relative;
     top:100px;
     transition:all 0.6s ease-out 0s;
-    width:500px;
+    width:360px;
     z-index:200;
 }
 .feedback_banner-h1{
-    font-size:24px;
-    line-height:34px;
+    color:#555555;
+    font-size:26px;
+    line-height:24px;
     text-align:left;
-    letter-spacing:normal;
     height:auto;
 }
 .feedback_banner-form-row-1{
@@ -119,11 +120,10 @@ try{
 .feedback_line{
     position:relative;
     float:left;
+    margin-bottom:5px;
 }
-.feedback_banner-textbox{
-    min-width:164px;
-    width:164px;
-    height:34px;
+.feedback_banner-charbox, .feedback_banner-textbox{
+    width:350px;
     border:1px inset #c2c2c2;
     font-size:14px;
     -webkit-border-radius:4px;
@@ -138,16 +138,48 @@ try{
     -moz-transition:.25s ease-out;
     -o-transition:.25s ease-out;
     transition:.25s ease-out;
-    margin:0 15px 0 0;
     padding:0 8px;
     text-align:left;
     letter-spacing:normal;
     left:auto;
 }
+.feedback_banner-charbox{
+    height:34px;
+}
+.feedback_banner-textbox{
+    height:164px;
+}
+.feedback_submit-button{
+    width:158px;
+    height:33px;
+    font-size:14px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    border:1px solid #333;
+    color:#fff;
+    line-height:30px;
+    float:left;
+    cursor:pointer;
+    margin-right:10px;
+    margin-left:0;
+    -webkit-transition:.25s ease-out;
+    -moz-transition:.25s ease-out;
+    -o-transition:.25s ease-out;
+    transition:.25s ease-out;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+    box-shadow:none;
+    padding:0;
+    background:#333;
+    letter-spacing:normal;
+    text-indent:0;
+    position:static;
+}
 </style>
 <div class="feedback-panel">
     <a class="feedback-tab" href="http://www.keksik.com.ua/"></a>
-    <div id="feedback-banner_h1" class="feedback_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
+    <div id="feedback-banner_h1" class="feedback_banner-h1">Вы хотите пожаловаться, или сообщить о неисправности на сайте.</div>
     <div class="feedback_banner-form-row-1">
         <div id="feedback_banner_content" class="feedback_banner-form">
             <div id="feedback_name_line" class="feedback_line">
@@ -156,7 +188,34 @@ try{
                        value=""
                        id="name"
                        placeholder="Enter your Name"
+                       class="feedback_banner-charbox">
+            </div>
+            <div id="feedback_email_line" class="feedback_line">
+                <input type="text"
+                       maxlength="32"
+                       value=""
+                       id="email"
+                       placeholder="Enter your Email"
+                       class="feedback_banner-charbox">
+            </div>
+            <div id="feedback_phone_line" class="feedback_line">
+                <input type="text"
+                       maxlength="32"
+                       value=""
+                       id="phone"
+                       placeholder="Enter your Phone number"
+                       class="feedback_banner-charbox">
+            </div>
+            <div id="feedback_comment_line" class="feedback_line">
+                <input type="text"
+                       maxlength="32"
+                       value=""
+                       id="comment"
+                       placeholder="Enter your Comment"
                        class="feedback_banner-textbox">
+            </div>
+            <div id="feedback_comment_line" class="feedback_line">
+                <button id="submit_send" class="feedback_submit-button">Call me!</button>
             </div>
         </div>
     </div>
