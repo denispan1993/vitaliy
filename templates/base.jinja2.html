@@ -338,7 +338,6 @@ document.getElementById('clb_send').onclick=function(){
     var name = document.getElementById('clb_name').value;
     var email = document.getElementById('clb_email').value;
     var phone = document.getElementById('clb_phone').value;
-    alert('name:'+name+'email'+email+'phone'+phone);
     jQuery.post("/ajax/callback/send/",{
                 csrfmiddlewaretoken:'{{ csrf_token }}',
                 sessionid:'{{ request.session.session_key }}',
