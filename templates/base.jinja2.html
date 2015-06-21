@@ -131,7 +131,7 @@ $(document).ready(function(){
         // scroll body to 0px on click
         $('p#to-top a').click(function(){
             $('body,html').animate({
-                scrollTop: 0
+                scrollTop:0
             }, 2000);
             return false;
         });
@@ -169,32 +169,171 @@ $(document).ready(function(){
 {% endif %}
 </div>
 {% if user.is_authenticated and user.is_staff %}
-<link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css">
-<div id="clbh_div" class="clbh_banner-wrapper">
-    <div id="clbh_div_ban" class="clbh_banner clbh_closed">
-        <div id="clbh_exit"
-             class="clbh_banner-exit"
-                onClick="MouseClick_Close();"></div>
-        <div class="clbh_banner-body">
-            <div id="clbh_banner_h1" class="clbh_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
-            <div class="clbh_banner-form-row-1">
-                <div id="clbh_banner_content" class="clbh_banner-form">
-                    <div class="clbh_banner-arrow"></div>
-                    <div id="clbh_name_line" class="clbh_name_line">
+{# <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css"> #}
 <style>
-.clbh_banner-body{top:80px !important;}
-div#clbh_div input{width: 300px !important;margin-bottom:15px !important;}
+.callback_blur{
+    filter:url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cfilter%20id%3D%22blur%22%3E%3CfeGaussianBlur%20stdDeviation%3D%223%22/%3E%3C/filter%3E%3C/svg%3E#blur");
+}
+.callback_closed{
+    opacity:0;
+    display:none;
+}
+.callback_banner-wrapper{
+    height:0;
+    overflow:visible;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:2000000;
+}
 </style>
-                        <input type="text" maxlength="32" value="" id="name" placeholder="Enter your Name" class="clb_banner-textbox">
+<div id="clb_div" class="callback_banner-wrapper">
+<style>
+.callback_closed{
+    opacity:0;
+    display:none;
+}
+.callback_banner{
+    background-color:rgba(255, 255, 255, 0.85);
+    border-radius:16px;
+    height:390px;
+    margin:0 auto;
+    overflow:hidden;
+    position:relative;
+    top:100px;
+    transition:all 0.6s ease-out 0s;
+    width:800px;
+    z-index:200001;
+}
+</style>
+    <div id="clb_div_ban" class="callback_banner callback_closed">
+<style>
+.callback_banner-exit{
+    background:transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarY6xSsNQFEDPi6LiUCsEcXB4kygotupgxqQtRRCs1SHJ1qShSmkSXl7VfoSjWwcXd7/AyVFwUPwC/0Bx6uAQIYODCJ7p3MPlcsGo2HWnYZRhEGvVbjrS9Xw5+8QMUwDQCbPUbrUOAOIkjvjB5ysC4HnTrjsN/sZ8mCoNTIDtbpSFICpA/0KnGsQYMIN+qkHcAaY6addAPAClXu4vQCnI/Q0oKdfzQXwAZs/1fDDmADPIfQUwdXSpAWpJOlJnvVMtq5ZlSbubBJE8HmU6GmRyPw4TlSaqo6MukP8HwGK+2G46cq1qWXvr/DOu58vc3o8QgFh6LFpBOFTn3yqMnd/n4sZ4GQ5vYXpStN0ruNmAheuirVahvAX34y/Axk/96FpPYgAAACBjSFJNAAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAAAzElEQVR42qyTsRHCMAxFX7xBVoARpFVghKSjhRUyAhmBFVjhMwsDUIgCwwWwA3egOzey35Nt2ZhZa2ariOCbYbdYRAQJOAIHd+/4EO5ueb3cvU3AmOf2c4IJ2AKDpHOSNAIOnLNgWwBXE7CXNAA0EVEyj5L6nO+Affb0uRhPcEkAnGrgG1wQUAMB0mtC0gnYABcggG0J/G/lwpn7uTamGijpXq0qSAVwd29TvoMRWE/ewUPQmFk3147KznaShsbMBNgcWBAALPnlV10HACwiuaGZ5ZweAAAAAElFTkSuQmCC") no-repeat scroll center center;
+    border-radius:2px;
+    cursor:pointer;
+    height:15px;
+    opacity:0.3;
+    position:absolute;
+    right:25px;
+    top:23px;
+    transition:all 0.3s ease-out 0s;
+    width:15px;
+}
+</style>
+        <div id="clb_exit"
+             class="callback_banner-exit"
+                onClick="MouseClick_Close();"></div>
+<style>
+.callback_banner-body{
+    height:100%;
+    margin:0 auto;
+    position:relative;
+    top:70px;
+    width:580px;
+}
+</style>
+        <div class="callback_banner-body">
+<style>
+.callback_banner-h1{
+    font-size:24px;
+    height:auto;
+    letter-spacing:normal;
+    line-height:34px;
+    text-align:left;
+}
+</style>
+            <div id="clb_banner_h1" class="callback_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
+<style>
+.callback_banner-form-row-1 {
+    float:left;
+    height:33px;
+    letter-spacing:normal;
+    position:relative;
+    text-align:left;
+    top:22px;
+    width:100%;
+}
+</style>
+            <div class="callback_banner-form-row-1">
+                <div id="clb_banner_content" class="callback_banner-form">
+<style>
+.callback_banner-arrow{
+    background:rgba(0, 0, 0, 0) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAA+CAYAAACsj9JbAAAACXBIWXMAAAsTAAALEwEAmpwYAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarY6xSsNQFEDPi6LiUCsEcXB4kygotupgxqQtRRCs1SHJ1qShSmkSXl7VfoSjWwcXd7/AyVFwUPwC/0Bx6uAQIYODCJ7p3MPlcsGo2HWnYZRhEGvVbjrS9Xw5+8QMUwDQCbPUbrUOAOIkjvjB5ysC4HnTrjsN/sZ8mCoNTIDtbpSFICpA/0KnGsQYMIN+qkHcAaY6addAPAClXu4vQCnI/Q0oKdfzQXwAZs/1fDDmADPIfQUwdXSpAWpJOlJnvVMtq5ZlSbubBJE8HmU6GmRyPw4TlSaqo6MukP8HwGK+2G46cq1qWXvr/DOu58vc3o8QgFh6LFpBOFTn3yqMnd/n4sZ4GQ5vYXpStN0ruNmAheuirVahvAX34y/Axk/96FpPYgAAACBjSFJNAAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAAD50lEQVR42szaeYydUxjH8c+9ndZaqmQ0isYS1aDCqKYJEYJYGqQhYpkqaaolFVIR+x+WP9TyRy1tUWJKEFKxBKkSWxrhLYJGpbGVVGWkWtsos/jjPDe5mO3OvHfmfZKb++bc9z33e59zznOe83tuqampSY62FyZgKibjcEzCDjX0MaMhB5AxmIKzMBujov03bMIn+BV/9bO/jYOB2g2zcFF4BN7GO/gMn+NbbOmtkyzL/tc2UKgrMA8HhwduwWt4D+2DdX2tUEfhHhyLNlyNZ7Ahz4lZC9QcLEEJj+HamDO5W3+hFmE+Nsb7CnW0vqC2w3Kcg7dwMb5WZ+sNamQV0FOx0rYZAusN6o4AehLN6DBEVu6h/TJchZURh4YMqCeoJtyLnzAXfxtiK3cznA9Fe/NQTOr+QM3HEXgQrxomq4Yaj2vQiusMo1WvvvMwLry1eTihylU7/lz8jKcNs1WgjsMBuDOGb9ihGnBBpBwvK4CV0RhZ42p8WhSoieGtN9FZFKhpcV0IL1WgjsTv+LJIUJPwA74qEtSE2Hy3FglqpzgEKBKUGg6KQwpVLhpUJ7YvGlQrRhfJW+UIBY2hmBQGah32iNBQGKj3Q745qEhQq+N6SpGgvgnV5HTsXhSoX/A49q3KGAoRPJ+P9wuLBPUxVuFcSZ0rzN63KK6vLwoUvCJpUM04pihQ7bgJXbhP0qeGHYokNy+RJOjbigJVmVPrQlc4syhQW3B2pMeP4LAiQMFanI+xkmg/ucZ+GzEdh+QJJY7wl2DPWJUn1NDvWNwolUXmSdp7LlDwqKR5jsHrksDfny/YIBUAOvEAnq3F2/3JNltwGn7EUjwc+2R3VgoJ4A8sxikBNAPvxuLZOQ+oSmCdhhdjSNdEkB3Vzb0jqtrXYGY8s0mSwVfi+DygSKLsGTGEI8ODb+DSqoNHV7yqFcK2mAYn4674cauwsKcUvDTAyuj+UsGxoo2uD8AnImnsTXefjLtxolSgXIgVWZa1DRaqYvtJ9Zo5sUo7I859EGn2WnwnyZZbw2t/Strq5Vgg6fTLsTiLimQppxpyGSfFPDs6QsIuNe6f62PFtpRyLmxXbCIOjGHeRxJ6d6z6vCO8NjrumRrtrZjZUAegMr6IV1/33RBJ5Wa8EGn5R3lDlWL19Wa74lapQjYuVuLteCnLsm0MvLDdG1Q5hue/cHtLBfHZMZwfRv7WkmXZv1SfegxfQ6zCCtT4CJ6zYv58H/viUnTk+ReAnqwr8v3OyBROlSryh8b5ckGcBdr7+lV5Q3VJtecrI7i24WYskwrj/XJ1PWyEpDbfj+ciw6hp/OthbbE3LhvIw/8MAEZL3pSMpxnpAAAAAElFTkSuQmCC") repeat scroll 0 0;
+    bottom:7px;
+    height:62px;
+    left:-48px;
+    opacity:0.75;
+    position:absolute;
+    width:37px;
+}
+</style>
+                    <div class="callback_banner-arrow"></div>
+                    <div id="clb_name_line" class="callback_line">
+<style>
+.callback_input-charbox{
+    width:300px;
+    border:1px inset #c2c2c2;
+    font-size:14px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    background:0 0;
+    margin-bottom:15px;
+    color:#333;
+    line-height:30px;
+    float:left;
+    display:block;
+    -webkit-transition:.25s ease-out;
+    -moz-transition:.25s ease-out;
+    -o-transition:.25s ease-out;
+    transition:.25s ease-out;
+    padding:0 8px;
+    text-align:left;
+    letter-spacing:normal;
+    left:auto;
+    height:34px;
+}
+</style>
+                        <input type="text" maxlength="64" value="" id="name" placeholder="Enter your Name" class="callback_input-charbox">
                     </div>
-                    <div id="clb_email_line" class="clb_email_line">
-                        <input type="text" maxlength="32" value="" id="email" placeholder="Enter your E-Mail" class="clb_banner-textbox">
+                    <div id="clb_email_line" class="callback_line">
+                        <input type="text" maxlength="32" value="" id="email" placeholder="Enter your E-Mail" class="callback_input-charbox">
                     </div>
-                    <div id="clb_phone_line" class="clb_phone_line">
-                        <input type="text" maxlength="32" value="" id="clbh_phone" placeholder="Enter your phone number" class="clb_banner-textbox">
-                        <button id="clb_send" class="clb_banner-button">Call me!</button>
+                    <div id="clb_phone_line" class="callback_line">
+                        <input type="text" maxlength="32" value="" id="phone" placeholder="Enter your phone number" class="callback_input-charbox">
+<style>
+.callback_submit-button{
+    width:158px;
+    height:33px;
+    font-size:14px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    border:1px solid #333;
+    color:#fff;
+    line-height:30px;
+    float:left;
+    cursor:pointer;
+    margin-top:0px;
+    margin-left:15px;
+    -webkit-transition:.25s ease-out;
+    -moz-transition:.25s ease-out;
+    -o-transition:.25s ease-out;
+    transition:.25s ease-out;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+    box-shadow:none;
+    padding:0;
+    background:#333;
+    letter-spacing:normal;
+    text-indent:0;
+    position:static;
+}
+
+</style>
+                        <button id="clb_send" class="callback_submit-button">Call me!</button>
 <script>
-var emailok=false;
 document.getElementById('clb_send').onclick=function(){
     var name = document.getElementById('name').value;
     var email = document.getElementById('email').value;
@@ -205,21 +344,20 @@ document.getElementById('clb_send').onclick=function(){
                 userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
                 name:name,
                 email:email,
-                emailok:emailok,
                 phone:phone
         },
 		function(data, textStatus, jqXHR){
             if(data.result=='Bad'){
-                document.getElementById('clbh_banner_bg').style.display="none";
-                document.getElementById('clbh_div_ban').classList.add('clbh_closed');
-                document.getElementById('body').classList.remove('clbh_blur');
-                document.getElementById('footer').classList.remove('clbh_blur');
+                document.getElementById('clb_banner_bg').style.display="none";
+                document.getElementById('clb_div_ban').classList.add('callback_closed');
+                document.getElementById('body').classList.remove('callback_blur');
+                document.getElementById('footer').classList.remove('callback_blur');
                 alert('Ваши данные не принял сервер по причине:'+data.error);
             }else{
-                document.getElementById('clbh_banner_bg').style.display="none";
-                document.getElementById('clbh_div_ban').classList.add('clbh_closed');
-                document.getElementById('body').classList.remove('clbh_blur');
-                document.getElementById('footer').classList.remove('clbh_blur');
+                document.getElementById('clb_banner_bg').style.display="none";
+                document.getElementById('clb_div_ban').classList.add('callback_closed');
+                document.getElementById('body').classList.remove('callback_blur');
+                document.getElementById('footer').classList.remove('callback_blur');
                 alert('Наш менеджер свяжется с Вами в ближайшее время');
 		};
         },
@@ -230,19 +368,31 @@ document.getElementById('clb_send').onclick=function(){
                 </div>
             </div>
 {#             <div class="clbh_banner-form-row-2">
-                <span id="clbh_stat" style="display: none;"></span>
+                <span id="clbh_stat" style="display:none;"></span>
             </div> #}
         </div>
     </div>
-    <div id="clbh_banner_bg" class="clbh_banner_bg"></div>
+<style>
+.callback_banner_bg{
+    background-color:rgba(0, 0, 0, 0.3);
+    display:none;
+    height:100%;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:20000;
+}
+</style>
+    <div id="clb_banner_bg" class="callback_banner_bg"></div>
 </div>
 <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker_phoneicon.css">
 <div id="clbh_phone_div"
      class="cbh-phone cbh-green cbh-show cbh-static"
-     style="top: 15px; left: 867px;"
-        onmouseover="MouseOver();"
-        onmouseout="MouseOut();"
-        onclick="MouseClick();">
+     style="top:25px;right:25px;"
+     onmouseover="MouseOver();"
+     onmouseout="MouseOut();"
+     onclick="MouseClick();"
+     title="Заказать обратный звонок с сайта">
     <div class="cbh-ph-circle"></div>
     <div class="cbh-ph-circle-fill"></div>
     <div class="cbh-ph-img-circle"></div>
@@ -261,16 +411,16 @@ function MouseOut() {
     document.getElementById('clbh_phone_div').classList.add('cbh-static');
 }
 function MouseClick(){
-    document.getElementById('clbh_banner_bg').style.display="block";
-    document.getElementById('clbh_div_ban').classList.remove('clbh_closed');
-    document.getElementById('body').classList.add('clbh_blur');
-    document.getElementById('footer').classList.add('clbh_blur');
+    document.getElementById('clb_banner_bg').style.display="block";
+    document.getElementById('clb_div_ban').classList.remove('callback_closed');
+    document.getElementById('body').classList.add('callback_blur');
+    document.getElementById('footer').classList.add('callback_blur');
 }
 function MouseClick_Close(){
-    document.getElementById('clbh_banner_bg').style.display="none";
-    document.getElementById('clbh_div_ban').classList.add('clbh_closed');
-    document.getElementById('body').classList.remove('clbh_blur');
-    document.getElementById('footer').classList.remove('clbh_blur');
+    document.getElementById('clb_banner_bg').style.display="none";
+    document.getElementById('clb_div_ban').classList.add('callback_closed');
+    document.getElementById('body').classList.remove('callback_blur');
+    document.getElementById('footer').classList.remove('callback_blur');
 }
 </script>
 {% endif %}

@@ -1,8 +1,8 @@
-*{padding:0px;margin:0px;}
+*{padding:0;margin:0;}
 html,body{height:100%;}
 ul li{list-style:none outside none;}
 #body{
-    margin:0px auto;
+    margin:0 auto;
     height:auto;
     /* min-height:100%; */
     /* max-width:1225px; */
@@ -35,5 +35,5 @@ Gray{
     color:Gray;
 }
 a img{
-    line-height:0px;
+    line-height:0;
 }
