@@ -313,7 +313,7 @@ margin:0;
 <script>
 $(document).ready(onChange())
 </script>
-				<form method="POST" action="." style="display:inline;position:absolute;margin-top:2px;margin-left:5px;">
+				<form method="POST" action="." style="display:inline;margin-top:2px;margin-left:5px;">
 					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order">
 					<input type="hidden" name="product_pk" value="{{ product.pk }}">
 					<input type="hidden" name="product_url" value="{{ product.url }}">
@@ -324,7 +324,7 @@ $(document).ready(onChange())
 					<input type="submit" value="Купить" style="margin-top:2px;">
 				</form>
             {% endif %}
-                <button onclick="document.location.href = '/корзина/';">Перейти в корзину</button>
+                <button onclick="document.location.href = '/корзина/';" style="margin-left:5px;">Перейти в корзину</button>
 			{% if product.is_availability == 2 %}
 				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>При покупке товара под заказ, взымается предоплата 50% от стоимости заказаного товара.<br>Окончательный расчёт происходит после поступления товара на склад магазина Кексик.</p>
 			{% elif product.is_availability == 3 %}
