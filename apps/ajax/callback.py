@@ -36,6 +36,44 @@ def callback_data_send(request, ):
                     mimetype = 'application/javascript'
                     return HttpResponse(data, mimetype, )
                 else:
+                    """ Отправка заказа обратного звонка """
+                    subject = u'Заказ обратного звонка от пользователя: %s на номер: %s. Интернет магазин Кексик.' % (name, phone, )
+                    from django.template.loader import render_to_string
+                    html_content = render_to_string('email_request_callback_content.jinja2.html',
+                                                    {'name': name,
+                                                     'email': email,
+                                                     'phone': phone, }, )
+                    from django.utils.html import strip_tags
+                    text_content = strip_tags(html_content, )
+                    from_email = u'site@keksik.com.ua'
+                    from django.core.mail import get_connection
+                    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                             fail_silently=False, )
+                    from django.core.mail import EmailMultiAlternatives
+                    from proj.settings import Email_MANAGER
+                    msg = EmailMultiAlternatives(subject=subject,
+                                                 body=text_content,
+                                                 from_email=from_email,
+                                                 to=[Email_MANAGER, ],
+                                                 connection=backend, )
+                    msg.attach_alternative(content=html_content,
+                                           mimetype="text/html", )
+                    msg.send(fail_silently=False, )
+                    """ Отправка благодарности клиенту. """
+                    subject = u'Ваш заказ обратного звонка с сайта принят. Интернет магазин Кексик.'
+                    html_content = render_to_string('email_successful_request_callback_content.jinja2.html', )
+                    text_content = strip_tags(html_content, )
+                    from_email = u'site@keksik.com.ua'
+                    to_email = email
+                    msg = EmailMultiAlternatives(subject=subject,
+                                                 body=text_content,
+                                                 from_email=from_email,
+                                                 to=[to_email, ],
+                                                 connection=backend, )
+                    msg.attach_alternative(content=html_content,
+                                           mimetype="text/html", )
+                    msg.send(fail_silently=False, )
+
                     response = {'result': 'Ok', }
                     data = dumps(response, )
                     mimetype = 'application/javascript'
