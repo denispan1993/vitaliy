@@ -226,6 +226,22 @@ div#product_box_right p.price_total span{
 	font-family:Arial,Helvetica,sans-serif;
 	font-size:18px;
 }
+div#product_box_right form{
+    padding-top:15px;
+    display:inline;
+}
+div#product_box_right form ul.quantity{
+    list-style-type:none;
+    font-size:15px;
+    margin-top:10px;
+}
+div#product_box_right form ul.quantity li{
+    line-height:22px;
+    margin:0;
+    list-style-type:none;
+    float:left;
+    font-size:18px;
+}
 div#product_box_right div#product_box_bottom{
     position:relative;
     font-size:15px;

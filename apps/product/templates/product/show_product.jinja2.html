@@ -260,23 +260,8 @@ language:'ru'
                 </p>
             {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}
-                <style>
-                .quantity{
-                {# 	// margin:0px; #}
-                    list-style-type:none;
-                    font-size:15px;
-                {# 	padding:0 0 0 5px; #}
-                }
-                .quantity li{
-                    line-height:22px;
-                    margin:0;
-                    list-style-type:none;
-                    float:left;
-                    font-size:18px;
-                }
-                </style>
 {% include 'product/include/calc.script' %}
-				<form method="POST" action="." style="padding-top:15px;display:inline;">
+				<form method="POST" action="." >
 					<ul class="quantity">
 						<li>Количество:</li>
 						<li>
@@ -316,29 +301,29 @@ margin:0;
 								  style="text-align:center;color:#FF0000">
 							</span>
 					</ul>
-{# 					<br class="clearFloat" /> #}
-
-					<input type="hidden" name="product_pk" value="{{ product.pk }}" />
-					<input type="hidden" name="product_url" value="{{ product.url }}" />
-					<input type="hidden" name="action" value="addtocard" />
+					<input type="hidden" name="product_pk" value="{{ product.pk }}">
+					<input type="hidden" name="product_url" value="{{ product.url }}">
+					<input type="hidden" name="action" value="addtocard">
 					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
+ 					<br class="clearFloat">
 					<input type="submit" value="Добавить в корзину" style="margin-top:2px;">
 				</form>
 <script>
 $(document).ready(onChange())
 </script>
-{#              <br class="clearFloat" /> #}
 				<form method="POST" action="." style="display:inline;position:absolute;margin-top:2px;margin-left:5px;">
-					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order" />
-					<input type="hidden" name="product_pk" value="{{ product.pk }}" />
-					<input type="hidden" name="product_url" value="{{ product.url }}" />
-					<input type="hidden" name="action" value="makeanorder" />
+					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order">
+					<input type="hidden" name="product_pk" value="{{ product.pk }}">
+					<input type="hidden" name="product_url" value="{{ product.url }}">
+					<input type="hidden" name="action" value="makeanorder">
 					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-					<input type="submit" value="Купить" />
+                    {# <br class="clearFloat"> #}
+					<input type="submit" value="Купить">
 				</form>
             {% endif %}
+                <intput type="botton" onlcik="document.location.href = '/корзина/';">Перейти в корзину</intput>
 			{% if product.is_availability == 2 %}
 				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>При покупке товара под заказ, взымается предоплата 50% от стоимости заказаного товара.<br>Окончательный расчёт происходит после поступления товара на склад магазина Кексик.</p>
 			{% elif product.is_availability == 3 %}
