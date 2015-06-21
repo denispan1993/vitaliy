@@ -65,6 +65,7 @@ def callback_data_send(request, ):
                     text_content = strip_tags(html_content, )
                     from_email = u'site@keksik.com.ua'
                     to_email = email
+                    print email
                     msg = EmailMultiAlternatives(subject=subject,
                                                  body=text_content,
                                                  from_email=from_email,
