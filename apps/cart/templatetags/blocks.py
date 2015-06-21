@@ -17,10 +17,10 @@ def block_cart(request, cart, coupon, place_of_use='cart', ):
     form2_action = None
     if place_of_use == 'cart':
         form1_action = u'/корзина/пересчитать/'
-        if request.user.is_authenticated and request.user.is_staff:
-            form2_action = u'/заказ/первый-шаг/'
-        else:
-            form2_action = u'/корзина/заказ/'
+        # if request.user.is_authenticated and request.user.is_staff:
+        form2_action = u'/заказ/первый-шаг/'
+        # else:
+        #     form2_action = u'/корзина/заказ/'
         from django.middleware.csrf import get_token
         request_csrf_token = get_token(request, )
     elif place_of_use == 'order':
