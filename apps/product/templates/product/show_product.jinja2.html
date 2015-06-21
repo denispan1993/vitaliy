@@ -307,6 +307,7 @@ margin:0;
 					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
  					{# <br class="clearFloat"> #}
+                    <br><br>
 					<input type="submit" value="Добавить в корзину" style="margin-top:2px;">
 				</form>
 <script>
@@ -323,7 +324,7 @@ $(document).ready(onChange())
 					<input type="submit" value="Купить" style="margin-top:2px;">
 				</form>
             {% endif %}
-                <intput type="submit" onlcik="document.location.href = '/корзина/';">Перейти в корзину</intput>
+                <button onclick="document.location.href = '/корзина/';">Перейти в корзину</button>
 			{% if product.is_availability == 2 %}
 				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>При покупке товара под заказ, взымается предоплата 50% от стоимости заказаного товара.<br>Окончательный расчёт происходит после поступления товара на склад магазина Кексик.</p>
 			{% elif product.is_availability == 3 %}
