@@ -58,6 +58,7 @@ def callback_data_send(request, ):
                                                  connection=backend, )
                     msg.attach_alternative(content=html_content,
                                            mimetype="text/html", )
+                    msg.content_subtype = "html"
                     msg.send(fail_silently=False, )
                     """ Отправка благодарности клиенту. """
                     subject = u'Ваш заказ обратного звонка с сайта принят. Интернет магазин Кексик.'
@@ -65,7 +66,6 @@ def callback_data_send(request, ):
                     text_content = strip_tags(html_content, )
                     from_email = u'site@keksik.com.ua'
                     to_email = email
-                    print email
                     msg = EmailMultiAlternatives(subject=subject,
                                                  body=text_content,
                                                  from_email=from_email,
@@ -74,7 +74,6 @@ def callback_data_send(request, ):
                     msg.attach_alternative(content=html_content,
                                            mimetype="text/html", )
                     msg.send(fail_silently=False, )
-
                     response = {'result': 'Ok', }
                     data = dumps(response, )
                     mimetype = 'application/javascript'

@@ -246,6 +246,7 @@ def show_order(request,
                                                      connection=backend, )
                         msg.attach_alternative(content=html_content,
                                                mimetype="text/html", )
+                        msg.content_subtype = "html"
                         msg.send(fail_silently=False, )
                         """ Отправка благодарности клиенту. """
                         subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
