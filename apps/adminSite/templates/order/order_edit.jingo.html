@@ -19,7 +19,8 @@
         {% if order.country.pk == 1 %}
         <p>Область: {{ order.region }}</p>
         <p>Населённый пункт: {{ order.settlement }}</p>
-        <p>Номер склада "Новая почта": {{ order.warehouse_number }}</p>
+        <p>Перевозчик: {{ order.delivery_company.name }}</p>
+        <p>Номер склада: {{ order.warehouse_number }}</p>
         {% else %}
         <p>Адресс: {{ order.address }}</p>
         <p>Почтовый индекс: {{ order.postcode }}</p>

@@ -108,10 +108,6 @@ class Order(models.Model):
     from apps.product.models import Country
     country = models.ForeignKey(Country,
                                 verbose_name=u'Страна', )
-    delivery_company = models.ForeignKey(to='DeliveryCompany',
-                                         verbose_name=_(u'Компания доставщик', ),
-                                         null=True,
-                                         blank=True, )
     '''Если страна Украина '''
     region = models.CharField(verbose_name=u'Область',
                               max_length=64,
@@ -121,6 +117,10 @@ class Order(models.Model):
                                   max_length=64,
                                   null=True,
                                   blank=True, )
+    delivery_company = models.ForeignKey(to='DeliveryCompany',
+                                         verbose_name=_(u'Компания доставщик', ),
+                                         null=True,
+                                         blank=True, )
     warehouse_number = models.CharField(verbose_name=u'Номер склада "Новой почты"',
                                         max_length=32,
                                         null=True,

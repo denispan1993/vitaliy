@@ -103,6 +103,11 @@ body{
                         {% endif %}
                     </td>
                     <td>
+                        {% if order.delivery_company %}
+                            {{ order.delivery_company }}
+                        {% endif %}
+                    </td>
+                    <td>
                         {% if order.warehouse_number %}
                             {{ order.warehouse_number }}
                         {% endif %}
