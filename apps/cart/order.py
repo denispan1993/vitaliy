@@ -201,6 +201,11 @@ def result_ordering(request, ):
                 order.postcode = postcode
             comment = request.POST.get(u'comment', None, )
             order.comment = comment
+            sessionid = request.COOKIES.get(u'sessionid', None, )
+            order.sessionid = sessionid
+            if request.user.is_authenticated() and request.user.is_active:
+                user_id = request.session.get(u'_auth_user_id', None, )
+                order.user_id = user_id
             order.save()
             from apps.cart.views import get_cart_or_create
             cart, create = get_cart_or_create(request, )
