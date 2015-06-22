@@ -15,7 +15,7 @@ def add_months(d, x, ):
 
 
 def add_three_month():
-    return add_months(datetime.now(), 3, )
+    return add_months(date.today(), 3, )
 
 
 class CouponGroup(models.Model, ):
@@ -40,7 +40,7 @@ class CouponGroup(models.Model, ):
     start_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя начала действия купонов', ),
                                                blank=True,
                                                null=True,
-                                               default=datetime.now(), )
+                                               default=date.today(), )
     end_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя окончания действия купонов', ),
                                              blank=True,
                                              null=True,
