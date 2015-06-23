@@ -166,9 +166,18 @@ animation:blink1 3s linear infinite;
 }
 </style>
             <tfoot>
+                {% if coupon %}<tr>
+                    <th colspan="3"
+                        style="text-align:right;">Купон с дисконтом {{ coupon.percentage_discount }}% - скидка:</th>
+                    <th colspan="1"
+                        id="all_sum_discount_in_order"
+                        style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                    <th colspan="1" style="border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                    <th colspan="1"></th>
+                </tr>{% endif %}
                 <tr>
                     <th colspan="3"
-                        style="text-align:right;">Сумма заказа:</th>
+                        style="text-align:right;">{% if coupon %}Сумма заказа c учетом скидки:{% else %}Сумма заказа:{% endif %}</th>
                     <th colspan="1"
                         id="all_sum_of_quantity_in_order"
                         style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
@@ -177,7 +186,7 @@ animation:blink1 3s linear infinite;
                 </tr>
                 <tr>
                     <th colspan="4"
-                        style="text-align:right;">Сумма предоплаты:</th>
+                        style="text-align:right;">{% if coupon %}Сумма предоплаты с учетом скидки:{% else %}Сумма предоплаты:{% endif %}</th>
                     <th colspan="1"
                         id="all_sum_of_quantity_for_pay"
                         style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
@@ -205,12 +214,16 @@ function ReCalcSum(change){
             sum_for_pay+=val;
         }
     });
-    if(percentage_discount_coupon!=0) {
-        sum_in_order = sum_in_order - sum_in_order / 100 * percentage_discount_coupon;
+    if(percentage_discount_coupon!=0){
+        var sum_discount_coupon = sum_in_order / 100 * percentage_discount_coupon;
+        sum_in_order = sum_in_order - sum_discount_coupon;
         sum_for_pay = sum_for_pay - sum_for_pay/100*percentage_discount_coupon;
     }
-    if(change==true){$("#all_sum_of_quantity_in_order").html(sum_in_order.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');}
-    if(change==true){$("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');}
+    if(change==true){
+        $("#all_sum_discount_in_order").html('-'+sum_discount_coupon.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
+        $("#all_sum_of_quantity_in_order").html(sum_in_order.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
+        $("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
+    }
     var minimal_sum_order=document.getElementById('minimal_sum_order');
     if(parseInt(sum_in_order)<={{ 100|convert_currency(request) }}){
 {# Делаем кнопку НЕ активной и убираем мигание на кнопке заказа #}
