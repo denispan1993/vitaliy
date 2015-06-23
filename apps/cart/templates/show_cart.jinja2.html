@@ -56,9 +56,20 @@ document.getElementById('form-control-coupon-button').onclick = function() {
 		function(data, textStatus, jqXHR){
             if(data.result=='Bad'){
                 jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
-            }else{jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
-            percentage_discount_coupon=data.percentage_discount;
-            ReCalcSum(true);}
+            }else{
+                jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
+                percentage_discount_coupon=data.percentage_discount;
+                var tr_all_sum = document.getElementById("all_sum");
+                var tr_coupon = document.createElement('tr');
+                var th_all_sum_discount_label = document.createElement('th');
+                th_all_sum_discount_label.setAttribute('collspan', '3');
+                th_all_sum_discount_label.style='text-align:right;';
+                var th_all_sum_discount_label_text = document.createTextNode('Купон с дисконтом '+percentage_discount_coupon+'% - скидка:');
+                th_all_sum_discount_label.appendChild(th_all_sum_discount_label_text);
+                tr_coupon.appendChild(th_all_sum_discount_label);
+                tr_all_sum.insertBefore(tr_coupon, tr_all_sum.children[0]);
+                ReCalcSum(true);
+            }
             {# $('#result-html').html(data);
                         if(data.action=='change_delete'){
                 var tr_id=document.getElementById('tr_id_{{ product.pk }}');
