@@ -63,16 +63,24 @@ document.getElementById('form-control-coupon-button').onclick = function() {
                 alert(tfoot.tagName);
                 var tr = document.createElement('tr');
                 var th = document.createElement('th');
-                th.setAttribute('collspan', '3');
+                th.setAttribute('colspan', '3');
                 th.style='text-align:right;';
                 var th_text = document.createTextNode('Купон с дисконтом '+percentage_discount_coupon+'% - скидка:');
                 th.appendChild(th_text);
                 tr.appendChild(th);
+
                 th = document.createElement('th');
-                th.setAttribute('collspan', '1');
                 th.id='all_sum_discount_in_order';
                 th.style='text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;';
                 tr.appendChild(th);
+
+                th = document.createElement('th');
+                th.style="border-width:0px 1px;border-color:Black;border-style:solid;";
+                tr.appendChild(th);
+
+                th = document.createElement('th');
+                tr.appendChild(th);
+
                 tfoot.insertBefore(tr, tfoot.firstChild);
                 ReCalcSum(true);
             }
