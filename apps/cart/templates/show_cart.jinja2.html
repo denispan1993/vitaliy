@@ -59,7 +59,7 @@ document.getElementById('form-control-coupon-button').onclick = function() {
             }else{
                 jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
                 percentage_discount_coupon=data.percentage_discount;
-                var tfoot = document.getElementsByTagName('tfoot');
+                var tfoot = document.getElementsByTagName('tfoot')[0];
                 alert(tfoot.tagName);
                 var tr = document.createElement('tr');
                 var th = document.createElement('th');
