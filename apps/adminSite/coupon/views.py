@@ -61,30 +61,73 @@ class CouponGroupCreateEdit(FormView, ):
     coupon_group = None
 
     def form_valid(self, form, ):
-        #print form
-        #print form.cleaned_data
-        #print form.cleaned_data.get('POST_NAME', None, )
+        # print form
+        # print form.cleaned_data
+        # print form.cleaned_data.get('POST_NAME', None, )
         if form.cleaned_data.get('name', None, ):
             from apps.coupon.models import CouponGroup
             self.coupon_group = CouponGroup.objects.create(**form.cleaned_data)
             from apps.coupon.models import Coupon
             how_much_coupons = form.cleaned_data.get('how_much_coupons', 0, )
             from datetime import datetime
+            start_of_the_coupon = form.cleaned_data.get('start_of_the_coupon', datetime.now(), )
+            # start_of_the_coupon = datetime.strptime(start_of_the_coupon, '%d.%m.%Y %H:%M:%S', )
+            start_of_the_coupon = start_of_the_coupon.strftime('%Y-%m-%d %H:%M:%S')
+            end_of_the_coupon = form.cleaned_data.get('end_of_the_coupon', datetime.now(), )
+            # end_of_the_coupon = datetime.strptime(end_of_the_coupon, '%d.%m.%Y %H:%M:%S', )
+            end_of_the_coupon = end_of_the_coupon.strftime('%Y-%m-%d %H:%M:%S')
             from apps.utils.captcha.views import key_generator
             from string import ascii_lowercase, digits
+            from django.db import connection
+            from random import randint
+            from django.db import IntegrityError
+            cursor = connection.cursor()
+            from django.db import transaction
             for i in range(how_much_coupons, ):
                 name = form.cleaned_data.get('name', None, )
                 number_of_possible_uses = form.cleaned_data.get('number_of_possible_uses', 0, )
                 percentage_discount = form.cleaned_data.get('percentage_discount', 0, )
-                start_of_the_coupon = form.cleaned_data.get('start_of_the_coupon', datetime.now(), )
-                end_of_the_coupon = form.cleaned_data.get('end_of_the_coupon', datetime.now(), )
-                Coupon.objects.create(name=name,
-                                      key=key_generator(size=6, chars=ascii_lowercase + digits, ),
-                                      coupon_group=self.coupon_group,
-                                      number_of_possible_uses=number_of_possible_uses,
-                                      percentage_discount=percentage_discount,
-                                      start_of_the_coupon=start_of_the_coupon,
-                                      end_of_the_coupon=end_of_the_coupon, )
+                ins = '''insert into Coupon (name, coupon_group_id, key, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
+                         values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', datetime('now'), datetime('now'))'''
+
+                success = 0
+                unsuccess = 0
+                ok = True
+                while ok:
+                    print 'success: %d unsuccess: %d' % (success, unsuccess, )
+                    key = key_generator(size=6, chars=ascii_lowercase + digits, )
+                    insert = ins % (name,
+                                    self.coupon_group.id,
+                                    key,
+                                    int(number_of_possible_uses),
+                                    int(percentage_discount),
+                                    start_of_the_coupon,
+                                    end_of_the_coupon, )
+                    print insert
+                    try:
+                        with transaction.atomic():
+                            cursor.execute(insert, )
+                            # Captcha_Key.objects.create(image=image, )
+                    except IntegrityError as s:
+                        print 'IntegrityError', ' Key: ', key
+                        print type(s, )
+                        print s
+                        unsuccess += 1
+                    except Exception as inst:
+                        print type(inst, )
+                        print inst
+                        unsuccess += 1
+                    else:
+                        success += 1
+                        ok = False
+
+#                Coupon.objects.create(name=name,
+#                                      key=key_generator(size=6, chars=ascii_lowercase + digits, ),
+#                                      coupon_group=self.coupon_group,
+#                                      number_of_possible_uses=number_of_possible_uses,
+#                                      percentage_discount=percentage_discount,
+#                                      start_of_the_coupon=start_of_the_coupon,
+#                                      end_of_the_coupon=end_of_the_coupon, )
         return super(CouponGroupCreateEdit, self, ).form_valid(form, )
 
     def get_success_url(self, **kwargs):
@@ -136,7 +179,7 @@ class CouponGroupCreateEdit(FormView, ):
         #print context['form']
         ## print context['form'].get('pk')
         #context['disable'] = True
-        #print context
+        # print context
         return context
 
     def post(self, request, *args, **kwargs):
@@ -147,6 +190,40 @@ class CouponGroupCreateEdit(FormView, ):
         else:
             from django.http import Http404
             raise Http404
+
+
+class CouponCreateEdit(FormView, ):
+    from apps.coupon.forms import CouponCreateEditForm
+    form_class = CouponCreateEditForm
+    template_name = 'coupon/coupon_edit.jingo.html'
+    success_url = '/админ/купон/редактор/добавить/'
+
+    def get_context_data(self, **kwargs):
+        context = super(CouponCreateEdit, self).get_context_data(**kwargs)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        context['form'] = form
+        pk = self.kwargs.get('coupon_id', None, )
+        context['disable'] = False
+        context['coupons'] = False
+        context['coupon_pk'] = False
+        if pk:
+            try:
+                pk_int = int(pk, )
+            except ValueError:
+                pass
+            else:
+                context['disable'] = True
+                context['coupon_pk'] = pk_int
+                from apps.coupon.models import Coupon
+                try:
+                    coupon = Coupon.objects.get(pk=pk_int, )
+                except Coupon.DoesNotExist:
+                    pass
+                else:
+                    context['coupon'] = coupon
+        return context
+
 
 @staff_member_required
 def coupon_group_edit(request,
@@ -214,11 +291,3 @@ def coupon_group_edit(request,
                                           'error_message': error_message, },
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
-
-
-class CouponCreateEdit(FormView, ):
-    from apps.coupon.forms import CouponCreateEditForm
-    form_class = CouponCreateEditForm
-    template_name = 'coupon/coupon_edit.jingo.html'
-    success_url = '/админ/купон/редактор/добавить/'
-

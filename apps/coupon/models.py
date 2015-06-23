@@ -11,7 +11,7 @@ def add_months(d, x, ):
     new_year = d.year + (((d.month - 1) + x) / 12)
     import calendar
     new_day = min(d.day, calendar.monthrange(new_year, new_month, )[1], )
-    return datetime(new_year, new_month, new_day, ) #d.hour, d.minute, d.second, d.microsecond,
+    return date(new_year, new_month, new_day, ) #d.hour, d.minute, d.second, d.microsecond,
 
 
 def add_three_month():
@@ -105,6 +105,7 @@ class Coupon(models.Model, ):
     from apps.utils.captcha.views import key_generator
     from string import ascii_lowercase, digits
     key = models.CharField(verbose_name=_(u'Ключ купона', ),
+                           unique=True,
                            max_length=8,
                            blank=False,
                            null=False,

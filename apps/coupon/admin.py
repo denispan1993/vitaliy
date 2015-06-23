@@ -12,10 +12,9 @@ admin.site.register(CouponGroup, CouponGroupAdmin, )
 
 
 class CouponAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
+    list_display_links = ['pk', 'name', 'coupon_group', 'key', ]
 admin.site.register(Coupon, CouponAdmin, )
-#    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
-#    list_display_links = ['pk', 'url', 'title', ]
 #    fieldsets = [
 #        (None,               {'classes': ['wide'], 'fields': ['parent', 'is_active', 'disclose_product', 'url',
 #                                                              'title', 'name', 'description', ], }),
