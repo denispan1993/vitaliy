@@ -72,7 +72,7 @@ document.getElementById('form-control-coupon-button').onclick = function() {
                 th.id='all_sum_discount_in_order';
                 th.style='text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;';
                 tr.appendChild(th);
-                tfoot.insertBefore(tr, tfoot.children[0]);
+                tfoot.insertBefore(tr, tfoot.childNodes[0]);
                 ReCalcSum(true);
             }
             {# $('#result-html').html(data);
