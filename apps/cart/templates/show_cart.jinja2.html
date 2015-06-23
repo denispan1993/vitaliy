@@ -59,15 +59,20 @@ document.getElementById('form-control-coupon-button').onclick = function() {
             }else{
                 jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
                 percentage_discount_coupon=data.percentage_discount;
-                var tr_all_sum = document.getElementById("all_sum");
-                var tr_coupon = document.createElement('tr');
-                var th_all_sum_discount_label = document.createElement('th');
-                th_all_sum_discount_label.setAttribute('collspan', '3');
-                th_all_sum_discount_label.style='text-align:right;';
-                var th_all_sum_discount_label_text = document.createTextNode('Купон с дисконтом '+percentage_discount_coupon+'% - скидка:');
-                th_all_sum_discount_label.appendChild(th_all_sum_discount_label_text);
-                tr_coupon.appendChild(th_all_sum_discount_label);
-                tr_all_sum.insertBefore(tr_coupon, tr_all_sum.children[0]);
+                var tfoot = document.getElementsByTagName('tfoot');
+                var tr = document.createElement('tr');
+                var th = document.createElement('th');
+                th.setAttribute('collspan', '3');
+                th.style='text-align:right;';
+                var th_text = document.createTextNode('Купон с дисконтом '+percentage_discount_coupon+'% - скидка:');
+                th.appendChild(th_text);
+                tr.appendChild(th);
+                th = document.createElement('th');
+                th.setAttribute('collspan', '1');
+                th.setIdAttribute('all_sum_discount_in_order');
+                th.style='text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;';
+                tr.appendChild(th);
+                tfoot.insertBefore(tr, tfoot.children[0]);
                 ReCalcSum(true);
             }
             {# $('#result-html').html(data);
