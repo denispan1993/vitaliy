@@ -91,17 +91,17 @@
                            value="{% if form is defined %}{{ form.percentage_discount.value() }}{% endif %}"
                            {% if disable %}disabled{% endif %}>
                 </div>
+            </div>
 {% if not disable %}
-<style>
+{# <style>
 .glyphicon-calendar:before{
     content: "\e109";
 }
 .input-group-addon{
     width:auto;
 }
-</style>
+</style> #}
 {% endif %}
-            </div>
             <div class="form-group">
                 <label for="coupon_group_start_of_the_coupon"
                         class="col-sm-3 control-label">Врямя начала действия купонов:</label>

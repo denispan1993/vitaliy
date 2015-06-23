@@ -140,7 +140,7 @@ def Captcha_Key_Generates(what_return=None, ):
     # print datetime_start
     from proj.settings import SERVER
     if SERVER:
-        ins = '''insert into Captcha_Keys ("key", image_id, image_type, next_use, created_at, updated_at)
+        ins = '''insert into Captcha_Keys (`key`, image_id, image_type, next_use, created_at, updated_at)
                values ('%s', %d, %d, NOW(), NOW(), NOW())'''
     else:
         ins = '''insert into Captcha_Keys (key, image_id, image_type, next_use, created_at, updated_at)
