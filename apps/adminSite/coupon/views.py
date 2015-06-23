@@ -87,7 +87,7 @@ class CouponGroupCreateEdit(FormView, ):
                 name = form.cleaned_data.get('name', None, )
                 number_of_possible_uses = form.cleaned_data.get('number_of_possible_uses', 0, )
                 percentage_discount = form.cleaned_data.get('percentage_discount', 0, )
-                ins = '''insert into Coupon (name, coupon_group_id, key, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
+                ins = '''insert into Coupon (name, coupon_group_id, `key`, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
                          values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', datetime('now'), datetime('now'))'''
 
                 success = 0
