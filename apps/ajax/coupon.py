@@ -39,11 +39,9 @@ def coupon_test(request, ):
                                                               user_object=None,
                                                               created=False, )
                                     if cart:
-                                        try:
-                                            ''' Указывают, ли купоны на эту корзину? '''
-                                            coupons = cart.Cart_child.all()
-                                        except Exception as E:
-                                            print E
+                                        ''' Указывают, ли купоны на эту корзину? '''
+                                        coupons = cart.Cart_child.all()
+                                        if not coupons:
                                             ''' Если НЕТ
                                                 Ставим указатель этого купона на эту корзину '''
                                             coupon.child_cart.add(cart, )
