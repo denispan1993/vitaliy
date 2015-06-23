@@ -83,23 +83,23 @@ class CouponGroupCreateEdit(FormView, ):
             from django.db import IntegrityError
             cursor = connection.cursor()
             from django.db import transaction
+            name = form.cleaned_data.get('name', None, )
+            number_of_possible_uses = form.cleaned_data.get('number_of_possible_uses', 0, )
+            percentage_discount = form.cleaned_data.get('percentage_discount', 0, )
+            from proj.settings import SERVER
+            if SERVER:
+                ins = '''insert into Coupon (name, coupon_group_id, "key", number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
+                         values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', NOW(), NOW())'''
+            else:
+                ins = '''insert into Coupon (name, coupon_group_id, key, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
+                         values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', datetime('now'), datetime('now'))'''
             for i in range(how_much_coupons, ):
-                name = form.cleaned_data.get('name', None, )
-                number_of_possible_uses = form.cleaned_data.get('number_of_possible_uses', 0, )
-                percentage_discount = form.cleaned_data.get('percentage_discount', 0, )
-                from proj.settings import SERVER
-                if SERVER:
-                    ins = '''insert into Coupon (name, coupon_group_id, "key", number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
-                             values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', NOW(), NOW())'''
-                else:
-                    ins = '''insert into Coupon (name, coupon_group_id, key, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
-                             values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', datetime('now'), datetime('now'))'''
-
                 success = 0
                 unsuccess = 0
                 ok = True
                 while ok:
                     print 'success: %d unsuccess: %d' % (success, unsuccess, )
+                    print 'SERVER: %s' % SERVER
                     key = key_generator(size=6, chars=ascii_lowercase + digits, )
                     insert = ins % (name,
                                     self.coupon_group.id,
