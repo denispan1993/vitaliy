@@ -138,8 +138,13 @@ def Captcha_Key_Generates(what_return=None, ):
     from datetime import datetime
     # datetime_start = datetime.now()
     # print datetime_start
-    ins = '''insert into %s (key, image_id, image_type, next_use, created_at, updated_at)
-             values ('%s', %d, %d, datetime('now'), datetime('now'), datetime('now'))'''
+    from proj.settings import SERVER
+    if SERVER:
+        ins = '''insert into Captcha_Keys ("key", image_id, image_type, next_use, created_at, updated_at)
+               values ('%s', %d, %d, NOW(), NOW(), NOW())'''
+    else:
+        ins = '''insert into Captcha_Keys (key, image_id, image_type, next_use, created_at, updated_at)
+               values ('%s', %d, %d, datetime('now'), datetime('now'), datetime('now'))'''
     from django.db import connection
     cursor = connection.cursor()
 
@@ -163,7 +168,7 @@ def Captcha_Key_Generates(what_return=None, ):
             """
             key = key_generator(size=8, )
             # print success, unsuccess, n, choice, type(image.pk), image.pk, type(image.image_type), image.image_type, key
-            insert = ins % ('Captcha_Keys',  # Captcha_Key.model._meta.db_table,
+            insert = ins % (  # Captcha_Key.model._meta.db_table,
                             key,
                             image.pk,
                             image.image_type, )
