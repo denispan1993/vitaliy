@@ -60,6 +60,7 @@ document.getElementById('form-control-coupon-button').onclick = function() {
                 jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
                 percentage_discount_coupon=data.percentage_discount;
                 var tfoot = document.getElementsByTagName('tfoot');
+                alert(tfoot.tagName);
                 var tr = document.createElement('tr');
                 var th = document.createElement('th');
                 th.setAttribute('collspan', '3');
@@ -72,7 +73,7 @@ document.getElementById('form-control-coupon-button').onclick = function() {
                 th.id='all_sum_discount_in_order';
                 th.style='text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;';
                 tr.appendChild(th);
-                tfoot.insertBefore(tr, tfoot.childNodes[0]);
+                tfoot.insertBefore(tr, tfoot.firstChild);
                 ReCalcSum(true);
             }
             {# $('#result-html').html(data);
