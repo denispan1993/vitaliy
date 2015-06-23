@@ -69,7 +69,7 @@ document.getElementById('form-control-coupon-button').onclick = function() {
                 tr.appendChild(th);
                 th = document.createElement('th');
                 th.setAttribute('collspan', '1');
-                th.setIdAttribute('all_sum_discount_in_order');
+                th.id='all_sum_discount_in_order';
                 th.style='text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;';
                 tr.appendChild(th);
                 tfoot.insertBefore(tr, tfoot.children[0]);
