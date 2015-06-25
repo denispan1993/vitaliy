@@ -55,10 +55,11 @@ class CouponGroup(models.Model, ):
                                       null=True,
                                       default=datetime.now(), )
 
-    @models.permalink
+    #@models.permalink
     def get_absolute_url(self, ):
-        return ('coupon_group_edit',
-                {'coupon_group_id': self.pk, }, )
+        return u'/админ/купон/группа/редактор/%.6d/' % self.pk
+        # return ('admin_coupon:coupon_group_edit',
+        #         {'coupon_group_id': self.pk, }, )
 
     def __unicode__(self):
         # """
@@ -147,7 +148,7 @@ class Coupon(models.Model, ):
     start_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя начала действия купона', ),
                                                blank=False,
                                                null=False,
-                                               auto_now_add=True, )
+                                               default=date.today(), )
     end_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя окончания действия купона', ),
                                              blank=False,
                                              null=False,
@@ -182,8 +183,9 @@ class Coupon(models.Model, ):
     #@models.permalink
     def get_absolute_url(self, ):
         return u'/админ/купон/редактор/%.6d/' % self.pk
-#        return ('coupon_edit', (self.pk, ), )
-#                {'aaa': self.pk, }, )
+        # return ('admin_coupon:coupon_edit',
+        #         (),  # (self.pk, ), )
+        #         {'coupon_id': self.pk, }, )
 
 #    get_url = property(get_absolute_url)
 

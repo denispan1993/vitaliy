@@ -1,5 +1,5 @@
-# coding=utf-8
-__author__ = 'user'
+# -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'
 
 try:
     from django.conf.urls import patterns, include, url
@@ -12,13 +12,16 @@ except ImportError:  # django < 1.4
 #from apps.adminSite.coupon import CouponGroupCreateEdit, CouponCreateEdit
 
 urlpatterns = patterns('apps.adminSite.order.views',
-                       url(ur'^поиск/$', 'order_search',
-                           {'template_name': u'order/order_search.jinja2.html', },
+                       url(regex=ur'^поиск/$',
+                           view='order_search',
+                           kwargs={'template_name': u'order/order_search.jinja2.html', },
                            name='order_search', ),
-                       url(ur'^редактор/(?P<order_id>\d{6})/$', 'order_edit',
-                           {'template_name': u'order/order_edit.jingo.html', },
+                       url(regex=ur'^редактор/(?P<order_id>\d{6})/$',
+                           view='order_edit',
+                           kwargs={'template_name': u'order/order_edit.jingo.html', },
                            name='order_edit', ),
-                       url(ur'^редактор/товар/добавить/(?P<order_id>\d{6})/$', 'order_edit_product_add',
-                           {'template_name': u'order/order_edit_product_add.jinja2.html', },
+                       url(regex=ur'^редактор/товар/добавить/(?P<order_id>\d{6})/$',
+                           view='order_edit_product_add',
+                           kwargs={'template_name': u'order/order_edit_product_add.jinja2.html', },
                            name='order_edit_product_add', ),
                        )

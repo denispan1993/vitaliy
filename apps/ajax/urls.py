@@ -32,3 +32,7 @@ urlpatterns += patterns('apps.ajax.callback',
                         url(r'^send/$', 'callback_data_send',
                             name='ajax_callback_data_send', ),
                         )
+urlpatterns += patterns('apps.ajax.feedback',
+                        url(r'^send/$', 'feedback_data_send',
+                            name='ajax_feedback_data_send', ),
+                        )

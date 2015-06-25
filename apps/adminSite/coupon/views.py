@@ -98,8 +98,8 @@ class CouponGroupCreateEdit(FormView, ):
                 unsuccess = 0
                 ok = True
                 while ok:
-                    print 'success: %d unsuccess: %d' % (success, unsuccess, )
-                    print 'SERVER: %s' % SERVER
+                    # print 'success: %d unsuccess: %d' % (success, unsuccess, )
+                    # print 'SERVER: %s' % SERVER
                     key = key_generator(size=6, chars=ascii_lowercase + digits, )
                     insert = ins % (name,
                                     self.coupon_group.id,
@@ -108,7 +108,7 @@ class CouponGroupCreateEdit(FormView, ):
                                     int(percentage_discount),
                                     start_of_the_coupon,
                                     end_of_the_coupon, )
-                    print insert
+                    # print insert
                     try:
                         with transaction.atomic():
                             cursor.execute(insert, )
@@ -172,6 +172,7 @@ class CouponGroupCreateEdit(FormView, ):
                 except CouponGroup.DoesNotExist:
                     pass
                 else:
+                    context['coupon_group'] = coupon_group
                     from apps.coupon.models import Coupon
                     try:
                         coupons = Coupon.objects.filter(coupon_group=coupon_group, )

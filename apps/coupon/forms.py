@@ -63,3 +63,4 @@ class CouponCreateEditForm(forms.ModelForm, ):
     class Meta():
         from apps.coupon.models import Coupon
         model = Coupon
+        fields = '__all__'

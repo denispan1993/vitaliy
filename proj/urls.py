@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 # from django.conf.urls import patterns, include, url
 try:
     from django.conf.urls import patterns, include, url
@@ -151,7 +151,10 @@ urlpatterns += patterns('',
 
 urlpatterns += patterns('',
                         # """ Админ панель Купонов. """
-                        url(ur'^админ/купон/', include('apps.adminSite.coupon.urls'), ),
+                        url(regex=ur'^админ/купон/',
+                            view=include(arg='apps.adminSite.coupon.urls',
+                                         namespace='admin_coupon', ),
+                            ),
                         )
 #Ajax
 urlpatterns += patterns('apps.ajax.views',
@@ -174,6 +177,7 @@ urlpatterns += patterns('',
                         url(r'^ajax/slides/', include('apps.ajax.urls', ), ),
                         url(r'^ajax/order/', include('apps.ajax.urls', ), ),
                         url(r'^ajax/callback/', include('apps.ajax.urls', ), ),
+                        url(r'^ajax/feedback/', include('apps.ajax.urls', ), ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile
@@ -219,7 +223,8 @@ urlpatterns += patterns('apps.root.views',
                         url(r'login/error/$', 'root_page',
                             {'template_name': u'login_error.jinja2.html', },
                             name='login_error', ),
-                        url(r'social/', include('social.apps.django_app.urls', namespace='social', ),
+                        url(r'social/', include('social.apps.django_app.urls',
+                                                namespace='social', ),
                             ),
                         )
 #!!!===================== Django Userena - Accounts - uMessages======================

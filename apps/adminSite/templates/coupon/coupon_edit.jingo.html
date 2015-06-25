@@ -5,5 +5,200 @@
 <link href="{{ MEDIA_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
+    <div id="show_coupon" style="color:Black;text-align:left;" class="container-fluid">
+{{ form.non_field_errors() }}
+        {% if not disable %}
+            {# <form action="{1{ url('coupon_group_add') }}"
+                  class="form-horizontal row"
+                  method="post"
+                  role="form">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="POST_NAME" value="coupon_group_edit"> #}
+        {% elif coupon %}
+            <div class="row">
+                <div class="form-group">
+                    <label for="coupon_pk"
+                            class="col-md-4 control-label">№ купона:</label>
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="pk"
+                               id="coupon_pk"
+                               class="form-control"
+                               value="{{ coupon_pk }}" disabled>
+                    </div>
+                </div>
+        {% endif %}
+                <div class="form-group">
+                    <label for="coupon_name"
+                            class="col-md-4 control-label">Наименование купона:</label>
+                    {{ form.name.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="name"
+                               id="coupon_name"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.name }}{% elif form is defined %}{{ form.name.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_group"
+                            class="col-md-4 control-label">Группа купонов:</label>
+                    {{ form.coupon_group.errors }}
+                    <div class="col-md-6">
+                        <a href="{{ coupon.coupon_group.get_absolute_url() }}"
+                           class="form-control">{% if coupon %}{{ coupon.coupon_group }}{% elif form is defined %}{{ form.coupon_group.value() }}{% endif %}</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_key"
+                            class="col-md-4 control-label">Ключ купона:</label>
+                    {{ form.key.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_key"
+                               id="coupon_key"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.key }}{% elif form is defined %}{{ form.key.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_parent_order"
+                            class="col-md-4 control-label">Заказ создавший этот купон:</label>
+                    {{ form.parent.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_parent_order"
+                               id="coupon_parent_order"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.parent }}{% elif form is defined %}{{ form.parent.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_number_of_possible_uses"
+                            class="col-md-4 control-label">Количество возможных использований:</label>
+                    {{ form.number_of_possible_uses.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_number_of_possible_uses"
+                               id="coupon_number_of_possible_uses"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.number_of_possible_uses }}{% elif form is defined %}{{ form.number_of_possible_uses.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_number_of_uses"
+                            class="col-md-4 control-label">Количество использований:</label>
+                    {{ form.number_of_uses.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_number_of_uses"
+                               id="coupon_number_of_uses"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.number_of_uses }}{% elif form is defined %}{{ form.number_of_uses.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_child_cart"
+                            class="col-md-4 control-label">Корзины использующие:</label>
+                    {{ form.child_cart.errors }}
+                    {% for cart in coupon.child_cart.all() %}
+                        <div class="col-md-6">
+                            <input type="text"
+                                   name="coupon_child_cart"
+                                   id="coupon_child_cart"
+                                   class="form-control"
+                                   value="{% if coupon %}{{ cart }}{% elif form is defined %}{{ form.child_cart.value() }}{% endif %}"
+                                   {% if disable %}disabled{% endif %}>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="coupon_child_order"
+                            class="col-md-4 control-label">Заказы использующие:</label>
+                    {{ form.child_order.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_child_order"
+                               id="coupon_child_order"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.child_order }}{% elif form is defined %}{{ form.child_order.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_percentage_discount"
+                            class="col-md-4 control-label">% скидки:</label>
+                    {{ form.percentage_discount.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_percentage_discount"
+                               id="coupon_percentage_discount"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.percentage_discount }}{% elif form is defined %}{{ form.percentage_discount.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_start_of_the_coupon"
+                            class="col-md-4 control-label">Начало действия:</label>
+                    {# { form.start_of_the_coupon.errors } #}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_start_of_the_coupon"
+                               id="coupon_start_of_the_coupon"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.start_of_the_coupon }}{% elif form is defined %}{{ form.start_of_the_coupon.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_end_of_the_coupon"
+                            class="col-md-4 control-label">Окончание действия:</label>
+                    {{ form.end_of_the_coupon.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_end_of_the_coupon"
+                               id="coupon_end_of_the_coupon"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.end_of_the_coupon }}{% elif form is defined %}{{ form.end_of_the_coupon.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_created_at"
+                            class="col-md-4 control-label">Дата создания:</label>
+                    {{ form.created_at.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_created_at"
+                               id="coupon_created_at"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.created_at }}{% elif form is defined %}{{ form.created_at.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coupon_updated_at"
+                            class="col-md-4 control-label">Дата обновления:</label>
+                    {{ form.updated_at.errors }}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="coupon_updated_at"
+                               id="coupon_updated_at"
+                               class="form-control"
+                               value="{% if coupon %}{{ coupon.updated_at }}{% elif form is defined %}{{ form.updated_at.value() }}{% endif %}"
+                               {% if disable %}disabled{% endif %}>
+                    </div>
+                </div>
+        {% if not disable %}
+        {% elif coupon %}
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>

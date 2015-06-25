@@ -187,7 +187,7 @@ try{
                 <input type="text"
                        maxlength="64"
                        value=""
-                       id="name"
+                       id="feedback_name"
                        placeholder="Enter your Name"
                        class="feedback_banner-charbox">
             </div>
@@ -195,7 +195,7 @@ try{
                 <input type="text"
                        maxlength="32"
                        value=""
-                       id="email"
+                       id="feedback_email"
                        placeholder="Enter your Email"
                        class="feedback_banner-charbox">
             </div>
@@ -203,7 +203,7 @@ try{
                 <input type="text"
                        maxlength="32"
                        value=""
-                       id="phone"
+                       id="feedback_phone"
                        placeholder="Enter your Phone number"
                        class="feedback_banner-charbox">
             </div>
@@ -211,12 +211,39 @@ try{
                 <input type="text"
                        maxlength="4096"
                        value=""
-                       id="comment"
+                       id="feedback_comment"
                        placeholder="Enter your Comment"
                        class="feedback_banner-textbox">
             </div>
             <div id="feedback_comment_line" class="feedback_line">
                 <button id="submit_send" class="feedback_submit-button">Call me!</button>
+<script>
+document.getElementById('submit_send').onclick=function(){
+    var name = document.getElementById('feedback_name').value;
+    var email = document.getElementById('feedback_email').value;
+    var phone = document.getElementById('feedback_phone').value;
+    var comment = document.getElementById('feedback_comment').value;
+    jQuery.post("/ajax/feedback/send/",{
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                sessionid:'{{ request.session.session_key }}',
+                userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
+                name:name,
+                email:email,
+                phone:phone,
+                comment:comment
+        },
+		function(data, textStatus, jqXHR){
+            if(data.result=='Bad'){
+                document.getElementById('feedback-panel').style.display="none";
+                alert('Ваши данные не принял сервер по причине:'+data.error);
+            }else{
+                document.getElementById('feedback-panel').style.display="none";
+                alert('Мы рассмотрим Ваш вопрос/жалобу в ближайшее время');
+		}
+        },
+		"json");
+};
+</script>
             </div>
         </div>
     </div>

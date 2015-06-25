@@ -29,7 +29,10 @@ class Comment(MPTTModel, ):
                                                      default=1,
                                                      blank=True,
                                                      null=True, )
-    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
+    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'),
+                                    blank=False,
+                                    null=False,
+                                    default=True,
                                     help_text=u'Если мы хотим чтобы комментарий не показывался,'
                                               u' ставим данное поле в False.')
     shown_colored = models.BooleanField(verbose_name=_(u'Выделить цветом'),
@@ -48,8 +51,8 @@ class Comment(MPTTModel, ):
                                        default=False,
                                        blank=False,
                                        null=False,
-                                       help_text=u'Если мы хотим чтобы комментарий был выделен наклонным шрифтом,'
-                                                 u' ставим данное поле в True.', )
+                                       help_text=_(u'Если мы хотим чтобы комментарий был выделен наклонным шрифтом,'
+                                                   u' ставим данное поле в True.', ), )
     font_px = models.PositiveSmallIntegerField(verbose_name=_(u'Размер шрифта'),
                                                default=14,
                                                blank=False,
