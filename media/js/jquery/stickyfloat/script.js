@@ -22,7 +22,6 @@
 
 (function($){
 	"use strict";
-
     var w = window,
         doc = document,
         maxTopPos, minTopPos,
@@ -196,7 +195,6 @@
             }
 
             var $settings = $.extend( {}, defaults, getComputed($obj), settings || {} );
-
             var sticky = new Sticky($settings, $obj);
             sticky.init();
         });

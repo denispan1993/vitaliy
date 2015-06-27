@@ -20,6 +20,11 @@ def left(request, ):
                 height_visible_part_of_window = request.POST.get(u'height_visible_part_of_window', None, )
                 main_left_Height = request.POST.get(u'main_left_Height', None, )
                 main_center_Height = request.POST.get(u'main_center_Height', None, )
+                if height_visible_part_of_window:
+                    try:
+                        height_visible_part_of_window = int(height_visible_part_of_window, )
+                    except (ValueError, TypeError):
+                        height_visible_part_of_window = 0
                 if main_left_Height:
                     main_left_Height = int(main_left_Height, ) + 250
                 if main_center_Height:
@@ -27,13 +32,12 @@ def left(request, ):
                 lambda_Height = 0
                 product_block_count = 0
                 if main_center_Height > main_left_Height:
-                    from math import floor
                     lambda_Height = main_center_Height - main_left_Height
                     if lambda_Height > height_visible_part_of_window:
                         lambda_Height = height_visible_part_of_window
+                    from math import floor
                     product_block_count = int(floor(lambda_Height/300, ), )
                 if product_block_count > 0 and url_path:
-                    print url_path
                     if url_path == '/':
                         from apps.product.models import Product
                         qs_products = Product.objects.none()
@@ -58,8 +62,8 @@ def left(request, ):
                             'url_path': url_path,
                             'lambda_Height': lambda_Height,
                             'product_block_count': product_block_count,
-                            'html_block': html_block,
-                            'help_text': u'Номер купона не действительный', }
+                            'html_block': html_block, }
+                            # 'help_text': u'Номер купона не действительный', }
                 data = dumps(response, )
                 mimetype = 'application/javascript'
                 return HttpResponse(data, mimetype, )

@@ -447,22 +447,46 @@ margin-left:-10px;
             </div>
 {# <script src="/media/js/jquery/inview/inview.js"></script> #}
 <script>
+var jsDeferred = {
+    //JsInview: '{{ MEDIA_URL }}js/jquery/inview/inview.js',
+    JsStickyFloat: '{{ MEDIA_URL }}js/jquery/stickyfloat/script.js'
+};
+function downloadJSAtOnload(src) {
+    var div_for_script = document.getElementById('form_slide_left');
+    var element = document.createElement("script");
+    element.src = src;
+    element.async = false;
+    div_for_script.appendChild(element);
+}
+function downloadJSAtOnloadAll(){
+    if (typeof jsDeferred != "undefined") {
+        for (src in jsDeferred) {
+            downloadJSAtOnload(jsDeferred[src]);
+        }
+    }
+}
+if (window.addEventListener)
+    window.addEventListener("load", downloadJSAtOnloadAll, false);
+else if (window.attachEvent)
+    window.attachEvent("onload", downloadJSAtOnloadAll);
+else window.onload = downloadJSAtOnloadAll;
+
 try{
     $(document).ready(function(){
-        var div_for_script = document.getElementById('form_slide_left');
-        var script_jquery_inview = document.createElement('script');
-        script_jquery_inview.src = "{{ MEDIA_URL }}js/jquery/inview/inview.js";
-        div_for_script.appendChild(script_jquery_inview);
-        script_jquery_inview.onload = script_jquery_inview.onerror = function(){
+        //var div_for_script = document.getElementById('form_slide_left');
+        //var script_jquery_inview = document.createElement('script');
+        //script_jquery_inview.src = "{{ MEDIA_URL }}js/jquery/inview/inview.js";
+        //div_for_script.appendChild(script_jquery_inview);
+        //script_jquery_inview.onload = script_jquery_inview.onerror = function(){
             if(!this.executed){ // выполнится только один раз
                 this.executed = true;
                 $('#form_slide_left').bind('inview', function(event, visible, visiblePartX, visiblePartY){
                     var form_slide_left = document.getElementById('form_slide_left');
                     if (visible == true && form_slide_left.className == ''){
-        var script_jquery_stickyfloat = document.createElement('script');
-        script_jquery_stickyfloat.src = "{{ MEDIA_URL }}js/jquery/stickyfloat/script.js";
-        div_for_script.appendChild(script_jquery_stickyfloat);
-
+        //var script_jquery_stickyfloat = document.createElement('script');
+        //script_jquery_stickyfloat.src = "{{ MEDIA_URL }}js/jquery/stickyfloat/script.js";
+        //script_jquery_stickyfloat.async = false;
+        //div_for_script.appendChild(script_jquery_stickyfloat);
         //script_jquery_stickyfloat.onload = function(){alert('stickyfloat - Load')};
                         form_slide_left.className = 'reviewed';
                         var height_visible_part_of_window = window.innerHeight
@@ -471,7 +495,7 @@ try{
                         var main_left_Height = document.getElementById('main_left').offsetHeight;
                         var main_center_Height = document.getElementById('main_center').offsetHeight;
                         $.post(url="/ajax/slides/left/",
-                                data={
+                               data={
                                     url_path:'{{ url }}',
                                     height_visible_part_of_window:height_visible_part_of_window,
                                     main_left_Height:main_left_Height,
@@ -479,7 +503,7 @@ try{
                                     csrfmiddlewaretoken:'{{ csrf_token }}'
                                 },
                                 function(data, textStatus, jqXHR){
-                                    if(data.html_block){
+                                    if(data.result=='Ok'){
                                         //var script_jquery_myScrollBar = document.createElement('script');
                                         //script_jquery_myScrollBar.src = "{{ MEDIA_URL }}js/jquery/myScrollBar/script.js";
                                         div_for_script.insertAdjacentHTML('afterEnd', data.html_block);
@@ -490,7 +514,14 @@ try{
 //        jQuery('#products_block_left').stickyfloat();
 //    }
 //);
-                                        jQuery('#products_block_left').stickyfloat('update', {duration:2000, delay:1000});
+                                        $('#products_block_left').stickyfloat({
+                                            startOffset:'10px',
+                                            duration:2000,
+                                            delay:500,
+                                            stickToBottom:true
+                                            //easing:'swing' //easeInOutElastic,
+                                            });//lockBottom:true
+                                            //stickToBottom:false
                                         //div_for_script.appendChild(script_jquery_myScrollBar);
                                     }
                                 },
@@ -499,17 +530,17 @@ try{
                     }
                 });
             }
-        };
+//        };
 
-        script_jquery_inview.onreadystatechange = function(){
-            alert('hhh1');
-            var self = this;
-            if (this.readyState == "complete" || this.readyState == "loaded"){
-                alert('bbb1');
-                setTimeout(function() { self.onload() }, 0);// сохранить "this" для onload
-            }
-        };
-    })
+//        script_jquery_inview.onreadystatechange = function(){
+//            alert('hhh1');
+//            var self = this;
+//            if (this.readyState == "complete" || this.readyState == "loaded"){
+//                alert('bbb1');
+//                setTimeout(function() { self.onload() }, 0);// сохранить "this" для onload
+//            }
+        })
+    
 }catch(e){alert(e)}
 </script>
 {% endif %}
