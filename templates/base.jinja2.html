@@ -169,6 +169,7 @@ $(document).ready(function(){
 {% endif %}
 </div>
 {# <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css"> #}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/callback/style.css">
 <div id="clb_div" class="callback_banner-wrapper">
     <div id="clb_div_ban" class="callback_banner callback_closed">
         <div id="clb_exit"
@@ -228,7 +229,6 @@ document.getElementById('clb_send').onclick=function(){
          class="callback_banner_bg"
          onclick="MouseClick_Close()"></div>
 </div>
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/callback/style.css">
 <div id="clb-phone_div"
      class="clb-phone clb-green clb-show clb-static"
      onmouseover="MouseOver();"
