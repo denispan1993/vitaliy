@@ -1,4 +1,8 @@
 /* CallBack Phone Widget */
+#clb-phone_div{
+    bottom:50px;
+    right:50px;
+}
 .callback_blur{
     filter:url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cfilter%20id%3D%22blur%22%3E%3CfeGaussianBlur%20stdDeviation%3D%223%22/%3E%3C/filter%3E%3C/svg%3E#blur");
 }
