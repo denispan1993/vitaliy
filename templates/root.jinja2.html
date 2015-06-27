@@ -516,12 +516,13 @@ $(document).ready(function(){
 //);
                                     //var elem=document.getElementById('product_block_left');
                                     //var elem= $(this).closest('#product_block_left');
-                                    $('#product_block_left').stickyfloat({
+                                    $('#product_block_left').stickyfloat( 'update',
+                                            {
                                         //startOffset: '10px',
                                         duration: 2000,
-                                        delay: 500
+                                        delay: 500,
                                         //stickToBottom: true
-                                        //easing:'swing' //easeInOutElastic,
+                                        easing:'easeInOutElastic'//'swing' //easeInOutElastic,
                                     });//lockBottom:true
                                     //stickToBottom:false
                                     //div_for_script.appendChild(script_jquery_myScrollBar);
