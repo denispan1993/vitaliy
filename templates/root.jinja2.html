@@ -449,7 +449,8 @@ margin-left:-10px;
 <script>
 var jsDeferred = {
     //JsInview: '{{ MEDIA_URL }}js/jquery/inview/inview.js',
-    JsStickyFloat: '{{ MEDIA_URL }}js/jquery/stickyfloat/script.js'
+    //JsStickyFloat: '{{ MEDIA_URL }}js/jquery/stickyfloat/script.js'
+    JsStickyFloat: '{{ MEDIA_URL }}js/jquery/stickyfloat/stickyfloat.js'
 };
 function downloadJSAtOnload(src) {
     var div_for_script = document.getElementById('form_slide_left');
@@ -513,13 +514,13 @@ $(document).ready(function(){
 //        jQuery('#products_block_left').stickyfloat();
 //    }
 //);
-                                    //var elem=document.getElementById('product_block_left');
-                                    var elem= $(this).closest('#product_block_left');
-                                    elem.stickyfloat({
+                                    var elem=document.getElementById('product_block_left');
+                                    //var elem= $(this).closest('#product_block_left');
+                                    $(elem).stickyfloat({
                                         //startOffset: '10px',
                                         duration: 2000,
-                                        delay: 500,
-                                        stickToBottom: true
+                                        delay: 500
+                                        //stickToBottom: true
                                         //easing:'swing' //easeInOutElastic,
                                     });//lockBottom:true
                                     //stickToBottom:false
