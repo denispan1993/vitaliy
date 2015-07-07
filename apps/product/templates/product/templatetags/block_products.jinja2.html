@@ -1,17 +1,18 @@
-<div id="products_block{% if attachment != '' %}_{{ attachment }}{% endif %}"{% if top_border %} style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
+<div id="products_block{% if attachment != '' %}_{{ attachment }}" data-sticky_column="" class="is_stuck"{% endif %}
+    {% if top_border %}style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
 <script>
 function ajax_product_to_cart(product_pk, available_to_order){
-    var request_dict = {
-        csrfmiddlewaretoken:'{{ csrf_token }}',
-        product_pk:product_pk,
-        available_to_order:available_to_order
-    }
-    jQuery.post("/ajax/product_to_cart/",
-        request_dict,
-        function(data, textStatus, jqXHR){
-            jQuery('#dynamic_div_showcart').html(data.html);
-        },
-        "json");
+var request_dict = {
+    csrfmiddlewaretoken:'{{ csrf_token }}',
+    product_pk:product_pk,
+    available_to_order:available_to_order
+};
+$.post("/ajax/product_to_cart/",
+    request_dict,
+    function(data, textStatus, jqXHR){
+        $('#dynamic_div_showcart').html(data.html);
+    },
+    "json");
 }
 function product_to_cart(data, product_pk, available_to_order){
     ajax_product_to_cart(product_pk, available_to_order);
@@ -19,7 +20,6 @@ function product_to_cart(data, product_pk, available_to_order){
     return false;
 }
 </script>
-    {# <p>Продукты в этой категории</p> #}
     {% set cycle = 1 %}
     {% set last_loop = False %}
     {% set revcounter = blocks|length %}
@@ -44,6 +44,3 @@ function product_to_cart(data, product_pk, available_to_order){
         {% endif %}
     {% endfor %}
 </div>
-{# {1% else %}
-     <p>Продукты в этой категории отсутсвуют</p>
-{1% endif %} #}

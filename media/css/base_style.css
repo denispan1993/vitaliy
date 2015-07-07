@@ -1,7 +1,12 @@
 *{padding:0;margin:0;}
 html,body{height:100%;}
 ul li{list-style:none outside none;}
-#body{
+header#header{
+    height:450px;
+    overflow:hidden;
+    position:relative;
+}
+section#body{
     margin:0 auto;
     height:auto;
     /* min-height:100%; */
@@ -36,4 +41,45 @@ Gray{
 }
 a img{
     line-height:0;
+}
+p#to-top{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    z-index:999;
+}
+p#to-top a{
+    width:108px;
+    display:block;
+    text-align:center;
+    font:11px/100% Arial, Helvetica, sans-serif;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:#bbb;
+    /* transition */
+    -webkit-transition:1s;
+    -moz-transition:1s;
+    transition:1s;
+}
+p#to-top a:hover{
+    color:#000;
+}
+/* arrow icon (span tag) */
+p#to-top span{
+    width:108px;
+    height:108px;
+    display:block;
+    margin-bottom:7px;
+    background:#ddd url(/media/img/arrow_to_top.png) no-repeat center center;
+    /* rounded corners */
+    -webkit-border-radius:15px;
+    -moz-border-radius:15px;
+    border-radius:15px;
+    /* transition */
+    -webkit-transition:1s;
+    -moz-transition:1s;
+    transition:1s;
+}
+p#to-top a:hover span{
+    background-color:#777;
 }

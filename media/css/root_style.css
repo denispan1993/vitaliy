@@ -1,11 +1,6 @@
 div#footer a{
     border:0;
 }
-#header{
-    height:450px;
-    overflow:hidden;
-    position:relative;
-}
 #static_menu-wrapper{
 /*    background:none repeat scroll 0 0 DarkTurquoise;*/
     background:none repeat scroll 0 0 #FFF6C9; /*rgba(204, 157, 134, 0.5);*/
@@ -81,7 +76,7 @@ div#auth{
     top:0px;
     z-index:200;
 }
-div#header div#div_logo a#logo{
+div#div_logo a#logo{
     background-position:top left;
     background-repeat:no-repeat;
     background-color:transparent;
@@ -96,7 +91,7 @@ div#header div#div_logo a#logo{
     width:148px;/* - Логотип с новогодней шапкой. */
     z-index:100;
 }
-#main{
+section#main{
     /* width:960px; */
     height:100%;
     margin:15px 0px 15px 0px;

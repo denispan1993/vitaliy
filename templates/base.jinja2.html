@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/categories_products_style.css">
 {% endblock %}
 {% block product_header_css %}{% endblock %}
-<script src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery/jquery-1.9.1.min.js"></script>
 <script src="{{ MEDIA_URL }}js/animate_cart.js"></script>
 {% block root_header_js %}{% endblock %}
 {% block header_js %}{% endblock %}
@@ -26,31 +26,29 @@
 {% block ajax %}
 {% if request.session.ajax_resolution %}
 <script>
-try{$(document).ready(function(e) {
-        var browserWindow = $(window);
-        var width = browserWindow.width();
-        var height = browserWindow.height();
-        $.post("/ajax/resolution/", {
-                width:width,
-                height:height,
-                csrfmiddlewaretoken:'{{ csrf_token }}'
-            },
-            function(data){alert(data);}
-        );
-    });
-}catch(e){alert(e)}
+$(document).ready(function(e){
+    var browserWindow = $(window);
+    var width = browserWindow.width();
+    var height = browserWindow.height();
+    $.post("/ajax/resolution/",{
+            width:width,
+            height:height,
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        },
+        function(data){alert(data);}
+    );
+});
 </script>
 {% endif %}
 {% if request.session.ajax_cookie %}
 <script>
-try{$(document).ready(function(e) {
-        $.post("/ajax/cookie/", {
-                csrfmiddlewaretoken:'{{ csrf_token }}'
-            },
-            function(data){alert(data);}
-        );
-    });
-}catch(e){alert(e)}
+$(document).ready(function(e){
+    $.post("/ajax/cookie/",{
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        },
+        function(data){alert(data);}
+    );
+});
 </script>
 {% endif %}
 {% endblock %}
@@ -62,88 +60,18 @@ try{$(document).ready(function(e) {
 {# <!-- Yandex.Metrika counter --> #}{% include 'include/Yandex.Metrica.script' %}{# <!-- /Yandex.Metrika --> #}
 {# <!-- LiveInternet counter --> #}{% include 'include/LiveInternet.script' %}{# <!--/LiveInternet--> #}
 {# <!-- Mail.ru counter --> #}{% include 'include/Mail.ru.script' %}{# <!--/Mail.ru--> #}
-<div id="body">
-<style>
-body div#body p#to-top{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    z-index:999;
-}
-</style>
-<p id="to-top">
-<style>
-body div#body p#to-top a{
-    width:108px;
-    display:block;
-    text-align:center;
-    font:11px/100% Arial, Helvetica, sans-serif;
-    text-transform:uppercase;
-    text-decoration:none;
-    color:#bbb;
-    /* transition */
-    -webkit-transition:1s;
-    -moz-transition:1s;
-    transition:1s;
-}
-body div#body p#to-top a:hover{
-    color:#000;
-}
-</style>
-    <a href="#top">
-<style>
-/* arrow icon (span tag) */
-body div#body p#to-top span{
-    width:108px;
-    height:108px;
-    display:block;
-    margin-bottom:7px;
-    background:#ddd url({{ MEDIA_URL }}img/arrow_to_top.png) no-repeat center center;
-    /* rounded corners */
-    -webkit-border-radius:15px;
-    -moz-border-radius:15px;
-    border-radius:15px;
-    /* transition */
-    -webkit-transition:1s;
-    -moz-transition:1s;
-    transition:1s;
-}
-body div#body p#to-top a:hover span{
-    background-color:#777;
-}
-</style>
-        <span></span>Вверх</a>
-</p>
-<script>
-$(document).ready(function(){
-    // hide #to-top first
-    $("p#to-top").hide();
-    // fade in #to-top
-    $(function(){
-        $(window).scroll(function(){
-            if ($(this).scrollTop() > 100) {
-                $('p#to-top').fadeIn();
-            }
-            else{
-                $('p#to-top').fadeOut();
-            }
-        });
-        // scroll body to 0px on click
-        $('p#to-top a').click(function(){
-            $('body,html').animate({
-                scrollTop:0
-            }, 2000);
-            return false;
-        });
-    });
-});
-</script>
+<section id="body">
+<header id="header">
+{% block header %}
+{% endblock %}
+</header>
+<section id="main" class="clearFloat">
 {% block content %}
 {% block content_center %}
 {% endblock %}
 {% endblock %}
-</div>
-<div id="footer">
+</section>
+<footer id="footer">
 {% if user.is_authenticated and user.is_staff %}
 {# <!-- LiveInternet logo --> #}{% include 'include/LiveInternet.html' %}{# <!--/LiveInternet--> #}
 {% endif %}
@@ -167,7 +95,7 @@ $(document).ready(function(){
 {% if not user.is_staff %}
 </div>
 {% endif %}
-</div>
+</footer>
 {# <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css"> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/callback/style.css">
 <div id="clb_div" class="callback_banner-wrapper">
@@ -206,13 +134,15 @@ document.getElementById('clb_send').onclick=function(){
             if(data.result=='Bad'){
                 document.getElementById('clb_banner_bg').style.display="none";
                 document.getElementById('clb_div_ban').classList.add('callback_closed');
-                document.getElementById('body').classList.remove('callback_blur');
+                document.getElementById('header').classList.remove('callback_blur');
+                document.getElementById('main').classList.remove('callback_blur');
                 document.getElementById('footer').classList.remove('callback_blur');
                 alert('Ваши данные не принял сервер по причине:'+data.error);
             }else{
                 document.getElementById('clb_banner_bg').style.display="none";
                 document.getElementById('clb_div_ban').classList.add('callback_closed');
-                document.getElementById('body').classList.remove('callback_blur');
+                document.getElementById('header').classList.remove('callback_blur');
+                document.getElementById('main').classList.remove('callback_blur');
                 document.getElementById('footer').classList.remove('callback_blur');
                 alert('Наш менеджер свяжется с Вами в ближайшее время');
 		}
@@ -255,15 +185,43 @@ function MouseOut() {
 function MouseClick(){
     document.getElementById('clb_banner_bg').style.display="block";
     document.getElementById('clb_div_ban').classList.remove('callback_closed');
-    document.getElementById('body').classList.add('callback_blur');
+    document.getElementById('header').classList.add('callback_blur');
+    document.getElementById('main').classList.add('callback_blur');
     document.getElementById('footer').classList.add('callback_blur');
 }
 function MouseClick_Close(){
     document.getElementById('clb_banner_bg').style.display="none";
     document.getElementById('clb_div_ban').classList.add('callback_closed');
-    document.getElementById('body').classList.remove('callback_blur');
+    document.getElementById('header').classList.remove('callback_blur');
+    document.getElementById('main').classList.remove('callback_blur');
     document.getElementById('footer').classList.remove('callback_blur');
 }
 </script>
+<p id="to-top"><a href="#top"><span></span>Вверх</a>
+</p>
+<script>
+$(document).ready(function(){
+    // hide #to-top first
+    $("p#to-top").hide();
+    // fade in #to-top
+    $(function(){
+        $(window).scroll(function(){
+            if ($(this).scrollTop() > 200){
+                $('p#to-top').fadeIn();
+            }else{
+                $('p#to-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('p#to-top a').click(function(){
+            $('body,html').animate({
+                scrollTop:0
+            }, 2000);
+            return false;
+        });
+    });
+});
+</script>
+</section>
 </body>
 </html>
