@@ -1,5 +1,4 @@
-<div id="products_block{% if attachment != '' %}_{{ attachment }}" data-sticky_column="" class="is_stuck"{% endif %}
-    {% if top_border %}style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
+<div id="products_block{% if attachment != '' %}_{{ attachment }}"{% endif %}{% if top_border %} style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
 <script>
 function ajax_product_to_cart(product_pk, available_to_order){
 var request_dict = {
