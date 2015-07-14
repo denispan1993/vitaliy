@@ -6,13 +6,14 @@ from django.contrib import admin
 
 class ActionAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'datetime_start', 'datetime_end', 'auto_start',
-                    'auto_end', 'auto_del', 'auto_del_action_price', ]
+                    'auto_end', 'auto_del', 'auto_del_action_from_product', 'auto_del_action_price', ]
     list_display_links = ['pk', 'name', 'datetime_start', 'datetime_end', ]
     list_filter = ('name', )
     search_fields = ['name', ]
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['name', 'datetime_start', 'datetime_end', 'auto_start',
-                                                              'auto_end', 'auto_del', 'auto_del_action_price', ], }, ),
+                                                              'auto_end', 'auto_del', 'auto_del_action_from_product',
+                                                              'auto_del_action_price', ], }, ),
 #        (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
 #                                                                                           'meta_description',
 #                                                                                           'meta_keywords', ], }, ),

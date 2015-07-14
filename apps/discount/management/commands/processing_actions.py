@@ -73,7 +73,8 @@ class Command(BaseCommand, ):
                         #     product.regular_price = 0
                         # else:
                         #     product.regular_price = price
-                        product.action.remove(action, )
+                        if action.auto_del_action_from_product:
+                            product.action.remove(action, )
                         product.save()
                     if action.auto_del:
                         action.deleted = True

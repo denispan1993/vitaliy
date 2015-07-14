@@ -275,7 +275,7 @@ class ProductAdmin(admin.ModelAdmin, ):
                                                               'quantity_of_complete', 'weight', 'unit_of_measurement',
                                                               'is_availability', 'regular_price', 'currency',
                                                               'price', 'price_of_quantity',
-                                                              'action', 'in_action', 'action_price', ], }, ),
+                                                              'action', 'action_price', ], }, ),
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),
