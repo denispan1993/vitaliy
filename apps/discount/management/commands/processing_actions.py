@@ -74,6 +74,8 @@ class Command(BaseCommand, ):
                         # else:
                         #     product.regular_price = price
                         if action.auto_del_action_from_product:
+                            print action.auto_del_action_from_product
+                            print 'remove'
                             product.action.remove(action, )
                         product.save()
                     if action.auto_del:
