@@ -27,7 +27,7 @@ class Command(BaseCommand, ):
                 """
                 if action.auto_start:
                     products_of_action = action.product_in_action.not_in_action()
-                    print products_of_action
+                    print 'Product auto_start:', products_of_action
                     for product in products_of_action:
                         print 'Add product to Action: ', product
                         """
@@ -56,7 +56,7 @@ class Command(BaseCommand, ):
                 """
                 if action.auto_end:
                     products_of_action = action.product_in_action.in_action()
-                    print products_of_action
+                    print 'Product auto_end:', products_of_action
                     for product in products_of_action:
                         print 'Del product from Action: ', product
                         """
@@ -74,8 +74,6 @@ class Command(BaseCommand, ):
                         # else:
                         #     product.regular_price = price
                         if action.auto_del_action_from_product:
-                            print action.auto_del_action_from_product
-                            print 'remove'
                             product.action.remove(action, )
                         product.save()
                     if action.auto_del:
