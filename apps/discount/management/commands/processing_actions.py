@@ -92,8 +92,9 @@ class Command(BaseCommand, ):
         Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
         """ Делаем активной акционную категорию, если есть хоть один акционный товар """
         all_actions_products = action_category.products.all()
-        if len(all_actions_products) != 0:
+        if len(all_actions_products) != 0 and not action_category.is_active:
             action_category.is_active = True
-        else:
+            action_category.save()
+        elif len(all_actions_products) == 0 and action_category.is_active:
             action_category.is_active = False
-        action_category.save()
+            action_category.save()
