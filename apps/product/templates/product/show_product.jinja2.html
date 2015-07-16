@@ -184,6 +184,7 @@
                 <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи{% else %}Цена{% endif %}:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">&nbsp;{{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
             {% else %}
                 <p id="product_box_right_action_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Акционная цена:&nbsp;<span class="Red" itemprop="price">{{ product.get_price(request, product.action_price)|replace(",", ".") }}</span>&nbsp;{{ get_currency(request) }}</p>
+                <p id="product_box_right_price">Цена:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}">&nbsp;{{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
                 <div id="product_box_time_action_price">
 <style>
 .flip-clock-divider{
@@ -252,7 +253,7 @@ language:'ru'
             {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}
                 <p class="price_total">
-                    <span id="cart_quant">{{ quantity_ }}</span>{{ product.unit_of_measurement }}&nbsp;×&nbsp;
+                    <span id="cart_quant">{{ quantity_ }}</span>&nbsp;{{ product.unit_of_measurement }}&nbsp;×&nbsp;
                     <span id="one_piece_price">{# {{ price_per_piece|replace(",", ".") }} #}</span>
                     &nbsp;{{ get_currency(request) }}&nbsp;=&nbsp;{# &nbsp; #}
                     <span id="current_price">{# {{ sum_of_quantity|replace(",", ".") }} #}</span>
