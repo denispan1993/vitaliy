@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from userena.models import UserenaBaseProfile, UserenaLanguageBaseProfile
 
 
-class Profile(UserenaLanguageBaseProfile):
+class UserProfileModel(UserenaLanguageBaseProfile):
     # Пользователь
     # from django.contrib.auth.models import User
     # from django.contrib.auth import get_user_model
@@ -36,7 +36,7 @@ class Profile(UserenaLanguageBaseProfile):
         return u'Профайл: %s' % (self.user, )
 
     class Meta:
-        db_table = u'Profile'
+        db_table = u'UserProfileModel'
         ordering = [u'-created_at', ]
         verbose_name = u'Профайл'
         verbose_name_plural = u'Профайлы'

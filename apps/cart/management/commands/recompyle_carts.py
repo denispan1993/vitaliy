@@ -21,7 +21,16 @@ class Command(BaseCommand, ):
                 continue
             # first_name = order.FIO.split()[1]
             # print first_name
-            last_name, first_name, patronymic = order.FIO.split()
+            FIO = order.FIO.split()
+            if len(FIO) == 3:
+                last_name, first_name, patronymic = FIO
+            elif len(FIO) == 2:
+                last_name, first_name = FIO; patronymic = u'Отчество'
+            elif len(FIO) == 1:
+                last_name = FIO; first_name = u'Имя'; patronymic = u'Отчество'
+            else:
+                last_name = u'Фамилия'; first_name = u'Имя'; patronymic = u'Отчество'
+
             #last_name = last_name.stripe()
             #first_name = first_name.stripe()
             #patronymic = patronymic.stripe()
@@ -59,7 +68,7 @@ class Command(BaseCommand, ):
                     if email.user == sessionID.user:
                         print u'Ok', u' - ', u'SessionID.user == Email.user'
                     else:
-                        print u'Хреновр, Email и SessionID пренадлежат разным пользователям.'
+                        print u'Хреново, Email и SessionID пренадлежат разным пользователям.'
                         print u'SessionID.user: ', sessionID.user
                         print u'Email.user: ', email.user
                         continue

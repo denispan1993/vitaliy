@@ -8,8 +8,8 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Profile'
-        db.create_table(u'Profile', (
+        # Adding model 'UserProfileModel'
+        db.create_table(u'UserProfileModel', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('mugshot', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
             ('privacy', self.gf('django.db.models.fields.CharField')(default='closed', max_length=15)),
@@ -18,15 +18,15 @@ class Migration(SchemaMigration):
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
-        db.send_create_signal(u'account', ['Profile'])
+        db.send_create_signal(u'account', ['UserProfileModel'])
 
         # Adding model 'Session_ID'
         db.create_table(u'Session_ID', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='user_session_id', null=True, to=orm['authModel.User'])),
             ('sessionid', self.gf('django.db.models.fields.CharField')(max_length=32, unique=True, null=True, blank=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 8, 16, 0, 0), auto_now_add=True, blank=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 8, 16, 0, 0), auto_now=True, blank=True)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2015, 7, 20, 0, 0), auto_now_add=True, blank=True)),
+            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2015, 7, 20, 0, 0), auto_now=True, blank=True)),
         ))
         db.send_create_signal(u'account', ['Session_ID'])
 
@@ -55,8 +55,8 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Deleting model 'Profile'
-        db.delete_table(u'Profile')
+        # Deleting model 'UserProfileModel'
+        db.delete_table(u'UserProfileModel')
 
         # Deleting model 'Session_ID'
         db.delete_table(u'Session_ID')
@@ -87,8 +87,16 @@ class Migration(SchemaMigration):
             'session': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Session_ID']"}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
-        u'account.profile': {
-            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Profile', 'db_table': "u'Profile'"},
+        u'account.session_id': {
+            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Session_ID', 'db_table': "u'Session_ID'"},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 7, 20, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'sessionid': ('django.db.models.fields.CharField', [], {'max_length': '32', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 7, 20, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'user_session_id'", 'null': 'True', 'to': u"orm['authModel.User']"})
+        },
+        u'account.userprofilemodel': {
+            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'UserProfileModel', 'db_table': "u'UserProfileModel'"},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'language': ('django.db.models.fields.CharField', [], {'default': "'ru'", 'max_length': '5'}),
@@ -96,14 +104,6 @@ class Migration(SchemaMigration):
             'privacy': ('django.db.models.fields.CharField', [], {'default': "'closed'", 'max_length': '15'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'user'", 'unique': 'True', 'to': u"orm['authModel.User']"})
-        },
-        u'account.session_id': {
-            'Meta': {'ordering': "[u'-created_at']", 'object_name': 'Session_ID', 'db_table': "u'Session_ID'"},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 8, 16, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'sessionid': ('django.db.models.fields.CharField', [], {'max_length': '32', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 8, 16, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'user_session_id'", 'null': 'True', 'to': u"orm['authModel.User']"})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -126,9 +126,7 @@ class Migration(SchemaMigration):
             'country': ('django.db.models.fields.CharField', [], {'default': "u'\\u0423\\u043a\\u0440\\u0430\\u0438\\u043d\\u0430'", 'max_length': '32', 'null': 'True', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'email_delivery_new_products': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'email_delivery_shares_news': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'date_of_birth': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'gender': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
@@ -140,7 +138,6 @@ class Migration(SchemaMigration):
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'patronymic': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
-            'phone': ('django.db.models.fields.CharField', [], {'max_length': '19', 'null': 'True', 'blank': 'True'}),
             'settlement': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),

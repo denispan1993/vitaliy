@@ -3,7 +3,7 @@ __author__ = 'Админ'
 
 from django.contrib import admin
 
-#from apps.account.models import Profile
+#from apps.account.models import UserProfileModel
 
 
 #class ProfileAdmin(admin.ModelAdmin, ):
@@ -39,6 +39,20 @@ from apps.account.models import Session_ID
 class Session_IDAdmin(admin.ModelAdmin, ):
     pass
 admin.site.register(Session_ID, Session_IDAdmin, )
+
+#from apps.account.models import UserProfileModel
+
+
+#class UserProfileModelAdmin(admin.ModelAdmin, ):
+#    pass
+#admin.site.register(UserProfileModel, UserProfileModelAdmin, )
+
+from apps.account.models import HttpRequest_META
+
+
+class HttpRequest_METAAdmin(admin.ModelAdmin, ):
+    pass
+admin.site.register(HttpRequest_META, HttpRequest_METAAdmin, )
 
 
 #class OrderAdmin(admin.ModelAdmin, ):

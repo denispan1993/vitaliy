@@ -127,3 +127,16 @@ admin.site.register(Permission, PermissionAdmin, )
 from django.contrib.contenttypes.models import ContentType
 #admin.site.unregister(ContentType, )
 admin.site.register(ContentType, )
+
+from apps.authModel.models import Email
+
+
+class EmailAdmin(admin.ModelAdmin, ):
+    list_display = ('pk', 'user', 'email', 'created_at', 'updated_at', )
+    list_display_links = ('pk', 'user', 'email', )
+
+admin.site.register(Email, EmailAdmin, )
+
+from apps.authModel.models import Phone
+
+admin.site.register(Phone, )
