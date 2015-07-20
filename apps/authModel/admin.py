@@ -88,7 +88,7 @@ class UserAdmin(DjangoUserAdmin, ):
          ),
     )
     search_fields = ('username', 'first_name', 'last_name', 'patronymic', )
-    ordering = ('pk', 'username', )
+    ordering = ('id', 'username', )
     filter_horizontal = ('groups', 'user_permissions', )
 
 # Now register the new UserAdmin...

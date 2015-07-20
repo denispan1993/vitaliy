@@ -31,6 +31,13 @@ class Command(BaseCommand, ):
             else:
                 last_name = u'Фамилия'; first_name = u'Имя'; patronymic = u'Отчество'
 
+            if len(last_name, ) > 30:
+                last_name = last_name[:30]
+            if len(first_name, ) > 30:
+                first_name = first_name[:30]
+            if len(patronymic, ) > 32:
+                patronymic = patronymic[:32]
+
             #last_name = last_name.stripe()
             #first_name = first_name.stripe()
             #patronymic = patronymic.stripe()
