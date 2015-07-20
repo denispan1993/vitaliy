@@ -45,6 +45,9 @@ class Command(BaseCommand, ):
 #            username = ''.join(['%s' % k.capitalize() for k in last_name, first_name, patronymic], )
 #            print username
             username = ''.join(['%s' % slugify(k).capitalize() for k in last_name, first_name, patronymic], )
+            if len(username, ) > 32:
+                username = username[:32]
+
             # username = slugify(username, )
             print username
             sessionID = order.sessionid
