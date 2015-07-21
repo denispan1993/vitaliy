@@ -33,21 +33,21 @@ class Command(BaseCommand, ):
 
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if type(last_name, ) == list:
-                last_name = unicode(last_name, )
+                last_name = last_name.encode('utf-8')
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if len(last_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
                 last_name = last_name[:30]
             print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
             if type(first_name, ) == list:
-                first_name = unicode(first_name, )
+                first_name = first_name.encode('utf-8')
             print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
             if len(first_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
                 first_name = first_name[:30]
             print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
             if type(patronymic, ) == list:
-                patronymic = unicode(patronymic, )
+                patronymic = patronymic.encode('utf-8')
             print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
             if len(patronymic, ) > 32:
                 print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
