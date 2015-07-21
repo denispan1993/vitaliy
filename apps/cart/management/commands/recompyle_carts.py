@@ -33,21 +33,21 @@ class Command(BaseCommand, ):
 
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if type(last_name, ) == list:
-                last_name = str(last_name, )
+                last_name = unicode(last_name, )
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if len(last_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
                 last_name = last_name[:30]
             print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
             if type(first_name, ) == list:
-                first_name = str(first_name, )
+                first_name = unicode(first_name, )
             print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
             if len(first_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
                 first_name = first_name[:30]
             print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
             if type(patronymic, ) == list:
-                patronymic = str(patronymic, )
+                patronymic = unicode(patronymic, )
             print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
             if len(patronymic, ) > 32:
                 print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
@@ -62,6 +62,15 @@ class Command(BaseCommand, ):
 #            print patronymic
             email = order.email.strip()
 #            print email
+            phone_temp = order.phone.split()
+            try:
+                if len(phone_temp[0], ) == 7 and len(phone_temp[1], ) == 7:
+                    phone1 = phone_temp[0].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
+                    print 'phone1: ', phone1
+                    phone2 = phone_temp[1].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
+                    print 'phone2: ', phone2
+            except IndexError:
+                pass
             phone = order.phone.strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
 #            print phone
 #            username = ''.join(['%s' % k.capitalize() for k in last_name, first_name, patronymic], )
@@ -142,7 +151,13 @@ class Command(BaseCommand, ):
                 email.save()
 
             if type(phone) != Phone:
-                phone = Phone.objects.create(user=user, phone=phone, )
+                if 'phone1' in locals() or 'phone1' in globals() and 'phone2' in locals() or 'phone2' in globals():
+                    Phone.objects.create(user=user, phone=phone1, )
+                    del phone1
+                    Phone.objects.create(user=user, phone=phone2, )
+                    del phone2
+                else:
+                    Phone.objects.create(user=user, phone=phone, )
             else:
                 phone.user = user
                 phone.save()
