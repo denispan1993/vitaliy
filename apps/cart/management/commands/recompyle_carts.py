@@ -21,7 +21,11 @@ class Command(BaseCommand, ):
                 continue
             # first_name = order.FIO.split()[1]
             # print first_name
-            FIO = order.FIO.split()
+            if order.FIO.find('.'):
+                FIO = order.FIO.split('.')
+            else:
+                FIO = order.FIO.split()
+
             if len(FIO) == 3:
                 last_name, first_name, patronymic = FIO
             elif len(FIO) == 2:
