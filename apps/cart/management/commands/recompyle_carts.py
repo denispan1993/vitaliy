@@ -72,7 +72,7 @@ class Command(BaseCommand, ):
                     print 'phone2: ', phone2
                 else:
                     for ph in phone_temp:
-                        print 'phone_temp[n]: ', ph
+                        print 'phone_temp[n]: ', ph, 'len(ph, ):', len(ph, )
             except IndexError:
                 print 'IndexError:'
             phone = order.phone.strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
