@@ -79,6 +79,11 @@ class Command(BaseCommand, ):
                     print 'phone1: ', phone1
                     phone2 = phone_temp[1].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
                     print 'phone2: ', phone2
+                elif len(phone_temp[0], ) == 11 and len(phone_temp[1], ) == 12:
+                    phone1 = phone_temp[0].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
+                    print 'phone1: ', phone1
+                    phone2 = phone_temp[1].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
+                    print 'phone2: ', phone2
                 elif len(phone_temp[0], ) == 3 and len(phone_temp[1], ) == 3 and len(phone_temp[2], ) == 7 and len(phone_temp[3], ) == 12:
                     phone1 = phone_temp[0] + phone_temp[1] + phone_temp[2]
                     phone1 = phone1.strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0').rstrip(',')
