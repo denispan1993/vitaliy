@@ -32,13 +32,22 @@ class Command(BaseCommand, ):
                 last_name = u'Фамилия'; first_name = u'Имя'; patronymic = u'Отчество'
 
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+            if type(last_name, ) == list:
+                last_name = str(last_name, )
+            print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if len(last_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
                 last_name = last_name[:30]
             print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+            if type(first_name, ) == list:
+                first_name = str(first_name, )
+            print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
             if len(first_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
                 first_name = first_name[:30]
+            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
+            if type(patronymic, ) == list:
+                patronymic = str(patronymic, )
             print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
             if len(patronymic, ) > 32:
                 print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
@@ -58,6 +67,9 @@ class Command(BaseCommand, ):
 #            username = ''.join(['%s' % k.capitalize() for k in last_name, first_name, patronymic], )
 #            print username
             username = ''.join(['%s' % slugify(k).capitalize() for k in last_name, first_name, patronymic], )
+            print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
+            if type(username, ) == list:
+                username = str(username, )
             print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
             if len(username, ) > 32:
                 print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
