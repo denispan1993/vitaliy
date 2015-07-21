@@ -65,7 +65,7 @@ class Command(BaseCommand, ):
             phone_temp = order.phone.split(' ', )
             print 'phone_temp: ', phone_temp
             try:
-                if len(phone_temp[0], ) == 7 and len(phone_temp[3], ) == 7:
+                if len(phone_temp[0], ) == 10 and len(phone_temp[3], ) == 10:
                     phone1 = phone_temp[0].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
                     print 'phone1: ', phone1
                     phone2 = phone_temp[3].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
