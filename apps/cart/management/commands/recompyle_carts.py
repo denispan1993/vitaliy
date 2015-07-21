@@ -62,7 +62,7 @@ class Command(BaseCommand, ):
 #            print patronymic
             email = order.email.strip()
 #            print email
-            phone_temp = order.phone.split()
+            phone_temp = order.phone.split(' ', )
             print 'phone_temp: ', phone_temp
             try:
                 if len(phone_temp[0], ) == 7 and len(phone_temp[1], ) == 7:
@@ -71,8 +71,8 @@ class Command(BaseCommand, ):
                     phone2 = phone_temp[1].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
                     print 'phone2: ', phone2
                 else:
-                    print 'phone1: ', phone1
-                    print 'phone2: ', phone2
+                    for ph in phone_temp:
+                        print 'phone_temp[n]: ', ph
             except IndexError:
                 print 'IndexError:'
             phone = order.phone.strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
