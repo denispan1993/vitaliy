@@ -32,13 +32,13 @@ class Command(BaseCommand, ):
                 last_name = u'Фамилия'; first_name = u'Имя'; patronymic = u'Отчество'
 
             if len(last_name, ) > 30:
-                print 'Order.Pk:', order.pk, ' last_name: ', last_name
+                print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
                 last_name = last_name[:30]
             if len(first_name, ) > 30:
-                print 'Order.Pk:', order.pk, ' first_name: ', first_name
+                print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(last_name)
                 first_name = first_name[:30]
             if len(patronymic, ) > 32:
-                print 'Order.Pk:', order.pk, ' patronymic: ', patronymic
+                print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(last_name)
                 patronymic = patronymic[:32]
 
             #last_name = last_name.stripe()
