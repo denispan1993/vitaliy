@@ -33,10 +33,11 @@ class Command(BaseCommand, ):
 
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if type(last_name, ) == list:
-                temp = ''
-                for x in last_name:
-                    temp += x.encode('UTF8', )
-                last_name = temp
+                last_name = last_name[0]
+                #temp = ''
+                #for x in last_name:
+                #    temp += x.encode('UTF8', )
+                #last_name = temp
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if len(last_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
