@@ -56,7 +56,7 @@ class Command(BaseCommand, ):
 #            print username
             username = ''.join(['%s' % slugify(k).capitalize() for k in last_name, first_name, patronymic], )
             if len(username, ) > 32:
-                print 'Order.Pk:', order.pk, ' username: ', username
+                print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(last_name)
                 username = username[:32]
 
             # username = slugify(username, )
