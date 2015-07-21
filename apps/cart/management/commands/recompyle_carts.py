@@ -33,7 +33,10 @@ class Command(BaseCommand, ):
 
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if type(last_name, ) == list:
-                last_name = unicode(last_name, ).encode('utf-8')
+                temp = ''
+                for x in last_name:
+                    temp += x.encode('UTF8', )
+                last_name = temp
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if len(last_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
@@ -80,7 +83,10 @@ class Command(BaseCommand, ):
                         print 'phone_temp[n]: ', ph, 'len(ph, ):', len(ph, )
             except IndexError:
                 print 'IndexError:'
-            phone = order.phone.strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
+
+            import re
+            phone = re.sub("\D", "", order.phone, )
+            phone = phone.strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
 #            print phone
 #            username = ''.join(['%s' % k.capitalize() for k in last_name, first_name, patronymic], )
 #            print username
