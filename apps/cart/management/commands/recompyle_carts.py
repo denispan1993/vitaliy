@@ -63,14 +63,18 @@ class Command(BaseCommand, ):
             email = order.email.strip()
 #            print email
             phone_temp = order.phone.split()
+            print 'phone_temp: ', phone_temp
             try:
                 if len(phone_temp[0], ) == 7 and len(phone_temp[1], ) == 7:
                     phone1 = phone_temp[0].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
                     print 'phone1: ', phone1
                     phone2 = phone_temp[1].strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
                     print 'phone2: ', phone2
+                else:
+                    print 'phone1: ', phone1
+                    print 'phone2: ', phone2
             except IndexError:
-                pass
+                print 'IndexError:'
             phone = order.phone.strip().strip('-').strip('(').strip(')').lstrip('+380').lstrip('380').lstrip('80').lstrip('0')
 #            print phone
 #            username = ''.join(['%s' % k.capitalize() for k in last_name, first_name, patronymic], )
