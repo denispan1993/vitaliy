@@ -12,7 +12,11 @@ class Command(BaseCommand, ):
         from apps.authModel.models import User, Email, Phone
         from apps.account.models import Session_ID
         orders = Order.objects.all()
+        i = 0
         for order in orders:
+            i += 1
+            if i > 300:
+                break
             if 'user' in locals() or 'user' in globals():
                 del user
 
