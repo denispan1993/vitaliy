@@ -43,6 +43,7 @@ class Command(BaseCommand, ):
                 #    temp += x.encode('UTF8', )
                 #last_name = temp
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+            last_name = last_name.lstrip('.')
             if len(last_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
                 last_name = last_name[:30]
@@ -50,6 +51,7 @@ class Command(BaseCommand, ):
             if type(first_name, ) == list:
                 first_name = unicode(first_name, ).encode('utf-8')
             print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+            first_name = first_name.split('.')
             if len(first_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
                 first_name = first_name[:30]
@@ -57,6 +59,7 @@ class Command(BaseCommand, ):
             if type(patronymic, ) == list:
                 patronymic = unicode(patronymic, ).encode('utf-8')
             print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
+            patronymic = patronymic.split('.')
             if len(patronymic, ) > 32:
                 print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
                 patronymic = patronymic[:32]

@@ -1,0 +1,277 @@
+[
+{
+  "pk": -1, 
+  "model": "authModel.user", 
+  "fields": {
+    "username": "AnonymousUser", 
+    "first_name": "", 
+    "settlement": null, 
+    "is_staff": false, 
+    "groups": [], 
+    "area": null, 
+    "gender": 0, 
+    "created_at": "2014-08-16T19:49:18.521Z", 
+    "is_active": true, 
+    "updated_at": "2014-08-16T19:49:18.521Z", 
+    "birthday": null, 
+    "carrier": 1, 
+    "is_superuser": false, 
+    "date_of_birth": null, 
+    "last_login": "2014-08-16T19:49:17.570Z", 
+    "last_name": "", 
+    "country": "\u0423\u043a\u0440\u0430\u0438\u043d\u0430", 
+    "patronymic": null, 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$12000$mQQnzMszBvy1$n3FnvzJPqeZWz3ZfyalZs4XM4pdSoNHOW4ZbCnUx93Y=", 
+    "date_joined": "2014-08-16T19:49:17.571Z"
+  }
+},
+{
+  "pk": 1, 
+  "model": "authModel.user", 
+  "fields": {
+    "username": "admin", 
+    "first_name": "", 
+    "settlement": null, 
+    "is_staff": true, 
+    "groups": [], 
+    "area": null, 
+    "gender": 0, 
+    "created_at": "2014-08-16T16:11:17.042Z", 
+    "is_active": true, 
+    "updated_at": "2014-08-16T16:11:17.042Z", 
+    "birthday": null, 
+    "carrier": 1, 
+    "is_superuser": true, 
+    "date_of_birth": null, 
+    "last_login": "2015-06-25T14:32:45.078Z", 
+    "last_name": "", 
+    "country": "\u0423\u043a\u0440\u0430\u0438\u043d\u0430", 
+    "patronymic": null, 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$12000$XJgBugDhmWZZ$pJlvgo5dFHn/Bqbj9W142AL5ocQO3y4EZ+UBCPG8cdc=", 
+    "date_joined": "2014-08-16T16:11:16.892Z"
+  }
+},
+{
+  "pk": 2, 
+  "model": "authModel.user", 
+  "fields": {
+    "username": "AaaBbbCcca", 
+    "first_name": "bbb", 
+    "settlement": null, 
+    "is_staff": false, 
+    "groups": [], 
+    "area": null, 
+    "gender": 0, 
+    "created_at": "2015-07-20T19:45:53.274Z", 
+    "is_active": true, 
+    "updated_at": "2015-07-20T19:45:53.274Z", 
+    "birthday": null, 
+    "carrier": 1, 
+    "is_superuser": false, 
+    "date_of_birth": null, 
+    "last_login": "2015-07-20T19:45:53.273Z", 
+    "last_name": "aaa", 
+    "country": "\u0423\u043a\u0440\u0430\u0438\u043d\u0430", 
+    "patronymic": "ccca", 
+    "user_permissions": [], 
+    "password": "", 
+    "date_joined": "2015-07-20T19:45:53.273Z"
+  }
+},
+{
+  "pk": 3, 
+  "model": "authModel.user", 
+  "fields": {
+    "username": "AaaBbbCcc", 
+    "first_name": "bbb", 
+    "settlement": null, 
+    "is_staff": false, 
+    "groups": [], 
+    "area": null, 
+    "gender": 0, 
+    "created_at": "2015-07-20T19:45:53.917Z", 
+    "is_active": true, 
+    "updated_at": "2015-07-20T19:45:53.917Z", 
+    "birthday": null, 
+    "carrier": 1, 
+    "is_superuser": false, 
+    "date_of_birth": null, 
+    "last_login": "2015-07-20T19:45:53.917Z", 
+    "last_name": "aaa", 
+    "country": "\u0423\u043a\u0440\u0430\u0438\u043d\u0430", 
+    "patronymic": "ccc", 
+    "user_permissions": [], 
+    "password": "", 
+    "date_joined": "2015-07-20T19:45:53.917Z"
+  }
+},
+{
+  "pk": 4, 
+  "model": "authModel.user", 
+  "fields": {
+    "username": "AsdfgQwertOtchestvo", 
+    "first_name": "qwert", 
+    "settlement": null, 
+    "is_staff": false, 
+    "groups": [], 
+    "area": null, 
+    "gender": 0, 
+    "created_at": "2015-07-20T19:45:54.587Z", 
+    "is_active": true, 
+    "updated_at": "2015-07-20T19:45:54.587Z", 
+    "birthday": null, 
+    "carrier": 1, 
+    "is_superuser": false, 
+    "date_of_birth": null, 
+    "last_login": "2015-07-20T19:45:54.586Z", 
+    "last_name": "asdfg", 
+    "country": "\u0423\u043a\u0440\u0430\u0438\u043d\u0430", 
+    "patronymic": "\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e", 
+    "user_permissions": [], 
+    "password": "", 
+    "date_joined": "2015-07-20T19:45:54.586Z"
+  }
+},
+{
+  "pk": 5, 
+  "model": "authModel.user", 
+  "fields": {
+    "username": "AsdfasdfBbbCc", 
+    "first_name": "bbb", 
+    "settlement": null, 
+    "is_staff": false, 
+    "groups": [], 
+    "area": null, 
+    "gender": 0, 
+    "created_at": "2015-07-20T19:45:55.229Z", 
+    "is_active": true, 
+    "updated_at": "2015-07-20T19:45:55.229Z", 
+    "birthday": null, 
+    "carrier": 1, 
+    "is_superuser": false, 
+    "date_of_birth": null, 
+    "last_login": "2015-07-20T19:45:55.228Z", 
+    "last_name": "asdfasdf", 
+    "country": "\u0423\u043a\u0440\u0430\u0438\u043d\u0430", 
+    "patronymic": "cc", 
+    "user_permissions": [], 
+    "password": "", 
+    "date_joined": "2015-07-20T19:45:55.229Z"
+  }
+},
+{
+  "pk": 1, 
+  "model": "authModel.email", 
+  "fields": {
+    "email_delivery_new_products": true, 
+    "created_at": "2015-07-20T19:45:53.644Z", 
+    "primary": false, 
+    "email_delivery_shares_news": true, 
+    "updated_at": "2015-07-20T19:45:53.644Z", 
+    "user": 2, 
+    "email": "starov.alex@gmail.com"
+  }
+},
+{
+  "pk": 2, 
+  "model": "authModel.email", 
+  "fields": {
+    "email_delivery_new_products": true, 
+    "created_at": "2015-07-20T19:45:54.343Z", 
+    "primary": false, 
+    "email_delivery_shares_news": true, 
+    "updated_at": "2015-07-20T19:45:54.343Z", 
+    "user": 3, 
+    "email": "lana24680@rambler.ru"
+  }
+},
+{
+  "pk": 3, 
+  "model": "authModel.email", 
+  "fields": {
+    "email_delivery_new_products": true, 
+    "created_at": "2015-07-20T19:45:54.994Z", 
+    "primary": false, 
+    "email_delivery_shares_news": true, 
+    "updated_at": "2015-07-20T19:45:54.994Z", 
+    "user": 4, 
+    "email": "lana@rambler.ru"
+  }
+},
+{
+  "pk": 4, 
+  "model": "authModel.email", 
+  "fields": {
+    "email_delivery_new_products": true, 
+    "created_at": "2015-07-20T19:45:55.636Z", 
+    "primary": false, 
+    "email_delivery_shares_news": true, 
+    "updated_at": "2015-07-20T19:45:55.636Z", 
+    "user": 5, 
+    "email": "alex.starov@keksik.com.ua"
+  }
+},
+{
+  "pk": 5, 
+  "model": "authModel.email", 
+  "fields": {
+    "email_delivery_new_products": true, 
+    "created_at": "2015-07-20T19:45:56.018Z", 
+    "primary": false, 
+    "email_delivery_shares_news": true, 
+    "updated_at": "2015-07-20T19:45:56.018Z", 
+    "user": 4, 
+    "email": "alex.starov@gmail.com"
+  }
+},
+{
+  "pk": 1, 
+  "model": "authModel.phone", 
+  "fields": {
+    "created_at": "2015-07-20T19:45:53.779Z", 
+    "updated_at": "2015-07-20T19:45:53.779Z", 
+    "primary": false, 
+    "phone": "933340292", 
+    "user": 2, 
+    "sms_notification": true
+  }
+},
+{
+  "pk": 2, 
+  "model": "authModel.phone", 
+  "fields": {
+    "created_at": "2015-07-20T19:45:54.455Z", 
+    "updated_at": "2015-07-20T19:45:54.455Z", 
+    "primary": false, 
+    "phone": "933340293", 
+    "user": 3, 
+    "sms_notification": true
+  }
+},
+{
+  "pk": 3, 
+  "model": "authModel.phone", 
+  "fields": {
+    "created_at": "2015-07-20T19:45:55.108Z", 
+    "updated_at": "2015-07-20T19:45:56.141Z", 
+    "primary": false, 
+    "phone": "502022437", 
+    "user": 4, 
+    "sms_notification": true
+  }
+},
+{
+  "pk": 4, 
+  "model": "authModel.phone", 
+  "fields": {
+    "created_at": "2015-07-20T19:45:55.759Z", 
+    "updated_at": "2015-07-20T19:45:55.759Z", 
+    "primary": false, 
+    "phone": "952886976", 
+    "user": 5, 
+    "sms_notification": true
+  }
+}
+]
