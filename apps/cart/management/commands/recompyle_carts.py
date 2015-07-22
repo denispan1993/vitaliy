@@ -38,36 +38,38 @@ class Command(BaseCommand, ):
                 last_name = FIO; first_name = None; patronymic = None
             else:
                 last_name = None; first_name = None; patronymic = None
-
-            print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
-            if type(last_name, ) == list:
-                last_name = last_name[0]
-                #temp = ''
-                #for x in last_name:
-                #    temp += x.encode('UTF8', )
-                #last_name = temp
-            print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
-            last_name = last_name.lstrip('.')
-            if len(last_name, ) > 30:
+            if last_name:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
-                last_name = last_name[:30]
-            print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
-            if type(first_name, ) == list:
-                first_name = unicode(first_name, ).encode('utf-8')
-            print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
-            first_name = first_name.lstrip('.')
-            if len(first_name, ) > 30:
+                if type(last_name, ) == list:
+                    last_name = last_name[0]
+                    #temp = ''
+                    #for x in last_name:
+                    #    temp += x.encode('UTF8', )
+                    #last_name = temp
+                print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+                last_name = last_name.lstrip('.')
+                if len(last_name, ) > 30:
+                    print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+                    last_name = last_name[:30]
+            if first_name:
                 print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
-                first_name = first_name[:30]
-            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
-            if type(patronymic, ) == list:
-                patronymic = unicode(patronymic, ).encode('utf-8')
-            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
-            patronymic = patronymic.lstrip('.')
-            if len(patronymic, ) > 32:
+                if type(first_name, ) == list:
+                    first_name = unicode(first_name, ).encode('utf-8')
+                print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+                first_name = first_name.lstrip('.')
+                if len(first_name, ) > 30:
+                    print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+                    first_name = first_name[:30]
+            if patronymic:
                 print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
-                patronymic = patronymic[:32]
-            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+                if type(patronymic, ) == list:
+                    patronymic = unicode(patronymic, ).encode('utf-8')
+                print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+                patronymic = patronymic.lstrip('.')
+                if len(patronymic, ) > 32:
+                    print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+                    patronymic = patronymic[:32]
+                print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
 
             #last_name = last_name.stripe()
             #first_name = first_name.stripe()
