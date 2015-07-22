@@ -33,11 +33,11 @@ class Command(BaseCommand, ):
             if len(FIO) == 3:
                 last_name, first_name, patronymic = FIO
             elif len(FIO) == 2:
-                last_name, first_name = FIO; patronymic = u'Отчество'
+                last_name, first_name = FIO; patronymic = None
             elif len(FIO) == 1:
-                last_name = FIO; first_name = u'Имя'; patronymic = u'Отчество'
+                last_name = FIO; first_name = None; patronymic = None
             else:
-                last_name = u'Фамилия'; first_name = u'Имя'; patronymic = u'Отчество'
+                last_name = None; first_name = None; patronymic = None
 
             print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
             if type(last_name, ) == list:
@@ -55,18 +55,19 @@ class Command(BaseCommand, ):
             if type(first_name, ) == list:
                 first_name = unicode(first_name, ).encode('utf-8')
             print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
-            first_name = first_name.split('.')
+            first_name = first_name.lstrip('.')
             if len(first_name, ) > 30:
                 print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
                 first_name = first_name[:30]
-            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
+            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
             if type(patronymic, ) == list:
                 patronymic = unicode(patronymic, ).encode('utf-8')
-            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
-            patronymic = patronymic.split('.')
+            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+            patronymic = patronymic.lstrip('.')
             if len(patronymic, ) > 32:
-                print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic)
+                print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
                 patronymic = patronymic[:32]
+            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
 
             #last_name = last_name.stripe()
             #first_name = first_name.stripe()
