@@ -27,8 +27,8 @@ class Command(BaseCommand, ):
             # print first_name
             if '.' in order.FIO:
                 FIO = order.FIO.split('.')
-                print type(u'Діденко'); print type(last_name)
-                if u'Діденко' in last_name:
+                print type(u'Діденко'.encode('utf-8', ), ); print type(last_name, )
+                if u'Діденко'.encode('utf-8') in last_name:
                     FIO_temp = FIO
                     FIO = FIO_temp.split()
                     FIO[2] =FIO_temp[1]
@@ -51,7 +51,7 @@ class Command(BaseCommand, ):
                     last_name[0].encode('utf-8')
                     last_name[0].encode('UTF8')
                     unicode(last_name[0], )
-                    last_name = unicode(last_name[0].encode('UTF8', ), )
+                    last_name = unicode(last_name[0], ) # .encode('UTF8', ),
                     #temp = ''
                     #for x in last_name:
                     #    temp += x.encode('UTF8', )
