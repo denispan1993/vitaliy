@@ -25,7 +25,7 @@ class Command(BaseCommand, ):
                 continue
             # first_name = order.FIO.split()[1]
             # print first_name
-            if order.FIO.find('.'):
+            if '.' in order.FIO:
                 FIO = order.FIO.split('.')
             else:
                 FIO = order.FIO.split()
