@@ -27,8 +27,8 @@ class Command(BaseCommand, ):
             # print first_name
             if '.' in order.FIO:
                 FIO = order.FIO.split('.')
-                print type(u'Діденко'.encode('utf-8', ), ); print type(last_name, )
-                if u'Діденко'.encode('utf-8') in last_name.encode('utf-8'):
+                print type(u'Діденко'.decode('utf-8', ), ); print type(last_name, )
+                if 'Діденко'.decode('utf-8') in last_name or 'Коба'.decode('utf-8') in last_name:
                     FIO_temp = FIO
                     FIO = FIO_temp.split()
                     FIO[2] =FIO_temp[1]
@@ -38,7 +38,7 @@ class Command(BaseCommand, ):
             if len(FIO) == 3:
                 last_name, first_name, patronymic = FIO
             elif len(FIO) == 2:
-                last_name, first_name = FIO; patronymic = None
+                last_name, first_name = FIO; patronymic = u'Отчество'
             elif len(FIO) == 1:
                 last_name = FIO; first_name = u'Имя'; patronymic = u'Отчество'
             else:
