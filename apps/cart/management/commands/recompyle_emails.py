@@ -27,10 +27,10 @@ class Command(BaseCommand, ):
                 msg.content_subtype = "html"
                 msg.send(fail_silently=False, )
                 n += 1
-                email_content = ''
-                i = 0
                 print n
+                email_content = ''
                 print email_content
+                i = 0
             else:
                 i += 1
                 print i
