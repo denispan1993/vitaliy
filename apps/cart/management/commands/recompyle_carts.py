@@ -27,7 +27,7 @@ class Command(BaseCommand, ):
             # print first_name
             if '.' in order.FIO:
                 FIO = order.FIO.split('.')
-                if 'Діденко' in last_name:
+                if u'Діденко' in last_name:
                     FIO_temp = FIO
                     FIO = FIO_temp.split()
                     FIO[2] =FIO_temp[1]
