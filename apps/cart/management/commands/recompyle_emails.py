@@ -28,8 +28,11 @@ class Command(BaseCommand, ):
                 msg.send(fail_silently=False, )
                 n += 1
                 email_content = ''
-                break  # i = 0
+                i = 0
+                print n
+                print email_content
             else:
                 i += 1
+                print i
 
             email_content += '%s, ' % email.email
