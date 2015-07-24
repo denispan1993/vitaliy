@@ -27,6 +27,10 @@ class Command(BaseCommand, ):
             # print first_name
             if '.' in order.FIO:
                 FIO = order.FIO.split('.')
+                if last_name == u'Діденко Л':
+                    FIO_temp = FIO
+                    FIO = FIO_temp.split()
+                    FIO[2] =FIO_temp[1]
             else:
                 FIO = order.FIO.split()
 
@@ -35,13 +39,13 @@ class Command(BaseCommand, ):
             elif len(FIO) == 2:
                 last_name, first_name = FIO; patronymic = None
             elif len(FIO) == 1:
-                last_name = FIO; first_name = None; patronymic = None
+                last_name = FIO; first_name = 'Имя'; patronymic = 'Отчество'
             else:
-                last_name = None; first_name = None; patronymic = None
+                last_name = 'Фамилия'; first_name = 'Имя'; patronymic = 'Отчество'
             if last_name:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
                 if type(last_name, ) == list:
-                    last_name = last_name[0]
+                    last_name = last_name[0].encode('UTF8', )
                     #temp = ''
                     #for x in last_name:
                     #    temp += x.encode('UTF8', )
