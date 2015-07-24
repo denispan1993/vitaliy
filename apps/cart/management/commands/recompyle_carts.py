@@ -39,13 +39,13 @@ class Command(BaseCommand, ):
             elif len(FIO) == 2:
                 last_name, first_name = FIO; patronymic = None
             elif len(FIO) == 1:
-                last_name = FIO; first_name = 'Имя'; patronymic = 'Отчество'
+                last_name = FIO; first_name = u'Имя'; patronymic = u'Отчество'
             else:
-                last_name = 'Фамилия'; first_name = 'Имя'; patronymic = 'Отчество'
+                last_name = u'Фамилия'; first_name = u'Имя'; patronymic = u'Отчество'
             if last_name:
                 print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
                 if type(last_name, ) == list:
-                    last_name = last_name[0].encode('UTF8', )
+                    last_name = unicode(last_name[0].encode('UTF8', ), )
                     #temp = ''
                     #for x in last_name:
                     #    temp += x.encode('UTF8', )
