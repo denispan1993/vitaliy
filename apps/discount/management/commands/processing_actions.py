@@ -26,23 +26,23 @@ class Command(BaseCommand, ):
                     то мы еЁ стартуем.
                 """
                 if action.auto_start:
-                    products_of_action = action.product_in_action.not_in_action()
+                    """ Включаем галочку 'Учавствует в акции' всем продуктам которые внесены в акцию
+                        исключая продукты 'отсутсвующие на складе' """
+                    products_of_action = action.product_in_action.not_in_action().exclude(is_availability=4, )
                     if len(products_of_action, ) > 0:
                         print 'Product auto_start:', products_of_action
-                        for product in products_of_action:
-                            print 'Add product to Action: ', product
-                            """
-                                Помечает товар как учавствующий в акции
-                            """
-                            product.category.add(action_category, )
-                            product.in_action = True
+                        """ Помечает товар как учавствующий в акции """
+                        products_of_action.update(in_action=True, )
+                        """ Добавляем категорию 'Акция' в товар """
+                        products_of_action.category.add(action_category, )
+                            # product.in_action = True
                             # """
                             #     Меняем местами акционную нынешнюю
                             # """
                             # price = product.regular_price
                             # product.regular_price = product.price
                             # product.price = price
-                            product.save()
+                            # product.save()
 
         action_not_active = Action.objects.not_active()
         if action_not_active:
