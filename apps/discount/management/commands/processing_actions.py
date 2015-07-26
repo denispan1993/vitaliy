@@ -51,6 +51,8 @@ class Command(BaseCommand, ):
                         products_of_action.update(in_action=False, )
                         """ Добавляем категорию 'Акция' в товар """
                         products_of_action.category.remove(action_category, )
+                        print products_of_action
+                        products_of_action.save()
         action_not_active = Action.objects.not_active()
         if action_not_active:
             print 'Action - NOT ACTIVE:', action_not_active
