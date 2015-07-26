@@ -43,7 +43,14 @@ class Command(BaseCommand, ):
                             # product.regular_price = product.price
                             # product.price = price
                             # product.save()
-
+                    """ Удаляем товары учавствующие в активной акции но при этом 'отсутсвующие на складе' """
+                    products_of_action = action.product_in_action.in_action().exclude(is_availability__lt=4, )
+                    if len(products_of_action, ) > 0:
+                        print 'Product auto_start:', products_of_action
+                        """ Помечает товар как учавствующий в акции """
+                        products_of_action.update(in_action=False, )
+                        """ Добавляем категорию 'Акция' в товар """
+                        products_of_action.category.remove(action_category, )
         action_not_active = Action.objects.not_active()
         if action_not_active:
             print 'Action - NOT ACTIVE:', action_not_active
