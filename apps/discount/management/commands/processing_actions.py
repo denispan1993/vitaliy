@@ -89,7 +89,13 @@ class Command(BaseCommand, ):
         """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
          но при этом отсутвует хоть какая то акция """
         from apps.product.models import Product
-        Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
+        products = Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
+        print 'Товары удаленные из акции по причине вывода их из акции: ', products
+
+        """ Убираем галочку 'участвует в акции' всем продуктам которые отсутсвуют на складе """
+        products = Product.objects.filter(in_action=True, is_availability=4, ).update(in_action=False, )
+        print 'Товары удаленные из акции по причине отсутсвия на складе: ', products
+
         """ Делаем активной акционную категорию, если есть хоть один акционный товар """
         all_actions_products = action_category.products.all()
         if len(all_actions_products) != 0 and not action_category.is_active:
