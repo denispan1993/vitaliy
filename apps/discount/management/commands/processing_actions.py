@@ -28,7 +28,7 @@ class Command(BaseCommand, ):
                 if action.auto_start:
                     """ Включаем галочку 'Учавствует в акции' всем продуктам которые внесены в акцию
                         исключая продукты 'отсутсвующие на складе' """
-                    products_of_action = action.product_in_action.not_in_action().exclude(is_availability=4, )
+                    products_of_action = action.product_in_action.exclude(is_availability=4, )
                     if len(products_of_action, ) > 0:
                         print 'Product auto_start:', products_of_action
                         for product in products_of_action:
@@ -38,7 +38,7 @@ class Command(BaseCommand, ):
                             product.category.add(action_category, )
                             product.save()
                     """ Удаляем товары учавствующие в активной акции но при этом 'отсутсвующие на складе' """
-                    products_remove_from_action = action.product_in_action.in_action().exclude(is_availability__lt=4, )
+                    products_remove_from_action = action.product_in_action.exclude(is_availability__lt=4, )
                     if len(products_of_action, ) > 0:
                         print 'Product auto_start:', products_of_action
                         for product in products_remove_from_action:
