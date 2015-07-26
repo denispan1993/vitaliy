@@ -31,28 +31,22 @@ class Command(BaseCommand, ):
                     products_of_action = action.product_in_action.not_in_action().exclude(is_availability=4, )
                     if len(products_of_action, ) > 0:
                         print 'Product auto_start:', products_of_action
-                        """ Помечает товар как учавствующий в акции """
-                        products_of_action.update(in_action=True, )
-                        """ Добавляем категорию 'Акция' в товар """
-                        products_of_action.category.add(action_category, )
-                            # product.in_action = True
-                            # """
-                            #     Меняем местами акционную нынешнюю
-                            # """
-                            # price = product.regular_price
-                            # product.regular_price = product.price
-                            # product.price = price
-                            # product.save()
+                        for product in products_of_action:
+                            """ Помечает товар как учавствующий в акции """
+                            product.in_action = True
+                            """ Добавляем категорию 'Акция' в товар """
+                            product.category.add(action_category, )
+                            product.save()
                     """ Удаляем товары учавствующие в активной акции но при этом 'отсутсвующие на складе' """
-                    products_of_action = action.product_in_action.in_action().exclude(is_availability__lt=4, )
+                    products_remove_from_action = action.product_in_action.in_action().exclude(is_availability__lt=4, )
                     if len(products_of_action, ) > 0:
                         print 'Product auto_start:', products_of_action
-                        """ Помечает товар как учавствующий в акции """
-                        products_of_action.update(in_action=False, )
-                        """ Добавляем категорию 'Акция' в товар """
-                        products_of_action.category.remove(action_category, )
-                        print products_of_action
-                        products_of_action.save()
+                        for product in products_remove_from_action:
+                            """ Помечает товар как учавствующий в акции """
+                            product.in_action = False
+                            """ Добавляем категорию 'Акция' в товар """
+                            product.category.remove(action_category, )
+                            product.save()
         action_not_active = Action.objects.not_active()
         if action_not_active:
             print 'Action - NOT ACTIVE:', action_not_active
