@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<title>Страница добавления/редактирования рассылки.</title>
+<meta charset="UTF-8">
+<script src="{{ MEDIA_URL }}js/jquery/jquery-1.9.1.min.js"></script>
+<script src="{{ MEDIA_URL }}bootstrap/js/bootstrap.js"></script>
+<link href="{{ MEDIA_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <div id="show_delivery" style="color:Black;text-align:left;" class="container-fluid">
+{# {1{ form.non_field_errors() }} #}
+        <form action="{{ url('admin_delivery:add') }}"
+              class="form-horizontal row"
+              method="post"
+              role="form">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="POST_NAME" value="add_edit">
+            <div class="row">
+                {% if delivery %}
+                <div class="form-group">
+                    <label for="delivery_pk"
+                            class="col-md-4 control-label">№ Рассылки:</label>
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="pk"
+                               id="delivery_pk"
+                               class="form-control"
+                               value="{{ delivery.pk }}" disabled>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="delivery_name"
+                            class="col-md-4 control-label">Наименование рассылки:</label>
+                    {# {1{ form.name.errors }} #}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="name"
+                               id="delivery_name"
+                               class="form-control"
+                               {% if delivery %}value="{{ delivery.name }}"{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="delivery_subject"
+                            class="col-md-4 control-label">Subject рассылки:</label>
+                    {# {1{ form.delivery.errors }} #}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="subject"
+                               id="delivery_subject"
+                               class="form-control"
+                               {% if delivery %}value="{{ delivery.subject }}{% endif %}"> {# {% elif form is defined %}{{ form.subject.value() }} #}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="delivery_html"
+                            class="col-md-4 control-label">Html:</label>
+                    {# {1{ form.key.errors }} #}
+                    <div class="col-md-6">
+<style>
+#div_editor_delivery_html{
+    /** Setting height is also important, otherwise editor wont showup**/
+    height: 175px;
+}
+</style>
+                        <div id="div_editor_delivery_html"></div>
+                        <textarea type="text"
+                               name="html"
+                               id="textarea_editor_delivery_html"
+                               class="form-control"
+                               style="visibility:hidden;display:none;"
+                               {% if delivery %}value="{{ delivery.html }}{% endif %}"> {# {% elif form is defined %}{{ form.html.value() }} #}
+                        </textarea>
+<script src="{{ MEDIA_URL }}js/ace/ace.js"></script>
+<script src="{{ MEDIA_URL }}js/ace/theme-twilight.js"></script>
+<script src="{{ MEDIA_URL }}js/ace/mode-html.js"></script>
+<script>
+window.onload=function(){
+var textarea=$('#textarea_editor_delivery_html');
+
+var editor=ace.edit("div_editor_delivery_html");
+editor.setTheme("ace/theme/twilight");
+editor.getSession().setMode("ace/mode/html");
+
+editor.getSession().on('change', function () {
+    textarea.val(editor.getSession().getValue());
+});
+
+textarea.val(editor.getSession().getValue());
+};
+</script>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="delivery_created_at"
+                            class="col-md-4 control-label">Дата создания:</label>
+                    {# {1{ form.created_at.errors }} #}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="created_at"
+                               id="delevery_created_at"
+                               class="form-control"
+                               {% if delivery %}value="{{ delivery.created_at }}"{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="delivery_updated_at"
+                            class="col-md-4 control-label">Дата обновления:</label>
+                    {# {1{ form.updated_at.errors }} #}
+                    <div class="col-md-6">
+                        <input type="text"
+                               name="updated_at"
+                               id="delevery_updated_at"
+                               class="form-control"
+                               {% if coupon %}value="{{ delivery.updated_at }}"{% endif %}>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" value="Добавить Рассылку">
+        </form>
+    </div>
+</body>
+</html>

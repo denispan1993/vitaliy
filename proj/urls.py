@@ -155,6 +155,11 @@ urlpatterns += patterns('',
                             view=include(arg='apps.adminSite.coupon.urls',
                                          namespace='admin_coupon', ),
                             ),
+                        # """ Админ панель Рассылок. """
+                        url(regex=ur'^админ/рассылка/',
+                            view=include(arg='apps.adminSite.delivery.urls',
+                                         namespace='admin_delivery', ),
+                            ),
                         )
 #Ajax
 urlpatterns += patterns('apps.ajax.views',
