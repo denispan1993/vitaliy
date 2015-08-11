@@ -1,2 +1,2 @@
-# coding=utf-8
-__author__ = 'Sergey'
+# -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'

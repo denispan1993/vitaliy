@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 __author__ = 'Alex Starov'
 
 from django.db.models.signals import pre_save

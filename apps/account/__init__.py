@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'
 
 from apps.account.models import UserProfileModel
 
