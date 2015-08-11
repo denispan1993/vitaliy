@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 @staff_member_required
 def coupon_group_search(request,
-                        template_name=u'coupon/coupon_group_search.jinja2.html', ):
+                        template_name=u'coupon/group_index.jinja2.html', ):
     error_message = u''
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )

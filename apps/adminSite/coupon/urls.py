@@ -15,7 +15,7 @@ urlpatterns = patterns('apps.adminSite.coupon.views',
                        # """ Админ панель Купонов. """
                        url(regex=ur'^группа/поиск/$',
                            view='coupon_group_search',
-                           kwargs={'template_name': u'coupon/coupon_group_search.jinja2.html', },
+                           kwargs={'template_name': u'coupon/group_index.jinja2.html', },
                            name='search', ),
                        url(regex=ur'^группа/редактор/добавить/$',
                            view=manager_required(CouponGroupCreateEdit.as_view(), ),
