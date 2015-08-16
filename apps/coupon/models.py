@@ -56,7 +56,7 @@ class CouponGroup(models.Model, ):
 
     def save(self, *args, **kwargs):
         from django.utils import timezone
-        self.start_of_the_coupon = timezone.localtime(self.start_of_the_coupon, )
+        self.start_of_the_coupon = self.start_of_the_coupon.replace(hour=self.start_of_the_coupon + 3, )
         self.end_of_the_coupon = timezone.localtime(self.end_of_the_coupon, )
         if not self.created_at:
             self.created_at = timezone.now()
