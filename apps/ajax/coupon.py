@@ -38,8 +38,8 @@ def coupon_test(request, ):
                     print datetime.now()
                     print coupon.start_of_the_coupon
                     print coupon.end_of_the_coupon
-                    if coupon.start_of_the_coupon < now:
-                        if now < coupon.end_of_the_coupon:
+                    if coupon.start_of_the_coupon < datetime.now():
+                        if datetime.now() < coupon.end_of_the_coupon:
                             if coupon.number_of_uses < coupon.number_of_possible_uses:
                                 from apps.cart.views import get_cart_or_create
                                 ''' Берем текущую корзину '''
