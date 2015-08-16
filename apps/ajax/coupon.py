@@ -34,6 +34,8 @@ def coupon_test(request, ):
                     print now()
                     now = localtime(now(), )
                     print now
+                    from datetime import datetime
+                    print datetime.now()
                     print coupon.start_of_the_coupon
                     print coupon.end_of_the_coupon
                     if coupon.start_of_the_coupon < now:
