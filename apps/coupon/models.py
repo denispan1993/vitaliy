@@ -32,7 +32,6 @@ class CouponGroup(models.Model, ):
                                                                blank=True,
                                                                null=True,
                                                                default=1, )
-
     percentage_discount = models.PositiveSmallIntegerField(verbose_name=_(u'Процент скидки', ),
                                                            blank=True,
                                                            null=True,
@@ -54,6 +53,15 @@ class CouponGroup(models.Model, ):
                                       blank=True,
                                       null=True,
                                       default=datetime.now(), )
+
+    def save(self, *args, **kwargs):
+        from django.utils import timezone
+        self.start_of_the_coupon = timezone.localtime(self.start_of_the_coupon, )
+        self.end_of_the_coupon = timezone.localtime(self.end_of_the_coupon, )
+        if not self.created_at:
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        return super(CouponGroup, self).save(*args, **kwargs)
 
     #@models.permalink
     def get_absolute_url(self, ):
