@@ -30,8 +30,12 @@ def coupon_test(request, ):
                                 'help_text': u'Странный какой-то купон', }
                 else:
                     # from datetime import datetime
-                    from django.utils import timezone
-                    now = timezone.localtime(timezone.now())
+                    from django.utils.timezone import now, localtime
+                    now = localtime(now(), )
+                    print now
+                    print now()
+                    print coupon.start_of_the_coupon
+                    print coupon.end_of_the_coupon
                     if coupon.start_of_the_coupon < now:
                         if now < coupon.end_of_the_coupon:
                             if coupon.number_of_uses < coupon.number_of_possible_uses:
