@@ -31,6 +31,9 @@ def coupon_test(request, ):
                 else:
                     # from datetime import datetime
                     from django.utils.timezone import now
+                    print now()
+                    print coupon.start_of_the_coupon
+                    print coupon.end_of_the_coupon
                     if coupon.start_of_the_coupon < now():
                         if now() < coupon.end_of_the_coupon:
                             if coupon.number_of_uses < coupon.number_of_possible_uses:
