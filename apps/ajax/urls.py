@@ -10,6 +10,7 @@ urlpatterns = patterns('apps.ajax.coupon',
                        url(r'^test/$', 'coupon_test',
                            name='ajax_coupon_text', ),
                        )
+#
 urlpatterns += patterns('apps.ajax.slides',
                         url(r'^left/$', 'left',
                             name='ajax_slide_left', ),
