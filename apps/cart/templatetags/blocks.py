@@ -34,3 +34,4 @@ def block_cart(request, cart, coupon, place_of_use='cart', ):
                                         'form1_action': form1_action,
                                         'form2_action': form2_action,
                                         'csrf_token': request_csrf_token, }, )
+#
