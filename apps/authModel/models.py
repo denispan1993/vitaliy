@@ -1,4 +1,6 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'
+
 from django.db import models
 
 from django.contrib.auth.models import (

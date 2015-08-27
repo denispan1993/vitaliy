@@ -32,7 +32,8 @@ def coupon_test(request, ):
                     # from datetime import datetime
                     from django.utils.timezone import now, localtime
                     print now()
-                    now = localtime(now(), )
+                    # from datetime import timezone
+                    # now = localtime(now(, ), )
                     print now
                     from datetime import datetime
                     print datetime.now()

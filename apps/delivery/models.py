@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -17,6 +19,10 @@ class Delivery(models.Model, ):
         # (3, _(u'Ожидается', ), ),
         # (4, _(u'Недоступен', ), ),
     )
+    delivery_test = models.BooleanField(verbose_name=_(u'Тестовая рассылка', ),
+                                        default=True,
+                                        blank=True,
+                                        null=True, )
     type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип рассылки'),
                                             choices=Type_Mailings,
                                             default=1,
@@ -75,3 +81,59 @@ class Delivery(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Рассылка'
         verbose_name_plural = u'Рассылки'
+
+
+class EmailMiddleDelivery(models.Model, ):
+    delivery = models.ForeignKey(to=Delivery,
+                                 verbose_name=_(u'Указатель на рассылку', ),
+                                 blank=False,
+                                 null=False, )
+    delivery_test = models.BooleanField(verbose_name=_(u'Тестовая рассылка - отослана', ),
+                                        blank=True,
+                                        null=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+    updated_at = models.DateTimeField(verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+
+    class Meta:
+        db_table = 'EmailMiddleDelivery'
+        ordering = ['-created_at', ]
+        verbose_name = u'Промежуточная можель Рассылки'
+        verbose_name_plural = u'Промежуточные можели Рассылок'
+
+
+class EmailForDelivery(models.Model, ):
+    delivery = models.ForeignKey(to=EmailMiddleDelivery,
+                                 verbose_name=_(u'Указатель на рассылку', ),
+                                 blank=False,
+                                 null=False, )
+    from apps.authModel.models import Email
+    email = models.ForeignKey(to=Email,
+                              verbose_name=_(u'E-Mail', ),
+                              blank=False,
+                              null=False, )
+    send = models.BooleanField(verbose_name=_(u'Флаг отсылки', ),
+                               default=False,
+                               blank=True,
+                               null=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+    updated_at = models.DateTimeField(verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+
+    class Meta:
+        db_table = 'EmailForDelivery'
+        ordering = ['-created_at', ]
+        verbose_name = u'Модель Рассылки (Email адрес)'
+        verbose_name_plural = u'Модели Рассылок (Email адреса)'

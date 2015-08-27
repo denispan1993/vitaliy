@@ -90,7 +90,7 @@ def ordering_step_two(request,
                 request.session[u'select_country'] = select_country
             if select_country != 1:
                 """ Если страна не Украина """
-                template_name = u'order/step_two_other.jinja2.html'
+                template_name = u'order/step_two_others.jinja2.html'
 
     from apps.cart.models import DeliveryCompany
     try:

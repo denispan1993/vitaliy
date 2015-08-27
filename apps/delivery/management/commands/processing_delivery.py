@@ -6,6 +6,61 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand, ):
     def handle(self, *args, **options):
+        from apps.delivery.models import Delivery
+        try:
+            deliveryes = Delivery.objects.filter(delivery_test=True, )
+        except Delivery.DoesNotExist:
+            deliveryes = None
+
+        from apps.delivery.models import EmailMiddleDelivery
+        for delivery in deliveryes:
+            try:
+                email_delivery = EmailMiddleDelivery.objects.get(delivery=delivery, )
+            except EmailMiddleDelivery.DoesNotExist:
+                email_delivery = EmailMiddleDelivery()
+                email_delivery.delivery = delivery
+                email_delivery.delivery_test = True
+                email_delivery.save()
+                """ Отсылаем тестовое письмо """
+
+        try:
+            deliveryes = Delivery.objects.filter(delivery_test=False, )
+        except Delivery.DoesNotExist:
+            deliveryes = None
+
+        from apps.authModel.models import Email
+        from apps.delivery.models import EmailForDelivery
+        for delivery in deliveryes:
+            try:
+                email_delivery = EmailMiddleDelivery.objects.get(delivery=delivery, )
+            except EmailMiddleDelivery.DoesNotExist:
+                email_delivery = EmailMiddleDelivery()
+                email_delivery.delivery = delivery
+                email_delivery.delivery_test = False
+                email_delivery.save()
+                """ Создаем указатели на E-Mail адреса рассылки """
+                try:
+                    emails = Email.objects.all()
+                except Email.DoesNotExist:
+                    emails = None
+                """ Здесь нужно помудрить с коммитом """
+                for real_email in emails:
+                    email = EmailForDelivery()
+                    email.delivery = email_delivery
+                    email.email = real_email
+                    email.save()
+
+            try:
+                """ Берем 10 E-Mail адресов на которые мы еще не отсылали данную рассылку """
+                emails = EmailForDelivery.objects.filter(delivery=email_delivery,
+                                                         send=False, )[10]
+            except EmailForDelivery.DoesNotExist:
+                """ E-Mail адреса в этой рассылке закончились """
+                emails = None
+            else:
+                emails = ', '.join(emails, )
+                """ Отсылаем E-Mail на 10 адресатов """
+
         from datetime import datetime
         print datetime.now()
         from apps.product.models import Category
