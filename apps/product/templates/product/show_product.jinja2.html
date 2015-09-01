@@ -28,6 +28,199 @@
 {% block body_javascript %}
 {% endblock %}
 {% block content_center %}
+{% if product.is_availability == 3 %}
+<div style="position: absolute; z-index: 1000; top: 27px; left: 361px;">
+<style>
+.popup-waitlist {
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    background-color: #FFF;
+    width: 54em;
+    box-sizing: border-box;
+}
+.popup-waitlist {
+    padding: 3.07692em;
+        padding-top: 3.07692em;
+        padding-right: 3.07692em;
+        padding-bottom: 3.07692em;
+        padding-left: 3.07692em;
+    width: 48em;
+    box-shadow: 0px 0px 45px 0px rgba(51, 51, 51, 0.6), 0px -3px 0px 0px #C1C1C1 inset;
+}
+.popup-css {
+    background: #FFF none repeat scroll 0% 0%;
+        background-color: #FFF;
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+    border-radius: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+    border: 1px solid #CCC;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-style: solid;
+        border-right-style: solid;
+        border-bottom-style: solid;
+        border-left-style: solid;
+        border-top-color: #CCC;
+        border-right-color: #CCC;
+        border-bottom-color: #CCC;
+        border-left-color: #CCC;
+        -moz-border-top-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        border-image-source: none;
+        border-image-slice: 100% 100% 100% 100%;
+        border-image-width: 1 1 1 1;
+        border-image-outset: 0 0 0 0;
+        border-image-repeat: stretch stretch;
+    padding: 1.25em 1em 1em;
+        padding-top: 1.25em;
+        padding-right: 1em;
+        padding-bottom: 1em;
+        padding-left: 1em;
+    position: relative;
+    text-align: left;
+    box-shadow: 3px 3px 7px 0px rgba(200, 200, 200, 0.5), 0px -5px 0px 0px #C1C1C1 inset;
+}
+</style>
+    <div class="popup-css popup-waitlist">
+<style>
+div.popup-css a:link {
+    color: #3E77AA;
+}
+div.popup-css .popup-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+div.popup-css a {
+    text-decoration: none;
+    outline: medium none;
+}
+</style>
+        <a href="#" class="popup-close" name="close">
+<style>
+.popup-close-small-icon {
+    background-position: 0px -7680px;
+    width: 28px;
+    height: 28px;
+}
+.sprite, .sprite-side::before, .sprite-both::before, .sprite-both::after {
+    background-image: url("http://i.rozetka.ua/h.1c2cb4/sprite.png") !important;
+    background-repeat: no-repeat;
+}
+.sprite, .sprite-side, .sprite-both {
+    position: relative;
+}
+</style>
+            <img src="http://i.rozetka.ua/design/_.gif" alt="×" class="popup-close-small-icon sprite" height="28" width="28">
+        </a>
+        <div name="content">
+<style>
+.waitlist-title {
+    font-size: 1.46154em;
+    margin-bottom: 1.4em;
+}
+h2.waitlist-title {
+    font-size: 1.84615em;
+    font-weight: normal;
+    line-height: 1.29167em;
+    margin-bottom: 0.58333em;
+}
+</style>
+            <h2 class="waitlist-title">Введите свой адрес эл.почты и&nbsp;мы&nbsp;вас оповестим, когда товар появится в&nbsp;наличии</h2>
+            <form name="submit-by-ajax">
+<style>
+.waitlist-i {
+    padding-bottom: 1.2em;
+}
+</style>
+                <div class="waitlist-i">
+<style>
+.waitlist-i-title {
+    font-size: 1.15385em;
+    padding-bottom: 0.46667em;
+}
+</style>
+                    <div class="waitlist-i-title">Эл. почта</div>
+<style>
+.input-text-waitlist {
+    width: 19.9333em;
+}
+.input-text {
+    height: 1.66667em;
+    line-height: 1.66667em;
+}
+.input-text, .input-textarea {
+    border: 1px solid #C2C2CC;
+    border-radius: 3px;
+    box-shadow: 3px 3px 1px 0px #EEEEEF inset;
+    font-size: 1.15385em;
+    width: 21em;
+    padding: 0.33333em;
+    resize: none;
+}
+</style>
+                    <input class="input-text input-text-waitlist" name="email" required="1" value="" pattern="^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z0-9]{2,15})$" type="text">
+<style>
+.waitlist-submit-btn {
+    margin-left: 1.30769em;
+    border-radius: 3px;
+}
+.btn-link-green {
+    background: transparent -moz-linear-gradient(center top , #79D670, #4BBE3F) repeat scroll 0% 0%;
+    box-shadow: 3px 3px 7px 0px rgba(105, 206, 95, 0.5), 0px -3px 0px 0px #3A9731 inset;
+}
+.btn-link {
+    background-clip: padding-box;
+    border: 0px none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    outline: 0em none;
+    border-radius: 3px;
+    margin-bottom: 2px;
+}
+</style>
+                    <span class="btn-link btn-link-green waitlist-submit-btn">
+<style>
+.btn-link-i {
+    background: transparent none repeat scroll 0% 0%;
+    border: 0px none;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    outline: medium none;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+</style>
+                        <button type="submit" class="btn-link-i">Сохранить</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
 <style>
 #product_box_left{
 	float:left;
@@ -330,6 +523,35 @@ $(document).ready(onChange())
 				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>При покупке товара под заказ, взымается предоплата 50% от стоимости заказаного товара.<br>Окончательный расчёт происходит после поступления товара на склад магазина Кексик.</p>
 			{% elif product.is_availability == 3 %}
 				<p>Товар:&nbsp;<strong>ожидается</strong></p>
+				{% if user.is_authenticated and user.is_staff %}
+<div class="detail-buy-label unavailable">
+		<div class="pp-price-status-block">
+			<div class="detail-status unavailable">
+					Ожидается
+			</div>
+			<div name="prices_active_element_original" class="detail-price-lable detail-price-cheaper">
+                <div name="price" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+                    <div class="detail-price-uah">
+                        <span itemprop="price"><meta itemprop="priceCurrency" content="UAH">2 699</span><span class="detail-price-uah-sign"> грн</span>
+							<link itemprop="availability" href="http://schema.org/OutOfStock">
+                    </div>
+                </div>
+            </div>
+			<script type="text/javascript">Waitlist.setDetailsPopupParent(null, 'waitlist_details_' + '1276645')</script>
+            <div name="waitlist_details">
+                <div class="detail-waitlist-button">
+                    <a href="#Waitlist" class="btn-link btn-link-gray btn-to-waitlist sprite-side">
+                        <span class="btn-link-i" name="towaitlist">Сообщите, <br>когда появится</span>
+                    </a>
+                </div>
+            </div>
+            <div id="wishlists-popup-5614"></div>
+			<div class="detail-stock-wrap">
+			</div>
+		</div>
+	</div>
+</div>
+                {% endif %}
 			{% elif product.is_availability == 4 %}
 				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}

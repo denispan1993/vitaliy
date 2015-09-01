@@ -1,5 +1,6 @@
-# coding=utf-8
-__author__ = 'Sergey'
+# -*- coding: utf-8 -*-
+__author__ = 'Alex Starov'
+
 
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
