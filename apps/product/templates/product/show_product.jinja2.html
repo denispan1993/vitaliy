@@ -30,6 +30,7 @@
 {% block content_center %}
 {% if product.is_availability == 3 %}
 <div style="position: absolute; z-index: 1000; top: 27px; left: 361px;">
+{% if user.is_authenticated and user.is_staff %}
 <style>
 .popup-waitlist {
     border-radius: 3px;
@@ -374,10 +375,10 @@ h2.waitlist-title {
 				</p>
 			{% endif %}
             {% if not product.in_action %}
-                <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи{% else %}Цена{% endif %}:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">&nbsp;{{ product.get_price(request)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
+                <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи:&nbsp;{% else %}Цена:&nbsp;{% endif %}:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">{{ product.get_price(request)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
             {% else %}
                 <p id="product_box_right_action_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Акционная цена:&nbsp;<span class="Red" itemprop="price">{{ product.get_price(request, product.action_price)|replace(",", ".") }}</span>&nbsp;{{ get_currency(request) }}</p>
-                <p id="product_box_right_price">Обычная цена:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" style="text-decoration:line-through;">&nbsp;{{ product.get_price(request, product.price)|replace(",", ".") }} {{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
+                <p id="product_box_right_price">Обычная цена:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" style="text-decoration:line-through;">&nbsp;{{ product.get_price(request, product.price)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
                 <div id="product_box_time_action_price">
 <style>
 .flip-clock-divider{
