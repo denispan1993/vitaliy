@@ -68,8 +68,8 @@ class Session_ID(models.Model):
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     from datetime import datetime
-    created_at = models.DateTimeField(auto_now_add=True, blank=False, null=False, default=datetime.now(), )
-    updated_at = models.DateTimeField(auto_now=True, blank=False, null=False, default=datetime.now(), )
+    created_at = models.DateTimeField(auto_now_add=True, blank=False, null=False, )  #  default=datetime.now(), )
+    updated_at = models.DateTimeField(auto_now=True, blank=False, null=False, )  # default=datetime.now(), )
 
     def __unicode__(self):
         return u'Связка:%s, session:%s' % (self.user, self.sessionid, )

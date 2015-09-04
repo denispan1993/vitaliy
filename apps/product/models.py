@@ -256,8 +256,7 @@ class Product(models.Model):
     recommended = models.ManyToManyField('Product',
                                          related_name=u'Product',
                                          verbose_name=u'Рекомендуемые товары',
-                                         blank=True,
-                                         null=True, )
+                                         blank=True, )  #  null=True, )
     # Минимальное количество заказа
     # minimal_quantity = models.PositiveSmallIntegerField(verbose_name=_(u'Минимальное количество заказа'), default=1,
     #                                                    blank=False, null=False, )
@@ -304,8 +303,7 @@ class Product(models.Model):
     action = models.ManyToManyField(to=Action,
                                     verbose_name=u'Акции',
                                     related_name='product_in_action',
-                                    blank=True,
-                                    null=True,
+                                    blank=True,  #  null=True,
                                     db_table='Product_to_Action', )
     in_action = models.BooleanField(verbose_name=u'Продукт учавствует в Акции',
                                     blank=False,
@@ -1289,10 +1287,10 @@ rules = [
         }
     ),
 ]
-# добавляем правила и модуль
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules(rules, ["^apps\.product\.models\.ModelSlugField"])
-add_introspection_rules(rules, ["^apps\.product\.models\.ImageWithThumbsField"])
+## добавляем правила и модуль
+#from south.modelsinspector import add_introspection_rules
+#add_introspection_rules(rules, ["^apps\.product\.models\.ModelSlugField"])
+#add_introspection_rules(rules, ["^apps\.product\.models\.ImageWithThumbsField"])
 
 ##from mptt.fields import TreeForeignKey
 #from django.contrib.auth.models import Group

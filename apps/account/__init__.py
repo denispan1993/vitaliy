@@ -9,10 +9,17 @@ from proj.settings import AUTH_USER_MODEL
 ##from django.contrib.auth.models import User
 #from apps.authModel.models import User
 
-from django.contrib.auth import get_user_model
-authModel = get_user_model()
+#if __name__ == "__main__":
+#    import django
+#    django.setup()
 
-@receiver(post_save, sender=authModel, dispatch_uid='AutoCreate_UserProfileModel', )
+#from django.contrib.auth import get_user_model
+#authModel = get_user_model()
+
+from django.conf import settings
+
+#@receiver(post_save, sender=authModel, dispatch_uid='AutoCreate_UserProfileModel', )
+@receiver(post_save, sender=settings.AUTH_USER_MODEL, dispatch_uid='AutoCreate_UserProfileModel', )
 def AutoCreate_UserProfileModel(signal, sender, instance, created, *args, **kwargs):
     if created:
         # profile, created =

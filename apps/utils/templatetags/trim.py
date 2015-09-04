@@ -1,10 +1,8 @@
 __author__ = 'Alex Starov'
 
-from django_jinja.library import Library
-
-register = Library()
+from django_jinja.library import filter
 
 
-@register.filter(name='trim_whitespace', )
+@filter(name='trim_whitespace', )
 def trim(value, ):
     return value.strip()

@@ -1,4 +1,5 @@
-#!/home/user/PycharmProjects/Shop/VirtEnv/bin/python
+#!/home/sergey/PycharmProjects/ShopVirtEnv/bin/python
+#1!/home/user/PycharmProjects/Shop/VirtEnv/bin/python
 # coding=utf-8
 
 import os
@@ -11,6 +12,10 @@ if __name__ == "__main__":
     #os.putenv('DJANGO_SETTINGS_MODULE', 'proj.settings')
     #os.system('bash')
     # os.environ.setdefault(key="DJANGO_SETTINGS_MODULE", failobj="proj.settings", )
+    # os.environ.setdefault(key="DJANGO_SETTINGS_MODULE", failobj="proj.settings")
+    # from django.core.management import execute_from_command_line
+    # execute_from_command_line(sys.argv)
+
     os.environ["DJANGO_SETTINGS_MODULE"] = "proj.settings"
     # django.setup()
     #DJANGO_SETTINGS_MODULE = os.getenv(key='DJANGO_SETTINGS_MODULE', )

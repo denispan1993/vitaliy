@@ -131,19 +131,14 @@ document.getElementById('clb_send').onclick=function(){
                 phone:phone
         },
 		function(data, textStatus, jqXHR){
+            document.getElementById('clb_banner_bg').style.display="none";
+            document.getElementById('clb_div_ban').classList.add('callback_closed');
+            document.getElementById('header').classList.remove('callback_blur');
+            document.getElementById('main').classList.remove('callback_blur');
+            document.getElementById('footer').classList.remove('callback_blur');
             if(data.result=='Bad'){
-                document.getElementById('clb_banner_bg').style.display="none";
-                document.getElementById('clb_div_ban').classList.add('callback_closed');
-                document.getElementById('header').classList.remove('callback_blur');
-                document.getElementById('main').classList.remove('callback_blur');
-                document.getElementById('footer').classList.remove('callback_blur');
                 alert('Ваши данные не принял сервер по причине:'+data.error);
             }else{
-                document.getElementById('clb_banner_bg').style.display="none";
-                document.getElementById('clb_div_ban').classList.add('callback_closed');
-                document.getElementById('header').classList.remove('callback_blur');
-                document.getElementById('main').classList.remove('callback_blur');
-                document.getElementById('footer').classList.remove('callback_blur');
                 alert('Наш менеджер свяжется с Вами в ближайшее время');
 		}
         },
@@ -222,6 +217,8 @@ $(document).ready(function(){
     });
 });
 </script>
+{% block after_footer %}
+{% endblock %}
 </section>
 </body>
 </html>

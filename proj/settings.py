@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
+__author__ = 'AlexStarov'
 
 # Django settings for Shop project.
 
@@ -122,11 +122,16 @@ else:
 # In a Windows environment this must be set to your system time zone.
 TIME_ZONE = 'Europe/Kiev'
 
+# If you set this to False, Django will not use timezone-aware datetimes.
+USE_TZ = True
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'ru-ru'
 
 SITE_ID = 1
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -135,9 +140,6 @@ USE_I18N = True
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
 USE_L10N = True
-
-# If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -258,9 +260,9 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     # 'compressor',
 )
 
-JINJA2_EXTENSIONS = [
-    'compressor.contrib.jinja2ext.CompressorExtension',
-]
+#JINJA2_EXTENSIONS = [
+#    'compressor.contrib.jinja2ext.CompressorExtension',
+#]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -331,14 +333,15 @@ INSTALLED_APPS = (
     'suit_ckeditor',
 #    'filebrowser',
     'django.contrib.admin',
+    # 'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.admindocs',
     # 'django.contrib.markup', depricated in v. 1.6
-    'south',
+    # 'south',
     'mptt',
     'django_mptt_admin',
     'django_jinja',
-    'bootstrap',
-    'bootstrap3',
+    #'bootstrap',
+    #'bootstrap3',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     # 'coffin',
@@ -364,9 +367,9 @@ INSTALLED_APPS = (
     # 'static_sitemaps',
 )
 
-SOUTH_MIGRATION_MODULES = {
-    'easy_thumbnails': 'easy_thumbnails.south_migrations',
-}
+#SOUTH_MIGRATION_MODULES = {
+#    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+#}
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -596,9 +599,9 @@ INSTALLED_APPS += (
 )
 USERENA_USE_MESSAGES = True
 #!!!=============== Django ToolBar ===================================
-#MIDDLEWARE_CLASSES += (
-#    'debug_toolbar.middleware.DebugToolbarMiddleware',
-#)
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
 
 INSTALLED_APPS += (
     'debug_toolbar',
@@ -692,7 +695,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
-INTERNAL_IPS = ('192.168.1.65', '192.168.3.30', '172.22.120.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
+INTERNAL_IPS = ('172.22.0.0/16', '192.168.0.0/16', '10.0.0.0/8', '172.22.120.30', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', )
 #!!!=============== Django ToolBar ===================================
 #INSTALLED_APPS = (
 #    'static_sitemaps',

@@ -106,7 +106,7 @@ def ordering_step_two(request,
                 email = email.strip()
                 from proj.settings import SERVER
                 from validate_email import validate_email
-                if SERVER:
+                if SERVER or not SERVER:
                     if validate_email(email, check_mx=True, ):
                         """ Если проверка на существование сервера прошла...
                             То делаем полную проверку адреса на существование... """
@@ -121,6 +121,7 @@ def ordering_step_two(request,
                                 email_error = u'Ваш E-Mail адрес не существует.'
                             else:
                                 is_validate = True
+                        print 'is_validate: ', is_validate, ' email_error: ', email_error, ' email: ', email
                         if is_validate and not email_error:
                             request.session[u'email'] = email
                             """ Взять или создать корзину пользователя """

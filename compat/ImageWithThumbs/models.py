@@ -57,16 +57,16 @@ class ImageWithThumbsField(ImageField):
         self.sizes = sizes
         super(ImageField, self).__init__(**kwargs)
 
-# описываем правила
-rules = [
-    (
-        (ImageWithThumbsField, ), [],
-        {
-            "null": ["null", {"default": False}],
-            "blank": ["blank", {"default": False}],
-        }
-    ),
-]
-# добавляем правила и модуль
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules(rules, ["^compat\.ImageWithThumbs\.models\.ImageWithThumbsField"])
+## описываем правила
+#rules = [
+#    (
+#        (ImageWithThumbsField, ), [],
+#        {
+#            "null": ["null", {"default": False}],
+#            "blank": ["blank", {"default": False}],
+#        }
+#    ),
+#]
+## добавляем правила и модуль
+#from south.modelsinspector import add_introspection_rules
+#add_introspection_rules(rules, ["^compat\.ImageWithThumbs\.models\.ImageWithThumbsField"])

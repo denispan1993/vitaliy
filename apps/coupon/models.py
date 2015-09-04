@@ -142,13 +142,11 @@ class Coupon(models.Model, ):
     child_cart = models.ManyToManyField(to=Cart,
                                         related_name=u'Cart_child',
                                         verbose_name=_(u'Корзины которые использовали этот купон', ),
-                                        blank=True,
-                                        null=True, )
+                                        blank=True, )  #  null=True, )
     child_order = models.ManyToManyField(to=Order,
                                          related_name=u'Order_child',
                                          verbose_name=_(u'Заказы которые использовали этот купон', ),
-                                         blank=True,
-                                         null=True, )
+                                         blank=True, )  #  null=True, )
     percentage_discount = models.PositiveSmallIntegerField(verbose_name=_(u'Процент скидки', ),
                                                            blank=False,
                                                            null=False,

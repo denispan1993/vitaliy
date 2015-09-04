@@ -1,12 +1,14 @@
 #coding=utf-8
 __author__ = 'Alex Starov'
 
-from django_jinja.library import Library
+#from django_jinja.library import Library
+from django_jinja.library import filter
 
-register = Library()
+#register = Library()
 
 
-@register.filter(name='true_false', )
+#@register.filter(name='true_false', )
+@filter(name='true_false', )
 def true_false(value, ):
 #    if bool(value):
         if value:

@@ -1,13 +1,15 @@
 # coding=utf-8
 __author__ = 'Sergey'
 
-from django_jinja.library import Library
+#from django_jinja.library import Library
+from django_jinja.library import global_function# import Library
 from django.template.loader import render_to_string
 
-register = Library()
+#register = Library()
 
 
-@register.global_function()
+#@register.global_function()
+@global_function()
 def many_blocks(blocks, request, category_or_product, top_border, limit_on_string=0, attachment='', ):
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
@@ -27,7 +29,8 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
                                         'attachment': attachment, }, )
 
 
-@register.global_function()
+#@register.global_function()
+@global_function()
 def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
     # print(last_loop)
     if last_loop:

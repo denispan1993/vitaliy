@@ -1,13 +1,15 @@
 # coding=utf-8
 __author__ = 'Sergey'
 
-from django_jinja.library import Library
+#from django_jinja.library import Library
+from django_jinja.library import global_function
 from django.template.loader import render_to_string
 
-register = Library()
+#register = Library()
 
 
-@register.global_function()
+#@register.global_function()
+@global_function()
 def block_cart(request, cart, coupon, place_of_use='cart', ):
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
     # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )

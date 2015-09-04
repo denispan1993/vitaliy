@@ -26,15 +26,15 @@ class ModelSlugField(models.CharField, ):
         return super(ModelSlugField, self).formfield(**defaults)
 
 # описываем правила
-rules = [
-    (
-        (ModelSlugField, ), [],
-        {
-            "null": ["null", {"default": False}],
-            "blank": ["blank", {"default": False}],
-        }
-    ),
-]
+#rules = [
+#    (
+#        (ModelSlugField, ), [],
+#        {
+#            "null": ["null", {"default": False}],
+#            "blank": ["blank", {"default": False}],
+#        }
+#    ),
+#]
 # добавляем правила и модуль
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules(rules, ["^compat\.FormSlug\.models\.ModelSlugField"])
+#from south.modelsinspector import add_introspection_rules
+#add_introspection_rules(rules, ["^compat\.FormSlug\.models\.ModelSlugField"])

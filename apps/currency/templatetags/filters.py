@@ -1,15 +1,17 @@
 # coding=utf-8
 __author__ = 'Sergey'
 
-from django_jinja.library import Library
-from django.template.loader import render_to_string
+#from django_jinja.library import Library
+from django_jinja.library import filter
+#from django.template.loader import render_to_string
 
-register = Library()
+#register = Library()
 
 """
 Конвертируем значение value в нужную нам валюту
 """
-@register.filter()
+#@register.filter()
+@filter()
 def convert_currency(value, request, *args, **kwargs):
     if value:
         ''' Сначала преобразуем value в число

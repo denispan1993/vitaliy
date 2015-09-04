@@ -1,13 +1,16 @@
 # coding=utf-8
 __author__ = 'Sergey'
 
-from django_jinja.library import Library
+#from django_jinja.library import Library
+from django_jinja.library import global_function # import library
 from django.template.loader import render_to_string
 
-register = Library()
+#register = Library()
 
 
-@register.global_function()
+#@register.global_function()
+#@library.global_function()
+@global_function()
 def get_currency(request, ):
     current_currency = request.session.get(u'currency_pk', )
     return_str = u'грн.'

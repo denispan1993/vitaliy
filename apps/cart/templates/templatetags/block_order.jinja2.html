@@ -102,7 +102,7 @@ function ReCalcSum(){
     }{% endif %}
     $("#all_sum_of_quantity_in_order").html(sum_in_order.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
     $("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
-    if(parseInt(sum_in_order)<={{ 100 }}){
+    if(parseInt(sum_in_order)<={{ 100|convert_currency(request) }}){
 {# // similar behavior as an HTTP redirect
 window.location.replace("http://stackoverflow.com");
 // similar behavior as clicking on a link

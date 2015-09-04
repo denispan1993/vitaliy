@@ -1,11 +1,9 @@
 __author__ = 'Alex Starov'
 
-from django_jinja.library import Library
-
-register = Library()
+from django_jinja.library import filter
 
 
-@register.filter(name='get_range', )
+@filter(name='get_range', )
 def get_range(value, ):
     """
     Filter - returns a list containing range made from given value
