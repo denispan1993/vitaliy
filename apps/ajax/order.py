@@ -19,42 +19,46 @@ def order_email_test(request, ):
                 email = request.POST.get(u'value', None, )
                 if email:
                     email = email.strip()
-                    from proj.settings import SERVER
-                    if SERVER or not SERVER:
-                        is_validate = False
-                        email_error = None
-                        from django.core.validators import validate_email
-                        from django.core.exceptions import ValidationError
-                        try:
-                            validate_email(email)
-                        except ValidationError:
-                            email_error = u'Вы допустили ошибку при наборе Вашего E-Mail адреса'
-                        else:
-                            from validate_email import validate_email
-                            is_validate = validate_email(email, check_mx=True, verify=False, )
-                            # if is_validate:
-                            #     """ Если проверка на существование сервера прошла...
-                            #         То делаем полную проверку адреса на существование... """
-                            #     is_validate = validate_email(email, verify=True, )
-                            #     if not is_validate:
-                            #         email_error = u'Ваш E-Mail адрес не существует.'
-                            # else:
-                            #     email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
-                            if not is_validate:
-                                email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
-                            else:
-                                is_validate = True
-                        if is_validate:
-                            response = {'result': 'Ok', }
-                            data = dumps(response, )
-                            mimetype = 'application/javascript'
-                            return HttpResponse(data, mimetype, )
-                        else:
-                            response = {'result': 'Bad',
-                                        'email_error': email_error, }
-                            data = dumps(response, )
-                            mimetype = 'application/javascript'
-                            return HttpResponse(data, mimetype, )
+                    # from proj.settings import SERVER
+                    # if SERVER or not SERVER:
+                    is_validate = False
+                    email_error = None
+                    from django.core.validators import validate_email
+                    from django.core.exceptions import ValidationError
+                    try:
+                        validate_email(email)
+                    except ValidationError:
+                        email_error = u'Вы допустили ошибку при наборе Вашего E-Mail адреса'
+                    # else:
+                        # from validate_email import validate_email
+                        """ Какого-то хрена не срабаоывает проверка на MX записи. Привер lana24680@rambler.ru """
+                        """ Проверка выключена """
+                        # is_validate = validate_email(email, check_mx=True, verify=False, )
+                        #if not is_validate:
+                        #    email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                        #else:
+                        #    is_validate = True
+
+                        # if is_validate:
+                        #     """ Если проверка на существование сервера прошла...
+                        #         То делаем полную проверку адреса на существование... """
+                        #     is_validate = validate_email(email, verify=True, )
+                        #     if not is_validate:
+                        #         email_error = u'Ваш E-Mail адрес не существует.'
+                        # else:
+                        #     email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                    # if is_validate:
+                    if not email_error:
+                        response = {'result': 'Ok', }
+                        data = dumps(response, )
+                        mimetype = 'application/javascript'
+                        return HttpResponse(data, mimetype, )
+                    else:
+                        response = {'result': 'Bad',
+                                    'email_error': email_error, }
+                        data = dumps(response, )
+                        mimetype = 'application/javascript'
+                        return HttpResponse(data, mimetype, )
             else:
                 return HttpResponse(status=400, )
         elif request.method == 'GET':
