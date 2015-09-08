@@ -31,7 +31,7 @@ def order_email_test(request, ):
                         email_error = u'Вы допустили ошибку при наборе Вашего E-Mail адреса'
                     # else:
                         # from validate_email import validate_email
-                        """ Какого-то хрена не срабаоывает проверка на MX записи. Привер lana24680@rambler.ru """
+                        """ Какого-то хрена не срабаоывает проверка на MX записи. Пример lana24680@rambler.ru """
                         """ Проверка выключена """
                         # is_validate = validate_email(email, check_mx=True, verify=False, )
                         #if not is_validate:
