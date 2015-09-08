@@ -17,6 +17,7 @@
 {% if products_recommended and length_products_recommended > limit_products_recommended_on_string %}
 {% block header_js %}
 <script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
+{# <script src="http://vk.com/js/api/share.js?9" charset="windows-1251"></script> #}
 {% endblock %}
 {% endif %}
 {% set comments = product.comments.pass_moderation() %}
@@ -28,9 +29,85 @@
 {% block body_javascript %}
 {% endblock %}
 {% block content_center %}
-{% if product.is_availability == 3 %}
-<div style="position: absolute; z-index: 1000; top: 27px; left: 361px;">
 {% if user.is_authenticated and user.is_staff %}
+<script>
+var Share = {
+    vkontakte: function(purl, ptitle, pimg, text) {
+        url  = 'http://vkontakte.ru/share.php?';
+        url += 'url='          + encodeURIComponent(purl);
+        url += '&title='       + encodeURIComponent(ptitle);
+        url += '&description=' + encodeURIComponent(text);
+        url += '&image='       + encodeURIComponent(pimg);
+        url += '&noparse=true';
+        Share.popup(url);
+    },
+    odnoklassniki: function(purl, text) {
+        url  = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
+        url += '&st.comments=' + encodeURIComponent(text);
+        url += '&st._surl='    + encodeURIComponent(purl);
+        Share.popup(url);
+    },
+    facebook: function(purl, ptitle, pimg, text) {
+        url  = 'http://www.facebook.com/sharer.php?s=100';
+        url += '&p[title]='     + encodeURIComponent(ptitle);
+        url += '&p[summary]='   + encodeURIComponent(text);
+        url += '&p[url]='       + encodeURIComponent(purl);
+        url += '&p[images][0]=' + encodeURIComponent(pimg);
+        Share.popup(url);
+    },
+    twitter: function(purl, ptitle) {
+        url  = 'http://twitter.com/share?';
+        url += 'text='      + encodeURIComponent(ptitle);
+        url += '&url='      + encodeURIComponent(purl);
+        url += '&counturl=' + encodeURIComponent(purl);
+        Share.popup(url);
+    },
+    mailru: function(purl, ptitle, pimg, text) {
+        url  = 'http://connect.mail.ru/share?';
+        url += 'url='          + encodeURIComponent(purl);
+        url += '&title='       + encodeURIComponent(ptitle);
+        url += '&description=' + encodeURIComponent(text);
+        url += '&imageurl='    + encodeURIComponent(pimg);
+        Share.popup(url)
+    },
+
+    popup: function(url) {
+        window.open(url,'','toolbar=0,status=0,width=626,height=436');
+    }
+};
+</script>
+<style>
+a.social_link{
+background-image:url("http://share.pluso.ru/img/pluso-like/square/big/03.png");
+display:block;
+height:40px;
+width:40px;
+margin-right:20px;
+margin-bottom:10px;
+}
+a#social_button_VK{
+background-position:-168px 0;
+}
+a#social_button_OK{
+background-position:-126px 0;
+}
+</style>
+<a id="social_button_VK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.vkontakte('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
+<a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('{{ request.get_full_path() }}','{{ product.meta_description }}')"></a>
+{# <script>
+<!--
+document.write(VK.Share.button({
+    url:'{{ request.get_full_path() }}',
+    title:'{{ product.title|capfirst }}',
+    description:'{{ product.meta_description }}',
+    {% if product.main_photo %}image:'{{ product.main_photo.photo.url }}',{% else %}image:'/media/img/NoPhoto_345x370.jpg',{% endif %}
+    noparse:true
+}));
+-->
+</script> #}
+{% endif %}
+{% if user.is_authenticated and user.is_staff and product.is_availability == 3%}
+<div style="position: absolute; z-index: 1000; top: 27px; left: 361px;">
 <style>
 .popup-waitlist {
     border-radius: 3px;

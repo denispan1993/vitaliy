@@ -3,14 +3,12 @@
 __author__ = 'Sergey'
 
 #from django.template import Library
-from django_jinja.library import Library
+from django_jinja.library import global_function
 from django.template.loader import render_to_string
 
 
-register = Library()
-
 #@register.inclusion_tag('templatetags_header_category/header_category.jinja2.html', )
-@register.global_function()
+@global_function()
 def header_category(current_category, ):
 
     def _rendered(current_category):
@@ -23,7 +21,7 @@ def header_category(current_category, ):
 
 # register.tag('templatetags_header_category/header_category.jinja2.html', header_category, )
 
-@register.global_function()
+@global_function()
 def header_category2(current_category, product=None, ):
 
     root_string = u'<a href="/" title="Корень сайта">Home</a>'
