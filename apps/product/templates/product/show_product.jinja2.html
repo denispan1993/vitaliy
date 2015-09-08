@@ -29,83 +29,6 @@
 {% block body_javascript %}
 {% endblock %}
 {% block content_center %}
-{% if user.is_authenticated and user.is_staff %}
-<script>
-var Share = {
-    vkontakte: function(purl, ptitle, pimg, text) {
-        url  = 'http://vkontakte.ru/share.php?';
-        url += 'url='          + encodeURIComponent(purl);
-        url += '&title='       + encodeURIComponent(ptitle);
-        url += '&description=' + encodeURIComponent(text);
-        url += '&image='       + encodeURIComponent(pimg);
-        url += '&noparse=true';
-        Share.popup(url);
-    },
-    odnoklassniki: function(purl, text) {
-        url  = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
-        url += '&st.comments=' + encodeURIComponent(text);
-        url += '&st._surl='    + encodeURIComponent(purl);
-        Share.popup(url);
-    },
-    facebook: function(purl, ptitle, pimg, text) {
-        url  = 'http://www.facebook.com/sharer.php?s=100';
-        url += '&p[title]='     + encodeURIComponent(ptitle);
-        url += '&p[summary]='   + encodeURIComponent(text);
-        url += '&p[url]='       + encodeURIComponent(purl);
-        url += '&p[images][0]=' + encodeURIComponent(pimg);
-        Share.popup(url);
-    },
-    twitter: function(purl, ptitle) {
-        url  = 'http://twitter.com/share?';
-        url += 'text='      + encodeURIComponent(ptitle);
-        url += '&url='      + encodeURIComponent(purl);
-        url += '&counturl=' + encodeURIComponent(purl);
-        Share.popup(url);
-    },
-    mailru: function(purl, ptitle, pimg, text) {
-        url  = 'http://connect.mail.ru/share?';
-        url += 'url='          + encodeURIComponent(purl);
-        url += '&title='       + encodeURIComponent(ptitle);
-        url += '&description=' + encodeURIComponent(text);
-        url += '&imageurl='    + encodeURIComponent(pimg);
-        Share.popup(url)
-    },
-
-    popup: function(url) {
-        window.open(url,'','toolbar=0,status=0,width=626,height=436');
-    }
-};
-</script>
-<style>
-a.social_link{
-background-image:url("http://share.pluso.ru/img/pluso-like/square/big/03.png");
-display:block;
-height:40px;
-width:40px;
-margin-right:20px;
-margin-bottom:10px;
-}
-a#social_button_VK{
-background-position:-168px 0;
-}
-a#social_button_OK{
-background-position:-126px 0;
-}
-</style>
-<a id="social_button_VK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.vkontakte('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
-<a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('{{ request.get_full_path() }}','{{ product.meta_description }}')"></a>
-{# <script>
-<!--
-document.write(VK.Share.button({
-    url:'{{ request.get_full_path() }}',
-    title:'{{ product.title|capfirst }}',
-    description:'{{ product.meta_description }}',
-    {% if product.main_photo %}image:'{{ product.main_photo.photo.url }}',{% else %}image:'/media/img/NoPhoto_345x370.jpg',{% endif %}
-    noparse:true
-}));
--->
-</script> #}
-{% endif %}
 {% if user.is_authenticated and user.is_staff and product.is_availability == 3%}
 <div style="position: absolute; z-index: 1000; top: 27px; left: 361px;">
 <style>
@@ -128,7 +51,7 @@ document.write(VK.Share.button({
     width: 48em;
     box-shadow: 0px 0px 45px 0px rgba(51, 51, 51, 0.6), 0px -3px 0px 0px #C1C1C1 inset;
 }
-.popup-css {
+.popup-css{
     background: #FFF none repeat scroll 0% 0%;
         background-color: #FFF;
         background-image: none;
@@ -175,7 +98,7 @@ document.write(VK.Share.button({
     box-shadow: 3px 3px 7px 0px rgba(200, 200, 200, 0.5), 0px -5px 0px 0px #C1C1C1 inset;
 }
 </style>
-    <div class="popup-css popup-waitlist">
+    <div class="popup-css popup-waitlist" style="display:none;">
 <style>
 div.popup-css a:link {
     color: #3E77AA;
@@ -602,15 +525,42 @@ $(document).ready(onChange())
 			{% elif product.is_availability == 3 %}
 				<p>Товар:&nbsp;<strong>ожидается</strong></p>
 				{% if user.is_authenticated and user.is_staff %}
+<style>.detail-buy-label.unavailable{
+    background: #eee none repeat scroll 0 0;}
+.detail-buy-label{
+    border-radius: 3px;
+    float: left;
+    margin: 0 1.15385em 1.53846em 0;
+    padding: 1em 1.15385em 0.76923em;
+    text-align: center;}</style>
 <div class="detail-buy-label unavailable">
 		<div class="pp-price-status-block">
+<style>.detail-status.unavailable {
+    color: #333;
+    font-size: 1.38462em;
+    font-weight: bold;}
+.detail-status{
+    font-size: 1.07692em;
+    margin-bottom: 0.35714em;}</style>
 			<div class="detail-status unavailable">
 					Ожидается
 			</div>
-			<div name="prices_active_element_original" class="detail-price-lable detail-price-cheaper">
+<style>.detail-price-lable{    display: inline-block;}</style>
+			<div name="prices_active_element_original" class="detail-price-lable">
                 <div name="price" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+<style>.unavailable .detail-price-uah-old, .unavailable .detail-price-uah, .unavailable .detail-price-usd {
+    color: #999;}
+.detail-price-uah{
+    font-size: 2.46154em;
+    margin-bottom: 0.28125em;}</style>
                     <div class="detail-price-uah">
-                        <span itemprop="price"><meta itemprop="priceCurrency" content="UAH">2 699</span><span class="detail-price-uah-sign"> грн</span>
+                        <span itemprop="price">
+                            <meta itemprop="priceCurrency" content="UAH">2 699
+                        </span>
+<style>.detail-price-uah-sign{
+    font-size: 0.65625em;
+    letter-spacing: normal;}</style>
+                        <span class="detail-price-uah-sign"> грн</span>
 							<link itemprop="availability" href="http://schema.org/OutOfStock">
                     </div>
                 </div>
@@ -618,13 +568,92 @@ $(document).ready(onChange())
 			<script type="text/javascript">Waitlist.setDetailsPopupParent(null, 'waitlist_details_' + '1276645')</script>
             <div name="waitlist_details">
                 <div class="detail-waitlist-button">
+<style>
+.btn-to-waitlist::before {
+    background-position: 0 -6367px;
+    height: 19px;
+    left: 10px;
+    top: 12px;
+    width: 24px;
+}
+.btn-to-waitlist::before {
+    background-position: 0 -6367px;
+    height: 19px;
+    left: 8px;
+    top: 10px;
+    width: 24px;
+}
+.sprite-side::before, .sprite-both::before, .sprite-both::after {
+    content: "";
+    position: absolute;
+}
+.sprite, .sprite-side::before, .sprite-both::before, .sprite-both::after {
+    background-image: url("http://i.rozetka.ua/h.26c663/sprite.png") !important;
+    background-repeat: no-repeat;
+}
+a:link{
+    color: #3e77aa;}
+.btn-to-waitlist{
+    border-radius: 3px;}
+.btn-to-waitlist{
+    border-radius: 3px;}
+.btn-link-gray{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fff, #f1f1f1) repeat scroll 0 0;
+    border-color: #ececec #ececec -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 1px 0;
+    box-shadow: 3px 3px 7px 0 rgba(200, 200, 200, 0.5), 0 -3px 0 0 #c1c1c1 inset;}
+.btn-link{
+    background-clip: padding-box;
+    border: 0 none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 2px;
+    outline: 0 none;
+    position: relative;
+    vertical-align: middle;}
+.sprite, .sprite-side, .sprite-both{
+    position: relative;
+}
+a{
+    outline: medium none;
+    text-decoration: none;}</style>
                     <a href="#Waitlist" class="btn-link btn-link-gray btn-to-waitlist sprite-side">
+<style>
+.btn-to-waitlist .btn-link-i {
+    font-size: 13px;
+    padding: 7px 19px 7px 43px;
+    text-align: left;
+}
+.btn-to-waitlist .btn-link-i {
+    font-size: 13px;
+    padding: 5px 15px 7px 40px;
+    text-align: left;
+}
+.btn-link-gray .btn-link-i{
+    color: #3e77aa;}
+.btn-link-i{
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    outline: medium none;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    z-index: 1;}</style>
                         <span class="btn-link-i" name="towaitlist">Сообщите, <br>когда появится</span>
                     </a>
                 </div>
             </div>
-            <div id="wishlists-popup-5614"></div>
-			<div class="detail-stock-wrap">
 			</div>
 		</div>
 	</div>
@@ -878,3 +907,94 @@ newWin.onload = function() {
     <p>Очень правая колонка</p>
     {{ viewed_ }}
 {% endblock %} #}
+{% block after_footer %}
+{% if user.is_authenticated and user.is_staff %}
+<script>
+var Share = {
+    vkontakte: function(purl, ptitle, pimg, text) {
+        url  = 'http://vkontakte.ru/share.php?';
+        url += 'url='          + encodeURIComponent(purl);
+        url += '&title='       + encodeURIComponent(ptitle);
+        url += '&description=' + encodeURIComponent(text);
+        url += '&image='       + encodeURIComponent(pimg);
+        url += '&noparse=true';
+        Share.popup(url);
+    },
+    odnoklassniki: function(purl, text) {
+        url  = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
+        url += '&st.comments=' + encodeURIComponent(text);
+        url += '&st._surl='    + encodeURIComponent(purl);
+        Share.popup(url);
+    },
+    facebook: function(purl, ptitle, pimg, text) {
+        url  = 'http://www.facebook.com/sharer.php?s=100';
+        url += '&p[title]='     + encodeURIComponent(ptitle);
+        url += '&p[summary]='   + encodeURIComponent(text);
+        url += '&p[url]='       + encodeURIComponent(purl);
+        url += '&p[images][0]=' + encodeURIComponent(pimg);
+        Share.popup(url);
+    },
+    twitter: function(purl, ptitle) {
+        url  = 'http://twitter.com/share?';
+        url += 'text='      + encodeURIComponent(ptitle);
+        url += '&url='      + encodeURIComponent(purl);
+        url += '&counturl=' + encodeURIComponent(purl);
+        Share.popup(url);
+    },
+    mailru: function(purl, ptitle, pimg, text) {
+        url  = 'http://connect.mail.ru/share?';
+        url += 'url='          + encodeURIComponent(purl);
+        url += '&title='       + encodeURIComponent(ptitle);
+        url += '&description=' + encodeURIComponent(text);
+        url += '&imageurl='    + encodeURIComponent(pimg);
+        Share.popup(url)
+    },
+
+    popup: function(url) {
+        window.open(url,'','toolbar=0,status=0,width=626,height=436');
+    }
+};
+</script>
+<style>
+a.social_link{
+background-image:url("http://share.pluso.ru/img/pluso-like/square/big/03.png");
+display:block;
+height:40px;
+width:40px;
+margin-right:20px;
+margin-bottom:10px;
+}
+a#social_button_VK{
+background-position:-168px 0;
+}
+a#social_button_OK{
+background-position:-126px 0;
+}
+a#social_button_FB{
+background-position:0px 0;
+}
+a#social_button_TW{
+background-position:-42px 0;
+}
+a#social_button_MR{
+background-position:-294px 0;
+}
+</style>
+<a id="social_button_VK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.vkontakte('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
+<a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('{{ request.get_full_path() }}','{{ product.meta_description }}')"></a>
+<a id="social_button_FB" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.facebook('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
+<a id="social_button_TW" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.twitter('{{ request.get_full_path() }}','{{ product.title|capfirst }}')"></a>
+<a id="social_button_MR" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.mailru('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
+{# <script>
+<!--
+document.write(VK.Share.button({
+    url:'{{ request.get_full_path() }}',
+    title:'{{ product.title|capfirst }}',
+    description:'{{ product.meta_description }}',
+    {% if product.main_photo %}image:'{{ product.main_photo.photo.url }}',{% else %}image:'/media/img/NoPhoto_345x370.jpg',{% endif %}
+    noparse:true
+}));
+-->
+</script> #}
+{% endif %}
+{% endblock %}
