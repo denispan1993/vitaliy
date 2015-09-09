@@ -147,7 +147,7 @@ def context(request):
                 currency_=currency,
                 current_currency_=current_currency,
                 slides_=slides,
-                categories_basement_=unicode(categories_basement, ),
+                categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 coupon_=coupon,
                 viewed_=viewed,
