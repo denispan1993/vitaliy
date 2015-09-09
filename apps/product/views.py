@@ -84,15 +84,31 @@ def show_category(request,
         #except Product.DoesNotExist:
         #    current_products_ = None
 
-    from django.template import RequestContext
-    context_instance = RequestContext(request, )
 
-    from django.shortcuts import render_to_response
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'current_category': current_category, },
-                                  context_instance=context_instance,
-                                  content_type='text/html', )
+#    from django.template import RequestContext
+#    context_instance = RequestContext(request, )
+
+#    from django.shortcuts import render_to_response
+#    response = render_to_response(template_name=template_name,
+#                                  dictionary={'current_category': current_category, },
+#                                  context_instance=context_instance,
+#                                  content_type='text/html', )
+#    return response
+
+    from django.template.loader import get_template
+    t = get_template(template_name)
+
+    from django.template import RequestContext
+    c = RequestContext(request, {u'current_category': current_category, }, )
+
+    html = t.render(c)
+    from django.http import HttpResponse
+    response = HttpResponse(html, )
+
     return response
+
+
+
 
 
 def show_product(request, product_url, id,
