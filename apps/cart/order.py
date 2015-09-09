@@ -290,12 +290,13 @@ def result_ordering(request, ):
     else:
         return redirect(to=u'/заказ/вы-где-то-оступились/', )
 
+
 def order_success(request,
                   template_name=u'order/success.jinja2.html', ):
     order_pk = request.session.get(u'order_last', None, )
     order = None
     if order_pk is None:
-        return redirect(to='order_unsuccessful_ru', )
+        return redirect(to='cart:order_unsuccessful_ru', )
     else:
         try:
             order_pk = int(order_pk, )
