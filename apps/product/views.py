@@ -84,38 +84,13 @@ def show_category(request,
         #except Product.DoesNotExist:
         #    current_products_ = None
 
-    from django.template.loader import get_template
-    template_name = u'category/show_category.jinja2.html'
-    t = get_template(template_name)
+    from django.shortcuts import render_to_response
     from django.template import RequestContext
-    c = RequestContext(request, {'current_category': current_category, }, )
-                                 # 'categories_at_current_category_': categories_at_current_category_,
-                                 # 'current_products_': current_products_, }, )
-#    from django.template import Context
-#    c = Context({'current_category': current_category,
-#                 'categories_at_current_category_': categories_at_current_category_,
-#                 'current_products_': current_products_, }, )
-    html = t.render(c)
-    from django.http import HttpResponse
-    response = HttpResponse(html, )
-#    from django.shortcuts import redirect
-#    return redirect('/')
-    # Мы не можем выяснить когда менялись внутринние подкатегории.
-    # Поэтому мы не отдаем дату изменения текущей категории.
-##    from apps.utils.datetime2rfc import datetime2rfc
-##    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
+    response = render_to_response(template_name=template_name,
+                                  dictionary={'current_category': current_category, },
+                                  context_instance=RequestContext(request, ),
+                                  content_type='text/html', )
     return response
-
-#    response = render_to_response(
-#
-#        template_name=u'category/show_category.jinja2.html',
-#                                  locals(),
-##                                  context_instance=RequestContext(request, ),
-#                                  )
-#    # from datetime import datetime
-#    from apps.utils.datetime2rfc import datetime2rfc
-#    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
-#    return response
 
 
 def show_product(request, product_url, id,
