@@ -37,6 +37,7 @@ def left(request, ):
                         lambda_Height = height_visible_part_of_window
                     from math import floor
                     product_block_count = int(floor(lambda_Height/300, ), )
+                html_block = None
                 if product_block_count > 0 and url_path:
                     if url_path == '/':
                         from apps.product.models import Product
