@@ -104,36 +104,16 @@ def context(request):
     #         except Product.DoesNotExist:
     #             pass
 
-    return dict(#request=request,
-                static_pages_=static_pages,
-                currency_=currency,
-                current_currency_=current_currency,
-                slides_=slides,
-                categories_basement_=categories_basement,
-                user_cart_=user_cart,
-                coupon_=coupon,
-                viewed_=None,
-                # product_random_test_=product,
-                # viewed_count_=viewed_count,
-                # view_=view,
-                #args_=args,
-                #kwargs_=kwargs,
-                # product_=product,
-                # ajax_resolution_=ajax_resolution_,
-                )
-
-
-
-
     from django.core.urlresolvers import resolve
-    if request.method == 'GET':
-        pass
-        # view, args, kwargs = resolve(request.path, )
-    else:
-        """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
-            и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
-        """
-        view, args, kwargs = resolve(request.get_full_path(), )
+    # if request.method == 'GET':
+    #     pass
+    #     # view, args, kwargs = resolve(request.path, )
+    # else:
+    """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
+        и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
+    """
+    #     view, args, kwargs = resolve(request.get_full_path(), )
+    view, args, kwargs = resolve(request.path, )
 
     from apps.product.views import show_product
     if 'view' in locals() and view == show_product:
@@ -156,3 +136,21 @@ def context(request):
         viewed = Viewed.objects.filter(user_obj=user_object,
                                        sessionid=sessionid, ).\
             order_by('-last_viewed', )
+
+    return dict(#request=request,
+                static_pages_=static_pages,
+                currency_=currency,
+                current_currency_=current_currency,
+                slides_=slides,
+                categories_basement_=categories_basement,
+                user_cart_=user_cart,
+                coupon_=coupon,
+                viewed_=viewed,
+                # product_random_test_=product,
+                # viewed_count_=viewed_count,
+                # view_=view,
+                #args_=args,
+                #kwargs_=kwargs,
+                # product_=product,
+                # ajax_resolution_=ajax_resolution_,
+                )
