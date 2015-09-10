@@ -82,44 +82,6 @@ def context(request):
     else:
         coupon = None
 
-    from django.core.urlresolvers import resolve
-    if request.method == 'GET':
-        pass
-        # view, args, kwargs = resolve(request.path, )
-    else:
-        """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
-            и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
-        """
-        view, args, kwargs = resolve(request.get_full_path(), )
-
-    from apps.product.views import show_product
-    if 'view' in locals() and view == show_product:
-        try:
-            product_pk = int(kwargs[u'id'], )
-        except ValueError:
-            pass
-        else:
-            from apps.product.views import get_product
-            product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
-#            from apps.product.models import Product
-#            try:
-#                product = Product.objects.get(pk=product_pk, url=kwargs[u'product_url'], )
-#            except Product.DoesNotExist:
-#                product = None
-#    else:
-#        product = None
-
-    sessionid = request.COOKIES.get(u'sessionid', None, )
-    from apps.product.models import Viewed
-    if 'product' in locals() and product:
-        viewed = Viewed.objects.filter(user_obj=user_object,
-                                       sessionid=sessionid, ).\
-            order_by('-last_viewed', ).\
-            exclude(content_type=product.content_type, object_id=product.pk, )
-    else:
-        viewed = Viewed.objects.filter(user_obj=user_object,
-                                       sessionid=sessionid, ).\
-            order_by('-last_viewed', )
 
     #                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_,
     #  order=None, account=None, package=None, ) #cartid=cartid,
@@ -150,7 +112,7 @@ def context(request):
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 coupon_=coupon,
-                viewed_=viewed,
+                viewed_=None,
                 # product_random_test_=product,
                 # viewed_count_=viewed_count,
                 # view_=view,
@@ -159,3 +121,38 @@ def context(request):
                 # product_=product,
                 # ajax_resolution_=ajax_resolution_,
                 )
+
+
+
+
+    from django.core.urlresolvers import resolve
+    if request.method == 'GET':
+        pass
+        # view, args, kwargs = resolve(request.path, )
+    else:
+        """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
+            и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
+        """
+        view, args, kwargs = resolve(request.get_full_path(), )
+
+    from apps.product.views import show_product
+    if 'view' in locals() and view == show_product:
+        try:
+            product_pk = int(kwargs[u'id'], )
+        except ValueError:
+            pass
+        else:
+            from apps.product.views import get_product
+            product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+
+    sessionid = request.COOKIES.get(u'sessionid', None, )
+    from apps.product.models import Viewed
+    if 'product' in locals() and product:
+        viewed = Viewed.objects.filter(user_obj=user_object,
+                                       sessionid=sessionid, ).\
+            order_by('-last_viewed', ).\
+            exclude(content_type=product.content_type, object_id=product.pk, )
+    else:
+        viewed = Viewed.objects.filter(user_obj=user_object,
+                                       sessionid=sessionid, ).\
+            order_by('-last_viewed', )
