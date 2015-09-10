@@ -36,6 +36,7 @@ def root_page(request, template_name=u'index.jinja2.html', ):
     # children_categories = categories_first.children.all()
 
     return render_to_response(template_name=template_name,
-                              dictionary=locals(),
+                              dictionary={'in_main_page': in_main_page, },
+                              # dictionary=locals(),
                               context_instance=RequestContext(request, ),
                               content_type='text/html', )
