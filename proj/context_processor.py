@@ -116,7 +116,7 @@ def context(request):
     try:
         """ Вот где выскакивает эта ошибка """
         view, args, kwargs = resolve(request.path, )
-    except UnicodeDecodeError:
+    except UnicodeEncodeError:
         print 'Error: ', request.path
     else:
         print 'Not error: ', request.path
