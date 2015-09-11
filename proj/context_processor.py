@@ -125,19 +125,19 @@ def context(request):
 #            print 'Not error: ', request.path
 #        except UnicodeEncodeError:
 #            print 'Not print Not error: UniceodeEncodeError'
-#        from apps.product.views import show_product
-#        if 'view' in locals() and view == show_product:
-#            try:
-#                product_pk = int(kwargs[u'id'], )
-#            except ValueError:
-#                pass
+        from apps.product.views import show_product
+        if 'view' in locals() and view == show_product:
+            try:
+                product_pk = int(kwargs[u'id'], )
+            except ValueError:
+                pass
 #            else:
 #                print product_pk, kwargs[u'product_url']
 #                from apps.product.views import get_product
 #                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
-#    sessionid = request.COOKIES.get(u'sessionid', None, )
-#    from apps.product.models import Viewed
+    sessionid = request.COOKIES.get(u'sessionid', None, )
+    from apps.product.models import Viewed
 #    if 'product' in locals() and product:
 #        viewed = Viewed.objects.filter(user_obj=user_object,
 #                                       sessionid=sessionid, ).\
