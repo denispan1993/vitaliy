@@ -134,17 +134,17 @@ def context(request):
 #                from apps.product.views import get_product
 #                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
-    sessionid = request.COOKIES.get(u'sessionid', None, )
-    from apps.product.models import Viewed
-    if 'product' in locals() and product:
-        viewed = Viewed.objects.filter(user_obj=user_object,
-                                       sessionid=sessionid, ).\
-            order_by('-last_viewed', ).\
-            exclude(content_type=product.content_type, object_id=product.pk, )
-    else:
-        viewed = Viewed.objects.filter(user_obj=user_object,
-                                       sessionid=sessionid, ).\
-            order_by('-last_viewed', )
+#    sessionid = request.COOKIES.get(u'sessionid', None, )
+#    from apps.product.models import Viewed
+#    if 'product' in locals() and product:
+#        viewed = Viewed.objects.filter(user_obj=user_object,
+#                                       sessionid=sessionid, ).\
+#            order_by('-last_viewed', ).\
+#            exclude(content_type=product.content_type, object_id=product.pk, )
+#    else:
+#        viewed = Viewed.objects.filter(user_obj=user_object,
+#                                       sessionid=sessionid, ).\
+#            order_by('-last_viewed', )
 
     return dict(#request=request,
                 static_pages_=static_pages,
@@ -154,7 +154,7 @@ def context(request):
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 coupon_=coupon,
-                viewed_=viewed,
+                viewed_=None,
                 # product_random_test_=product,
                 # viewed_count_=viewed_count,
                 # view_=view,
