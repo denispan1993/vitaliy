@@ -117,8 +117,9 @@ def context(request):
         """ Вот где выскакивает эта ошибка """
         view, args, kwargs = resolve(request.path, )
     except UnicodeDecodeError:
-        print request.path
+        print 'Error: ', request.path
     else:
+        print 'Not error: ', request.path
         from apps.product.views import show_product
         if 'view' in locals() and view == show_product:
             try:
