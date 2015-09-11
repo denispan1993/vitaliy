@@ -105,7 +105,7 @@ def context(request):
     #             pass
 
     full_path = request.path
-    print type(full_path, )
+    # print type(full_path, )
     value = None
     if isinstance(full_path, unicode):
         try:
@@ -165,22 +165,23 @@ def context(request):
                 product_pk = int(kwargs[u'id'], )
             except ValueError:
                 pass
-#            else:
-#                print product_pk, kwargs[u'product_url']
-#                from apps.product.views import get_product
-#                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+            else:
+                print product_pk, kwargs[u'product_url']
+                from apps.product.views import get_product
+                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
+
     from apps.product.models import Viewed
-#    if 'product' in locals() and product:
-#        viewed = Viewed.objects.filter(user_obj=user_object,
-#                                       sessionid=sessionid, ).\
-#            order_by('-last_viewed', ).\
-#            exclude(content_type=product.content_type, object_id=product.pk, )
-#    else:
-#        viewed = Viewed.objects.filter(user_obj=user_object,
-#                                       sessionid=sessionid, ).\
-#            order_by('-last_viewed', )
+    if 'product' in locals() and product:
+        viewed = Viewed.objects.filter(user_obj=user_object,
+                                       sessionid=sessionid, ).\
+            order_by('-last_viewed', ).\
+            exclude(content_type=product.content_type, object_id=product.pk, )
+    else:
+        viewed = Viewed.objects.filter(user_obj=user_object,
+                                       sessionid=sessionid, ).\
+            order_by('-last_viewed', )
 
     return dict(#request=request,
                 static_pages_=static_pages,
@@ -190,7 +191,7 @@ def context(request):
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 coupon_=coupon,
-                viewed_=None,
+                viewed_=viewed,
                 # product_random_test_=product,
                 # viewed_count_=viewed_count,
                 # view_=view,
