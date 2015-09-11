@@ -106,6 +106,14 @@ def context(request):
 
     full_path = request.get_full_path()
     print type(full_path, )
+    if isinstance(full_path, unicode):
+        try:
+            value = full_path.encode('us-ascii')
+        except:
+            pass
+        else:
+            type(value, )
+    print value
 
     from django.core.urlresolvers import resolve
     if request.method == 'GET':
