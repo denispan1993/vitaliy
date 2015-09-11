@@ -123,7 +123,7 @@ def context(request):
     print value
 
     from django.core.urlresolvers import resolve
-    if request.method == 'GET':
+    if not request.method == 'GET':
         print 'pass'
     else:
         """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
