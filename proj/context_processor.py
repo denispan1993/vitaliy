@@ -119,19 +119,19 @@ def context(request):
             else:
                 print 'utf8', type(value, ), value
             try:
-                value = full_path.encode('cp866')
+                value = full_path.decode('cp866').encode('utf8')
             except:
                 pass
             else:
                 print 'cp866', type(value, ), value
             try:
-                value = full_path.encode('cp1251')
+                value = full_path.decode('cp1251').encode('utf8')
             except:
                 pass
             else:
                 print 'cp1251', type(value, ), value
             try:
-                value = full_path.encode('koi8')
+                value = full_path.decode('koi8').encode('utf8')
             except:
                 pass
             else:
