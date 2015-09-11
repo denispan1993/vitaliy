@@ -104,6 +104,9 @@ def context(request):
     #         except Product.DoesNotExist:
     #             pass
 
+    full_path = request.get_full_path()
+    print full_path
+
     from django.core.urlresolvers import resolve
     if request.method == 'GET':
         pass
@@ -111,8 +114,6 @@ def context(request):
         """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
             и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
         """
-        full_path = request.get_full_path()
-        print full_path
         try:
             """ Вот где выскакивает эта ошибка """
             view, args, kwargs = resolve(full_path, )
