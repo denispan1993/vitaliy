@@ -116,10 +116,13 @@ def context(request):
     try:
         """ Вот где выскакивает эта ошибка """
         view, args, kwargs = resolve(request.path, )
-    except UnicodeEncodeError:
+    except UnicodeDecodeError:
         print 'Error: ', request.path
     else:
-        # print 'Not error: ', request.path
+        try:
+            print 'Not error: ', request.path
+        except UnicodeEncodeError:
+            print 'Not print Not error: UniceodeEncodeError'
         from apps.product.views import show_product
         if 'view' in locals() and view == show_product:
             try:
