@@ -105,7 +105,7 @@ def context(request):
     #             pass
 
     full_path = request.get_full_path()
-    print full_path
+    # print full_path
 
     from django.core.urlresolvers import resolve
     if request.method == 'GET':
