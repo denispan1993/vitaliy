@@ -119,7 +119,7 @@ def context(request):
     except UnicodeEncodeError:
         print 'Error: ', request.path
     else:
-        print 'Not error: ', request.path
+        # print 'Not error: ', request.path
         from apps.product.views import show_product
         if 'view' in locals() and view == show_product:
             try:
