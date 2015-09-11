@@ -117,10 +117,27 @@ def context(request):
             except:
                 pass
             else:
-                type(value, )
+                print 'utf8', type(value, ), value
+            try:
+                value = full_path.encode('cp866')
+            except:
+                pass
+            else:
+                print 'cp866', type(value, ), value
+            try:
+                value = full_path.encode('cp1251')
+            except:
+                pass
+            else:
+                print 'cp1251', type(value, ), value
+            try:
+                value = full_path.encode('koi8')
+            except:
+                pass
+            else:
+                print 'koi8', type(value, ), value
         else:
-            type(value, )
-    print value
+            print 'ascii', type(value, ), value
 
     from django.core.urlresolvers import resolve
     if not request.method == 'GET':
