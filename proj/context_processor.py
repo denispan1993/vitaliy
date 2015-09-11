@@ -113,7 +113,7 @@ def context(request):
         except:
             print 'Not US-ASCII'
             try:
-                value = str(full_path)
+                value = full_path.encode('utf8')
             except:
                 pass
             else:
