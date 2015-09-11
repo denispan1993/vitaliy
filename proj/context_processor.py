@@ -112,13 +112,14 @@ def context(request):
             и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
         """
         full_path = request.get_full_path()
+        print full_path
         try:
             """ Вот где выскакивает эта ошибка """
             view, args, kwargs = resolve(full_path, )
         except UnicodeDecodeError:
             print 'Error: ', full_path
         else:
-            pass
+            print view, args, kwargs
 #        try:
 #            print 'Not error: ', request.path
 #        except UnicodeEncodeError:
