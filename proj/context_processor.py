@@ -104,7 +104,7 @@ def context(request):
     #         except Product.DoesNotExist:
     #             pass
 
-    full_path = request.get_full_path()
+    full_path = request.path
     print type(full_path, )
     value = None
     if isinstance(full_path, unicode):
