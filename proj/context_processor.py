@@ -119,20 +119,21 @@ def context(request):
     except UnicodeDecodeError:
         print 'Error: ', request.path
     else:
-        try:
-            print 'Not error: ', request.path
-        except UnicodeEncodeError:
-            print 'Not print Not error: UniceodeEncodeError'
-        from apps.product.views import show_product
-        if 'view' in locals() and view == show_product:
-            try:
-                product_pk = int(kwargs[u'id'], )
-            except ValueError:
-                pass
-            else:
-                print product_pk, kwargs[u'product_url']
-                from apps.product.views import get_product
-                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+        pass
+#        try:
+#            print 'Not error: ', request.path
+#        except UnicodeEncodeError:
+#            print 'Not print Not error: UniceodeEncodeError'
+#        from apps.product.views import show_product
+#        if 'view' in locals() and view == show_product:
+#            try:
+#                product_pk = int(kwargs[u'id'], )
+#            except ValueError:
+#                pass
+#            else:
+#                print product_pk, kwargs[u'product_url']
+#                from apps.product.views import get_product
+#                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
     from apps.product.models import Viewed
