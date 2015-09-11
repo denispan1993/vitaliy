@@ -106,6 +106,7 @@ def context(request):
 
     full_path = request.get_full_path()
     print type(full_path, )
+    value = None
     if isinstance(full_path, unicode):
         try:
             value = full_path.encode('us-ascii')
