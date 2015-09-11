@@ -113,7 +113,7 @@ def context(request):
         except:
             print 'Not US-ASCII'
             try:
-                value = full_path.encode('ascii', )
+                value = full_path.decode('cp1251', )
             except:
                 pass
             else:
