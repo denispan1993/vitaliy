@@ -113,17 +113,21 @@ def context(request):
         и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
     """
     #     view, args, kwargs = resolve(request.get_full_path(), )
-    view, args, kwargs = resolve(request.path, )
-
-    from apps.product.views import show_product
-    if 'view' in locals() and view == show_product:
-        try:
-            product_pk = int(kwargs[u'id'], )
-        except ValueError:
-            pass
-        else:
-            from apps.product.views import get_product
-            product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+    try:
+        """ Вот где выскакивает эта ошибка """
+        view, args, kwargs = resolve(request.path, )
+    except UnicodeDecodeError:
+        print request.path
+    else:
+        from apps.product.views import show_product
+        if 'view' in locals() and view == show_product:
+            try:
+                product_pk = int(kwargs[u'id'], )
+            except ValueError:
+                pass
+            else:
+                from apps.product.views import get_product
+                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
     from apps.product.models import Viewed
