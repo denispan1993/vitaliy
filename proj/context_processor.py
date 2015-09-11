@@ -139,7 +139,7 @@ def context(request):
         else:
             print 'ascii', type(value, ), value
 
-    from django.core.urlresolvers import resolve
+    from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
         print 'pass'
     else:
@@ -151,6 +151,8 @@ def context(request):
             view, args, kwargs = resolve(full_path, )
         except UnicodeDecodeError:
             print 'Error: ', full_path.encode('utf8', )
+        except Resolver404:
+            print 'Error: Resolver404 - ', full_path.encode('utf8', )
         else:
             print view, args, kwargs
 #        try:
