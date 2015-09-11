@@ -105,21 +105,20 @@ def context(request):
     #             pass
 
     from django.core.urlresolvers import resolve
-    # if request.method == 'GET':
-    #     pass
-    #     # view, args, kwargs = resolve(request.path, )
-    # else:
-    """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
-        и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
-    """
-    #     view, args, kwargs = resolve(request.get_full_path(), )
-    try:
-        """ Вот где выскакивает эта ошибка """
-        view, args, kwargs = resolve(request.path, )
-    except UnicodeDecodeError:
-        print 'Error: ', request.path
-    else:
+    if request.method == 'GET':
         pass
+    else:
+        """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
+            и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
+        """
+        full_path = request.get_full_path()
+        try:
+            """ Вот где выскакивает эта ошибка """
+            view, args, kwargs = resolve(full_path, )
+        except UnicodeDecodeError:
+            print 'Error: ', full_path
+        else:
+            pass
 #        try:
 #            print 'Not error: ', request.path
 #        except UnicodeEncodeError:
