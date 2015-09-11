@@ -124,7 +124,7 @@ def context(request):
 
     from django.core.urlresolvers import resolve
     if request.method == 'GET':
-        pass
+        print 'pass'
     else:
         """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
             и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
@@ -133,7 +133,7 @@ def context(request):
             """ Вот где выскакивает эта ошибка """
             view, args, kwargs = resolve(full_path, )
         except UnicodeDecodeError:
-            print 'Error: ', full_path
+            print 'Error: ', full_path.encode('utf8', )
         else:
             print view, args, kwargs
 #        try:
