@@ -109,9 +109,15 @@ def context(request):
     value = None
     if isinstance(full_path, unicode):
         try:
-            value = full_path.encode('us-ascii')
+            value = full_path.encode('us-ascii', )
         except:
-            pass
+            print 'Not US-ASCII'
+            try:
+                value = full_path.encode('ascii', )
+            except:
+                pass
+            else:
+                type(value, )
         else:
             type(value, )
     print value
