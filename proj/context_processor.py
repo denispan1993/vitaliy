@@ -130,6 +130,7 @@ def context(request):
             except ValueError:
                 pass
             else:
+                print product_pk, kwargs[u'product_url']
                 from apps.product.views import get_product
                 product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
