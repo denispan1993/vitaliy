@@ -173,15 +173,16 @@ def context(request):
     sessionid = request.COOKIES.get(u'sessionid', None, )
 
     from apps.product.models import Viewed
-    if 'product' in locals() and product:
-        viewed = Viewed.objects.filter(user_obj=user_object,
-                                       sessionid=sessionid, ).\
-            order_by('-last_viewed', ).\
-            exclude(content_type=product.content_type, object_id=product.pk, )
-    else:
-        viewed = Viewed.objects.filter(user_obj=user_object,
-                                       sessionid=sessionid, ).\
-            order_by('-last_viewed', )
+    viewed = None
+    #if 'product' in locals() and product:
+    #    viewed = Viewed.objects.filter(user_obj=user_object,
+    #                                   sessionid=sessionid, ).\
+    #        order_by('-last_viewed', ).\
+    #        exclude(content_type=product.content_type, object_id=product.pk, )
+    #else:
+    #    viewed = Viewed.objects.filter(user_obj=user_object,
+    #                                   sessionid=sessionid, ).\
+    #        order_by('-last_viewed', )
 
     return dict(#request=request,
                 static_pages_=static_pages,
