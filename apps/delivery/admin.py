@@ -1,20 +1,20 @@
-# coding=utf-8
-__author__ = 'Alex Starov'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django.contrib import admin
 
-from apps.coupon.models import CouponGroup, Coupon
+from apps.delivery.models import Delivery
 
 
-class CouponGroupAdmin(admin.ModelAdmin, ):
+class DeliveryAdmin(admin.ModelAdmin, ):
     pass
-admin.site.register(CouponGroup, CouponGroupAdmin, )
+admin.site.register(Delivery, DeliveryAdmin, )
 
 
-class CouponAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
-    list_display_links = ['pk', 'name', 'coupon_group', 'key', ]
-admin.site.register(Coupon, CouponAdmin, )
+#class CouponAdmin(admin.ModelAdmin, ):
+#    list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
+#    list_display_links = ['pk', 'name', 'coupon_group', 'key', ]
+#admin.site.register(Coupon, CouponAdmin, )
 #    fieldsets = [
 #        (None,               {'classes': ['wide'], 'fields': ['parent', 'is_active', 'disclose_product', 'url',
 #                                                              'title', 'name', 'description', ], }),

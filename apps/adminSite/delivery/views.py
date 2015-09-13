@@ -10,36 +10,34 @@ def index(request,
     error_message = u''
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
-        if POST_NAME == 'order_search':
-            order_id = request.POST.get(u'order_id', None, )
-            if order_id:
+        if POST_NAME == 'index':
+            id = request.POST.get(u'id', None, )
+            if id:
                 try:
-                    order_id = int(order_id, )
+                    id = int(id, )
                 except ValueError:
-                    error_message = u'Некорректно введен номер заказа.'
+                    error_message = u'Некорректно введен номер Рассылки.'
                 else:
-                    from apps.cart.models import Order
-                    try:
-                        order = Order.objects.get(pk=order_id, )
-                    except Order.DoesNotExist:
-                        error_message = u'Заказа с таким номером не существует.'
-                    else:
-                        order_id = '%06d' % order_id
+                    from apps.delivery.models import Delivery
+                    if Delivery.objects.get(pk=id, ).exists():
+                        id = '%06d' % id
                         from django.shortcuts import redirect
-                        return redirect(to='order_edit', id=order_id, )
+                        return redirect(to='admin_delivery:edit', id=id, )
+                    else:
+                        error_message = u'Рассылка с таким номером не существует.'
     # from datetime import datetime
 #    from apps.utils.datetime2rfc import datetime2rfc
 #    response['Last-Modified'] = datetime2rfc(page.updated_at, )
     from datetime import datetime, timedelta
-    filter_datetime = datetime.now() - timedelta(days=31, )
+    filter_datetime = datetime.now() - timedelta(days=93, )
     # print filter_datetime
-    from apps.cart.models import Order
-    orders = Order.objects.filter(created_at__gte=filter_datetime, )
+    from apps.delivery.models import Delivery
+    mailings = Delivery.objects.filter(created_at__gte=filter_datetime, )
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     response = render_to_response(template_name=template_name,
                                   dictionary={'error_message': error_message,
-                                              'orders': orders, },  # 'html_text': html_text, },
+                                              'mailings': mailings, },  # 'html_text': html_text, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )
     return response
@@ -84,6 +82,38 @@ def edit(request,
 def add_edit(request,
              delivery_id=None,
              template_name=u'delivery/add_edit.jingo.html', ):
+    if request.method == "POST":
+        POST_NAME = request.POST.get(u'POST_NAME', None, )
+        if POST_NAME == 'add_edit':
+            name = request.POST.get(u'name', None, )
+            if not name:
+                name = 'Имя рассылки'
+            test = request.POST.get(u'test', None, )
+            if test == None:
+                print 'None'
+                test = False
+            delivery_type = request.POST.get(u'type', None, )
+            if delivery_type == None:
+                delivery_type = 1
+            else:
+                try:
+                    delivery_type = int(delivery_type, )
+                except ValueError:
+                    delivery_type = 1
+            subject = request.POST.get(u'subject', None, )
+            html = request.POST.get(u'html', None, )
+            from apps.delivery.models import Delivery
+            delivery = Delivery()
+            delivery.name = name
+            delivery.delivery_test = test
+            print test
+            delivery.type = delivery_type
+            delivery.subject = subject
+            delivery.html = html
+            delivery.save()
+            from django.shortcuts import redirect
+            return redirect(to='admin_delivery:index', )
+
     from django.shortcuts import redirect
     if delivery_id:
         try:
@@ -100,12 +130,15 @@ def add_edit(request,
                 return redirect(to='admin_delivery:index', )
     else:
         delivery = None
+    from apps.delivery.models import Delivery
+    type_mailings = Delivery.Type_Mailings
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     from apps.delivery.forms import DeliveryCreateEditForm
     response = render_to_response(template_name=template_name,
                                   dictionary={'delivery_id': delivery_id,
                                               'delivery': delivery,
+                                              'type_mailings': type_mailings,
                                               'form': DeliveryCreateEditForm, },
                                   context_instance=RequestContext(request, ),
                                   content_type='text/html', )

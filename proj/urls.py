@@ -156,6 +156,7 @@ urlpatterns += patterns('',
                                          namespace='admin_coupon', ),
                             ),
                         # """ Админ панель Рассылок. """
+                        # url(regex=ur'^админ/рассылка/',
                         url(regex=ur'^админ/рассылка/',
                             view=include(arg='apps.adminSite.delivery.urls',
                                          namespace='admin_delivery', ),

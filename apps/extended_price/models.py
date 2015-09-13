@@ -78,7 +78,7 @@ class Extended_Price(models.Model):
                                          verbose_name=_(u'Информация', ),
                                          null=False,
                                          blank=False, )
-    price = models.DecimalField(verbose_name=u'Цена в зависимости от выбранных критериев',
+    price = models.DecimalField(verbose_name=u'Цена...',
                                 max_digits=8,
                                 decimal_places=2,
                                 default=0,
@@ -94,5 +94,5 @@ class Extended_Price(models.Model):
     class Meta:
         db_table = u'Extended_Price'
         ordering = ['-created_at']
-        verbose_name = u'Цена в зависимости от выбранных критериев'
-        verbose_name_plural = u'Цены в зависимости от выбранных критериев'
+        verbose_name = u'Расширеная цена'
+        verbose_name_plural = u'Расширение цен'

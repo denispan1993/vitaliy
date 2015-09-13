@@ -349,10 +349,11 @@ INSTALLED_APPS = (
     # 'coffin',
     'apps.root',
     'apps.product',
+    'apps.ajax',
+    'apps.cart',
     'apps.comment',
     'apps.currency',
     # 'apps.extended_price',
-    'apps.cart',
     'apps.slide',
     'apps.static',
     'apps.search',
@@ -365,7 +366,7 @@ INSTALLED_APPS = (
     'apps.coupon',
     'apps.callback',
     'apps.feedback',
-    'apps.ajax',
+    'apps.delivery',
     # 'static_sitemaps',
 )
 

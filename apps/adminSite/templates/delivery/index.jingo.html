@@ -33,7 +33,7 @@ body{
                 {% if error_message %}<p style="color:Red;">{{ error_message }}</p>{% endif %}
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <input type="hidden" name="POST_NAME" value="index">
-                <input type="text" name="delivery_id">
+                <input type="text" name="id">
                 <input type="submit" value="Искать рассылку">
             </form>
             <form method="POST" action="{{ url('admin_delivery:add') }}">
@@ -56,16 +56,16 @@ body{
                 {% for delivery in mailings %}
                 <tr>
                     <td>
-                        {% set url = delivery.pk|int_to_string %}
+                        {# {% set url = delivery.pk|int_to_string %}
                         {% set int_range = 6 - url|length %}
                         {% if int_range > 0 %}
                             {% for i in int_range|get_range %}
                                 {% set url = '0' + url %}
-                                {% if i == int_range - 1 %}
+                                {% if i == int_range - 1 %} #}
                                     <a href="{{ url('admin_delivery:edit', delivery_id=delivery.pk) }}">{{ delivery.pk }}</a>
-                                {% endif %}
+                        {#         {% endif %}
                             {% endfor %}
-                        {% endif %}
+                        {% endif %} #}
                         {# <a href="{1{ url('order_edit',id=order.pk) }}">{{ order.pk }}</a> #}
                         {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
                         {# <a href="{1{ url('order_edit', order.pk) }}">{{ order.pk }}</a> #}

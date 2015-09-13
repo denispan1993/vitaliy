@@ -20,9 +20,9 @@ class Delivery(models.Model, ):
         # (4, _(u'Недоступен', ), ),
     )
     delivery_test = models.BooleanField(verbose_name=_(u'Тестовая рассылка', ),
-                                        default=True,
                                         blank=True,
-                                        null=True, )
+                                        null=False,
+                                        default=True, )
     type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип рассылки'),
                                             choices=Type_Mailings,
                                             default=1,
@@ -90,7 +90,8 @@ class EmailMiddleDelivery(models.Model, ):
                                  null=False, )
     delivery_test = models.BooleanField(verbose_name=_(u'Тестовая рассылка - отослана', ),
                                         blank=True,
-                                        null=True, )
+                                        null=False,
+                                        default=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
                                       blank=True,
@@ -119,9 +120,9 @@ class EmailForDelivery(models.Model, ):
                               blank=False,
                               null=False, )
     send = models.BooleanField(verbose_name=_(u'Флаг отсылки', ),
-                               default=False,
                                blank=True,
-                               null=True, )
+                               null=False,
+                               default=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
                                       blank=True,

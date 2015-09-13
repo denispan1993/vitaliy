@@ -43,6 +43,54 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="delivery_test"
+                            class="col-md-4 control-label">Тестовая рассылка:</label>
+                    {# {1{ form.delivery.errors }} #}
+                    <div class="col-md-6">
+                        <select name="test">
+<style>
+option:hover,
+option:focus,
+option:active{
+    background:linear-gradient(#5A2569, #5A2569);
+}
+option:checked{
+    font-weight:bolder;
+}
+</style>
+                            {% if not delivery or delivery.delivery_test %}
+                            <option value="1" selected><strong>Да</strong></option>
+                            <option value="0">Нет</option>
+                            {% else %}
+                            <option value="1">Да</option>
+                            <option value="0" selected><strong>Нет</strong></option>
+                            {% endif %}
+                        </select>
+                        {# <input type="text"
+                               name="test"
+                               id="delivery_test"
+                               class="form-control"
+                               {% if delivery %}value="{{ delivery.delivery_test }}{% endif %}"> #}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="delivery_type"
+                            class="col-md-4 control-label">Тип рассылки:</label>
+                    {# {1{ form.delivery.errors }} #}
+                    <div class="col-md-6">
+                        <select name="type">
+                            {% for type in type_mailings %}
+                            <option value="{{ type[0] }}"{% if delivery.type == type[0] %} selected{% endif %}>{{ type[1] }}</option>
+                            {% endfor %}
+                        </select>
+                        {# <input type="text"
+                               name="type"
+                               id="delivery_type"
+                               class="form-control"
+                               {% if delivery %}value="{{ delivery.type }}{% endif %}"> #}
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="delivery_subject"
                             class="col-md-4 control-label">Subject рассылки:</label>
                     {# {1{ form.delivery.errors }} #}
@@ -93,6 +141,7 @@ textarea.val(editor.getSession().getValue());
 </script>
                     </div>
                 </div>
+                {% if delivery %}
                 <div class="form-group">
                     <label for="delivery_created_at"
                             class="col-md-4 control-label">Дата создания:</label>
@@ -102,6 +151,7 @@ textarea.val(editor.getSession().getValue());
                                name="created_at"
                                id="delevery_created_at"
                                class="form-control"
+                               readonly
                                {% if delivery %}value="{{ delivery.created_at }}"{% endif %}>
                     </div>
                 </div>
@@ -114,9 +164,11 @@ textarea.val(editor.getSession().getValue());
                                name="updated_at"
                                id="delevery_updated_at"
                                class="form-control"
+                               readonly
                                {% if coupon %}value="{{ delivery.updated_at }}"{% endif %}>
                     </div>
                 </div>
+                {% endif %}
             </div>
             <input type="submit" value="Добавить Рассылку">
         </form>
