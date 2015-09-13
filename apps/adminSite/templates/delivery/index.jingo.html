@@ -62,7 +62,7 @@ body{
                             {% for i in int_range|get_range %}
                                 {% set url = '0' + url %}
                                 {% if i == int_range - 1 %}
-                                    <a href="{{ url('admin_delivery:edit', delivery_id=delivery.pk) }}">{{ coupon_group.pk }}</a>
+                                    <a href="{{ url('admin_delivery:edit', delivery_id=delivery.pk) }}">{{ delivery.pk }}</a>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
