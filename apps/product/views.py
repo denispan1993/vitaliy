@@ -352,6 +352,9 @@ def get_or_create_Viewed(request,
         print 'Product - is NONE'
         content_type = None
         product_pk = None
+    print product
+    print int_product_pk
+    print product_url
 
     from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
