@@ -345,6 +345,7 @@ def get_or_create_Viewed(request,
                          sessionid=None, ):
     if not product and int_product_pk and product_url:
         product = get_product(int_product_pk, product_url, )
+        print product
         content_type = product.content_type
         product_pk = product.pk
     else:
@@ -364,7 +365,6 @@ def get_or_create_Viewed(request,
             sessionid = request.COOKIES.get(u'sessionid', None, )
 
     if product:
-        created = False
         from django.core.exceptions import MultipleObjectsReturned
         try:
             viewed, created = Viewed.objects.get_or_create(content_type=content_type,
