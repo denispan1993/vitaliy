@@ -56,43 +56,45 @@ body{
                 {% for delivery in mailings %}
                 <tr>
                     <td>
-                        {# {% set url = delivery.pk|int_to_string %}
-                        {% set int_range = 6 - url|length %}
+                        {# {% set str_url = delivery.pk|int_to_string %}
+                        {% set int_range = 6 - str_url|length %}
                         {% if int_range > 0 %}
                             {% for i in int_range|get_range %}
-                                {% set url = '0' + url %}
-                                {% if i == int_range - 1 %} #}
-                                    <a href="{{ url('admin_delivery:edit', delivery_id=delivery.pk) }}">{{ delivery.pk }}</a>
-                        {#         {% endif %}
+                                {% set str_url = '0' + str_url %}
+                                {% if i == int_range - 1 %}
+                                    {% break %}
+                                {% endif %}
                             {% endfor %}
-                        {% endif %} #}
+                        {% endif %}
+                        <a href="{{ url('admin_delivery:edit', delivery_id=str_url) }}">{{ delivery.pk }}</a> #}
                         {# <a href="{1{ url('order_edit',id=order.pk) }}">{{ order.pk }}</a> #}
                         {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
                         {# <a href="{1{ url('order_edit', order.pk) }}">{{ order.pk }}</a> #}
+                        <a href="{{ url('admin_delivery:edit', delivery_id=delivery.get_url_number) }}">{{ delivery.pk }}</a>
                     </td>
                     <td>
-                        {# {{ coupon_group.name }} #}
+                        {{ delivey.name }}
                     </td>
                     <td>
-                        {# {{ coupon_group.how_much_coupons }} #}
+                        {{ delivery.delivery_test }}
                     </td>
                     <td>
-                        {# {{ coupon_group.number_of_possible_uses }} #}
+                        {{ delivery.type }}
                     </td>
                     <td>
-                        {# {{ coupon_group.percentage_discount }} #}
+                        {{ delivery.subject }}
                     </td>
-                    <td>
-{#                         {1{ coupon_group.start_of_the_coupon|date("d-M-Y H:i:s") }}
+{#                     <td>
+                        {{ delivery.start_of_the_coupon|date("d-M-Y H:i:s") }}
                     </td>
                     <td>
                         {{ coupon_group.end_of_the_coupon|date("d-M-Y H:i:s") }}
+                    </td> #}
+                    <td>
+                        {{ delivery.created_at|date("d-M-Y H:i:s") }}
                     </td>
                     <td>
-                        {{ coupon_group.created_at|date("d-M-Y H:i:s") }}
-                    </td>
-                    <td>
-                        {{ coupon_group.updated_at|date("d-M-Y H:i:s") }} #}
+                        {{ delivery.updated_at|date("d-M-Y H:i:s") }}
                     </td>
                 </tr>
                 {% endfor %}

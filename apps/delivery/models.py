@@ -45,7 +45,11 @@ class Delivery(models.Model, ):
                                       blank=True,
                                       null=True,
                                       default=datetime.now(), )
-#
+
+    @property
+    def get_url_number(self):
+        return '%06d' % self.id
+
     @models.permalink
     def get_absolute_url(self, ):
         # return u'/админ/купон/группа/редактор/%.6d/' % self.pk
