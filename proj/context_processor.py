@@ -131,6 +131,12 @@ def context(request):
             else:
                 print 'cp1251', type(value, ), value
             try:
+                value = full_path.decode('cp1252').encode('utf8')
+            except:
+                pass
+            else:
+                print 'cp1252', type(value, ), value
+            try:
                 value = full_path.decode('koi8').encode('utf8')
             except:
                 pass
@@ -141,7 +147,7 @@ def context(request):
 
     from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
-        print 'pass'
+        print 'request.method', request.method
     else:
         """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
             и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
