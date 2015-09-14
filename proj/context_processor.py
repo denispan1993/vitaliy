@@ -180,11 +180,11 @@ def context(request):
 
     from apps.product.models import Viewed
     viewed = None
-    #if 'product' in locals() and product:
-    #    viewed = Viewed.objects.filter(user_obj=user_object,
-    #                                   sessionid=sessionid, ).\
-    #        order_by('-last_viewed', ).\
-    #        exclude(content_type=product.content_type, object_id=product.pk, )
+    if 'product' in locals() and product:
+        viewed = Viewed.objects.filter(user_obj=user_object,
+                                       sessionid=sessionid, ).\
+            order_by('-last_viewed', ).\
+            exclude(content_type=product.content_type, object_id=product.pk, )
     #else:
     #    viewed = Viewed.objects.filter(user_obj=user_object,
     #                                   sessionid=sessionid, ).\
