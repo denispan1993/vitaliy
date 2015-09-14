@@ -90,6 +90,7 @@ def context(request):
 
     # #viewed_count = viewed.count()
     product = None
+    product_pk = None
     # from apps.product.models import Product
     # try:
     #     product_count = Product.objects.count()
@@ -180,7 +181,7 @@ def context(request):
 
     #from apps.product.models import Viewed
     from apps.product.views import get_or_create_Viewed
-    viewed = get_or_create_Viewed(request, product=product, user_obj=user_object, sessionid=sessionid, )
+    viewed = get_or_create_Viewed(request, int_product_pk=product_pk, product=product, user_obj=user_object, sessionid=sessionid, )
     #viewed = None
     #if 'product' in locals() and product:
     #    viewed = Viewed.objects.filter(user_obj=user_object,

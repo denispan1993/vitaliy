@@ -343,7 +343,7 @@ def get_or_create_Viewed(request,
                          product_url=None,
                          user_obj=None,
                          sessionid=None, ):
-    if not product:
+    if not product and int_product_pk and product_url:
         product = get_product(int_product_pk, product_url, )
     from apps.product.models import Viewed
     created = False
