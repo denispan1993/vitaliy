@@ -346,7 +346,6 @@ def get_or_create_Viewed(request,
     if not product and int_product_pk and product_url:
         product = get_product(int_product_pk, product_url, )
     from apps.product.models import Viewed
-    created = False
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
             user_id_ = request.session.get(u'_auth_user_id', None, )
@@ -358,23 +357,25 @@ def get_or_create_Viewed(request,
         if not sessionid:
             sessionid = request.COOKIES.get(u'sessionid', None, )
 
-    from django.core.exceptions import MultipleObjectsReturned
-    try:
-        viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
-                                                       object_id=product.pk,
-                                                       user_obj=user_obj,
-                                                       sessionid=sessionid, )
-    except MultipleObjectsReturned:
-        viewed = Viewed.objects.filter(content_type=product.content_type,
-                                       object_id=product.pk,
-                                       user_obj=user_obj,
-                                       sessionid=sessionid, )
-        viewed.delete()
-
-    if not created and viewed is not []:
-        from datetime import datetime
-        viewed.last_viewed = datetime.now()
-        viewed.save()
+    if product:
+        created = False
+        from django.core.exceptions import MultipleObjectsReturned
+        try:
+            viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
+                                                           object_id=product.pk,
+                                                           user_obj=user_obj,
+                                                           sessionid=sessionid, )
+        except MultipleObjectsReturned:
+            viewed = Viewed.objects.filter(content_type=product.content_type,
+                                           object_id=product.pk,
+                                           user_obj=user_obj,
+                                           sessionid=sessionid, )
+            viewed.delete()
+        else:
+            if not created and viewed is not []:
+                from datetime import datetime
+                viewed.last_viewed = datetime.now()
+                viewed.save()
 
     try:
         viewed = Viewed.objects.filter(user_obj=user_obj,
