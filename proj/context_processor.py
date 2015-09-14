@@ -178,7 +178,7 @@ def context(request):
                 product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
-
+    viewed = None
     #from apps.product.models import Viewed
     #from apps.product.views import get_or_create_Viewed
     #viewed = get_or_create_Viewed(request, int_product_pk=product_pk, product=product, user_obj=user_object, sessionid=sessionid, )
