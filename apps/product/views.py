@@ -335,8 +335,9 @@ def add_to_cart(request,
     return product_cart, product_in_cart
 
 
-#    # Взять последние просмотренные товары
-# @property
+""" Взять последние просмотренные товары """
+
+
 def get_or_create_Viewed(request,
                          product=None,
                          int_product_pk=None,
@@ -379,12 +380,8 @@ def get_or_create_Viewed(request,
                 viewed.last_viewed = datetime.now()
                 viewed.save()
     else:
-        print 'Product - is NONE'
         content_type = None
         product_pk = None
-    print product
-    print int_product_pk
-    print product_url
 
     try:
         viewed = Viewed.objects.filter(user_obj=user_obj,
