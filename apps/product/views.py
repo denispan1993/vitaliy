@@ -345,16 +345,6 @@ def get_or_create_Viewed(request,
                          sessionid=None, ):
     if not product and int_product_pk and product_url:
         product = get_product(int_product_pk, product_url, )
-        print product
-        content_type = product.content_type
-        product_pk = product.pk
-    else:
-        print 'Product - is NONE'
-        content_type = None
-        product_pk = None
-    print product
-    print int_product_pk
-    print product_url
 
     from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
@@ -369,6 +359,8 @@ def get_or_create_Viewed(request,
             sessionid = request.COOKIES.get(u'sessionid', None, )
 
     if product:
+        content_type = product.content_type
+        product_pk = product.pk
         from django.core.exceptions import MultipleObjectsReturned
         try:
             viewed, created = Viewed.objects.get_or_create(content_type=content_type,
@@ -386,6 +378,13 @@ def get_or_create_Viewed(request,
                 from datetime import datetime
                 viewed.last_viewed = datetime.now()
                 viewed.save()
+    else:
+        print 'Product - is NONE'
+        content_type = None
+        product_pk = None
+    print product
+    print int_product_pk
+    print product_url
 
     try:
         viewed = Viewed.objects.filter(user_obj=user_obj,
