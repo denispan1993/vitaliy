@@ -349,6 +349,7 @@ def get_or_create_Viewed(request,
         content_type = product.content_type
         product_pk = product.pk
     else:
+        print 'Product - is NONE'
         content_type = None
         product_pk = None
 
