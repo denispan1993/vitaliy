@@ -346,6 +346,7 @@ def get_or_create_Viewed(request,
     if not product:
         product = get_product(int_product_pk, product_url, )
     from apps.product.models import Viewed
+    created = False
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
             user_id_ = request.session.get(u'_auth_user_id', None, )
@@ -353,28 +354,33 @@ def get_or_create_Viewed(request,
             from django.contrib.auth import get_user_model
             UserModel = get_user_model()
             user_obj = UserModel.objects.get(pk=user_id_, )
-        viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
-                                                       object_id=product.pk,
-                                                       user_obj=user_obj,
-                                                       sessionid=None, )
     else:
         if not sessionid:
             sessionid = request.COOKIES.get(u'sessionid', None, )
+
+    from django.core.exceptions import MultipleObjectsReturned
+    try:
         viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
                                                        object_id=product.pk,
-                                                       user_obj=None,
+                                                       user_obj=user_obj,
                                                        sessionid=sessionid, )
-    if not created:
+    except MultipleObjectsReturned:
+        viewed = Viewed.objects.filter(content_type=product.content_type,
+                                       object_id=product.pk,
+                                       user_obj=user_obj,
+                                       sessionid=sessionid, )
+        viewed.delete()
+
+    if not created and viewed is not []:
         from datetime import datetime
         viewed.last_viewed = datetime.now()
         viewed.save()
+
     try:
-        if request.user.is_authenticated() and request.user.is_active:
-            viewed = Viewed.objects.filter(user_obj=user_obj,
-                                           sessionid=None, ).order_by('-last_viewed', )
-        else:
-            viewed = Viewed.objects.filter(user_obj=None,
-                                           sessionid=sessionid, ).order_by('-last_viewed', )
+        viewed = Viewed.objects.filter(user_obj=user_obj,
+                                       sessionid=sessionid, )\
+            .order_by('-last_viewed', )\
+            .exclude(content_type=product.content_type, object_id=product.pk, )
     except Viewed.DoesNotExist:
         return None
     else:

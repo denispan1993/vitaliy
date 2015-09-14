@@ -89,7 +89,7 @@ def context(request):
     #                    sessionid_carts = None
 
     # #viewed_count = viewed.count()
-    # product = None
+    product = None
     # from apps.product.models import Product
     # try:
     #     product_count = Product.objects.count()
@@ -178,13 +178,15 @@ def context(request):
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
 
-    from apps.product.models import Viewed
-    viewed = None
-    if 'product' in locals() and product:
-        viewed = Viewed.objects.filter(user_obj=user_object,
-                                       sessionid=sessionid, ).\
-            order_by('-last_viewed', ).\
-            exclude(content_type=product.content_type, object_id=product.pk, )
+    #from apps.product.models import Viewed
+    from apps.product.views import get_or_create_Viewed
+    viewed = get_or_create_Viewed(request, product=product, user_obj=user_object, sessionid=sessionid, )
+    #viewed = None
+    #if 'product' in locals() and product:
+    #    viewed = Viewed.objects.filter(user_obj=user_object,
+    #                                   sessionid=sessionid, ).\
+    #        order_by('-last_viewed', ).\
+    #        exclude(content_type=product.content_type, object_id=product.pk, )
     #else:
     #    viewed = Viewed.objects.filter(user_obj=user_object,
     #                                   sessionid=sessionid, ).\
