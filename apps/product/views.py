@@ -345,6 +345,12 @@ def get_or_create_Viewed(request,
                          sessionid=None, ):
     if not product and int_product_pk and product_url:
         product = get_product(int_product_pk, product_url, )
+        content_type = product.content_type
+        product_pk = product.pk
+    else:
+        content_type = None
+        product_pk = None
+
     from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
@@ -361,13 +367,13 @@ def get_or_create_Viewed(request,
         created = False
         from django.core.exceptions import MultipleObjectsReturned
         try:
-            viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
-                                                           object_id=product.pk,
+            viewed, created = Viewed.objects.get_or_create(content_type=content_type,
+                                                           object_id=product_pk,
                                                            user_obj=user_obj,
                                                            sessionid=sessionid, )
         except MultipleObjectsReturned:
-            viewed = Viewed.objects.filter(content_type=product.content_type,
-                                           object_id=product.pk,
+            viewed = Viewed.objects.filter(content_type=content_type,
+                                           object_id=product_pk,
                                            user_obj=user_obj,
                                            sessionid=sessionid, )
             viewed.delete()
@@ -381,7 +387,7 @@ def get_or_create_Viewed(request,
         viewed = Viewed.objects.filter(user_obj=user_obj,
                                        sessionid=sessionid, )\
             .order_by('-last_viewed', )\
-            .exclude(content_type=product.content_type, object_id=product.pk, )
+            .exclude(content_type=content_type, object_id=product_pk, )
     except Viewed.DoesNotExist:
         return None
     else:
