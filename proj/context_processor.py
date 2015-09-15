@@ -156,7 +156,7 @@ def context(request):
             else:
                 print 'cp1252 -4', type(value, ), value
             try:
-                value = full_path.encode('utf8').decode('cp1252')
+                value = full_path.encode('utf8').decode('cp1252').encode('utf8')
             except:
                 pass
             else:
