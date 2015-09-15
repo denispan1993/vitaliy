@@ -143,12 +143,12 @@ def context(request):
                 pass
             else:
                 print 'cp1252 -2', type(value, ), value
-            try:
-                value = full_path.encode('cp1252').decode('utf8')
-            except:
-                pass
-            else:
-                print 'cp1252 -3', type(value, ), value
+            #try:
+            #    value = full_path.encode('cp1252').decode('utf8')
+            #except:
+            #    pass
+            #else:
+            #    print 'cp1252 -3', type(value, ), value
             try:
                 value = full_path.encode('cp1252').encode('utf8')
             except:
@@ -189,6 +189,7 @@ def context(request):
         except UnicodeDecodeError:
             print 'Error: ', full_path.encode('utf8', )
         except Resolver404:
+            print 'Error: Resolver404 - ', full_path.encode('cp1252', )
             print 'Error: Resolver404 - ', full_path.encode('utf8', )
         else:
             print view, args, kwargs
