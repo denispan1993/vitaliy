@@ -256,10 +256,14 @@ def get_product(product_pk, product_url, ):
 #            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
         from apps.product.models import Product
         try:
-            if product_url:
-                product = Product.objects.get(pk=product_pk, url=product_url, )
-            else:
-                product = Product.objects.get(pk=product_pk, )
+            #if product_url:
+            """ Задумываюсь о необходимости проверки URL """
+            """ Уже не задумываюсь """
+            #    print 'Product_pk: ', product_pk, ' product_url: ', product_url
+            #    product = Product.objects.get(pk=product_pk, url=product_url, )
+            #else:
+            #    product = Product.objects.get(pk=product_pk, )
+            product = Product.objects.get(pk=product_pk, )
         except Product.DoesNotExist:
             # request.session[u'test1-product_pk'] = product_pk
             # request.session[u'test1-product_url'] = product_url

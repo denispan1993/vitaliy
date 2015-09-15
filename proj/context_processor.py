@@ -136,7 +136,37 @@ def context(request):
             except:
                 pass
             else:
-                print 'cp1252', type(value, ), value
+                print 'cp1252 -1', type(value, ), value
+            try:
+                value = full_path.encode('cp1252')
+            except:
+                pass
+            else:
+                print 'cp1252 -2', type(value, ), value
+            try:
+                value = full_path.encode('cp1252').decode('utf8')
+            except:
+                pass
+            else:
+                print 'cp1252 -3', type(value, ), value
+            try:
+                value = full_path.encode('cp1252').encode('utf8')
+            except:
+                pass
+            else:
+                print 'cp1252 -4', type(value, ), value
+            try:
+                value = full_path.encode('utf8').decode('cp1252')
+            except:
+                pass
+            else:
+                print 'cp1252 -5', type(value, ), value
+            try:
+                value = full_path.encode('utf8').encode('cp1252')
+            except:
+                pass
+            else:
+                print 'cp1252 -6', type(value, ), value
             try:
                 value = full_path.decode('koi8').encode('utf8')
             except:
