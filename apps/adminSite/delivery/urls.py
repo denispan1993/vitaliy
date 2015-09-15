@@ -7,7 +7,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('apps.adminSite.delivery.views',
                        url(regex=ur'^панель/список/$',
                            view='index',
-                           kwargs={'template_name': u'delivery/index.jingo.html', },
+                           kwargs={'template_name': u'delivery/index.jinja2.html', },
                            name='index', ),
                        #url(regex=ur'^панель/редактор/(?P<delivery_id>\d{6})/$',
                        url(regex=ur'^панель/редактор/(?P<delivery_id>\d{6})/$',
