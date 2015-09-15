@@ -256,10 +256,14 @@ def get_product(product_pk, product_url, ):
 #            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
         from apps.product.models import Product
         try:
-            if product_url:
-                product = Product.objects.get(pk=product_pk, url=product_url, )
-            else:
-                product = Product.objects.get(pk=product_pk, )
+            #if product_url:
+            """ Задумываюсь о необходимости проверки URL """
+            """ Уже не задумываюсь """
+            #    print 'Product_pk: ', product_pk, ' product_url: ', product_url
+            #    product = Product.objects.get(pk=product_pk, url=product_url, )
+            #else:
+            #    product = Product.objects.get(pk=product_pk, )
+            product = Product.objects.get(pk=product_pk, )
         except Product.DoesNotExist:
             # request.session[u'test1-product_pk'] = product_pk
             # request.session[u'test1-product_url'] = product_url
@@ -315,7 +319,17 @@ def add_to_cart(request,
         try:
             quantity = int(quantity, )
         except ValueError:
-            pass
+            if '.' in quantity:
+                quantity = quantity.split('.')[0]
+            elif ',' in quantity:
+                quantity = quantity.split(',')[0]
+            else:
+                quantity = 1
+            try:
+                quantity = int(quantity, )
+            except ValueError:
+                quantity = 1
+
         product_in_cart = Product.objects.create(key=product_cart,
                                                  product=product,
                                                  price=price,
@@ -335,16 +349,18 @@ def add_to_cart(request,
     return product_cart, product_in_cart
 
 
-#    # Взять последние просмотренные товары
-# @property
+""" Взять последние просмотренные товары """
+
+
 def get_or_create_Viewed(request,
                          product=None,
                          int_product_pk=None,
                          product_url=None,
                          user_obj=None,
                          sessionid=None, ):
-    if not product:
+    if not product and int_product_pk and product_url:
         product = get_product(int_product_pk, product_url, )
+
     from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
@@ -353,28 +369,39 @@ def get_or_create_Viewed(request,
             from django.contrib.auth import get_user_model
             UserModel = get_user_model()
             user_obj = UserModel.objects.get(pk=user_id_, )
-        viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
-                                                       object_id=product.pk,
-                                                       user_obj=user_obj,
-                                                       sessionid=None, )
     else:
         if not sessionid:
             sessionid = request.COOKIES.get(u'sessionid', None, )
-        viewed, created = Viewed.objects.get_or_create(content_type=product.content_type,
-                                                       object_id=product.pk,
-                                                       user_obj=None,
-                                                       sessionid=sessionid, )
-    if not created:
-        from datetime import datetime
-        viewed.last_viewed = datetime.now()
-        viewed.save()
-    try:
-        if request.user.is_authenticated() and request.user.is_active:
-            viewed = Viewed.objects.filter(user_obj=user_obj,
-                                           sessionid=None, ).order_by('-last_viewed', )
+
+    if product:
+        content_type = product.content_type
+        product_pk = product.pk
+        from django.core.exceptions import MultipleObjectsReturned
+        try:
+            viewed, created = Viewed.objects.get_or_create(content_type=content_type,
+                                                           object_id=product_pk,
+                                                           user_obj=user_obj,
+                                                           sessionid=sessionid, )
+        except MultipleObjectsReturned:
+            viewed = Viewed.objects.filter(content_type=content_type,
+                                           object_id=product_pk,
+                                           user_obj=user_obj,
+                                           sessionid=sessionid, )
+            viewed.delete()
         else:
-            viewed = Viewed.objects.filter(user_obj=None,
-                                           sessionid=sessionid, ).order_by('-last_viewed', )
+            if not created and viewed is not []:
+                from datetime import datetime
+                viewed.last_viewed = datetime.now()
+                viewed.save()
+    else:
+        content_type = None
+        product_pk = None
+
+    try:
+        viewed = Viewed.objects.filter(user_obj=user_obj,
+                                       sessionid=sessionid, )\
+            .order_by('-last_viewed', )\
+            .exclude(content_type=content_type, object_id=product_pk, )
     except Viewed.DoesNotExist:
         return None
     else:

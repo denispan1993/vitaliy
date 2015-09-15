@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 @staff_member_required
 def index(request,
-          template_name=u'delivery/index.jingo.html', ):
+          template_name=u'delivery/index.jinja2.html', ):
     error_message = u''
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )

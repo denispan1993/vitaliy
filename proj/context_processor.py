@@ -89,7 +89,8 @@ def context(request):
     #                    sessionid_carts = None
 
     # #viewed_count = viewed.count()
-    # product = None
+    product = None
+    product_pk = None
     # from apps.product.models import Product
     # try:
     #     product_count = Product.objects.count()
@@ -131,6 +132,42 @@ def context(request):
             else:
                 print 'cp1251', type(value, ), value
             try:
+                value = full_path.decode('cp1252').encode('utf8')
+            except:
+                pass
+            else:
+                print 'cp1252 -1', type(value, ), value
+            try:
+                value = full_path.encode('cp1252')
+            except:
+                pass
+            else:
+                print 'cp1252 -2', type(value, ), value
+            #try:
+            #    value = full_path.encode('cp1252').decode('utf8')
+            #except:
+            #    pass
+            #else:
+            #    print 'cp1252 -3', type(value, ), value
+            try:
+                value = full_path.encode('cp1252').encode('utf8')
+            except:
+                pass
+            else:
+                print 'cp1252 -4', type(value, ), value
+            try:
+                value = full_path.encode('utf8').decode('cp1252').encode('utf8')
+            except:
+                pass
+            else:
+                print 'cp1252 -5', type(value, ), value
+            try:
+                value = full_path.encode('utf8').encode('cp1252')
+            except:
+                pass
+            else:
+                print 'cp1252 -6', type(value, ), value
+            try:
                 value = full_path.decode('koi8').encode('utf8')
             except:
                 pass
@@ -141,7 +178,7 @@ def context(request):
 
     from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
-        print 'pass'
+        print 'request.method', request.method
     else:
         """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
             и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
@@ -152,7 +189,16 @@ def context(request):
         except UnicodeDecodeError:
             print 'Error: ', full_path.encode('utf8', )
         except Resolver404:
-            print 'Error: Resolver404 - ', full_path.encode('utf8', )
+            try:
+                print 'Error: Resolver404 - cp1252 [1]', full_path.split('/')[1].encode('cp1252', )
+                print 'Error: Resolver404 - cp1252', full_path.encode('cp1252', )
+            except:
+                pass
+            try:
+                print 'Error: Resolver404 - utf8 - cp1252', full_path.encode('utf8').encode('cp1252', )
+            except:
+                pass
+            print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
         else:
             print view, args, kwargs
 #        try:
@@ -171,9 +217,11 @@ def context(request):
                 product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
-
-    from apps.product.models import Viewed
     viewed = None
+    #from apps.product.models import Viewed
+    from apps.product.views import get_or_create_Viewed
+    viewed = get_or_create_Viewed(request, int_product_pk=product_pk, product=product, user_obj=user_object, sessionid=sessionid, )
+    #viewed = None
     #if 'product' in locals() and product:
     #    viewed = Viewed.objects.filter(user_obj=user_object,
     #                                   sessionid=sessionid, ).\
