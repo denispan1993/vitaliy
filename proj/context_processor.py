@@ -189,7 +189,7 @@ def context(request):
         except UnicodeDecodeError:
             print 'Error: ', full_path.encode('utf8', )
         except Resolver404:
-            print 'Error: Resolver404 - ', full_path.encode('cp1252', )
+            print 'Error: Resolver404 - ', full_path.encode('utf8').encode('cp1252', )
             print 'Error: Resolver404 - ', full_path.encode('utf8', )
         else:
             print view, args, kwargs
