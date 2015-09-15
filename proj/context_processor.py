@@ -212,7 +212,7 @@ def context(request):
     #from apps.product.models import Viewed
     from apps.product.views import get_or_create_Viewed
     viewed = get_or_create_Viewed(request, int_product_pk=product_pk, product=product, user_obj=user_object, sessionid=sessionid, )
-    viewed = None
+    #viewed = None
     #if 'product' in locals() and product:
     #    viewed = Viewed.objects.filter(user_obj=user_object,
     #                                   sessionid=sessionid, ).\
