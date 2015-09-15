@@ -190,6 +190,7 @@ def context(request):
             print 'Error: ', full_path.encode('utf8', )
         except Resolver404:
             try:
+                print 'Error: Resolver404 - cp1252 [1]', full_path.split('/')[1].encode('cp1252', )
                 print 'Error: Resolver404 - cp1252', full_path.encode('cp1252', )
             except:
                 pass
