@@ -315,7 +315,17 @@ def add_to_cart(request,
         try:
             quantity = int(quantity, )
         except ValueError:
-            pass
+            if '.' in quantity:
+                quantity = quantity.split('.')[0]
+            elif ',' in quantity:
+                quantity = quantity.split(',')[0]
+            else:
+                quantity = 1
+            try:
+                quantity = int(quantity, )
+            except ValueError:
+                quantity = 1
+
         product_in_cart = Product.objects.create(key=product_cart,
                                                  product=product,
                                                  price=price,
