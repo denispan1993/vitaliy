@@ -48,7 +48,7 @@ class Delivery(models.Model, ):
 
     @property
     def text_type(self):
-        return self.Type_Mailings[self.type][1]
+        return self.Type_Mailings[self.type-1][1]
 
     @property
     def get_url_number(self):
