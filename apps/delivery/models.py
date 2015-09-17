@@ -58,7 +58,7 @@ class Delivery(models.Model, ):
     def get_absolute_url(self, ):
         # return u'/админ/купон/группа/редактор/%.6d/' % self.pk
         return ('admin_delivery:edit',
-                {'delivery_id': self.pk, }, )
+                {'delivery_id': '%06d' % self.pk, }, )
 
     def __unicode__(self):
         # """
