@@ -61,7 +61,7 @@ class Delivery(models.Model, ):
         print 'delivery_id', self.pk
         # return u'/админ/купон/группа/редактор/%.6d/' % self.pk
         return ('admin_delivery:edit',
-                (self.pk, ),
+                ('%06d' % self.pk, ),
                 )
 #                {'delivery_id': int(self.pk, ), }, )
 #                {'delivery_id': '%06d' % self.pk, }, )
