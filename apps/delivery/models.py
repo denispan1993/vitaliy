@@ -47,6 +47,10 @@ class Delivery(models.Model, ):
                                       default=datetime.now(), )
 
     @property
+    def text_type(self):
+        return self.Type_Mailings[self.type][1]
+
+    @property
     def get_url_number(self):
         return '%06d' % self.id
 

@@ -70,16 +70,16 @@ body{
                         {# <a href="{1{ url('order_edit',id=order.pk) }}">{{ order.pk }}</a> #}
                         {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
                         {# <a href="{1{ url('order_edit', order.pk) }}">{{ order.pk }}</a> #}
-                        <a href="{{ url('admin_delivery:edit', delivery_id=delivery.get_url_number) }}">{{ delivery.pk }}</a>
+                        № <a href="{{ url('admin_delivery:edit', delivery_id=delivery.get_url_number) }}">{{ delivery.pk }}</a>
                     </td>
                     <td>
-                        {{ delivery.name }}
+                        Название: <a href="{{ url('admin_delivery:edit', delivery_id=delivery.get_url_number) }}">{{ delivery.name }}</a>
                     </td>
                     <td>
-                        {{ delivery.delivery_test }}
+                        Тестовая рассылка: {{ delivery.delivery_test|true_false }}
                     </td>
                     <td>
-                        {{ delivery.type }}
+                        Тип: {{ delivery.text_type }}
                     </td>
                     <td>
                         {{ delivery.subject }}
