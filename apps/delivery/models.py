@@ -61,8 +61,9 @@ class Delivery(models.Model, ):
         print 'delivery_id', self.pk
         # return u'/админ/купон/группа/редактор/%.6d/' % self.pk
         return ('admin_delivery:edit',
-                (),
-                {'delivery_id': int(self.pk, ), }, )
+                (self.pk, ),
+                )
+#                {'delivery_id': int(self.pk, ), }, )
 #                {'delivery_id': '%06d' % self.pk, }, )
 
     def __unicode__(self):
