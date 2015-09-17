@@ -56,14 +56,9 @@ class Delivery(models.Model, ):
 
     @models.permalink
     def get_absolute_url(self, ):
-        print 'delivery_id', '%06d' % self.pk
-        print 'delivery_id', int(self.pk, )
-        print 'delivery_id', self.pk
-        # return u'/админ/купон/группа/редактор/%.6d/' % self.pk
         return ('admin_delivery:edit',
-                ('%06d' % self.pk, ),
-                )
-#                {'delivery_id': int(self.pk, ), }, )
+                (),
+                {'delivery_id': self.pk, }, )
 #                {'delivery_id': '%06d' % self.pk, }, )
 
     def __unicode__(self):
