@@ -20,10 +20,10 @@ class Command(BaseCommand, ):
                 """ Создаем ссылочку на отсылку рассылки """
                 email_delivery = EmailMiddleDelivery()
                 email_delivery.delivery = delivery
-                email_delivery.delivery_test = True
+                email_delivery.delivery_test_send = True
                 email_delivery.save()
             else:
-                if email_delivery.delivery_test:
+                if email_delivery.delivery_test_send:
                     """ если рассылка уже отослана -> переходим к следующей рассылке """
                     continue
             finally:
