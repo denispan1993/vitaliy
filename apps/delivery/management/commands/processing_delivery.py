@@ -18,6 +18,8 @@ class Command(BaseCommand, ):
                 email_middle_delivery = EmailMiddleDelivery.objects.get(delivery=delivery,
                                                                         updated_at__lte=delivery.updated_at, )
                 print '1', email_middle_delivery
+                print email_middle_delivery.updated_at
+                print delivery.updated_at
             except EmailMiddleDelivery.DoesNotExist:
                 """ Создаем ссылочку на отсылку рассылки """
                 print '2'
