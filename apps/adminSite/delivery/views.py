@@ -73,7 +73,7 @@ def add_edit(request,
             delivery_pk = request.POST.get(u'pk', None, )
             try:
                 delivery_pk = int(delivery_pk, )
-            except ValueError, TypeError:
+            except (ValueError, TypeError):
                 """ Новая """
                 delivery = Delivery()
             else:
