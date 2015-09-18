@@ -219,7 +219,9 @@ def context(request):
             else:
                 print product_pk, kwargs[u'product_url'].encode('utf8')
                 from apps.product.views import get_product
-                product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+                """ Убираем НАХРЕН проверку именования товара product_url """
+                # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+                product = get_product(product_pk=product_pk, )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
     viewed = None
