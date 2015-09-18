@@ -103,7 +103,7 @@ class EmailMiddleDelivery(models.Model, ):
                                              blank=True,
                                              null=False,
                                              default=True, )
-    delivery_send = models.BooleanField(verbose_name=_(u'Тестовая рассылка - отослана', ),
+    delivery_send = models.BooleanField(verbose_name=_(u'Рассылка - отослана', ),
                                         blank=True,
                                         null=False,
                                         default=True, )

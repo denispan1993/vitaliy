@@ -16,7 +16,7 @@ from apps.delivery.models import EmailMiddleDelivery
 
 
 class EmailMiddleDeliveryAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'delivery', 'delivery_test', 'created_at', 'updated_at', ]
+    list_display = ['pk', 'delivery', 'delivery_test_send', 'delivery_send', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'delivery', ]
 admin.site.register(EmailMiddleDelivery, EmailMiddleDeliveryAdmin, )
 
