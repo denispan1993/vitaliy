@@ -16,17 +16,22 @@ class Command(BaseCommand, ):
         for delivery in deliveryes:
             try:
                 email_delivery = EmailMiddleDelivery.objects.get(delivery=delivery, )
+                print '1'
             except EmailMiddleDelivery.DoesNotExist:
                 """ Создаем ссылочку на отсылку рассылки """
+                print '2'
                 email_delivery = EmailMiddleDelivery()
                 email_delivery.delivery = delivery
                 email_delivery.delivery_test_send = True
                 email_delivery.save()
             else:
+                print '3'
                 if email_delivery.delivery_test_send:
+                    print '4'
                     """ если рассылка уже отослана -> переходим к следующей рассылке """
                     continue
             finally:
+                print '5'
                 """ Отсылаем тестовое письмо """
                 from django.utils.html import strip_tags
 
