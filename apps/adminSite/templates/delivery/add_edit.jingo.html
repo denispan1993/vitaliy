@@ -23,7 +23,7 @@
                             class="col-md-4 control-label">№ Рассылки:</label>
                     <div class="col-md-6">
                         <input type="text"
-                               name="pk"
+                               name="delivery_pk"
                                id="delivery_pk"
                                class="form-control"
                                value="{{ delivery.pk }}" disabled>
@@ -132,11 +132,12 @@ var editor=ace.edit("div_editor_delivery_html");
 editor.setTheme("ace/theme/twilight");
 editor.getSession().setMode("ace/mode/html");
 
+editor.val(textarea.getSession().getValue());
+
 editor.getSession().on('change', function () {
     textarea.val(editor.getSession().getValue());
 });
 
-textarea.val(editor.getSession().getValue());
 };
 </script>
                     </div>

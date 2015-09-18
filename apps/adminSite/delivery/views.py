@@ -70,8 +70,11 @@ def add_edit(request,
             """ Проверяем, это новая рассылка?
                 Или отредактированная старая? """
             from apps.delivery.models import Delivery
-            delivery_pk = request.POST.get(u'pk', None, )
+            delivery_pk = request.POST.get(u'delivery_pk', None, )
+            if delivery_pk == delivery_id:
+                print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
             try:
+                print delivery_pk
                 delivery_pk = int(delivery_pk, )
             except (ValueError, TypeError):
                 """ Новая """
