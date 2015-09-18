@@ -119,7 +119,7 @@ option:checked{
                                id="textarea_editor_delivery_html"
                                class="form-control"
                                style="visibility:hidden;display:none;">
-                               {% if delivery %}value="{{ delivery.html }}{% endif %}"{# {% elif form is defined %}{{ form.html.value() }} #}
+                               {% if delivery %}{{ delivery.html }}{% endif %}{# {% elif form is defined %}{{ form.html.value() }} #}
                         </textarea>
 <script src="{{ MEDIA_URL }}js/ace/ace.js"></script>
 <script src="{{ MEDIA_URL }}js/ace/theme-twilight.js"></script>
