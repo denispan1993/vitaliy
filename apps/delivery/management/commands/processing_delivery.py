@@ -15,7 +15,8 @@ class Command(BaseCommand, ):
         from apps.delivery.models import EmailMiddleDelivery
         for delivery in deliveryes:
             try:
-                email_delivery = EmailMiddleDelivery.objects.get(delivery=delivery, )
+                email_delivery = EmailMiddleDelivery.objects.get(delivery=delivery,
+                                                                 updated_at__lte=delivery.updated_at, )
                 print '1'
             except EmailMiddleDelivery.DoesNotExist:
                 """ Создаем ссылочку на отсылку рассылки """
