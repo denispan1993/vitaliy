@@ -16,7 +16,7 @@ class Command(BaseCommand, ):
         for delivery in deliveryes:
             try:
                 email_middle_delivery = EmailMiddleDelivery.objects.get(delivery=delivery,
-                                                                        updated_at__lte=delivery.updated_at, )
+                                                                        updated_at__gte=delivery.updated_at, )
                 print '1', email_middle_delivery
                 print email_middle_delivery.updated_at
                 print delivery.updated_at
