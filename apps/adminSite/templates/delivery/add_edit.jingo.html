@@ -110,16 +110,16 @@ option:checked{
 <style>
 #div_editor_delivery_html{
     /** Setting height is also important, otherwise editor wont showup**/
-    height: 175px;
+    height: 275px;
 }
 </style>
-                        <div id="div_editor_delivery_html"></div>
+                        <div id="div_editor_delivery_html">{% if delivery %}{{ delivery.html }}{% endif %}</div>
                         <textarea type="text"
                                name="html"
                                id="textarea_editor_delivery_html"
                                class="form-control"
                                style="visibility:hidden;display:none;">
-                               {% if delivery %}{{ delivery.html }}{% endif %}{# {% elif form is defined %}{{ form.html.value() }} #}
+                               {# {% elif form is defined %}{{ form.html.value() }} #}
                         </textarea>
 <script src="{{ MEDIA_URL }}js/ace/ace.js"></script>
 <script src="{{ MEDIA_URL }}js/ace/theme-twilight.js"></script>
@@ -132,7 +132,7 @@ var editor=ace.edit("div_editor_delivery_html");
 editor.setTheme("ace/theme/twilight");
 editor.getSession().setMode("ace/mode/html");
 
-editor.getSession().setValue(textarea.getSession().getValue());
+//editor.getSession().setValue(textarea.getSession().getValue());
 
 editor.getSession().on('change', function () {
     textarea.val(editor.getSession().getValue());
