@@ -10,7 +10,7 @@
 <body>
     <div id="show_delivery" style="color:Black;text-align:left;" class="container-fluid">
 {# {1{ form.non_field_errors() }} #}
-        <form action="{{ url('admin_delivery:add') }}"
+        <form action="{% if delivery %}{{ url('admin_delivery:edit', delivery_id=delivery.get_url_number) }}{% else %}{{ url('admin_delivery:add') }}{% endif %}"
               class="form-horizontal row"
               method="post"
               role="form">
