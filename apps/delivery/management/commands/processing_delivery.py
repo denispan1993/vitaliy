@@ -15,23 +15,19 @@ class Command(BaseCommand, ):
         from apps.delivery.models import EmailMiddleDelivery
         for delivery in deliveryes:
             try:
-                email_delivery = EmailMiddleDelivery.objects.get(delivery=delivery,
-                                                                 updated_at__lte=delivery.updated_at, )
-                print '1'
+                email_middle_delivery = EmailMiddleDelivery.objects.get(delivery=delivery,
+                                                                        updated_at__lte=delivery.updated_at, )
+                print '1', email_middle_delivery
             except EmailMiddleDelivery.DoesNotExist:
                 """ Создаем ссылочку на отсылку рассылки """
                 print '2'
-                email_delivery = EmailMiddleDelivery()
-                email_delivery.delivery = delivery
-                email_delivery.delivery_test_send = True
-                email_delivery.save()
-            else:
-                print '3'
-                if email_delivery.delivery_test_send:
-                    print '4'
-                    """ если рассылка уже отослана -> переходим к следующей рассылке """
-                    continue
-            finally:
+                email_middle_delivery = EmailMiddleDelivery()
+                email_middle_delivery.delivery = delivery
+                email_middle_delivery.delivery_test_send = True
+                email_middle_delivery.delivery_send = False
+                email_middle_delivery.save()
+                print '2', email_middle_delivery
+
                 print '5'
                 """ Отсылаем тестовое письмо """
                 from django.utils.html import strip_tags
@@ -60,12 +56,12 @@ class Command(BaseCommand, ):
         from apps.delivery.models import EmailForDelivery
         for delivery in deliveryes:
             try:
-                email_delivery = EmailMiddleDelivery.objects.get(delivery=delivery, )
+                email_middle_delivery = EmailMiddleDelivery.objects.get(delivery=delivery, )
             except EmailMiddleDelivery.DoesNotExist:
-                email_delivery = EmailMiddleDelivery()
-                email_delivery.delivery = delivery
-                email_delivery.delivery_test = False
-                email_delivery.save()
+                email_middle_delivery = EmailMiddleDelivery()
+                email_middle_delivery.delivery = delivery
+                email_middle_delivery.delivery_test = False
+                email_middle_delivery.save()
                 """ Создаем указатели на E-Mail адреса рассылки """
                 try:
                     emails = Email.objects.all()
@@ -74,13 +70,13 @@ class Command(BaseCommand, ):
                 """ Здесь нужно помудрить с коммитом """
                 for real_email in emails:
                     email = EmailForDelivery()
-                    email.delivery = email_delivery
+                    email.delivery = email_middle_delivery
                     email.email = real_email
                     email.save()
 
             try:
                 """ Берем 10 E-Mail адресов на которые мы еще не отсылали данную рассылку """
-                emails = EmailForDelivery.objects.filter(delivery=email_delivery,
+                emails = EmailForDelivery.objects.filter(delivery=email_middle_delivery,
                                                          send=False, )[10]
             except EmailForDelivery.DoesNotExist:
                 """ E-Mail адреса в этой рассылке закончились """
