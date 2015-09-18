@@ -37,11 +37,14 @@ class Delivery(models.Model, ):
                             null=True,
                             default=10, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
                                       blank=True,
                                       null=True,
                                       default=datetime.now(), )
-    updated_at = models.DateTimeField(verbose_name=_(u'Дата обновления', ),
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
                                       blank=True,
                                       null=True,
                                       default=datetime.now(), )
