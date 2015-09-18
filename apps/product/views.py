@@ -231,7 +231,7 @@ def show_product(request, product_url, id,
     return response
 
 
-def get_product(product_pk, product_url, ):
+def get_product(product_pk, product_url=None, ):
 #        # try to get product from cache
 #        product_cache_key = request.path
 #        from django.core.cache import cache
