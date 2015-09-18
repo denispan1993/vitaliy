@@ -14,23 +14,13 @@ class Command(BaseCommand, ):
 
         from apps.delivery.models import EmailMiddleDelivery
         for delivery in deliveryes:
-            try:
-                email_middle_delivery = EmailMiddleDelivery.objects.get(delivery=delivery,
-                                                                        updated_at__gte=delivery.updated_at, )
-                print '1', email_middle_delivery
-                print email_middle_delivery.updated_at
-                print delivery.updated_at
-            except EmailMiddleDelivery.DoesNotExist:
+            if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
                 """ Создаем ссылочку на отсылку рассылки """
-                print '2'
                 email_middle_delivery = EmailMiddleDelivery()
                 email_middle_delivery.delivery = delivery
                 email_middle_delivery.delivery_test_send = True
                 email_middle_delivery.delivery_send = False
                 email_middle_delivery.save()
-                print '2', email_middle_delivery
-
-                print '5'
                 """ Отсылаем тестовое письмо """
                 from django.utils.html import strip_tags
 
@@ -57,12 +47,11 @@ class Command(BaseCommand, ):
         from apps.authModel.models import Email
         from apps.delivery.models import EmailForDelivery
         for delivery in deliveryes:
-            try:
-                email_middle_delivery = EmailMiddleDelivery.objects.get(delivery=delivery, )
-            except EmailMiddleDelivery.DoesNotExist:
+            if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
                 email_middle_delivery = EmailMiddleDelivery()
                 email_middle_delivery.delivery = delivery
-                email_middle_delivery.delivery_test = False
+                email_middle_delivery.delivery_test_send = False
+                email_middle_delivery.delivery_send = True
                 email_middle_delivery.save()
                 """ Создаем указатели на E-Mail адреса рассылки """
                 try:
