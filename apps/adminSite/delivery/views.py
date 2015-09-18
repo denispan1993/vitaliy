@@ -71,12 +71,12 @@ def add_edit(request,
                 Или отредактированная старая? """
             from apps.delivery.models import Delivery
             delivery_pk = request.POST.get(u'delivery_pk', None, )
-            if delivery_pk == delivery_id:
-                print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
-            else:
-                print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
+            # if delivery_pk == delivery_id:
+            #     print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
+            # else:
+            #     print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
             try:
-                print delivery_pk
+            #    print delivery_pk
                 delivery_pk = int(delivery_pk, )
             except (ValueError, TypeError):
                 """ Новая """
@@ -91,7 +91,7 @@ def add_edit(request,
 
             delivery.name = name
             delivery.delivery_test = test
-            print test
+            # print test
             delivery.type = delivery_type
             delivery.subject = subject
             delivery.html = html
