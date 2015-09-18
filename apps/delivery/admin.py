@@ -7,8 +7,20 @@ from apps.delivery.models import Delivery
 
 
 class DeliveryAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ['pk', 'name', 'delivery_test', 'type', 'subject', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'name', 'subject', ]
 admin.site.register(Delivery, DeliveryAdmin, )
+
+
+from apps.delivery.models import EmailMiddleDelivery
+
+
+class EmailMiddleDeliveryAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'delivery', 'delivery_test', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'delivery', ]
+admin.site.register(EmailMiddleDelivery, EmailMiddleDeliveryAdmin, )
+
+
 
 
 #class CouponAdmin(admin.ModelAdmin, ):

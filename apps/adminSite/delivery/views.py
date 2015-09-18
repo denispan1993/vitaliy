@@ -44,41 +44,6 @@ def index(request,
 
 
 @staff_member_required
-def edit(request,
-         order_id,
-         template_name=u'delivery/edit.jingo.html', ):
-    from django.shortcuts import redirect
-    if order_id:
-        try:
-            order_id = int(order_id, )
-        except ValueError:
-            error_message = u'Некорректно введен номер заказа.'
-            return redirect(to='order_search', )
-        else:
-            from apps.cart.models import Order
-            try:
-                order = Order.objects.get(pk=order_id, )
-            except Order.DoesNotExist:
-                error_message = u'В базе отсутсвует заказ с таким номером.'
-                return redirect(to='order_search', )
-    else:
-        error_message = u'Отсутсвует номер заказа.'
-        return redirect(to='order_search', )
-
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'order_id': order_id,
-                                              'order': order, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    # from datetime import datetime
-    # from apps.utils.datetime2rfc import datetime2rfc
-    # response['Last-Modified'] = datetime2rfc(page.updated_at, )
-    return response
-
-
-@staff_member_required
 def add_edit(request,
              delivery_id=None,
              template_name=u'delivery/add_edit.jingo.html', ):
@@ -102,8 +67,23 @@ def add_edit(request,
                     delivery_type = 1
             subject = request.POST.get(u'subject', None, )
             html = request.POST.get(u'html', None, )
+            """ Проверяем, это новая рассылка?
+                Или отредактированная старая? """
             from apps.delivery.models import Delivery
-            delivery = Delivery()
+            delivery_pk = request.POST.get(u'pk', None, )
+            try:
+                delivery_pk = int(delivery_pk, )
+            except ValueError:
+                """ Новая """
+                delivery = Delivery()
+            else:
+                """ Отредактированная - старая """
+                try:
+                    delivery = Delivery.objects.get(pk=delivery_pk, )
+                except Delivery.DoesNotExist:
+                    from django.shortcuts import redirect
+                    return redirect(to='admin_delivery:index', )
+
             delivery.name = name
             delivery.delivery_test = test
             print test

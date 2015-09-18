@@ -118,8 +118,8 @@ option:checked{
                                name="html"
                                id="textarea_editor_delivery_html"
                                class="form-control"
-                               style="visibility:hidden;display:none;"
-                               {% if delivery %}value="{{ delivery.html }}{% endif %}"> {# {% elif form is defined %}{{ form.html.value() }} #}
+                               style="visibility:hidden;display:none;">
+                               {% if delivery %}value="{{ delivery.html }}{% endif %}"{# {% elif form is defined %}{{ form.html.value() }} #}
                         </textarea>
 <script src="{{ MEDIA_URL }}js/ace/ace.js"></script>
 <script src="{{ MEDIA_URL }}js/ace/theme-twilight.js"></script>
@@ -165,12 +165,12 @@ textarea.val(editor.getSession().getValue());
                                id="delevery_updated_at"
                                class="form-control"
                                readonly
-                               {% if coupon %}value="{{ delivery.updated_at }}"{% endif %}>
+                               {% if delivery %}value="{{ delivery.updated_at }}"{% endif %}>
                     </div>
                 </div>
                 {% endif %}
             </div>
-            <input type="submit" value="Добавить Рассылку">
+            <input type="submit" value="{% if delivery %}Обновить{% else %}Добавить{% endif %} Рассылку">
         </form>
     </div>
 </body>

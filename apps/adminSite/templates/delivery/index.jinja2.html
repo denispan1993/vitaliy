@@ -82,7 +82,7 @@ body{
                         Тип: {{ delivery.text_type }}
                     </td>
                     <td>
-                        {{ delivery.subject }}
+                        Subject: {{ delivery.subject }}
                     </td>
 {#                     <td>
                         {{ delivery.start_of_the_coupon|date("d-M-Y H:i:s") }}
@@ -91,10 +91,10 @@ body{
                         {{ coupon_group.end_of_the_coupon|date("d-M-Y H:i:s") }}
                     </td> #}
                     <td>
-                        {{ delivery.created_at|date("d-M-Y H:i:s") }}
+                        Дата добавления: {{ delivery.created_at|date("d-M-Y H:i:s") }}
                     </td>
                     <td>
-                        {{ delivery.updated_at|date("d-M-Y H:i:s") }}
+                        Дата обновления: {{ delivery.updated_at|date("d-M-Y H:i:s") }}
                     </td>
                 </tr>
                 {% endfor %}
