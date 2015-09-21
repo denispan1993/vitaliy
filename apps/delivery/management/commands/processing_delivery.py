@@ -63,18 +63,45 @@ class Command(BaseCommand, ):
                     email = EmailForDelivery()
                     email.delivery = email_middle_delivery
                     email.email = real_email
+                    """ | """
                     email.save()
+                    from django.utils.html import strip_tags
 
-            try:
-                """ Берем 10 E-Mail адресов на которые мы еще не отсылали данную рассылку """
-                emails = EmailForDelivery.objects.filter(delivery=email_middle_delivery,
-                                                         send=False, )[10]
-            except EmailForDelivery.DoesNotExist:
-                """ E-Mail адреса в этой рассылке закончились """
-                emails = None
-            else:
-                emails = ', '.join(emails, )
-                """ Отсылаем E-Mail на 10 адресатов """
+                    from django.core.mail import get_connection
+                    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                             fail_silently=False, )
+                    from django.core.mail import EmailMultiAlternatives
+                    from proj.settings import Email_MANAGER
+                    msg = EmailMultiAlternatives(subject=delivery.subject,
+                                                 body=strip_tags(delivery.html, ),
+                                                 from_email=u'site@keksik.com.ua',
+                                                 to=[real_email.email, ],
+                                                 connection=backend, )
+                    msg.attach_alternative(content=delivery.html,
+                                           mimetype="text/html", )
+                    msg.content_subtype = "html"
+                    print real_email.email
+                    #try:
+                    #    # msg.send(fail_silently=False, )
+                    #except Exception as inst:
+                    #    print type(inst, )
+                    #    print inst.args
+                    #    print inst
+                    # else:
+                    #    email.send
+                    #    email.save()
+
+
+            #try:
+            #    """ Берем 10 E-Mail адресов на которые мы еще не отсылали данную рассылку """
+            #    emails = EmailForDelivery.objects.filter(delivery=email_middle_delivery,
+            #                                             send=False, )[10]
+            #except EmailForDelivery.DoesNotExist:
+            #    """ E-Mail адреса в этой рассылке закончились """
+            #    emails = None
+            #else:
+            #    emails = ', '.join(emails, )
+            #    """ Отсылаем E-Mail на 10 адресатов """
 
 
 def hernya():
