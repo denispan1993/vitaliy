@@ -54,6 +54,7 @@ def add_edit(request,
             if not name:
                 name = 'Имя рассылки'
             test = request.POST.get(u'test', None, )
+            print test
             if test == None:
                 print 'None'
                 test = False
