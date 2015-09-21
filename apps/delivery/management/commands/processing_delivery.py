@@ -16,8 +16,9 @@ class Command(BaseCommand, ):
             for delivery in deliveryes:
                 print delivery
                 try:
-                    EmailMiddleDelivery.objects.\
+                    aaa=EmailMiddleDelivery.objects.\
                         get(delivery=delivery, updated_at__gte=delivery.updated_at, )
+                    print aaa
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
