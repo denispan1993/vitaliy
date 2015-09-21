@@ -119,6 +119,11 @@ class EmailMiddleDelivery(models.Model, ):
                                       null=True,
                                       default=datetime.now(), )
 
+    def __unicode__(self):
+        return u'Промежуток рассылки: № %6d - %s, Test: %s, Send: %s, created_at: %s, updated_at: %s'\
+               % (self.pk, self.delivery.name, self.delivery_test_send, self.delivery_send,
+                  self.created_at, self.updated_at, )
+
     class Meta:
         db_table = 'EmailMiddleDelivery'
         ordering = ['-created_at', ]
