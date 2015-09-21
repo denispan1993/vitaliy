@@ -16,9 +16,8 @@ class Command(BaseCommand, ):
             for delivery in deliveryes:
                 print delivery
                 try:
-                    aaa=EmailMiddleDelivery.objects.\
+                    EmailMiddleDelivery.objects.\
                         get(delivery=delivery, updated_at__lte=delivery.updated_at, )
-                    print aaa
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
@@ -52,7 +51,10 @@ class Command(BaseCommand, ):
             from apps.authModel.models import Email
             from apps.delivery.models import EmailForDelivery
             for delivery in deliveryes:
-                if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
+                try:
+                    EmailMiddleDelivery.objects.\
+                        get(delivery=delivery, updated_at__lte=delivery.updated_at, )
+                except:
                     email_middle_delivery = EmailMiddleDelivery()
                     email_middle_delivery.delivery = delivery
                     email_middle_delivery.delivery_test_send = False
