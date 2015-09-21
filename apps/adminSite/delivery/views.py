@@ -54,7 +54,7 @@ def add_edit(request,
             if not name:
                 name = 'Имя рассылки'
             test = request.POST.get(u'test', None, )
-            print test
+            print 'Test: ', test
             if test == None:
                 print 'None'
                 test = False
@@ -91,7 +91,7 @@ def add_edit(request,
                     return redirect(to='admin_delivery:index', )
 
             delivery.name = name
-            delivery.delivery_test = test
+            delivery.delivery_test = bool(test, )
             # print test
             delivery.type = delivery_type
             delivery.subject = subject
