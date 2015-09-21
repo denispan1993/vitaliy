@@ -11,60 +11,17 @@ class Command(BaseCommand, ):
             deliveryes = Delivery.objects.filter(delivery_test=True, )
         except Delivery.DoesNotExist:
             deliveryes = None
-
-        from apps.delivery.models import EmailMiddleDelivery
-        for delivery in deliveryes:
-            if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
-                """ Создаем ссылочку на отсылку рассылки """
-                email_middle_delivery = EmailMiddleDelivery()
-                email_middle_delivery.delivery = delivery
-                email_middle_delivery.delivery_test_send = True
-                email_middle_delivery.delivery_send = False
-                email_middle_delivery.save()
-                """ Отсылаем тестовое письмо """
-                from django.utils.html import strip_tags
-
-                from django.core.mail import get_connection
-                backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                                         fail_silently=False, )
-                from django.core.mail import EmailMultiAlternatives
-                from proj.settings import Email_MANAGER
-                msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
-                                             body=strip_tags(delivery.html, ),
-                                             from_email=u'site@keksik.com.ua',
-                                             to=[Email_MANAGER, ],
-                                             connection=backend, )
-                msg.attach_alternative(content=delivery.html,
-                                       mimetype="text/html", )
-                msg.content_subtype = "html"
-                msg.send(fail_silently=False, )
-
-        try:
-            deliveryes = Delivery.objects.filter(delivery_test=False, )
-        except Delivery.DoesNotExist:
-            deliveryes = None
-
-        from apps.authModel.models import Email
-        from apps.delivery.models import EmailForDelivery
-        for delivery in deliveryes:
-            if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
-                email_middle_delivery = EmailMiddleDelivery()
-                email_middle_delivery.delivery = delivery
-                email_middle_delivery.delivery_test_send = False
-                email_middle_delivery.delivery_send = True
-                email_middle_delivery.save()
-                """ Создаем указатели на E-Mail адреса рассылки """
-                try:
-                    emails = Email.objects.all()
-                except Email.DoesNotExist:
-                    emails = None
-                """ Здесь нужно помудрить с коммитом """
-                for real_email in emails:
-                    email = EmailForDelivery()
-                    email.delivery = email_middle_delivery
-                    email.email = real_email
-                    """ | """
-                    email.save()
+        else:
+            from apps.delivery.models import EmailMiddleDelivery
+            for delivery in deliveryes:
+                if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
+                    """ Создаем ссылочку на отсылку рассылки """
+                    email_middle_delivery = EmailMiddleDelivery()
+                    email_middle_delivery.delivery = delivery
+                    email_middle_delivery.delivery_test_send = True
+                    email_middle_delivery.delivery_send = False
+                    email_middle_delivery.save()
+                    """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
                     from django.core.mail import get_connection
@@ -72,36 +29,79 @@ class Command(BaseCommand, ):
                                              fail_silently=False, )
                     from django.core.mail import EmailMultiAlternatives
                     from proj.settings import Email_MANAGER
-                    msg = EmailMultiAlternatives(subject=delivery.subject,
+                    msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
                                                  body=strip_tags(delivery.html, ),
                                                  from_email=u'site@keksik.com.ua',
-                                                 to=[real_email.email, ],
+                                                 to=[Email_MANAGER, ],
                                                  connection=backend, )
                     msg.attach_alternative(content=delivery.html,
                                            mimetype="text/html", )
                     msg.content_subtype = "html"
-                    print real_email.email
-                    #try:
-                    #    # msg.send(fail_silently=False, )
-                    #except Exception as inst:
-                    #    print type(inst, )
-                    #    print inst.args
-                    #    print inst
-                    # else:
-                    #    email.send
-                    #    email.save()
+                    msg.send(fail_silently=False, )
+
+        try:
+            deliveryes = Delivery.objects.filter(delivery_test=False, )
+        except Delivery.DoesNotExist:
+            deliveryes = None
+        else:
+            from apps.authModel.models import Email
+            from apps.delivery.models import EmailForDelivery
+            for delivery in deliveryes:
+                if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
+                    email_middle_delivery = EmailMiddleDelivery()
+                    email_middle_delivery.delivery = delivery
+                    email_middle_delivery.delivery_test_send = False
+                    email_middle_delivery.delivery_send = True
+                    email_middle_delivery.save()
+                    """ Создаем указатели на E-Mail адреса рассылки """
+                    try:
+                        emails = Email.objects.all()
+                    except Email.DoesNotExist:
+                        emails = None
+                    """ Здесь нужно помудрить с коммитом """
+                    for real_email in emails:
+                        email = EmailForDelivery()
+                        email.delivery = email_middle_delivery
+                        email.email = real_email
+                        """ | """
+                        email.save()
+                        from django.utils.html import strip_tags
+
+                        from django.core.mail import get_connection
+                        backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                                 fail_silently=False, )
+                        from django.core.mail import EmailMultiAlternatives
+                        from proj.settings import Email_MANAGER
+                        msg = EmailMultiAlternatives(subject=delivery.subject,
+                                                     body=strip_tags(delivery.html, ),
+                                                     from_email=u'site@keksik.com.ua',
+                                                     to=[real_email.email, ],
+                                                     connection=backend, )
+                        msg.attach_alternative(content=delivery.html,
+                                               mimetype="text/html", )
+                        msg.content_subtype = "html"
+                        print real_email.email
+                        #try:
+                        #    # msg.send(fail_silently=False, )
+                        #except Exception as inst:
+                        #    print type(inst, )
+                        #    print inst.args
+                        #    print inst
+                        # else:
+                        #    email.send
+                        #    email.save()
 
 
-            #try:
-            #    """ Берем 10 E-Mail адресов на которые мы еще не отсылали данную рассылку """
-            #    emails = EmailForDelivery.objects.filter(delivery=email_middle_delivery,
-            #                                             send=False, )[10]
-            #except EmailForDelivery.DoesNotExist:
-            #    """ E-Mail адреса в этой рассылке закончились """
-            #    emails = None
-            #else:
-            #    emails = ', '.join(emails, )
-            #    """ Отсылаем E-Mail на 10 адресатов """
+                #try:
+                #    """ Берем 10 E-Mail адресов на которые мы еще не отсылали данную рассылку """
+                #    emails = EmailForDelivery.objects.filter(delivery=email_middle_delivery,
+                #                                             send=False, )[10]
+                #except EmailForDelivery.DoesNotExist:
+                #    """ E-Mail адреса в этой рассылке закончились """
+                #    emails = None
+                #else:
+                #    emails = ', '.join(emails, )
+                #    """ Отсылаем E-Mail на 10 адресатов """
 
 
 def hernya():
