@@ -57,7 +57,20 @@ def add_edit(request,
             print 'Test: ', test
             if test == None:
                 print 'None'
-                test = False
+                test = True
+            else:
+                if isinstance(test, unicode, ):
+                    try:
+                        test = int(test, )
+                    except Exception as inst:
+                        print inst
+                        print type(inst, )
+                        print inst.args
+                        test = True
+                    else:
+                        test = bool(test, )
+                else:
+                    test = True
             delivery_type = request.POST.get(u'type', None, )
             if delivery_type == None:
                 delivery_type = 1
@@ -91,10 +104,7 @@ def add_edit(request,
                     return redirect(to='admin_delivery:index', )
 
             delivery.name = name
-            print type(test, )
-            print type(bool(test, ), )
-            print bool(test, )
-            delivery.delivery_test = bool(test, )
+            delivery.delivery_test = test
             # print test
             delivery.type = delivery_type
             delivery.subject = subject
