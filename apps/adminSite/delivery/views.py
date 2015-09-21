@@ -91,6 +91,7 @@ def add_edit(request,
                     return redirect(to='admin_delivery:index', )
 
             delivery.name = name
+            print type(test, )
             print type(bool(test, ), )
             print bool(test, )
             delivery.delivery_test = bool(test, )
