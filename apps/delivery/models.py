@@ -48,6 +48,11 @@ class Delivery(models.Model, ):
                                       null=True,
                                       default=datetime.now(), )
 
+    from django.contrib.contenttypes import generic
+    from apps.utils.mediafile.models import MediaFile
+    img = generic.GenericRelation(MediaFile,
+                                  content_type_field='content_type',
+                                  object_id_field='object_id', )
     @property
     def text_type(self):
         return self.Type_Mailings[self.type-1][1]
