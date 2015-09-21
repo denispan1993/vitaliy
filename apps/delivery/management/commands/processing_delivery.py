@@ -14,7 +14,11 @@ class Command(BaseCommand, ):
         else:
             from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
-                if not EmailMiddleDelivery.objects.get(delivery=delivery, updated_at__gte=delivery.updated_at, ).exists():
+                print delivery
+                try:
+                    EmailMiddleDelivery.objects.\
+                        get(delivery=delivery, updated_at__gte=delivery.updated_at, )
+                except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
                     email_middle_delivery.delivery = delivery
