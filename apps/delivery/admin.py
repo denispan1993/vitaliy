@@ -3,12 +3,27 @@ __author__ = 'AlexStarov'
 
 from django.contrib import admin
 
+from apps.utils.mediafile.models import MediaFile
+from django.contrib.contenttypes import generic
+
+class genericStacked_MediaFile_InLine(generic.GenericStackedInline, ):
+    model = MediaFile
+    extra = 1
+
 from apps.delivery.models import Delivery
 
 
 class DeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'delivery_test', 'type', 'subject', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'name', 'subject', ]
+
+    inlines = [
+        genericStacked_MediaFile_InLine,
+    ]
+    save_as = True
+    save_on_top = True
+    ordering = ['-created_at', ]
+
 admin.site.register(Delivery, DeliveryAdmin, )
 
 

@@ -4,12 +4,24 @@ from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 
+
+def set_path(self, filename):
+    return 'file/%.6d/%s' % (
+        # self.product.pub_datetime.year,
+        self.object_id,
+        filename)
+
+
 class MediaFile(models.Model):
     from django.contrib.contenttypes.models import ContentType
-    content_type = models.ForeignKey(ContentType, related_name='related_Photo', )
+    content_type = models.ForeignKey(ContentType, related_name='related_MediaFile', )
     object_id = models.PositiveIntegerField(db_index=True, )
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
+    number = models.PositiveIntegerField(verbose_name=_(u'Номер файла в тексте', ),
+                                         default=1,
+                                         null=False,
+                                         blank=False, )
     serial_number = models.PositiveIntegerField(verbose_name=_(u'Порядковы номер файла', ),
                                                 default=1,
                                                 null=False,
@@ -19,11 +31,15 @@ class MediaFile(models.Model):
                                    blank=False,
                                    default=False, )
 
-    def set_path(self, filename):
-        return 'file/%.6d/%s' % (
-            # self.product.pub_datetime.year,
-            self.object_id,
-            filename)
+    height = models.PositiveIntegerField(verbose_name=_(u'Высота файла', ),
+                                         default=1,
+                                         null=True,
+                                         blank=True, )
+    width = models.PositiveIntegerField(verbose_name=_(u'Ширина файла', ),
+                                        default=1,
+                                        null=True,
+                                        blank=True, )
+
 #    from compat.ImageWithThumbs.fields import ImageWithThumbsField
     from compat.ImageWithThumbs import models as class_ImageWithThumb
     img = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Изображение',
@@ -37,7 +53,7 @@ class MediaFile(models.Model):
                              max_length=256,
                              null=True,
                              blank=True,
-                             help_text=u'title <a> записи.')
+                             help_text=u'title \<a> записи.')
     name = models.CharField(verbose_name=u'Наименование',
                             max_length=256,
                             null=True,

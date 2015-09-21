@@ -9,7 +9,7 @@ from django.core.files.base import ContentFile
 import cStringIO
 
 
-def generate_thumb(img, thumb_size, format):
+def generate_thumb(img, thumb_size, format='JPEG', ):
     """
     Generates a thumbnail image and returns a ContentFile object with the thumbnail
 
@@ -23,7 +23,7 @@ def generate_thumb(img, thumb_size, format):
                 (this format will be used for the generated thumbnail, too)
     """
 
-    img.seek(0) # see http://code.djangoproject.com/ticket/8222 for details
+    img.seek(0)  # see http://code.djangoproject.com/ticket/8222 for details
     image = Image.open(img)
 
     # Convert to RGB if necessary
@@ -54,7 +54,7 @@ def generate_thumb(img, thumb_size, format):
 
     io = cStringIO.StringIO()
     # PNG and GIF are the same, JPG is JPEG
-    if format.upper()=='JPG':
+    if format.upper() == 'JPG':
         format = 'JPEG'
 
     image2.save(io, format)

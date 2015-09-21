@@ -25,7 +25,7 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
                 (w,h) = size
                 setattr(self, 'url_%sx%s' % (w,h), get_size(self, size))
 
-    def save(self, name, content, save=True):
+    def save(self, name, content=None, save=True):
         super(ImageWithThumbsFieldFile, self).save(name, content, save)
 
         if self.field.sizes:
@@ -54,4 +54,3 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
                     self.storage.delete(thumb_name)
                 except:
                     pass
-

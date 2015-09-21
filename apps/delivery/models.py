@@ -32,10 +32,12 @@ class Delivery(models.Model, ):
                                max_length=256,
                                blank=True,
                                null=True, )
-    html = models.TextField(verbose_name=_(u'Html текст рассылки', ),
+    html = models.TextField(verbose_name=_(u'Html текст рассылки "СЫРОЙ"', ),
                             blank=True,
-                            null=True,
-                            default=10, )
+                            null=True, )
+    real_html = models.TextField(verbose_name=_(u'Html текст рассылки', ),
+                                 blank=True,
+                                 null=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
@@ -53,6 +55,50 @@ class Delivery(models.Model, ):
     img = generic.GenericRelation(MediaFile,
                                   content_type_field='content_type',
                                   object_id_field='object_id', )
+
+    def save(self, *args, **kwargs):
+        real_html = self.html
+        def_str1 = u'<figure><p><img src='
+        def_str2 = u'</p></figcaption></figure>'
+        while def_str1 in real_html:
+            try:
+                val_begin = real_html.index(def_str1)
+            except ValueError:
+                break
+            else:
+                pass
+            try:
+                val_end = real_html.index(def_str2)
+            except ValueError:
+                break
+            else:
+                val_end += 26
+            real_html = u'%s%s' % (real_html[:val_begin], real_html[val_end:], )
+        img = self.img.all()
+        if img.count() > 0:
+            for i in range(1, img.count()+1, ):
+                def_str = u'{{ фото:%.1d }}' % i
+                if def_str in real_html:
+                    img_aaa = img[i-1].img
+                    thumb_size = (img[i-1].height, img[i-1].width, )
+                    file_name = img_aaa.name.rsplit('/', 1)[1]
+                    file_format = file_name.rsplit('.', 1, )[1]
+                    from compat.ImageWithThumbs.utils import generate_thumb
+                    img_aaa.save(name=file_name,
+                                 content=generate_thumb(img=img_aaa,
+                                                        thumb_size=thumb_size,
+                                                        format=file_format, ), )
+                    link_str = u"%s<figure><p><img src='%s' alt='%s' title='%s' /></p>" \
+                               u"<figcaption><p>%s</p></figcaption></figure>" %\
+                               (def_str,
+                                img_aaa.url,
+                                img[i-1].meta_alt,
+                                img[i-1].title,
+                                img[i-1].sign, )
+                    real_html = real_html.replace(def_str, link_str, )
+        self.real_html = real_html
+        super(Delivery, self).save(*args, **kwargs)  # Call the "real" save() method.
+
     @property
     def text_type(self):
         return self.Type_Mailings[self.type-1][1]

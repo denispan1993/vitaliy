@@ -360,6 +360,7 @@ INSTALLED_APPS = (
     'apps.utils',
     'apps.utils.setting',
     'apps.utils.captcha',
+    'apps.utils.mediafile',
     'apps.handlers',
     'apps.adminSite',
     'apps.discount',
