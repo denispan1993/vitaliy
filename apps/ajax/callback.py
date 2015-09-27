@@ -34,7 +34,8 @@ def callback_data_send(request, ):
                                                    email=email,
                                                    phone=phone, )
             except Exception as e:
-                print e.message
+                print 'Exception: ', e
+                print 'Exception message: ', e.message
                 response = {'result': 'Bad',
                             'error': e.message, }
                 data = dumps(response, )
