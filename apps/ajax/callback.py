@@ -28,11 +28,11 @@ def callback_data_send(request, ):
             print 'phone: ', phone
             from apps.callback.models import CallBack
             try:
-                CallBack.objects.create(sessionid=sessionid,
-                                        user_id=userid,
-                                        name=name,
-                                        email=email,
-                                        phone=phone, )
+                callback = CallBack.objects.create(sessionid=sessionid,
+                                                   user_id=userid,
+                                                   name=name,
+                                                   email=email,
+                                                   phone=phone, )
             except Exception as e:
                 print e.message
                 response = {'result': 'Bad',
@@ -41,6 +41,7 @@ def callback_data_send(request, ):
                 mimetype = 'application/javascript'
                 return HttpResponse(data, mimetype, )
             else:
+                print callback
                 """ Отправка заказа обратного звонка """
                 subject = u'Заказ обратного звонка от пользователя: %s на номер: %s. Интернет магазин Кексик.' % (name, phone, )
                 from django.template.loader import render_to_string
