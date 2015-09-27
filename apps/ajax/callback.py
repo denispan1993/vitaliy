@@ -32,6 +32,7 @@ def callback_data_send(request, ):
                 if userid:
                     """ Error: invalid literal for int() with base 10: 'None' """
                     """ Ошибка вылазила из за того, что я пытался подсунуть вместо int() в user_id - None """
+                    print userid
                     callback = CallBack.objects.create(sessionid=sessionid,
                                                        user_id=userid,
                                                        name=name,
