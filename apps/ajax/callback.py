@@ -21,6 +21,9 @@ def callback_data_send(request, ):
             print 'sessionid: ', sessionid
             userid = request.POST.get(u'userid', False, )
             print 'userid: ', userid
+            print 'userid type: ', type(userid, )
+            if userid == 'None':
+                userid = False
             name = request.POST.get(u'name', None, )
             print 'name: ', name.encode('utf8', )
             email = request.POST.get(u'email', None, )
