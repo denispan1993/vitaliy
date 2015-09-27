@@ -186,9 +186,9 @@ def context(request):
         try:
             """ Вот где выскакивает эта ошибка """
             # print 'HTTP_ACCEPT: ', request.META.HTTP_ACCEPT
-            print 'HTTP_ACCEPT_ENCODING: ', request.META.HTTP_ACCEPT_ENCODING
-            print 'HTTP_ACCEPT_LANGUAGE: ', request.META.HTTP_ACCEPT_LANGUAGE
-            print 'REQUEST_METHOD: ', request.META.REQUEST_METHOD
+            #print 'HTTP_ACCEPT_ENCODING: ', request.META.HTTP_ACCEPT_ENCODING
+            #print 'HTTP_ACCEPT_LANGUAGE: ', request.META.HTTP_ACCEPT_LANGUAGE
+            #print 'REQUEST_METHOD: ', request.META.REQUEST_METHOD
             view, args, kwargs = resolve(full_path, )
         except UnicodeDecodeError:
             print 'Error: ', full_path.encode('utf8', )
