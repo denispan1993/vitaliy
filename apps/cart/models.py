@@ -151,10 +151,10 @@ class Order(models.Model):
                                     null=False,
                                     blank=False,
                                     default=False, )
-    #recompile = models.BooleanField(verbose_name=u'Разбор Заказа',
-    #                                null=False,
-    #                                blank=False,
-    #                                default=False, )
+    recompile = models.BooleanField(verbose_name=u'Разбор Заказа',
+                                    null=False,
+                                    blank=False,
+                                    default=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
