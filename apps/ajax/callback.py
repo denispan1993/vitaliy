@@ -21,7 +21,7 @@ def callback_data_send(request, ):
             userid = request.POST.get(u'userid', None, )
             print 'userid: ', userid
             name = request.POST.get(u'name', None, )
-            print 'name: ', name
+            print 'name: ', name.encode('utf8', )
             email = request.POST.get(u'email', None, )
             print 'email: ', email
             phone = request.POST.get(u'phone', None, )
