@@ -3,11 +3,15 @@ __author__ = 'Alex Starov'
 
 from django.contrib import admin
 
-#from apps.cart.models import Cart
+from apps.callback.models import CallBack
 
 
-#class CartAdmin(admin.ModelAdmin, ):
-#    pass
+class CallBackAdmin(admin.ModelAdmin, ):
+    pass
+
+admin.site.register(CallBack, CallBackAdmin, )
+
+
 #admin.site.register(Cart, CartAdmin, )
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]
