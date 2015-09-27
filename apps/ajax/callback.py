@@ -28,11 +28,17 @@ def callback_data_send(request, ):
             print 'phone: ', phone
             from apps.callback.models import CallBack
             try:
-                callback = CallBack.objects.create(sessionid=sessionid,
-                                                   user_id=userid,
-                                                   name=name,
-                                                   email=email,
-                                                   phone=phone, )
+                if userid:
+                    callback = CallBack.objects.create(sessionid=sessionid,
+                                                       user_id=userid,
+                                                       name=name,
+                                                       email=email,
+                                                       phone=phone, )
+                else:
+                    callback = CallBack.objects.create(sessionid=sessionid,
+                                                       name=name,
+                                                       email=email,
+                                                       phone=phone, )
             except Exception as e:
                 print 'Exception: ', e
                 print 'Exception message: ', e.message
