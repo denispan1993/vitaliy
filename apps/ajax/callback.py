@@ -17,10 +17,15 @@ def callback_data_send(request, ):
             # request_cookie = request.session.get(u'cookie', None, )
             # if request_cookie:
             sessionid = request.POST.get(u'sessionid', None, )
+            print 'sessionid: ', sessionid
             userid = request.POST.get(u'userid', None, )
+            print 'userid: ', userid
             name = request.POST.get(u'name', None, )
+            print 'name: ', name
             email = request.POST.get(u'email', None, )
+            print 'email: ', email
             phone = request.POST.get(u'phone', None, )
+            print 'phone: ', phone
             from apps.callback.models import CallBack
             try:
                 CallBack.objects.create(sessionid=sessionid,
