@@ -17,6 +17,7 @@ def callback_data_send(request, ):
             # request_cookie = request.session.get(u'cookie', None, )
             # if request_cookie:
             sessionid = request.POST.get(u'sessionid', None, )
+            print 'CallBack:'
             print 'sessionid: ', sessionid
             userid = request.POST.get(u'userid', None, )
             print 'userid: ', userid
