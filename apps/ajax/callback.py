@@ -19,7 +19,7 @@ def callback_data_send(request, ):
             sessionid = request.POST.get(u'sessionid', None, )
             print 'CallBack:'
             print 'sessionid: ', sessionid
-            userid = request.POST.get(u'userid', None, )
+            userid = request.POST.get(u'userid', False, )
             print 'userid: ', userid
             name = request.POST.get(u'name', None, )
             print 'name: ', name.encode('utf8', )
