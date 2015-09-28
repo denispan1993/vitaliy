@@ -5,6 +5,22 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand, ):
+    from optparse import make_option
+    option_list = BaseCommand.option_list + (
+        make_option('-id', '-pk', '--delivery_id', '--delivery_pk',
+                    action='store', type='int', dest='delivery_pk',
+                    help=''),
+        make_option('-t', '--delivery_test', '--test',
+                    action='store_true', dest='delivery_test',
+                    help=''),
+        make_option('-g', '--delivery_general', '--general',
+                    action='store_true', dest='delivery_test',
+                    help=''),
+    )
+    #self.verbosity = int(options.get('verbosity'))
+    #def add_arguments(self, parser):
+    #    parser.add_argument('delivery_id', nargs='+', type=int)
+
     def handle(self, *args, **options):
         from apps.delivery.models import Delivery
         try:

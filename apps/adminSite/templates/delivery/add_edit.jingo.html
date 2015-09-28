@@ -74,6 +74,36 @@ option:checked{
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="delivery_send_test"
+                            class="col-md-4 control-label">Тестовая рассылка отослана:</label>
+                    <div class="col-md-6">
+                        <select name="send_test">
+                            {% if not delivery or delivery.send_test %}
+                            <option value="1" selected><strong>Да</strong></option>
+                            <option value="0">Нет</option>
+                            {% else %}
+                            <option value="1">Да</option>
+                            <option value="0" selected><strong>Нет</strong></option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="delivery_send_general"
+                            class="col-md-4 control-label">Главная рассылка отослана:</label>
+                    <div class="col-md-6">
+                        <select name="send_general">
+                            {% if not delivery or delivery.send_general %}
+                            <option value="1" selected><strong>Да</strong></option>
+                            <option value="0">Нет</option>
+                            {% else %}
+                            <option value="1">Да</option>
+                            <option value="0" selected><strong>Нет</strong></option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="delivery_type"
                             class="col-md-4 control-label">Тип рассылки:</label>
                     {# {1{ form.delivery.errors }} #}

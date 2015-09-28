@@ -23,6 +23,14 @@ class Delivery(models.Model, ):
                                         blank=True,
                                         null=False,
                                         default=True, )
+    send_test = models.BooleanField(verbose_name=_(u'Тестовая рассылка отослана', ),
+                                    blank=True,
+                                    null=False,
+                                    default=True, )
+    send_general = models.BooleanField(verbose_name=_(u'Главная рассылка отослана', ),
+                                       blank=True,
+                                       null=False,
+                                       default=True, )
     type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип рассылки'),
                                             choices=Type_Mailings,
                                             default=1,
@@ -59,7 +67,7 @@ class Delivery(models.Model, ):
     def save(self, *args, **kwargs):
         real_html = self.html
         def_str1 = u'<figure><p><img src='
-        def_str2 = u'</p></figcaption></figure>'
+        def_str2 = u'</figure>'
         while def_str1 in real_html:
             try:
                 val_begin = real_html.index(def_str1)
@@ -72,7 +80,7 @@ class Delivery(models.Model, ):
             except ValueError:
                 break
             else:
-                val_end += 26
+                val_end += 9
             real_html = u'%s%s' % (real_html[:val_begin], real_html[val_end:], )
         img = self.img.all()
         if img.count() > 0:
@@ -80,22 +88,38 @@ class Delivery(models.Model, ):
                 def_str = u'{{ фото:%.1d }}' % i
                 if def_str in real_html:
                     img_aaa = img[i-1].img
-                    thumb_size = (img[i-1].height, img[i-1].width, )
-                    file_name = img_aaa.name.rsplit('/', 1)[1]
-                    file_format = file_name.rsplit('.', 1, )[1]
+                    #old_name = img[i-1].img.name
+                    thumb_size = ((img[i-1].height, img[i-1].width, ), )
+                    #file_name = img_aaa.name.rsplit('/', 1, )[1]
+                    #file_format = file_name.rsplit('.', 1, )[1]
                     from compat.ImageWithThumbs.utils import generate_thumb
-                    img_aaa.save(name=file_name,
-                                 content=generate_thumb(img=img_aaa,
-                                                        thumb_size=thumb_size,
-                                                        format=file_format, ), )
-                    link_str = u"%s<figure><p><img src='%s' alt='%s' title='%s' /></p>" \
-                               u"<figcaption><p>%s</p></figcaption></figure>" %\
-                               (def_str,
-                                img_aaa.url,
-                                img[i-1].meta_alt,
-                                img[i-1].title,
-                                img[i-1].sign, )
+                    img_aaa.field.sizes = thumb_size
+                    #img_aaa.save(name=file_name,
+                    #             content=generate_thumb(img=img_aaa,
+                    #                                    thumb_size=thumb_size[0],
+                    #                                    format=file_format, ), )
+                    #img_url = 'img_aaa.url_%dx%d' % (img[i-1].height, img[i-1].width, )
+                    #img_url = eval(img_url,
+                    #               {'__builtins__': {}, },
+                    #               {'img_aaa': img_aaa, }, )
+                    img_url = img_aaa.url.rsplit('.', 1, )
+                    img_url = '%s_%dx%d.%s' % (img_url[0], img[i-1].height, img[i-1].width, img_url[1], )
+                    from django.template.loader import render_to_string
+                    link_str = render_to_string('render_img_string.jinja2.html',
+                                                {'imgN': def_str,
+                                                 'img_url': img_url,
+                                                 'alt': img[i-1].meta_alt,
+                                                 'title': img[i-1].title,
+                                                 'caption': img[i-1].sign, }, )
+                    #value = eval(string,
+                    #     {'__builtins__': {}, },
+                    #     {'variable_set': variable_set, }, )
                     real_html = real_html.replace(def_str, link_str, )
+                    #try:
+                    #    img_aaa.storage.delete(old_name, )
+                    #except:
+                    #    pass
+
         self.real_html = real_html
         super(Delivery, self).save(*args, **kwargs)  # Call the "real" save() method.
 

@@ -44,9 +44,7 @@ class MediaFile(models.Model):
     from compat.ImageWithThumbs import models as class_ImageWithThumb
     img = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Изображение',
                                                     upload_to=set_path,
-                                                    sizes=((26, 26, ), (50, 50, ), (90, 95, ),
-                                                           (205, 190, ), (210, 160, ), (345, 370, ),
-                                                           (700, 500, ), ),
+                                                    # sizes=((26, 26, ), (50, 50, ), (90, 95, ), ),
                                                     blank=True,
                                                     null=True, )
     title = models.CharField(verbose_name=u'Заголовок',
@@ -82,6 +80,11 @@ class MediaFile(models.Model):
 
 #    def get_absolute_url(self, ):
 #        return '/news/rubric/%s/' % self.url
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None, *args, **kwargs):
+        self.img.field.sizes = ((self.height, self.width, ), )
+        super(MediaFile, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     def __unicode__(self):
         return u'Файл:%s' % (self.name, )

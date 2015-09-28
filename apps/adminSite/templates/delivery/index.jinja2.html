@@ -97,6 +97,28 @@ body{
                         Дата обновления: {{ delivery.updated_at|date("d-M-Y H:i:s") }}
                     </td>
                 </tr>
+                {% if not delivery.send_test or not delivery.send_general %}
+                <tr>
+                    <td colspan="2">
+                        {% if not delivery.send_test %}
+                            <form action="{{ url('admin_delivery:start_delivery_test', delivery_id=delivery.get_url_number) }}" method="POST">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                <input type="hidden" name="POST_NAME" value="start_delivery_test">
+                                <input type="submit" value="Отправить тестовую Рассылку">
+                            </form>
+                        {% endif %}
+                    </td>
+                    <td colspan="2">
+                        {% if not delivery.send_general %}
+                            <form action="{{ url('admin_delivery:start_delivery_general', delivery_id=delivery.get_url_number) }}" method="POST">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                <input type="hidden" name="POST_NAME" value="start_delivery_general">
+                                <input type="submit" value="Отправить ГЛАВНУЮ Рассылку">
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>

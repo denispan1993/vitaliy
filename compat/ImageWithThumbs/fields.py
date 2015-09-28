@@ -43,7 +43,7 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
                     raise ValueError('There is already a file named %s' % thumb_name)
 
     def delete(self, save=True):
-        name=self.name
+        name = self.name
         super(ImageWithThumbsFieldFile, self).delete(save)
         if self.field.sizes:
             for size in self.field.sizes:
