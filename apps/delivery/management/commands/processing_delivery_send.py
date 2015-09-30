@@ -7,13 +7,13 @@ from django.core.management.base import BaseCommand
 class Command(BaseCommand, ):
     from optparse import make_option
     option_list = BaseCommand.option_list + (
-        make_option('-id', '-pk', '--delivery_id', '--delivery_pk',
+        make_option('--id', '--pk', '--delivery_id', '--delivery_pk',
                     action='store', type='int', dest='delivery_pk',
                     help=''),
-        make_option('-t', '--delivery_test', '--test',
+        make_option('--t', '--delivery_test', '--test',
                     action='store_true', dest='delivery_test',
                     help=''),
-        make_option('-g', '--delivery_general', '--general',
+        make_option('--g', '--delivery_general', '--general',
                     action='store_true', dest='delivery_test',
                     help=''),
     )
@@ -30,11 +30,15 @@ class Command(BaseCommand, ):
         else:
             from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
-                print delivery
+                print 'delivery', delivery
                 try:
-                    aaa=EmailMiddleDelivery.objects.\
-                        get(delivery=delivery, updated_at__lte=delivery.updated_at, )
-                    print aaa, delivery.updated_at
+                    EmailMiddleDelivery.objects.\
+                        get(delivery=delivery,
+                            send_test=True,
+                            send_test=False,
+                            send_general=False,
+                            updated_at__lte=delivery.updated_at, )
+                    #print aaa, delivery.updated_at
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
@@ -45,21 +49,33 @@ class Command(BaseCommand, ):
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
+                    EMAIL_USE_TLS = True
+                    EMAIL_HOST = 'smtp.yandex.ru'
+                    EMAIL_PORT = 587
+                    EMAIL_HOST_USER = 'subscribe@keksik.com.ua'
+                    EMAIL_HOST_PASSWORD = '1q2w3e4r'
                     from django.core.mail import get_connection
                     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                             host=EMAIL_HOST,
+                                             port=EMAIL_PORT,
+                                             username=EMAIL_HOST_USER,
+                                             password=EMAIL_HOST_PASSWORD,
+                                             use_tls=EMAIL_USE_TLS,
                                              fail_silently=False, )
                     from django.core.mail import EmailMultiAlternatives
                     from proj.settings import Email_MANAGER
                     msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
                                                  body=strip_tags(delivery.html, ),
-                                                 from_email=u'site@keksik.com.ua',
-                                                 to=[Email_MANAGER, ],
+                                                 from_email='subscribe@keksik.com.ua',
+                                                 to=['subscribe@keksik.com.ua', ],
                                                  connection=backend, )
                     msg.attach_alternative(content=delivery.html,
                                            mimetype="text/html", )
                     msg.content_subtype = "html"
                     msg.send(fail_silently=False, )
 
+
+def hernya2():
         try:
             deliveryes = Delivery.objects.filter(delivery_test=False, )
         except Delivery.DoesNotExist:

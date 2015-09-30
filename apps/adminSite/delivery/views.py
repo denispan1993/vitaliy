@@ -180,11 +180,12 @@ def start_delivery(request,
                    delivery_id=None,
                    delivery_type='test',
                    template_name=None, ):
+    from django.shortcuts import redirect
     if request.method == "POST":
         POST_NAME = request.POST.get(u'POST_NAME', None, )
-        if POST_NAME in ('start_delivery_test', 'start_delivery_general'):
+        # if POST_NAME in ('start_delivery_test', 'start_delivery_general'):
+        if POST_NAME == 'start_delivery_test':
             if delivery_id:
-                from django.shortcuts import redirect
                 try:
                     delivery_id = int(delivery_id, )
                 except ValueError:
@@ -211,100 +212,4 @@ def start_delivery(request,
                         #                 delivery_test=False,
                         #                 delivery_general=True, )
 
-            name = request.POST.get(u'name', None, )
-            if not name:
-                name = 'Имя рассылки'
-            test = request.POST.get(u'test', None, )
-            print 'Test: ', test
-            if test == None:
-                print 'Test: None'
-                test = True
-            else:
-                if isinstance(test, unicode, ):
-                    try:
-                        test = int(test, )
-                    except Exception as inst:
-                        print inst
-                        print type(inst, )
-                        print inst.args
-                        test = True
-                    else:
-                        test = bool(test, )
-                else:
-                    print 'Test: Not unicode'
-                    test = True
-            delivery_type = request.POST.get(u'type', None, )
-            if delivery_type == None:
-                delivery_type = 1
-            else:
-                try:
-                    delivery_type = int(delivery_type, )
-                except ValueError:
-                    delivery_type = 1
-            subject = request.POST.get(u'subject', None, )
-            html = request.POST.get(u'html', None, )
-            """ Проверяем, это новая рассылка?
-                Или отредактированная старая? """
-            from apps.delivery.models import Delivery
-            delivery_pk = request.POST.get(u'delivery_pk', None, )
-            # if delivery_pk == delivery_id:
-            #     print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
-            # else:
-            #     print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
-            try:
-            #    print delivery_pk
-                delivery_pk = int(delivery_pk, )
-            except (ValueError, TypeError):
-                """ Новая """
-                delivery = Delivery()
-            else:
-                """ Отредактированная - старая """
-                try:
-                    delivery = Delivery.objects.get(pk=delivery_pk, )
-                except Delivery.DoesNotExist:
-                    from django.shortcuts import redirect
-                    return redirect(to='admin_delivery:index', )
-
-            delivery.name = name
-            delivery.delivery_test = test
-            # print test
-            delivery.type = delivery_type
-            delivery.subject = subject
-            delivery.html = html
-            delivery.save()
-            from django.shortcuts import redirect
-            return redirect(to='admin_delivery:index', )
-
-    from django.shortcuts import redirect
-    if delivery_id:
-        try:
-            delivery_id = int(delivery_id, )
-        except ValueError:
-            error_message = u'Некорректно введен номер рассылки.'
-            return redirect(to='admin_delivery:index', )
-        else:
-            from apps.delivery.models import Delivery
-            try:
-                delivery = Delivery.objects.get(pk=delivery_id, )
-            except Delivery.DoesNotExist:
-                error_message = u'В базе отсутсвует рассылка с таким номером.'
-                return redirect(to='admin_delivery:index', )
-    else:
-        delivery = None
-    from apps.delivery.models import Delivery
-    type_mailings = Delivery.Type_Mailings
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    from apps.delivery.forms import DeliveryCreateEditForm
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'delivery_id': delivery_id,
-                                              'delivery': delivery,
-                                              'type_mailings': type_mailings,
-                                              'form': DeliveryCreateEditForm, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    # from datetime import datetime
-    # from apps.utils.datetime2rfc import datetime2rfc
-    # response['Last-Modified'] = datetime2rfc(page.updated_at, )
-    return response
-
+    return redirect(to='admin_delivery:index', )
