@@ -24,7 +24,7 @@ class Command(BaseCommand, ):
     def handle(self, *args, **options):
         from apps.delivery.models import Delivery
         try:
-            deliveryes = Delivery.objects.filter(delivery_test=False, send_test=True, sennd_general=False, )
+            deliveryes = Delivery.objects.filter(delivery_test=False, send_test=True, send_general=False, )
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
