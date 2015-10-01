@@ -91,6 +91,7 @@ class Command(BaseCommand, ):
                                                mimetype="text/html", )
                         msg.content_subtype = "html"
                         msg.send(fail_silently=False, )
+                        print real_email.email
                     # print 'delivery: ', delivery, 'Send!!!'
         #return deliveryes
 
