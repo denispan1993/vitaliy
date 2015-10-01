@@ -90,10 +90,17 @@ class Command(BaseCommand, ):
                         msg.attach_alternative(content=delivery.html,
                                                mimetype="text/html", )
                         msg.content_subtype = "html"
-                        msg.send(fail_silently=False, )
-                        print real_email.email
-                    # print 'delivery: ', delivery, 'Send!!!'
-        #return deliveryes
+                        try:
+                            msg.send(fail_silently=False, )
+                        except Exception as e:
+                            msg = EmailMultiAlternatives(subject=delivery.subject,
+                                                         body='Error: %s - E-Mail: %s' % (e, real_email.email, ),
+                                                         from_email='subscribe@keksik.com.ua',
+                                                         to=['subscribe@keksik.com.ua', ],
+                                                         connection=backend, )
+                            msg.send(fail_silently=True, )
+                        else:
+                            print 'Pk: ', real_email.pk, ' - ', real_email.email
 
 
 
