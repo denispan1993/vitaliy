@@ -24,18 +24,17 @@ class Command(BaseCommand, ):
     def handle(self, *args, **options):
         from apps.delivery.models import Delivery
         try:
-            deliveryes = Delivery.objects.filter(delivery_test=True, )
+            deliveryes = Delivery.objects.filter(delivery_test=True, send_test=False, )
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
             from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
-                print 'delivery', delivery
+                # print 'delivery', delivery
                 try:
                     EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
                             send_test=True,
-                            send_test=False,
                             send_general=False,
                             updated_at__lte=delivery.updated_at, )
                     #print aaa, delivery.updated_at
@@ -46,6 +45,9 @@ class Command(BaseCommand, ):
                     email_middle_delivery.delivery_test_send = True
                     email_middle_delivery.delivery_send = False
                     email_middle_delivery.save()
+                    """ Закрываем отсылку теста в самой рассылке """
+                    delivery.send_test = True
+                    delivery.save()
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
@@ -73,6 +75,9 @@ class Command(BaseCommand, ):
                                            mimetype="text/html", )
                     msg.content_subtype = "html"
                     msg.send(fail_silently=False, )
+                    # print 'delivery: ', delivery, 'Send!!!'
+        #return deliveryes
+
 
 
 def hernya2():

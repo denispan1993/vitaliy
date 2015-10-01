@@ -188,6 +188,9 @@ def context(request):
             print 'HTTP_ACCEPT: ', request.META.get('HTTP_ACCEPT', None, )
             print 'HTTP_ACCEPT_ENCODING: ', request.META.get('HTTP_ACCEPT_ENCODING', None, )
             print 'HTTP_ACCEPT_LANGUAGE: ', request.META.get('HTTP_ACCEPT_LANGUAGE', None, )
+            print 'LANG: ', request.META.get('LANG', None, )
+            print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
+            print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
             print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
             view, args, kwargs = resolve(full_path, )
         except UnicodeDecodeError:
