@@ -115,22 +115,22 @@ def hernya2():
                     email_middle_delivery.delivery_test_send = False
                     email_middle_delivery.delivery_send = True
                     email_middle_delivery.save()
-                        from django.utils.html import strip_tags
+                    from django.utils.html import strip_tags
 
-                        from django.core.mail import get_connection
-                        backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                                                 fail_silently=False, )
-                        from django.core.mail import EmailMultiAlternatives
-                        from proj.settings import Email_MANAGER
-                        msg = EmailMultiAlternatives(subject=delivery.subject,
-                                                     body=strip_tags(delivery.html, ),
-                                                     from_email=u'site@keksik.com.ua',
-                                                     to=[real_email.email, ],
-                                                     connection=backend, )
-                        msg.attach_alternative(content=delivery.html,
-                                               mimetype="text/html", )
-                        msg.content_subtype = "html"
-                        print real_email.email
+                    from django.core.mail import get_connection
+                    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                             fail_silently=False, )
+                    from django.core.mail import EmailMultiAlternatives
+                    from proj.settings import Email_MANAGER
+                    msg = EmailMultiAlternatives(subject=delivery.subject,
+                                                 body=strip_tags(delivery.html, ),
+                                                 from_email=u'site@keksik.com.ua',
+                                                 to=[real_email.email, ],
+                                                 connection=backend, )
+                    msg.attach_alternative(content=delivery.html,
+                                           mimetype="text/html", )
+                    msg.content_subtype = "html"
+                    print real_email.email
                         #try:
                         #    # msg.send(fail_silently=False, )
                         #except Exception as inst:
