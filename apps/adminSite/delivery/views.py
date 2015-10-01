@@ -202,7 +202,7 @@ def start_delivery(request,
                     else:
                         from django.core.management import call_command
                         if POST_NAME == 'start_delivery_test' and delivery_type == 'test' and not delivery.send_test:
-                            call_command(name='processing_delivery_send',
+                            call_command(name='processing_delivery_send_test',
                                          delivery_pk=delivery_id,
                                          delivery_test=True,
                                          delivery_general=False, )
