@@ -7,6 +7,53 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import date, datetime
 
 
+class MailAccount(models.Model, ):
+    email = models.CharField(verbose_name=_(u'E-Mail', ),
+                             max_length=64,
+                             blank=False,
+                             null=False, )
+    smtp_server = models.CharField(verbose_name=_(u'SMTP Server', ),
+                                   max_length=64,
+                                   blank=False,
+                                   null=False, )
+    smtp_port = models.PositiveSmallIntegerField(verbose_name=_(u'SMTP Port', ),
+                                                 blank=True,
+                                                 null=True,
+                                                 default=25, )
+    login = models.CharField(verbose_name=_(u'UserName - login', ),
+                             max_length=64,
+                             blank=False,
+                             null=False, )
+    password = models.CharField(verbose_name=_(u'User password', ),
+                                max_length=64,
+                                blank=False,
+                                null=False, )
+    use_tls = models.BooleanField(verbose_name=_(u'Use TLS', ),
+                                  blank=False,
+                                  null=False,
+                                  default=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+
+    def __unicode__(self):
+        return u'%s -> %s:%d -> Login: %s' % (self.email, self.smtp_server, self.smtp_port, self.login, )
+
+    class Meta:
+        db_table = 'MailAccount'
+        ordering = ['-created_at', ]
+        verbose_name = u'SMTP Account'
+        verbose_name_plural = u'SMTP Accounts'
+
+
 class Delivery(models.Model, ):
     name = models.CharField(verbose_name=_(u'Имя рассылки', ),
                             max_length=128,

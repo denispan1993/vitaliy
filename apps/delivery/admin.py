@@ -6,6 +6,15 @@ from django.contrib import admin
 from apps.utils.mediafile.models import MediaFile
 from django.contrib.contenttypes import generic
 
+from apps.delivery.models import MailAccount
+
+
+class MailAccountAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'email', 'smtp_server', 'smtp_port', 'login', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'email', 'login', ]
+admin.site.register(MailAccount, MailAccountAdmin, )
+
+
 class genericStacked_MediaFile_InLine(generic.GenericStackedInline, ):
     model = MediaFile
     extra = 1
