@@ -29,8 +29,6 @@ class MailAccount(models.Model, ):
                                 blank=False,
                                 null=False, )
     use_tls = models.BooleanField(verbose_name=_(u'Use TLS', ),
-                                  blank=False,
-                                  null=False,
                                   default=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,

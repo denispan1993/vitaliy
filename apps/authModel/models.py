@@ -239,6 +239,8 @@ class Email(models.Model, ):
     # Рассылка акций и новостей
     email_delivery_shares_news = models.BooleanField(verbose_name=_(u'Новости и Акции', ),
                                                      default=True, )
+    bad_email = models.BooleanField(verbose_name=_(u'Bad E-Mail', ),
+                                    default=False, )
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )

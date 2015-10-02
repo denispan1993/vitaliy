@@ -213,3 +213,23 @@ def start_delivery(request,
                         #                 delivery_general=True, )
 
     return redirect(to='admin_delivery:index', )
+
+
+@staff_member_required
+def exclude_email_from_delivery(request,
+                                template_name=None, ):
+    from django.shortcuts import redirect
+    if request.method == "POST":
+        POST_NAME = request.POST.get(u'POST_NAME', None, )
+        # if POST_NAME in ('start_delivery_test', 'start_delivery_general'):
+        if POST_NAME == 'exclude_email':
+            email = request.POST.get(u'bad_email', None, )
+            from apps.authModel.models import Email
+            try:
+                email = Email.objects.get(email=email, )
+            except Email.DoesNotExist:
+                error_message = u'В базе отсутсвует такой E-Mail.'
+            else:
+                email.bad_email = True
+                email.save()
+    return redirect(to='admin_delivery:index', )

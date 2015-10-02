@@ -29,6 +29,12 @@ body{
 <body>
     <div id="flex-container">
         <div id="flexed-center">
+            <form method="POST" action="{{ url('admin_delivery:exclude_email_from_delivery') }}">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="POST_NAME" value="exclude_email">
+                <input type="text" name="bad_email">
+                <input type="submit" value="Исключить E-Mail из рассылки">
+            </form>
             <form method="POST" action="{{ url('admin_delivery:index') }}">
                 {% if error_message %}<p style="color:Red;">{{ error_message }}</p>{% endif %}
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">

@@ -26,4 +26,8 @@ urlpatterns = patterns('apps.adminSite.delivery.views',
                            view='start_delivery',
                            kwargs={'delivery_type': 'general', 'template_name': None, },
                            name='start_delivery_general', ),
+                       url(regex=ur'^исключить/email/$',
+                           view='exclude_email_from_delivery',
+                           kwargs={'template_name': None, },
+                           name='exclude_email_from_delivery', ),
                        )
