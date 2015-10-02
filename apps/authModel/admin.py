@@ -134,6 +134,7 @@ from apps.authModel.models import Email
 class EmailAdmin(admin.ModelAdmin, ):
     list_display = ('pk', 'user', 'email', 'created_at', 'updated_at', )
     list_display_links = ('pk', 'user', 'email', )
+    search_fields = ['user', 'email', ]
 
 admin.site.register(Email, EmailAdmin, )
 

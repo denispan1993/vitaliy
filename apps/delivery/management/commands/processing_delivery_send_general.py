@@ -101,6 +101,8 @@ class Command(BaseCommand, ):
                             msg.send(fail_silently=True, )
                         else:
                             print 'Pk: ', real_email.pk, ' - ', real_email.email
+                            from time import sleep
+                            sleep(60, )
 
 
 
