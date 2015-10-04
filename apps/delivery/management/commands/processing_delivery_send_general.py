@@ -32,11 +32,12 @@ class Command(BaseCommand, ):
             for delivery in deliveryes:
                 # print 'delivery', delivery
                 try:
-                    EmailMiddleDelivery.objects.\
+                    aaa=EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
                             send_test=False,
                             send_general=True,
                             updated_at__lte=delivery.updated_at, )
+                    print 'aaa: ', aaa
                     #print aaa, delivery.updated_at
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
@@ -77,7 +78,7 @@ class Command(BaseCommand, ):
                     from apps.delivery.models import EmailForDelivery
                     i = 0
                     for real_email in emails:
-                        i =+ 1
+                        i += 1
                         if i < 400:
                             continue
                         email = EmailForDelivery()
