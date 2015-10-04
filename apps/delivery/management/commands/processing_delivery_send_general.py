@@ -106,9 +106,9 @@ class Command(BaseCommand, ):
                         else:
                             print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                             from time import sleep
-                            sleep(30, )
+                            sleep(20, )
                             print 'Next'
-                            sleep(30, )
+                            sleep(20, )
 
 
 
