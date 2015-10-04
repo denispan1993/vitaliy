@@ -75,7 +75,11 @@ class Command(BaseCommand, ):
                         emails = None
                     """ Здесь нужно помудрить с коммитом """
                     from apps.delivery.models import EmailForDelivery
+                    i = 0
                     for real_email in emails:
+                        i =+ 1
+                        if i < 400:
+                            continue
                         email = EmailForDelivery()
                         email.delivery = email_middle_delivery
                         email.email = real_email
@@ -93,16 +97,18 @@ class Command(BaseCommand, ):
                         try:
                             msg.send(fail_silently=False, )
                         except Exception as e:
-                            msg = EmailMultiAlternatives(subject=delivery.subject,
+                            msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                          body='Error: %s - E-Mail: %s' % (e, real_email.email, ),
                                                          from_email='subscribe@keksik.com.ua',
                                                          to=['subscribe@keksik.com.ua', ],
                                                          connection=backend, )
                             msg.send(fail_silently=True, )
                         else:
-                            print 'Pk: ', real_email.pk, ' - ', real_email.email
+                            print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                             from time import sleep
-                            sleep(60, )
+                            sleep(30, )
+                            print 'Next'
+                            sleep(30, )
 
 
 
