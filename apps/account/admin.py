@@ -37,7 +37,9 @@ from apps.account.models import Session_ID
 
 
 class Session_IDAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ('pk', 'user', 'sessionid', 'created_at', 'updated_at', )
+    list_display_links = ('pk', 'user', 'sessionid', )
+    search_fields = ['sessionid', ]
 admin.site.register(Session_ID, Session_IDAdmin, )
 
 #from apps.account.models import UserProfileModel
