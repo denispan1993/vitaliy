@@ -102,6 +102,12 @@ body{
                     <td>
                         Дата обновления: {{ delivery.updated_at|date("d-M-Y H:i:s") }}
                     </td>
+                    <td>
+                        Адресов в базе: {{ delivery.emails }}
+                    </td>
+                    <td>
+                        Из них плохие: {{ delivery.bad_emails }}
+                    </td>
                 </tr>
                 {% if not delivery.send_test %}{# or not delivery.send_general  #}
                 <tr>

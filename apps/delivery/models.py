@@ -59,7 +59,9 @@ class Delivery(models.Model, ):
                             null=True,
                             default=datetime.now().isoformat(), )
     Type_Mailings = (
-        (1, _(u'Акция', ), ),
+        (1, _(u'Фэйк рассылка', ), ),
+        (2, _(u'Акция', ), ),
+        (3, _(u'Новинки', ), ),
         # (2, _(u'Под заказ', ), ),
         # (3, _(u'Ожидается', ), ),
         # (4, _(u'Недоступен', ), ),
@@ -167,6 +169,16 @@ class Delivery(models.Model, ):
 
         self.real_html = real_html
         super(Delivery, self).save(*args, **kwargs)  # Call the "real" save() method.
+
+    @property
+    def emails(self):
+        from apps.authModel.models import Email
+        return Email.objects.count()
+
+    @property
+    def bad_emails(self):
+        from apps.authModel.models import Email
+        return Email.objects.filter(bad_email=True, ).count()
 
     @property
     def text_type(self):
