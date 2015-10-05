@@ -16,3 +16,7 @@ class Command(BaseCommand, ):
                 email = Email.objects.get(email=order.email, )
             except Email.DoesNotExist:
                 print order.email
+            except Email.MultipleObjectsReturned:
+                emails = Email.objects.filter(email=order.email, )
+                print emails[0]
+
