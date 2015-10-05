@@ -18,5 +18,5 @@ class Command(BaseCommand, ):
                 print order.email
             except Email.MultipleObjectsReturned:
                 emails = Email.objects.filter(email=order.email, )
-                print emails[0]
+                print 'MultiObject: ', emails[0].email
 
