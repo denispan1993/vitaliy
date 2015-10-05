@@ -1,5 +1,5 @@
-# coding=utf-8
-__author__ = 'Админ'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django.contrib import admin
 
