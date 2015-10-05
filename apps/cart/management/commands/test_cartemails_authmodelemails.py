@@ -15,7 +15,7 @@ class Command(BaseCommand, ):
             try:
                 email = Email.objects.get(email=order.email, )
             except Email.DoesNotExist:
-                print order.email
+                print 'SessionID: ', order.sessionid, 'E-Mail: ', order.email
             except Email.MultipleObjectsReturned:
                 emails = Email.objects.filter(email=order.email, )
                 print 'MultiObject: ', emails[0].email
