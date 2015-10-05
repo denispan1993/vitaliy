@@ -39,6 +39,7 @@ from apps.cart.models import Order
 class OrderAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'user', 'sessionid', 'email', 'phone', ]
     list_display_links = ['pk', 'user', 'sessionid', 'email', 'phone', ]
+    search_fields = ('sessionid', 'email', 'phone', )
 admin.site.register(Order, OrderAdmin, )
 
 from apps.cart.models import Product
