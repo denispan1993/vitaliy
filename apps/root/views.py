@@ -3,6 +3,15 @@ from django.template import RequestContext
 
 
 def root_page(request, template_name=u'index.jinja2.html', ):
+    if request.method == 'GET':
+        GET_NAME = request.GET.get(u'action', False, )
+        if GET_NAME == 'delivery':
+            id = request.GET.get(u'id', False, )
+            url = request.GET.get(u'url', False, )
+            if url:
+                from django.shortcuts import redirect
+                return redirect(to=url, permanent=True, )
+
     # from apps.product.models import Category
     # try:
     #     categories_basement = Category.objects.basement()
