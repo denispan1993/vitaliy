@@ -79,7 +79,7 @@ class Command(BaseCommand, ):
                     i = 0
                     for real_email in emails:
                         i += 1
-                        if i < 400:
+                        if i < 1286:
                             continue
                         email = EmailForDelivery()
                         email.delivery = email_middle_delivery
@@ -106,10 +106,13 @@ class Command(BaseCommand, ):
                             msg.send(fail_silently=True, )
                         else:
                             print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
+                            from random import randrange
+                            time1 = randrange(10, 15, )
+                            time2 = randrange(10, 15, )
                             from time import sleep
-                            sleep(20, )
+                            sleep(time1, )
                             print 'Next'
-                            sleep(20, )
+                            sleep(time2, )
 
 
 
