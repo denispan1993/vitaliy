@@ -3,7 +3,8 @@ __author__ = 'AlexStarov'
 
 
 def parsing(value, key, ):
-    values = value.split('{{ id }}', )
+    from re import split
+    values = split('{{ id }}', value, )
     n = 0
     cycle = 0
     value = ''
