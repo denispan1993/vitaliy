@@ -268,7 +268,7 @@ from django.db import IntegrityError
 
 
 def key_generate_for_email_delivery():
-    return 'aaa'
+    return 'bbb'
 
 
 class EmailForDelivery(models.Model, ):
