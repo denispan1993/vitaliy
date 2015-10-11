@@ -73,8 +73,8 @@ class Command(BaseCommand, ):
                     from proj.settings import Email_MANAGER
                     from apps.delivery.utils import parsing
                     msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
-                                                 body=parsing(value=strip_tags(delivery.html, ),
-                                                              key=email.key, ),
+                                                 body=strip_tags(parsing(value=delivery.html,
+                                                                         key=email.key, ), ),
                                                  from_email='subscribe@keksik.com.ua',
                                                  to=['subscribe@keksik.com.ua', ],
                                                  connection=backend, )
