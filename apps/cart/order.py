@@ -101,39 +101,39 @@ def ordering_step_two(request,
                 from proj.settings import SERVER
                 from validate_email import validate_email
                 if SERVER or not SERVER:
-                    if validate_email(email, check_mx=True, ):
-                        """ Если проверка на существование сервера прошла...
-                            То делаем полную проверку адреса на существование... """
-                        is_validate = validate_email(email, verify=True, )
-                        if not is_validate:
-                            """ Делаем повторную проверку на просто валидацию E-Mail адреса """
-                            from django.forms import EmailField
-                            from django.core.exceptions import ValidationError
-                            try:
-                                EmailField().clean(email, )
-                            except ValidationError:
-                                email_error = u'Ваш E-Mail адрес не существует.'
-                            else:
-                                is_validate = True
-                        print 'is_validate: ', is_validate, ' email_error: ', email_error, ' email: ', email
-                        if is_validate and not email_error:
-                            request.session[u'email'] = email
-                            """ Взять или создать корзину пользователя """
-                            """ Создать теоретически это не нормально """
-                            from apps.cart.views import get_cart_or_create
-                            cart, create = get_cart_or_create(request, )
-                            if create:
-                                return redirect(to=u'/заказ/вы-где-то-оступились/', )
-                            request.session[u'cart_pk'] = cart.pk
-                            from apps.cart.models import Order
-                            order = Order.objects.create(FIO=FIO,
-                                                         email=email,
-                                                         phone=phone,
-                                                         country_id=select_country, )
-                            request.session[u'order_pk'] = order.pk
-                    else:
-                        # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
-                        email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
+                    # if validate_email(email, check_mx=True, ):
+                    #    """ Если проверка на существование сервера прошла...
+                    #        То делаем полную проверку адреса на существование... """
+                    #    is_validate = validate_email(email, verify=True, )
+                    # if not is_validate:
+                    """ Делаем повторную проверку на просто валидацию E-Mail адреса """
+                    from django.forms import EmailField
+                    from django.core.exceptions import ValidationError
+                    try:
+                        EmailField().clean(email, )
+                    except ValidationError:
+                        email_error = u'Ваш E-Mail адрес не существует.'
+                    # else:
+                    #     is_validate = True
+                    print 'email_error: ', email_error, ' email: ', email
+                    if not email_error:
+                        request.session[u'email'] = email
+                        """ Взять или создать корзину пользователя """
+                        """ Создать теоретически это не нормально """
+                        from apps.cart.views import get_cart_or_create
+                        cart, create = get_cart_or_create(request, )
+                        if create:
+                            return redirect(to=u'/заказ/вы-где-то-оступились/', )
+                        request.session[u'cart_pk'] = cart.pk
+                        from apps.cart.models import Order
+                        order = Order.objects.create(FIO=FIO,
+                                                     email=email,
+                                                     phone=phone,
+                                                     country_id=select_country, )
+                        request.session[u'order_pk'] = order.pk
+                    # else:
+                    #     # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                    #     email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
 
             else:
                 email_error = u'Вы забыли указать Ваш E-Mail.'

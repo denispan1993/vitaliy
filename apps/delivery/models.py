@@ -276,12 +276,13 @@ class EmailForDelivery(models.Model, ):
                                  verbose_name=_(u'Указатель на рассылку', ),
                                  blank=False,
                                  null=False, )
+    from apps.utils.captcha.views import key_generator
     key = models.CharField(verbose_name=_(u'ID E-Mail адреса и рассылки', ),
                            max_length=8,
                            blank=False,
                            null=False,
                            unique=True,
-                           default='', )
+                           default=key_generator, )
     from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,
                               verbose_name=_(u'E-Mail', ),
