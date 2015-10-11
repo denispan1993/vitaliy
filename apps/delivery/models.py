@@ -263,11 +263,36 @@ class EmailMiddleDelivery(models.Model, ):
         verbose_name_plural = u'Промежуточные можели Рассылок'
 
 
+from apps.utils.captcha.views import key_generator
+from django.db import IntegrityError
+
+
+def key_generate_for_email_delivery():
+    ok = True
+    while ok:
+        key = key_generator()
+        try:
+            EmailForDelivery.objects.get(key=key, )
+        except EmailForDelivery.DoesNotExist:
+            return key
+        except IntegrityError:
+            print 'IntegrityError', ' Key: ', key
+        except Exception as inst:
+            print type(inst, )
+            print inst
+
+
 class EmailForDelivery(models.Model, ):
     delivery = models.ForeignKey(to=EmailMiddleDelivery,
                                  verbose_name=_(u'Указатель на рассылку', ),
                                  blank=False,
                                  null=False, )
+    key = models.CharField(verbose_name=_(u'ID E-Mail адреса и рассылки', ),
+                           max_length=8,
+                           blank=False,
+                           null=False,
+                           unique=True,
+                           default=key_generate_for_email_delivery, )
     from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,
                               verbose_name=_(u'E-Mail', ),
@@ -294,3 +319,26 @@ class EmailForDelivery(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Модель Рассылки (Email адрес)'
         verbose_name_plural = u'Модели Рассылок (Email адреса)'
+
+
+class TraceOfVisits(models.Model, ):
+    delivery = models.ForeignKey(to=Delivery,
+                                 verbose_name=_(u'Указатель на рассылку', ),
+                                 blank=False,
+                                 null=False, )
+    email = models.ForeignKey(to=EmailForDelivery,
+                              verbose_name=_(u'Указатель на E-Mail пользователя', ),
+                              blank=False,
+                              null=False, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+
+    class Meta:
+        db_table = 'TraceOfVisits'
+        ordering = ['-created_at', ]
+        verbose_name = u'Модель След от посещения'
+        verbose_name_plural = u'Модели Следы от посещений'
