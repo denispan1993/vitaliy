@@ -33,14 +33,11 @@
             {% endif %}
             {% for delivery_company in delivery_companies_list %}
                 {% if select_delivery_company == delivery_company.select_number and select_delivery_company != 1000 %}
-                    <option value="{{ delivery_company.select_number }}"
-                            selected="">
-                        <strong>{{ delivery_company.select_string_ru }}</strong>
-                    </option>
+                    <option value="{{ delivery_company.select_number }}" selected=""><strong>{{ delivery_company.select_string_ru }}</strong></option>
+                {% elif delivery_company.pk == 1 %}
+                    <option value="{{ delivery_company.select_number }}" selected="">{{ delivery_company.select_string_ru }}</option>
                 {% else %}
-                    <option value="{{ delivery_company.select_number }}">
-                        {{ delivery_company.select_string_ru }}
-                    </option>
+                    <option value="{{ delivery_company.select_number }}">{{ delivery_company.select_string_ru }}</option>
                 {% endif %}
             {% endfor %}
         </select>
