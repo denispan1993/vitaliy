@@ -4,7 +4,7 @@ __author__ = 'AlexStarov'
 
 def parsing(value, key, ):
     from re import split
-    values = split('|| id ||', value, )
+    values = split("`&id&`", value, )
     n = 0
     cycle = 0
     part_count = len(values, )
