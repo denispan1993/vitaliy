@@ -281,7 +281,7 @@ class EmailForDelivery(models.Model, ):
                            max_length=8,
                            blank=False,
                            null=False,
-                           unique=True,
+                           #unique=True,
                            default=key_generator, )
     from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,

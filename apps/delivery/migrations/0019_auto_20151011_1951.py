@@ -7,8 +7,11 @@ import datetime
 
 class Migration(migrations.Migration):
 
+    #dependencies = [
+    #    ('delivery', '0018_auto_20151011_1928'),
+    #]
     dependencies = [
-        ('delivery', '0018_auto_20151011_1928'),
+        ('delivery', '0015_auto_20151006_1558'),
     ]
 
     operations = [
