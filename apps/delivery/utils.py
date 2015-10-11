@@ -13,7 +13,7 @@ def parsing(value, key, ):
     print 'part_count: ', part_count
     if part_count > 1:
         value = ''
-        for value_part in values[::2]:  # перечисляем все куски с шагом 2
+        for value_part in values:  # [::2]:  # перечисляем все куски с шагом 2
             print 'value_part: ', value_part.encode('utf8', )
             print 'values[n+1]: ', values[n+1].encode('utf8', )
             print 'value: ', value.encode('utf8', )
@@ -22,4 +22,6 @@ def parsing(value, key, ):
             print 'value: ', value.encode('utf8', )
             n += 2
             cycle += 1
-    return value
+        return value
+    else:
+        return value
