@@ -49,9 +49,7 @@ class Command(BaseCommand, ):
                     delivery.send_test = True
                     delivery.save()
                     from django.forms.fields import EmailField
-                    email = EmailField('subscribe@keksik.com.ua',
-                                       min_length=1,
-                                       max_length=255, )
+                    email = EmailField.clean('subscribe@keksik.com.ua', )
                     from apps.delivery.models import EmailForDelivery
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                             email=email, )
