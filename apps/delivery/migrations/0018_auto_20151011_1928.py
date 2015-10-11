@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='emailfordelivery',
             name='key',
-            field=models.CharField(unique=True, max_length=8, verbose_name='ID E-Mail \u0430\u0434\u0440\u0435\u0441\u0430 \u0438 \u0440\u0430\u0441\u0441\u044b\u043b\u043a\u0438'),
+            field=models.CharField(default=apps.delivery.models.key_generate_for_email_delivery, unique=True, max_length=8, verbose_name='ID E-Mail \u0430\u0434\u0440\u0435\u0441\u0430 \u0438 \u0440\u0430\u0441\u0441\u044b\u043b\u043a\u0438'),
             preserve_default=True,
         ),
         migrations.AlterField(
