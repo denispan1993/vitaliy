@@ -20,7 +20,7 @@ def parsing(value, key, ):
             print 'n: ', n, ' cycle: ', cycle
             value = '%s%s%s%s' % (value, value_part, key, values[n+1], )
             print 'value: ', value.encode('utf8', )
-            n += 2
+            n += 1
             cycle += 1
         return value
     else:
