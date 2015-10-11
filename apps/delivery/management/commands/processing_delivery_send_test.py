@@ -78,7 +78,8 @@ class Command(BaseCommand, ):
                                                  from_email='subscribe@keksik.com.ua',
                                                  to=['subscribe@keksik.com.ua', ],
                                                  connection=backend, )
-                    msg.attach_alternative(content=delivery.html,
+                    msg.attach_alternative(content=parsing(value=delivery.html,
+                                                           key=email.key, ),
                                            mimetype="text/html", )
                     msg.content_subtype = "html"
                     msg.send(fail_silently=False, )
