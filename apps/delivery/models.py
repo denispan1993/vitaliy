@@ -268,18 +268,7 @@ from django.db import IntegrityError
 
 
 def key_generate_for_email_delivery():
-    ok = True
-    while ok:
-        key = key_generator()
-        try:
-            EmailForDelivery.objects.get(key=key, )
-        except EmailForDelivery.DoesNotExist:
-            return key
-        except IntegrityError:
-            print 'IntegrityError', ' Key: ', key
-        except Exception as inst:
-            print type(inst, )
-            print inst
+    return 'aaa'
 
 
 class EmailForDelivery(models.Model, ):
@@ -292,7 +281,7 @@ class EmailForDelivery(models.Model, ):
                            blank=False,
                            null=False,
                            unique=True,
-                           default=key_generate_for_email_delivery, )
+                           default='', )
     from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,
                               verbose_name=_(u'E-Mail', ),
@@ -313,6 +302,23 @@ class EmailForDelivery(models.Model, ):
                                       blank=True,
                                       null=True,
                                       default=datetime.now(), )
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            ok = True
+            while ok:
+                key = key_generator()
+                try:
+                    EmailForDelivery.objects.get(key=key, )
+                except EmailForDelivery.DoesNotExist:
+                    self.key = key
+                    ok = False
+                except IntegrityError:
+                    print 'IntegrityError', ' Key: ', key
+                except Exception as inst:
+                    print type(inst, )
+                    print inst
+        super(EmailForDelivery, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'EmailForDelivery'
