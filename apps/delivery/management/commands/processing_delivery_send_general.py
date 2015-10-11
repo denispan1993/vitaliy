@@ -32,13 +32,11 @@ class Command(BaseCommand, ):
             for delivery in deliveryes:
                 # print 'delivery', delivery
                 try:
-                    aaa=EmailMiddleDelivery.objects.\
+                    EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
                             send_test=False,
                             send_general=True,
                             updated_at__lte=delivery.updated_at, )
-                    print 'aaa: ', aaa
-                    #print aaa, delivery.updated_at
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
@@ -81,11 +79,12 @@ class Command(BaseCommand, ):
                         i += 1
                         if i < 1286:
                             continue
-                        email = EmailForDelivery()
-                        email.delivery = email_middle_delivery
-                        email.email = real_email
-                        """ | """
-                        email.save()
+                        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                                email=real_email, )
+                        #email.delivery = email_middle_delivery
+                        #email.email = real_email
+                        #""" | """
+                        #email.save()
                         """ Отсылка """
                         msg = EmailMultiAlternatives(subject=delivery.subject,
                                                      body=strip_tags(delivery.html, ),

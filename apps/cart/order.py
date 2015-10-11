@@ -63,14 +63,14 @@ def ordering_step_one(request,
 
 def ordering_step_two(request,
                       template_name=u'order/step_two_ua.jinja2.html', ):
-    FIO = request.POST.get(u'FIO', None, )
+    FIO = request.POST.get(u'FIO', False, )
     if FIO:
-        request.session[u'FIO'] = FIO
-    email = request.POST.get(u'email', None, )
+        request.session[u'FIO'] = FIO.strip()
+    email = request.POST.get(u'email', False, )
     email_error = False
-    phone = request.POST.get(u'phone', None, )
+    phone = request.POST.get(u'phone', False, )
     if phone:
-        request.session[u'phone'] = phone
+        request.session[u'phone'] = phone.strip()
     country = request.POST.get(u'select_country', None, )
     from apps.product.models import Country
     try:
@@ -92,12 +92,6 @@ def ordering_step_two(request,
                 """ Если страна не Украина """
                 template_name = u'order/step_two_others.jinja2.html'
 
-    from apps.cart.models import DeliveryCompany
-    try:
-        delivery_companies_list = DeliveryCompany.objects.all()
-    except Country.DoesNotExist:
-        from django.http import Http404
-        raise Http404
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'ordering_step_one':
@@ -130,6 +124,13 @@ def ordering_step_two(request,
                             cart, create = get_cart_or_create(request, )
                             if create:
                                 return redirect(to=u'/заказ/вы-где-то-оступились/', )
+                            request.session[u'cart_pk'] = cart.pk
+                            from apps.cart.models import Order
+                            order = Order.objects.create(FIO=FIO,
+                                                         email=email,
+                                                         phone=phone,
+                                                         country_id=select_country, )
+                            request.session[u'order_pk'] = order.pk
                     else:
                         # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
                         email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
@@ -142,6 +143,14 @@ def ordering_step_two(request,
             return redirect(to=u'/заказ/вы-где-то-оступились/', )
     else:
         return redirect(to=u'/заказ/вы-где-то-оступились/', )
+
+    from apps.cart.models import DeliveryCompany
+    try:
+        delivery_companies_list = DeliveryCompany.objects.all()
+    except Country.DoesNotExist:
+        from django.http import Http404
+        raise Http404
+
     return render_to_response(template_name=template_name,
                               dictionary={'form_action_next': u'/заказ/результат-оформления/',
                                           'delivery_companies_list': delivery_companies_list,
@@ -163,11 +172,21 @@ def result_ordering(request, ):
             email = request.session.get(u'email', None, )
             phone = request.session.get(u'phone', None, )
             select_country = request.session.get(u'select_country', None, )
+            order_pk = request.session.get(u'order_pk', None, )
+            try:
+                order_pk = int(order_pk, )
+            except ValueError:
+                return redirect(to=u'/заказ/вы-где-то-оступились/', )
+
             from apps.cart.models import Order
-            order = Order(FIO=FIO,
-                          email=email,
-                          phone=phone,
-                          country_id=select_country, )
+            try:
+                order = Order.objects.get(pk=order_pk, )
+            except Order.DoesNotExist:
+                return redirect(to=u'/заказ/вы-где-то-оступились/', )
+            #order = Order(FIO=FIO,
+            #              email=email,
+            #              phone=phone,
+            #              country_id=select_country, )
             if select_country == 1:
                 """ Страна Украина """
                 region = request.POST.get(u'region', None, )

@@ -48,6 +48,9 @@ class Command(BaseCommand, ):
                     """ Закрываем отсылку теста в самой рассылке """
                     delivery.send_test = True
                     delivery.save()
+                    from apps.delivery.models import EmailForDelivery
+                    email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                            email='subscribe@keksik.com.ua', )
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
@@ -66,8 +69,10 @@ class Command(BaseCommand, ):
                                              fail_silently=False, )
                     from django.core.mail import EmailMultiAlternatives
                     from proj.settings import Email_MANAGER
+                    from apps.delivery.utils import parsing
                     msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
-                                                 body=strip_tags(delivery.html, ),
+                                                 body=parsing(value=strip_tags(delivery.html, ),
+                                                              key=email.key, ),
                                                  from_email='subscribe@keksik.com.ua',
                                                  to=['subscribe@keksik.com.ua', ],
                                                  connection=backend, )
