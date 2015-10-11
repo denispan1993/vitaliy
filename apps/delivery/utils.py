@@ -5,8 +5,8 @@ __author__ = 'AlexStarov'
 def parsing(value, key, ):
     # from re import split
     values = value.split("/id/", )
-    print value
-    print values
+    #print value
+    #print values
     n = 0
     cycle = 0
     part_count = len(values, )
