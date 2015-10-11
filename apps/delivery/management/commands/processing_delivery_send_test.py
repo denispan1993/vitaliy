@@ -48,9 +48,11 @@ class Command(BaseCommand, ):
                     """ Закрываем отсылку теста в самой рассылке """
                     delivery.send_test = True
                     delivery.save()
+                    from django.forms import EmailField
+                    email = EmailField('subscribe@keksik.com.ua')
                     from apps.delivery.models import EmailForDelivery
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                            email='subscribe@keksik.com.ua', )
+                                                            email=email, )
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
