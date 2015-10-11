@@ -22,7 +22,7 @@ def order_email_test(request, ):
                     # from proj.settings import SERVER
                     # if SERVER or not SERVER:
                     is_validate = False
-                    email_error = None
+                    email_error = False
                     from django.core.validators import validate_email
                     from django.core.exceptions import ValidationError
                     try:

@@ -127,19 +127,20 @@ document.getElementById('email').onchange=function(){
                                     id="select_country"
                                     required=""
                                     style="float:left;width:246px;">
-                                {% if not select_country or select_country == '1000' %}
+                                {# {% if not select_country or select_country == '1000' %}
                                     <option value="1000"
                                             selected=""
                                             disabled="disabled">Страна
                                     </option>
-                                {% endif %}
+                                {% endif %} #}
                                 {% for country_select in country_list %}
                                     {% if select_country.pk == country_select.pk and select_country != 1000 %}
-                                        <option value="{{ country_select.pk }}"
-                                                selected="">
-                                            <strong>{{ country_select.name_ru }}</strong>
+                                        <option value="{{ country_select.pk }}" selected=""><strong>{{ country_select.name_ru }}</strong>
                                         </option>
-                                    {% else %}
+                                    {% elif country_select.pk == 1 %}
+                                        <option value="{{ country_select.pk }}" selected="">{{ country_select.name_ru }}
+                                        </option>
+                                    {% else%}
                                         <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
                                         </option>
                                     {% endif %}
