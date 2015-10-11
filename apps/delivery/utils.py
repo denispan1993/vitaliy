@@ -10,7 +10,7 @@ def parsing(value, key, ):
     if part_count > 1:
         value = ''
         for value_part in values:  # [::2]:  # перечисляем все куски с шагом 2
-            value = '%s%s%s' % (value, value_part, key, )
+            value = '%s%s%s-%d-%d' % (value, value_part, key, part_count, cycle, )
             cycle += 1
             if part_count == cycle:
                 break
