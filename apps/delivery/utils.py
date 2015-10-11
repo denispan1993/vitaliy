@@ -7,14 +7,14 @@ def parsing(value, key, ):
     values = split("{{ id }}*", value, )
     print value.encode('utf8', )
     print values[0].encode('utf8', )
-    n = 0
+    n = 1
     cycle = 0
     part_count = len(values, )
     print 'part_count: ', part_count
     if part_count > 1:
         value = ''
         for value_part in values[::2]:  # перечисляем все куски с шагом 2
-            if n % 2 == 0:
+            if not n % 2 == 0:
                 value1 = values[n]
                 value2 = values[n+1]
             else:
