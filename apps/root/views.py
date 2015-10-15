@@ -21,7 +21,7 @@ def root_page(request, template_name=u'index.jinja2.html', ):
                     record.email = email
                     record.delivery = email.delivery.delivery
                     url = request.GET.get(u'url', False, )
-                    print 'Root: url: ', url
+                    print 'Root: url: ', url.encode('utf8', )
                     if url:
                         record.url = url
                         record.save()
