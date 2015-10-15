@@ -17,11 +17,14 @@ def root_page(request, template_name=u'index.jinja2.html', ):
                     record = TraceOfVisits()
                     record.email = email
                     record.delivery = email.delivery.delivery
-                    record.save()
-            url = request.GET.get(u'url', False, )
-            if url:
-                from django.shortcuts import redirect
-                return redirect(to=url, permanent=True, )
+                    url = request.GET.get(u'url', False, )
+                    if url:
+                        record.url = url
+                        record.save()
+                        from django.shortcuts import redirect
+                        return redirect(to=url, permanent=True, )
+                    else:
+                        record.save()
 
     # from apps.product.models import Category
     # try:

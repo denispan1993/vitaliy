@@ -281,7 +281,7 @@ class EmailForDelivery(models.Model, ):
                            max_length=8,
                            blank=False,
                            null=False,
-                           #unique=True,
+                           unique=True,
                            default=key_generator, )
     from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,
@@ -337,6 +337,10 @@ class TraceOfVisits(models.Model, ):
                               verbose_name=_(u'Указатель на E-Mail пользователя', ),
                               blank=False,
                               null=False, )
+    url = models.CharField(verbose_name=_(u'URL переадресации', ),
+                           max_length=255,
+                           blank=True,
+                           null=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
