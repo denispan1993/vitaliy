@@ -103,6 +103,9 @@ body{
                         Дата обновления: {{ delivery.updated_at|date("d-M-Y H:i:s") }}
                     </td>
                     <td>
+                        Доставленно на адресов: {{ delivery.emails_delivered }}
+                    </td>
+                    <td>
                         Адресов в базе: {{ delivery.emails }}
                     </td>
                     <td>

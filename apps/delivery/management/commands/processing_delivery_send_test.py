@@ -49,10 +49,10 @@ class Command(BaseCommand, ):
                     delivery.send_test = True
                     delivery.save()
                     from apps.authModel.models import Email
-                    email = Email.objects.get(pk=2836)
+                    real_email = Email.objects.get(pk=2836)
                     from apps.delivery.models import EmailForDelivery
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                            email=email, )
+                                                            email=real_email, )
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 

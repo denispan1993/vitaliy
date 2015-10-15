@@ -171,6 +171,15 @@ class Delivery(models.Model, ):
         super(Delivery, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     @property
+    def emails_delivered(self):
+        EmailMiddleDelivery_all = EmailMiddleDelivery.objects.filter(delivery_send=True, )
+        i = 0
+        if not EmailMiddleDelivery_all == []:
+            for EmailMiddleDelivery_each in EmailMiddleDelivery_all:
+                i += EmailForDelivery.objects.filter(delivery=EmailMiddleDelivery_each, ).count()
+        return i
+
+    @property
     def emails(self):
         from apps.authModel.models import Email
         return Email.objects.count()

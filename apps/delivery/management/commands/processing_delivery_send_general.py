@@ -69,29 +69,26 @@ class Command(BaseCommand, ):
                     from apps.authModel.models import Email
                     """ Создаем указатели на E-Mail адреса рассылки """
                     try:
-                        emails = Email.objects.all()
+                        emails = Email.objects.filter(bad_email=False, )
                     except Email.DoesNotExist:
                         emails = None
                     """ Здесь нужно помудрить с коммитом """
                     from apps.delivery.models import EmailForDelivery
+                    from apps.delivery.utils import parsing
                     i = 0
                     for real_email in emails:
                         i += 1
-                        if i < 1286:
-                            continue
                         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                                 email=real_email, )
-                        #email.delivery = email_middle_delivery
-                        #email.email = real_email
-                        #""" | """
-                        #email.save()
                         """ Отсылка """
                         msg = EmailMultiAlternatives(subject=delivery.subject,
-                                                     body=strip_tags(delivery.html, ),
+                                                     body=strip_tags(parsing(value=delivery.html,
+                                                                             key=email.key, ), ),
                                                      from_email='subscribe@keksik.com.ua',
                                                      to=[real_email.email, ],
                                                      connection=backend, )
-                        msg.attach_alternative(content=delivery.html,
+                        msg.attach_alternative(content=parsing(value=delivery.html,
+                                                               key=email.key, ),
                                                mimetype="text/html", )
                         msg.content_subtype = "html"
                         try:
@@ -106,8 +103,8 @@ class Command(BaseCommand, ):
                         else:
                             print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                             from random import randrange
-                            time1 = randrange(10, 15, )
-                            time2 = randrange(10, 15, )
+                            time1 = randrange(9, 15, )
+                            time2 = randrange(9, 15, )
                             from time import sleep
                             sleep(time1, )
                             print 'Next'
