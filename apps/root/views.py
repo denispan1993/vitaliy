@@ -4,12 +4,9 @@ from django.template import RequestContext
 
 def root_page(request, template_name=u'index.jinja2.html', ):
     if request.method == 'GET':
-        print 'Root: key: GET'
         GET_NAME = request.GET.get(u'action', False, )
-        print 'Root: action: ', GET_NAME
         if GET_NAME == 'delivery':
             key = request.GET.get(u'id', False, )
-            print 'Root: key: ', key
             if key:
                 from apps.delivery.models import EmailForDelivery, TraceOfVisits
                 try:
@@ -21,12 +18,8 @@ def root_page(request, template_name=u'index.jinja2.html', ):
                     record.email = email
                     record.delivery = email.delivery.delivery
                     url = request.GET.get('url', False, )
-                    print 'Root: url: ', url.encode('utf8', )
                     if url:
-                        url1 = url.encode('utf8', )
-                        print 'type url1: ', type(url1, )
-                        print 'url1: ', url1
-                        record.url = url1
+                        record.url = url.encode('utf8', )
                         record.save()
                         from django.shortcuts import redirect
                         return redirect(to=url, permanent=True, )
