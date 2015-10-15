@@ -8,7 +8,7 @@ def root_page(request, template_name=u'index.jinja2.html', ):
         GET_NAME = request.GET.get(u'action', False, )
         print 'Root: action: ', GET_NAME
         if GET_NAME == 'delivery':
-            key = request.GET.get(u'key', False, )
+            key = request.GET.get(u'id', False, )
             print 'Root: key: ', key
             if key:
                 from apps.delivery.models import EmailForDelivery, TraceOfVisits
