@@ -76,6 +76,7 @@ class Command(BaseCommand, ):
                     from apps.delivery.models import EmailForDelivery
                     from apps.delivery.utils import parsing
                     i = 0
+                    time = 0
                     for real_email in emails:
                         i += 1
                         if i < 125:
@@ -107,7 +108,8 @@ class Command(BaseCommand, ):
                             from random import randrange
                             time1 = randrange(7, 14, )
                             time2 = randrange(7, 14, )
-                            print 'Time1: ', time1, ' Time2: ', time2, ' Tyme all: ', time1+time2
+                            time = (time + time1 + time2)/2
+                            print 'Time1: ', time1, ' Time2: ', time2, ' Tyme all: ', time1+time2, ' time: ', time
                             from time import sleep
                             sleep(time1, )
                             print 'Next'
