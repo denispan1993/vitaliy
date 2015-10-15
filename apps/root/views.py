@@ -4,7 +4,9 @@ from django.template import RequestContext
 
 def root_page(request, template_name=u'index.jinja2.html', ):
     if request.method == 'GET':
+        print 'Root: key: GET'
         GET_NAME = request.GET.get(u'action', False, )
+        print 'Root: action: ', GET_NAME
         if GET_NAME == 'delivery':
             key = request.GET.get(u'key', False, )
             print 'Root: key: ', key
