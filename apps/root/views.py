@@ -26,7 +26,7 @@ def root_page(request, template_name=u'index.jinja2.html', ):
                         url1 = url.encode('utf8', )
                         print 'type url1: ', type(url1, )
                         print 'url1: ', url1
-                        #record.url = url.decode('utf8', )
+                        record.url = url1
                         record.save()
                         from django.shortcuts import redirect
                         return redirect(to=url, permanent=True, )
