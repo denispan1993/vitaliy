@@ -78,6 +78,8 @@ class Command(BaseCommand, ):
                     i = 0
                     for real_email in emails:
                         i += 1
+                        if i < 125:
+                            continue
                         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                                 email=real_email, )
                         """ Отсылка """
