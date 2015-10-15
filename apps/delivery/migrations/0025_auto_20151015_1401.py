@@ -8,10 +8,13 @@ import apps.utils.captcha.views
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('delivery', '0024_auto_20151015_1357'),
-    ]
+#    dependencies = [
+#        ('delivery', '0024_auto_20151015_1357'),
+#    ]
 
+    dependencies = [
+        ('delivery', '0023_auto_20151011_2202'),
+    ]
     operations = [
         migrations.AlterField(
             model_name='delivery',
