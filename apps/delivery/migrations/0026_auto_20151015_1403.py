@@ -12,12 +12,12 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-#        migrations.AddField(
-#            model_name='traceofvisits',
-#            name='url',
-#            field=models.CharField(max_length=255, null=True, verbose_name='URL \u043f\u0435\u0440\u0435\u0430\u0434\u0440\u0435\u0441\u0430\u0446\u0438\u0438', blank=True),
-#            preserve_default=True,
-#        ),
+        migrations.AddField(
+            model_name='traceofvisits',
+            name='url',
+            field=models.CharField(max_length=255, null=True, verbose_name='URL \u043f\u0435\u0440\u0435\u0430\u0434\u0440\u0435\u0441\u0430\u0446\u0438\u0438', blank=True),
+            preserve_default=True,
+        ),
         migrations.AlterField(
             model_name='delivery',
             name='created_at',
