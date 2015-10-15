@@ -105,8 +105,9 @@ class Command(BaseCommand, ):
                         else:
                             print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                             from random import randrange
-                            time1 = randrange(9, 15, )
-                            time2 = randrange(9, 15, )
+                            time1 = randrange(7, 14, )
+                            time2 = randrange(7, 14, )
+                            print 'Time1: ', time1, ' Time2: ', time2, ' Tyme all: ', time1+time2
                             from time import sleep
                             sleep(time1, )
                             print 'Next'
