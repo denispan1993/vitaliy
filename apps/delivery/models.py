@@ -263,7 +263,7 @@ class EmailMiddleDelivery(models.Model, ):
         verbose_name_plural = u'Промежуточные можели Рассылок'
 
 
-#from apps.utils.captcha.views import key_generator
+from apps.utils.captcha.views import key_generator
 from django.db import IntegrityError
 
 
@@ -280,9 +280,9 @@ class EmailForDelivery(models.Model, ):
     key = models.CharField(verbose_name=_(u'ID E-Mail адреса и рассылки', ),
                            max_length=8,
                            blank=False,
-                           null=False, )
+                           null=False,
                            # unique=True, )
-                           # default=key_generator, )
+                           default=key_generator, )
     from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,
                               verbose_name=_(u'E-Mail', ),
