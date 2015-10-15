@@ -23,6 +23,7 @@ def root_page(request, template_name=u'index.jinja2.html', ):
                     url = request.GET.get(u'url', False, )
                     print 'Root: url: ', url.encode('utf8', )
                     if url:
+
                         record.url = url.decode('utf8mb4', )
                         record.save()
                         from django.shortcuts import redirect
