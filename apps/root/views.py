@@ -7,17 +7,19 @@ def root_page(request, template_name=u'index.jinja2.html', ):
         GET_NAME = request.GET.get(u'action', False, )
         if GET_NAME == 'delivery':
             key = request.GET.get(u'key', False, )
+            print 'Root: key: ', key
             if key:
                 from apps.delivery.models import EmailForDelivery, TraceOfVisits
                 try:
                     email = EmailForDelivery.objects.get(key=key, )
                 except EmailForDelivery.DoesNotExist:
-                    print 'Error^ E-Mail not found for key: ', key
+                    print 'Error: E-Mail not found for key: ', key
                 else:
                     record = TraceOfVisits()
                     record.email = email
                     record.delivery = email.delivery.delivery
                     url = request.GET.get(u'url', False, )
+                    print 'Root: url: ', url
                     if url:
                         record.url = url
                         record.save()
