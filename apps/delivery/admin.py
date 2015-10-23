@@ -44,7 +44,24 @@ class EmailMiddleDeliveryAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'delivery', ]
 admin.site.register(EmailMiddleDelivery, EmailMiddleDeliveryAdmin, )
 
+from apps.delivery.models import EmailForDelivery
 
+
+class EmailForDeliveryAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'delivery', 'key', 'send', 'created_at', ]
+    list_display_links = ['pk', 'delivery', 'key', ]
+admin.site.register(EmailForDelivery, EmailForDeliveryAdmin, )
+
+from apps.delivery.models import SpamEmail
+
+
+class SpamEmailAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'email', 'created_at', ]
+    list_display_links = ['pk', 'email', 'created_at', ]
+
+    ordering = ['-created_at', ]
+
+admin.site.register(SpamEmail, SpamEmailAdmin, )
 
 
 #class CouponAdmin(admin.ModelAdmin, ):

@@ -24,7 +24,10 @@ class Command(BaseCommand, ):
     def handle(self, *args, **options):
         from apps.delivery.models import Delivery
         try:
-            deliveryes = Delivery.objects.filter(delivery_test=False, send_test=True, send_general=False, )
+            deliveryes = Delivery.objects.filter(delivery_test=False,
+                                                 send_test=True,
+                                                 send_general=False,
+                                                 type__in=[1, 2, 3, ], )
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
@@ -79,8 +82,8 @@ class Command(BaseCommand, ):
                     time = 0
                     for real_email in emails:
                         i += 1
-                        if i < 125:
-                            continue
+                        # if i < 125:
+                        #     continue
                         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                                 email=real_email, )
                         """ Отсылка """
@@ -98,7 +101,7 @@ class Command(BaseCommand, ):
                             msg.send(fail_silently=False, )
                         except Exception as e:
                             msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
-                                                         body='Error: %s - E-Mail: %s' % (e, real_email.email, ),
+                                                         body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
                                                          from_email='subscribe@keksik.com.ua',
                                                          to=['subscribe@keksik.com.ua', ],
                                                          connection=backend, )
@@ -106,10 +109,10 @@ class Command(BaseCommand, ):
                         else:
                             print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                             from random import randrange
-                            time1 = randrange(7, 14, )
-                            time2 = randrange(7, 14, )
-                            time = (time + time1 + time2)/2
-                            print 'Time1: ', time1, ' Time2: ', time2, ' Tyme all: ', time1+time2, ' time: ', time
+                            time1 = randrange(6, 12, )
+                            time2 = randrange(6, 12, )
+                            time += time1 + time2
+                            print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                             from time import sleep
                             sleep(time1, )
                             print 'Next'

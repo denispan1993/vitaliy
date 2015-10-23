@@ -62,6 +62,7 @@ class Delivery(models.Model, ):
         (1, _(u'Фэйк рассылка', ), ),
         (2, _(u'Акция', ), ),
         (3, _(u'Новинки', ), ),
+        (4, _(u'Рассылка на "SPAM" адреса', ), ),
         # (2, _(u'Под заказ', ), ),
         # (3, _(u'Ожидается', ), ),
         # (4, _(u'Недоступен', ), ),
@@ -297,6 +298,18 @@ class EmailForDelivery(models.Model, ):
                               verbose_name=_(u'E-Mail', ),
                               blank=False,
                               null=False, )
+    from django.contrib.contenttypes.models import ContentType
+    content_type = models.ForeignKey(ContentType,
+                                     related_name='email_instance',
+                                     verbose_name=_(u'Указатель на E-Mail', ),
+                                     blank=True,
+                                     null=True, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            blank=True,
+                                            null=True, )
+    from django.contrib.contenttypes import generic
+    now_email = generic.GenericForeignKey('content_type', 'object_id', )
+
     send = models.BooleanField(verbose_name=_(u'Флаг отсылки', ),
                                blank=True,
                                null=False,
@@ -362,3 +375,21 @@ class TraceOfVisits(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Модель След от посещения'
         verbose_name_plural = u'Модели Следы от посещений'
+
+
+class SpamEmail(models.Model, ):
+    email = models.EmailField(verbose_name=_(u'E-Mail', ),
+                              blank=False,
+                              null=False, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True,
+                                      default=datetime.now(), )
+
+    class Meta:
+        db_table = 'SpamEmail'
+        ordering = ['-created_at', ]
+        verbose_name = u'Емэйл для спама'
+        verbose_name_plural = u'Емэйлы для спама'
