@@ -73,7 +73,7 @@ class TraceOfVisitsAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'delivery', 'key', ]
     search_fields = ['url', ]
 
-admin.site.register(EmailForDelivery, EmailForDeliveryAdmin, )
+admin.site.register(TraceOfVisits, TraceOfVisitsAdmin, )
 
 #class CouponAdmin(admin.ModelAdmin, ):
 #    list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
