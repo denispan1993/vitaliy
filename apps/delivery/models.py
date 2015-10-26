@@ -304,8 +304,8 @@ class EmailForDelivery(models.Model, ):
     from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,
                               verbose_name=_(u'E-Mail', ),
-                              blank=False,
-                              null=False, )
+                              blank=True,
+                              null=True, )
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType,
                                      related_name='email_instance',
