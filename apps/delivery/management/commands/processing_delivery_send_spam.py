@@ -25,7 +25,7 @@ class Command(BaseCommand, ):
         from apps.delivery.models import Delivery
         try:
             deliveryes = Delivery.objects.filter(delivery_test=False,
-                                                 send_test=True, send_general=False,
+                                                 send_test=True, send_general=False, send_spam=False,
                                                  type__in=[4, ], )
         except Delivery.DoesNotExist:
             deliveryes = None
@@ -47,7 +47,7 @@ class Command(BaseCommand, ):
                     email_middle_delivery.delivery_send = True
                     email_middle_delivery.save()
                     """ Закрываем отсылку теста в самой рассылке """
-                    delivery.send_general = True
+                    delivery.send_spam = True
                     delivery.save()
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
