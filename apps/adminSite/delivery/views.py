@@ -246,4 +246,12 @@ def exclude_email_from_delivery(request,
             else:
                 email.bad_email = True
                 email.save()
+            from apps.delivery.models import SpamEmail
+            try:
+                email = SpamEmail.objects.get(email=email, )
+            except SpamEmail.DoesNotExist:
+                error_message = u'В базе отсутсвует такой E-Mail.'
+            else:
+                email.bad_email = True
+                email.save()
     return redirect(to='admin_delivery:index', )
