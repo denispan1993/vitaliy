@@ -47,9 +47,9 @@ class Command(BaseCommand, ):
                             delivery_test_send=False,
                             spam_send=True,
                             delivery_send=False,
-                            updated_at__lte=delivery.updated_at, )
+                            updated_at__gte=delivery.updated_at, )
                     print aaa
-                    print aaa.updated_at < delivery.updated_at
+                    print aaa.updated_at > delivery.updated_at
                     print delivery.updated_at
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
