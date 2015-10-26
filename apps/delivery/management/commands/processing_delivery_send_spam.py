@@ -25,9 +25,16 @@ class Command(BaseCommand, ):
         from apps.delivery.models import Delivery
         try:
             deliveryes = Delivery.objects.filter(delivery_test=False,
-                                                 send_test=True, send_general=False, send_spam=False,
+                                                 send_test=True, send_spam=False, send_general=False,
                                                  type__in=[4, ], )
         except Delivery.DoesNotExist:
+            deliveryes = Delivery.objects.all()
+            for delivery in deliveryes:
+                print delivery.delivery_test
+                print delivery.send_test
+                print delivery.send_spam
+                print delivery.send_general
+                print delivery.type
             deliveryes = None
         else:
             print deliveryes
