@@ -78,7 +78,7 @@ class Delivery(models.Model, ):
     send_spam = models.BooleanField(verbose_name=_(u'SPAM рассылка отослана', ),
                                     blank=True,
                                     null=False,
-                                    default=True, )
+                                    default=False, )
     send_general = models.BooleanField(verbose_name=_(u'Главная рассылка отослана', ),
                                        blank=True,
                                        null=False,
