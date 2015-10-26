@@ -30,8 +30,10 @@ class Command(BaseCommand, ):
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
+            print deliveryes
             from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
+                print delivery
                 # print 'delivery', delivery
                 try:
                     EmailMiddleDelivery.objects.\
