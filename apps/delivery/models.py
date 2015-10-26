@@ -380,6 +380,18 @@ class TraceOfVisits(models.Model, ):
                                       null=True,
                                       default=datetime.now(), )
 
+    @property
+    def delivery_fk(self):
+        return self.delivery.name
+
+    @property
+    def email_fk(self):
+        return self.email.now_email.email
+
+    @property
+    def email_fk_key(self):
+        return self.email.key
+
     class Meta:
         db_table = 'TraceOfVisits'
         ordering = ['-created_at', ]

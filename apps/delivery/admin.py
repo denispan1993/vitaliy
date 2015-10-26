@@ -56,13 +56,24 @@ from apps.delivery.models import SpamEmail
 
 
 class SpamEmailAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'email', 'created_at', ]
+    list_display = ['pk', 'email', 'bad_email', 'created_at', ]
     list_display_links = ['pk', 'email', 'created_at', ]
+
+    search_fields = ['email', ]
 
     ordering = ['-created_at', ]
 
 admin.site.register(SpamEmail, SpamEmailAdmin, )
 
+from apps.delivery.models import TraceOfVisits
+
+
+class TraceOfVisitsAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'delivery', 'delivery_pk', 'email', 'email_pk', 'url', 'email_fk_key', 'created_at', ]
+    list_display_links = ['pk', 'delivery', 'key', ]
+    search_fields = ['url', ]
+
+admin.site.register(EmailForDelivery, EmailForDeliveryAdmin, )
 
 #class CouponAdmin(admin.ModelAdmin, ):
 #    list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
