@@ -249,6 +249,10 @@ class EmailMiddleDelivery(models.Model, ):
                                              blank=True,
                                              null=False,
                                              default=True, )
+    spam_send = models.BooleanField(verbose_name=_(u'SPAM рассылка - отослана', ),
+                                    blank=True,
+                                    null=False,
+                                    default=True, )
     delivery_send = models.BooleanField(verbose_name=_(u'Рассылка - отослана', ),
                                         blank=True,
                                         null=False,

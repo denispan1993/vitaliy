@@ -36,15 +36,17 @@ class Command(BaseCommand, ):
                 try:
                     EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
-                            send_test=False,
-                            send_general=True,
+                            delivery_test_send=False,
+                            spam_send=True,
+                            delivery_send=False,
                             updated_at__lte=delivery.updated_at, )
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
                     email_middle_delivery.delivery = delivery
                     email_middle_delivery.delivery_test_send = False
-                    email_middle_delivery.delivery_send = True
+                    email_middle_delivery.spam_send = True
+                    email_middle_delivery.delivery_send = False
                     email_middle_delivery.save()
                     """ Закрываем отсылку теста в самой рассылке """
                     delivery.send_spam = True
@@ -75,53 +77,55 @@ class Command(BaseCommand, ):
                     except SpamEmail.DoesNotExist:
                         print "Email's: None"
                         emails = None
-                    from apps.delivery.models import EmailForDelivery
-                    from apps.delivery.utils import parsing
-                    i = 0
-                    time = 0
-                    for real_email in emails:
-                        i += 1
-                        # if i < 125:
-                        #     continue
-                        #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                        #                                        content_type=real_email.content_type,
-                        #                                        object_id=real_email.pk, )
-                        #                                        # now_email=real_email, )
-                        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                                # content_type=real_email.content_type,
-                                                                # object_id=real_email.pk,
-                                                                now_email=real_email, )
-                        """ Отсылка """
-                        msg = EmailMultiAlternatives(subject=delivery.subject,
-                                                     body=strip_tags(parsing(value=delivery.html,
-                                                                             key=email.key, ), ),
-                                                     from_email='subscribe@keksik.com.ua',
-                                                     to=[real_email.email, ],
-                                                     connection=backend, )
-                        msg.attach_alternative(content=parsing(value=delivery.html,
-                                                               key=email.key, ),
-                                               mimetype="text/html", )
-                        msg.content_subtype = "html"
-                        try:
-                            msg.send(fail_silently=False, )
-                        except Exception as e:
-                            msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
-                                                         body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
+                    else:
+                        print emails
+                        from apps.delivery.models import EmailForDelivery
+                        from apps.delivery.utils import parsing
+                        i = 0
+                        time = 0
+                        for real_email in emails:
+                            i += 1
+                            # if i < 125:
+                            #     continue
+                            #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                            #                                        content_type=real_email.content_type,
+                            #                                        object_id=real_email.pk, )
+                            #                                        # now_email=real_email, )
+                            email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                                    # content_type=real_email.content_type,
+                                                                    # object_id=real_email.pk,
+                                                                    now_email=real_email, )
+                            """ Отсылка """
+                            msg = EmailMultiAlternatives(subject=delivery.subject,
+                                                         body=strip_tags(parsing(value=delivery.html,
+                                                                                 key=email.key, ), ),
                                                          from_email='subscribe@keksik.com.ua',
-                                                         to=['subscribe@keksik.com.ua', ],
+                                                         to=[real_email.email, ],
                                                          connection=backend, )
-                            msg.send(fail_silently=True, )
-                        else:
-                            print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
-                            from random import randrange
-                            time1 = randrange(20, 40, )
-                            time2 = randrange(20, 40, )
-                            time += time1 + time2
-                            print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
-                            from time import sleep
-                            sleep(time1, )
-                            print 'Next'
-                            sleep(time2, )
+                            msg.attach_alternative(content=parsing(value=delivery.html,
+                                                                   key=email.key, ),
+                                                   mimetype="text/html", )
+                            msg.content_subtype = "html"
+                            try:
+                                msg.send(fail_silently=False, )
+                            except Exception as e:
+                                msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
+                                                             body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
+                                                             from_email='subscribe@keksik.com.ua',
+                                                             to=['subscribe@keksik.com.ua', ],
+                                                             connection=backend, )
+                                msg.send(fail_silently=True, )
+                            else:
+                                print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
+                                from random import randrange
+                                time1 = randrange(20, 40, )
+                                time2 = randrange(20, 40, )
+                                time += time1 + time2
+                                print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
+                                from time import sleep
+                                sleep(time1, )
+                                print 'Next'
+                                sleep(time2, )
 
 
 
