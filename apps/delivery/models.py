@@ -177,9 +177,15 @@ class Delivery(models.Model, ):
 
     @property
     def emails_delivered(self):
-        EmailMiddleDelivery_all = EmailMiddleDelivery.objects.filter(delivery=self, delivery_send=True, spam_send=False, )
-        if EmailMiddleDelivery_all == []:
-            EmailMiddleDelivery_all = EmailMiddleDelivery.objects.filter(delivery=self, delivery_send=False, spam_send=True, )
+        EmailMiddleDelivery_all = EmailMiddleDelivery.objects.filter(delivery=self,
+                                                                     delivery_test_send=False,
+                                                                     spam_send=False,
+                                                                     delivery_send=True, )
+        if len(EmailMiddleDelivery_all, ) < 1:
+            EmailMiddleDelivery_all = EmailMiddleDelivery.objects.filter(delivery=self,
+                                                                         delivery_test_send=False,
+                                                                         spam_send=True,
+                                                                         delivery_send=False, )
         i = 0
         if not EmailMiddleDelivery_all == []:
             for EmailMiddleDelivery_each in EmailMiddleDelivery_all:

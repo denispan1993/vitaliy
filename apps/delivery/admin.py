@@ -69,7 +69,7 @@ from apps.delivery.models import TraceOfVisits
 
 
 class TraceOfVisitsAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'delivery', 'delivery_pk', 'email', 'email_pk', 'url', 'email_fk_key', 'created_at', ]
+    list_display = ['pk', 'delivery', 'delivery_fk', 'email', 'email_fk', 'url', 'email_fk_key', 'created_at', ]
     list_display_links = ['pk', 'delivery', 'key', ]
     search_fields = ['url', ]
 
