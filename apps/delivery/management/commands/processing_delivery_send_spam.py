@@ -37,6 +37,9 @@ class Command(BaseCommand, ):
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
+            pass
+def hernya3():
+
             print deliveryes
             from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
