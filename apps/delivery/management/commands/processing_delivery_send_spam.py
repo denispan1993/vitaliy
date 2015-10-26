@@ -30,19 +30,16 @@ class Command(BaseCommand, ):
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
-            print deliveryes
             from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
-                print delivery
                 # print 'delivery', delivery
                 try:
-                    aaa=EmailMiddleDelivery.objects.\
+                    EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
                             delivery_test_send=False,
                             spam_send=True,
                             delivery_send=False,
                             updated_at__lte=delivery.updated_at, )
-                    print aaa
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
@@ -80,10 +77,8 @@ class Command(BaseCommand, ):
                     try:
                         emails = SpamEmail.objects.filter(bad_email=False, )
                     except SpamEmail.DoesNotExist:
-                        print "Email's: None"
                         emails = None
                     else:
-                        print emails
                         from apps.delivery.models import EmailForDelivery
                         from apps.delivery.utils import parsing
                         i = 0
