@@ -85,6 +85,19 @@ def add_edit(request,
                         send_test = bool(send_test, )
                 else:
                     send_test = True
+            send_spam = request.POST.get(u'send_spam', None, )
+            if send_spam == None:
+                send_spam = True
+            else:
+                if isinstance(send_spam, unicode, ):
+                    try:
+                        send_spam = int(send_spam, )
+                    except Exception as inst:
+                        send_spam = True
+                    else:
+                        send_spam = bool(send_spam, )
+                else:
+                    send_spam = True
             send_general = request.POST.get(u'send_general', None, )
             if send_general == None:
                 send_general = True
@@ -133,6 +146,7 @@ def add_edit(request,
             delivery.name = name
             delivery.delivery_test = test
             delivery.send_test = send_test
+            delivery.send_spam = send_spam
             delivery.send_general = send_general
             # print test
             delivery.type = delivery_type
