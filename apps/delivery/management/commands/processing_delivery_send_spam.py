@@ -27,20 +27,16 @@ class Command(BaseCommand, ):
             deliveryes = Delivery.objects.filter(delivery_test=False,
                                                  send_test=True, send_spam=False, send_general=False,
                                                  type__in=[4, ], )
-            deliveryes = Delivery.objects.all()
-            for delivery in deliveryes:
-                print delivery.delivery_test
-                print delivery.send_test
-                print delivery.send_spam
-                print delivery.send_general
-                print delivery.type
+            #deliveryes = Delivery.objects.all()
+            #for delivery in deliveryes:
+            #    print delivery.delivery_test
+            #    print delivery.send_test
+            #    print delivery.send_spam
+            #    print delivery.send_general
+            #    print delivery.type
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
-            pass
-def hernya3():
-
-            print deliveryes
             from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
                 print delivery
@@ -63,8 +59,6 @@ def hernya3():
                     """ Закрываем отсылку теста в самой рассылке """
                     delivery.send_spam = True
                     delivery.save()
-                    print email_middle_delivery
-                    print delivery
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
