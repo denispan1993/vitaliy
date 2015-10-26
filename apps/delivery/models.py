@@ -381,12 +381,19 @@ class SpamEmail(models.Model, ):
     email = models.EmailField(verbose_name=_(u'E-Mail', ),
                               blank=False,
                               null=False, )
+    bad_email = models.BooleanField(verbose_name=_(u'Bad E-Mail', ),
+                                    default=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
                                       null=True,
                                       default=datetime.now(), )
+
+    @property
+    def content_type(self, ):
+        from django.contrib.contenttypes.models import ContentType
+        return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
 
     class Meta:
         db_table = 'SpamEmail'

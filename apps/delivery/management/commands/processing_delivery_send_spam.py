@@ -82,8 +82,14 @@ class Command(BaseCommand, ):
                         i += 1
                         # if i < 125:
                         #     continue
+                        #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                        #                                        content_type=real_email.content_type,
+                        #                                        object_id=real_email.pk, )
+                        #                                        # now_email=real_email, )
                         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                                email=real_email, )
+                                                                # content_type=real_email.content_type,
+                                                                # object_id=real_email.pk,
+                                                                now_email=real_email, )
                         """ Отсылка """
                         msg = EmailMultiAlternatives(subject=delivery.subject,
                                                      body=strip_tags(parsing(value=delivery.html,
@@ -107,8 +113,8 @@ class Command(BaseCommand, ):
                         else:
                             print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                             from random import randrange
-                            time1 = randrange(6, 12, )
-                            time2 = randrange(6, 12, )
+                            time1 = randrange(20, 40, )
+                            time2 = randrange(20, 40, )
                             time += time1 + time2
                             print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                             from time import sleep
