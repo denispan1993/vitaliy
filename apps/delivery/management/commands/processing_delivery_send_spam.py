@@ -59,6 +59,7 @@ class Command(BaseCommand, ):
                     """ Закрываем отсылку теста в самой рассылке """
                     delivery.send_spam = True
                     delivery.save()
+                    print delivery
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
