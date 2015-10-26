@@ -73,6 +73,7 @@ class Command(BaseCommand, ):
                     try:
                         emails = SpamEmail.objects.filter(bad_email=False, )
                     except SpamEmail.DoesNotExist:
+                        print "Email's: None"
                         emails = None
                     from apps.delivery.models import EmailForDelivery
                     from apps.delivery.utils import parsing
