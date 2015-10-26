@@ -42,12 +42,13 @@ class Command(BaseCommand, ):
                 print delivery
                 # print 'delivery', delivery
                 try:
-                    EmailMiddleDelivery.objects.\
+                    aaa=EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
                             delivery_test_send=False,
                             spam_send=True,
                             delivery_send=False,
                             updated_at__lte=delivery.updated_at, )
+                    print aaa
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
