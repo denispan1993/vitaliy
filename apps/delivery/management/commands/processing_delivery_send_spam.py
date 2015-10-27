@@ -42,15 +42,12 @@ class Command(BaseCommand, ):
                 print delivery
                 # print 'delivery', delivery
                 try:
-                    aaa=EmailMiddleDelivery.objects.\
+                    EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
                             delivery_test_send=False,
                             spam_send=True,
                             delivery_send=False,
-                            updated_at__gte=delivery.updated_at, )
-                    print aaa
-                    print aaa.updated_at > delivery.updated_at
-                    print delivery.updated_at
+                            updated_at__lte=delivery.updated_at, )
                 except:
                     """ Создаем ссылочку на отсылку рассылки """
                     email_middle_delivery = EmailMiddleDelivery()
@@ -94,6 +91,13 @@ class Command(BaseCommand, ):
                         i = 0
                         time = 0
                         for real_email in emails:
+                            try:
+                                email = EmailForDelivery.objects.get(now_email=real_email, )
+                            except EmailForDelivery.DoesNotExist:
+                                pass
+                            else:
+                                print 'Uge: ', email.now_email.email
+                                continue
                             i += 1
                             # if i < 125:
                             #     continue
@@ -128,8 +132,8 @@ class Command(BaseCommand, ):
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                                 from random import randrange
-                                time1 = randrange(20, 40, )
-                                time2 = randrange(20, 40, )
+                                time1 = randrange(10, 40, )
+                                time2 = randrange(10, 40, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 from time import sleep
