@@ -60,6 +60,16 @@ class Command(BaseCommand, ):
                         email_error = u'Unicode Error.'
                         print email_error
                     else:
+                        email_domain = email.split('@')[1]
+                        if email_domain == '3x.pn'\
+                                or email_domain == '2x.pn'\
+                                or email_domain == '1x.pn'\
+                                or email_domain == '2x.jp'\
+                                or email_domain == '2x.gi':
+                            bad_email += 1
+                            email_error = u'Ваш E-Mail адрес не существует.'
+                            print email_error
+
                         good_email += 1
                         try:
                             exist_email = SpamEmail.objects.get(email=email, )

@@ -136,11 +136,13 @@ class Command(BaseCommand, ):
                                                              to=['subscribe@keksik.com.ua', ],
                                                              connection=backend, )
                                 msg.send(fail_silently=True, )
+                                sleep(120, )
+                                time += 120
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                                 from random import randrange
-                                time1 = randrange(10, 40, )
-                                time2 = randrange(10, 40, )
+                                time1 = randrange(5, 25, )
+                                time2 = randrange(5, 25, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 from time import sleep
