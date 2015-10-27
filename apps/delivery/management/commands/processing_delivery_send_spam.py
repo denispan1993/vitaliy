@@ -92,7 +92,8 @@ class Command(BaseCommand, ):
                         time = 0
                         for real_email in emails:
                             try:
-                                email = EmailForDelivery.objects.get(object_id=real_email.pk, )
+                                email = EmailForDelivery.objects.get(content_type=SpamEmail.content_type,
+                                                                     object_id=real_email.pk, )
                             except EmailForDelivery.DoesNotExist:
                                 pass
                             else:
