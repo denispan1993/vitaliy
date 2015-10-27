@@ -138,8 +138,8 @@ class Command(BaseCommand, ):
                                                              to=['subscribe@keksik.com.ua', ],
                                                              connection=backend, )
                                 msg.send(fail_silently=True, )
-                                sleep(120, )
-                                time += 120
+                                sleep(60, )
+                                time += 60
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                                 time1 = randrange(5, 25, )
