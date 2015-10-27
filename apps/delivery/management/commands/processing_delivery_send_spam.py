@@ -93,6 +93,7 @@ class Command(BaseCommand, ):
                         for real_email in emails:
                             try:
                                 print SpamEmail
+                                print SpamEmail.content_type
                                 print SpamEmail.content_type.model_class()
                                 print SpamEmail.content_type.natural_key()
                                 from django.contrib.contenttypes.models import ContentType
