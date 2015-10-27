@@ -44,7 +44,10 @@ class Command(BaseCommand, ):
                 while True:
                     line = f.readline()
                     if not line: break
-                    email = line.split('<')[1].split('>')[0].lstrip('.')
+                    try:
+                        email = line.split('<')[1].split('>')[0].lstrip('.')
+                    except IndexError:
+                        continue
                     print line, email, ' bad_email: ', bad_email, ' good_email: ', good_email
                     """
                         Делаем повторную проверку на просто валидацию E-Mail адреса
