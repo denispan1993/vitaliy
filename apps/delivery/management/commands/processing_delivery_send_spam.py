@@ -92,13 +92,13 @@ class Command(BaseCommand, ):
                         time = 0
                         for real_email in emails:
                             try:
-                                print SpamEmail
-                                print SpamEmail.content_type
-                                print SpamEmail.content_type.model_class()
-                                print SpamEmail.content_type.natural_key()
+                                print real_email
+                                print real_email.content_type
+                                print real_email.content_type.model_class()
+                                print real_email.content_type.natural_key()
                                 from django.contrib.contenttypes.models import ContentType
 
-                                email = EmailForDelivery.objects.get(content_type=SpamEmail.content_type,
+                                email = EmailForDelivery.objects.get(content_type=real_email.content_type,
                                                                      object_id=real_email.pk, )
                             except EmailForDelivery.DoesNotExist:
                                 pass
