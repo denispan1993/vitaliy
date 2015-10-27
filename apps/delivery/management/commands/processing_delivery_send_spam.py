@@ -88,6 +88,8 @@ class Command(BaseCommand, ):
                     else:
                         from apps.delivery.models import EmailForDelivery
                         from apps.delivery.utils import parsing
+                        from time import sleep
+                        from random import randrange
                         i = 0
                         time = 0
                         for real_email in emails:
@@ -140,12 +142,10 @@ class Command(BaseCommand, ):
                                 time += 120
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
-                                from random import randrange
                                 time1 = randrange(5, 25, )
                                 time2 = randrange(5, 25, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
-                                from time import sleep
                                 sleep(time1, )
                                 print 'Next'
                                 sleep(time2, )
