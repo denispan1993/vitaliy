@@ -92,7 +92,7 @@ class Command(BaseCommand, ):
                         time = 0
                         for real_email in emails:
                             try:
-                                email = EmailForDelivery.objects.get(now_email=real_email, )
+                                email = EmailForDelivery.objects.get(object_id=real_email.pk, )
                             except EmailForDelivery.DoesNotExist:
                                 pass
                             else:
