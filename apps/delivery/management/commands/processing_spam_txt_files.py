@@ -83,6 +83,9 @@ class Command(BaseCommand, ):
                             else:
                                 email_exist_in_emails += 1
                                 print 'email_exist_in_emails: ', email_exist_in_emails
+                        except SpamEmail.MultipleObjectsReturned:
+                            exist_emails = SpamEmail.objects.filter(email=email, )
+                            exist_emails[0].delete()
                         else:
                             email_exist_in_spam_list += 1
                             print 'email_exist_in_spam_list: ', email_exist_in_spam_list
