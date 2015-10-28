@@ -10,9 +10,18 @@ from apps.delivery.models import MailAccount
 
 
 class MailAccountAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'email', 'smtp_server', 'smtp_port', 'login', 'created_at', 'updated_at', ]
-    list_display_links = ['pk', 'email', 'login', ]
+    list_display = ['pk', 'email', 'username', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'email', 'username', ]
 admin.site.register(MailAccount, MailAccountAdmin, )
+
+
+from apps.delivery.models import MailServer
+
+
+class MailServerAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'server', 'port', 'use_tls', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'server', 'port', ]
+admin.site.register(MailServer, MailServerAdmin, )
 
 
 class genericStacked_MediaFile_InLine(generic.GenericStackedInline, ):

@@ -63,6 +63,9 @@ class Command(BaseCommand, ):
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
+                    from apps.delivery.models import MailAccount
+                    mail_accounts = MailAccount.objects.all()
+                    len_mail_accounts = len(mail_accounts, )
                     EMAIL_USE_TLS = True
                     EMAIL_HOST = 'smtp.yandex.ru'
                     EMAIL_PORT = 587
@@ -108,6 +111,15 @@ class Command(BaseCommand, ):
                                 print 'Uge: ', email.now_email.email
                                 continue
                             i += 1
+                            mail_account_pk = randrange(1, len_mail_accounts, )
+                            mail_account = mail_accounts.get(pk=mail_account_pk, )
+                            backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                                                     host=mail_account.server.server,
+                                                     port=mail_account.server.port,
+                                                     username=mail_account.username,
+                                                     password=mail_account.password,
+                                                     use_tls=mail_account.server.use_tls,
+                                                     fail_silently=False, )
                             # if i < 125:
                             #     continue
                             #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,

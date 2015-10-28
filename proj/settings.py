@@ -26,6 +26,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'site@keksik.com.ua'
 EMAIL_HOST_PASSWORD = '1q2w3e4r'
 
+DEFAULT_FROM_EMAIL = 'Интернет магазин Кексик <subscribe@keksik.com.ua>'
 MANAGERS = ADMINS
 
 SERVER = os.path.isfile(path('server.key', ), )
@@ -48,6 +49,9 @@ if os.path.isfile(path('server.mysql', ), ):
             'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
             'HOST': '192.168.1.95',        # Set to empty string for localhost. Not used with sqlite3.
             'PORT': '3306',                # Set to empty string for default. Not used with sqlite3.
+            'OPTIONS': {
+                'charset': 'utf8',
+                'use_unicode': True, },
         }
     }
 elif os.path.isfile(path('production.mysql', ), ):
