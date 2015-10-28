@@ -37,7 +37,7 @@ class MailAccount(models.Model, ):
                                       default=datetime.now(), )
 
     def __unicode__(self):
-        return u'%s -> %s:%d -> Login: %s' % (self.email, self.server, self.login, )
+        return u'%s -> %s:%d' % (self.email, self.server.server, self.server.port, )
 
     class Meta:
         db_table = 'MailAccount'
@@ -70,7 +70,7 @@ class MailServer(models.Model, ):
                                       default=datetime.now(), )
 
     def __unicode__(self):
-        return u'%s -> %s:%d -> Login: %s' % (self.email, self.smtp_server, self.smtp_port, self.login, )
+        return u'%s:%d' % (self.server, self.port, )
 
     class Meta:
         db_table = 'MailServer'
