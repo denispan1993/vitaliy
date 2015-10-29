@@ -112,7 +112,7 @@ class Command(BaseCommand, ):
                                                                          object_id=real_email.pk, )
                                 emails[0].delete()
                             else:
-                                print 'Uge: ', email.now_email.email
+                                print 'Exist: ', email.now_email.email
                                 continue
                             i += 1
                             mail_account_pk = randrange(1, len_mail_accounts, )
@@ -152,6 +152,8 @@ class Command(BaseCommand, ):
                             except SMTPSenderRefused:
                                 email.delete()
                                 print 'SMTPSenderRefused'
+                                sleep(60, )
+                                time += 60
                             except Exception as e:
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
