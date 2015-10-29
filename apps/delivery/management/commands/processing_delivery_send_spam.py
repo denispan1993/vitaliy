@@ -146,8 +146,11 @@ class Command(BaseCommand, ):
                                                                    key=email.key, ),
                                                    mimetype="text/html", )
                             msg.content_subtype = "html"
+                            from smtplib import SMTPSenderRefused
                             try:
                                 msg.send(fail_silently=False, )
+                            except SMTPSenderRefused:
+                                email.delete()
                             except Exception as e:
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
