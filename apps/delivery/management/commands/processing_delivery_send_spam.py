@@ -135,7 +135,7 @@ class Command(BaseCommand, ):
                             msg = EmailMultiAlternatives(subject=delivery.subject,
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
-                                                         from_email='Интернет магазин Кексик <%s>' % mail_account.email,
+                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             msg.attach_alternative(content=parsing(value=delivery.html,
