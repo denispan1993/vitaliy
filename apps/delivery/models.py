@@ -36,6 +36,10 @@ class MailAccount(models.Model, ):
                                       null=True,
                                       default=datetime.now(), )
 
+    @property
+    def is_active(self):
+        return self.server.is_active
+
     def __unicode__(self):
         return u'%s -> %s:%d' % (self.email, self.server.server, self.server.port, )
 
@@ -47,6 +51,10 @@ class MailAccount(models.Model, ):
 
 
 class MailServer(models.Model, ):
+    is_active = models.BooleanField(verbose_name=_(u'Сервер активный', ),
+                                    blank=False,
+                                    null=False,
+                                    default=True, )
     server = models.CharField(verbose_name=_(u'SMTP Server', ),
                               max_length=64,
                               blank=False,
