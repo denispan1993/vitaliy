@@ -151,6 +151,7 @@ class Command(BaseCommand, ):
                                 msg.send(fail_silently=False, )
                             except SMTPSenderRefused:
                                 email.delete()
+                                print 'SMTPSenderRefused'
                             except Exception as e:
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
