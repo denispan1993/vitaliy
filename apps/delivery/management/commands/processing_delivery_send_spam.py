@@ -110,7 +110,7 @@ class Command(BaseCommand, ):
                             except EmailForDelivery.MultipleObjectsReturned:
                                 emails = EmailForDelivery.objects.filter(content_type=real_email.content_type,
                                                                          object_id=real_email.pk, )
-                                emails[1].delete()
+                                emails[0].delete()
                             else:
                                 print 'Uge: ', email.now_email.email
                                 continue
