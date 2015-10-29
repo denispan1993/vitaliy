@@ -64,7 +64,7 @@ class Command(BaseCommand, ):
                     from django.utils.html import strip_tags
 
                     from apps.delivery.models import MailAccount
-                    mail_accounts = MailAccount.objects.all()
+                    mail_accounts = MailAccount.objects.all().order_by('?')
                     len_mail_accounts = len(mail_accounts, )
                     EMAIL_USE_TLS = True
                     EMAIL_HOST = 'smtp.yandex.ru'
@@ -85,7 +85,7 @@ class Command(BaseCommand, ):
                     from apps.delivery.models import SpamEmail
                     """ Создаем указатели на E-Mail адреса рассылки """
                     try:
-                        emails = SpamEmail.objects.filter(bad_email=False, )
+                        emails = SpamEmail.objects.filter(bad_email=False, ).order_by('?')
                     except SpamEmail.DoesNotExist:
                         emails = None
                     else:
@@ -113,6 +113,7 @@ class Command(BaseCommand, ):
                             i += 1
                             mail_account_pk = randrange(1, len_mail_accounts, )
                             mail_account = mail_accounts.get(pk=mail_account_pk, )
+                            print mail_account
                             backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                                      host=mail_account.server.server,
                                                      port=mail_account.server.port,
@@ -134,7 +135,7 @@ class Command(BaseCommand, ):
                             msg = EmailMultiAlternatives(subject=delivery.subject,
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
-                                                         from_email='subscribe@keksik.com.ua',
+                                                         from_email=mail_account.email,
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             msg.attach_alternative(content=parsing(value=delivery.html,
@@ -146,16 +147,16 @@ class Command(BaseCommand, ):
                             except Exception as e:
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
-                                                             from_email='subscribe@keksik.com.ua',
-                                                             to=['subscribe@keksik.com.ua', ],
+                                                             from_email=mail_account.email,
+                                                             to=[mail_account.email, ],
                                                              connection=backend, )
                                 msg.send(fail_silently=True, )
                                 sleep(60, )
                                 time += 60
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
-                                time1 = randrange(5, 25, )
-                                time2 = randrange(5, 25, )
+                                time1 = randrange(25, 30, )
+                                time2 = randrange(25, 30, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 sleep(time1, )
