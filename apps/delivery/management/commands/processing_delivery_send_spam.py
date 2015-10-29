@@ -150,11 +150,15 @@ class Command(BaseCommand, ):
                                                    mimetype="text/html", )
                             print '4'
                             msg.content_subtype = "html"
-                            from smtplib import SMTPSenderRefused
+                            print '123345'
+                            import smtplib
+                            print '54321'
                             try:
                                 msg.send(fail_silently=False, )
                                 print '5'
-                            except SMTPSenderRefused:
+                            except smtplib.SMTPSenderRefused as e:
+                                print e
+                                print 'aaaa1'
                                 email.delete()
                                 print 'SMTPSenderRefused'
                                 sleep(60, )
