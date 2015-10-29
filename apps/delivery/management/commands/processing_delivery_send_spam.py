@@ -63,9 +63,9 @@ class Command(BaseCommand, ):
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
 
-                    from apps.delivery.models import MailAccount
-                    mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
-                    len_mail_accounts = len(mail_accounts, )
+#                    from apps.delivery.models import MailAccount
+#                    mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
+#                    len_mail_accounts = len(mail_accounts, )
                     EMAIL_USE_TLS = True
                     EMAIL_HOST = 'smtp.yandex.ru'
                     EMAIL_PORT = 587
@@ -115,16 +115,16 @@ class Command(BaseCommand, ):
                                 print 'Exist: ', email.now_email.email
                                 continue
                             i += 1
-                            mail_account_pk = randrange(1, len_mail_accounts, )
-                            mail_account = mail_accounts.get(pk=mail_account_pk, )
-                            print mail_account
-                            backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                                                     host=mail_account.server.server,
-                                                     port=mail_account.server.port,
-                                                     username=mail_account.username,
-                                                     password=mail_account.password,
-                                                     use_tls=mail_account.server.use_tls,
-                                                     fail_silently=False, )
+#                            mail_account_pk = randrange(1, len_mail_accounts, )
+#                            mail_account = mail_accounts.get(pk=mail_account_pk, )
+#                            print mail_account
+#                            backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+#                                                     host=mail_account.server.server,
+#                                                     port=mail_account.server.port,
+#                                                     username=mail_account.username,
+#                                                     password=mail_account.password,
+#                                                     use_tls=mail_account.server.use_tls,
+#                                                     fail_silently=False, )
                             print '1'
                             # if i < 125:
                             #     continue
@@ -141,7 +141,8 @@ class Command(BaseCommand, ):
                             msg = EmailMultiAlternatives(subject=delivery.subject,
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
-                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
+#                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
+                                                         from_email=u'Интернет магазин Кексик <subscribe@keksik.com.ua>',
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             print '3'
@@ -165,11 +166,12 @@ class Command(BaseCommand, ):
                                 time += 60
                                 print '6'
                             except Exception as e:
-                                print mail_account.email
+#                                print mail_account.email
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
-                                                             from_email=mail_account.email,
-                                                             to=[mail_account.email, ],
+#                                                             from_email=mail_account.email,
+                                                             from_email='subscribe@keksik.com.ua',
+                                                             to=['subscribe@keksik.com.ua', ],
                                                              connection=backend, )
                                 print '7'
                                 msg.send(fail_silently=True, )
@@ -178,8 +180,8 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
-                                time1 = randrange(25, 30, )
-                                time2 = randrange(25, 30, )
+                                time1 = randrange(15, 20, )
+                                time2 = randrange(15, 20, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
