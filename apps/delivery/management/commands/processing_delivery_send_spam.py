@@ -107,6 +107,10 @@ class Command(BaseCommand, ):
                                                                      object_id=real_email.pk, )
                             except EmailForDelivery.DoesNotExist:
                                 pass
+                            except EmailForDelivery.MultipleObjectsReturned:
+                                emails = EmailForDelivery.objects.filter(content_type=real_email.content_type,
+                                                                         object_id=real_email.pk, )
+                                emails[1].delete()
                             else:
                                 print 'Uge: ', email.now_email.email
                                 continue
