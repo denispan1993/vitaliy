@@ -165,6 +165,7 @@ class Command(BaseCommand, ):
                                 time += 60
                                 print '6'
                             except Exception as e:
+                                print mail_account.email
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
                                                              from_email=mail_account.email,
