@@ -169,9 +169,13 @@ class Command(BaseCommand, ):
                                 time2 = randrange(25, 30, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
-                                sleep(time1, )
+                                for n in range(1, time1, ):
+                                    print '.'
+                                    sleep(1, )
                                 print 'Next'
-                                sleep(time2, )
+                                for n in range(1, time2, ):
+                                    print '.'
+                                    sleep(1, )
 
 
 
