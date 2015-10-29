@@ -150,9 +150,9 @@ class Command(BaseCommand, ):
                                                    mimetype="text/html", )
                             print '4'
                             msg.content_subtype = "html"
-                            print '123345'
+                            print '1234554321'
                             import smtplib
-                            print '54321'
+                            print '5432154321'
                             try:
                                 msg.send(fail_silently=False, )
                                 print '5'
