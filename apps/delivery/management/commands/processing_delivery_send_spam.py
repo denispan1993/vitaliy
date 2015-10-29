@@ -125,6 +125,7 @@ class Command(BaseCommand, ):
                                                      password=mail_account.password,
                                                      use_tls=mail_account.server.use_tls,
                                                      fail_silently=False, )
+                            print '1'
                             # if i < 125:
                             #     continue
                             #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
@@ -135,6 +136,7 @@ class Command(BaseCommand, ):
                                                                     # content_type=real_email.content_type,
                                                                     # object_id=real_email.pk,
                                                                     now_email=real_email, )
+                            print '2'
                             """ Отсылка """
                             msg = EmailMultiAlternatives(subject=delivery.subject,
                                                          body=strip_tags(parsing(value=delivery.html,
@@ -142,27 +144,33 @@ class Command(BaseCommand, ):
                                                          from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
                                                          to=[real_email.email, ],
                                                          connection=backend, )
+                            print '3'
                             msg.attach_alternative(content=parsing(value=delivery.html,
                                                                    key=email.key, ),
                                                    mimetype="text/html", )
+                            print '4'
                             msg.content_subtype = "html"
                             from smtplib import SMTPSenderRefused
                             try:
                                 msg.send(fail_silently=False, )
+                                print '5'
                             except SMTPSenderRefused:
                                 email.delete()
                                 print 'SMTPSenderRefused'
                                 sleep(60, )
                                 time += 60
+                                print '6'
                             except Exception as e:
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
                                                              from_email=mail_account.email,
                                                              to=[mail_account.email, ],
                                                              connection=backend, )
+                                print '7'
                                 msg.send(fail_silently=True, )
                                 sleep(60, )
                                 time += 60
+                                print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                                 time1 = randrange(25, 30, )
