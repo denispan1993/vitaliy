@@ -85,7 +85,8 @@ class Command(BaseCommand, ):
                                              port=EMAIL_PORT,
                                              username=EMAIL_HOST_USER,
                                              passord=EMAIL_HOST_PASSORD,
-                                             use_tls=EMAIL_USE_TLS,
+                                             use_tls=False,
+                                             use_ssl=True,
                                              fail_silently=False, )
                     from django.core.mail import EmailMultiAlternatives
                     from proj.settings import Email_MANAGER
