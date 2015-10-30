@@ -69,7 +69,7 @@ class Command(BaseCommand, ):
                     EMAIL_USE_TLS = True
                     EMAIL_HOST = 'smtp.yandex.ru'
                     EMAIL_PORT = 587
-                    EMAIL_HOST_USER = 'wwwweb@keksik.com.ua'
+                    EMAIL_HOST_USER = 'webwww@keksik.com.ua'
                     EMAIL_HOST_PASSORD = '1q23e4r'
                     from django.core.mail import get_connection
                     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
@@ -142,7 +142,7 @@ class Command(BaseCommand, ):
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
 #                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                         from_email=u'Интернет магазин Кексик <wwwweb@keksik.com.ua>',
+                                                         from_email=u'Интернет магазин Кексик <webwww@keksik.com.ua>',
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             print '3'
@@ -170,8 +170,8 @@ class Command(BaseCommand, ):
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
 #                                                             from_email=mail_account.email,
-                                                             from_email='wwwweb@keksik.com.ua',
-                                                             to=['wwwweb@keksik.com.ua', ],
+                                                             from_email='webwww@keksik.com.ua',
+                                                             to=['webwww@keksik.com.ua', ],
                                                              connection=backend, )
                                 print '7'
                                 msg.send(fail_silently=True, )
