@@ -69,7 +69,7 @@ class Command(BaseCommand, ):
                     EMAIL_USE_TLS = True
                     EMAIL_HOST = 'smtp.yandex.ru'
                     EMAIL_PORT = 587
-                    EMAIL_HOST_USER = 'sub@keksik.com.ua'
+                    EMAIL_HOST_USER = 'web@keksik.com.ua'
                     EMAIL_HOST_PASSWORD = '1q2w3e4r'
                     from django.core.mail import get_connection
                     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
@@ -142,7 +142,7 @@ class Command(BaseCommand, ):
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
 #                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                         from_email=u'Интернет магазин Кексик <sub@keksik.com.ua>',
+                                                         from_email=u'Интернет магазин Кексик <web@keksik.com.ua>',
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             print '3'
@@ -170,18 +170,18 @@ class Command(BaseCommand, ):
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
 #                                                             from_email=mail_account.email,
-                                                             from_email='sub@keksik.com.ua',
-                                                             to=['sub@keksik.com.ua', ],
+                                                             from_email='web@keksik.com.ua',
+                                                             to=['web@keksik.com.ua', ],
                                                              connection=backend, )
                                 print '7'
                                 msg.send(fail_silently=True, )
-                                sleep(20, ); print 'sleep1, '; sleep(20, ); print 'sleep2, '; sleep(20, ); print 'sleep3'
+                                sleep(25, ); print 'sleep1, '; sleep(25, ); print 'sleep2, '; sleep(25, ); print 'sleep3'
                                 time += 60
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
-                                time1 = randrange(25, 40, )
-                                time2 = randrange(25, 40, )
+                                time1 = randrange(30, 45, )
+                                time2 = randrange(30, 45, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
