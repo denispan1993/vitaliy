@@ -71,7 +71,8 @@ class Command(BaseCommand, ):
 #                    EMAIL_HOST = 'smtp.rambler.ru'
                     EMAIL_HOST = 'smtp.mail.ru'
                     #EMAIL_PORT = 587
-                    EMAIL_PORT = 465
+                    #EMAIL_PORT = 465
+                    EMAIL_PORT = 2525
                     #EMAIL_HOST_USER = 'webwww@keksik.com.ua'
 #                    EMAIL_HOST_USER = 'subscribe.keksik.com@rambler.ru'
                     EMAIL_HOST_USER = 'subscribe.keksik@mail.ru'
