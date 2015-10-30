@@ -112,7 +112,7 @@ class Command(BaseCommand, ):
                                                                          object_id=real_email.pk, )
                                 emails[0].delete()
                             else:
-                                print 'Exist: ', email.no_email.email
+                                print 'Exist: ', email.now_email.email
                                 continue
                             i += 1
 #                            mail_account_pk = randrange(1, len_mail_accounts, )
@@ -131,7 +131,7 @@ class Command(BaseCommand, ):
                             #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                             #                                        content_type=real_email.content_type,
                             #                                        object_id=real_email.pk, )
-                            #                                        # no_email=real_email, )
+                            #                                        # now_email=real_email, )
                             email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                                     # content_type=real_email.content_type,
                                                                     # object_id=real_email.pk,
