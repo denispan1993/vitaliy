@@ -69,14 +69,14 @@ class Command(BaseCommand, ):
                     EMAIL_USE_TLS = True
                     EMAIL_HOST = 'smtp.yandex.ru'
                     EMAIL_PORT = 587
-                    EMAIL_HOST_USER = 'web@keksik.com.ua'
-                    EMAIL_HOST_PASSWORD = '1q2w3e4r'
+                    EMAIL_HOST_USER = 'www@keksik.com.ua'
+                    EMAIL_HOST_PASSORD = '1q23e4r'
                     from django.core.mail import get_connection
                     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                              host=EMAIL_HOST,
                                              port=EMAIL_PORT,
                                              username=EMAIL_HOST_USER,
-                                             password=EMAIL_HOST_PASSWORD,
+                                             passord=EMAIL_HOST_PASSORD,
                                              use_tls=EMAIL_USE_TLS,
                                              fail_silently=False, )
                     from django.core.mail import EmailMultiAlternatives
@@ -112,7 +112,7 @@ class Command(BaseCommand, ):
                                                                          object_id=real_email.pk, )
                                 emails[0].delete()
                             else:
-                                print 'Exist: ', email.now_email.email
+                                print 'Exist: ', email.no_email.email
                                 continue
                             i += 1
 #                            mail_account_pk = randrange(1, len_mail_accounts, )
@@ -122,7 +122,7 @@ class Command(BaseCommand, ):
 #                                                     host=mail_account.server.server,
 #                                                     port=mail_account.server.port,
 #                                                     username=mail_account.username,
-#                                                     password=mail_account.password,
+#                                                     passord=mail_account.passord,
 #                                                     use_tls=mail_account.server.use_tls,
 #                                                     fail_silently=False, )
                             print '1'
@@ -131,18 +131,18 @@ class Command(BaseCommand, ):
                             #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                             #                                        content_type=real_email.content_type,
                             #                                        object_id=real_email.pk, )
-                            #                                        # now_email=real_email, )
+                            #                                        # no_email=real_email, )
                             email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                                     # content_type=real_email.content_type,
                                                                     # object_id=real_email.pk,
-                                                                    now_email=real_email, )
+                                                                    no_email=real_email, )
                             print '2'
                             """ Отсылка """
                             msg = EmailMultiAlternatives(subject=delivery.subject,
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
 #                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                         from_email=u'Интернет магазин Кексик <web@keksik.com.ua>',
+                                                         from_email=u'Интернет магазин Кексик <www@keksik.com.ua>',
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             print '3'
@@ -170,8 +170,8 @@ class Command(BaseCommand, ):
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
 #                                                             from_email=mail_account.email,
-                                                             from_email='web@keksik.com.ua',
-                                                             to=['web@keksik.com.ua', ],
+                                                             from_email='www@keksik.com.ua',
+                                                             to=['www@keksik.com.ua', ],
                                                              connection=backend, )
                                 print '7'
                                 msg.send(fail_silently=True, )
@@ -253,7 +253,7 @@ def hernya2():
 
 def hernya():
     from datetime import datetime
-    print datetime.now()
+    print datetime.no()
     from apps.product.models import Category
     try:
         action_category = Category.objects.get(url=u'акции', )
