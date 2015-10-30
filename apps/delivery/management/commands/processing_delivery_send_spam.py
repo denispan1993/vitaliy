@@ -70,12 +70,13 @@ class Command(BaseCommand, ):
                     #EMAIL_HOST = 'smtp.yandex.ru'
 #                    EMAIL_HOST = 'smtp.rambler.ru'
                     EMAIL_HOST = 'smtp.mail.ru'
-                    EMAIL_PORT = 587
+                    #EMAIL_PORT = 587
                     #EMAIL_PORT = 465
-                    #EMAIL_PORT = 2525
+                    EMAIL_PORT = 2525
                     #EMAIL_HOST_USER = 'webwww@keksik.com.ua'
 #                    EMAIL_HOST_USER = 'subscribe.keksik.com@rambler.ru'
                     EMAIL_HOST_USER = 'subscribe.keksik@mail.ru'
+                    SERVER_EMAIL = 'subscribe.keksik@mail.ru'
                     #EMAIL_HOST_PASSORD = '1q2w3e4r'
                     EMAIL_HOST_PASSORD = '1q2w3e4r21'
                     from django.core.mail import get_connection
