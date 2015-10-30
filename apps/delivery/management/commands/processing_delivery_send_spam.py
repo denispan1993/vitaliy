@@ -66,7 +66,7 @@ class Command(BaseCommand, ):
 #                    from apps.delivery.models import MailAccount
 #                    mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
 #                    len_mail_accounts = len(mail_accounts, )
-                    EMAIL_USE_TLS = False
+                    EMAIL_USE_TLS = True
                     #EMAIL_HOST = 'smtp.yandex.ru'
 #                    EMAIL_HOST = 'smtp.rambler.ru'
                     EMAIL_HOST = 'smtp.mail.ru'
