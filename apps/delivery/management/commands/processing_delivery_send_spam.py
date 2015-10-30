@@ -142,7 +142,7 @@ class Command(BaseCommand, ):
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
 #                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                         from_email=u'Интернет магазин Кексик <subscriber@keksik.com.ua>',
+                                                         from_email=u'Интернет магазин Кексик <sub@keksik.com.ua>',
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             print '3'
