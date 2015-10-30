@@ -135,7 +135,7 @@ class Command(BaseCommand, ):
                             email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                                     # content_type=real_email.content_type,
                                                                     # object_id=real_email.pk,
-                                                                    no_email=real_email, )
+                                                                    now_email=real_email, )
                             print '2'
                             """ Отсылка """
                             msg = EmailMultiAlternatives(subject=delivery.subject,
