@@ -68,13 +68,15 @@ class Command(BaseCommand, ):
 #                    len_mail_accounts = len(mail_accounts, )
                     EMAIL_USE_TLS = True
                     #EMAIL_HOST = 'smtp.yandex.ru'
-                    EMAIL_HOST = 'smtp.rambler.ru'
+#                    EMAIL_HOST = 'smtp.rambler.ru'
+                    EMAIL_HOST = 'smtp.mail.ru'
                     #EMAIL_PORT = 587
                     EMAIL_PORT = 465
                     #EMAIL_HOST_USER = 'webwww@keksik.com.ua'
-                    EMAIL_HOST_USER = 'subscribe.keksik.com'
+#                    EMAIL_HOST_USER = 'subscribe.keksik.com@rambler.ru'
+                    EMAIL_HOST_USER = 'subscribe.keksik@mail.ru'
                     #EMAIL_HOST_PASSORD = '1q2w3e4r'
-                    EMAIL_HOST_PASSORD = '1q2w3e4r54321'
+                    EMAIL_HOST_PASSORD = '1q2w3e4r21'
                     from django.core.mail import get_connection
                     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                              host=EMAIL_HOST,
@@ -147,18 +149,16 @@ class Command(BaseCommand, ):
                                                                                  key=email.key, ), ),
 #                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
 #                                                         from_email=u'Интернет магазин Кексик <webwww@keksik.com.ua>',
-                                                         from_email=u'Интернет магазин Кексик <subscribe.keksik.com@rambler.ru>',
+#                                                         from_email=u'Интернет магазин Кексик <subscribe.keksik.com@rambler.ru>',
+                                                         from_email=u'Интернет магазин Кексик <subscribe.keksik@mail.ru>',
                                                          to=[real_email.email, ],
                                                          connection=backend, )
                             print '3'
                             msg.attach_alternative(content=parsing(value=delivery.html,
                                                                    key=email.key, ),
                                                    mimetype="text/html", )
-                            print '4'
                             msg.content_subtype = "html"
-                            print '1234554321'
                             import smtplib
-                            print '5432154321'
                             try:
                                 msg.send(fail_silently=False, )
                                 print '5'
@@ -176,9 +176,11 @@ class Command(BaseCommand, ):
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email.email, real_email.pk, ),
 #                                                             from_email=mail_account.email,
 #                                                             from_email='webwww@keksik.com.ua',
-                                                             from_email='subscribe.keksik.com@rambler.ru',
+#                                                             from_email='subscribe.keksik.com@rambler.ru',
+                                                             from_email='subscribe.keksik@mail.ru',
 #                                                             to=['webwww@keksik.com.ua', ],
-                                                             to=['subscribe.keksik.com@rambler.ru', ],
+#                                                             to=['subscribe.keksik.com@rambler.ru', ],
+                                                             to=['subscribe.keksik@mail.ru', ],
                                                              connection=backend, )
                                 print '7'
                                 msg.send(fail_silently=True, )
