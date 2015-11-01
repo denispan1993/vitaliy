@@ -143,13 +143,13 @@ class Command(BaseCommand, ):
                                 except MailAccount.DoesNotExist:
                                     print 'No: ', mail_account_pk
                                 else:
-                                    print mail_account_pk; loop = False
+                                    print 'Yes:', mail_account_pk; loop = False
                             print mail_account
                             backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                                      host=mail_account.server.server,
                                                      port=mail_account.server.port,
                                                      username=mail_account.username,
-                                                     passord=mail_account.passord,
+                                                     password=mail_account.password,
                                                      use_tls=mail_account.server.use_tls,
                                                      fail_silently=False,
                                                      use_ssl=mail_account.use_ssl, )
