@@ -186,6 +186,12 @@ class Command(BaseCommand, ):
                                 print 'SMTPSenderRefused'
                                 sleep(30, )
                                 time += 30
+                            except smtplib.SMTPDataError as e:
+                                print e
+                                email.delete()
+                                print 'SMTPDataError'
+                                sleep(30, )
+                                time += 30
                             except Exception as e:
 #                                print mail_account.email
                                 print e
@@ -240,6 +246,7 @@ class Command(BaseCommand, ):
                             else:
                                 print 'Exist: ', email.now_email.email
                                 continue
+                            i += 1
                             email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                                     # content_type=real_email.content_type,
                                                                     # object_id=real_email.pk,
@@ -263,6 +270,12 @@ class Command(BaseCommand, ):
                                 print e
                                 email.delete()
                                 print 'SMTPSenderRefused'
+                                sleep(30, )
+                                time += 30
+                            except smtplib.SMTPDataError as e:
+                                print e
+                                email.delete()
+                                print 'SMTPDataError'
                                 sleep(30, )
                                 time += 30
                             except Exception as e:
