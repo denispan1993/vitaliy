@@ -52,6 +52,7 @@ class Command(BaseCommand, ):
                     real_email = Email.objects.get(pk=2836)
                     from apps.delivery.models import EmailForDelivery
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                            now_email=real_email,
                                                             email=real_email, )
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
