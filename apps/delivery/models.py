@@ -40,9 +40,9 @@ class MailAccount(models.Model, ):
                                       null=True,
                                       default=datetime.now(), )
 
-    @property
-    def is_active(self):
-        return self.server.is_active
+    # @property
+    # def is_active(self):
+    #     return self.server.is_active
 
     def __unicode__(self):
         return u'%s -> %s:%d' % (self.email, self.server.server, self.server.port, )
