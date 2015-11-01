@@ -93,12 +93,19 @@ class Command(BaseCommand, ):
                     from django.core.mail import EmailMultiAlternatives
                     from proj.settings import Email_MANAGER
 
+                    from apps.authModel.models import Email
+                    """ Создаем указатели на E-Mail адреса рассылки """
+                    try:
+                        emails_try = Email.objects.filter(bad_email=False, ).order_by('?')
+                    except Email.DoesNotExist:
+                        emails_try = None
+
                     from apps.delivery.models import SpamEmail
                     """ Создаем указатели на E-Mail адреса рассылки """
                     try:
-                        emails = SpamEmail.objects.filter(bad_email=False, ).order_by('?')
+                        emails_spam = SpamEmail.objects.filter(bad_email=False, ).order_by('?')
                     except SpamEmail.DoesNotExist:
-                        emails = None
+                        emails_spam = None
                     else:
                         from apps.delivery.models import EmailForDelivery
                         from apps.delivery.utils import parsing
@@ -106,7 +113,12 @@ class Command(BaseCommand, ):
                         from random import randrange
                         i = 0
                         time = 0
-                        for real_email in emails:
+                        # for real_email in emails:
+                        for real_email_spam, real_email_try in emails_spam, emails_try:
+
+                            print real_email_spam.content_type.model_class(), ': ', real_email_spam.email.email, real_email_try.content_type.model_class(), ': ', real_email_try.email.email
+
+def hernya3():
                             try:
                                 print real_email
                                 print real_email.content_type
