@@ -8,6 +8,10 @@ from datetime import date, datetime
 
 
 class MailAccount(models.Model, ):
+    is_active = models.BooleanField(verbose_name=_(u'Аккаунт активный', ),
+                                    blank=False,
+                                    null=False,
+                                    default=True, )
     email = models.CharField(verbose_name=_(u'E-Mail', ),
                              max_length=64,
                              blank=False,
@@ -65,6 +69,8 @@ class MailServer(models.Model, ):
                                             default=25, )
     use_tls = models.BooleanField(verbose_name=_(u'Use TLS', ),
                                   default=True, )
+    use_ssl = models.BooleanField(verbose_name=_(u'Use SSL', ),
+                                  default=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
