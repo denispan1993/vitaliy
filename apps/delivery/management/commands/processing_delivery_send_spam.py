@@ -152,8 +152,7 @@ class Command(BaseCommand, ):
                                                      password=mail_account.password,
                                                      use_tls=mail_account.server.use_tls,
                                                      fail_silently=False,
-                                                     use_ssl=mail_account.use_ssl, )
-                            print '1'
+                                                     use_ssl=mail_account.server.use_ssl, )
                             # if i < 125:
                             #     continue
                             #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
