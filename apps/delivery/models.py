@@ -15,7 +15,7 @@ class MailAccount(models.Model, ):
     email = models.CharField(verbose_name=_(u'E-Mail', ),
                              max_length=64,
                              blank=False,
-                            null=False, )
+                             null=False, )
     server = models.ForeignKey(verbose_name=_(u'SMTP Server', ),
                                to='MailServer',
                                blank=False,
