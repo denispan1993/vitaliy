@@ -433,7 +433,10 @@ class TraceOfVisits(models.Model, ):
 
     @property
     def email_fk(self):
-        return self.email.now_email.email
+        if self.email.now_email:
+            return self.email.now_email.email
+        if self.email:
+            return self.email.now_email
 
     @property
     def email_fk_key(self):
