@@ -114,7 +114,7 @@ class Command(BaseCommand, ):
                         i = 0
                         time = 0
                         # for real_email in emails:
-                        for real_email_spam, real_email_try in emails_spam, emails_try:
+                        for real_email_spam, real_email_try in (emails_spam, emails_try):
 
                             print real_email_spam.content_type.model_class(), ': ', real_email_spam.email.email, real_email_try.content_type.model_class(), ': ', real_email_try.email.email
 
