@@ -163,7 +163,6 @@ class Command(BaseCommand, ):
                                                                     # content_type=real_email.content_type,
                                                                     # object_id=real_email.pk,
                                                                     now_email=real_email_try, )
-                            print '2'
                             """ Отсылка """
                             msg = EmailMultiAlternatives(subject=delivery.subject,
                                                          body=strip_tags(parsing(value=delivery.html,
@@ -181,7 +180,6 @@ class Command(BaseCommand, ):
                             import smtplib
                             try:
                                 msg.send(fail_silently=False, )
-                                print '5'
                             except smtplib.SMTPSenderRefused as e:
                                 print e
                                 email.delete()
@@ -210,16 +208,16 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', real_email_try.pk, ' - ', real_email_try.email
-                                time1 = randrange(15, 25, )
-                                time2 = randrange(15, 25, )
+                                time1 = randrange(10, 20, )
+                                time2 = randrange(10, 20, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
-                                    print '.'
+                                    print '.',
                                     sleep(1, )
                                 print 'Next'
                                 for n in range(1, time2, ):
-                                    print '.'
+                                    print '.',
                                     sleep(1, )
                             try:
                                 try:
@@ -246,8 +244,8 @@ class Command(BaseCommand, ):
                                                                     # content_type=real_email.content_type,
                                                                     # object_id=real_email.pk,
                                                                     now_email=emails_spam[real_email_try.pk], )
-                            print '2'
                             """ Отсылка """
+                            print mail_account
                             msg = EmailMultiAlternatives(subject=delivery.subject,
                                                          body=strip_tags(parsing(value=delivery.html,
                                                                                  key=email.key, ), ),
@@ -261,7 +259,6 @@ class Command(BaseCommand, ):
                             import smtplib
                             try:
                                 msg.send(fail_silently=False, )
-                                print '5'
                             except smtplib.SMTPSenderRefused as e:
                                 print e
                                 email.delete()
@@ -283,16 +280,16 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', emails_spam[real_email_try.pk].pk, ' - ', emails_spam[real_email_try.pk].email
-                                time1 = randrange(15, 25, )
-                                time2 = randrange(15, 25, )
+                                time1 = randrange(10, 20, )
+                                time2 = randrange(10, 20, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
-                                    print '.'
+                                    print '.',
                                     sleep(1, )
                                 print 'Next'
                                 for n in range(1, time2, ):
-                                    print '.'
+                                    print '.',
                                     sleep(1, )
 
 
