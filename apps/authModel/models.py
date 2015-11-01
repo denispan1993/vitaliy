@@ -245,6 +245,11 @@ class Email(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
+    @property
+    def content_type(self, ):
+        from django.contrib.contenttypes.models import ContentType
+        return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
+
     class Meta:
         db_table = u'EmailUserModel'
         ordering = [u'-created_at', ]
