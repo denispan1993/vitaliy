@@ -65,6 +65,7 @@ class Command(BaseCommand, ):
 
                     from apps.delivery.models import MailAccount
                     mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
+                    last_mail_accounts = MailAccount.objects.earliest()
                     len_mail_accounts = len(mail_accounts, )
                     EMAIL_USE_TLS = False
                     EMAIL_USE_SSL = True
@@ -135,7 +136,7 @@ class Command(BaseCommand, ):
                                 continue
                             i += 1
                             while True:
-                                mail_account_pk = randrange(1, len_mail_accounts, )
+                                mail_account_pk = randrange(1, last_mail_accounts.pk, )
                                 try:
                                     mail_account = mail_accounts.get(pk=mail_account_pk, )
                                 except MailAccount.DoesNotExist:
