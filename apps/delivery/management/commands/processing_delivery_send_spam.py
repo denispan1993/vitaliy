@@ -118,6 +118,11 @@ class Command(BaseCommand, ):
 
                             print real_email_spam.content_type.model_class(), ': ', real_email_spam.email.email, real_email_try.content_type.model_class(), ': ', real_email_try.email.email
 
+
+
+
+
+
 def hernya3():
                             try:
                                 print real_email
