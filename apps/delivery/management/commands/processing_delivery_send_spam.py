@@ -134,8 +134,14 @@ class Command(BaseCommand, ):
                                 print 'Exist: ', email.now_email.email
                                 continue
                             i += 1
-                            mail_account_pk = randrange(1, len_mail_accounts, )
-                            mail_account = mail_accounts[mail_account_pk, ]
+                            while True:
+                                mail_account_pk = randrange(1, len_mail_accounts, )
+                                try:
+                                    mail_account = mail_accounts.get(pk=mail_account_pk, )
+                                except MailAccount.DoesNotExist:
+                                    pass
+                                else:
+                                    continue
                             print mail_account
                             backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                                      host=mail_account.server.server,
