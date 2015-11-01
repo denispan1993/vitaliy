@@ -50,6 +50,7 @@ class MailAccount(models.Model, ):
     class Meta:
         db_table = 'MailAccount'
         ordering = ['-created_at', ]
+        get_latest_by = 'pk'
         verbose_name = u'SMTP Account'
         verbose_name_plural = u'SMTP Accounts'
 
