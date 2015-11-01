@@ -135,7 +135,7 @@ class Command(BaseCommand, ):
                                 continue
                             i += 1
                             mail_account_pk = randrange(1, len_mail_accounts, )
-                            mail_account = mail_accounts.get(pk=mail_account_pk, )
+                            mail_account = mail_accounts[mail_account_pk, ]
                             print mail_account
                             backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                                      host=mail_account.server.server,
