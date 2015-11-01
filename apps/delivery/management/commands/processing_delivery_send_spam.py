@@ -137,9 +137,11 @@ class Command(BaseCommand, ):
                             i += 1
                             while True:
                                 mail_account_pk = randrange(1, last_mail_accounts.pk, )
+                                print mail_account_pk
                                 try:
                                     mail_account = mail_accounts.get(pk=mail_account_pk, )
                                 except MailAccount.DoesNotExist:
+                                    print 'No:'
                                     pass
                                 else:
                                     continue
