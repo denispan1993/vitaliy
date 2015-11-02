@@ -240,9 +240,12 @@ class Command(BaseCommand, ):
                             except EmailForDelivery.DoesNotExist:
                                 pass
                             except EmailForDelivery.MultipleObjectsReturned:
-                                emails = EmailForDelivery.objects.filter(content_type=emails_spam[real_email_try.pk].content_type,
-                                                                         object_id=emails_spam[real_email_try.pk].pk, )
-                                emails[0].delete()
+                                try:
+                                    emails = EmailForDelivery.objects.filter(content_type=emails_spam[real_email_try.pk].content_type,
+                                                                             object_id=emails_spam[real_email_try.pk].pk, )
+                                    emails[0].delete()
+                                except IndexError:
+                                    continue
                             else:
                                 print 'Exist: ', email.now_email.email
                                 continue
