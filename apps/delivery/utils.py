@@ -17,3 +17,48 @@ def parsing(value, key, ):
                 break
             cycle += 1
     return value
+
+
+def Mail_Account(mail_accounts=None, ):
+    if mail_accounts is None:
+        from apps.delivery.models import MailAccount
+        mail_accounts = MailAccount.objects.filter(is_active=True, ).values_list().order_by('?')
+    else:
+        mail_accounts = list(mail_accounts, )
+
+    # last_mail_accounts = MailAccount.objects.latest('pk', )
+    len_mail_accounts = len(mail_accounts, )
+    from random import randrange
+    loop = True
+    while loop:
+        mail_account_id = randrange(1, len_mail_accounts, )
+        try:
+            mail_account = mail_accounts[mail_account_id]
+        except IndexError:
+            pass
+        else:
+            return mail_account
+
+
+def Backend(mail_account=None, ):
+    if mail_account is None:
+        mail_account = Mail_Account()
+    from django.core.mail import get_connection
+
+    if mail_account.server.use_ssl and not mail_account.server.use_tls:
+        backend='apps.delivery.backends.smtp.EmailBackend',
+    elif not mail_account.server.use_ssl and mail_account.server.use_tls:
+        backend = 'django.core.mail.backends.smtp.EmailBackend'
+    else:
+        return None
+    backend = get_connection(backend=backend,
+                             host=mail_account.server.server,
+                             port=mail_account.server.port,
+                             username=mail_account.username,
+                             password=mail_account.password,
+                             use_tls=mail_account.server.use_tls,
+                             fail_silently=False,
+                             use_ssl=mail_account.server.use_ssl,
+                             timeout=10, )
+
+    return backend
