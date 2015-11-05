@@ -73,11 +73,14 @@ def Test_Server_MX(server_string=None, resolver=None, ):
         resolver = dns.resolver.Resolver()
         resolver.nameservers = ['192.168.1.100', ]
 
-    from dns.resolver import NXDOMAIN
+    from dns.resolver import NXDOMAIN, NoAnswer
     try:
         resolver.query(server_string, 'mx', )
     except NXDOMAIN:
         print 'Bad E-Mail: Domain: ', server_string
         return False
+    except NoAnswer:
+        print 'NoAnswer for Domain: ', server_string
+        return True
     else:
         return True
