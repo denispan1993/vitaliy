@@ -62,3 +62,22 @@ def Backend(mail_account=None, ):
                              timeout=10, )
 
     return backend
+
+
+def Test_Server_MX(server_string=None, resolver=None, ):
+    if server_string is None:
+        return False
+
+    if resolver is None:
+        import dns.resolver
+        resolver = dns.resolver.Resolver()
+        resolver.nameservers = ['192.168.1.100', ]
+
+    from dns.resolver import NXDOMAIN
+    try:
+        resolver.query(server_string, 'mx', )
+    except NXDOMAIN:
+        print 'Bad E-Mail: Domain: ', server_string
+        return False
+    else:
+        return True

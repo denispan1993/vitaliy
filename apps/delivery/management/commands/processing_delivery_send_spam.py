@@ -62,34 +62,8 @@ class Command(BaseCommand, ):
                     print delivery
                     """ Отсылаем тестовое письмо """
                     from django.utils.html import strip_tags
-#========================
                     from apps.delivery.models import MailAccount
                     mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
-#=============================
-                    EMAIL_USE_TLS = False
-                    EMAIL_USE_SSL = True
-                    #EMAIL_HOST = 'smtp.yandex.ru'
-#                    EMAIL_HOST = 'smtp.rambler.ru'
-                    EMAIL_HOST = 'smtp.mail.ru'
-                    #EMAIL_PORT = 587
-                    EMAIL_PORT = 465
-                    #EMAIL_PORT = 2525
-                    #EMAIL_HOST_USER = 'webwww@keksik.com.ua'
-#                    EMAIL_HOST_USER = 'subscribe.keksik.com@rambler.ru'
-                    EMAIL_HOST_USER = 'subscribe.keksik@mail.ru'
-                    SERVER_EMAIL = 'subscribe.keksik@mail.ru'
-                    #EMAIL_HOST_PASSORD = '1q2w3e4r'
-                    EMAIL_HOST_PASSORD = '1q2w3e4r21'
-                    from django.core.mail import get_connection
-                    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                                             host=EMAIL_HOST,
-                                             port=EMAIL_PORT,
-                                             username=EMAIL_HOST_USER,
-                                             passord=EMAIL_HOST_PASSORD,
-                                             use_tls=EMAIL_USE_TLS,
-                                             fail_silently=False,
-                                             use_ssl=EMAIL_USE_SSL,
-                                             timeout=10, )
                     from django.core.mail import EmailMultiAlternatives
                     from proj.settings import Email_MANAGER
 
@@ -111,10 +85,12 @@ class Command(BaseCommand, ):
                         from apps.delivery.utils import parsing
                         from time import sleep
                         from random import randrange
-                        from apps.delivery.utils import Mail_Account, Backend
+                        from apps.delivery.utils import Mail_Account, Backend, Test_Server_MX
                         i = 0
                         time = 0
-                        # for real_email in emails:
+                        import dns.resolver
+                        resolver = dns.resolver.Resolver()
+                        resolver.nameservers = ['192.168.1.100', ]
                         for real_email_try in emails_try:
                             mail_account = Mail_Account(mail_accounts=mail_accounts, )
                             backend = Backend(mail_account=mail_account, )
@@ -128,142 +104,162 @@ class Command(BaseCommand, ):
                                 email = EmailForDelivery.objects.get(content_type=real_email_try.content_type,
                                                                      object_id=real_email_try.pk, )
                             except EmailForDelivery.DoesNotExist:
-                                i += 1
-                                email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                                        # content_type=real_email.content_type,
-                                                                        # object_id=real_email.pk,
-                                                                        now_email=real_email_try, )
-                                """ Отсылка """
-                                msg = EmailMultiAlternatives(subject=delivery.subject,
-                                                             body=strip_tags(parsing(value=delivery.html,
-                                                                                     key=email.key, ), ),
-                                                             from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                             to=[real_email_try.email, ],
-                                                             connection=backend, )
-                                msg.attach_alternative(content=parsing(value=delivery.html,
-                                                                       key=email.key, ),
-                                                       mimetype="text/html", )
-                                msg.content_subtype = "html"
-                                import smtplib
                                 try:
-                                    msg.send(fail_silently=False, )
-                                except smtplib.SMTPSenderRefused as e:
-                                    print e
-                                    email.delete()
-                                    print 'SMTPSenderRefused'
-                                    sleep(30, )
-                                    time += 30
-                                except smtplib.SMTPDataError as e:
-                                    print e
-                                    email.delete()
-                                    print 'SMTPDataError'
-                                    sleep(30, )
-                                    time += 30
-                                except Exception as e:
-                                    print e
-                                    msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
-                                                                 body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email_try.email, real_email_try.pk, ),
-                                                                 from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                                 to=[mail_account.email, ],
-                                                                 connection=backend, )
-                                    print '7'
-                                    msg.send(fail_silently=True, )
-                                    sleep(5, ); print 'sleep1, '; sleep(5, ); print 'sleep2, '; sleep(5, ); print 'sleep3'
-                                    time += 15
-                                    print '8'
+                                    domain = real_email_try.email.split('@', )[1]
+                                except IndexError:
+                                    pass
                                 else:
-                                    print 'i: ', i, 'Pk: ', real_email_try.pk, ' - ', real_email_try.email
-                                    time1 = randrange(10, 20, )
-                                    time2 = randrange(10, 20, )
-                                    time += time1 + time2
-                                    print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
-                                    for n in range(1, time1, ):
-                                        print '.',
-                                        sleep(1, )
-                                    print 'Next'
-                                    for n in range(1, time2, ):
-                                        print '.',
-                                        sleep(1, )
+                                    if not Test_Server_MX(server_string=domain, resolver=resolver, ):
+                                        real_email_try.bad_email = True
+                                        real_email_try.save()
+                                    else:
+                                        i += 1
+                                        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                                                # content_type=real_email.content_type,
+                                                                                # object_id=real_email.pk,
+                                                                                now_email=real_email_try, )
+                                        """ Отсылка """
+                                        msg = EmailMultiAlternatives(subject=delivery.subject,
+                                                                     body=strip_tags(parsing(value=delivery.html,
+                                                                                             key=email.key, ), ),
+                                                                     from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
+                                                                     to=[real_email_try.email, ],
+                                                                     connection=backend, )
+                                        msg.attach_alternative(content=parsing(value=delivery.html,
+                                                                               key=email.key, ),
+                                                               mimetype="text/html", )
+                                        msg.content_subtype = "html"
+                                        import smtplib
+                                        try:
+                                            msg.send(fail_silently=False, )
+                                        except smtplib.SMTPSenderRefused as e:
+                                            print e
+                                            email.delete()
+                                            print 'SMTPSenderRefused'
+                                            sleep(30, )
+                                            time += 30
+                                        except smtplib.SMTPDataError as e:
+                                            print e
+                                            email.delete()
+                                            print 'SMTPDataError'
+                                            sleep(30, )
+                                            time += 30
+                                        except Exception as e:
+                                            print e
+                                            msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
+                                                                         body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, real_email_try.email, real_email_try.pk, ),
+                                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
+                                                                         to=[mail_account.email, ],
+                                                                         connection=backend, )
+                                            print '7'
+                                            msg.send(fail_silently=True, )
+                                            sleep(5, ); print 'sleep1, '; sleep(5, ); print 'sleep2, '; sleep(5, ); print 'sleep3'
+                                            time += 15
+                                            print '8'
+                                        else:
+                                            print 'i: ', i, 'Pk: ', real_email_try.pk, ' - ', real_email_try.email
+                                            time1 = randrange(10, 20, )
+                                            time2 = randrange(10, 20, )
+                                            time += time1 + time2
+                                            print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
+                                            for n in range(1, time1, ):
+                                                print '.',
+                                                sleep(1, )
+                                            print 'Next'
+                                            for n in range(1, time2, ):
+                                                print '.',
+                                                sleep(1, )
                             except EmailForDelivery.MultipleObjectsReturned:
                                 emails = EmailForDelivery.objects.filter(content_type=real_email_try.content_type,
                                                                          object_id=real_email_try.pk, )
                                 emails[0].delete()
                             else:
                                 print 'Exist: ', email.now_email.email
+#====================== SPAM
                             try:
                                 try:
-                                    print emails_spam[real_email_try.pk]
-                                    print emails_spam[real_email_try.pk].content_type
-                                    print emails_spam[real_email_try.pk].content_type.model_class()
-                                    print emails_spam[real_email_try.pk].content_type.natural_key()
-                                    from django.contrib.contenttypes.models import ContentType
-
-                                    email = EmailForDelivery.objects.get(content_type=emails_spam[real_email_try.pk].content_type,
-                                                                         object_id=emails_spam[real_email_try.pk].pk, )
+                                    spam_email = emails_spam[real_email_try.pk]
                                 except IndexError:
                                     continue
+                                print spam_email
+                                print spam_email.content_type
+                                print spam_email.content_type.model_class()
+                                print spam_email.content_type.natural_key()
+                                from django.contrib.contenttypes.models import ContentType
+
+                                email = EmailForDelivery.objects.get(content_type=spam_email.content_type,
+                                                                     object_id=spam_email.pk, )
                             except EmailForDelivery.DoesNotExist:
-                                i += 1
-                                email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                                        # content_type=real_email.content_type,
-                                                                        # object_id=real_email.pk,
-                                                                        now_email=emails_spam[real_email_try.pk], )
-                                """ Отсылка """
-                                print mail_account
-                                msg = EmailMultiAlternatives(subject=delivery.subject,
-                                                             body=strip_tags(parsing(value=delivery.html,
-                                                                                     key=email.key, ), ),
-                                                             from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                             to=[emails_spam[real_email_try.pk].email, ],
-                                                             connection=backend, )
-                                msg.attach_alternative(content=parsing(value=delivery.html,
-                                                                       key=email.key, ),
-                                                       mimetype="text/html", )
-                                msg.content_subtype = "html"
-                                import smtplib
                                 try:
-                                    msg.send(fail_silently=False, )
-                                except smtplib.SMTPSenderRefused as e:
-                                    print e
-                                    email.delete()
-                                    print 'SMTPSenderRefused'
-                                    sleep(30, )
-                                    time += 30
-                                except smtplib.SMTPDataError as e:
-                                    print e
-                                    email.delete()
-                                    print 'SMTPDataError'
-                                    sleep(30, )
-                                    time += 30
-                                except Exception as e:
-                                    print e
-                                    msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
-                                                                 body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, emails_spam[real_email_try.pk].email, emails_spam[real_email_try.pk].pk, ),
-                                                                 from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
-                                                                 to=[mail_account.email, ],
-                                                                 connection=backend, )
-                                    print '7'
-                                    msg.send(fail_silently=True, )
-                                    sleep(5, ); print 'sleep1, '; sleep(5, ); print 'sleep2, '; sleep(5, ); print 'sleep3'
-                                    time += 15
-                                    print '8'
+                                    domain = spam_email.email.split('@', )[1]
+                                except IndexError:
+                                    pass
                                 else:
-                                    print 'i: ', i, 'Pk: ', emails_spam[real_email_try.pk].pk, ' - ', emails_spam[real_email_try.pk].email
-                                    time1 = randrange(10, 20, )
-                                    time2 = randrange(10, 20, )
-                                    time += time1 + time2
-                                    print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
-                                    for n in range(1, time1, ):
-                                        print '.',
-                                        sleep(1, )
-                                    print 'Next'
-                                    for n in range(1, time2, ):
-                                        print '.',
-                                        sleep(1, )
+                                    if not Test_Server_MX(server_string=domain, resolver=resolver, ):
+                                        spam_email.bad_email = True
+                                        spam_email.save()
+                                    else:
+                                        i += 1
+                                        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                                                # content_type=real_email.content_type,
+                                                                                # object_id=real_email.pk,
+                                                                                now_email=spam_email, )
+                                        """ Отсылка """
+                                        print mail_account
+                                        msg = EmailMultiAlternatives(subject=delivery.subject,
+                                                                     body=strip_tags(parsing(value=delivery.html,
+                                                                                             key=email.key, ), ),
+                                                                     from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
+                                                                     to=[spam_email.email, ],
+                                                                     connection=backend, )
+                                        msg.attach_alternative(content=parsing(value=delivery.html,
+                                                                               key=email.key, ),
+                                                               mimetype="text/html", )
+                                        msg.content_subtype = "html"
+                                        import smtplib
+                                        try:
+                                            msg.send(fail_silently=False, )
+                                        except smtplib.SMTPSenderRefused as e:
+                                            print e
+                                            email.delete()
+                                            print 'SMTPSenderRefused'
+                                            sleep(30, )
+                                            time += 30
+                                        except smtplib.SMTPDataError as e:
+                                            print e
+                                            email.delete()
+                                            print 'SMTPDataError'
+                                            sleep(30, )
+                                            time += 30
+                                        except Exception as e:
+                                            print e
+                                            msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
+                                                                         body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, spam_email.email, spam_email.pk, ),
+                                                                         from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
+                                                                         to=[mail_account.email, ],
+                                                                         connection=backend, )
+                                            print '7'
+                                            msg.send(fail_silently=True, )
+                                            sleep(5, ); print 'sleep1, '; sleep(5, ); print 'sleep2, '; sleep(5, ); print 'sleep3'
+                                            time += 15
+                                            print '8'
+                                        else:
+                                            print 'i: ', i, 'Pk: ', spam_email, ' - ', spam_email.email
+                                            time1 = randrange(10, 20, )
+                                            time2 = randrange(10, 20, )
+                                            time += time1 + time2
+                                            print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
+                                            for n in range(1, time1, ):
+                                                print '.',
+                                                sleep(1, )
+                                            print 'Next'
+                                            for n in range(1, time2, ):
+                                                print '.',
+                                                sleep(1, )
                             except EmailForDelivery.MultipleObjectsReturned:
                                 try:
-                                    emails = EmailForDelivery.objects.filter(content_type=emails_spam[real_email_try.pk].content_type,
-                                                                             object_id=emails_spam[real_email_try.pk].pk, )
+                                    emails = EmailForDelivery.objects.filter(content_type=spam_email.content_type,
+                                                                             object_id=spam_email.pk, )
                                     emails[0].delete()
                                 except IndexError:
                                     continue
