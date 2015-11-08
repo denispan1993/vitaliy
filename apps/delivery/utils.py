@@ -19,12 +19,9 @@ def parsing(value, key, ):
     return value
 
 
-def Mail_Account(mail_accounts=None, ):
-    if mail_accounts is None:
-        from apps.delivery.models import MailAccount
-        mail_accounts = MailAccount.objects.filter(is_active=True, ).values_list().order_by('?')
-    else:
-        mail_accounts = list(mail_accounts, )
+def Mail_Account():
+    from apps.delivery.models import MailAccount
+    mail_accounts = MailAccount.objects.filter(is_active=True, ).values_list().order_by('?')
 
     # last_mail_accounts = MailAccount.objects.latest('pk', )
     len_mail_accounts = len(mail_accounts, )
@@ -37,7 +34,15 @@ def Mail_Account(mail_accounts=None, ):
         except IndexError:
             pass
         else:
-            return mail_account
+            if mail_account.is_auto_active:
+                return mail_account
+            else:
+                from datetime import datetime, timedelta
+                datetimedelta = mail_account.auto_active_datetime + timedelta(days=1, hours=1, minutes=30, )
+                if datetimedelta < datetime.now():
+                    mail_account.is_auto_active = True
+                    mail_account.save()
+                    return mail_account
 
 
 def Backend(mail_account=None, ):
@@ -73,11 +78,14 @@ def Test_Server_MX(server_string=None, resolver=None, ):
         resolver = dns.resolver.Resolver()
         resolver.nameservers = ['192.168.1.100', ]
 
-    from dns.resolver import NXDOMAIN, NoAnswer
+    from dns.resolver import NXDOMAIN, NoAnswer, NoNameservers
     try:
         resolver.query(server_string, 'mx', )
     except NXDOMAIN:
         print 'Bad E-Mail: Domain: ', server_string
+        return False
+    except NoNameservers:
+        print 'NoNameServers for Domain: ', server_string
         return False
     except NoAnswer:
         print 'NoAnswer for Domain: ', server_string

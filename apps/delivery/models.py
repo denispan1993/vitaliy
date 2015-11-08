@@ -12,6 +12,14 @@ class MailAccount(models.Model, ):
                                     blank=False,
                                     null=False,
                                     default=True, )
+    is_auto_active = models.BooleanField(verbose_name=_(u'Аккаунт автоматически активный', ),
+                                         blank=False,
+                                         null=False,
+                                         default=True, )
+    auto_active_datetime = models.DateTimeField(verbose_name=_(u'Дата закрытия аккаунта',),
+                                                blank=False,
+                                                null=False,
+                                                default=datetime.now(), )
     email = models.CharField(verbose_name=_(u'E-Mail', ),
                              max_length=64,
                              blank=False,
@@ -32,13 +40,13 @@ class MailAccount(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      #default=datetime.now(), )
 
     # @property
     # def is_active(self):
@@ -76,13 +84,13 @@ class MailServer(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
 
     def __unicode__(self):
         return u'%s:%d' % (self.server, self.port, )
@@ -144,13 +152,13 @@ class Delivery(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
 
     from django.contrib.contenttypes import generic
     from apps.utils.mediafile.models import MediaFile
@@ -311,13 +319,13 @@ class EmailMiddleDelivery(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
 
     def __unicode__(self):
         return u'Промежуток рассылки: № %6d - %s, Test: %s, Send: %s, created_at: %s, updated_at: %s'\
@@ -376,13 +384,13 @@ class EmailForDelivery(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -425,8 +433,8 @@ class TraceOfVisits(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
 
     @property
     def delivery_fk(self):
@@ -460,8 +468,8 @@ class SpamEmail(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
-                                      null=True,
-                                      default=datetime.now(), )
+                                      null=True, )
+                                      # default=datetime.now(), )
 
     @property
     def content_type(self, ):
