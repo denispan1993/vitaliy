@@ -30,7 +30,7 @@ urlpatterns += patterns('apps',
                         # Examples:
     # url(r'^$', 'proj.views.home', name='home'),
     url(r'^$', 'root.views.root_page',
-        {'template_name': u'index.jinja2.html', },
+        {'template_name': u'index.jinja', },
         name='root_page', ),
     # url(r'^proj/', include('proj.foo.urls')),
     url(ur'^категории/$', 'product.views.show_basement_category',

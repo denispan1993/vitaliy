@@ -232,7 +232,7 @@ TEMPLATE_LOADERS = (
 #)
 
 
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2.html'
+DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
 
 JINGO_INCLUDE_PATTERN = r'\.jingo.html'
 
@@ -321,7 +321,30 @@ ROOT_URLCONF = 'proj.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'proj.wsgi.application'
 
+TEMPLATES = [
+    {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": ['templates', ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "match_extension": ".jinja",
+            "context_processors": TEMPLATE_CONTEXT_PROCESSORS,
+        }
+    },
+#    {
+#        "BACKEND": "django.template.backends.django.DjangoTemplates",
+#        "DIRS": [],
+#        "APP_DIRS": True,
+#        "OPTIONS": {
+##            "match_extension": ".html",
+#            "context_processors": TEMPLATE_CONTEXT_PROCESSORS,
+#        }
+#    },
+]
+
 TEMPLATE_DIRS = ('templates', )
+
+DIRS = ['templates', ]
 
 INSTALLED_APPS = (
     'django.contrib.auth',
