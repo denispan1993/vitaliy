@@ -214,17 +214,18 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', real_email_try.pk, ' - ', real_email_try.email
-                                time1 = randrange(10, 20, )
-                                time2 = randrange(10, 20, )
+                                time1 = randrange(7, 19, )
+                                time2 = randrange(7, 19, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
-                                    print '.',
+                                    print '.', ; sys.stdout.flush()
                                     sleep(1, )
-                                print 'Next'
+                                print '\n', 'Next'
                                 for n in range(1, time2, ):
-                                    print '.',
+                                    print '.', ; sys.stdout.flush()
                                     sleep(1, )
+                                print '\n'
                             try:
                                 try:
                                     print emails_spam[real_email_try.pk]
@@ -293,17 +294,18 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', emails_spam[real_email_try.pk].pk, ' - ', emails_spam[real_email_try.pk].email
-                                time1 = randrange(10, 20, )
-                                time2 = randrange(10, 20, )
+                                time1 = randrange(7, 19, )
+                                time2 = randrange(7, 19, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
-                                    print '.',
+                                    print '.', ; sys.stdout.flush()
                                     sleep(1, )
-                                print 'Next'
+                                print '\n', 'Next'
                                 for n in range(1, time2, ):
-                                    print '.',
+                                    print '.', ; sys.stdout.flush()
                                     sleep(1, )
+                                print '\n'
 
 
 
