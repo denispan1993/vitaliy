@@ -88,11 +88,15 @@ class Command(BaseCommand, ):
                         from apps.delivery.utils import Mail_Account, Backend, Test_Server_MX
                         i = 0
                         time = 0
+                        emailmiddledeliverys = EmailMiddleDelivery.objects.filter(delivery=delivery,
+                                                                                  delivery_test_send=False,
+                                                                                  spam_send=True,
+                                                                                  delivery_send=False, )
                         import dns.resolver
                         resolver = dns.resolver.Resolver()
                         resolver.nameservers = ['192.168.1.100', ]
                         for real_email_try in emails_try:
-                            mail_account = Mail_Account(mail_accounts=mail_accounts, )
+                            mail_account = Mail_Account()
                             backend = Backend(mail_account=mail_account, )
                             try:
                                 print real_email_try
@@ -100,9 +104,10 @@ class Command(BaseCommand, ):
                                 print real_email_try.content_type.model_class()
                                 print real_email_try.content_type.natural_key()
                                 from django.contrib.contenttypes.models import ContentType
-
-                                email = EmailForDelivery.objects.get(content_type=real_email_try.content_type,
-                                                                     object_id=real_email_try.pk, )
+                                for emailmiddledelivery in emailmiddledeliverys:
+                                    email = EmailForDelivery.objects.get(delivery=emailmiddledelivery,
+                                                                         content_type=real_email_try.content_type,
+                                                                         object_id=real_email_try.pk, )
                             except EmailForDelivery.DoesNotExist:
                                 try:
                                     domain = real_email_try.email.split('@', )[1]
