@@ -17,3 +17,78 @@ def parsing(value, key, ):
                 break
             cycle += 1
     return value
+
+
+def Mail_Account():
+    from apps.delivery.models import MailAccount
+    mail_accounts = MailAccount.objects.filter(is_active=True, ).values_list().order_by('?')
+
+    # last_mail_accounts = MailAccount.objects.latest('pk', )
+    len_mail_accounts = len(mail_accounts, )
+    from random import randrange
+    loop = True
+    while loop:
+        mail_account_id = randrange(1, len_mail_accounts, )
+        try:
+            mail_account = mail_accounts[mail_account_id]
+        except IndexError:
+            pass
+        else:
+            if mail_account.is_auto_active:
+                return mail_account
+            else:
+                from datetime import datetime, timedelta
+                datetimedelta = mail_account.auto_active_datetime + timedelta(days=1, hours=1, minutes=30, )
+                if datetimedelta < datetime.now():
+                    mail_account.is_auto_active = True
+                    mail_account.save()
+                    return mail_account
+
+
+def Backend(mail_account=None, ):
+    if mail_account is None:
+        mail_account = Mail_Account()
+    from django.core.mail import get_connection
+
+    if mail_account.server.use_ssl and not mail_account.server.use_tls:
+        backend='apps.delivery.backends.smtp.EmailBackend',
+    elif not mail_account.server.use_ssl and mail_account.server.use_tls:
+        backend = 'django.core.mail.backends.smtp.EmailBackend'
+    else:
+        return None
+    backend = get_connection(backend=backend,
+                             host=mail_account.server.server,
+                             port=mail_account.server.port,
+                             username=mail_account.username,
+                             password=mail_account.password,
+                             use_tls=mail_account.server.use_tls,
+                             fail_silently=False,
+                             use_ssl=mail_account.server.use_ssl,
+                             timeout=10, )
+
+    return backend
+
+
+def Test_Server_MX(server_string=None, resolver=None, ):
+    if server_string is None:
+        return False
+
+    if resolver is None:
+        import dns.resolver
+        resolver = dns.resolver.Resolver()
+        resolver.nameservers = ['192.168.1.100', ]
+
+    from dns.resolver import NXDOMAIN, NoAnswer, NoNameservers
+    try:
+        resolver.query(server_string, 'mx', )
+    except NXDOMAIN:
+        print 'Bad E-Mail: Domain: ', server_string
+        return False
+    except NoNameservers:
+        print 'NoNameServers for Domain: ', server_string
+        return False
+    except NoAnswer:
+        print 'NoAnswer for Domain: ', server_string
+        return True
+    else:
+        return True
