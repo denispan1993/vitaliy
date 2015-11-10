@@ -1,0 +1,18 @@
+{% extends 'root.jinja2' %}
+{% block title %}Ваш заказ принят!!!{% endblock %}
+{% block content_center %}
+<script>
+var yaParams = {
+    order_id: "{{ order_pk }}",
+    order_price: {{ order.order_sum(calc_or_show='show') }},
+    currency: "грн",
+    exchange_rate: 1 };
+</script>
+<br>
+Ваш заказ принят!!!
+<br>
+Наш менеджер вышлет уточненный заказ и реквизиты для оплаты на <strong>указанный Вами E-Mail</strong>.
+<br>
+<strong><sub>Спасибо за покупку!</sub></strong>
+<br>
+{% endblock %}

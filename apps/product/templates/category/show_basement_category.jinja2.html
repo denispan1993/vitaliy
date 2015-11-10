@@ -1,8 +1,0 @@
-{% extends 'root.jinja2.html' %}
-{% block title %}Категории верхнего уровня интернет магазина Кексик.{% endblock %}
-{% block description %}Гельевые краски,сахарная бумага,рисовая бумага,кандурин,ингредиенты для мастики и тортов.Печать фотографий на сахарной бумаге.Силиконовые молды.Мастика для тортов.{% endblock %}
-{% block keywords %}упаковка,пищевые красители,кондитерская мастика,маты,ганаш,кондитерские краски,молды,вайнеры,каттеры,резаки{% endblock %}
-{% block content_center %}
-{# <p class="center_title"> #}<h1 style="margin-bottom: 10px;">Категории интернет - магазина "Кексик"</h1>{# </p> #}
-    {{ many_blocks(basement_categories, request, 'category', False)|safe }}
-{% endblock %}

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Sergey'
+__author__ = 'AlexStarov'
 
 # Create your views here.
 from django.conf import settings
@@ -21,13 +21,12 @@ from django.conf import settings
 #    return x > 50
 #env.tests['gtf'] = greater_than_fifty
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 
 
 def show_basement_category(request,
-                           template_name=u'category/show_basement_category.jinja2.html',
-                           ):
+                           template_name=u'category/show_basement_category.jinja2', ):
     from apps.product.models import Category
     try:
         basement_categories = Category.objects.basement()
@@ -36,35 +35,22 @@ def show_basement_category(request,
         raise Http404
 
     from django.template.loader import get_template
-    template_name = u'category/show_basement_category.jinja2.html'
 
     t = get_template(template_name)
-    from django.template import RequestContext
-    c = RequestContext(request, {u'basement_categories': basement_categories, }, )
-#    from django.template import Context
-#    c = Context({'basement_categories': basement_categories, }, )
-    html = t.render(c)
+    html = t.render(request=request, context={u'basement_categories': basement_categories, },)
     from django.http import HttpResponse
     response = HttpResponse(html, )
-#    from django.shortcuts import redirect
-#    return redirect('/')
     # Мы не можем выяснить когда менялись внутринние подкатегории.
     # Поэтому мы не отдаем дату изменения текущей категории.
 ##    from apps.utils.datetime2rfc import datetime2rfc
 ##    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
     return response
 
-#    return render_to_response(u'category/show_basement_category.jinja2.html',
-#                              locals(),
-#                              context_instance=RequestContext(request, ),
-#                              )
-
 
 def show_category(request,
                   category_url,
                   id,
-                  template_name=u'category/show_category.jinja2.html',
-                  ):
+                  template_name=u'category/show_category.jinja2', ):
     request.session[u'category'] = True
     from apps.product.models import Category
     try:
@@ -96,24 +82,23 @@ def show_category(request,
 #    return response
 
     from django.template.loader import get_template
-    t = get_template(template_name)
+    t = get_template(template_name, )
 
-    from django.template import RequestContext
-    c = RequestContext(request, {u'current_category': current_category, }, )
+    # from django.template import RequestContext
+    # c = RequestContext(request, {u'current_category': current_category, }, )
 
-    html = t.render(c)
+    # html = t.render(c)
+    html = t.render(request=request, context={u'current_category': current_category, },)
     from django.http import HttpResponse
     response = HttpResponse(html, )
 
     return response
 
 
-
-
-
-def show_product(request, product_url, id,
-                 template_name=u'product/show_product.jinja2.html',
-                 ):
+def show_product(request,
+                 product_url,
+                 id,
+                 template_name=u'product/show_product.jinja2', ):
     current_category = request.session.get(u'current_category', None, )
     request.session[u'product'] = True
     if request.method == 'POST':
@@ -216,10 +201,11 @@ def show_product(request, product_url, id,
         minimal_quantity_ = product.minimal_quantity
         quantity_of_complete_ = product.quantity_of_complete
 
-    response = render_to_response(u'product/show_product.jinja2.html',
-                                  locals(),
-                                  context_instance=RequestContext(request, ),
-                                  )
+    response = render(request=request,
+                      template_name=template_name,
+                      context=locals(),
+                      # context_instance=RequestContext(request, ),
+                      content_type='text/html', )
     from proj.settings import SERVER
     if SERVER:
         updated_at = product.updated_at

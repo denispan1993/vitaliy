@@ -202,21 +202,21 @@ STATICFILES_FINDERS = (
 SECRET_KEY = '^p()7zbza81@&amp;!bra3fvugv$=+zf*7&amp;$c)e(wpkl7=qg!vfx@$'
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    # ('coffin.template.loaders.JinjaCachedLoader',
-    ('django.template.loaders.cached.Loader',
-     (
-         'jingo.Loader',
-         'django_jinja.loaders.AppLoader',
-         'django_jinja.loaders.FileSystemLoader',
+#TEMPLATE_LOADERS = (
+#    # ('coffin.template.loaders.JinjaCachedLoader',
+#    ('django.template.loaders.cached.Loader',
+#     (
+#         'jingo.Loader',
+#         'django_jinja.loaders.AppLoader',
+#         'django_jinja.loaders.FileSystemLoader',
          # 'django.template.loaders.app_directories.Loader',
          # 'django.template.loaders.filesystem.Loader',
          # 'django.template.loaders.filesystem.Loader',
          # 'django.template.loaders.app_directories.Loader',
          # 'django.template.loaders.eggs.Loader',
-     ),
-     ),
-)
+#     ),
+#     ),
+#)
 
 #JINJA2_TEMPLATE_LOADERS = (
 #    ('django.template.loaders.cached.Loader',
@@ -232,7 +232,7 @@ TEMPLATE_LOADERS = (
 #)
 
 
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
+#DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2'
 
 JINGO_INCLUDE_PATTERN = r'\.jingo.html'
 
@@ -243,16 +243,16 @@ JINGO_EXCLUDE_APPS = ('debug_toolbar',
 #TEMPLATE_LOADERS = (
 #    'django.template.loaders.filesystem.Loader',
 #    'django.template.loaders.app_directories.Loader',
-##     'django.template.loaders.eggs.Loader',
+##    'django.template.loaders.eggs.Loader',
 #)
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+TEMPLATE_CONTEXT_PROCESSORS_ = TCP + (
     'django.core.context_processors.request',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS += (
+TEMPLATE_CONTEXT_PROCESSORS_ += (
     'django.core.context_processors.csrf',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
@@ -321,30 +321,12 @@ ROOT_URLCONF = 'proj.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'proj.wsgi.application'
 
-TEMPLATES = [
-    {
-        "BACKEND": "django_jinja.backend.Jinja2",
-        "DIRS": ['templates', ],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "match_extension": ".jinja",
-            "context_processors": TEMPLATE_CONTEXT_PROCESSORS,
-        }
-    },
-#    {
-#        "BACKEND": "django.template.backends.django.DjangoTemplates",
-#        "DIRS": [],
-#        "APP_DIRS": True,
-#        "OPTIONS": {
-##            "match_extension": ".html",
-#            "context_processors": TEMPLATE_CONTEXT_PROCESSORS,
-#        }
-#    },
-]
 
-TEMPLATE_DIRS = ('templates', )
+#TEMPLATE_DIRS = ('templates',
+#                 'templates/jinja2',
+#                 'jinja2', )
 
-DIRS = ['templates', ]
+#DIRS = ['templates', ]
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -503,7 +485,7 @@ AUTHENTICATION_BACKENDS = (
     # 'django.contrib.auth.backends.ModelBackend',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS += (
+TEMPLATE_CONTEXT_PROCESSORS_ += (
     'social.apps.django_app.context_processors.backends',  # context_processors.social_auth_by_type_backends',
 )
 
@@ -733,6 +715,40 @@ INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.
 #)
 #
 #STATICSITEMAPS_ROOT_SITEMAP = 'media.sitemap'
+
+
+TEMPLATES = [
+    {
+        # "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": [os.path.join(PROJECT_PATH, 'jinja2', ), ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            # 'environment': 'proj.jinja2.environment',
+            "match_extension": ".jinja2",
+            "match_regex": r"^(?!admin/).*",  # this is additive to match_extension
+            "context_processors": TEMPLATE_CONTEXT_PROCESSORS_,
+        }
+    },
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(PROJECT_PATH, 'templates', ), ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            #'loaders': [
+            #    ('django.template.loaders.cached.Loader',
+            #     [
+            #         'django.template.loaders.filesystem.Loader',
+            #         'django.template.loaders.app_directories.Loader',
+            #     ],
+            #     ),
+            #],
+            # "match_extension": ".html",
+            "context_processors": TEMPLATE_CONTEXT_PROCESSORS_,
+        }
+    },
+]
+
 
 try:
     from local_settings import *

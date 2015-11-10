@@ -1,0 +1,25 @@
+{% if blocks %}
+    <div id="categories_block"{% if top_border %} style="margin-top:10px;padding-top:10px;border-top-width:5px;border-top-style:dashed;border-top-color:#FFF6C9"{% endif %}>
+        {% set cycle = 1 %}
+        {% set revcounter = blocks|length %}
+        {% if revcounter <= request.session.limit_on_string %}
+            {% set last_loop = True %}
+        {% else %}
+            {% set last_loop = False %}
+        {% endif %}
+        {% for category in blocks|sort(attribute='serial_number') %}
+            {{ one_block(category, request, '', cycle, last_loop, 'category')|safe }}
+            {% if cycle < request.session.limit_on_string %}
+                {% set cycle = cycle + 1 %}
+            {% else %}
+                {% set cycle = 1 %}
+                {% set revcounter = revcounter - request.session.limit_on_string %}
+                {% if revcounter <= request.session.limit_on_string %}
+                    {% set last_loop = True %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    {# <p>Подкатегории в этой категории отсутсвуют</p> #}
+{% endif %}

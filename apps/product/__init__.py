@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
+__author__ = 'AlexStarov'
 
 
 from django.db.models.signals import post_save, m2m_changed

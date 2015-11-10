@@ -19,15 +19,14 @@
 #    return x > 50
 #env.tests['gtf'] = greater_than_fifty
 
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render_to_response, render
+from django.template import RequestContext, Context
 from apps.product.models import Country
 from django.shortcuts import redirect
 
 
 def show_cart(request,
-              template_name=u'show_cart.jinja2.html',
-              ):
+              template_name=u'show_cart.jinja2', ):
 #    try:
 #        from apps.product.models import Category
 #        current_category = Category.objects.get(pk=id, url=category_url, )
@@ -46,9 +45,7 @@ def show_cart(request,
 #        except Product.DoesNotExist:
 #            current_products_ = None
 
-    return render_to_response(u'show_cart.jinja2.html',
-                              locals(),
-                              context_instance=RequestContext(request, ), )
+    return render(request=request, template_name=template_name, )
 
 
 def recalc_cart(request, ):

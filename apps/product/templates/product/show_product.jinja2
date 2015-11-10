@@ -1,0 +1,1001 @@
+{# language: jinja2 #}
+{% extends 'root.jinja2' %}
+{% block title %}{% if product.meta_title %}{{ product.meta_title|capfirst }}{% else %}{{ product.title|capfirst }}{% endif %}{% endblock %}
+{% block description %}{{ product.meta_description }}{% endblock %}
+{% block keywords %}{{ product.meta_keywords }}{% endblock %}
+{% block product_header_css %}
+{# <link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css"> #}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/easypaginate/easypaginate.css" media="all">
+{% if product.in_action %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/flipclock/flipclock.css">
+{% endif %}
+{% endblock %}
+{# {% set products_recommended = product.recomendate.all()%} #}
+{# {% set products_recommended = product.recomendate.all()|custom_QuerySet_filter('is_availability', '=', 1) %} #}
+{% set products_recommended = product.recomendation %}
+{% set length_products_recommended = products_recommended|length %}{#  #}
+{% set limit_products_recommended_on_string = request.session.limit_on_string %}{#  #}
+{% if products_recommended and length_products_recommended > limit_products_recommended_on_string %}
+{% block header_js %}
+<script src="{{ MEDIA_URL }}js/jquery/easypaginate/easypaginate.js"></script>
+{# <script src="http://vk.com/js/api/share.js?9" charset="windows-1251"></script> #}
+{% endblock %}
+{% endif %}
+{% set comments = product.comments.pass_moderation() %}
+{# {1% set comments = product.comments.filter(pass_moderation=True) %} #}
+{% set length_comments = product.comments.all()|length %}
+{% block header_javascript1 %}
+<script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js"></script>
+{% endblock %}
+{% block body_javascript %}
+{% endblock %}
+{% block content_center %}
+{% if user.is_authenticated and user.is_staff and product.is_availability == 3%}
+<div style="position: absolute; z-index: 1000; top: 27px; left: 361px;">
+<style>
+.popup-waitlist {
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    background-color: #FFF;
+    width: 54em;
+    box-sizing: border-box;
+}
+.popup-waitlist {
+    padding: 3.07692em;
+        padding-top: 3.07692em;
+        padding-right: 3.07692em;
+        padding-bottom: 3.07692em;
+        padding-left: 3.07692em;
+    width: 48em;
+    box-shadow: 0px 0px 45px 0px rgba(51, 51, 51, 0.6), 0px -3px 0px 0px #C1C1C1 inset;
+}
+.popup-css{
+    background: #FFF none repeat scroll 0% 0%;
+        background-color: #FFF;
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+    border-radius: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+    border: 1px solid #CCC;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-style: solid;
+        border-right-style: solid;
+        border-bottom-style: solid;
+        border-left-style: solid;
+        border-top-color: #CCC;
+        border-right-color: #CCC;
+        border-bottom-color: #CCC;
+        border-left-color: #CCC;
+        -moz-border-top-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        border-image-source: none;
+        border-image-slice: 100% 100% 100% 100%;
+        border-image-width: 1 1 1 1;
+        border-image-outset: 0 0 0 0;
+        border-image-repeat: stretch stretch;
+    padding: 1.25em 1em 1em;
+        padding-top: 1.25em;
+        padding-right: 1em;
+        padding-bottom: 1em;
+        padding-left: 1em;
+    position: relative;
+    text-align: left;
+    box-shadow: 3px 3px 7px 0px rgba(200, 200, 200, 0.5), 0px -5px 0px 0px #C1C1C1 inset;
+}
+</style>
+    <div class="popup-css popup-waitlist" style="display:none;">
+<style>
+div.popup-css a:link {
+    color: #3E77AA;
+}
+div.popup-css .popup-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+div.popup-css a {
+    text-decoration: none;
+    outline: medium none;
+}
+</style>
+        <a href="#" class="popup-close" name="close">
+<style>
+.popup-close-small-icon {
+    background-position: 0px -7680px;
+    width: 28px;
+    height: 28px;
+}
+.sprite, .sprite-side::before, .sprite-both::before, .sprite-both::after {
+    background-image: url("http://i.rozetka.ua/h.1c2cb4/sprite.png") !important;
+    background-repeat: no-repeat;
+}
+.sprite, .sprite-side, .sprite-both {
+    position: relative;
+}
+</style>
+            <img src="http://i.rozetka.ua/design/_.gif" alt="×" class="popup-close-small-icon sprite" height="28" width="28">
+        </a>
+        <div name="content">
+<style>
+.waitlist-title {
+    font-size: 1.46154em;
+    margin-bottom: 1.4em;
+}
+h2.waitlist-title {
+    font-size: 1.84615em;
+    font-weight: normal;
+    line-height: 1.29167em;
+    margin-bottom: 0.58333em;
+}
+</style>
+            <h2 class="waitlist-title">Введите свой адрес эл.почты и&nbsp;мы&nbsp;вас оповестим, когда товар появится в&nbsp;наличии</h2>
+            <form name="submit-by-ajax">
+<style>
+.waitlist-i {
+    padding-bottom: 1.2em;
+}
+</style>
+                <div class="waitlist-i">
+<style>
+.waitlist-i-title {
+    font-size: 1.15385em;
+    padding-bottom: 0.46667em;
+}
+</style>
+                    <div class="waitlist-i-title">Эл. почта</div>
+<style>
+.input-text-waitlist {
+    width: 19.9333em;
+}
+.input-text {
+    height: 1.66667em;
+    line-height: 1.66667em;
+}
+.input-text, .input-textarea {
+    border: 1px solid #C2C2CC;
+    border-radius: 3px;
+    box-shadow: 3px 3px 1px 0px #EEEEEF inset;
+    font-size: 1.15385em;
+    width: 21em;
+    padding: 0.33333em;
+    resize: none;
+}
+</style>
+                    <input class="input-text input-text-waitlist" name="email" required="1" value="" pattern="^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z0-9]{2,15})$" type="text">
+<style>
+.waitlist-submit-btn {
+    margin-left: 1.30769em;
+    border-radius: 3px;
+}
+.btn-link-green {
+    background: transparent -moz-linear-gradient(center top , #79D670, #4BBE3F) repeat scroll 0% 0%;
+    box-shadow: 3px 3px 7px 0px rgba(105, 206, 95, 0.5), 0px -3px 0px 0px #3A9731 inset;
+}
+.btn-link {
+    background-clip: padding-box;
+    border: 0px none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    outline: 0em none;
+    border-radius: 3px;
+    margin-bottom: 2px;
+}
+</style>
+                    <span class="btn-link btn-link-green waitlist-submit-btn">
+<style>
+.btn-link-i {
+    background: transparent none repeat scroll 0% 0%;
+    border: 0px none;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    outline: medium none;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+</style>
+                        <button type="submit" class="btn-link-i">Сохранить</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+<style>
+#product_box_left{
+	float:left;
+/*	z-index:10;*/
+	width:354px;
+}
+#product_box_left_top{
+	margin:5px 5px 5px 0;
+/*	text-align:center;*/
+}
+{# Вместо left_bottom -> slider
+#product_box_left_bottom{
+	margin-top:1px;
+	text-align:center;
+	height:55px;
+}
+#product_box_left_bottom ul{
+//	width:45px;// height:45px;
+//	margin-left:-15px;
+//	float:left;
+//	list-style-image:none;
+//	list-style-type:none;
+//	padding:0px;margin:2px;
+	text-align:center;
+}
+#product_box_left_bottom ul li{
+//	width:45px;// height:45px;
+//	margin-left:-15px;
+	float:left;
+	list-style-image:none;
+	list-style-type:none;
+	padding:0px;margin:2px;
+}
+#product_box_left_bottom ul li img{
+	width:45px;height:45px;
+//	margin-left:-15px;
+	float:left;
+	list-style-image:none;
+	list-style-type:none;
+	padding:0px;margin:2px;
+} #}
+</style>
+<div id="product_box" style="width:98%;height:auto;
+                             border:5px solid #FFF6C9;
+                             border-radius:10px;
+                             padding:5px;
+                             color:#333333;
+                             font-family:Arial,Helvetica,sans-serif;
+                             font-size:12px;
+                             line-height:125%;
+                             display:inline-block;"
+     itemscope itemtype="http://schema.org/Product">
+	<div id="product_box_header" style="text-align:left;" class="clearFloat">
+		{{ header_category2(current_category, product)|safe }}
+	</div>
+	<div id="product_box_top" style="width:100%;position:relative;" class="clearFloat">
+		{# {% set photos = product.photo.all() %} #}
+		<script src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
+		<!-- Call quick start function. -->
+		<script type="text/javascript">
+			CloudZoom.quickStart();
+		</script>
+		<div id="product_box_left">
+			<div id="product_box_left_top">
+                {% set main_photo = product.main_photo %}
+				{% if main_photo %}
+                    <div class="image-wrap" style="height:372px;line-height:370px;">
+                        <img class='cloudzoom'
+                              style='vertical-align:middle;'
+                              id='zoom1'
+                              src='{{ main_photo.photo.url_345x370 }}' {# small image #}
+                             data-cloudzoom="
+                             zoomImage:'{{ main_photo.photo.url }}',{# large image #}
+                             zoomPosition:3,
+                             zoomSizeMode:'image',
+                             zoomOffsetX:15{# ,
+                             zoomOffsetY:25 #}{# , #}
+                             {# maxMagnification:4 #}"
+                             alt='{{ main_photo.title }}'
+                             itemprop='image' />
+                     </div>
+				{% else %}
+					<a title="{{ product.item_description }}"
+					   id="a_productMainImg"
+					   href="{{ product.get_absolute_url() }}">
+						<img src="/media/img/NoPhoto_345x370.jpg"
+							 title="Фотография продукта отсутсвует"
+							 id="img_productMainImg" />
+					</a>
+				{% endif %}
+                {% set photos = product.all_photos %}
+    			{% if photos %}
+                    <div id="slider">
+                        {% set count_photos = photos|length %}
+                        {% if count_photos > 3 %}
+                            <script type="text/javascript">
+                            // Initialize the sliders.
+                            $(function(){
+                                $('#slider').Thumbelina({
+                                    $bwdBut:$('#slider .left'),
+                                    $fwdBut:$('#slider .right')
+                                });
+                            })
+                            </script>
+                            <script type="text/javascript" src="/media/js/jquery/thumbelina/thumbelina.js"></script>
+                            <div class="thumbelina-but horiz left">˂</div>
+                        {% endif %}
+                        <div id="parent">
+                            <ul class="thumbelina"{% if count_photos > 3 %} style="left:-180px;"{% else %} style="position:relative;"{% endif %}>
+                                {% for photo in photos %}
+                                    <li style="display:inline-block;">
+                                        <img class="cloudzoom-gallery cloudzoom-gallery-active"
+                                             {% if loop.index > 1 %}style="margin-left:4px;"{% endif %}
+                                             src="{{ photo.photo.url_90x95 }}" {# icon image #}
+                                             title='{{ photo.photo_sign }}'
+                                             data-cloudzoom="useZoom:'#zoom1',
+                                              image:'{{ photo.photo.url_345x370 }}',{# small image #}
+                                              zoomImage:'{{ photo.photo.url }}'">{# large image #}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div id="helper"></div>
+                        </div>
+                        {% if count_photos > 3 %}
+                            <div class="thumbelina-but horiz right">˃</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+		<div id="product_box_right">
+			<h1 itemprop="name">
+				<a href="{{ product.get_absolute_url() }}"
+                   title="{{ product.title|capfirst }}">
+					{{ product.name|capfirst }}
+				</a>
+			</h1>
+			<h3>
+				Артикул товара: <span itemprop="productID">{{ product.get_ItemID }}</span>
+			</h3>
+            {% set manufacturer = product.get_manufacturer %}
+            {% if manufacturer %}
+                <p id="product_box_right_manufacturer">
+                    Производитель: <span itemprop="brand">{{ manufacturer }}</span>
+                </p>
+            {% endif %}
+			{% if product.regular_price %}
+				<p id="product_box_right_regular_price">
+					Старая цена:
+					<span> {{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
+				</p>
+			{% endif %}
+            {% if not product.in_action %}
+                <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи:&nbsp;{% else %}Цена:&nbsp;{% endif %}:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">{{ product.get_price(request)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
+            {% else %}
+                <p id="product_box_right_action_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Акционная цена:&nbsp;<span class="Red" itemprop="price">{{ product.get_price(request, product.action_price)|replace(",", ".") }}</span>&nbsp;{{ get_currency(request) }}</p>
+                <p id="product_box_right_price">Обычная цена:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" style="text-decoration:line-through;">&nbsp;{{ product.get_price(request, product.price)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
+                <div id="product_box_time_action_price">
+<style>
+.flip-clock-divider{
+    height:40px;
+}
+.flip-clock-divider .flip-clock-label{
+    right:-48px;
+}
+.flip-clock-divider.minutes .flip-clock-label{
+    right:-48px;
+}
+.flip-clock-divider.seconds .flip-clock-label{
+    right:-51px;
+}
+.flip-clock-dot{
+    height:7px;
+    width:7px;
+}
+.flip-clock-dot.top{
+    top:10px;
+}
+.flip-clock-dot.bottom{
+    bottom:8px;
+}
+.flip-clock-wrapper{
+    margin:0;
+}
+.flip-clock-wrapper ul{
+    height:30px;
+    width:16px;
+}
+.flip-clock-wrapper ul li{
+    line-height:30px;
+}
+.flip-clock-wrapper ul li a div div.inn{
+    font-size:25px;
+}
+.clock{
+    padding-top:25px;
+}
+</style>
+                    <p style="font-size:22px;font-weight:bold;color:Red;">До окончания акции осталось:</p>
+                    <div class="clock"{#  style="margin:2em;" #}></div>
+<script src="{{ MEDIA_URL }}js/jquery/flipclock/flipclock.min.js"></script>
+<script>
+var clock;
+$(document).ready(function() {
+// Grab the current date
+var currentDate = new Date();
+    {% set actions = product.action.all() %}
+    {% set action = actions[0] %}
+    {% set datetime_end = action.datetime_end %}
+// Set some date in the future. In this case, it's always Jan 1
+var futureDate = new Date("{{ datetime_end.isoformat() }}");
+// Calculate the difference in seconds between the future and current date
+var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
+// Instantiate a coutdown FlipClock
+clock = $('.clock').FlipClock(diff, {
+clockFace:'DailyCounter',
+countdown:true,
+language:'ru'
+});
+});
+</script>
+                </div>
+            {% endif %}
+            {% if product.is_availability == 1 or product.is_availability == 2 %}
+                <p class="price_total">
+                    <span id="cart_quant">{{ quantity_ }}</span>&nbsp;{{ product.unit_of_measurement }}&nbsp;×&nbsp;
+                    <span id="one_piece_price">{# {{ price_per_piece|replace(",", ".") }} #}</span>
+                    &nbsp;{{ get_currency(request) }}&nbsp;=&nbsp;{# &nbsp; #}
+                    <span id="current_price">{# {{ sum_of_quantity|replace(",", ".") }} #}</span>
+                    &nbsp;{{ get_currency(request) }}{# &nbsp; #}
+                </p>
+            {% endif %}
+            {% if product.is_availability == 1 or product.is_availability == 2 %}
+{% include 'product/include/calc.script' %}
+				<form method="POST" action="." >
+					<ul class="quantity">
+						<li>Количество:</li>
+						<li>
+							<a href="javascript:void(0)">
+								<img src="/media/img/minus.gif"
+									 onclick='calculate("-");'/>
+							</a>
+						</li>
+						<li>
+{# <style>
+input[type='number']{
+-moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button{
+-webkit-appearance:none;
+margin:0;
+}
+</style> #}
+							<input id="quantity"
+								   style="border:1px solid #CCCCCC;text-align:center;width:20px;padding:2px;overflow:hidden;height:100%;-moz-appearance:textfield;-webkit-appearance:textfield;"
+								   name="quantity"
+                                   min="{{ product.minimal_quantity }}"
+                                   max="999"
+                                   step="{{ product.quantity_of_complete }}"
+								   value="{{ quantity_ }}"
+{#								 onchange="setTimeout('calculate()', 1500);" #}
+								   onkeyup="onChange();"
+								   type="number">
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<img src="/media/img/plus.gif"
+									onclick='calculate("+");'>
+							</a>
+						</li>
+							<span id="errorMsg"
+								  style="text-align:center;color:#FF0000">
+							</span>
+					</ul>
+					<input type="hidden" name="product_pk" value="{{ product.pk }}">
+					<input type="hidden" name="product_url" value="{{ product.url }}">
+					<input type="hidden" name="action" value="addtocard">
+					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+ 					{# <br class="clearFloat"> #}
+                    <br><br>
+					<input type="submit" value="Добавить в корзину" style="margin-top:2px;">
+				</form>
+<script>
+$(document).ready(onChange())
+</script>
+				<form method="POST" action="." style="display:inline;margin-top:2px;margin-left:5px;">
+					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order">
+					<input type="hidden" name="product_pk" value="{{ product.pk }}">
+					<input type="hidden" name="product_url" value="{{ product.url }}">
+					<input type="hidden" name="action" value="makeanorder">
+					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                    {# <br class="clearFloat"> #}
+					<input type="submit" value="Купить" style="margin-top:2px;">
+				</form>
+            {% endif %}
+                <button onclick="document.location.href = '/корзина/';" style="margin-left:5px;">Перейти в корзину</button>
+			{% if product.is_availability == 2 %}
+				<p>Товар:&nbsp;<strong>доступен под заказ</strong><br>При покупке товара под заказ, взымается предоплата 50% от стоимости заказаного товара.<br>Окончательный расчёт происходит после поступления товара на склад магазина Кексик.</p>
+			{% elif product.is_availability == 3 %}
+				<p>Товар:&nbsp;<strong>ожидается</strong></p>
+				{% if user.is_authenticated and user.is_staff %}
+<style>.detail-buy-label.unavailable{
+    background: #eee none repeat scroll 0 0;}
+.detail-buy-label{
+    border-radius: 3px;
+    float: left;
+    margin: 0 1.15385em 1.53846em 0;
+    padding: 1em 1.15385em 0.76923em;
+    text-align: center;}</style>
+<div class="detail-buy-label unavailable">
+		<div class="pp-price-status-block">
+<style>.detail-status.unavailable {
+    color: #333;
+    font-size: 1.38462em;
+    font-weight: bold;}
+.detail-status{
+    font-size: 1.07692em;
+    margin-bottom: 0.35714em;}</style>
+			<div class="detail-status unavailable">
+					Ожидается
+			</div>
+<style>.detail-price-lable{    display: inline-block;}</style>
+			<div name="prices_active_element_original" class="detail-price-lable">
+                <div name="price" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+<style>.unavailable .detail-price-uah-old, .unavailable .detail-price-uah, .unavailable .detail-price-usd {
+    color: #999;}
+.detail-price-uah{
+    font-size: 2.46154em;
+    margin-bottom: 0.28125em;}</style>
+                    <div class="detail-price-uah">
+                        <span itemprop="price">
+                            <meta itemprop="priceCurrency" content="UAH">2 699
+                        </span>
+<style>.detail-price-uah-sign{
+    font-size: 0.65625em;
+    letter-spacing: normal;}</style>
+                        <span class="detail-price-uah-sign"> грн</span>
+							<link itemprop="availability" href="http://schema.org/OutOfStock">
+                    </div>
+                </div>
+            </div>
+			<script type="text/javascript">Waitlist.setDetailsPopupParent(null, 'waitlist_details_' + '1276645')</script>
+            <div name="waitlist_details">
+                <div class="detail-waitlist-button">
+<style>
+.btn-to-waitlist::before {
+    background-position: 0 -6367px;
+    height: 19px;
+    left: 10px;
+    top: 12px;
+    width: 24px;
+}
+.btn-to-waitlist::before {
+    background-position: 0 -6367px;
+    height: 19px;
+    left: 8px;
+    top: 10px;
+    width: 24px;
+}
+.sprite-side::before, .sprite-both::before, .sprite-both::after {
+    content: "";
+    position: absolute;
+}
+.sprite, .sprite-side::before, .sprite-both::before, .sprite-both::after {
+    background-image: url("http://i.rozetka.ua/h.26c663/sprite.png") !important;
+    background-repeat: no-repeat;
+}
+a:link{
+    color: #3e77aa;}
+.btn-to-waitlist{
+    border-radius: 3px;}
+.btn-to-waitlist{
+    border-radius: 3px;}
+.btn-link-gray{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fff, #f1f1f1) repeat scroll 0 0;
+    border-color: #ececec #ececec -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 1px 0;
+    box-shadow: 3px 3px 7px 0 rgba(200, 200, 200, 0.5), 0 -3px 0 0 #c1c1c1 inset;}
+.btn-link{
+    background-clip: padding-box;
+    border: 0 none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 2px;
+    outline: 0 none;
+    position: relative;
+    vertical-align: middle;}
+.sprite, .sprite-side, .sprite-both{
+    position: relative;
+}
+a{
+    outline: medium none;
+    text-decoration: none;}</style>
+                    <a href="#Waitlist" class="btn-link btn-link-gray btn-to-waitlist sprite-side">
+<style>
+.btn-to-waitlist .btn-link-i {
+    font-size: 13px;
+    padding: 7px 19px 7px 43px;
+    text-align: left;
+}
+.btn-to-waitlist .btn-link-i {
+    font-size: 13px;
+    padding: 5px 15px 7px 40px;
+    text-align: left;
+}
+.btn-link-gray .btn-link-i{
+    color: #3e77aa;}
+.btn-link-i{
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    outline: medium none;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    z-index: 1;}</style>
+                        <span class="btn-link-i" name="towaitlist">Сообщите, <br>когда появится</span>
+                    </a>
+                </div>
+            </div>
+			</div>
+		</div>
+	</div>
+</div>
+                {% endif %}
+			{% elif product.is_availability == 4 %}
+				<p>Товар:&nbsp;<strong>недоступен</strong></p>
+			{% endif %}
+            <div id="product_box_bottom"
+{#                     class="clearFloat" #}
+                    itemprop="description">
+                {{ product.description|safe }}
+            </div>
+		</div>
+    </div>
+</div>
+{# {% if user.is_authenticated and user.is_staff %} #}
+{% if products_recommended %}
+<style>
+a.a-tab{
+background:#fff;
+border:1px solid #c2cfe0;
+border-bottom:0px;
+display:block;
+font-weight:bold;
+padding:0px 10px;
+position:relative;
+height:24px;
+line-height:24px;
+font-size:14px;
+color:#114989;
+text-decoration:none;
+border-radius:10px 10px 0 0;
+}
+li.tab{
+float:left;
+}
+li.tab.active a.a-tab{
+color:#fff;
+background:#329a1c;
+border-color:#329a1c;
+cursor:default;
+font-weight:bold;
+}
+</style>
+<script>
+function tab_click(element){
+    var recomendationElem = document.getElementById('li-recomendations');
+    var commentsElem = document.getElementById('li-comments');
+    var tab_recomendationElem = document.getElementById('tab_recommended_products');
+    var tab_commentsElem = document.getElementById('tab-comments');
+    if(element.id == 'li-recomendations') {
+        commentsElem.classList.remove('active');
+        tab_commentsElem.style.display = 'none';
+        recomendationElem.classList.add('active');
+        tab_recomendationElem.style.display = 'block';
+    }
+    else if (element.id == 'li-comments'){
+        recomendationElem.classList.remove('active');
+        tab_recomendationElem.style.display='none';
+        commentsElem.classList.add('active');
+        tab_commentsElem.style.display='block';
+    }
+}
+window.onload = function(){
+    var recomendationElem = document.getElementById('li-recomendations');
+    tab_click(recomendationElem);
+}
+</script>
+
+<style>
+div.tabs{
+float:left;clear:both;width:100%;{# border-bottom:3px solid #329a1c; #}margin-bottom:10px;
+}
+ul#multi-tabs:before,ul#multi-tabs:after{content:'';display:block;position:absolute}
+ul#multi-tabs:before{background:#329a1c;width:200px;height:3px;right:0;bottom:-3px;
+background:-moz-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:-webkit-gradient(linear,left top,right top,color-stop(0%,#329a1c),color-stop(100%,#fff));
+background:-webkit-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:-o-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:-ms-linear-gradient(left,#329a1c 0%,#fff 100%);
+background:linear-gradient(left,#329a1c 0%,#fff 100%)}
+/*ul#multi-tabs:after {background: url(http://i.rozetka.ua/design/catalog/details/menu-tabs-bg-l.jpg) no-repeat 0 100%;
+top: 0;
+bottom: -3px;
+width: 25px;
+left: -25px;
+}*/
+a.a-tab,a.a-tab:after{
+border-radius:10px 10px 0 0;
+}
+a.a-tab:after{
+content:'';
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+z-index:-1;
+box-shadow:-4px -5px 4px #000000;
+}
+</style>
+<div class="tabs">
+{# <style>
+div#tabs ul#multi-tabs:before{
+width:80px;
+height:3px;
+right:0px;
+bottom:-3px;
+}
+</style> #}
+    <ul id="multi-tabs" style="list-style:none;margin-top:5px;margin-left:0px;padding-left:0px;position:relative;border-bottom:3px solid #329a1c;height:25px;">
+        <li class="tab"
+            onclick="javascript:tab_click(this);"
+            id="li-recomendations">
+            <a class="a-tab">Рекомендуемые ({{ length_products_recommended }})</a>
+        </li>
+        <li class="tab"
+            onclick="javascript:tab_click(this);"
+            id="li-comments">
+            <a class="a-tab">Комментарии{% if comments %} ({{ length_comments }}){% endif %}</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+<div id="product_box_bottom_tabs_contents"
+     style="width:{{ request.session.width_main_center }}px;float:left;clear:both;text-align:left;">
+{% if products_recommended %}
+<div id="tab_recommended_products" style="margin:0px;padding:0px;display:none;">
+ {% if length_products_recommended > limit_products_recommended_on_string %}
+<script>try{
+$(document).ready(function($){
+$('ul#products').easyPaginate({
+    step:{{ limit_products_recommended_on_string }}, {# Defines a number of items visible on each "page". #}
+    delay:500, {# Items on each "page" fade in one by one. This parameter controls the pause between each item’s appearance so we can create "wave" effect. It is defined in milliseconds. #}
+    auto:false, {# Boolean. If set to true then the plugin will automatically rotate the "pages" #}
+    pause:1000, {# If set to auto pagination, this parameter controls the length of the pause in milliseconds between each "page turn". #}
+    clickstop:false {# If set to auto pagination, this parameter controls whether the pages will continue to automatically rotate. If you want to continue the rotation set this parameter to false. #}
+});
+});
+}catch(e){ alert(e) }
+</script>
+{% endif %}
+{% if length_products_recommended == 1 %}
+<p style="font-size:25px;color:Black;font-weight:bold;margin-top:0px;margin-bottom:10px;">Рекомендуемый товар</p>
+{% elif length_products_recommended > 1 %}
+<p style="font-size:25px;color:Black;font-weight:bold;margin-top:0px;margin-bottom:10px;">Рекомендуемые товары</p>
+{% endif %}
+<ul id="products" style="margin-top:0px;margin-bottom:0px;padding-left:0px;">
+    {% for product_recommended in products_recommended %}
+        {{ one_block(product_recommended, request, 'li', 0, False, 'product')|safe }}
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
+{# <style>
+#product_box_bottom_comment{
+    float:left;
+    clear:both;
+}
+</style> #}
+<div id="tab-comments" style="display:none;">
+{% if comments %}
+<style>
+h2.comment-title{
+font-size:20px;
+padding-bottom:10px;
+}
+</style>
+<h2 class="comment-title">Отзывы покупателей о {{ product.title }}</h2>
+{#             <div id="product_box_bottom_comment"> #}
+<ul>
+                {% for comment in comments %}
+                    <li>
+                        <div class="comment-vote">
+                            <header class="review-header">
+<style>
+.review-author{
+font-size:18px;
+line-height:20px;
+color:#090;
+font-weight:bold;
+padding-right:15px;
+position:relative;
+}
+</style>
+                                <span class="review-author">{{ comment.name }}</span>
+<style>
+.review-date{
+font-size:13px;
+line-height:20px;
+color:#E0E0E0;
+padding-right:5px;
+}
+</style>
+                                <time class="review-date">{{ comment.created_at|date("d M Y") }}</time>{# "d-m-Y G:i:s" #}
+                            </header>
+<style>
+.review-comment {
+font-size:18px;
+line-height:20px;
+margin:4px 0px 6px;
+padding:0;
+}
+</style>
+                            <p class="review-comment">{{ comment.comment }}</p>
+                            <input type="button"
+                                   value="Ответить на комментарий"
+                                   onclick="javascript:open_window_comment_add('{{ product.get_absolute_url() }}', '{{ comment.get_absolute_url() }}');">
+                        </div>
+                    </li>
+                {% endfor %}
+</ul>
+{% endif %}
+<div id="comment_add_button">
+<script>
+function open_window_comment_add(product_url, comment_url){
+var param = 'width=950,height=600,menubar=no,toolbar=no,location=no,directories=no,status=no,resizable=no,scrollbars=no'
+if (comment_url==null){
+    var url = product_url + 'комментарий/добавить/'
+}
+else{
+    var url = comment_url + 'добавить/'
+}
+var newWin = window.open(url, 'Comment_add', param);
+
+newWin.focus();
+newWin.onload = function() {
+
+  // создать div в документе нового окна
+  // var div = newWin.document.createElement('div');
+  // div.innerHTML = 'Добро пожаловать!'
+  // div.style.fontSize = '30px'
+
+  var body = newWin.document.body;
+
+  // вставить первым элементом в новое body
+  // body.insertBefore(div, body.firstChild);
+}
+}
+</script>
+                <input type="button"
+                       value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
+                       onclick="javascript:open_window_comment_add('{{ product.get_absolute_url() }}', null);">
+</div>
+</div>
+{# {% endif %} #}
+</div>
+{% endblock %}
+{# {1% block content_right %}
+    <p>Очень правая колонка</p>
+    {{ viewed_ }}
+{% endblock %} #}
+{% block after_footer %}
+{% if user.is_authenticated and user.is_staff %}
+<script>
+var Share = {
+    vkontakte: function(purl, ptitle, pimg, text) {
+        url  = 'http://vkontakte.ru/share.php?';
+        url += 'url='          + encodeURIComponent(purl);
+        url += '&title='       + encodeURIComponent(ptitle);
+        url += '&description=' + encodeURIComponent(text);
+        url += '&image='       + encodeURIComponent(pimg);
+        url += '&noparse=true';
+        Share.popup(url);
+    },
+    odnoklassniki: function(purl, text) {
+        url  = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
+        url += '&st.comments=' + encodeURIComponent(text);
+        url += '&st._surl='    + encodeURIComponent(purl);
+        Share.popup(url);
+    },
+    facebook: function(purl, ptitle, pimg, text) {
+        url  = 'http://www.facebook.com/sharer.php?s=100';
+        url += '&p[title]='     + encodeURIComponent(ptitle);
+        url += '&p[summary]='   + encodeURIComponent(text);
+        url += '&p[url]='       + encodeURIComponent(purl);
+        url += '&p[images][0]=' + encodeURIComponent(pimg);
+        Share.popup(url);
+    },
+    twitter: function(purl, ptitle) {
+        url  = 'http://twitter.com/share?';
+        url += 'text='      + encodeURIComponent(ptitle);
+        url += '&url='      + encodeURIComponent(purl);
+        url += '&counturl=' + encodeURIComponent(purl);
+        Share.popup(url);
+    },
+    mailru: function(purl, ptitle, pimg, text) {
+        url  = 'http://connect.mail.ru/share?';
+        url += 'url='          + encodeURIComponent(purl);
+        url += '&title='       + encodeURIComponent(ptitle);
+        url += '&description=' + encodeURIComponent(text);
+        url += '&imageurl='    + encodeURIComponent(pimg);
+        Share.popup(url)
+    },
+
+    popup: function(url) {
+        window.open(url,'','toolbar=0,status=0,width=626,height=436');
+    }
+};
+</script>
+<style>
+a.social_link{
+background-image:url("http://share.pluso.ru/img/pluso-like/square/big/03.png");
+display:block;
+height:40px;
+width:40px;
+margin-right:20px;
+margin-bottom:10px;
+}
+a#social_button_VK{
+background-position:-168px 0;
+}
+a#social_button_OK{
+background-position:-126px 0;
+}
+a#social_button_FB{
+background-position:0px 0;
+}
+a#social_button_TW{
+background-position:-42px 0;
+}
+a#social_button_MR{
+background-position:-294px 0;
+}
+</style>
+<a id="social_button_VK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.vkontakte('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
+<a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('{{ request.get_full_path() }}','{{ product.meta_description }}')"></a>
+<a id="social_button_FB" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.facebook('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
+<a id="social_button_TW" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.twitter('{{ request.get_full_path() }}','{{ product.title|capfirst }}')"></a>
+<a id="social_button_MR" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.mailru('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
+{# <script>
+<!--
+document.write(VK.Share.button({
+    url:'{{ request.get_full_path() }}',
+    title:'{{ product.title|capfirst }}',
+    description:'{{ product.meta_description }}',
+    {% if product.main_photo %}image:'{{ product.main_photo.photo.url }}',{% else %}image:'/media/img/NoPhoto_345x370.jpg',{% endif %}
+    noparse:true
+}));
+-->
+</script> #}
+{% endif %}
+{% endblock %}
