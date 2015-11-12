@@ -1,26 +1,22 @@
-# coding=utf-8
-
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render
 
 
 @staff_member_required
 def admin_panel(request,
-                template_name=u'admin_panel.jinja2.html', ):
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={# 'error_message': error_message,
-                                              # 'orders': orders, },  # 'html_text': html_text, },
-                                  },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
+                template_name=u'admin_panel.jinja2', ):
+    response = render(request=request,
+                      template_name=template_name,
+                      content_type='text/html', )
     return response
 
 
 @staff_member_required
 def comment_search(request,
-                   template_name=u'comment/comment_search.jinja2.html', ):
+                   template_name=u'comment/comment_search.jinja2', ):
     error_message = u''
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
@@ -41,25 +37,20 @@ def comment_search(request,
                         comment_id = '%06d' % comment_id
                         from django.shortcuts import redirect
                         return redirect(to='comment_edit', id=comment_id, )
-    # from datetime import datetime
-#    from apps.utils.datetime2rfc import datetime2rfc
-#    response['Last-Modified'] = datetime2rfc(page.updated_at, )
     from apps.comment.models import Comment
     comments = Comment.objects.all()
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'error_message': error_message,
-                                              'comments': comments, },  # 'html_text': html_text, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
+    response = render(request=request,
+                      template_name=template_name,
+                      context={'error_message': error_message,
+                               'comments': comments, },
+                      content_type='text/html', )
     return response
 
 
 @staff_member_required
 def comment_edit(request,
                  id,
-                 template_name=u'comment/comment_edit.jinja2.html', ):
+                 template_name=u'comment/comment_edit.jinja2', ):
     error_message = u''
     from apps.comment.models import Comment
     from django.shortcuts import redirect
@@ -87,11 +78,9 @@ def comment_edit(request,
                     id = int(comment_id, )
                 except ValueError:
                     error_message = u'Некорректный номер комментария. № 2'
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'comment_id': comment_id,
-                                              'comment': comment, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
+    response = render(request=request,
+                      template_name=template_name,
+                      context={'comment_id': comment_id,
+                               'comment': comment, },
+                      content_type='text/html', )
     return response

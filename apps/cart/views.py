@@ -1,4 +1,6 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
+
 # Create your views here.
 #from django.conf import settings
 #from jinja2 import Environment, FileSystemLoader

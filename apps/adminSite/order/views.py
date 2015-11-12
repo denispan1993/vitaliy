@@ -1,12 +1,13 @@
-# coding=utf-8
-# __author__ = 'user'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render
 
 
 @staff_member_required
 def order_search(request,
-                 template_name=u'order/order_search.jinja2.html', ):
+                 template_name=u'order/order_search.jinja2', ):
     error_message = u''
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
@@ -27,28 +28,22 @@ def order_search(request,
                         order_id = '%06d' % order_id
                         from django.shortcuts import redirect
                         return redirect(to='order_edit', id=order_id, )
-    # from datetime import datetime
-#    from apps.utils.datetime2rfc import datetime2rfc
-#    response['Last-Modified'] = datetime2rfc(page.updated_at, )
     from datetime import datetime, timedelta
     filter_datetime = datetime.now() - timedelta(days=31, )
-    # print filter_datetime
     from apps.cart.models import Order
     orders = Order.objects.filter(created_at__gte=filter_datetime, )
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'error_message': error_message,
-                                              'orders': orders, },  # 'html_text': html_text, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
+    response = render(request=request,
+                      template_name=template_name,
+                      context={'error_message': error_message,
+                               'orders': orders, },
+                      content_type='text/html', )
     return response
 
 
 @staff_member_required
 def order_edit_product_add(request,
                            order_id,
-                           template_name=u'order/order_edit_product_add.jinja2.html', ):
+                           template_name=u'order/order_edit_product_add.jinja2', ):
     from django.shortcuts import redirect
     if order_id:
         try:
@@ -80,23 +75,17 @@ def order_edit_product_add(request,
 #        html_text = markdown.markdown(page.text, )
 #    else:
 #        html_text = None
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'order_id': order_id,
-                                              'order': order, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    # from datetime import datetime
-    # from apps.utils.datetime2rfc import datetime2rfc
-    # response['Last-Modified'] = datetime2rfc(page.updated_at, )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  context={'order_id': order_id,
+                           'order': order, },
+                  content_type='text/html', )
 
 
 @staff_member_required
 def order_edit(request,
                order_id,
-               template_name=u'order/order_edit.jingo.html', ):
+               template_name=u'order/order_edit.jinja2', ):
     from django.shortcuts import redirect
     if order_id:
         try:
@@ -126,14 +115,8 @@ def order_edit(request,
 #        html_text = markdown.markdown(page.text, )
 #    else:
 #        html_text = None
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'order_id': order_id,
-                                              'order': order, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    # from datetime import datetime
-    # from apps.utils.datetime2rfc import datetime2rfc
-    # response['Last-Modified'] = datetime2rfc(page.updated_at, )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  context={'order_id': order_id,
+                           'order': order, },
+                  content_type='text/html', )

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 __author__ = 'user'
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import redirect
 
 def ordering_step_one(request,
-                      template_name=u'order/step_one.jinja2.html', ):
+                      template_name=u'order/step_one.jinja2', ):
     from apps.product.models import Country
     try:
         country_list = Country.objects.all()
@@ -51,18 +51,19 @@ def ordering_step_one(request,
                             continue
                     else:
                         continue
-    return render_to_response(template_name=template_name,
-                              dictionary={'form_action_next': u'/заказ/второй-шаг/',
-                                          'FIO': FIO,
-                                          'email': email,
-                                          'phone': phone,
-                                          'country_list': country_list,
-                                          'select_country': select_country, },
-                              context_instance=RequestContext(request, ),
-                              content_type='text/html', )
+    return render(request=request,
+                  template_name=template_name,
+                  context={'form_action_next': u'/заказ/второй-шаг/',
+                           'FIO': FIO,
+                           'email': email,
+                           'phone': phone,
+                           'country_list': country_list,
+                           'select_country': select_country, },
+                  content_type='text/html', )
+
 
 def ordering_step_two(request,
-                      template_name=u'order/step_two_ua.jinja2.html', ):
+                      template_name=u'order/step_two_ua.jinja2', ):
     FIO = request.POST.get(u'FIO', False, )
     if FIO:
         request.session[u'FIO'] = FIO.strip()
@@ -90,7 +91,7 @@ def ordering_step_two(request,
                 request.session[u'select_country'] = select_country
             if select_country != 1:
                 """ Если страна не Украина """
-                template_name = u'order/step_two_others.jinja2.html'
+                template_name = u'order/step_two_others.jinja2'
 
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
@@ -138,7 +139,7 @@ def ordering_step_two(request,
             else:
                 email_error = u'Вы забыли указать Ваш E-Mail.'
             if email_error:
-                template_name = u'order/step_one.jinja2.html'
+                template_name = u'order/step_one.jinja2'
         else:
             return redirect(to=u'/заказ/вы-где-то-оступились/', )
     else:
@@ -151,17 +152,17 @@ def ordering_step_two(request,
         from django.http import Http404
         raise Http404
 
-    return render_to_response(template_name=template_name,
-                              dictionary={'form_action_next': u'/заказ/результат-оформления/',
-                                          'delivery_companies_list': delivery_companies_list,
-                                          'country_list': country_list,
-                                          'FIO': FIO,
-                                          'email': email,
-                                          'email_error': email_error,
-                                          'phone': phone,
-                                          'select_country': country, },
-                              context_instance=RequestContext(request, ),
-                              content_type='text/html', )
+    return render(request=request,
+                  template_name=template_name,
+                  context={'form_action_next': u'/заказ/результат-оформления/',
+                           'delivery_companies_list': delivery_companies_list,
+                           'country_list': country_list,
+                           'FIO': FIO,
+                           'email': email,
+                           'email_error': email_error,
+                           'phone': phone,
+                           'select_country': country, },
+                  content_type='text/html', )
 
 
 def result_ordering(request, ):
@@ -183,10 +184,6 @@ def result_ordering(request, ):
                 order = Order.objects.get(pk=order_pk, )
             except Order.DoesNotExist:
                 return redirect(to=u'/заказ/вы-где-то-оступились/', )
-            #order = Order(FIO=FIO,
-            #              email=email,
-            #              phone=phone,
-            #              country_id=select_country, )
             if select_country == 1:
                 """ Страна Украина """
                 region = request.POST.get(u'region', None, )
@@ -250,7 +247,7 @@ def result_ordering(request, ):
                 """ Отправка заказа мэнеджеру """
                 subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
                 from django.template.loader import render_to_string
-                html_content = render_to_string('email_order_content.jinja2.html',
+                html_content = render_to_string('email_order_content.html',
                                                 {'order': order, })
                 from django.utils.html import strip_tags
                 text_content = strip_tags(html_content, )
@@ -277,7 +274,7 @@ def result_ordering(request, ):
                 msg.send(fail_silently=False, )
                 """ Отправка благодарности клиенту. """
                 subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
-                html_content = render_to_string('email_successful_content.jinja2.html',
+                html_content = render_to_string('email_successful_content.html',
                                                 {'order': order, }, )
                 text_content = strip_tags(html_content, )
                 from_email = u'site@keksik.com.ua'
@@ -291,18 +288,8 @@ def result_ordering(request, ):
                                        mimetype="text/html", )
                 msg.send(fail_silently=False, )
 
-        #                from django.core.mail import send_mail
-        ##                from proj.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_BACKEND
-        #                send_mail(subject=subject,
-        #                          message='Here is the message.',
-        #                          from_email='site@keksik.com.ua',
-        #                          recipient_list=['alex.starov@keksik.com.ua', ],
-        #                          fail_silently=False,
-        #                          connection=backend, )
-        ##                          auth_user=EMAIL_HOST_USER,
-        ##                          auth_password=EMAIL_HOST_PASSWORD,
-        ##                          connection=EMAIL_BACKEND, )
                 request.session[u'order_last'] = order.pk
+
                 return redirect(to=u'/заказ/оформление-прошло-успешно/', )
         else:
             return redirect(to=u'/заказ/вы-где-то-оступились/', )
@@ -311,7 +298,7 @@ def result_ordering(request, ):
 
 
 def order_success(request,
-                  template_name=u'order/success.jinja2.html', ):
+                  template_name=u'order/success.jinja2', ):
     order_pk = request.session.get(u'order_last', None, )
     order = None
     if order_pk is None:
@@ -327,14 +314,15 @@ def order_success(request,
                 order = Order.objects.get(pk=order_pk, )
             except Order.DoesNotExist:
                 pass
-    return render_to_response(template_name=template_name,
-                              dictionary={'order_pk': order_pk,
-                                          'order': order, },
-                              context_instance=RequestContext(request, ),
-                              content_type='text/html', )
+    return render(request=request,
+                  template_name=template_name,
+                  context={'order_pk': order_pk,
+                           'order': order, },
+                  content_type='text/html', )
+
 
 def order_unsuccessful(request,
-                       template_name=u'show_order_unsuccess.jinja2.html', ):
-    return render_to_response(template_name=template_name,
-                              context_instance=RequestContext(request, ),
-                              content_type='text/html', )
+                       template_name=u'show_order_unsuccess.jinja2', ):
+    return render(request=request,
+                  template_name=template_name,
+                  content_type='text/html', )

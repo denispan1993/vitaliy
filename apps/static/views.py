@@ -1,11 +1,12 @@
-# coding=utf-8
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
+
+from django.shortcuts import render
 
 
 def show_static_page(request,
                      static_page_url,
-                     template_name=u'static_page.jinja2.html', ):
+                     template_name=u'static_page.jinja2', ):
     from apps.static.models import Static
     try:
         page = Static.objects.get(url=static_page_url, )
@@ -17,11 +18,11 @@ def show_static_page(request,
         html_text = markdown.markdown(page.text, )
     else:
         html_text = None
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'page': page,
-                                              'html_text': html_text, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
+    response = render(request=request,
+                      template_name=template_name,
+                      context={'page': page,
+                               'html_text': html_text, },
+                      content_type='text/html', )
     # from datetime import datetime
     from apps.utils.datetime2rfc import datetime2rfc
     response['Last-Modified'] = datetime2rfc(page.updated_at, )
