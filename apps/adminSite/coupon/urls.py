@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
+__author__ = 'AlexStarov'
 
-try:
-    from django.conf.urls import patterns, include, url
-    from django.conf.urls.i18n import i18n_patterns
-except ImportError:  # django < 1.4
-    from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, url
 
 
 from apps.utils.decorators import manager_required, member_required
@@ -15,7 +11,7 @@ urlpatterns = patterns('apps.adminSite.coupon.views',
                        # """ Админ панель Купонов. """
                        url(regex=ur'^группа/поиск/$',
                            view='coupon_group_search',
-                           kwargs={'template_name': u'coupon/group_index.jinja2.html', },
+                           kwargs={'template_name': u'coupon/group_index.jinja2', },
                            name='search', ),
                        url(regex=ur'^группа/редактор/добавить/$',
                            view=manager_required(CouponGroupCreateEdit.as_view(), ),

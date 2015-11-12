@@ -8,10 +8,9 @@ from django.shortcuts import render
 @staff_member_required
 def admin_panel(request,
                 template_name=u'admin_panel.jinja2', ):
-    response = render(request=request,
-                      template_name=template_name,
-                      content_type='text/html', )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  content_type='text/html', )
 
 
 @staff_member_required
@@ -39,12 +38,11 @@ def comment_search(request,
                         return redirect(to='comment_edit', id=comment_id, )
     from apps.comment.models import Comment
     comments = Comment.objects.all()
-    response = render(request=request,
-                      template_name=template_name,
-                      context={'error_message': error_message,
-                               'comments': comments, },
-                      content_type='text/html', )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  context={'error_message': error_message,
+                           'comments': comments, },
+                  content_type='text/html', )
 
 
 @staff_member_required
@@ -78,9 +76,8 @@ def comment_edit(request,
                     id = int(comment_id, )
                 except ValueError:
                     error_message = u'Некорректный номер комментария. № 2'
-    response = render(request=request,
-                      template_name=template_name,
-                      context={'comment_id': comment_id,
-                               'comment': comment, },
-                      content_type='text/html', )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  context={'comment_id': comment_id,
+                           'comment': comment, },
+                  content_type='text/html', )

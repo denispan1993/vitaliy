@@ -1,12 +1,13 @@
-# coding=utf-8
-__author__ = 'user'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render
 
 
 @staff_member_required
 def coupon_group_search(request,
-                        template_name=u'coupon/group_index.jinja2.html', ):
+                        template_name=u'coupon/group_index.jinja2', ):
     error_message = u''
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
@@ -29,14 +30,11 @@ def coupon_group_search(request,
                         return redirect(to='coupon_group_edit', id=coupon_group_id, )
     from apps.coupon.models import CouponGroup
     coupon_groups = CouponGroup.objects.all()
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'error_message': error_message,
-                                              'coupon_groups': coupon_groups, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  context={'error_message': error_message,
+                           'coupon_groups': coupon_groups, },
+                  content_type='text/html', )
 
 
 #from django.views.generic.list import ListView
@@ -56,8 +54,8 @@ from django.views.generic.edit import FormView, CreateView, View, ProcessFormVie
 class CouponGroupCreateEdit(FormView, ):
     from apps.coupon.forms import CouponGroupCreateEditForm
     form_class = CouponGroupCreateEditForm
-    template_name = 'coupon/coupon_group_edit.jingo.html'
-    success_url = '/админ/купон/группа/редактор/добавить/'
+    template_name = u'coupon/coupon_group_edit.jinja2'
+    success_url = u'/админ/купон/группа/редактор/добавить/'
     coupon_group = None
 
     def form_valid(self, form, ):
@@ -138,7 +136,7 @@ class CouponGroupCreateEdit(FormView, ):
     def get_success_url(self, **kwargs):
         url = super(CouponGroupCreateEdit, self).get_success_url()
         if self.coupon_group:
-            return '/админ/купон/группа/редактор/%.6d/' % int(self.coupon_group.pk, )
+            return u'/админ/купон/группа/редактор/%.6d/' % int(self.coupon_group.pk, )
         else:
             return url
 
@@ -201,8 +199,8 @@ class CouponGroupCreateEdit(FormView, ):
 class CouponCreateEdit(FormView, ):
     from apps.coupon.forms import CouponCreateEditForm
     form_class = CouponCreateEditForm
-    template_name = 'coupon/coupon_edit.jingo.html'
-    success_url = '/админ/купон/редактор/добавить/'
+    template_name = u'coupon/coupon_edit.jinja2'
+    success_url = u'/админ/купон/редактор/добавить/'
 
     def get_context_data(self, **kwargs):
         context = super(CouponCreateEdit, self).get_context_data(**kwargs)
@@ -234,7 +232,7 @@ class CouponCreateEdit(FormView, ):
 @staff_member_required
 def coupon_group_edit(request,
                       coupon_group_id=0,
-                      template_name=u'coupon/coupon_group_edit.jinja2.html', ):
+                      template_name=u'coupon/coupon_group_edit.jinja2', ):
     error_message = u''
     coupon_group = None
     from apps.coupon.models import CouponGroup
@@ -289,11 +287,9 @@ def coupon_group_edit(request,
                               percentage_discount=percentage_discount,
                               start_of_the_coupon=start_of_the_coupon,
                               end_of_the_coupon=end_of_the_coupon, )
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    return render_to_response(template_name=template_name,
-                              dictionary={'comment_id': coupon_group_id,
-                                          'comment': coupon_group,
-                                          'error_message': error_message, },
-                              context_instance=RequestContext(request, ),
-                              content_type='text/html', )
+    return render(request=request,
+                  template_name=template_name,
+                  context={'comment_id': coupon_group_id,
+                           'comment': coupon_group,
+                           'error_message': error_message, },
+                  content_type='text/html', )
