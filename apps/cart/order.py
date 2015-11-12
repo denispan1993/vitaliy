@@ -156,7 +156,7 @@ def ordering_step_two(request,
                                 except Order.DoesNotExist:
                                     pass
                         if 'order' not in locals() and 'order' not in globals():
-                            order = Order
+                            order = Order()
                             order.sessionid = sessionid
                             if request.user.is_authenticated() and request.user.is_active:
                                 order.user_id = user_id
