@@ -127,10 +127,44 @@ def ordering_step_two(request,
                             return redirect(to=u'/заказ/вы-где-то-оступились/', )
                         request.session[u'cart_pk'] = cart.pk
                         from apps.cart.models import Order
-                        order = Order.objects.create(FIO=FIO,
-                                                     email=email,
-                                                     phone=phone,
-                                                     country_id=select_country, )
+                        order_pk = request.session.get(u'order_pk', False, )
+                        sessionid = request.COOKIES.get(u'sessionid', None, )
+                        if request.user.is_authenticated() and request.user.is_active:
+                            user_id = request.session.get(u'_auth_user_id', None, )
+                        if order_pk:
+                            try:
+                                order_pk = int(order_pk, )
+                            except ValueError:
+                                pass
+                            else:
+                                try:
+                                    if request.user.is_authenticated() and request.user.is_active:
+                                        order = Order.objects.get(pk=order_pk,
+                                                                  sessionid=sessionid,
+                                                                  user_id=user_id,
+                                                                  FIO=FIO,
+                                                                  email=email,
+                                                                  phone=phone,
+                                                                  country_id=select_country, )
+                                    else:
+                                        order = Order.objects.get(pk=order_pk,
+                                                                  sessionid=sessionid,
+                                                                  FIO=FIO,
+                                                                  email=email,
+                                                                  phone=phone,
+                                                                  country_id=select_country, )
+                                except Order.DoesNotExist:
+                                    pass
+                        if 'order' not in locals() and 'order' not in globals():
+                            order = Order
+                            order.sessionid = sessionid
+                            if request.user.is_authenticated() and request.user.is_active:
+                                order.user_id = user_id
+                            order.FIO = FIO
+                            order.email = email
+                            order.phone = phone
+                            order.country_id = select_country
+                            order.save()
                         request.session[u'order_pk'] = order.pk
                     # else:
                     #     # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
@@ -218,11 +252,6 @@ def result_ordering(request, ):
                 order.postcode = postcode
             comment = request.POST.get(u'comment', None, )
             order.comment = comment
-            sessionid = request.COOKIES.get(u'sessionid', None, )
-            order.sessionid = sessionid
-            if request.user.is_authenticated() and request.user.is_active:
-                user_id = request.session.get(u'_auth_user_id', None, )
-                order.user_id = user_id
             order.save()
             from apps.cart.views import get_cart_or_create
             cart, create = get_cart_or_create(request, )
@@ -247,7 +276,7 @@ def result_ordering(request, ):
                 """ Отправка заказа мэнеджеру """
                 subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
                 from django.template.loader import render_to_string
-                html_content = render_to_string('email_order_content.html',
+                html_content = render_to_string('email_order_content.jinja2',
                                                 {'order': order, })
                 from django.utils.html import strip_tags
                 text_content = strip_tags(html_content, )

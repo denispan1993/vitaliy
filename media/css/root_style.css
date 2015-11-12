@@ -169,7 +169,10 @@ div#main_right{
     padding:10px;
 }
 div#main_right form#search{
-    margin-bottom:4px;
+    margin-bottom:15px;
+}
+div#main_right form#search table{
+    border-spacing:0;
 }
 div#main_right div.rightSlider div.rightSliderItems{
     /* height:250px; */

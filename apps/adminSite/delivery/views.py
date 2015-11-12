@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
+__author__ = 'AlexStarov'
 
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render
 
 
 @staff_member_required
 def index(request,
-          template_name=u'delivery/index.jinja2.html', ):
+          template_name=u'delivery/index.jinja2', ):
     error_message = u''
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
@@ -25,28 +26,21 @@ def index(request,
                         return redirect(to='admin_delivery:edit', id=id, )
                     else:
                         error_message = u'Рассылка с таким номером не существует.'
-    # from datetime import datetime
-#    from apps.utils.datetime2rfc import datetime2rfc
-#    response['Last-Modified'] = datetime2rfc(page.updated_at, )
     from datetime import datetime, timedelta
     filter_datetime = datetime.now() - timedelta(days=93, )
-    # print filter_datetime
     from apps.delivery.models import Delivery
     mailings = Delivery.objects.filter(created_at__gte=filter_datetime, )
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'error_message': error_message,
-                                              'mailings': mailings, },  # 'html_text': html_text, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  context={'error_message': error_message,
+                           'mailings': mailings, },
+                  content_type='text/html', )
 
 
 @staff_member_required
 def add_edit(request,
              delivery_id=None,
-             template_name=u'delivery/add_edit.jingo.html', ):
+             template_name=u'delivery/add_edit.jinja2', ):
     if request.method == "POST":
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'add_edit':
@@ -174,20 +168,14 @@ def add_edit(request,
         delivery = None
     from apps.delivery.models import Delivery
     type_mailings = Delivery.Type_Mailings
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
     from apps.delivery.forms import DeliveryCreateEditForm
-    response = render_to_response(template_name=template_name,
-                                  dictionary={'delivery_id': delivery_id,
-                                              'delivery': delivery,
-                                              'type_mailings': type_mailings,
-                                              'form': DeliveryCreateEditForm, },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    # from datetime import datetime
-    # from apps.utils.datetime2rfc import datetime2rfc
-    # response['Last-Modified'] = datetime2rfc(page.updated_at, )
-    return response
+    return render(request=request,
+                  template_name=template_name,
+                  context={'delivery_id': delivery_id,
+                           'delivery': delivery,
+                           'type_mailings': type_mailings,
+                           'form': DeliveryCreateEditForm, },
+                  content_type='text/html', )
 
 @staff_member_required
 def start_delivery(request,

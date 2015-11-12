@@ -541,9 +541,9 @@ function Ascroll() {
 {% if request.session.right_panel %}
     <div id="main_right">
         {% block content_right %}
-            <form method="post" action="/search/" id="search">
+            <form method="get" action="/search/" id="search">
                 {% csrf_token %}
-                <table style="border-spacing:0px;">
+                <table>
                     <tbody>
                     {# <tr>
                         <td colspan="2" class="center_title">

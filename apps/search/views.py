@@ -1,13 +1,16 @@
-# coding=utf-8
-__author__ = 'Sergey'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 
 def search_page(request,
                 query,
-                template_name=u'category/show_category.jinja2.html', ):
-    if request.method == 'POST':
+                template_name=u'category/show_category.jinja2', ):
+    if request.method == 'POST' or request.method == 'GET':
         if 'query' in request.POST and request.POST['query']:
             query = request.POST.get('query', None, )
+        elif 'query' in request.GET and request.GET['query']:
+            query = request.GET.get('query', None, )
+        if 'query' in locals() or 'query' in globals():
             from django.db.models import Q
             from apps.product.models import Category
             try:
@@ -45,21 +48,8 @@ def search_page(request,
         categories = None
         products = None
     from django.template.loader import get_template
-    template_name = u'category/show_category.jinja2.html'
     t = get_template(template_name)
-    from django.template import RequestContext
-    c = RequestContext(request, {'categories': categories,
-                                 'products': products, },
-                       )
-    html = t.render(c)
+    html = t.render(request=request, context={'categories': categories,
+                                              'products': products, }, )
     from django.http import HttpResponse
-    response = HttpResponse(html, )
-#    from django.shortcuts import redirect
-#    return redirect('/')
-    return response
-#    from django.shortcuts import render_to_response
-#    from django.template import RequestContext
-#    return render_to_response(template_name=template_name,
-#                              dictionary=locals(),
-#                              context_instance=RequestContext(request))
-#                              content_type='text/html', )
+    return HttpResponse(html, )
