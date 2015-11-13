@@ -21,7 +21,7 @@ def parsing(value, key, ):
 
 def Mail_Account():
     from apps.delivery.models import MailAccount
-    mail_accounts = MailAccount.objects.filter(is_active=True, ).values_list().order_by('?')
+    mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
 
     # last_mail_accounts = MailAccount.objects.latest('pk', )
     len_mail_accounts = len(mail_accounts, )
