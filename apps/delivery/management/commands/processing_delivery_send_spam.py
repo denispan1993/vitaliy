@@ -148,8 +148,6 @@ class Command(BaseCommand, ):
                                     sleep(1, )
                                 print '\n'
 #====================== SPAM
-                        mail_account = Mail_Account()
-                        backend = Backend(mail_account=mail_account, )
                         email = get_email(delivery=delivery, email_class=SpamEmail, )
                         if not Test_Server_MX_from_email(email_string=email.email, resolver=resolver, ):
                             email.bad_email = True

@@ -124,4 +124,10 @@ def get_email(delivery, email_class=None, ):
             except EmailForDelivery.DoesNotExist:
                 return email
             except EmailForDelivery.MultipleObjectsReturned:
-                pass
+                emails_fordelivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
+                                                                     content_type=email.content_type,
+                                                                     object_id=email.pk, )
+                i = 0
+                for email in emails_fordelivery:
+                    i += 1
+                    print 'i: ', i, ' - ', email
