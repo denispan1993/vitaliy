@@ -121,30 +121,5 @@ def get_email(delivery, email_class=None, ):
                                              object_id=email.pk, )
             except EmailForDelivery.DoesNotExist:
                 return email
-
-
-
-
-    from apps.delivery.models import MailAccount
-    mail_accounts = MailAccount.objects.filter(is_active=True, ).values_list().order_by('?')
-
-    # last_mail_accounts = MailAccount.objects.latest('pk', )
-    len_mail_accounts = len(mail_accounts, )
-    from random import randrange
-    loop = True
-    while loop:
-        mail_account_id = randrange(1, len_mail_accounts, )
-        try:
-            mail_account = mail_accounts[mail_account_id]
-        except IndexError:
-            pass
-        else:
-            if mail_account.is_auto_active:
-                return mail_account
-            else:
-                from datetime import datetime, timedelta
-                datetimedelta = mail_account.auto_active_datetime + timedelta(days=1, hours=1, minutes=30, )
-                if datetimedelta < datetime.now():
-                    mail_account.is_auto_active = True
-                    mail_account.save()
-                    return mail_account
+            except EmailForDelivery.MultipleObjectsReturned:
+                pass
