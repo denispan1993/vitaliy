@@ -71,7 +71,7 @@ def Backend(mail_account=None, ):
 
 def Test_Server_MX_from_email(email_string=None, resolver=None, ):
     try:
-        domain = email_string.email.split('@', )[1]
+        domain = email_string.split('@', )[1]
     except IndexError:
         print 'Bad E-Mail: IndexError: ', email_string
         return False
