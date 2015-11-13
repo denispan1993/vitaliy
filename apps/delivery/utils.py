@@ -69,8 +69,11 @@ def Backend(mail_account=None, ):
     return backend
 
 
-def Test_Server_MX(server_string=None, resolver=None, ):
-    if server_string is None:
+def Test_Server_MX_from_email(email_string=None, resolver=None, ):
+    try:
+        domain = email_string.email.split('@', )[1]
+    except IndexError:
+        print 'Bad E-Mail: IndexError: ', email_string
         return False
 
     if resolver is None:
@@ -80,15 +83,67 @@ def Test_Server_MX(server_string=None, resolver=None, ):
 
     from dns.resolver import NXDOMAIN, NoAnswer, NoNameservers
     try:
-        resolver.query(server_string, 'mx', )
+        resolver.query(domain, 'mx', )
     except NXDOMAIN:
-        print 'Bad E-Mail: Domain: ', server_string
+        print 'Bad E-Mail: Domain: ', email_string
         return False
     except NoNameservers:
-        print 'NoNameServers for Domain: ', server_string
+        print 'NoNameServers for Domain: ', email_string
         return False
     except NoAnswer:
-        print 'NoAnswer for Domain: ', server_string
+        print 'NoAnswer for Domain: ', email_string
         return True
     else:
         return True
+
+
+def get_email(delivery, email_class=None, ):
+    from apps.delivery.models import EmailForDelivery
+    from apps.authModel.models import Email
+    from apps.delivery.models import SpamEmail
+    if email_class is None or (email_class != Email and email_class != SpamEmail):
+        from apps.authModel.models import Email as email_class
+
+    las_emails = email_class.objects.filter(bad_email=False, ).order_by('-id', )[:1]
+    from random import randrange
+    loop =True
+    while loop:
+        random_email_pk = randrange(1, las_emails.pk, )
+        try:
+            email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
+        except email_class.DoesNotExist:
+            pass
+        else:
+            try:
+                EmailForDelivery.objects.get(delivery__delivery=delivery,
+                                             content_type=email.content_type,
+                                             object_id=email.pk, )
+            except EmailForDelivery.DoesNotExist:
+                return email
+
+
+
+
+    from apps.delivery.models import MailAccount
+    mail_accounts = MailAccount.objects.filter(is_active=True, ).values_list().order_by('?')
+
+    # last_mail_accounts = MailAccount.objects.latest('pk', )
+    len_mail_accounts = len(mail_accounts, )
+    from random import randrange
+    loop = True
+    while loop:
+        mail_account_id = randrange(1, len_mail_accounts, )
+        try:
+            mail_account = mail_accounts[mail_account_id]
+        except IndexError:
+            pass
+        else:
+            if mail_account.is_auto_active:
+                return mail_account
+            else:
+                from datetime import datetime, timedelta
+                datetimedelta = mail_account.auto_active_datetime + timedelta(days=1, hours=1, minutes=30, )
+                if datetimedelta < datetime.now():
+                    mail_account.is_auto_active = True
+                    mail_account.save()
+                    return mail_account
