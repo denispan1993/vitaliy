@@ -141,11 +141,12 @@ class Command(BaseCommand, ):
                                     print '.',
                                     sys.stdout.flush()
                                     sleep(1, )
-                                print 'Next'
+                                print '\n'
                                 for n in range(1, time2, ):
                                     print '.',
                                     sys.stdout.flush()
                                     sleep(1, )
+                                print '\n'
 #====================== SPAM
                         mail_account = Mail_Account()
                         backend = Backend(mail_account=mail_account, )
@@ -205,8 +206,9 @@ class Command(BaseCommand, ):
                                     print '.',
                                     sys.stdout.flush()
                                     sleep(1, )
-                                print 'Next'
+                                print '\n'
                                 for n in range(1, time2, ):
                                     print '.',
                                     sys.stdout.flush()
                                     sleep(1, )
+                                print '\n'
