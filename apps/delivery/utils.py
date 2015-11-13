@@ -104,11 +104,12 @@ def get_email(delivery, email_class=None, ):
     if email_class is None or (email_class != Email and email_class != SpamEmail):
         from apps.authModel.models import Email as email_class
 
-    las_emails = email_class.objects.filter(bad_email=False, ).order_by('-id', )[:1]
+    last_emails = email_class.objects.filter(bad_email=False, ).order_by('-id', )[:1]
+    last_email = last_emails[0]
     from random import randrange
     loop =True
     while loop:
-        random_email_pk = randrange(1, las_emails.pk, )
+        random_email_pk = randrange(1, last_email.pk, )
         try:
             email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
         except email_class.DoesNotExist:
