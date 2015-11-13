@@ -18,6 +18,11 @@ class Migration(migrations.Migration):
             field=models.BooleanField(default=True, verbose_name='\u0410\u043a\u043a\u0430\u0443\u043d\u0442 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439'),
             preserve_default=True,
         ),
+        migrations.AddField(
+            model_name='mailaccount',
+            name='auto_active_datetime',
+            field=models.DateTimeField(default=datetime.datetime(2015, 11, 13, 17, 40, 59, 859947), verbose_name='\u0414\u0430\u0442\u0430 \u0437\u0430\u043a\u0440\u044b\u0442\u0438\u044f \u0430\u043a\u043a\u0430\u0443\u043d\u0442\u0430'),
+        ),
         migrations.AlterField(
             model_name='delivery',
             name='created_at',
