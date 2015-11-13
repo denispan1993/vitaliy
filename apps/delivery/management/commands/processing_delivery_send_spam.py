@@ -133,8 +133,8 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email
-                                time1 = randrange(7, 19, )
-                                time2 = randrange(7, 19, )
+                                time1 = randrange(4, 17, )
+                                time2 = randrange(4, 17, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
@@ -196,8 +196,8 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email
-                                time1 = randrange(7, 19, )
-                                time2 = randrange(7, 19, )
+                                time1 = randrange(4, 17, )
+                                time2 = randrange(4, 17, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):

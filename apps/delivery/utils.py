@@ -98,6 +98,8 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
     else:
         return True
 
+import sys
+
 
 def get_email(delivery, email_class=None, ):
     from apps.delivery.models import EmailForDelivery
@@ -111,6 +113,8 @@ def get_email(delivery, email_class=None, ):
     from random import randrange
     loop =True
     while loop:
+        print '.',
+        sys.stdout.flush()
         random_email_pk = randrange(1, last_email.pk, )
         try:
             email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
@@ -122,6 +126,7 @@ def get_email(delivery, email_class=None, ):
                                              content_type=email.content_type,
                                              object_id=email.pk, )
             except EmailForDelivery.DoesNotExist:
+                print '\n'
                 return email
             except EmailForDelivery.MultipleObjectsReturned:
                 emails_fordelivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
