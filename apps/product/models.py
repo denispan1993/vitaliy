@@ -918,6 +918,13 @@ class Discount(models.Model):
         verbose_name_plural = u'Цены и скидки'
 
 
+def set_path_photo(self, filename):
+    return 'photo/%.6d/%s' % (
+        # self.product.pub_datetime.year,
+        self.object_id,
+        filename)
+
+
 class Photo(models.Model):
     from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Photo', )
@@ -933,11 +940,6 @@ class Photo(models.Model):
                                    blank=False,
                                    default=False, )
 
-    def set_path_photo(self, filename):
-        return 'photo/%.6d/%s' % (
-            # self.product.pub_datetime.year,
-            self.object_id,
-            filename)
 #    from compat.ImageWithThumbs.fields import ImageWithThumbsField
     from compat.ImageWithThumbs import models as class_ImageWithThumb
     photo = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Фото',
@@ -991,6 +993,9 @@ class Photo(models.Model):
         verbose_name_plural = "Фотографии"
 
 
+from compat.FormSlug import models as class_FormSlugField
+
+
 class Country(models.Model):
     name_ru = models.CharField(verbose_name=u'Название страны Russian',
                                max_length=64,
@@ -1004,7 +1009,6 @@ class Country(models.Model):
                                              blank=True,
                                              null=True, )
 
-    from compat.FormSlug import models as class_FormSlugField
     url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес страны',
                                              max_length=255,
                                              null=True,

@@ -74,6 +74,9 @@ class Cart(models.Model):
         verbose_name_plural = u'Корзины'
 
 
+from apps.product.models import Country
+
+
 class Order(models.Model):
     """
     Заказ
@@ -105,9 +108,10 @@ class Order(models.Model):
                              max_length=32,
                              null=True,
                              blank=True, )
-    from apps.product.models import Country
-    country = models.ForeignKey(Country,
-                                verbose_name=u'Страна', )
+    country = models.ForeignKey(to=Country,
+                                verbose_name=u'Страна',
+                                null=True,
+                                blank=True, )
     '''Если страна Украина '''
     region = models.CharField(verbose_name=u'Область',
                               max_length=64,
