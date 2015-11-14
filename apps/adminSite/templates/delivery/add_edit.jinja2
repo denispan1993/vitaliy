@@ -190,6 +190,48 @@ textarea.val(editor.getSession().getValue());
 </script>
                     </div>
                 </div>
+                {% if not delivery %}
+                    {% set images = (1, 2, 3, 4, 5, 6, 7, 8, 9, ) %}
+                {% else %}
+                    {% set images = delivery.images %}
+                {% endif %}
+                {% set i = 0 %}
+                {% for image in images %}
+                {% set i = i + 1 %}
+                <div class="form-group">
+                    <label for="delivery_image_name_{{ i }}"
+                            class="col-md-2 control-label">Имя картинки:</label>
+                    {# {1{ form.created_at.errors }} #}
+                    <div class="col-md-2">
+                        <input type="text"
+                               name="photo"
+                               id="delevery_image_name_{{ i }}"
+                               class="form-control"
+                               {% if image.name %}value="{{ image.name }}"{% endif %}>
+                    </div>
+                    <label for="delivery_image_tag_name_{{ i }}"
+                            class="col-md-2 control-label">Tag имя картинки:</label>
+                    {# {1{ form.created_at.errors }} #}
+                    <div class="col-md-2">
+                        <input type="text"
+                               name="photo"
+                               id="delevery_tag_image_name_{{ i }}"
+                               class="form-control"
+                               {% if image.tag_name %}value="{{ image.tag_name }}"{% endif %}>
+                    </div>
+                    <label for="delivery_image_{{ i }}"
+                            class="col-md-2 control-label">Картинка № {{ i }}:</label>
+                    {# {1{ form.created_at.errors }} #}
+                    <div class="col-md-2">
+                        <input type="file"
+                               accept="image/*"
+                               name="photo"
+                               id="delevery_image_{{ i }}"
+                               class="form-control"
+                               {% if image.img %}value="{{ image.img }}"{% endif %}>
+                    </div>
+                </div>
+                {% endfor %}
                 {% if delivery %}
                 <div class="form-group">
                     <label for="delivery_created_at"

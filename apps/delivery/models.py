@@ -160,9 +160,9 @@ class Delivery(models.Model, ):
                                       null=True, )
                                       # default=datetime.now(), )
 
+    # Вспомогательные поля
     from django.contrib.contenttypes import generic
-    from apps.utils.mediafile.models import MediaFile
-    img = generic.GenericRelation(MediaFile,
+    img = generic.GenericRelation('EMail_Img',
                                   content_type_field='content_type',
                                   object_id_field='object_id', )
 
@@ -248,6 +248,10 @@ class Delivery(models.Model, ):
         return Email.objects.count()
 
     @property
+    def images(self):
+        return self.img.all()
+
+    @property
     def bad_emails(self):
         from apps.authModel.models import Email
         return Email.objects.filter(bad_email=True, ).count()
@@ -299,52 +303,57 @@ class Delivery(models.Model, ):
 
 
 def set_path_photo(self, filename):
-    return 'email_photo/%.6d/%s' % (
+    return 'email_img/%.6d/%s' % (
+        # self.product.pub_datetime.year,
+        self.object_id,
+        filename)
+def set_path_img(self, filename):
+    return 'email_img/%.6d/%s' % (
         # self.product.pub_datetime.year,
         self.object_id,
         filename)
 
 
-class Email_Photo(models.Model):
+class Email_Img(models.Model):
     from django.contrib.contenttypes.models import ContentType
-    content_type = models.ForeignKey(ContentType, related_name='related_Email_Photo', )
+    content_type = models.ForeignKey(ContentType, related_name='related_Email_Img', )
     object_id = models.PositiveIntegerField(db_index=True, )
     from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
 
-    name = models.CharField(verbose_name=_(u'Наименование фотографии', ),
+    name = models.CharField(verbose_name=_(u'Наименование картинки', ),
                             max_length=256,
                             null=True,
                             blank=True, )
 
-    tag_name = models.CharField(verbose_name=_(u"Имя tag'a фотографии", ),
+    tag_name = models.CharField(verbose_name=_(u"Имя tag'a картинки", ),
                                 max_length=8,
                                 null=True,
                                 blank=True,
-                                help_text=_(u'TAG фотографии не может быть длинее 8 символов,'
+                                help_text=_(u'TAG картинки не может быть длинее 8 символов,'
                                             u' только английские маленькие буквы и цифры'
                                             u' без пробелов и подчеркиваний', ), )
 
     from compat.ImageWithThumbs import models as class_ImageWithThumb
-    photo = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Фото',
-                                                      upload_to=set_path_photo,
-                                                      sizes=((26, 26, ), (50, 50, ), (90, 95, ),
-                                                             (205, 190, ), (210, 160, ), (345, 370, ),
-                                                             (700, 500, ), ),
-                                                      blank=False,
-                                                      null=False, )
+    img = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Картинка',
+                                                    upload_to=set_path_img,
+                                                    sizes=((26, 26, ), (50, 50, ), (90, 95, ),
+                                                           (205, 190, ), (210, 160, ), (345, 370, ),
+                                                           (700, 500, ), ),
+                                                    blank=False,
+                                                    null=False, )
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
     def __unicode__(self):
-        return u'Фотография для E-Mail: %s' % (self.name, )
+        return u'Картинка для E-Mail: %s' % (self.name, )
 
     class Meta:
-        db_table = 'EMail_Photo'
+        db_table = 'EMail_Img'
         ordering = ['-created_at', ]
-        verbose_name = "Фотография для E-Mail"
-        verbose_name_plural = "Фотографии для E-Mail"
+        verbose_name = "Картинка для E-Mail"
+        verbose_name_plural = "Картинкии для E-Mail"
 
 
 class EmailMiddleDelivery(models.Model, ):
