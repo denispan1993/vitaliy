@@ -298,6 +298,55 @@ class Delivery(models.Model, ):
         verbose_name_plural = u'Рассылки'
 
 
+def set_path_photo(self, filename):
+    return 'email_photo/%.6d/%s' % (
+        # self.product.pub_datetime.year,
+        self.object_id,
+        filename)
+
+
+class Email_Photo(models.Model):
+    from django.contrib.contenttypes.models import ContentType
+    content_type = models.ForeignKey(ContentType, related_name='related_Email_Photo', )
+    object_id = models.PositiveIntegerField(db_index=True, )
+    from django.contrib.contenttypes import generic
+    parent = generic.GenericForeignKey('content_type', 'object_id', )
+
+    name = models.CharField(verbose_name=_(u'Наименование фотографии', ),
+                            max_length=256,
+                            null=True,
+                            blank=True, )
+
+    tag_name = models.CharField(verbose_name=_(u"Имя tag'a фотографии", ),
+                                max_length=8,
+                                null=True,
+                                blank=True,
+                                help_text=_(u'TAG фотографии не может быть длинее 8 символов,'
+                                            u' только английские маленькие буквы и цифры'
+                                            u' без пробелов и подчеркиваний', ), )
+
+    from compat.ImageWithThumbs import models as class_ImageWithThumb
+    photo = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Фото',
+                                                      upload_to=set_path_photo,
+                                                      sizes=((26, 26, ), (50, 50, ), (90, 95, ),
+                                                             (205, 190, ), (210, 160, ), (345, 370, ),
+                                                             (700, 500, ), ),
+                                                      blank=False,
+                                                      null=False, )
+    #Дата создания и дата обновления новости. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'Фотография для E-Mail: %s' % (self.name, )
+
+    class Meta:
+        db_table = 'EMail_Photo'
+        ordering = ['-created_at', ]
+        verbose_name = "Фотография для E-Mail"
+        verbose_name_plural = "Фотографии для E-Mail"
+
+
 class EmailMiddleDelivery(models.Model, ):
     delivery = models.ForeignKey(to=Delivery,
                                  verbose_name=_(u'Указатель на рассылку', ),
