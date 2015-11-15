@@ -99,23 +99,22 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
         return True
 
 import sys
+from apps.authModel.models import Email
+from apps.delivery.models import SpamEmail
 
 
 def get_email(delivery, email_class=None, ):
     from apps.delivery.models import EmailForDelivery
-    from apps.authModel.models import Email
-    from apps.delivery.models import SpamEmail
     if email_class is None or (email_class != Email and email_class != SpamEmail):
         from apps.authModel.models import Email as email_class
 
     last_emails = email_class.objects.filter(bad_email=False, ).order_by('-id', )[:1]
     last_email = last_emails[0]
-    from random import randrange
     loop =True
     while loop:
         print '.',
         sys.stdout.flush()
-        random_email_pk = randrange(1, last_email.pk, )
+        random_email_pk = random(last_email, )
         try:
             email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
         except email_class.DoesNotExist:
@@ -136,3 +135,18 @@ def get_email(delivery, email_class=None, ):
                 for email in emails_fordelivery:
                     i += 1
                     print 'i: ', i, ' - ', email
+
+
+from random import randrange
+from apps.delivery import random_Email, random_SpamEmail
+
+
+def random(last_email, ):
+    if isinstance(last_email, Email, ):
+        random_list = random_Email
+    elif isinstance(last_email, SpamEmail, ):
+        random_list = random_SpamEmail
+    while True:
+        random_email_pk = randrange(1, last_email.pk, )
+        if random_email_pk not in random_list:
+            return random_email_pk
