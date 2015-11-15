@@ -162,7 +162,7 @@ class Delivery(models.Model, ):
 
     # Вспомогательные поля
     from django.contrib.contenttypes import generic
-    img = generic.GenericRelation('EMail_Img',
+    img = generic.GenericRelation('Email_Img',
                                   content_type_field='content_type',
                                   object_id_field='object_id', )
 
