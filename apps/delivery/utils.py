@@ -144,8 +144,10 @@ from apps.delivery import random_Email, random_SpamEmail
 def random(last_email, ):
     if isinstance(last_email, Email, ):
         random_list = random_Email
+        print 'random_Email: ', random_list
     elif isinstance(last_email, SpamEmail, ):
         random_list = random_SpamEmail
+        print 'random_SpamEmail: ', random_list
     while True:
         random_email_pk = randrange(1, last_email.pk, )
         if random_email_pk not in random_list:
