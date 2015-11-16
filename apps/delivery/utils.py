@@ -112,7 +112,7 @@ def get_email(delivery, email_class=None, ):
     last_email = last_emails[0]
     loop =True
     while loop:
-        print '.',
+        # print '.',
         sys.stdout.flush()
         random_email_pk = random(last_email, )
         try:
@@ -149,4 +149,8 @@ def random(last_email, ):
     while True:
         random_email_pk = randrange(1, last_email.pk, )
         if random_email_pk not in random_list:
+            random_list.append(random_email_pk, )
+            print '\n'
             return random_email_pk
+        else:
+            print random_email_pk, ', ',

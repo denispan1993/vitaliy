@@ -122,7 +122,11 @@ class Command(BaseCommand, ):
                             except Exception as e:
                                 print e
                                 if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
-                                    pass
+                                    print 'Bloked: ', mail_account, ' NOW!!!!!!!!!!!!!!!!!!!!!!! 1'
+                                    from datetime import datetime
+                                    mail_account.is_auto_active = False
+                                    mail_account.auto_active_datetime = datetime.now()
+                                    mail_account.save()
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, email.now_email.email, email.now_email.pk, ),
                                                              from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
@@ -135,8 +139,8 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email
-                                time1 = randrange(4, 17, )
-                                time2 = randrange(4, 17, )
+                                time1 = randrange(5, 17, )
+                                time2 = randrange(5, 17, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
@@ -186,6 +190,12 @@ class Command(BaseCommand, ):
                                 time += 30
                             except Exception as e:
                                 print e
+                                if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
+                                    print 'Bloked: ', mail_account, ' NOW!!!!!!!!!!!!!!!!!!!!!!! 2'
+                                    from datetime import datetime
+                                    mail_account.is_auto_active = False
+                                    mail_account.auto_active_datetime = datetime.now()
+                                    mail_account.save()
                                 msg = EmailMultiAlternatives(subject='Error for subject: %s' % delivery.subject,
                                                              body='Error: %s - E-Mail: %s - real_email.pk: %d' % (e, email.now_email.email, email.now_email.pk, ),
                                                              from_email=u'Интернет магазин Кексик <%s>' % mail_account.email,
@@ -198,8 +208,8 @@ class Command(BaseCommand, ):
                                 print '8'
                             else:
                                 print 'i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email
-                                time1 = randrange(4, 17, )
-                                time2 = randrange(4, 17, )
+                                time1 = randrange(5, 17, )
+                                time2 = randrange(5, 17, )
                                 time += time1 + time2
                                 print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                                 for n in range(1, time1, ):
