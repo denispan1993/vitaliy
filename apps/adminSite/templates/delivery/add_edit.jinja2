@@ -17,7 +17,8 @@
               role="form">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="add_edit">
-            <div class="row">
+            <div class="row"
+                 id="parent">
                 {% if delivery %}
                 <div class="form-group">
                     <label for="delivery_pk"
@@ -190,15 +191,19 @@ textarea.val(editor.getSession().getValue());
 </script>
                     </div>
                 </div>
-                {% if not delivery %}
-                    {% set images = (1, 2, 3, 4, 5, 6, 7, 8, 9, ) %}
-                {% else %}
-                    {% set images = delivery.images %}
-                {% endif %}
+{% if not delivery %}
+    {% set images = (1, 2, 3, ) %}
+{% else %}
+    {% set images = delivery.images %}
+{% endif %}
+{% if images|length < 1 %}
+    {% set images = (1, 2, 3, ) %}
+{% endif %}
                 {% set i = 0 %}
                 {% for image in images %}
                 {% set i = i + 1 %}
-                <div class="form-group">
+                <div class="form-group"
+                        id="image_{{ i }}">
                     <label for="delivery_image_name_{{ i }}"
                             class="col-md-2 control-label">Имя картинки:</label>
                     {# {1{ form.created_at.errors }} #}
@@ -232,6 +237,50 @@ textarea.val(editor.getSession().getValue());
                     </div>
                 </div>
                 {% endfor %}
+                <div id="button">
+                    <button type="button" id="form-control-add-image-button">add</button>
+                </div>
+<script>
+document.getElementById('form-control-add-image-button').onclick = function() {
+
+    var i = 0;
+    for(;;){
+        i++;
+        id = 'image_' + i;
+        if(!document.getElementById(id)){
+            break;
+        }
+    };
+    i--;
+    if(i==0){
+        i++;
+    }
+    id = 'image_' + i;
+    var div_button = document.getElementById("button");
+    var div_parent = document.getElementById("parent");
+    var div_last = document.getElementById(id);
+    var div = document.createElement("div");
+    i++;
+    div.setAttribute("id", "image_" + i);
+    div.setAttribute("class", "form-group");
+    var label = document.createElement("label");
+    label.setAttribute("for", "delivery_image_name_" + i);
+    label.setAttribute("class", "col-md-2 control-label");
+    label.innerHTML = "Имя картинки:";
+    div.appendChild(label);
+    var div_internal = document.createElement("div");
+    div_internal.setAttribute("class", "col-md-2");
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "photo");
+    input.setAttribute("id", "delivery_image_name_" + i);
+    input.setAttribute("class", "form-control");
+    input.setAttribute("value", i);
+    div_internal.appendChild(input);
+    div.appendChild(div_internal);
+    div_parent.insertBefore(div, div_button)
+        }
+</script>
                 {% if delivery %}
                 <div class="form-group">
                     <label for="delivery_created_at"

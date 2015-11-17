@@ -94,7 +94,7 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
         return False
     except NoAnswer:
         print 'NoAnswer for Domain: ', email_string
-        return True
+        return False
     else:
         return True
 
@@ -125,7 +125,7 @@ def get_email(delivery, email_class=None, ):
                                              content_type=email.content_type,
                                              object_id=email.pk, )
             except EmailForDelivery.DoesNotExist:
-                print '\n'
+                # print '\n'
                 return email
             except EmailForDelivery.MultipleObjectsReturned:
                 emails_fordelivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
@@ -144,10 +144,10 @@ from apps.delivery import random_Email, random_SpamEmail
 def random(last_email, ):
     if isinstance(last_email, Email, ):
         random_list = random_Email
-        print 'random_Email: ', random_list
+        # print 'random_Email: ', random_list
     elif isinstance(last_email, SpamEmail, ):
         random_list = random_SpamEmail
-        print 'random_SpamEmail: ', random_list
+        # print 'random_SpamEmail: ', random_list
     while True:
         random_email_pk = randrange(1, last_email.pk, )
         if random_email_pk not in random_list:
@@ -156,3 +156,4 @@ def random(last_email, ):
             return random_email_pk
         else:
             print random_email_pk, ', ',
+            sys.stdout.flush()
