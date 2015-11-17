@@ -225,7 +225,9 @@ class User(AbstractBaseUser, PermissionsMixin, ):
 class Email(models.Model, ):
     user = models.ForeignKey(to=User,
                              verbose_name=_(u'Пользователь', ),
-                             related_name='email_parent_user', )
+                             related_name='email_parent_user',
+                             null=True,
+                             blank=True, )
     email = models.EmailField(_('email address'),
                               blank=False,
                               null=False, )
