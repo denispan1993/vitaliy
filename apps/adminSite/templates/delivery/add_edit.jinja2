@@ -17,7 +17,7 @@
               role="form">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="add_edit">
-            <div class="row"
+            <div{#  class="row" #}
                  id="parent">
                 {% if delivery %}
                 <div class="form-group">
@@ -48,8 +48,9 @@
                     <label for="delivery_test"
                             class="col-md-4 control-label">Тестовая рассылка:</label>
                     {# {1{ form.delivery.errors }} #}
-                    <div class="col-md-6">
-                        <select name="test">
+                    <div class="col-md-1">
+                        <select name="test"
+                                class="form-control">
 <style>
 option:hover,
 option:focus,
@@ -78,8 +79,9 @@ option:checked{
                 <div class="form-group">
                     <label for="delivery_send_test"
                             class="col-md-4 control-label">Тестовая рассылка отослана:</label>
-                    <div class="col-md-6">
-                        <select name="send_test">
+                    <div class="col-md-1">
+                        <select name="send_test"
+                                class="form-control">
                             {% if not delivery or delivery.send_test %}
                             <option value="1" selected><strong>Да</strong></option>
                             <option value="0">Нет</option>
@@ -93,8 +95,9 @@ option:checked{
                 <div class="form-group">
                     <label for="delivery_send_spam"
                             class="col-md-4 control-label">SPAM рассылка отослана:</label>
-                    <div class="col-md-6">
-                        <select name="send_spam">
+                    <div class="col-md-1">
+                        <select name="send_spam"
+                                class="form-control">
                             {% if not delivery or delivery.send_spam %}
                             <option value="1" selected><strong>Да</strong></option>
                             <option value="0">Нет</option>
@@ -108,8 +111,9 @@ option:checked{
                 <div class="form-group">
                     <label for="delivery_send_general"
                             class="col-md-4 control-label">Главная рассылка отослана:</label>
-                    <div class="col-md-6">
-                        <select name="send_general">
+                    <div class="col-md-1">
+                        <select name="send_general"
+                                class="form-control">
                             {% if not delivery or delivery.send_general %}
                             <option value="1" selected><strong>Да</strong></option>
                             <option value="0">Нет</option>
@@ -124,8 +128,9 @@ option:checked{
                     <label for="delivery_type"
                             class="col-md-4 control-label">Тип рассылки:</label>
                     {# {1{ form.delivery.errors }} #}
-                    <div class="col-md-6">
-                        <select name="type">
+                    <div class="col-md-3">
+                        <select name="type"
+                                class="form-control">
                             {% for type in type_mailings %}
                             <option value="{{ type[0] }}"{% if delivery.type == type[0] %} selected{% endif %}>{{ type[1] }}</option>
                             {% endfor %}
@@ -204,25 +209,28 @@ textarea.val(editor.getSession().getValue());
                 {% set i = i + 1 %}
                 <div class="form-group"
                         id="image_{{ i }}">
+                    <input type="hidden"
+                           id="image_pk_{{ i }}"
+                            value="{% if image.pk %}{{ image.pk }}{% else %}0{% endif %}">
                     <label for="delivery_image_name_{{ i }}"
-                            class="col-md-2 control-label">Имя картинки:</label>
+                            class="col-md-1">Имя картинки:</label>
                     {# {1{ form.created_at.errors }} #}
                     <div class="col-md-2">
                         <input type="text"
                                name="photo"
                                id="delevery_image_name_{{ i }}"
                                class="form-control"
-                               {% if image.name %}value="{{ image.name }}"{% endif %}>
+                               value="{% if image.name %}{{ image.name }}{% else %}{{ i }}{% endif %}">
                     </div>
                     <label for="delivery_image_tag_name_{{ i }}"
-                            class="col-md-2 control-label">Tag имя картинки:</label>
+                            class="col-md-1">Tag имя картинки:</label>
                     {# {1{ form.created_at.errors }} #}
                     <div class="col-md-2">
                         <input type="text"
                                name="photo"
-                               id="delevery_tag_image_name_{{ i }}"
+                               id="delevery_image_tag_name_{{ i }}"
                                class="form-control"
-                               {% if image.tag_name %}value="{{ image.tag_name }}"{% endif %}>
+                               value="{% if image.tag_name %}{{ image.tag_name }}{% else %}{{ i }}{% endif %}">
                     </div>
                     <label for="delivery_image_{{ i }}"
                             class="col-md-2 control-label">Картинка № {{ i }}:</label>
@@ -232,7 +240,6 @@ textarea.val(editor.getSession().getValue());
                                accept="image/*"
                                name="photo"
                                id="delevery_image_{{ i }}"
-                               class="form-control"
                                {% if image.img %}value="{{ image.img }}"{% endif %}>
                     </div>
                 </div>
@@ -241,8 +248,7 @@ textarea.val(editor.getSession().getValue());
                     <button type="button" id="form-control-add-image-button">add</button>
                 </div>
 <script>
-document.getElementById('form-control-add-image-button').onclick = function() {
-
+document.getElementById('form-control-add-image-button').onclick = function(){
     var i = 0;
     for(;;){
         i++;
@@ -250,7 +256,7 @@ document.getElementById('form-control-add-image-button').onclick = function() {
         if(!document.getElementById(id)){
             break;
         }
-    };
+    }
     i--;
     if(i==0){
         i++;
@@ -263,23 +269,61 @@ document.getElementById('form-control-add-image-button').onclick = function() {
     i++;
     div.setAttribute("id", "image_" + i);
     div.setAttribute("class", "form-group");
-    var label = document.createElement("label");
-    label.setAttribute("for", "delivery_image_name_" + i);
-    label.setAttribute("class", "col-md-2 control-label");
-    label.innerHTML = "Имя картинки:";
-    div.appendChild(label);
-    var div_internal = document.createElement("div");
-    div_internal.setAttribute("class", "col-md-2");
-    var input = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.setAttribute("name", "photo");
-    input.setAttribute("id", "delivery_image_name_" + i);
-    input.setAttribute("class", "form-control");
-    input.setAttribute("value", i);
-    div_internal.appendChild(input);
-    div.appendChild(div_internal);
-    div_parent.insertBefore(div, div_button)
-        }
+    var input_hidden_pk = document.createElement("input");
+    input_hidden_pk.setAttribute("type", "hidden");
+    input_hidden_pk.setAttribute("id", "image_pk_" + i);
+    input_hidden_pk.setAttribute("value", "0");
+    div.appendChild(input_hidden_pk);
+{# Name #}
+    var label_name = document.createElement("label");
+    label_name.setAttribute("for", "delivery_image_name_" + i);
+    label_name.setAttribute("class", "col-md-1");
+    label_name.innerHTML = "Имя картинки:";
+    div.appendChild(label_name);
+    var div_name = document.createElement("div");
+    div_name.setAttribute("class", "col-md-2");
+    var input_name = document.createElement("input");
+    input_name.setAttribute("type", "text");
+    input_name.setAttribute("name", "photo");
+    input_name.setAttribute("id", "delivery_image_name_" + i);
+    input_name.setAttribute("class", "form-control");
+    input_name.setAttribute("value", i);
+    div_name.appendChild(input_name);
+    div.appendChild(div_name);
+{# Tag name #}
+    var label_tag = document.createElement("label");
+    label_tag.setAttribute("for", "delivery_image_tag_name_" + i);
+    label_tag.setAttribute("class", "col-md-1");
+    label_tag.innerHTML = "Tag имя картинки:";
+    div.appendChild(label_tag);
+    var div_tag_name = document.createElement("div");
+    div_tag_name.setAttribute("class", "col-md-2");
+    var input_tag_name = document.createElement("input");
+    input_tag_name.setAttribute("type", "text");
+    input_tag_name.setAttribute("name", "photo");
+    input_tag_name.setAttribute("id", "delivery_image_tag_name_" + i);
+    input_tag_name.setAttribute("class", "form-control");
+    input_tag_name.setAttribute("value", i);
+    div_tag_name.appendChild(input_tag_name);
+    div.appendChild(div_tag_name);
+{# Image #}
+    var label_image = document.createElement("label");
+    label_image.setAttribute("for", "delivery_image_" + i);
+    label_image.setAttribute("class", "col-md-2 control-label");
+    label_image.innerHTML = "Картинка № " + i + ":";
+    div.appendChild(label_image);
+    var div_image = document.createElement("div");
+    div_image.setAttribute("class", "col-md-2");
+    var input_image = document.createElement("input");
+    input_image.setAttribute("type", "file");
+    input_image.setAttribute("name", "photo");
+    input_image.setAttribute("accept", "image/*");
+    input_image.setAttribute("id", "delivery_image_" + i);
+    div_image.appendChild(input_image);
+    div.appendChild(div_image);
+
+    div_parent.insertBefore(div, div_button);
+}
 </script>
                 {% if delivery %}
                 <div class="form-group">
