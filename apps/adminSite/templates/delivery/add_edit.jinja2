@@ -225,7 +225,7 @@ textarea.val(editor.getSession().getValue());
                                value="{% if image.name %}{{ image.name }}{% else %}{{ i }}{% endif %}">
                     </div>
                     <label for="image_tag_name"
-                            class="col-md-1">Tag имя картинки:</label>
+                            class="col-md-2">Tag имя картинки:</label>
                     {# {1{ form.created_at.errors }} #}
                     <div class="col-md-2">
                         <input type="text"
@@ -303,7 +303,7 @@ document.getElementById('form-control-add-image-button').onclick = function(){
 {# Tag name #}
     var label_tag = document.createElement("label");
     label_tag.setAttribute("for", "image_tag_name");
-    label_tag.setAttribute("class", "col-md-1");
+    label_tag.setAttribute("class", "col-md-2");
     label_tag.innerHTML = "Tag имя картинки:";
     div.appendChild(label_tag);
     var div_tag_name = document.createElement("div");
