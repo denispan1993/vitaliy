@@ -12,11 +12,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='email_img',
-            old_name='img',
-            new_name='image',
-        ),
+#        migrations.RenameField(
+#            model_name='email_img',
+#            old_name='img',
+#            new_name='image',
+#        ),
 #        migrations.AddField(
 #            model_name='mailaccount',
 #            name='is_auto_active',
