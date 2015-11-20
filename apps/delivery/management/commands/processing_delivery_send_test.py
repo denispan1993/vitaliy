@@ -74,15 +74,16 @@ class Command(BaseCommand, ):
                     from proj.settings import Email_MANAGER
                     from apps.delivery.utils import parsing
                     msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
-                                                 body=strip_tags(parsing(value=delivery.html,
-                                                                         key=email.key, ), ),
                                                  from_email='subscribe@keksik.com.ua',
                                                  to=['subscribe@keksik.com.ua', ],
                                                  connection=backend, )
+                    msg.attach_alternative(content=strip_tags(parsing(value=delivery.html,
+                                                                      key=email.key, ), ),
+                                           mimetype="text", )
                     msg.attach_alternative(content=parsing(value=delivery.html,
                                                            key=email.key, ),
                                            mimetype="text/html", )
-                    msg.content_subtype = "html"
+                    #msg.content_subtype = "html"
                     """ Привязываем картинки. """
                     images = delivery.images
                     from proj.settings import PROJECT_PATH
@@ -91,9 +92,9 @@ class Command(BaseCommand, ):
                         image_file = open(image.image.path, 'rb', )
                         msg_image = MIMEImage(image_file.read(), )
                         image_file.close()
-                        msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
+                        # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
                         msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
-                        msg.attach(msg_image)
+                        msg.attach_file(msg_image)
                     msg.send(fail_silently=False, )
                     # print 'delivery: ', delivery, 'Send!!!'
         #return deliveryes
