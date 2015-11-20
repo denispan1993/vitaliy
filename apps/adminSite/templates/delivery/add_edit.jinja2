@@ -13,6 +13,7 @@
 {# {1{ form.non_field_errors() }} #}
         <form action="{% if delivery %}{{ url('admin_delivery:edit', delivery_id=delivery.get_url_number) }}{% else %}{{ url('admin_delivery:add') }}{% endif %}"
               class="form-horizontal row"
+              enctype="multipart/form-data"
               method="post"
               role="form">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
@@ -210,41 +211,43 @@ textarea.val(editor.getSession().getValue());
                 <div class="form-group"
                         id="image_{{ i }}">
                     <input type="hidden"
-                           id="image_pk_{{ i }}"
+                           id="image_pk"
+                           name="image_pk_{{ i }}"
                             value="{% if image.pk %}{{ image.pk }}{% else %}0{% endif %}">
-                    <label for="delivery_image_name_{{ i }}"
+                    <label for="image_name"
                             class="col-md-1">Имя картинки:</label>
                     {# {1{ form.created_at.errors }} #}
                     <div class="col-md-2">
                         <input type="text"
-                               name="photo"
-                               id="delevery_image_name_{{ i }}"
+                               id="image_name"
+                               name="image_name_{{ i }}"
                                class="form-control"
                                value="{% if image.name %}{{ image.name }}{% else %}{{ i }}{% endif %}">
                     </div>
-                    <label for="delivery_image_tag_name_{{ i }}"
+                    <label for="image_tag_name"
                             class="col-md-1">Tag имя картинки:</label>
                     {# {1{ form.created_at.errors }} #}
                     <div class="col-md-2">
                         <input type="text"
-                               name="photo"
-                               id="delevery_image_tag_name_{{ i }}"
+                               id="image_tag_name"
+                               name="image_tag_name_{{ i }}"
                                class="form-control"
                                value="{% if image.tag_name %}{{ image.tag_name }}{% else %}{{ i }}{% endif %}">
                     </div>
-                    <label for="delivery_image_{{ i }}"
+                    <label for="image"
                             class="col-md-2 control-label">Картинка № {{ i }}:</label>
                     {# {1{ form.created_at.errors }} #}
                     <div class="col-md-2">
                         <input type="file"
                                accept="image/*"
-                               name="photo"
-                               id="delevery_image_{{ i }}"
+                               id="image"
+                               name="image_{{ i }}"
                                {% if image.img %}value="{{ image.img }}"{% endif %}>
                     </div>
                 </div>
                 {% endfor %}
-                <div id="button">
+                <div id="button"
+                     class="form-group">
                     <button type="button" id="form-control-add-image-button">add</button>
                 </div>
 <script>
@@ -271,12 +274,13 @@ document.getElementById('form-control-add-image-button').onclick = function(){
     div.setAttribute("class", "form-group");
     var input_hidden_pk = document.createElement("input");
     input_hidden_pk.setAttribute("type", "hidden");
-    input_hidden_pk.setAttribute("id", "image_pk_" + i);
+    input_hidden_pk.setAttribute("id", "image_pk");
+    input_hidden_pk.setAttribute("name", "image_pk_" + i);
     input_hidden_pk.setAttribute("value", "0");
     div.appendChild(input_hidden_pk);
 {# Name #}
     var label_name = document.createElement("label");
-    label_name.setAttribute("for", "delivery_image_name_" + i);
+    label_name.setAttribute("for", "image_name");
     label_name.setAttribute("class", "col-md-1");
     label_name.innerHTML = "Имя картинки:";
     div.appendChild(label_name);
@@ -284,15 +288,15 @@ document.getElementById('form-control-add-image-button').onclick = function(){
     div_name.setAttribute("class", "col-md-2");
     var input_name = document.createElement("input");
     input_name.setAttribute("type", "text");
-    input_name.setAttribute("name", "photo");
-    input_name.setAttribute("id", "delivery_image_name_" + i);
+    input_name.setAttribute("id", "image_name");
+    input_name.setAttribute("name", "image_name_" + i);
     input_name.setAttribute("class", "form-control");
     input_name.setAttribute("value", i);
     div_name.appendChild(input_name);
     div.appendChild(div_name);
 {# Tag name #}
     var label_tag = document.createElement("label");
-    label_tag.setAttribute("for", "delivery_image_tag_name_" + i);
+    label_tag.setAttribute("for", "image_tag_name");
     label_tag.setAttribute("class", "col-md-1");
     label_tag.innerHTML = "Tag имя картинки:";
     div.appendChild(label_tag);
@@ -300,15 +304,15 @@ document.getElementById('form-control-add-image-button').onclick = function(){
     div_tag_name.setAttribute("class", "col-md-2");
     var input_tag_name = document.createElement("input");
     input_tag_name.setAttribute("type", "text");
-    input_tag_name.setAttribute("name", "photo");
-    input_tag_name.setAttribute("id", "delivery_image_tag_name_" + i);
+    input_tag_name.setAttribute("id", "image_tag_name");
+    input_tag_name.setAttribute("name", "image_tag_name_" + i);
     input_tag_name.setAttribute("class", "form-control");
     input_tag_name.setAttribute("value", i);
     div_tag_name.appendChild(input_tag_name);
     div.appendChild(div_tag_name);
 {# Image #}
     var label_image = document.createElement("label");
-    label_image.setAttribute("for", "delivery_image_" + i);
+    label_image.setAttribute("for", "image");
     label_image.setAttribute("class", "col-md-2 control-label");
     label_image.innerHTML = "Картинка № " + i + ":";
     div.appendChild(label_image);
@@ -316,9 +320,9 @@ document.getElementById('form-control-add-image-button').onclick = function(){
     div_image.setAttribute("class", "col-md-2");
     var input_image = document.createElement("input");
     input_image.setAttribute("type", "file");
-    input_image.setAttribute("name", "photo");
     input_image.setAttribute("accept", "image/*");
-    input_image.setAttribute("id", "delivery_image_" + i);
+    input_image.setAttribute("id", "image");
+    input_image.setAttribute("name", "image_" + i);
     div_image.appendChild(input_image);
     div.appendChild(div_image);
 

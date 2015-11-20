@@ -147,6 +147,38 @@ def add_edit(request,
             delivery.subject = subject
             delivery.html = html
             delivery.save()
+            """ Обрабатываем картинки. """
+            from apps.delivery.models import Email_Img
+            for i in range(1, 50):
+                print i
+                image_pk = 'image_pk_%d' % i
+                image_pk = request.POST.get('image_pk_%d' % i, False, )
+                if image_pk:
+                    try:
+                        image_pk = int(image_pk, )
+                    except ValueError:
+                        image_pk = 0
+                    if image_pk != 0:
+                        """ Редактируется ссылка на существующую картинку """
+                        try:
+                            image = Email_Img.objects.get(pk=image_pk, )
+                        except Email_Img.DoesNotExist:
+                            image = Email_Img()
+                    else:
+                        image = Email_Img()
+                    image_name = request.POST.get('image_name_%d' % i, False, )
+                    if image_name:
+                        image.name = image_name
+                    image_tag_name = request.POST.get('image_tag_name_%d' % i, False, )
+                    if image_tag_name:
+                        image.tag_name = image_tag_name
+                    image_file = request.FILES.get('image_%d' % i, False, )
+                    print image_file
+                    image.parent = delivery
+                    if image_file:
+                        image.image = image_file
+                        print '2'
+                        image.save()
             from django.shortcuts import redirect
             return redirect(to='admin_delivery:index', )
 

@@ -335,13 +335,13 @@ class Email_Img(models.Model):
                                             u' без пробелов и подчеркиваний', ), )
 
     from compat.ImageWithThumbs import models as class_ImageWithThumb
-    img = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Картинка',
-                                                    upload_to=set_path_img,
-                                                    sizes=((26, 26, ), (50, 50, ), (90, 95, ),
-                                                           (205, 190, ), (210, 160, ), (345, 370, ),
-                                                           (700, 500, ), ),
-                                                    blank=False,
-                                                    null=False, )
+    image = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Картинка',
+                                                      upload_to=set_path_img,
+                                                      sizes=((26, 26, ), (50, 50, ), (90, 95, ),
+                                                             (205, 190, ), (210, 160, ), (345, 370, ),
+                                                             (700, 500, ), ),
+                                                      blank=False,
+                                                      null=False, )
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -470,8 +470,8 @@ class EmailForDelivery(models.Model, ):
     class Meta:
         db_table = 'EmailForDelivery'
         ordering = ['-created_at', ]
-        verbose_name = u'Модель Рассылки (Email адрес)'
-        verbose_name_plural = u'Модели Рассылок (Email адреса)'
+        verbose_name = u'Рассылка (Email адрес)'
+        verbose_name_plural = u'Рассылки (Email адреса)'
 
 
 class TraceOfVisits(models.Model, ):
@@ -512,8 +512,8 @@ class TraceOfVisits(models.Model, ):
     class Meta:
         db_table = 'TraceOfVisits'
         ordering = ['-created_at', ]
-        verbose_name = u'Модель След от посещения'
-        verbose_name_plural = u'Модели Следы от посещений'
+        verbose_name = u'След от посещения'
+        verbose_name_plural = u'Следы от посещений'
 
 
 class SpamEmail(models.Model, ):
