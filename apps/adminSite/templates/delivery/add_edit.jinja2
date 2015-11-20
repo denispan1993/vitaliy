@@ -237,12 +237,18 @@ textarea.val(editor.getSession().getValue());
                     <label for="image"
                             class="col-md-2 control-label">Картинка № {{ i }}:</label>
                     {# {1{ form.created_at.errors }} #}
-                    <div class="col-md-2">
-                        <input type="file"
-                               accept="image/*"
-                               id="image"
-                               name="image_{{ i }}"
-                               {% if image.image %}value="{{ image.image }}"{% endif %}>
+                    <div class="form-column col-md-2">
+                        <p class="file-upload">
+                            {% if image.image %}На данный момент:
+                            <a href="{{ image.image.url }}">{{ image.image }}</a>
+                            <br>
+                            Изменить:{% endif %}
+                            <input type="file"
+                                   accept="image/*"
+                                   id="image"
+                                   name="image_{{ i }}"
+                                   style="width:190px;">
+                        </p>
                     </div>
                 </div>
                 {% endfor %}
@@ -317,13 +323,17 @@ document.getElementById('form-control-add-image-button').onclick = function(){
     label_image.innerHTML = "Картинка № " + i + ":";
     div.appendChild(label_image);
     var div_image = document.createElement("div");
-    div_image.setAttribute("class", "col-md-2");
+    div_image.setAttribute("class", "form-column col-md-2");
+    var p_image = document.createElement("p");
+    p_image.setAttribute("class", "file-upload");
     var input_image = document.createElement("input");
     input_image.setAttribute("type", "file");
     input_image.setAttribute("accept", "image/*");
     input_image.setAttribute("id", "image");
     input_image.setAttribute("name", "image_" + i);
-    div_image.appendChild(input_image);
+    input_image.setAttribute("style", "width:190px;");
+    p_image.appendChild(input_image);
+    div_image.appendChild(p_image);
     div.appendChild(div_image);
 
     div_parent.insertBefore(div, div_button);
