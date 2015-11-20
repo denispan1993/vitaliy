@@ -85,17 +85,10 @@ class Command(BaseCommand, ):
                     msg.content_subtype = "html"
                     """ Привязываем картинки. """
                     images = delivery.images
-                    print len(images, )
                     from proj.settings import PROJECT_PATH
                     from email.MIMEImage import MIMEImage
                     for image in images:
-                        print image
-                        print image.name
-                        print image.tag_name
-                        print image.image
-                        print image.image.path
-                        print image.image.url
-                        image_file = open(PROJECT_PATH + image.image.path, 'rb', )
+                        image_file = open(image.image.path, 'rb', )
                         msg_image = MIMEImage(image_file.read(), )
                         image_file.close()
                         msg_image.add_header('Content-ID', '<%s>' % image.image.path)
