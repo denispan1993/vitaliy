@@ -24,11 +24,11 @@ class Migration(migrations.Migration):
             name='traceofvisits',
             options={'ordering': ['-created_at'], 'verbose_name': '\u0421\u043b\u0435\u0434 \u043e\u0442 \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u044f', 'verbose_name_plural': '\u0421\u043b\u0435\u0434\u044b \u043e\u0442 \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u0439'},
         ),
-#        migrations.AddField(
-#            model_name='mailaccount',
-#            name='is_auto_active',
-#            field=models.BooleanField(default=True, verbose_name='\u0410\u043a\u043a\u0430\u0443\u043d\u0442 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439'),
-#        ),
+        migrations.AddField(
+            model_name='mailaccount',
+            name='is_auto_active',
+            field=models.BooleanField(default=True, verbose_name='\u0410\u043a\u043a\u0430\u0443\u043d\u0442 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439'),
+        ),
         migrations.AlterField(
             model_name='delivery',
             name='name',
