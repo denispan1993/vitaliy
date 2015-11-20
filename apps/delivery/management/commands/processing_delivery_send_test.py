@@ -79,7 +79,7 @@ class Command(BaseCommand, ):
                                                  connection=backend, )
                     msg.attach_alternative(content=strip_tags(parsing(value=delivery.html,
                                                                       key=email.key, ), ),
-                                           mimetype="text", )
+                                           mimetype="text/html", )
                     msg.attach_alternative(content=parsing(value=delivery.html,
                                                            key=email.key, ),
                                            mimetype="text/html", )
