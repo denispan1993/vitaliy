@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
             old_name='img',
             new_name='image',
         ),
-        migrations.AddField(
-            model_name='mailaccount',
-            name='is_auto_active',
-            field=models.BooleanField(default=True, verbose_name='\u0410\u043a\u043a\u0430\u0443\u043d\u0442 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439'),
-        ),
+#        migrations.AddField(
+#            model_name='mailaccount',
+#            name='is_auto_active',
+#            field=models.BooleanField(default=True, verbose_name='\u0410\u043a\u043a\u0430\u0443\u043d\u0442 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439'),
+#        ),
         migrations.AlterField(
             model_name='delivery',
             name='name',
