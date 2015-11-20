@@ -73,17 +73,40 @@ class Command(BaseCommand, ):
                     from django.core.mail import EmailMultiAlternatives
                     from proj.settings import Email_MANAGER
                     from apps.delivery.utils import parsing
-                    msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
-                                                 from_email='subscribe@keksik.com.ua',
-                                                 to=['subscribe@keksik.com.ua', ],
-                                                 connection=backend, )
-                    msg.attach_alternative(content=strip_tags(parsing(value=delivery.html,
-                                                                      key=email.key, ), ),
-                                           mimetype="text/html", )
-                    msg.attach_alternative(content=parsing(value=delivery.html,
-                                                           key=email.key, ),
-                                           mimetype="text/html", )
+                    from email.MIMEMultipart import MIMEMultipart
+                    from email.MIMEText import MIMEText
+                    from email.MIMEImage import MIMEImage
+                    from smtplib import SMTP
+                    msgRoot = MIMEMultipart('related', )
+                    msgRoot['Subject'] = 'test - %s' % delivery.subject  # sbj
+                    msgRoot['From'] = 'subscribe@keksik.com.ua'  # named(sender,sender_name)
+                    msgRoot['To'] = 'subscribe@keksik.com.ua'  # named(recip,recip_name)
+                    msgRoot.preamble = 'This is a multi-part message in MIME format.'
+                    #msg = EmailMultiAlternatives(subject='test - %s' % delivery.subject,
+                    #                             from_email='subscribe@keksik.com.ua',
+                    #                             to=['subscribe@keksik.com.ua', ],
+                    #                             connection=backend, )
+                    #msg.attach_alternative(content=strip_tags(parsing(value=delivery.html,
+                    #                                                  key=email.key, ), ),
+                    #                       mimetype="text/html", )
+                    #msg.attach_alternative(content=parsing(value=delivery.html,
+                    #                                       key=email.key, ),
+                    #                       mimetype="text/html", )
                     #msg.content_subtype = "html"
+                    msgAlternative = MIMEMultipart('alternative')
+                    msgRoot.attach(msgAlternative)
+
+                    charset='utf-8'
+                    smtp_server='localhost'
+                    smtp_user=''
+                    smtp_pass=''
+                    msgAlternative.attach(MIMEText(strip_tags(parsing(value=delivery.html,
+                                                                      key=email.key, ), ),
+                                                   _charset=charset), )
+                    msgAlternative.attach(MIMEText(parsing(value=delivery.html,
+                                                           key=email.key, ),
+                                                   'html',
+                                                   _charset=charset), )
                     """ Привязываем картинки. """
                     images = delivery.images
                     from proj.settings import PROJECT_PATH
@@ -94,8 +117,16 @@ class Command(BaseCommand, ):
                         image_file.close()
                         # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
                         msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
-                        msg.attach(msg_image)
-                    msg.send(fail_silently=False, )
+                        msgRoot.attach(msg_image)
+                    smtp = SMTP()
+                    smtp.connect(host=EMAIL_HOST, port=EMAIL_PORT, )
+                    smtp.ehlo()
+                    smtp.starttls()
+                    smtp.ehlo()
+                    smtp.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, )
+                    smtp.sendmail('subscribe@keksik.com.ua', 'subscribe@keksik.com.ua', msgRoot.as_string(), )
+                    smtp.quit()
+                    #msg.send(fail_silently=False, )
                     # print 'delivery: ', delivery, 'Send!!!'
         #return deliveryes
 
