@@ -161,10 +161,10 @@ class Delivery(models.Model, ):
                                       # default=datetime.now(), )
 
     # Вспомогательные поля
-    from django.contrib.contenttypes import generic
-    img = generic.GenericRelation('Email_Img',
-                                  content_type_field='content_type',
-                                  object_id_field='object_id', )
+#    from django.contrib.contenttypes import generic
+#    img = generic.GenericRelation('Email_Img',
+#                                  content_type_field='content_type',
+#                                  object_id_field='object_id', )
 
     def save(self, *args, **kwargs):
         real_html = self.html
@@ -314,46 +314,6 @@ def set_path_img(self, filename):
         filename)
 
 
-class Email_Img(models.Model):
-    from django.contrib.contenttypes.models import ContentType
-    content_type = models.ForeignKey(ContentType, related_name='related_Email_Img', )
-    object_id = models.PositiveIntegerField(db_index=True, )
-    from django.contrib.contenttypes import generic
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
-
-    name = models.CharField(verbose_name=_(u'Наименование картинки', ),
-                            max_length=256,
-                            null=True,
-                            blank=True, )
-
-    tag_name = models.CharField(verbose_name=_(u"Имя tag'a картинки", ),
-                                max_length=8,
-                                null=True,
-                                blank=True,
-                                help_text=_(u'TAG картинки не может быть длинее 8 символов,'
-                                            u' только английские маленькие буквы и цифры'
-                                            u' без пробелов и подчеркиваний', ), )
-
-    from compat.ImageWithThumbs import models as class_ImageWithThumb
-    image = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Картинка',
-                                                      upload_to=set_path_img,
-                                                      sizes=((26, 26, ), (50, 50, ), (90, 95, ),
-                                                             (205, 190, ), (210, 160, ), (345, 370, ),
-                                                             (700, 500, ), ),
-                                                      blank=False,
-                                                      null=False, )
-    #Дата создания и дата обновления новости. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
-
-    def __unicode__(self):
-        return u'Картинка для E-Mail: %s' % (self.name, )
-
-    class Meta:
-        db_table = 'EMail_Img'
-        ordering = ['-created_at', ]
-        verbose_name = "Картинка для E-Mail"
-        verbose_name_plural = "Картинкии для E-Mail"
 
 
 class EmailMiddleDelivery(models.Model, ):

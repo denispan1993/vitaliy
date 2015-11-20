@@ -44,13 +44,13 @@ class DeliveryAdmin(admin.ModelAdmin, ):
 
 admin.site.register(Delivery, DeliveryAdmin, )
 
-from apps.delivery.models import Email_Img
+#from apps.delivery.models import Email_Img
 
 
 class Email_ImgAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'tag_name', 'image', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'name', 'tag_name', ]
-admin.site.register(Email_Img, Email_ImgAdmin, )
+#admin.site.register(Email_Img, Email_ImgAdmin, )
 
 
 from apps.delivery.models import EmailMiddleDelivery
