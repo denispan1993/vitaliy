@@ -94,7 +94,7 @@ class Command(BaseCommand, ):
                         image_file.close()
                         # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
                         msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
-                        msg.attach_file(msg_image)
+                        msg.attach(msg_image)
                     msg.send(fail_silently=False, )
                     # print 'delivery: ', delivery, 'Send!!!'
         #return deliveryes
