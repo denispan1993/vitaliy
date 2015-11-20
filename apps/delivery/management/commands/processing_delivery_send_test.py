@@ -91,6 +91,7 @@ class Command(BaseCommand, ):
                         image_file = open(image.image.path, 'rb', )
                         msg_image = MIMEImage(image_file.read(), )
                         image_file.close()
+                        msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
                         msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
                         msg.attach(msg_image)
                     msg.send(fail_silently=False, )
