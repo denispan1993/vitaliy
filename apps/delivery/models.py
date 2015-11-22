@@ -249,7 +249,7 @@ class Delivery(models.Model, ):
 
     @property
     def images(self):
-        return self.img.all()
+        return self.img.all().order_by('pk', )
 
     @property
     def bad_emails(self):
