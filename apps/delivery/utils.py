@@ -188,7 +188,9 @@ named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
 
 def create_msg(delivery, mail_account, email, test=False, ):
-    from email import MIMEMultipart, MIMEText, MIMEImage
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+    from email.mime.image import MIMEImage
 
     msgRoot = MIMEMultipart('related', )
     msgRoot['Subject'] = 'test - %s' % delivery.subject if not test else delivery.subject
