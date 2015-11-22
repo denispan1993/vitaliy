@@ -128,16 +128,20 @@ def get_email(delivery, email_class=None, pk=False, ):
         sys.stdout.flush()
         random_email_pk = random(last_email, )
         try:
-            email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
             if pk:
                 try:
                     pk = int(pk, )
+                    print 'pk: ', pk
                 except ValueError:
+                    print 'pk: ', pk
                     return False
                 else:
                     email = email_class.objects.get(pk=pk, )
+            else:
+                email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
         except email_class.DoesNotExist:
             if pk:
+                print 'pk DoesNotExit: ', pk
                 return False
         else:
             if pk:
