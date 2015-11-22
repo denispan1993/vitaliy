@@ -19,8 +19,20 @@ def parsing(value, key, ):
     return value
 
 
-def Mail_Account():
+def Mail_Account(pk=False, ):
     from apps.delivery.models import MailAccount
+    if pk:
+        try:
+            pk = int(pk, )
+        except ValueError:
+            return False
+        else:
+            try:
+                mail_account = MailAccount.objects.get(pk=pk, )
+            except MailAccount.DoesNotExist:
+                return False
+            else:
+                return mail_account
     mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
 
     # last_mail_accounts = MailAccount.objects.latest('pk', )
@@ -103,7 +115,7 @@ from apps.authModel.models import Email
 from apps.delivery.models import SpamEmail
 
 
-def get_email(delivery, email_class=None, ):
+def get_email(delivery, email_class=None, pk=False, ):
     from apps.delivery.models import EmailForDelivery
     if email_class is None or (email_class != Email and email_class != SpamEmail):
         from apps.authModel.models import Email as email_class
@@ -117,9 +129,19 @@ def get_email(delivery, email_class=None, ):
         random_email_pk = random(last_email, )
         try:
             email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
+            if pk:
+                try:
+                    pk = int(pk, )
+                except ValueError:
+                    return False
+                else:
+                    email = email_class.objects.get(pk=pk, )
         except email_class.DoesNotExist:
-            pass
+            if pk:
+                return False
         else:
+            if pk:
+                return email
             try:
                 EmailForDelivery.objects.get(delivery__delivery=delivery,
                                              content_type=email.content_type,
@@ -157,3 +179,70 @@ def random(last_email, ):
         else:
             print random_email_pk, ', ',
             sys.stdout.flush()
+
+named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
+
+
+def create_msg(delivery, mail_account, email, test=False, ):
+    from email import MIMEMultipart, MIMEText, MIMEImage
+
+    msgRoot = MIMEMultipart('related', )
+    msgRoot['Subject'] = 'test - %s' % delivery.subject if not test else delivery.subject
+    msgRoot['From'] = named(mail_account.email, )
+    msgRoot['To'] = named(email.now_email.email, )
+    msgRoot.preamble = 'This is a multi-part message in MIME format.'
+    msgAlternative = MIMEMultipart('alternative', )
+    msgRoot.attach(msgAlternative, )
+
+    charset = 'utf-8'
+    from django.utils.html import strip_tags
+    msgAlternative.attach(MIMEText(strip_tags(parsing(value=delivery.html,
+                                                      key=email.key, ), ),
+                                   'plain',
+                                   _charset=charset), )
+    msgAlternative.attach(MIMEText(parsing(value=delivery.html,
+                                           key=email.key, ),
+                                   'html',
+                                   _charset=charset), )
+    """ Привязываем картинки. """
+    images = delivery.images
+    for image in images:
+        image_file = open(image.image.path, 'rb', )
+        msg_image = MIMEImage(image_file.read(), )
+        image_file.close()
+        # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
+        msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
+        msgRoot.attach(msg_image)
+    return msgRoot
+
+
+def connect(mail_account=False, timeout=False, fail_silently=True, ):
+    from smtplib import SMTP, SMTP_SSL, SMTPException
+    connection_class = SMTP_SSL if mail_account.server.use_ssl and \
+                                   not mail_account.server.use_tls else SMTP
+    from django.core.mail.utils import DNS_NAME
+    connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
+    if timeout:
+        connection_params['timeout'] = timeout
+    try:
+        connection = connection_class(host=mail_account.server.server,
+                                      port=mail_account.server.port,
+                                      **connection_params)
+        if not mail_account.server.use_ssl and mail_account.server.use_tls:
+            connection.ehlo()
+            connection.starttls()
+            connection.ehlo()
+        if mail_account.username and mail_account.password:
+            connection.login(mail_account.username, mail_account.password, )
+        return connection
+    except SMTPException:
+        if not fail_silently:
+            raise
+
+
+def send_msg(connection, mail_account, email, msg, ):
+    connection.sendmail(from_addr=mail_account.email,
+                        to_addrs=email.now_email.email,
+                        msg=msg.as_string(), )
+    connection.quit()
+    return True
