@@ -193,7 +193,7 @@ def create_msg(delivery, mail_account, email, test=False, ):
     from email.mime.image import MIMEImage
 
     msgRoot = MIMEMultipart('related', )
-    msgRoot['Subject'] = 'test - %s' % delivery.subject if not test else delivery.subject
+    msgRoot['Subject'] = 'test - %s' % delivery.subject if test else delivery.subject
     msgRoot['From'] = named(mail_account.email, )
     msgRoot['To'] = named(email.now_email.email, )
     msgRoot.preamble = 'This is a multi-part message in MIME format.'
