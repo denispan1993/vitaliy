@@ -97,8 +97,9 @@ class Command(BaseCommand, ):
                                 from apps.delivery.utils import create_msg, connect, send_msg
                                 msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
                                 from smtplib import SMTPSenderRefused, SMTPDataError
+                                connection = connect(mail_account=mail_account, fail_silently=False, )
                                 try:
-                                    connection = connect(mail_account=mail_account, fail_silently=False, )
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
                                 except SMTPSenderRefused as e:
                                     print 'SMTPSenderRefused: ', e
                                     email.delete()
@@ -119,8 +120,6 @@ class Command(BaseCommand, ):
                                         mail_account.save()
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
-                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
-                                else:
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
                                 time = sleep_now(time=time, email=email, i=i, )
 
@@ -140,8 +139,9 @@ class Command(BaseCommand, ):
                                 from apps.delivery.utils import create_msg, connect, send_msg
                                 msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
                                 from smtplib import SMTPSenderRefused, SMTPDataError
+                                connection = connect(mail_account=mail_account, fail_silently=False, )
                                 try:
-                                    connection = connect(mail_account=mail_account, fail_silently=False, )
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
                                 except SMTPSenderRefused as e:
                                     print 'SMTPSenderRefused: ', e
                                     email.delete()
@@ -162,7 +162,5 @@ class Command(BaseCommand, ):
                                         mail_account.save()
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
-                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
-                                else:
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
                                 time = sleep_now(time=time, email=email, i=i, )
