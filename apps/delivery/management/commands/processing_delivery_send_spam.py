@@ -82,6 +82,7 @@ class Command(BaseCommand, ):
                     for n in range(1, count_emails_try, ):
                         mail_account = Mail_Account()
                         email = get_email(delivery=delivery, email_class=Email, )
+                        print 'n: ', n, 'in: ', count_emails_try
                         if email:
                             if not Test_Server_MX_from_email(email_string=email.email, resolver=resolver, ):
                                 email.bad_email = True
