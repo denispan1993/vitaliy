@@ -49,14 +49,14 @@ def Mail_Account(pk=False, ):
             if mail_account.is_auto_active:
                 print 'MailAccount: ', mail_account
                 return mail_account
-            else:
-                from datetime import datetime, timedelta
-                datetimedelta = mail_account.auto_active_datetime + timedelta(days=1, hours=1, minutes=30, )
-                if datetimedelta < datetime.now():
-                    mail_account.is_auto_active = True
-                    mail_account.save()
-                    print 'MailAccount: ', mail_account
-                    return mail_account
+#            else:
+#                from datetime import datetime, timedelta
+#                datetimedelta = mail_account.auto_active_datetime + timedelta(days=1, hours=1, minutes=30, )
+#                if datetimedelta < datetime.now():
+#                    mail_account.is_auto_active = True
+#                    mail_account.save()
+#                    print 'MailAccount: ', mail_account
+#                    return mail_account
 
 
 def Backend(mail_account=None, ):
