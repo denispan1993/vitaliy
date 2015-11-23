@@ -60,5 +60,31 @@ class Command(BaseCommand, ):
                     mail_account = Mail_Account(pk=1, )
                     from apps.delivery.utils import create_msg, connect, send_msg
                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
-                    connection = connect(mail_account=mail_account, )
-                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+                    from smtplib import SMTPSenderRefused, SMTPDataError
+                    try:
+                        connection = connect(mail_account=mail_account, fail_silently=False, )
+                    except SMTPSenderRefused as e:
+                        print 'SMTPSenderRefused: ', e
+                        # email.delete()
+                        # print 'SMTPSenderRefused'
+                        # sleep(30, )
+                        # time += 30
+                    except SMTPDataError as e:
+                        print 'SMTPDataError: ', e
+                        # email.delete()
+                        # print 'SMTPDataError'
+                        # sleep(30, )
+                        # time += 30
+                    except Exception as e:
+                        print 'Exception: ', e
+                        if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
+                            print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
+                            from datetime import datetime
+                            mail_account.is_auto_active = False
+                            mail_account.auto_active_datetime = datetime.now()
+                            mail_account.save()
+                        connection = connect(mail_account=mail_account, fail_silently=True, )
+                        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+                        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+                    else:
+                        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )

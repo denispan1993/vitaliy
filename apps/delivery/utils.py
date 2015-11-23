@@ -187,38 +187,53 @@ def random(last_email, ):
 named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
 
-def create_msg(delivery, mail_account, email, test=False, ):
+def create_msg(delivery, mail_account, email, exception=False, test=False, ):
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
     from email.mime.image import MIMEImage
 
     msgRoot = MIMEMultipart('related', )
-    msgRoot['Subject'] = 'test - %s' % delivery.subject if test else delivery.subject
+    if test:
+        sbj = 'test - %s' % delivery.subject
+    else:
+        sbj = delivery.subject
+
+    msgRoot['Subject'] = sbj
     msgRoot['From'] = named(mail_account.email, )
-    msgRoot['To'] = named(email.now_email.email, )
+    if exception:
+        to = mail_account.email
+    else:
+        to = named(email.now_email.email, )
+    msgRoot['To'] = to
     msgRoot.preamble = 'This is a multi-part message in MIME format.'
     msgAlternative = MIMEMultipart('alternative', )
     msgRoot.attach(msgAlternative, )
 
     charset = 'utf-8'
-    from django.utils.html import strip_tags
-    msgAlternative.attach(MIMEText(strip_tags(parsing(value=delivery.html,
-                                                      key=email.key, ), ),
-                                   'plain',
-                                   _charset=charset), )
-    msgAlternative.attach(MIMEText(parsing(value=delivery.html,
-                                           key=email.key, ),
-                                   'html',
-                                   _charset=charset), )
+    if exception:
+        msgAlternative.attach(MIMEText('%s\nFrom: %s\nTo: %s' % (exception, mail_account, email, ),
+                                       'plain',
+                                       _charset=charset), )
+    else:
+        from django.utils.html import strip_tags
+        msgAlternative.attach(MIMEText(strip_tags(parsing(value=delivery.html,
+                                                          key=email.key, ), ),
+                                       'plain',
+                                       _charset=charset), )
+        msgAlternative.attach(MIMEText(parsing(value=delivery.html,
+                                               key=email.key, ),
+                                       'html',
+                                       _charset=charset), )
     """ Привязываем картинки. """
-    images = delivery.images
-    for image in images:
-        image_file = open(image.image.path, 'rb', )
-        msg_image = MIMEImage(image_file.read(), )
-        image_file.close()
-        # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
-        msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
-        msgRoot.attach(msg_image)
+    if not exception:
+        images = delivery.images
+        for image in images:
+            image_file = open(image.image.path, 'rb', )
+            msg_image = MIMEImage(image_file.read(), )
+            image_file.close()
+            # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
+            msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
+            msgRoot.attach(msg_image)
     return msgRoot
 
 
