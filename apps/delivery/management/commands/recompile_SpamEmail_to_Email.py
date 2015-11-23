@@ -21,6 +21,7 @@ class Command(BaseCommand, ):
                 print i, ' ', email
                 print 'Description: ', 'From apps.delivery.model.SpamEmail'
                 email = Email(email=email, description='From apps.delivery.model.SpamEmail', )
+                email.save()
             else:
-                print email
+                print i, ' ', email
             i += 1
