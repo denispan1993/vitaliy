@@ -25,3 +25,18 @@ class Command(BaseCommand, ):
             else:
                 print i, ' ', email
             i += 1
+        """ Закрываем адреса которые мы перенесли в основную базу """
+        from apps.delivery.models import SpamEmail
+        emails = Email.objects.all()
+        for email in emails:
+            try:
+                email = email.email
+            except AttributeError:
+                continue
+            try:
+                email = SpamEmail.objects.get(email=email, )
+            except SpamEmail.DoesNotExist:
+                print 'AllOk'
+            else:
+                email.bad_email = True
+                email.save()
