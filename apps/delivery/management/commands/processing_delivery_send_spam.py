@@ -111,7 +111,7 @@ class Command(BaseCommand, ):
                                     print 'SMTPDataError: smtp_error', e.smtp_error
                                     print 'SMTPDataError: args', e.args
                                     print 'SMTPDataError: message', e.message
-                                    if "5.7.1 Message rejected under suspicion of SPAM;" in e:
+                                    if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
                                         print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
                                         from datetime import datetime
                                         mail_account.is_auto_active = False
@@ -154,7 +154,7 @@ class Command(BaseCommand, ):
                                     time += 30
                                 except SMTPDataError as e:
                                     print 'SMTPDataError: ', e
-                                    if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
+                                    if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
                                         print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
                                         from datetime import datetime
                                         mail_account.is_auto_active = False
