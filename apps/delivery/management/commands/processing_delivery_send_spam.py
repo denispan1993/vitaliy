@@ -95,7 +95,7 @@ class Command(BaseCommand, ):
                                                                         now_email=email, )
                                 """ Отсылка """
                                 from apps.delivery.utils import create_msg, connect, send_msg
-                                msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
+                                msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
                                 from smtplib import SMTPSenderRefused, SMTPDataError
                                 connection = connect(mail_account=mail_account, fail_silently=False, )
                                 try:
@@ -119,7 +119,7 @@ class Command(BaseCommand, ):
                                         mail_account.auto_active_datetime = datetime.now()
                                         mail_account.save()
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
-                                    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+                                    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
                                 time = sleep_now(time=time, email=email, i=i, )
 
@@ -137,7 +137,7 @@ class Command(BaseCommand, ):
                                                                         now_email=email, )
                                 """ Отсылка """
                                 from apps.delivery.utils import create_msg, connect, send_msg
-                                msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
+                                msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
                                 from smtplib import SMTPSenderRefused, SMTPDataError
                                 connection = connect(mail_account=mail_account, fail_silently=False, )
                                 try:
@@ -161,6 +161,6 @@ class Command(BaseCommand, ):
                                         mail_account.auto_active_datetime = datetime.now()
                                         mail_account.save()
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
-                                    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+                                    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
                                 time = sleep_now(time=time, email=email, i=i, )
