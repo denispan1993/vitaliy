@@ -267,3 +267,18 @@ def send_msg(connection, mail_account, email, msg, ):
                         msg=msg.as_string(), )
     connection.quit()
     return True
+
+
+def sleep_now(time, email, i, ):
+    from time import sleep
+    from random import randrange
+    print 'i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email
+    time_now = randrange(9, 33, )
+    time += time_now
+    print 'Time_now: ', time_now, ' average time: ', time/i
+    for n in range(1, time_now, ):
+        print '.',
+        sys.stdout.flush()
+        sleep(1, )
+    print '\n'
+    return time

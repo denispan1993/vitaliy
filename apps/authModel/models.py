@@ -231,6 +231,10 @@ class Email(models.Model, ):
     email = models.EmailField(_('email address'),
                               blank=False,
                               null=False, )
+    description = models.TextField(_(u'Описание', ),
+                                   blank=True,
+                                   null=True,
+                                   help_text=_(u'Поле с текстовым описанием'), )
     primary = models.BooleanField(verbose_name=_(u'Основной', ), default=False, )
     """
         E-Mail рассылки
