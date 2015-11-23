@@ -47,7 +47,13 @@ class Command(BaseCommand, ):
                     try:
                         email = line.split('<')[1].split('>')[0].lstrip('.')
                     except IndexError:
-                        continue
+                        from django.core.validators import validate_email
+                        from django.core.exceptions import ValidationError
+                        try:
+                            email = line
+                            validate_email(email, )
+                        except ValidationError:
+                            continue
                     print line, email, ' bad_email: ', bad_email, ' good_email: ', good_email
                     """
                         Делаем повторную проверку на просто валидацию E-Mail адреса
