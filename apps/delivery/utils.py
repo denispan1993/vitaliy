@@ -264,9 +264,13 @@ def connect(mail_account=False, timeout=False, fail_silently=True, ):
             raise
 
 
-def send_msg(connection, mail_account, email, msg, ):
+def send_msg(connection, mail_account, email, msg, execption=False, ):
+    if execption:
+        to = mail_account.email
+    else:
+        to = email.now_email.email
     connection.sendmail(from_addr=mail_account.email,
-                        to_addrs=email.now_email.email,
+                        to_addrs=to,
                         msg=msg.as_string(), )
     connection.quit()
     return True

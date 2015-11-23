@@ -120,7 +120,7 @@ class Command(BaseCommand, ):
                                         mail_account.save()
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
-                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
                                 time = sleep_now(time=time, email=email, i=i, )
 
 #====================== SPAM
@@ -162,5 +162,5 @@ class Command(BaseCommand, ):
                                         mail_account.save()
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
-                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
                                 time = sleep_now(time=time, email=email, i=i, )
