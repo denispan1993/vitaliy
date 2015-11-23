@@ -467,6 +467,10 @@ class EmailForDelivery(models.Model, ):
                     print inst
         super(EmailForDelivery, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+        return u'E-Mail: %s pk: %6d created_at: %s, updated_at: %s'\
+               % (self.now_email.email, self.pk, self.created_at, self.updated_at, )
+
     class Meta:
         db_table = 'EmailForDelivery'
         ordering = ['-created_at', ]
