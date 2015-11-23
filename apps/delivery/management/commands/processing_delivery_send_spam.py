@@ -107,11 +107,6 @@ class Command(BaseCommand, ):
                                     time += 30
                                 except SMTPDataError as e:
                                     print 'SMTPDataError: ', e
-                                    email.delete()
-                                    sleep(30, )
-                                    time += 30
-                                except Exception as e:
-                                    print 'Exception: ', e
                                     if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
                                         print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
                                         from datetime import datetime
@@ -121,6 +116,11 @@ class Command(BaseCommand, ):
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
+                                    email.delete()
+                                    sleep(30, )
+                                    time += 30
+                                except Exception as e:
+                                    print 'Exception: ', e
                                     email.delete()
                                 time = sleep_now(time=time, email=email, i=i, )
 
@@ -150,11 +150,6 @@ class Command(BaseCommand, ):
                                     time += 30
                                 except SMTPDataError as e:
                                     print 'SMTPDataError: ', e
-                                    email.delete()
-                                    sleep(30, )
-                                    time += 30
-                                except Exception as e:
-                                    print 'Exception: ', e
                                     if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
                                         print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
                                         from datetime import datetime
@@ -164,5 +159,10 @@ class Command(BaseCommand, ):
                                     connection = connect(mail_account=mail_account, fail_silently=True, )
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
+                                    email.delete()
+                                    sleep(30, )
+                                    time += 30
+                                except Exception as e:
+                                    print 'Exception: ', e
                                     email.delete()
                                 time = sleep_now(time=time, email=email, i=i, )
