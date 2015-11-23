@@ -174,13 +174,16 @@ def random(last_email, ):
     elif isinstance(last_email, SpamEmail, ):
         random_list = random_SpamEmail
         # print 'random_SpamEmail: ', random_list
+    random_false = False
     while True:
         random_email_pk = randrange(1, last_email.pk, )
         if random_email_pk not in random_list:
             random_list.append(random_email_pk, )
-            print '\n'
+            if random_false:
+                print '\n'
             return random_email_pk
         else:
+            random_false = True
             print random_email_pk, ', ',
             sys.stdout.flush()
 
