@@ -667,6 +667,8 @@ DEBUG_TOOLBAR_PANELS += (
 #    'debug_toolbar_autoreload.AutoreloadPanel',
 #)
 
+DEBUG_TOOLBAR_FILTER_URL = ('^admin/', )
+
 INSTALLED_APPS += (
     'template_timings_panel',
 )
