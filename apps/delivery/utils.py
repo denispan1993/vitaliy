@@ -127,6 +127,9 @@ def get_email(delivery, email_class=None, pk=False, ):
         # print '.',
         sys.stdout.flush()
         random_email_pk = random(last_email, )
+        """ Если закончились цифры для перебора в рандоме - то выходим """
+        if not random_email_pk:
+            return False
         try:
             if pk:
                 try:
@@ -170,10 +173,16 @@ from apps.delivery import random_Email, random_SpamEmail
 def random(last_email, ):
     if isinstance(last_email, Email, ):
         random_list = random_Email
+        count_Emails = Email.objects.filter(bad_email=False, ).count()
         # print 'random_Email: ', random_list
     elif isinstance(last_email, SpamEmail, ):
         random_list = random_SpamEmail
+        count_Emails = SpamEmail.objects.filter(bad_email=False, ).count()
         # print 'random_SpamEmail: ', random_list
+    len_random_list = len(random_list, ) - 10
+    """ Если длина листа больше чем количество емыйлов в базе - то выходим """
+    if len_random_list > count_Emails:
+        return False
     random_false = False
     while True:
         random_email_pk = randrange(1, last_email.pk, )
