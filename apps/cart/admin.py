@@ -7,7 +7,9 @@ from apps.cart.models import Cart
 
 
 class CartAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ['pk', 'user', 'sessionid', 'created_at', 'created_at', ]
+    list_display_links = ['pk', 'user', 'sessionid', ]
+    search_fields = ('sessionid', )
 admin.site.register(Cart, CartAdmin, )
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]
@@ -37,7 +39,7 @@ from apps.cart.models import Order
 
 
 class OrderAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'user', 'sessionid', 'email', 'phone', ]
+    list_display = ['pk', 'user', 'sessionid', 'email', 'phone', 'created_at', 'created_at', ]
     list_display_links = ['pk', 'user', 'sessionid', 'email', 'phone', ]
     search_fields = ('sessionid', 'email', 'phone', )
 admin.site.register(Order, OrderAdmin, )
@@ -46,7 +48,7 @@ from apps.cart.models import Product
 
 
 class ProductAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'object_id', 'product', 'quantity', 'price', ]
+    list_display = ['pk', 'object_id', 'product', 'quantity', 'price', 'created_at', 'created_at', ]
     list_display_links = ['pk', 'object_id', 'product', 'quantity', 'price', ]
 admin.site.register(Product, ProductAdmin, )
 

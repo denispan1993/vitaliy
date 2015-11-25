@@ -17,6 +17,8 @@
 <p>Комментарий к заказу: {{ order.comment }}</p>
 <p>Жду реквизиты: {{ order.checkbox1|true_false }}</p>
 <p>Жду звонка: {{ order.checkbox2|true_false }}</p>
+<p>Дата и время созания заказа: {{ order.created_at|date("d-M-Y H:i:s") }}</p>
+<p>Дата и время обновления заказа: {{ order.updated_at|date("d-M-Y H:i:s") }}</p>
 
 <p>{% set url = order.pk|int_to_string %}
    {% set int_range = 6 - url|length %}
@@ -24,7 +26,7 @@
        {% for i in int_range|get_range %}
            {% set url = '0' + url %}
            {% if i == int_range - 1 %}
-               <a href="/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a>
+               <a href="http://keksik.com.ua/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a>
            {% endif %}
        {% endfor %}
    {% endif %}</p>
