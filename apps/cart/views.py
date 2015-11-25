@@ -87,7 +87,7 @@ def recalc_cart(request, ):
 
 
 def show_order(request,
-               template_name=u'show_order.jinja2.html', ):
+               template_name=u'show_order.jinja2', ):
     email = request.POST.get(u'email', False, )
     if email:
         email = email.strip()
@@ -320,7 +320,7 @@ def show_order(request,
 
 
 def show_order_success(request,
-                       template_name=u'show_order_success.jinja2.html',
+                       template_name=u'show_order_success.jinja2',
                        ):
     order_pk = request.session.get(u'order_last', None, )
     order = None
@@ -351,7 +351,7 @@ def show_order_success(request,
 
 
 def show_order_unsuccess(request,
-                         template_name=u'show_order_unsuccess.jinja2.html',
+                         template_name=u'show_order_unsuccess.jinja2',
                          ):
     return render_to_response(template_name=template_name,
                               dictionary={# 'country_list': country_list,
@@ -463,36 +463,3 @@ def get_cart_or_create(request, user_object=False, created=True, ):
 
     # print 'Cart:', cart, ' Created:', created
     return cart, created
-
-
-def add_to_cart(request):
-    postdata = request.POST.copy()
-    # get product slug from post data, return blank if empty
-    product_pk = int(postdata.get(u'product_pk', None, ), )
-    product_url = postdata.get(u'product_url', None, )
-    product_cache_key = request.path
-    # try to get product from cache
-    from django.core.cache import cache
-    from proj.settings import CACHE_TIMEOUT
-    product = cache.get(product_cache_key)
-    # if a cache miss, fall back on db query
-    if not product:
-        # fetch the product or return a missing page error
-        from django.shortcuts import render_to_response, get_object_or_404
-        from apps.product.models import Product
-        product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
-        # store item in cache for next time
-        cache.set(product_cache_key, product, CACHE_TIMEOUT)
-        # get quantity added, return 1 if empty
-    quantity = int(postdata.get('quantity', 1, ), )
-    #get cart
-    product_cart = get_cart_or_create(request, )
-    try:
-        exist_cart_option = product_cart.cart.get(color=Color_object, size=Size_object, )
-        exist_cart_option.summ_quantity(quantity) # quantity += exist_cart_option.quantity
-        exist_cart_option.update_price_per_piece()
-    #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
-    except More_Options_Carts.DoesNotExist:
-    #        price_per_piece = views_price_per_piece(product, quantity, )
-        More_Options_Carts.objects.create(cart=product_cart, price_per_piece=product_cart.product.sale_price(quantity, ), quantity=quantity, color=Color_object, size=Size_object, )
-    return None
