@@ -337,7 +337,7 @@ def show_order_success(request,
             try:
                 order = Order.objects.get(pk=order_pk, )
             except Order.DoesNotExist:
-                pass
+                return redirect(to='show_order_unsuccess', )
             # else:
             #     order_sum = order.order_summ()
     return render_to_response(template_name=template_name,
