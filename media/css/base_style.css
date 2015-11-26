@@ -49,37 +49,37 @@ p#to-top{
     z-index:999;
 }
 p#to-top a{
-    width:108px;
+    width:100px;
     display:block;
     text-align:center;
     font:11px/100% Arial, Helvetica, sans-serif;
     text-transform:uppercase;
     text-decoration:none;
-    color:#bbb;
+    color:#ddd;
     /* transition */
-    -webkit-transition:1s;
-    -moz-transition:1s;
-    transition:1s;
+    -webkit-transition:5s;
+    -moz-transition:5s;
+    transition:5s;
 }
 p#to-top a:hover{
     color:#000;
 }
 /* arrow icon (span tag) */
 p#to-top span{
-    width:108px;
-    height:108px;
+    width:100px;
+    height:100px;
     display:block;
     margin-bottom:7px;
-    background:#ddd url(/media/img/arrow_to_top.png) no-repeat center center;
+    background:#aaa url(/media/img/arrow_to_top.png) no-repeat center center;
     /* rounded corners */
-    -webkit-border-radius:15px;
-    -moz-border-radius:15px;
-    border-radius:15px;
+    -webkit-border-radius:20px;
+    -moz-border-radius:20px;
+    border-radius:20px;
     /* transition */
-    -webkit-transition:1s;
-    -moz-transition:1s;
-    transition:1s;
+    -webkit-transition:2s;
+    -moz-transition:2s;
+    transition:2s;
 }
 p#to-top a:hover span{
-    background-color:#777;
+    background-color:#555;
 }
