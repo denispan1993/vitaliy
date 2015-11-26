@@ -129,7 +129,7 @@ class Process_SessionIDMiddleware(object):
             #     ajax_resolution_datetime = ajax_resolution_datetime
             from datetime import datetime, timedelta
             if not ajax_resolution_datetime or \
-               ajax_resolution_datetime < (datetime.now() - timedelta(seconds=300, )):
+               ajax_resolution_datetime < (datetime.now() - timedelta(seconds=10, )):
                 request.session[u'ajax_resolution'] = True
             else:
                 request.session[u'ajax_resolution'] = False
@@ -142,7 +142,7 @@ class Process_SessionIDMiddleware(object):
             ajax_timezone_datetime = parse_datetime(ajax_timezone_datetime, )
             from datetime import datetime, timedelta
             if not ajax_timezone_datetime or \
-               ajax_timezone_datetime < (datetime.now() - timedelta(seconds=30, )):
+               ajax_timezone_datetime < (datetime.now() - timedelta(seconds=10, )):
                 request.session[u'ajax_timezone'] = True
             else:
                 request.session[u'ajax_timezone'] = False
