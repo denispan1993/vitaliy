@@ -118,15 +118,15 @@ class Process_SessionIDMiddleware(object):
     def process_request(self, request, ):
         # print 'Inter request'
         """ ajax_resolution """
-        ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', None, )
+        ajax_resolution_datetime = request.session.get(u'ajax_resolution_datetime', False, )
         if ajax_resolution_datetime:
-            import django
-            django_version = django.VERSION
-            if int(django_version[0], ) == 1 and int(django_version[1], ) >= 6:
-                from django.utils.dateparse import parse_datetime
-                ajax_resolution_datetime = parse_datetime(ajax_resolution_datetime, )
-            elif int(django_version[0], ) == 1 and int(django_version[1], ) == 5:
-                ajax_resolution_datetime = ajax_resolution_datetime
+            # import django
+            # django_version = django.VERSION
+            # if int(django_version[0], ) == 1 and int(django_version[1], ) >= 6:
+            from django.utils.dateparse import parse_datetime
+            ajax_resolution_datetime = parse_datetime(ajax_resolution_datetime, )
+            # elif int(django_version[0], ) == 1 and int(django_version[1], ) == 5:
+            #     ajax_resolution_datetime = ajax_resolution_datetime
             from datetime import datetime, timedelta
             if not ajax_resolution_datetime or \
                ajax_resolution_datetime < (datetime.now() - timedelta(seconds=300, )):
@@ -135,6 +135,19 @@ class Process_SessionIDMiddleware(object):
                 request.session[u'ajax_resolution'] = False
         else:
             request.session[u'ajax_resolution'] = True
+        """ ajax_timezone """
+        ajax_timezone_datetime = request.session.get(u'ajax_timezone_datetime', False, )
+        if ajax_timezone_datetime:
+            from django.utils.dateparse import parse_datetime
+            ajax_timezone_datetime = parse_datetime(ajax_timezone_datetime, )
+            from datetime import datetime, timedelta
+            if not ajax_timezone_datetime or \
+               ajax_timezone_datetime < (datetime.now() - timedelta(seconds=30, )):
+                request.session[u'ajax_timezone'] = True
+            else:
+                request.session[u'ajax_timezone'] = False
+        else:
+            request.session[u'ajax_timezone'] = True
         """ withs and right_panel """
         explorer_with = request.session.get(u'width', None, )
         if explorer_with:

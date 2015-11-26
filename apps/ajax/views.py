@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 __author__ = 'user'
 
 try:
@@ -37,13 +37,13 @@ def resolution(request, ):
 # 3
 #            from django.utils import simplejson
 #            data = simplejson.dumps({'a': 1})
-            import django
-            django_version = django.VERSION
+            # import django
+            # django_version = django.VERSION
             from datetime import datetime
-            if int(django_version[0], ) == 1 and int(django_version[1], ) >= 6:
-                request.session[u'ajax_resolution_datetime'] = str(datetime.now(), )
-            elif int(django_version[0], ) == 1 and int(django_version[1], ) == 5:
-                request.session[u'ajax_resolution_datetime'] = datetime.now()
+            # if int(django_version[0], ) == 1 and int(django_version[1], ) >= 6:
+            request.session[u'ajax_resolution_datetime'] = str(datetime.now(), )
+            # elif int(django_version[0], ) == 1 and int(django_version[1], ) == 5:
+            #     request.session[u'ajax_resolution_datetime'] = datetime.now()
 
             json_response = dumps(response, )
             # mimetype = 'application/json'

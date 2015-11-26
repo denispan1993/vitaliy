@@ -37,3 +37,7 @@ urlpatterns += patterns('apps.ajax.feedback',
                         url(r'^send/$', 'feedback_data_send',
                             name='ajax_feedback_data_send', ),
                         )
+urlpatterns += patterns('apps.ajax.timezone',
+                        url(r'^client/$', 'client_timezone',
+                            name='ajax_timezone_data_send', ),
+                        )

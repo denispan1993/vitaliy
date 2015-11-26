@@ -184,6 +184,7 @@ urlpatterns += patterns('',
                         url(r'^ajax/order/', include('apps.ajax.urls', ), ),
                         url(r'^ajax/callback/', include('apps.ajax.urls', ), ),
                         url(r'^ajax/feedback/', include('apps.ajax.urls', ), ),
+                        url(r'^ajax/timezone/', include('apps.ajax.urls', ), ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile

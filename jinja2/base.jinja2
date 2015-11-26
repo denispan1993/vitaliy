@@ -25,6 +25,20 @@
 {% block header_javascript1 %}{% endblock %}
 {% block header_javascript2 %}{% endblock %}
 {% block ajax %}
+{% if not request.session.ajax_timezone %}
+<script>
+$(document).ready(function(e){
+    var d = new Date();
+    var offset = d.getTimezoneOffset();
+    $.post("/ajax/timezone/client/",{
+            offset:offset,
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        },
+        function(data){alert(data);}
+    );
+});
+</script>
+{% endif %}
 {% if request.session.ajax_resolution %}
 <script>
 $(document).ready(function(e){
