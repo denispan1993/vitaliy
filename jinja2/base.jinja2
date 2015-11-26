@@ -369,6 +369,10 @@ function MouseClick_Close(){
     document.getElementById('main').classList.remove('callback_blur');
     document.getElementById('footer').classList.remove('callback_blur');
 }
+var callback=false;
+function CallBack_Enable(){
+    alert('40sec');
+}
 </script>
 <p id="to-top"><a href="#top"><span></span>Вверх</a>
 </p>
@@ -379,8 +383,12 @@ $(document).ready(function(){
     // fade in #to-top
     $(function(){
         $(window).scroll(function(){
-            if ($(this).scrollTop() > 200){
+            if($(this).scrollTop()>200){
                 $('p#to-top').fadeIn();
+                if(callback!=false){
+                    callback=true;
+                    setTimeout(CallBack_Enable(), 40000)
+                }
             }else{
                 $('p#to-top').fadeOut();
             }
