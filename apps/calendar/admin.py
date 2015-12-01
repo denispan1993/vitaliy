@@ -56,7 +56,7 @@ from apps.calendar.models import Event
 
 
 class EventAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'leading_course', 'title', 'updated_at', ]
+    list_display = ['pk', 'leading_course', 'subject', 'title', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'subject', ]
     search_fields = ('subject', )
 admin.site.register(Event, EventAdmin, )
