@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 from datetime import date, datetime
+from django.utils.timezone import now
 
 
 def add_months(d, x, ):
@@ -39,20 +40,20 @@ class CouponGroup(models.Model, ):
     start_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя начала действия купонов', ),
                                                blank=True,
                                                null=True,
-                                               default=date.today(), )
+                                               default=date.today, )
     end_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя окончания действия купонов', ),
                                              blank=True,
                                              null=True,
-                                             default=add_three_month(), )
+                                             default=add_three_month, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
                                       blank=True,
                                       null=True,
-                                      default=datetime.now(), )
+                                      default=now, )
     updated_at = models.DateTimeField(verbose_name=_(u'Дата обновления', ),
                                       blank=True,
                                       null=True,
-                                      default=datetime.now(), )
+                                      default=now, )
 
     # def save(self, *args, **kwargs):
     #     from django.utils import timezone
@@ -154,21 +155,21 @@ class Coupon(models.Model, ):
     start_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя начала действия купона', ),
                                                blank=False,
                                                null=False,
-                                               default=date.today(), )
+                                               default=date.today, )
     end_of_the_coupon = models.DateTimeField(verbose_name=_(u'Врямя окончания действия купона', ),
                                              blank=False,
                                              null=False,
-                                             default=add_three_month(), )
+                                             default=add_three_month, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
                                       blank=False,
                                       null=False,
-                                      default=datetime.now(), )
+                                      default=now, )
     updated_at = models.DateTimeField(verbose_name=_(u'Дата обновления', ),
                                       blank=False,
                                       null=False,
-                                      default=datetime.now(), )
+                                      default=now, )
 
     # from apps.comment import managers
     # objects = managers.Manager()
@@ -213,10 +214,9 @@ class Coupon(models.Model, ):
         return u'Coupon: %6d - %s' % (self.pk, self.name, )
 
     def save(self, *args, **kwargs):
-        from django.utils.timezone import now
         if not self.created_at:
-            self.created_at = now()
-        self.updated_at = now()
+            self.created_at = now().replace(tzinfo=None, )
+        self.updated_at = now().replace(tzinfo=None, )
         return super(Coupon, self).save(*args, **kwargs)
 
     class Meta:

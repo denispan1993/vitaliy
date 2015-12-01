@@ -365,6 +365,7 @@ INSTALLED_APPS = (
     # 'apps.extended_price',
     'apps.slide',
     'apps.static',
+    'apps.calendar',
     'apps.search',
     'apps.utils',
     'apps.utils.setting',

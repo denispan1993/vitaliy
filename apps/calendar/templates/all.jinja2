@@ -1,0 +1,84 @@
+{% extends 'root.jinja2' %}
+{# {% load header_category %} #}
+{% block title %}Все события начиная с сегодня{% endblock %}
+{% block content_center %}
+{% for event in events %}
+Ведущий(ая) курсов: {{ event.leading_course.surname }} {{ event.leading_course.name }} {{ event.leading_course.patronymic }}
+Тема курсов: {{ event.subject.subject }}
+{% endfor %}
+    <div id="coupon"
+            style="display:block;margin-bottom:0;float:left;text-align:left;">
+        <div id="havecoupon"
+                style="font-size:20px;font-weight:bold;text-align:left;">
+            <a href=""
+               title="У Вас есть скидочный купон?"
+                    style="text-decoration:none">У Вас есть купон на скидку в магазине Кексик?</a>
+        </div>
+        <div id="msg-coupon">
+        </div>
+        <div id="form-coupon">
+            <label for="input-coupon"
+                    style="display:inline-block;font-weight:700;margin-bottom:5px;max-width:100%;">Введите код Вашего купона:</label>
+            <div id="form-control-coupon">
+                <input id="input-coupon"
+                       type="text"
+                        style="display:inline-block;margin-bottom:0;margin-right:5px;vertical-align:middle;width:135px;">
+                <button type="submit"
+                        id="form-control-coupon-button"
+                        style="background-color:#61279e;background-image:none;border-color:#61279e;color:#ffffff !important;text-shadow:none;font-size:16px;font-weight:600;padding:6px 20px;">Проверить купон</button>
+                <div id="result-html"></div>
+<script>
+document.getElementById('form-control-coupon-button').onclick = function() {
+    var value = document.getElementById('input-coupon').value;
+    jQuery.post("/ajax/coupon/test/",{
+            csrfmiddlewaretoken:'{{ csrf_token }}',
+            value:value
+        },
+		function(data, textStatus, jqXHR){
+            if(data.result=='Bad'){
+                jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
+            }else{
+                jQuery('#msg-coupon').html('<p>'+data.help_text+'</p');
+                percentage_discount_coupon=data.percentage_discount;
+                var tfoot = document.getElementsByTagName('tfoot')[0];
+                var tr = document.createElement('tr');
+                var th = document.createElement('th');
+                th.setAttribute('colspan', '3');
+                th.style='text-align:right;';
+                var th_text = document.createTextNode('Купон с дисконтом '+percentage_discount_coupon+'% - скидка:');
+                th.appendChild(th_text);
+                tr.appendChild(th);
+
+                th = document.createElement('th');
+                th.id='all_sum_discount_in_order';
+                th.style='text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;';
+                tr.appendChild(th);
+
+                th = document.createElement('th');
+                th.style="border-width:0px 1px;border-color:Black;border-style:solid;";
+                tr.appendChild(th);
+
+                th = document.createElement('th');
+                tr.appendChild(th);
+
+                tfoot.insertBefore(tr, tfoot.firstChild);
+                ReCalcSum(true);
+            }
+            {# $('#result-html').html(data);
+                        if(data.action=='change_delete'){
+                var tr_id=document.getElementById('tr_id_{{ product.pk }}');
+                tr_id.style.display='none';
+                product_summ_of_quantity_array.splice({{ product.pk }}, 1);
+                ReCalcSumm(true);
+            }, #}
+		    {# alert(data.result); #}
+			{# // jQuery('#dynamic_div_showcart').html(data.html); #}
+		},
+		"json");
+}
+</script>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

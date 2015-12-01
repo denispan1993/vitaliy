@@ -144,6 +144,13 @@ urlpatterns += patterns('apps.search.views',
                             {'template_name': u'category/show_category.jinja2', },
                             name='show_search', ),
                         )
+#Календарь
+urlpatterns += patterns('apps.calendar',
+                        url(regex=ur'^календарь/',
+                            view=include(arg='urls',
+                                         namespace='calendar', ),
+                            ),
+                        )
 urlpatterns += patterns('',
                         # """ Админ панель Заказов. """
                         url(ur'^админ/заказ/', include('apps.adminSite.order.urls'), ),
