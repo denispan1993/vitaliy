@@ -145,9 +145,9 @@ urlpatterns += patterns('apps.search.views',
                             name='show_search', ),
                         )
 #Календарь
-urlpatterns += patterns('apps.calendar',
+urlpatterns += patterns('',
                         url(regex=ur'^календарь/',
-                            view=include(arg='urls',
+                            view=include(arg='apps.calendar.urls',
                                          namespace='calendar', ),
                             ),
                         )
