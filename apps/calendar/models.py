@@ -31,8 +31,8 @@ class LeadingCourse(models.Model):
     class Meta:
         db_table = u'CalendarLeadingCourse'
         ordering = [u'-created_at']
-        verbose_name = u'Собитие'
-        verbose_name_plural = u'События'
+        verbose_name = u'Ведущий(ая) курса'
+        verbose_name_plural = u'Ведущие(ии) курсов'
 
 
 class LocationDateTime(models.Model, ):
@@ -73,8 +73,8 @@ class LocationDateTime(models.Model, ):
     class Meta:
         db_table = u'CalendarLocationDateTime'
         ordering = [u'-created_at']
-        verbose_name = u'Собитие'
-        verbose_name_plural = u'События'
+        verbose_name = u'Место Дата Время'
+        verbose_name_plural = u'Места Даты Время'
 
 
 class Subject(models.Model):
