@@ -14,7 +14,7 @@ def all(request,
     from datetime import datetime
     try:
         """ lte больше или равно """
-        events = Event.objects.filter(location_date_time_date_start__lte=datetime.today(), )
+        events = Event.objects.filter(location_date_time__date_start__lte=datetime.today(), )
     except Event.DoesNotExist:
         events = None
     return render(request=request,
