@@ -19,14 +19,6 @@ def all(request,
         events = None
 
     print events
-
-    try:
-        """ lte больше или равно """
-        events = Event.objects.filter(location_date_time__date_start__lte=datetime.today(), )
-    except Event.DoesNotExist:
-        events = None
-
-    print events
     all_events = Event.objects.all()
     print all_events
     print datetime.today()
