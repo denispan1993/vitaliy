@@ -1026,6 +1026,71 @@ class Country(models.Model):
         verbose_name_plural = u'Страны'
 
 
+class Region(models.Model):
+    country = models.ForeignKey(to=Country,
+                                verbose_name=_(u'Страна', ),
+                                blank=False,
+                                null=False,
+                                default=1, )
+    name_ru = models.CharField(verbose_name=u'Название области Russian',
+                               max_length=64,
+                               blank=False,
+                               null=False, )
+    name_en = models.CharField(verbose_name=u'Название области English',
+                               max_length=50,
+                               blank=False,
+                               null=False, )
+    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес страны',
+                                             max_length=255,
+                                             null=True,
+                                             blank=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'[%d] - %s' % (self.id, self.name_ru, )
+
+    class Meta:
+        db_table = 'Region'
+        ordering = ['id']
+        verbose_name = u'Область'
+        verbose_name_plural = u'Области'
+
+
+class City(models.Model):
+    region = models.ForeignKey(to=Region,
+                               verbose_name=_(u'Область', ),
+                               blank=False,
+                               null=False,
+                               default=1, )
+    name_ru = models.CharField(verbose_name=u'Название города Russian',
+                               max_length=64,
+                               blank=False,
+                               null=False, )
+    name_en = models.CharField(verbose_name=u'Название города English',
+                               max_length=50,
+                               blank=False,
+                               null=False, )
+    phone_code = models.PositiveIntegerField(verbose_name=u'Телефонный код города',
+                                             blank=True,
+                                             null=True, )
+    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес страны',
+                                             max_length=255,
+                                             null=True,
+                                             blank=True, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'[%d] - %s' % (self.id, self.name_ru, )
+
+    class Meta:
+        db_table = 'City'
+        ordering = ['id']
+        verbose_name = u'Город'
+        verbose_name_plural = u'Города'
 
 
 class Currency(models.Model):
@@ -1119,7 +1184,7 @@ class Viewed(models.Model):
     last_viewed = models.DateTimeField(verbose_name=u'Дата последнего просмотра',
                                        blank=False,
                                        null=False,
-                                       default=datetime.now, )
+                                       default=datetime.now(), )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата добавления', )
     updated_at = models.DateTimeField(auto_now=True, verbose_name=u'Дата последнего изменения', )

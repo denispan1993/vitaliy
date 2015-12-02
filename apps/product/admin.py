@@ -337,6 +337,48 @@ class CountryAdmin(admin.ModelAdmin, ):
 
 admin.site.register(Country, CountryAdmin, )
 
+from apps.product.models import Region
+
+
+class RegionAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'name_ru', 'name_en', 'url', ]
+    list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
+    search_fields = ['name_ru', ]
+
+    fieldsets = [
+        (None,               {'classes': ['wide'], 'fields': ['name_ru', 'name_en', 'url', ], }, ),
+    ]
+    prepopulated_fields = {u'url': (u'name_ru', ), }
+
+    save_as = True
+    save_on_top = True
+
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
+
+admin.site.register(Region, RegionAdmin, )
+
+from apps.product.models import City
+
+
+class CityAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'name_ru', 'name_en', 'phone_code', 'url', ]
+    list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
+    search_fields = ['name_ru', ]
+
+    fieldsets = [
+        (None,               {'classes': ['wide'], 'fields': ['name_ru', 'name_en', 'phone_code', 'url', ], }, ),
+    ]
+    prepopulated_fields = {u'url': (u'name_ru', ), }
+
+    save_as = True
+    save_on_top = True
+
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
+
+admin.site.register(City, CityAdmin, )
+
 from apps.product.models import Currency
 
 
