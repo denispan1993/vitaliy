@@ -3,11 +3,19 @@
 {% block title %}Все события начиная с сегодня{% endblock %}
 {% block content_center %}
 <style>
+section#main div#main_center div#calendar{
+    text-align:left;
+    color:black;
+}
 p span{
-    font-weight: bold;
+    font-weight:bold;
     font-size:120%;
 }
+div#calendar ul{
+    margin-left:10px;
+}
 </style>
+<div id="calendar">
 {% for event in events %}
 <p><span>Ведущий(ая) курсов:</span> {{ event.leading_course.surname }} {{ event.leading_course.name }}{% if event.leading_course.patronymic %} {{ event.leading_course.patronymic }}{% endif %}</p>
 <p><span>Тема курсов:</span> {{ event.subject.subject }}</p>
@@ -17,5 +25,6 @@ p span{
 <li><p><span>Город:</span> {{ location_date_time.city.name_ru }} <span>Дата начала:</span> {{ location_date_time.date_start }} <span>Дата окончания:</span> {{ location_date_time.date_end }}</p></li>
 {% endfor %}
 </ul>
+</div>
 {% endfor %}
 {% endblock %}
