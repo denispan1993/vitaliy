@@ -7,5 +7,10 @@
 Тема курсов: {{ event.subject.subject }}
 {% endfor %}
 
+{% for location_data_time in locations_data_time %}
+Ведущий(ая) курсов: {{ event.leading_course.surname }} {{ event.leading_course.name }} {{ event.leading_course.patronymic }}
+Тема курсов: {{ event.subject.subject }}
+{% endfor %}
+
 
 {% endblock %}

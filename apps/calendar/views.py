@@ -17,9 +17,30 @@ def all(request,
         events = Event.objects.filter(location_date_time__date_start__gte=datetime.today(), )
     except Event.DoesNotExist:
         events = None
+
+    print events
+
+    try:
+        """ lte больше или равно """
+        events = Event.objects.filter(location_date_time__date_start__lte=datetime.today(), )
+    except Event.DoesNotExist:
+        events = None
+
+    print events
+    all_events = Event.objects.all()
+    print all_events
+    print datetime.today()
+
+    from apps.calendar.models import LocationDateTime
+    try:
+        locations_data_time = LocationDateTime.objects.filter(date_start__gte=datetime.today(), )
+    except LocationDateTime.DoesNotExist:
+        locations_data_time = None
+
     return render(request=request,
                   template_name=template_name,
-                  context={'events': events, },
+                  context={'events': events,
+                           'locations_data_time': locations_data_time, },
                   content_type='text/html', )
 
 
