@@ -128,6 +128,7 @@ def ordering_step_two(request,
                         request.session[u'cart_pk'] = cart.pk
                         from apps.cart.models import Order
                         order_pk = request.session.get(u'order_pk', False, )
+                        # order_pk_last = request.session.get(u'order_last', False, )
                         sessionid = request.COOKIES.get(u'sessionid', None, )
                         if request.user.is_authenticated() and request.user.is_active:
                             user_id = request.session.get(u'_auth_user_id', None, )
