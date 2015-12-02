@@ -123,8 +123,8 @@ class Event(models.Model):
     location_date_time = models.ManyToManyField(to=LocationDateTime,
                                                 verbose_name=_(u'Место дата и время проведения', ),
                                                 blank=False,
-                                                null=False,
-                                                default=1, )
+                                                null=False, )
+                                                # default=1, )
     title = models.CharField(verbose_name=_(u'Наименование', ),
                              max_length=256,
                              blank=False,
