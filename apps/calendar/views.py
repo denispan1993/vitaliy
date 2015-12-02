@@ -13,8 +13,8 @@ def all(request,
     from apps.calendar.models import Event
     from datetime import datetime
     try:
-        """ lte больше или равно """
-        events = Event.objects.filter(location_date_time__date_start__lte=datetime.today(), )
+        """ gte больше или равно """
+        events = Event.objects.filter(location_date_time__date_start__gte=datetime.today(), )
     except Event.DoesNotExist:
         events = None
     return render(request=request,
