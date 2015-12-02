@@ -18,21 +18,9 @@ def all(request,
     except Event.DoesNotExist:
         events = None
 
-    print events
-    all_events = Event.objects.all()
-    print all_events
-    print datetime.today()
-
-    from apps.calendar.models import LocationDateTime
-    try:
-        locations_data_time = LocationDateTime.objects.filter(date_start__gte=datetime.today(), )
-    except LocationDateTime.DoesNotExist:
-        locations_data_time = None
-
     return render(request=request,
                   template_name=template_name,
-                  context={'events': events,
-                           'locations_data_time': locations_data_time, },
+                  context={'events': events, },
                   content_type='text/html', )
 
 
