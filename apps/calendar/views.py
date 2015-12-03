@@ -14,7 +14,7 @@ def all(request,
     from datetime import datetime
     try:
         """ gte больше или равно """
-        events = Event.objects.filter(location_date_time__date_start__gte=datetime.today(), )
+        events = Event.objects.filter(location_date_time__date_start__gte=datetime.today(), ).distinct()
     except Event.DoesNotExist:
         events = None
 
