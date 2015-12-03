@@ -6,7 +6,7 @@
         <label for="address">Полный адрес</label>
     </td>
     <td colspan="2">
-        <textarea cols="50" rows="5" name="address" id="address"></textarea>
+        <textarea cols="50" rows="5" name="address" id="address">{% if address %}{{ address }}{% endif %}</textarea>
     </td>
 </tr>
 <tr>
@@ -14,7 +14,12 @@
         <label for="postcode">Почтовый индекс</label>
     </td>
     <td>
-        <input type="number" name="postcode" id="postcode"/>
+        <input type="number"
+               name="postcode"
+               id="postcode"
+                {% if postcode %}
+               value="{{ postcode }}"
+                {% endif %}>
     </td>
 </tr>
 {% endblock %}
