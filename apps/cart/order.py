@@ -72,6 +72,7 @@ def ordering_step_two(request,
     phone = request.POST.get(u'phone', False, )
     if phone:
         request.session[u'phone'] = phone.strip()
+    region, settlement, address, postcode = False, False, False, False
     country = request.POST.get(u'select_country', None, )
     from apps.product.models import Country
     try:
@@ -89,11 +90,14 @@ def ordering_step_two(request,
             country = country_list.get(pk=select_country, )
             if country:
                 request.session[u'select_country'] = select_country
-            if select_country != 1:
+            if select_country == 1:
+                region = request.POST.get(u'region', False, )
+                settlement = request.POST.get(u'settlement', False, )
+            else:
                 """ Если страна не Украина """
                 template_name = u'order/step_two_others.jinja2'
-    region = request.POST.get(u'region', False, )
-    settlement = request.POST.get(u'settlement', False, )
+                address = request.POST.get(u'address', False, )
+                postcode = request.POST.get(u'postcode', False, )
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'ordering_step_one':
@@ -212,7 +216,9 @@ def ordering_step_two(request,
                            'phone': phone,
                            'select_country': country,
                            'region': region,
-                           'settlement': settlement, },
+                           'settlement': settlement,
+                           'address': address,
+                           'postcode': postcode, },
                   content_type='text/html', )
 
 

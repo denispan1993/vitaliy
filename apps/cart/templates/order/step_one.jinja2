@@ -48,7 +48,7 @@ div#show_order form#form_order table tr td#first_column{
                             <input style="float:left;width:240px;"
                                    type="text" name="FIO" id="FIO" required
                                    {% if FIO %}
-                                       value="{{ FIO }}"
+                                   value="{{ FIO }}"
                                    {% endif %}
                                    title="Эти данные будут использоваться для оформления посылки в почтовой службе">
                         </td>
@@ -61,7 +61,7 @@ div#show_order form#form_order table tr td#first_column{
                             <input style="float:left;width:240px;"
                                    type="email" name="email" id="email" required
                                    {% if email %}
-                                       value="{{ email }}"
+                                   value="{{ email }}"
                                    {% endif %}
                                    title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
 <script>
@@ -115,7 +115,7 @@ document.getElementById('email').onchange=function(){
                             <input style="float:left;width:240px;"
                                    type="tel" name="phone" id="phone" required
                                    {% if phone %}
-                                       value="{{ phone }}"
+                                   value="{{ phone }}"
                                    {% endif %}>
                         </td>
                     </tr>
