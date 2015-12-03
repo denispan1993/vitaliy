@@ -170,8 +170,6 @@ def ordering_step_two(request,
                                                               country_id=select_country, )
                             except Order.DoesNotExist:
                                 pass
-                        else:
-                            del order_pk
                         if 'order' not in locals() and 'order' not in globals():
                             order = Order()
                             order.sessionid = sessionid
