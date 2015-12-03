@@ -19,6 +19,16 @@ div#calendar ul{
 }
 </style>
 <div id="calendar">
+<div id="form_selects">
+    <select name="select_leading_course"
+        id="select_leading_course"
+        style="float:left;width:246px;">
+        {% for leading_course in leadings_courses %}
+            <option value="{{ leading_course.pk }}">{{ leading_course.surname }} {{ leading_course.name }}{% if leading_course.patronymic %} {{ leading_course.patronymic }}{% endif %}</option>
+        {% endfor %}
+    </select>
+
+</div>
 {% for event in events %}
 <p><span>Ведущий(ая) курсов:</span> {{ event.leading_course.surname }} {{ event.leading_course.name }}{% if event.leading_course.patronymic %} {{ event.leading_course.patronymic }}{% endif %}</p>
 <p><span>Тема курсов:</span> {{ event.subject.subject }}</p>
