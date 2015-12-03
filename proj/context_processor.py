@@ -112,13 +112,13 @@ def context(request):
         try:
             value = full_path.encode('us-ascii', )
         except:
-            print 'Not US-ASCII'
-            try:
-                value = full_path.encode('utf8')
-            except:
-                pass
-            else:
-                print 'utf8', type(value, ), value
+            # print 'Not US-ASCII'
+            # try:
+            #     value = full_path.encode('utf8')
+            # except:
+            #     pass
+            # else:
+            #     print 'utf8', type(value, ), value
             try:
                 value = full_path.decode('cp866').encode('utf8')
             except:
@@ -155,12 +155,12 @@ def context(request):
                 pass
             else:
                 print 'cp1252 -4', type(value, ), value
-            try:
-                value = full_path.encode('utf8').decode('cp1252').encode('utf8')
-            except:
-                pass
-            else:
-                print 'cp1252 -5', type(value, ), value
+            #try:
+            #    value = full_path.encode('utf8').decode('cp1252').encode('utf8')
+            #except:
+            #    pass
+            #else:
+            #    print 'cp1252 -5', type(value, ), value
             try:
                 value = full_path.encode('utf8').encode('cp1252')
             except:
@@ -185,13 +185,13 @@ def context(request):
         """
         try:
             """ Вот где выскакивает эта ошибка """
-            print 'HTTP_ACCEPT: ', request.META.get('HTTP_ACCEPT', None, )
-            print 'HTTP_ACCEPT_ENCODING: ', request.META.get('HTTP_ACCEPT_ENCODING', None, )
-            print 'HTTP_ACCEPT_LANGUAGE: ', request.META.get('HTTP_ACCEPT_LANGUAGE', None, )
-            print 'LANG: ', request.META.get('LANG', None, )
-            print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
-            print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
-            print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
+            # print 'HTTP_ACCEPT: ', request.META.get('HTTP_ACCEPT', None, )
+            # print 'HTTP_ACCEPT_ENCODING: ', request.META.get('HTTP_ACCEPT_ENCODING', None, )
+            # print 'HTTP_ACCEPT_LANGUAGE: ', request.META.get('HTTP_ACCEPT_LANGUAGE', None, )
+            # print 'LANG: ', request.META.get('LANG', None, )
+            # print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
+            # print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
+            # print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
             view, args, kwargs = resolve(full_path, )
         except UnicodeDecodeError:
             print 'Error: ', full_path.encode('utf8', )

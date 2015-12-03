@@ -91,13 +91,13 @@ def ordering_step_two(request,
             if country:
                 request.session[u'select_country'] = select_country
             if select_country == 1:
-                region = request.POST.get(u'region', False, )
-                settlement = request.POST.get(u'settlement', False, )
+                region = request.session.get(u'region', False, )
+                settlement = request.session.get(u'settlement', False, )
             else:
                 """ Если страна не Украина """
                 template_name = u'order/step_two_others.jinja2'
-                address = request.POST.get(u'address', False, )
-                postcode = request.POST.get(u'postcode', False, )
+                address = request.session.get(u'address', False, )
+                postcode = request.session.get(u'postcode', False, )
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'ordering_step_one':
