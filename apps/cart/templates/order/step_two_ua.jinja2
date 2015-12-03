@@ -6,7 +6,13 @@
         <label for="region">Область</label>
     </td>
     <td colspan="2">
-        <input type="text" name="region" id="region" required>
+        <input type="text"
+               name="region"
+               id="region"
+                {% if region %}
+               value="{{ region }}"
+                {% endif %}
+               required>
     </td>
 </tr>
 <tr>
@@ -14,7 +20,13 @@
         <label for="settlement">Город (населённый пункт)</label>
     </td>
     <td colspan="2">
-        <input type="text" name="settlement" id="settlement" required>
+        <input type="text"
+               name="settlement"
+               id="settlement"
+                {% if settlement %}
+               value="{{ settlement }}"
+                {% endif %}
+               required>
     </td>
 </tr>
 <tr>

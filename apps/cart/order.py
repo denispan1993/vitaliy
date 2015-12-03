@@ -92,7 +92,8 @@ def ordering_step_two(request,
             if select_country != 1:
                 """ Если страна не Украина """
                 template_name = u'order/step_two_others.jinja2'
-
+    region = request.POST.get(u'region', False, )
+    settlement = request.POST.get(u'settlement', False, )
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'ordering_step_one':
@@ -125,37 +126,52 @@ def ordering_step_two(request,
                         cart, create = get_cart_or_create(request, )
                         if create:
                             return redirect(to=u'/заказ/вы-где-то-оступились/', )
-                        request.session[u'cart_pk'] = cart.pk
-                        from apps.cart.models import Order
-                        order_pk = request.session.get(u'order_pk', False, )
-                        # order_pk_last = request.session.get(u'order_last', False, )
-                        sessionid = request.COOKIES.get(u'sessionid', None, )
                         if request.user.is_authenticated() and request.user.is_active:
                             user_id = request.session.get(u'_auth_user_id', None, )
+                        sessionid = request.COOKIES.get(u'sessionid', None, )
+                        request.session[u'cart_pk'] = cart.pk
+                        order_pk = request.session.get(u'order_pk', False, )
+                        order_pk_last = request.session.get(u'order_pk_last', False, )
                         if order_pk:
                             try:
                                 order_pk = int(order_pk, )
                             except ValueError:
+                                del order_pk
+                        else:
+                            del order_pk
+                        if order_pk_last:
+                            try:
+                                order_pk_last = int(order_pk_last, )
+                            except ValueError:
+                                del order_pk_last
+                        else:
+                            del order_pk_last
+                        if 'order_pk' in locals() or 'order_pk' in globals():
+                            if 'order_pk_last' in locals() or 'order_pk_last' in globals():
+                                if order_pk == order_pk_last:
+                                    del order_pk
+                        from apps.cart.models import Order
+                        if order_pk and type(order_pk) == int:
+                            try:
+                                if request.user.is_authenticated() and request.user.is_active:
+                                    order = Order.objects.get(pk=order_pk,
+                                                              sessionid=sessionid,
+                                                              user_id=user_id,
+                                                              FIO=FIO,
+                                                              email=email,
+                                                              phone=phone,
+                                                              country_id=select_country, )
+                                else:
+                                    order = Order.objects.get(pk=order_pk,
+                                                              sessionid=sessionid,
+                                                              FIO=FIO,
+                                                              email=email,
+                                                              phone=phone,
+                                                              country_id=select_country, )
+                            except Order.DoesNotExist:
                                 pass
-                            else:
-                                try:
-                                    if request.user.is_authenticated() and request.user.is_active:
-                                        order = Order.objects.get(pk=order_pk,
-                                                                  sessionid=sessionid,
-                                                                  user_id=user_id,
-                                                                  FIO=FIO,
-                                                                  email=email,
-                                                                  phone=phone,
-                                                                  country_id=select_country, )
-                                    else:
-                                        order = Order.objects.get(pk=order_pk,
-                                                                  sessionid=sessionid,
-                                                                  FIO=FIO,
-                                                                  email=email,
-                                                                  phone=phone,
-                                                                  country_id=select_country, )
-                                except Order.DoesNotExist:
-                                    pass
+                        else:
+                            del order_pk
                         if 'order' not in locals() and 'order' not in globals():
                             order = Order()
                             order.sessionid = sessionid
@@ -196,7 +212,9 @@ def ordering_step_two(request,
                            'email': email,
                            'email_error': email_error,
                            'phone': phone,
-                           'select_country': country, },
+                           'select_country': country,
+                           'region': region,
+                           'settlement': settlement, },
                   content_type='text/html', )
 
 
@@ -223,8 +241,10 @@ def result_ordering(request, ):
                 """ Страна Украина """
                 region = request.POST.get(u'region', None, )
                 order.region = region
+                request.session[u'region'] = region
                 settlement = request.POST.get(u'settlement', None, )
                 order.settlement = settlement
+                request.session[u'settlement'] = settlement
                 delivery_company = request.POST.get(u'select_delivery_company', None, )
                 if delivery_company is None:
                     delivery_company = 1
@@ -249,8 +269,10 @@ def result_ordering(request, ):
                 """ для любого другого Государства """
                 address = request.POST.get(u'address', None, )
                 order.address = address
+                request.session[u'address'] = address
                 postcode = request.POST.get(u'postcode', None, )
                 order.postcode = postcode
+                request.session[u'postcode'] = postcode
             comment = request.POST.get(u'comment', None, )
             order.comment = comment
             order.save()
@@ -318,7 +340,7 @@ def result_ordering(request, ):
                                        mimetype="text/html", )
                 msg.send(fail_silently=False, )
 
-                request.session[u'order_last'] = order.pk
+                request.session[u'order_pk_last'] = order.pk
 
                 return redirect(to=u'/заказ/оформление-прошло-успешно/', )
         else:
@@ -329,7 +351,7 @@ def result_ordering(request, ):
 
 def order_success(request,
                   template_name=u'order/success.jinja2', ):
-    order_pk = request.session.get(u'order_last', None, )
+    order_pk = request.session.get(u'order_pk_last', None, )
     order = None
     if order_pk is None:
         return redirect(to='cart:order_unsuccessful_ru', )
