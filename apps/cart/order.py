@@ -151,7 +151,7 @@ def ordering_step_two(request,
                                 if order_pk == order_pk_last:
                                     del order_pk
                         from apps.cart.models import Order
-                        if order_pk and type(order_pk) == int:
+                        if ('order_pk' in locals() or 'order_pk' in globals()) and order_pk and type(order_pk) == int:
                             try:
                                 if request.user.is_authenticated() and request.user.is_active:
                                     order = Order.objects.get(pk=order_pk,
