@@ -95,6 +95,11 @@ class Comment(MPTTModel, ):
                                           blank=True,
                                           help_text=_(u'E-Mail пользователя на который нужно отослать ссылку'
                                                       u' на ответ на комментарий.', ), )
+    phone = models.CharField(verbose_name=_(u'Телефон пользователя', ),
+                             default=None,
+                             max_length=32,
+                             null=True,
+                             blank=True, )
     #Дата создания и дата обновления комментария. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -118,9 +123,12 @@ class Comment(MPTTModel, ):
         # model = self.content_type.model_class()
         # object = model.objects.get(pk=self.object_id, )
         # url = object.get_absolute_url()
-        object = self.content_type.get_object_for_this_type(pk=self.object_id, )
-        url = object.get_absolute_url()
-        return u'%sкомментарий/%.6d/' % (url, self.pk, )
+        if self.content_type:
+            object = self.content_type.get_object_for_this_type(pk=self.object_id, )
+            url = object.get_absolute_url()
+            return u'%sкомментарий/%.6d/' % (url, self.pk, )
+        else:
+            return u'%d-/Имя/%s' % (self.pk, self.name, )
 
     def __unicode__(self):
         # """

@@ -112,7 +112,7 @@ $(document).ready(function(e){
 {% endif %}
 </footer>
 <style>
-.feedback-panel{
+div#feedback-panel{
     background-color:rgba(255, 255, 255, 0.85);
     height:440px;
     margin:0 auto;
@@ -201,7 +201,7 @@ $(document).ready(function(e){
     position:static;
 }
 </style>
-<div class="feedback-panel">
+<div id="feedback-panel">
     <a class="feedback-tab" href="http://www.keksik.com.ua/"></a>
     <div id="feedback-banner_h1" class="feedback_banner-h1">У Вас есть замечания или пожелания по работе сайта, напишите нам.</div>
     <div class="feedback_banner-form-row-1">
@@ -246,7 +246,7 @@ document.getElementById('submit_send').onclick=function(){
     var email = document.getElementById('feedback_email').value;
     var phone = document.getElementById('feedback_phone').value;
     var comment = document.getElementById('feedback_comment').value;
-    jQuery.post("/ajax/feedback/send/",{
+    jQuery.post("/ajax/feedback/feed/send/",{
                 csrfmiddlewaretoken:'{{ csrf_token }}',
                 sessionid:'{{ request.session.session_key }}',
                 userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
@@ -261,7 +261,7 @@ document.getElementById('submit_send').onclick=function(){
                 alert('Ваши данные не принял сервер по причине:'+data.error);
             }else{
                 document.getElementById('feedback-panel').style.display="none";
-                alert('Мы рассмотрим Ваш вопрос/жалобу в ближайшее время');
+                alert('Мы рассмотрим Ваше замечание/пожелание, в ближайшее время и свяжемся с Вами!!!');
 		}
         },
 		"json");
@@ -297,7 +297,7 @@ document.getElementById('clb_send').onclick=function(){
     var name = document.getElementById('clb_name').value;
     var email = document.getElementById('clb_email').value;
     var phone = document.getElementById('clb_phone').value;
-    $.post("/ajax/callback/send/",{
+    $.post("/ajax/callback/call/send/",{
                 csrfmiddlewaretoken:'{{ csrf_token }}',
                 sessionid:'{{ request.session.session_key }}',
                 userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',

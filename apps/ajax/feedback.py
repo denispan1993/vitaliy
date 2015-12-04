@@ -31,7 +31,6 @@ def feedback_data_send(request, ):
                                            phone=phone,
                                            comment=comment, )
                 except Exception as e:
-                    print e.message
                     response = {'result': 'Bad',
                                 'error': e.message, }
                     data = dumps(response, )
@@ -41,7 +40,7 @@ def feedback_data_send(request, ):
                     """ Отправка жалобы/комментария """
                     subject = u'Жалоба/комментарий от пользователя: %s.' % name
                     from django.template.loader import render_to_string
-                    html_content = render_to_string('email_feedback_content.jinja2.html',
+                    html_content = render_to_string('email_feedback_content.html',
                                                     {'name': name,
                                                      'email': email,
                                                      'phone': phone,
@@ -65,19 +64,24 @@ def feedback_data_send(request, ):
                     msg.send(fail_silently=False, )
                     """ Отправка благодарности клиенту. """
                     subject = u'Ваша жалоба/комментарий принят. Интернет магазин Кексик.'
-                    html_content = render_to_string('email_successful_feedback_content.jinja2.html', )
+                    html_content = render_to_string('email_successful_feedback_content.html', )
                     text_content = strip_tags(html_content, )
                     from_email = u'site@keksik.com.ua'
-                    to_email = email
                     msg = EmailMultiAlternatives(subject=subject,
                                                  body=text_content,
                                                  from_email=from_email,
-                                                 to=[to_email, ],
+                                                 to=[email, ],
                                                  connection=backend, )
                     msg.attach_alternative(content=html_content,
                                            mimetype="text/html", )
-                    msg.send(fail_silently=False, )
-                    response = {'result': 'Ok', }
+                    from smtplib import SMTPRecipientsRefused
+                    try:
+                        msg.send(fail_silently=False, )
+                    except SMTPRecipientsRefused:
+                        response = {'result': 'Bad',
+                                    'error': u'Почтовый сервер не принял E-Mail адерс получателя'}
+                    else:
+                        response = {'result': 'Ok', }
                     data = dumps(response, )
                     mimetype = 'application/javascript'
                     return HttpResponse(data, mimetype, )

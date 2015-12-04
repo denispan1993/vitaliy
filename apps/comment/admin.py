@@ -7,7 +7,9 @@ from apps.comment.models import Comment
 
 
 class CommentAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ['pk', 'record_parent', 'serial_number', 'is_active', 'name', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'record_parent', 'name', ]
+    search_fields = ('name', )
 admin.site.register(Comment, CommentAdmin, )
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]

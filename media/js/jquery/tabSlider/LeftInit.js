@@ -2,7 +2,7 @@
  * Created by user on 26.01.14.
  */
 try{jQuery(document).ready(function() {
-        $('.feedback-panel').tabSlideOut({
+        $('div#feedback-panel').tabSlideOut({
             tabHandle:'.feedback-tab',                   //class of the element that will be your tab -doesnt have to be an anchor
             pathToTabImage:'/media/img/feedbacktab-ru.jpeg', //relative path to the image for the tab
             imageHeight:'150px',                          //height of tab image
