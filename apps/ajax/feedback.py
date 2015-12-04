@@ -32,7 +32,8 @@ def feedback_data_send(request, ):
                                            comment=comment, )
                 except Exception as e:
                     response = {'result': 'Bad',
-                                'error': e.message, }
+                                'error': e.message,
+                                'exception': e, }
                     data = dumps(response, )
                     mimetype = 'application/javascript'
                     return HttpResponse(data, mimetype, )
