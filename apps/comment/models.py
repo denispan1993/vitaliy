@@ -14,7 +14,7 @@ class Comment(MPTTModel, ):
                                                related_name=u'children', )
     """ Ссылка на главную запись """
     from django.contrib.contenttypes.models import ContentType
-    content_type = models.ForeignKey(ContentType,
+    content_type = models.ForeignKey(to=ContentType,
                                      related_name='related_Product',
                                      blank=True,
                                      null=True, )
