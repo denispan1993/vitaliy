@@ -24,28 +24,6 @@ def all(request,
             leading_course = event.leading_course
             if leading_course not in leadings_courses:
                 leadings_courses.append(leading_course, )
-    return render(request=request,
-                  template_name=template_name,
-                  context={'leadings_courses': leadings_courses,
-                           'events': events, },
-                  content_type='text/html', )
-
-def leading_course(request,
-        template_name=u'leading_course.jinja2', ):
-    from apps.calendar.models import Event
-    from datetime import datetime
-    try:
-        """ gte больше или равно """
-        events = Event.objects.filter(location_date_time__date_start__gte=datetime.today(), ).distinct()
-    except Event.DoesNotExist:
-        events = False
-
-    leadings_courses = []
-    if events:
-        for event in events:
-            leading_course = event.leading_course
-            if leading_course not in leadings_courses:
-                leadings_courses.append(leading_course, )
     subjects = []
     if events:
         for event in events:
@@ -66,6 +44,22 @@ def leading_course(request,
                            'cities': cityes,
                            'subjects': subjects,
                            'events': events, },
+                  content_type='text/html', )
+
+
+def leading_course(request,
+        template_name=u'leading_course.jinja2', ):
+    from apps.calendar.models import Event
+    from datetime import datetime
+    try:
+        """ gte больше или равно """
+        events = Event.objects.filter(location_date_time__date_start__gte=datetime.today(), ).distinct()
+    except Event.DoesNotExist:
+        events = False
+
+    return render(request=request,
+                  template_name=template_name,
+                  context={'events': events, },
                   content_type='text/html', )
 
 

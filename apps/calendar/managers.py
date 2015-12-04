@@ -7,7 +7,10 @@ from datetime import datetime
 class Manager(models.Manager):
 
     def location_date_time__gte_today(self):
-        return self.location_date_time.filter(date_start__gte=datetime.today(), ).distinct()
+        aaa = self.location_date_time.filter(date_start__gte=datetime.today(), ).distinct()
+        print self
+        print aaa
+        return aaa
 
     def published(self):
         return self.filter(visibility=1, ).order_by('-created_at')
