@@ -111,11 +111,9 @@ $(document).ready(function(e){
 </div>
 {% endif %}
 </footer>
-{% if user.is_authenticated and user.is_staff %}
 <style>
 .feedback-panel{
     background-color:rgba(255, 255, 255, 0.85);
-    border-radius:0 16px 16px 0;
     height:440px;
     margin:0 auto;
     padding-top:15px;
@@ -273,7 +271,6 @@ document.getElementById('submit_send').onclick=function(){
         </div>
     </div>
 </div>
-{% endif %}
 {# <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css"> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/callback/style.css">
 <div id="clb_div" class="callback_banner-wrapper">
