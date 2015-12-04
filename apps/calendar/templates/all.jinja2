@@ -48,7 +48,7 @@ div#calendar ul{
 <p><span>Ведущий(ая) курсов:</span> {{ event.leading_course.surname }} {{ event.leading_course.name }}{% if event.leading_course.patronymic %} {{ event.leading_course.patronymic }}{% endif %}</p>
 <p><span>Тема курсов:</span> {{ event.subject.subject }}</p>
 <ul type="square">
-{% set locations_date_time = event.location_date_time__gte_today %}
+{% set locations_date_time = event.location_date_time_gte_today() %}
 {% for location_date_time in locations_date_time %}
 <li><p><span>Город:</span> {{ location_date_time.city.name_ru }} <span>Дата начала:</span> {{ location_date_time.date_start }} <span>Дата окончания:</span> {{ location_date_time.date_end }}</p></li>
 {% endfor %}

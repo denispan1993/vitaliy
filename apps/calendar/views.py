@@ -33,10 +33,13 @@ def all(request,
     cityes = []
     if events:
         for event in events:
-            locations_date_time = event.location_date_time.filter(date_start__gte=datetime.today(), ).distinct()
+            locations_date_time = event.location_date_time.filter(date_start__gte=datetime.today(), )
+            print locations_date_time
             for location_date_time in locations_date_time:
+                print location_date_time
                 city = location_date_time.city
                 if city not in cityes:
+                    print city
                     cityes.append(city, )
     return render(request=request,
                   template_name=template_name,

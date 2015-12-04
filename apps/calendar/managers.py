@@ -6,8 +6,8 @@ from datetime import datetime
 
 class Manager(models.Manager):
 
-    def location_date_time__gte_today(self):
-        aaa = self.location_date_time.filter(date_start__gte=datetime.today(), ).distinct()
+    def location_date_time_gte_today(self):
+        aaa = self.location_date_time.filter(date_start__gte=datetime.today(), )
         print self
         print aaa
         return aaa
