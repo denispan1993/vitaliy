@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 __author__ = 'AlexStarov'
 from django.db import models
+from datetime import datetime
 
 
 class Manager(models.Manager):
+
+    def location_date_time__gte_today(self):
+        return self.location_date_time.filter(date_start__gte=datetime.today(), ).distinct()
 
     def published(self):
         return self.filter(visibility=1, ).order_by('-created_at')

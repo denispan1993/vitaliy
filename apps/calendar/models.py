@@ -150,6 +150,9 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
+    from apps.calendar.managers import Manager
+    objects = Manager()
+
     # Вспомогательные поля
     #from django.contrib.contenttypes import generic
     #cart = generic.GenericRelation('Product',

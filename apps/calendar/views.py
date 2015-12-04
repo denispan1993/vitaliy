@@ -46,9 +46,25 @@ def leading_course(request,
             leading_course = event.leading_course
             if leading_course not in leadings_courses:
                 leadings_courses.append(leading_course, )
+    subjects = []
+    if events:
+        for event in events:
+            subject = event.subject
+            if subject not in subjects:
+                subjects.append(subject, )
+    cityes = []
+    if events:
+        for event in events:
+            locations_date_time = event.location_date_time.filter(date_start__gte=datetime.today(), ).distinct()
+            for location_date_time in locations_date_time:
+                city = location_date_time.city
+                if city not in cityes:
+                    cityes.append(city, )
     return render(request=request,
                   template_name=template_name,
                   context={'leadings_courses': leadings_courses,
+                           'cities': cityes,
+                           'subjects': subjects,
                            'events': events, },
                   content_type='text/html', )
 
