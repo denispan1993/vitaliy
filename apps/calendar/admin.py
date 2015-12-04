@@ -10,6 +10,12 @@ class LeadingCourseAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'surname', 'name', 'patronymic', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'surname', 'name', ]
     search_fields = ('surname', 'name', )
+
+    prepopulated_fields = {u'url': (u'surname', u'name', u'patronymic', ), }
+
+    class Media:
+        js = ('/media/js/admin/ruslug-urlify.js', )
+
 admin.site.register(LeadingCourse, LeadingCourseAdmin, )
 #    list_display = ['pk', 'url', 'title', 'parent', 'name', ]
 #    list_display_links = ['pk', 'url', 'title', ]
@@ -59,4 +65,7 @@ class EventAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'leading_course', 'subject', 'title', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'subject', ]
     search_fields = ('subject', )
+
+    filter_horizontal = ('location_date_time', )
+
 admin.site.register(Event, EventAdmin, )

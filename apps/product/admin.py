@@ -346,7 +346,7 @@ class RegionAdmin(admin.ModelAdmin, ):
     search_fields = ['name_ru', ]
 
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['name_ru', 'name_en', 'url', ], }, ),
+        (None,               {'classes': ['wide'], 'fields': ['country', 'name_ru', 'name_en', 'url', ], }, ),
     ]
     prepopulated_fields = {u'url': (u'name_ru', ), }
 
@@ -367,7 +367,8 @@ class CityAdmin(admin.ModelAdmin, ):
     search_fields = ['name_ru', ]
 
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['name_ru', 'name_en', 'phone_code', 'url', ], }, ),
+        (None,               {'classes': ['wide'], 'fields': ['region', 'name_ru', 'name_en',
+                                                              'phone_code', 'url', ], }, ),
     ]
     prepopulated_fields = {u'url': (u'name_ru', ), }
 

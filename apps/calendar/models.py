@@ -20,10 +20,22 @@ class LeadingCourse(models.Model):
                                max_length=128,
                                blank=True,
                                null=True, )
+    from compat.FormSlug import models as class_FormSlugField
+    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес Ведущего',
+                                             max_length=255,
+                                             null=True,
+                                             blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
+
+    @models.permalink
+    def get_absolute_url(self, ):
+        return ('calendar:leading_course_ru', (),
+                {'leading_course_url': unicode(str(self.url)), }, )
+#                 'id': unicode(str(self.pk)), }, )
+#        return u'/%s/к%.6d/' % (self.url, self.id, )
 
     def __unicode__(self):
         return u'Ведущий(ая) курсы:%s %s%s' % (self.surname, self.name, ' %s' % self.patronymic if self.patronymic else '')
