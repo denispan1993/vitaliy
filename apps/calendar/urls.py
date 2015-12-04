@@ -5,7 +5,7 @@ from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('apps.calendar.views',
-                       url(regex=ur'^/$',
+                       url(regex=ur'^$',
                            view='all',
                            kwargs={'template_name': u'all.jinja2', },
                            name='all_ru', ),
