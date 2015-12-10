@@ -18,6 +18,20 @@ def feedback_data_send(request, ):
             if request_cookie:
                 sessionid = request.POST.get(u'sessionid', None, )
                 userid = request.POST.get(u'userid', None, )
+                from django.contrib.auth import get_user_model
+                UserModel = get_user_model()
+                if userid and request.user.is_authenticated() and request.user.is_active:
+                    user_id = request.session.get(u'_auth_user_id', None, )
+                    # from django.contrib.auth.models import User
+                    try:
+                        user_id = int(user_id, )
+                    except ValueError:
+                        user_id = UserModel.objects.get(pk=-1, )
+                    else:
+                        user_id = UserModel.objects.get(pk=user_id, )
+                else:
+                    user_id = UserModel.objects.get(pk=-1, )
+
                 name = request.POST.get(u'name', None, )
                 email = request.POST.get(u'email', None, )
                 phone = request.POST.get(u'phone', None, )
@@ -25,15 +39,19 @@ def feedback_data_send(request, ):
                 from apps.comment.models import Comment
                 try:
                     Comment.objects.create(sessionid=sessionid,
-                                           user_id=userid,
+                                           user_id=user_id,
                                            name=name,
                                            email_for_response=email,
                                            phone=phone,
                                            comment=comment, )
                 except Exception as e:
-                    response = {'result': 'Bad',
-                                'error': e.message,
-                                'exception': e, }
+                    if e.message is None:
+                        response = {'result': 'Bad',
+                                    'exception': e, }
+                    else:
+                        response = {'result': 'Bad',
+                                    'error': e.message,
+                                    'exception': e, }
                     data = dumps(response, )
                     mimetype = 'application/javascript'
                     return HttpResponse(data, mimetype, )
