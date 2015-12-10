@@ -7,7 +7,9 @@ from apps.callback.models import CallBack
 
 
 class CallBackAdmin(admin.ModelAdmin, ):
-    pass
+    list_display = ['pk', 'user', 'sessionid', 'name', 'phone', 'email', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'name', 'phone', 'email', ]
+    search_fields = ('surname', 'name', )
 
 admin.site.register(CallBack, CallBackAdmin, )
 
