@@ -17,20 +17,18 @@ def feedback_data_send(request, ):
             request_cookie = request.session.get(u'cookie', None, )
             if request_cookie:
                 sessionid = request.POST.get(u'sessionid', None, )
-                userid = request.POST.get(u'userid', None, )
+                user_id = request.POST.get(u'user_id', None, )
                 from django.contrib.auth import get_user_model
                 UserModel = get_user_model()
-                if userid and request.user.is_authenticated() and request.user.is_active:
+                if user_id and request.user.is_authenticated() and request.user.is_active:
                     user_id = request.session.get(u'_auth_user_id', None, )
                     # from django.contrib.auth.models import User
                     try:
                         user_id = int(user_id, )
                     except ValueError:
-                        user_id = UserModel.objects.get(pk=-1, )
-                    else:
-                        user_id = UserModel.objects.get(pk=user_id, )
+                        user_id = -1
                 else:
-                    user_id = UserModel.objects.get(pk=-1, )
+                    user_id = -1
 
                 name = request.POST.get(u'name', None, )
                 email = request.POST.get(u'email', None, )
