@@ -248,11 +248,11 @@ JINGO_EXCLUDE_APPS = ('debug_toolbar',
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-TEMPLATE_CONTEXT_PROCESSORS_ = TCP + (
+TEMPLATE_CONTEXT_PROCESSORS_ = TCP + [
     'django.core.context_processors.request',
-)
+]
 
-TEMPLATE_CONTEXT_PROCESSORS_ += (
+TEMPLATE_CONTEXT_PROCESSORS_ += [
     'django.core.context_processors.csrf',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
@@ -264,7 +264,7 @@ TEMPLATE_CONTEXT_PROCESSORS_ += (
     # Мой context processor
     'proj.context_processor.context',
     # 'compressor',
-)
+]
 
 #JINJA2_EXTENSIONS = [
 #    'compressor.contrib.jinja2ext.CompressorExtension',
@@ -486,9 +486,9 @@ AUTHENTICATION_BACKENDS = (
     # 'django.contrib.auth.backends.ModelBackend',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS_ += (
+TEMPLATE_CONTEXT_PROCESSORS_ += [
     'social.apps.django_app.context_processors.backends',  # context_processors.social_auth_by_type_backends',
-)
+]
 
 TWITTER_CONSUMER_KEY              = ''
 TWITTER_CONSUMER_SECRET           = ''
