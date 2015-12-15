@@ -3,7 +3,7 @@ __author__ = 'AlexStarov'
 
 from django.core.management.base import BaseCommand
 
-
+""" Копируем все Email адреса с которых пришли к нам по рассылкам в основную базу Email-ов """
 class Command(BaseCommand, ):
     def handle(self, *args, **options):
         from apps.authModel.models import Email

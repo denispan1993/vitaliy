@@ -207,7 +207,7 @@ def random(last_email, ):
         random_list = random_SpamEmail
         count_Emails = SpamEmail.objects.filter().count()
         # print 'random_SpamEmail: ', random_list
-    len_random_list = len(random_list, ) - 10
+    len_random_list = len(random_list, ) - 5
     """ Если длина листа больше чем количество емыйлов в базе - то выходим """
     if len_random_list > count_Emails:
         return False
