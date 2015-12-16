@@ -243,6 +243,10 @@ class Delivery(models.Model, ):
         return i
 
     @property
+    def trace_of_visits(self):
+        return TraceOfVisits.objects.filter(delivery=self, ).exclude(delivery__delivery_delivery_test_send=True, )
+
+    @property
     def emails(self):
         from apps.authModel.models import Email
         return Email.objects.count()
