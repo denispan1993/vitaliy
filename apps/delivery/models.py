@@ -245,7 +245,7 @@ class Delivery(models.Model, ):
     @property
     def trace_of_visits(self):
         return TraceOfVisits.objects.filter(delivery=self, )\
-            .exclude(delivery__delivery__delivery_test_send=True, )\
+            .exclude(email__delivery__delivery_test_send=True, )\
             .count()
 
     @property
