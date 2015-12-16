@@ -244,7 +244,25 @@ class Delivery(models.Model, ):
 
     @property
     def trace_of_visits(self):
-        return TraceOfVisits.objects.filter(delivery=self, ).exclude(delivery__delivery_delivery_test_send=True, )
+        return TraceOfVisits.objects.filter(delivery=self, )\
+            .exclude(delivery__delivery__delivery_test_send=True, )\
+            .count()
+
+    @property
+    def trace_of_visits_unique(self):
+        unique = []
+        trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
+            .exclude(delivery__delivery_delivery_test_send=True, )
+        for trace in trace_of_visits:
+            unique_bool = True
+            for un in unique:
+                if un.email.now_email.email == trace.email.now_email.email:
+                    unique_bool = False
+                    break
+            if unique_bool:
+                unique += trace
+
+        return len(unique, )
 
     @property
     def emails(self):
