@@ -17,9 +17,7 @@ def root_page(request, template_name=u'index.jinja2', ):
                 except EmailForDelivery.DoesNotExist:
                     print 'Error: E-Mail not found for key: ', key
                 else:
-                    record = TraceOfVisits()
-                    record.email = email
-                    record.delivery = email.delivery.delivery
+                    record = TraceOfVisits(email=email, delivery=email.delivery.delivery, )
                     url = request.GET.get('url', False, )
                     if url:
                         record.url = url.encode('utf8', )
@@ -28,6 +26,25 @@ def root_page(request, template_name=u'index.jinja2', ):
                         return redirect(to=url, permanent=True, )
                     else:
                         record.save()
+                    unsubscribe = request.GET.get('unsubscribe', False, )
+                    if unsubscribe:
+                        typedelivery = request.GET.get('typedelivery', False, )
+                        if typedelivery:
+                            try:
+                                typedelivery = int(typedelivery, )
+                            except ValueError:
+                                pass
+                            else:
+                                email = email.now_email
+                                """
+                                (1, _(u'Фэйк рассылка', ), ),
+                                (2, _(u'Акция', ), ),
+                                (3, _(u'Новинки', ), ),
+                                (4, _(u'Рассылка на "SPAM" адреса', ), ),
+                                """
+                                if typedelivery == 4:
+                                    email.delivery_spam = False
+                                email.save()
 
     # from apps.product.models import Category
     # try:

@@ -239,12 +239,15 @@ class Email(models.Model, ):
     """
         E-Mail рассылки
     """
+    # Рассылка Спам
+    delivery_spam = models.BooleanField(verbose_name=_(u'Спам', ),
+                                        default=True, )
     # Рассылка новых продуктов
-    email_delivery_new_products = models.BooleanField(verbose_name=_(u'Новые продукты', ),
-                                                      default=True, )
+    delivery_new_products = models.BooleanField(verbose_name=_(u'Новые продукты', ),
+                                                default=True, )
     # Рассылка акций и новостей
-    email_delivery_shares_news = models.BooleanField(verbose_name=_(u'Новости и Акции', ),
-                                                     default=True, )
+    delivery_shares_news = models.BooleanField(verbose_name=_(u'Новости и Акции', ),
+                                               default=True, )
     bad_email = models.BooleanField(verbose_name=_(u'Bad E-Mail', ),
                                     default=False, )
     # Дата создания и дата обновления. Устанавливаются автоматически.

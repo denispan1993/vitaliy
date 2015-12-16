@@ -546,14 +546,23 @@ class SpamEmail(models.Model, ):
     email = models.EmailField(verbose_name=_(u'E-Mail', ),
                               blank=False,
                               null=False, )
+    # Рассылка Спам
+    delivery_spam = models.BooleanField(verbose_name=_(u'Спам', ),
+                                        default=True, )
+    # Рассылка новых продуктов
+    delivery_new_products = models.BooleanField(verbose_name=_(u'Новые продукты', ),
+                                                default=True, )
+    # Рассылка акций и новостей
+    delivery_shares_news = models.BooleanField(verbose_name=_(u'Новости и Акции', ),
+                                               default=True, )
     bad_email = models.BooleanField(verbose_name=_(u'Bad E-Mail', ),
                                     default=False, )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
                                       null=True, )
-                                      # default=datetime.now(), )
+    updated_at = models.DateTimeField(auto_now=True, )
 
     @property
     def content_type(self, ):
