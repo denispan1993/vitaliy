@@ -96,7 +96,7 @@ def feedback_data_send(request, ):
                         msg.send(fail_silently=False, )
                     except SMTPRecipientsRefused:
                         response = {'result': 'Bad',
-                                    'error': u'Почтовый сервер не принял E-Mail адерс получателя'}
+                                    'error': u'Почтовый сервер не принял E-Mail адрес получателя!!!'}
                     else:
                         response = {'result': 'Ok', }
                     data = dumps(response, )
