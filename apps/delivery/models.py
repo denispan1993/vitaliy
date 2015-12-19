@@ -535,6 +535,13 @@ class TraceOfVisits(models.Model, ):
                            max_length=255,
                            blank=True,
                            null=True, )
+    target = models.CharField(verbose_name=_(u'Цэль захода на сайт'),
+                              max_length=32,
+                              blank=True,
+                              null=True, )
+    target_id = models.PositiveSmallIntegerField(verbose_name=_(u'Тип цэли захода на сайт'),
+                                                 blank=True,
+                                                 null=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
@@ -556,22 +563,6 @@ class TraceOfVisits(models.Model, ):
     @property
     def email_fk_key(self):
         return self.email.key
-
-    def trace_of_visits_unique(self, delivery, ):
-        unique = []
-        trace_of_visits = TraceOfVisits.objects.filter(delivery=delivery, )\
-            .exclude(email__delivery_delivery_test_send=True, )
-        for trace in trace_of_visits:
-            unique_bool = True
-            for un in unique:
-                if un.email == trace.email:
-                    unique_bool = False
-                    break
-            if unique_bool:
-                unique += trace
-
-        return len(unique, )
-
 
     class Meta:
         db_table = 'TraceOfVisits'

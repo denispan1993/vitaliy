@@ -33,6 +33,8 @@ def root_page(request, template_name=u'index.jinja2', ):
                         record.save()
                     unsubscribe = request.GET.get('unsubscribe', False, )
                     if unsubscribe:
+                        record.target = 'unsubscribe'
+                        record.save()
                         typedelivery = request.GET.get('typedelivery', False, )
                         if typedelivery:
                             try:
@@ -48,8 +50,10 @@ def root_page(request, template_name=u'index.jinja2', ):
                                 (4, _(u'Рассылка на "SPAM" адреса', ), ),
                                 """
                                 if typedelivery == 4:
+                                    record.target_id = 4
+                                    record.save()
                                     email.delivery_spam = False
-                                email.save()
+                                    email.save()
 
     # from apps.product.models import Category
     # try:
