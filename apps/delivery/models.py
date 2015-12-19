@@ -250,19 +250,15 @@ class Delivery(models.Model, ):
 
     @property
     def trace_of_visits_unique(self):
-        unique = []
+        unique_email_pk = []
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
             .exclude(email__delivery__delivery_test_send=True, )
         for trace in trace_of_visits:
-            unique_bool = True
-            for un in unique:
-                if un.email.now_email.email == trace.email.now_email.email:
-                    unique_bool = False
-                    break
-            if unique_bool:
-                unique += trace
+            email_pk = trace.email.now_email.pk
+            if not email_pk in unique_email_pk:
+                unique_email_pk += trace
 
-        return len(unique, )
+        return len(unique_email_pk, )
 
     @property
     def order_from_trace_of_visits(self):
