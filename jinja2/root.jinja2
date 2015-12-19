@@ -134,14 +134,14 @@ font-weight:bold;
         </form>
         <!-- cpt_container_end-->
     </div>
-    <div id="cart_button" style="float:left;height:150px;overflow:hidden;width:60px;display:block;">
+    <div id="cart_button">
         <a onclick="Cart.toggle();return false;" href="javascript:void(0)" style="line-height:0px;" title="Для начала оформления заказа перейдите в корзину">
             <img width="60" src="{{ MEDIA_URL }}img/shopping_cart.png" alt="Корзина покупателя магазина Кексик.com.ua">
         </a>
     </div>
-    <div id="showcart" style="background:none repeat scroll 0 0 #fff6c9;border:1px solid #CECECE;border-radius:15px 0 0 15px;margin-left:70px;padding:10px;display:block;">{# googleoff:all #}
+    <div id="showcart">{# googleoff:all #}
         {# <noindex> #}
-            <div id="dynamic_div_showcart" style="color:Black;">
+            <div id="dynamic_div_showcart">
                 {% if user_cart_ %}
                     <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
                     <br>
@@ -151,7 +151,7 @@ font-weight:bold;
                     <strong>Ваша корзина пуста!!!</strong>
                 {% endif %}
             </div>
-            <b><a href="/корзина/" style="font-size:18px;margin-top:7px;display:block;">Перейти в корзину</a></b>
+            <b><a href="/корзина/">Перейти в корзину</a></b>
         {# </noindex> #}{# googleon:all #}
     </div>
 </div>
