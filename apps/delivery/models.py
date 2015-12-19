@@ -256,7 +256,7 @@ class Delivery(models.Model, ):
         for trace in trace_of_visits:
             email_pk = trace.email.now_email.pk
             if not email_pk in unique_email_pk:
-                unique_email_pk += int(email_pk)
+                unique_email_pk.append(email_pk, )
 
         return len(unique_email_pk, )
 
