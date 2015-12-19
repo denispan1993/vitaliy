@@ -265,6 +265,23 @@ class Delivery(models.Model, ):
         return len(unique, )
 
     @property
+    def order_from_trace_of_visits(self):
+        unique = []
+        trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
+            .exclude(delivery__delivery_delivery_test_send=True, )
+        from apps.cart.models import Order
+        for trace in trace_of_visits:
+            try:
+                #order = Order.objects.get(sessionid=trace.sessionid, )
+                order = Order.objects.get(email=trace.email.now_email.email, )
+            except Order.DoesNotExist:
+                continue
+            unique += trace
+
+        return len(unique, )
+
+
+    @property
     def emails(self):
         from apps.authModel.models import Email
         return Email.objects.count()
@@ -509,6 +526,11 @@ class TraceOfVisits(models.Model, ):
                               verbose_name=_(u'Указатель на E-Mail пользователя', ),
                               blank=False,
                               null=False, )
+    sessionid = models.CharField(verbose_name=u'SessionID',
+                                 max_length=32,
+                                 blank=True,
+                                 null=True,
+                                 default=0, )
     url = models.CharField(verbose_name=_(u'URL переадресации', ),
                            max_length=255,
                            blank=True,

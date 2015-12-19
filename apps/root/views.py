@@ -17,7 +17,12 @@ def root_page(request, template_name=u'index.jinja2', ):
                 except EmailForDelivery.DoesNotExist:
                     print 'Error: E-Mail not found for key: ', key
                 else:
-                    record = TraceOfVisits(email=email, delivery=email.delivery.delivery, )
+                    sessionid = request.COOKIES.get(u'sessionid', False, )
+                    if not sessionid:
+                        sessionid = '0'
+                    record = TraceOfVisits(email=email,
+                                           delivery=email.delivery.delivery,
+                                           sessionid=sessionid, )
                     url = request.GET.get('url', False, )
                     if url:
                         record.url = url.encode('utf8', )
