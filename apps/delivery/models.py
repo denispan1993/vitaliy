@@ -252,7 +252,7 @@ class Delivery(models.Model, ):
     def trace_of_visits_unique(self):
         unique = []
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
-            .exclude(delivery__delivery_delivery_test_send=True, )
+            .exclude(delivery__delivery__delivery_test_send=True, )
         for trace in trace_of_visits:
             unique_bool = True
             for un in unique:
