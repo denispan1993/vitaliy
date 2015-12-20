@@ -284,6 +284,8 @@ class Delivery(models.Model, ):
                                               # created_at__lte=this_trace.cteated_at + delta, )
                 except Order.DoesNotExist:
                     continue
+                except Order.MultipleObjectsReturned:
+                    unique_orders.append(order.pk, )
                 else:
                     unique_orders.append(order.pk, )
 
