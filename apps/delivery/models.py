@@ -262,22 +262,28 @@ class Delivery(models.Model, ):
 
     @property
     def order_from_trace_of_visits(self):
-        unique = []
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
             .exclude(email__delivery__delivery_test_send=True, )
+        unique_trace_email_pk = []
+        for trace in trace_of_visits:
+            trace_email_pk = trace.email.now_email.pk
+            if trace_email_pk not in unique_trace_email_pk:
+                unique_trace_email_pk.append(trace_email_pk, )
         from datetime import timedelta
         delta = timedelta(days=1, )
         from apps.cart.models import Order
-        for trace in trace_of_visits:
+        unique_orders = []
+        for trace_pk in unique_trace_email_pk:
+            this_trace = trace_of_visits.get(pk=trace_pk, )
             try:
-                Order.objects.get(email=trace.email.now_email.email,
-                                  created_at__gte=trace.cteated_at + delta, )
+                order = Order.objects.get(email=this_trace.email.now_email.email,
+                                          created_at__gte=this_trace.cteated_at + delta, )
             except Order.DoesNotExist:
                 pass
             else:
-                unique.append(trace, )
+                unique_orders.append(order.pk, )
 
-        return len(unique, )
+        return len(unique_orders, )
 
     @property
     def emails(self):
