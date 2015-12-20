@@ -269,8 +269,8 @@ class Delivery(models.Model, ):
             trace_email_pk = trace.email.now_email.pk
             if trace_email_pk not in unique_trace_email_pk:
                 unique_trace_email_pk.append(trace_email_pk, )
-        from datetime import timedelta
-        delta = timedelta(days=100, )
+        #from datetime import timedelta
+        #delta = timedelta(days=100, )
         from apps.cart.models import Order
         unique_orders = []
         for trace_pk in unique_trace_email_pk:
@@ -280,8 +280,8 @@ class Delivery(models.Model, ):
                 continue
             else:
                 try:
-                    order = Order.objects.get(email=this_trace.email.now_email.email,
-                                              created_at__lte=this_trace.cteated_at + delta, )
+                    order = Order.objects.get(email=this_trace.email.now_email.email, )
+                                              # created_at__lte=this_trace.cteated_at + delta, )
                 except Order.DoesNotExist:
                     continue
                 else:
