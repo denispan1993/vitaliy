@@ -285,7 +285,7 @@ class Delivery(models.Model, ):
                 except Order.DoesNotExist:
                     continue
                 except Order.MultipleObjectsReturned:
-                    unique_orders.append(order.pk, )
+                    unique_orders.append(1, )
                 else:
                     unique_orders.append(order.pk, )
 
