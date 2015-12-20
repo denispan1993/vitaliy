@@ -274,14 +274,18 @@ class Delivery(models.Model, ):
         from apps.cart.models import Order
         unique_orders = []
         for trace_pk in unique_trace_email_pk:
-            this_trace = trace_of_visits.get(pk=trace_pk, )
             try:
-                order = Order.objects.get(email=this_trace.email.now_email.email,
-                                          created_at__gte=this_trace.cteated_at + delta, )
-            except Order.DoesNotExist:
-                pass
+                this_trace = trace_of_visits.get(pk=trace_pk, )
+            except TraceOfVisits.DoesNotExist:
+                continue
             else:
-                unique_orders.append(order.pk, )
+                try:
+                    order = Order.objects.get(email=this_trace.email.now_email.email,
+                                              created_at__gte=this_trace.cteated_at + delta, )
+                except Order.DoesNotExist:
+                    continue
+                else:
+                    unique_orders.append(order.pk, )
 
         return len(unique_orders, )
 
