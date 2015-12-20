@@ -264,7 +264,7 @@ class Delivery(models.Model, ):
     def order_from_trace_of_visits(self):
         unique = []
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
-            .exclude(delivery__delivery_delivery_test_send=True, )
+            .exclude(email__delivery_delivery_test_send=True, )
         from datetime import datetime, timedelta
         delta = timedelta(days=1, )
         from apps.cart.models import Order
