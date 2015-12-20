@@ -265,17 +265,17 @@ class Delivery(models.Model, ):
         unique = []
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
             .exclude(email__delivery__delivery_test_send=True, )
-        from datetime import datetime, timedelta
+        from datetime import timedelta
         delta = timedelta(days=1, )
         from apps.cart.models import Order
         for trace in trace_of_visits:
             try:
-                #order = Order.objects.get(sessionid=trace.sessionid, )
-                order = Order.objects.get(email=trace.email.now_email.email,
-                                          created_at__gte=trace.cteated_at + delta, )
+                Order.objects.get(email=trace.email.now_email.email,
+                                  created_at__gte=trace.cteated_at + delta, )
             except Order.DoesNotExist:
                 pass
-            unique.append(trace, )
+            else:
+                unique.append(trace, )
 
         return len(unique, )
 
