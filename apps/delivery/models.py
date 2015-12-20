@@ -281,7 +281,7 @@ class Delivery(models.Model, ):
             else:
                 try:
                     order = Order.objects.get(email=this_trace.email.now_email.email,
-                                              created_at__gte=this_trace.cteated_at + delta, )
+                                              created_at__lte=this_trace.cteated_at + delta, )
                 except Order.DoesNotExist:
                     continue
                 else:
