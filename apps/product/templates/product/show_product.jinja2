@@ -428,7 +428,7 @@ document.write(VK.Share.button({
                                         <img class="cloudzoom-gallery cloudzoom-gallery-active"
                                              {% if loop.index > 1 %}style="margin-left:4px;"{% endif %}
                                              src="{{ photo.photo.url_90x95 }}" {# icon image #}
-                                             title='{{ photo.photo_sign }}'
+                                             title='{{ photo.sign }}'
                                              data-cloudzoom="useZoom:'#zoom1',
                                               image:'{{ photo.photo.url_345x370 }}',{# small image #}
                                               zoomImage:'{{ photo.photo.url }}'">{# large image #}

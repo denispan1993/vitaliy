@@ -160,7 +160,7 @@ div#product_box div#product_box_top div#product_box_left div#product_box_left_to
     zoom:1;
 }
 div#product_box_right{
-    position:relative;
+/*    position:relative;*/
     text-align:left;
 }
 #product_box_right{
@@ -243,7 +243,7 @@ div#product_box_right form ul.quantity li{
     font-size:18px;
 }
 div#product_box_right div#product_box_bottom{
-    position:relative;
+/*    position:relative;*/
     font-size:15px;
     color:Black;
     text-align:justify;
