@@ -286,8 +286,8 @@ h2.waitlist-title {
 			CloudZoom.quickStart();
 		</script>
 		<div id="product_box_left">
-            {% if user.is_authenticated and user.is_staff %}
-                <div id="social_links" style="display:inline-flex;">
+            {# {1% if user.is_authenticated and user.is_staff %} #}
+                <div id="social_links" style="display:inline-flex;margin-top:5px;">
 <script>
 var Share = {
     vkontakte: function(purl, ptitle, pimg, text) {
@@ -340,7 +340,7 @@ background-image:url("http://share.pluso.ru/img/pluso-like/square/big/03.png");
 display:block;
 height:40px;
 width:40px;
-margin-right:10px;
+margin-right:15px;
 margin-bottom:5px;
 }
 a#social_button_VK{
@@ -376,7 +376,7 @@ document.write(VK.Share.button({
 -->
 </script> #}
                 </div>
-{% endif %}
+{# {1% endif %} #}
 			<div id="product_box_left_top">
                 {% set main_photo = product.main_photo %}
 				{% if main_photo %}
