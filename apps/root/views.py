@@ -32,7 +32,7 @@ def root_page(request, template_name=u'index.jinja2', ):
                     else:
                         record.save()
                     unsubscribe = request.GET.get('unsubscribe', False, )
-                    if unsubscribe:
+                    if unsubscribe and unsubscribe == 'True':
                         record.target = 'unsubscribe'
                         record.save()
                         typedelivery = request.GET.get('typedelivery', False, )
