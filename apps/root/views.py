@@ -27,7 +27,7 @@ def root_page(request, template_name=u'index.jinja2', ):
                     else:
                         record.save()
                     unsubscribe = request.GET.get('unsubscribe', False, )
-                    if unsubscribe:
+                    if unsubscribe == 'True':
                         typedelivery = request.GET.get('typedelivery', False, )
                         if typedelivery:
                             try:
