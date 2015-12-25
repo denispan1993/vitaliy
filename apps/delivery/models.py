@@ -250,19 +250,46 @@ class Delivery(models.Model, ):
 
     @property
     def trace_of_visits_unique(self):
-        unique = []
+        unique_email_pk = []
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
-            .exclude(delivery__delivery_delivery_test_send=True, )
+            .exclude(email__delivery__delivery_test_send=True, )
         for trace in trace_of_visits:
-            unique_bool = True
-            for un in unique:
-                if un.email.now_email.email == trace.email.now_email.email:
-                    unique_bool = False
-                    break
-            if unique_bool:
-                unique += trace
+            email_pk = trace.email.now_email.pk
+            if not email_pk in unique_email_pk:
+                unique_email_pk.append(email_pk, )
 
-        return len(unique, )
+        return len(unique_email_pk, )
+
+    @property
+    def order_from_trace_of_visits(self):
+        trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
+            .exclude(email__delivery__delivery_test_send=True, )
+        unique_trace_email_pk = []
+        for trace in trace_of_visits:
+            trace_email_pk = trace.email.now_email.pk
+            if trace_email_pk not in unique_trace_email_pk:
+                unique_trace_email_pk.append(trace_email_pk, )
+        #from datetime import timedelta
+        #delta = timedelta(days=100, )
+        from apps.cart.models import Order
+        unique_orders = []
+        for trace_pk in unique_trace_email_pk:
+            try:
+                this_trace = trace_of_visits.get(pk=trace_pk, )
+            except TraceOfVisits.DoesNotExist:
+                continue
+            else:
+                try:
+                    order = Order.objects.get(email=this_trace.email.now_email.email, )
+                                              # created_at__lte=this_trace.cteated_at + delta, )
+                except Order.DoesNotExist:
+                    continue
+                except Order.MultipleObjectsReturned:
+                    unique_orders.append(1, )
+                else:
+                    unique_orders.append(order.pk, )
+
+        return len(unique_orders, )
 
     @property
     def emails(self):
@@ -509,10 +536,22 @@ class TraceOfVisits(models.Model, ):
                               verbose_name=_(u'Указатель на E-Mail пользователя', ),
                               blank=False,
                               null=False, )
+    sessionid = models.CharField(verbose_name=u'SessionID',
+                                 max_length=32,
+                                 blank=True,
+                                 null=True,
+                                 default=0, )
     url = models.CharField(verbose_name=_(u'URL переадресации', ),
                            max_length=255,
                            blank=True,
                            null=True, )
+    target = models.CharField(verbose_name=_(u'Цэль захода на сайт'),
+                              max_length=32,
+                              blank=True,
+                              null=True, )
+    target_id = models.PositiveSmallIntegerField(verbose_name=_(u'Тип цэли захода на сайт'),
+                                                 blank=True,
+                                                 null=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),

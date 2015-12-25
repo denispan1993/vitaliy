@@ -73,7 +73,7 @@ def feedback_data_send(request, ):
                     msg = EmailMultiAlternatives(subject=subject,
                                                  body=text_content,
                                                  from_email=from_email,
-                                                 to=[Email_MANAGER, ],
+                                                 to=['lana24680@keksik.com.ua', ],
                                                  connection=backend, )
                     msg.attach_alternative(content=html_content,
                                            mimetype="text/html", )
@@ -96,7 +96,7 @@ def feedback_data_send(request, ):
                         msg.send(fail_silently=False, )
                     except SMTPRecipientsRefused:
                         response = {'result': 'Bad',
-                                    'error': u'Почтовый сервер не принял E-Mail адерс получателя'}
+                                    'error': u'Почтовый сервер не принял E-Mail адрес получателя!!!'}
                     else:
                         response = {'result': 'Ok', }
                     data = dumps(response, )

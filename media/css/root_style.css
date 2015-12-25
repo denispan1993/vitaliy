@@ -55,6 +55,29 @@ div#cart div#currencies_block_top form{
 div#cart div#currencies_block_top form select option#selected{
     font-weight:bold;
 }
+div#cart div#cart_button{
+    float:left;
+    height:51px;
+    overflow:hidden;
+    width:60px;
+    display:block;
+}
+div#cart div#showcart{
+    background:none repeat scroll 0 0 #fff6c9;
+    border:1px solid #CECECE;
+    border-radius:15px 0 0 15px;
+    margin-left:70px;
+    padding:10px;
+    display:block;
+}
+div#cart div#showcart div#dynamic_div_showcart{
+    color:Black;
+}
+div#cart div#showcart a{
+    font-size:18px;
+    margin-top:7px;
+    display:block;
+}
 /*#cart{
     background:none repeat scroll 0 0 #1A1B1D;
     border-radius:0px 0px 26px 26px;

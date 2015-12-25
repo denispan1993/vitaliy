@@ -47,7 +47,7 @@ if os.path.isfile(path('server.mysql', ), ):
             'NAME': 'keksik_com_ua',       # Or path to database file if using sqlite3.
             'USER': 'keksik_com_ua',       # Not used with sqlite3.
             'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
-            'HOST': '192.168.1.95',        # Set to empty string for localhost. Not used with sqlite3.
+            'HOST': '192.168.1.90',        # Set to empty string for localhost. Not used with sqlite3.
             'PORT': '3306',                # Set to empty string for default. Not used with sqlite3.
             'OPTIONS': {
                 'charset': 'utf8',

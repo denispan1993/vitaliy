@@ -258,10 +258,10 @@ document.getElementById('submit_send').onclick=function(){
 		function(data, textStatus, jqXHR){
             if(data.result=='Bad'){
                 document.getElementById('feedback-panel').style.display="none";
-                alert('Ваши данные не принял сервер по причине:'+data.error);
+                alert('Ваши данные не принял сервер по причине: '+data.error);
             }else{
                 document.getElementById('feedback-panel').style.display="none";
-                alert('Мы рассмотрим Ваше замечание/пожелание, в ближайшее время и свяжемся с Вами!!!');
+                alert('Мы рассмотрим Ваше замечание/пожелание, в ближайшее время и свяжемся с Вами !!!');
 		}
         },
 		"json");
