@@ -378,9 +378,12 @@ INSTALLED_APPS = (
     'apps.callback',
     'apps.feedback',
     'apps.delivery',
+    'paypal.standard.ipn',
+    'apps.payment',
     # 'static_sitemaps',
 )
 
+PAYPAL_RECEIVER_EMAIL = "simagina.svetlana@gmail.com"
 #SOUTH_MIGRATION_MODULES = {
 #    'easy_thumbnails': 'easy_thumbnails.south_migrations',
 #}

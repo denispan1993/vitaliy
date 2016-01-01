@@ -1,5 +1,5 @@
-# coding=utf-8
-__author__ = 'user'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 
 def handler404(request, param=None,
