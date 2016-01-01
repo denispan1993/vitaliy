@@ -11,7 +11,7 @@
 
 <form action="https://merchant.webmoney.ru/lmi/payment.asp" method="post" id="web_money_redirect_form">
     <input type="{% if order %}hidden{% else %}text{% endif %}"
-           name="LMI_PAYMENT_AMOUNT"{% if order %} value="{{ order.order_sum(calc_or_show='calc',currency=980) }}{% endif %}">
+           name="LMI_PAYMENT_AMOUNT"{% comment %}{% if order %} value="{{ order.order_sum(calc_or_show='calc',currency=980) }}{% endif %}"{% endcomment %}>
     <input type="{% if order %}hidden{% else %}text{% endif %}"
            name="LMI_PAYMENT_DESC"{% if order %} value="{{ order.name }}{% endif %}">
     <input type="{% if order %}hidden{% else %}text{% endif %}"
