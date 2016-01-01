@@ -533,8 +533,9 @@ class Product(models.Model):
         else:
             return None
 
-    def get_price(self, request=None, price=None, calc_or_show='show', ):
+    def get_price(self, request=None, price=None, calc_or_show='show', currency=None, ):
         currency_pk = 1
+        from apps.product.models import Currency
         if request:
             currency_pk = request.session.get(u'currency_pk', )
             if currency_pk:
@@ -542,18 +543,26 @@ class Product(models.Model):
                     currency_pk = int(currency_pk, )
                 except ValueError:
                     pass
+        elif not request and currency:
+            try:
+                currency = Currency.objects.get(currency_code_number=currency, )
+            except Currency.DoesNotExist:
+                pass
+            else:
+                currency_pk = currency.pk
+                current_currency_object = currency
+        if 'current_currency_object' not in locals() or 'current_currency_object' not in globals():
+            try:
+                current_currency_object = Currency.objects.get(pk=currency_pk, )
+            except Currency.DoesNotExist:
+                pass
         if not price:
             if self.in_action:
                 price = self.action_price
             else:
                 price = self.price
-        from apps.product.models import Currency
-        try:
-            current_currency_object = Currency.objects.get(pk=currency_pk, )
-        except Currency.DoesNotExist:
-            pass
             # return u'%5.2f'.replace(',', '.', ) % price
-        else:
+        if 'current_currency_object' in locals() or 'current_currency_object' in globals():
             current_currency_pk = current_currency_object.pk
             current_currency = current_currency_object.currency
             current_exchange_rate = current_currency_object.exchange_rate
@@ -587,6 +596,7 @@ class Product(models.Model):
                 intermediate_price = price/product_currency*product_exchange_rate
                 ''' Приводим к текущей валюте сайта '''
                 price = intermediate_price*current_currency/current_exchange_rate
+
         if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
             if self.is_availability == 2:  # Если товар доступен под заказ?
                 price = price/2            # Берём 50% от стоимости
@@ -1102,6 +1112,15 @@ class Currency(models.Model):
                                 null=True, blank=True, default=1, )
     name_ru = models.CharField(verbose_name=u'Название валюты Russian',
                                max_length=16, blank=False, null=False, )
+    currency_code_number = models.PositiveSmallIntegerField(verbose_name=_(u'Код валюты числовой', ),
+                                                            blank=False,
+                                                            null=False,
+                                                            default=0, )
+    currency_code_char = models.CharField(verbose_name=_(u'Код валюты буквенный', ),
+                                          max_length=3,
+                                          blank=False,
+                                          null=False,
+                                          default='UAH', )
     name_truncated = models.CharField(verbose_name=u'Название валюты сокращенный',
                                       max_length=8, blank=True, null=True, )
     name_en = models.CharField(verbose_name=u'Название валюты English',

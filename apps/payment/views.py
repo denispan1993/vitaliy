@@ -45,7 +45,8 @@ def root(request,
     if 'template_name' not in locals() or 'template_name' not in globals():
         template_name = u'payment.jinja2.html'
     t = get_template(template_name)
-    html = t.render(request=request, context={'form': form, }, )  # 'in_main_page': in_main_page, }, )
+    html = t.render(request=request, context={'form': form,
+                                              'order': order, }, )  # 'in_main_page': in_main_page, }, )
     from django.http import HttpResponse
     response = HttpResponse(html, )
     # Мы не можем выяснить когда менялись внутринние подкатегории.

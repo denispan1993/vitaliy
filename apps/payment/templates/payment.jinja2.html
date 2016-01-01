@@ -7,4 +7,24 @@
 <!-- writes out the form tag automatically -->
 {{ form.render }}
 </div>
+<div>
+
+<form action="https://merchant.webmoney.ru/lmi/payment.asp" method="post" id="web_money_redirect_form">
+    <input type="{% if order %}hidden{% else %}text{% endif %}"
+           name="LMI_PAYMENT_AMOUNT"{% if order %} value="{{ order.order_sum(calc_or_show='calc',currency=980) }}{% endif %}">
+    <input type="{% if order %}hidden{% else %}text{% endif %}"
+           name="LMI_PAYMENT_DESC"{% if order %} value="{{ order.name }}{% endif %}">
+    <input type="{% if order %}hidden{% else %}text{% endif %}"
+           name="LMI_PAYMENT_NO"{% if order %} value="{{ order.pk }}{% endif %}">
+    <input type="hidden" name="LMI_PAYEE_PURSE" value="U344612591876">
+    {% comment %}<input type="hidden" name="LMI_PAYEE_PURSE" value="Z315871387649">
+    <input type="hidden" name="LMI_PAYEE_PURSE" value="R133710648391">{% endcomment %}
+    <input type="hidden" name="LMI_SUCCESS_URL" value="http://keksik.com.ua/оплата/webmoney/success/">
+    <input type="hidden" name="LMI_SUCCESS_METHOD" value="1">
+    <input type="hidden" name="LMI_FAIL_URL" value="http://keksik.com.ua/оплата/webmoney/fail/">
+    <input type="hidden" name="LMI_FAIL_METHOD" value="1">
+    <input type="submit" value="Перейти на сайт Web Money для оплаты" id="return_button">
+</form>
+
+</div>
 {% endblock %}

@@ -170,6 +170,10 @@ class Order(models.Model):
                                     object_id_field='object_id', )
 
     @property
+    def name(self, ):
+        return u'Заказ № %d' % self.pk
+
+    @property
     def products(self, ):
         return self.order.all()
 
@@ -211,11 +215,11 @@ class Order(models.Model):
             product_in_cart.update_price_per_piece()
         return self, product_in_cart
 
-    def order_sum(self, calc_or_show='show', ):
+    def order_sum(self, calc_or_show='show', currency=980, ):
         all_products_sum = 0
         # from decimal import Decimal
         for product in self.products:
-            all_products_sum += float(product.sum_of_quantity(calc_or_show=calc_or_show), )  # .replace('.', ',', )
+            all_products_sum += float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )  # .replace('.', ',', )
         return all_products_sum
 
     def __unicode__(self):
@@ -278,12 +282,12 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def sum_of_quantity(self, request=None, calc_or_show='show', ):
+    def sum_of_quantity(self, request=None, calc_or_show='show', currency=980, ):
         """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта
         """
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
-        price = product.get_price(request, price=None, calc_or_show='show', )  # price=self.price,
+        price = product.get_price(request, price=None, calc_or_show='show', currency=currency, )  # price=self.price,
         """
             Расчитываем цену товара.
         """
