@@ -102,7 +102,7 @@ urlpatterns += patterns('apps.cart.views',
                             {'template_name': u'show_order.jinja2', },
                             name='show_order', ),
                         )
-urlpatterns += patterns('apps.currency.views.',
+urlpatterns += patterns('apps.currency.views',
                         url(r'^Currency/Change/$', 'currency_change',
                             name='currency_change', ),
                         url(ur'^Валюта/Изменение/$', 'currency_change',
