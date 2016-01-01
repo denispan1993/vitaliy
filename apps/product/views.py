@@ -430,3 +430,4 @@ def send_error_manager(requset=None, product=None, error_id=None, ):
                            mimetype="text/html", )
     msg.send(fail_silently=False, )
     return None
+#
