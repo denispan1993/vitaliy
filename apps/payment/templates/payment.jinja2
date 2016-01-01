@@ -5,7 +5,8 @@
 <div>
 <h1>Show me the money!</h1>
 <!-- writes out the form tag automatically -->
-{{ form.render }}
+{# {{ form.render }} #}
+<form method="post" action="https://www.sandbox.paypal.com/cgi-bin/webscr"><input type="hidden" value="simagina.svetlana@gmail.com" name="business" id="id_business"><input type="hidden" value="245" name="amount" id="id_amount"><input type="hidden" value="Заказ № 2916" name="item_name" id="id_item_name"><input type="hidden" value="http://kekesik.com.ua/%D0%BE%D0%BF%D0%BB%D0%B0%D1%82%D0%B0/paypal/ipn/" name="notify_url" id="id_notify_url"><input type="hidden" value="http://keksik.com.ua/оплата/отменена/" name="cancel_return" id="id_cancel_return"><input type="hidden" value="http://keksik.com.ua/оплата/совершена/" name="return" id="id_return_url"><input type="hidden" value="2916" name="invoice" id="id_invoice"><input type="hidden" value="_xclick" name="cmd" id="id_cmd"><input type="hidden" value="utf-8" name="charset" id="id_charset"><input type="hidden" value="USD" name="currency_code" id="id_currency_code"><input type="hidden" value="1" name="no_shipping" id="id_no_shipping"><input type="image" border="0" alt="Buy it Now" name="submit" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif"></form>
 </div>
 <div>
 

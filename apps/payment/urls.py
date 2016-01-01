@@ -7,7 +7,7 @@ from django.conf.urls import patterns, url, include
 urlpatterns = patterns('apps.payment',
                        url(regex=ur'^(?P<id>\d{6})/$',
                            view='views.root',
-                           kwargs={'template_name': u'payment.jinja2.html', },
+                           kwargs={'template_name': u'payment.jinja2', },
                            name='ordering_step_one_ru', ),
 #                       url(regex=ur'^paypal/$',
 #                           view='ordering_step_one',

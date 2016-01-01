@@ -4,7 +4,7 @@ __author__ = 'AlexStarov'
 
 def root(request,
          id=None,
-         template_name=u'payment.jinja2.html', ):
+         template_name=u'payment.jinja2', ):
 
     try:
         id = int(id, )
@@ -43,7 +43,7 @@ def root(request,
 
     from django.template.loader import get_template
     if 'template_name' not in locals() or 'template_name' not in globals():
-        template_name = u'payment.jinja2.html'
+        template_name = u'payment.jinja2'
     t = get_template(template_name)
     html = t.render(request=request, context={'form': form,
                                               'order': order, }, )  # 'in_main_page': in_main_page, }, )
