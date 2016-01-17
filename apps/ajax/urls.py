@@ -41,3 +41,7 @@ urlpatterns += patterns('apps.ajax.timezone',
                         url(r'^client/$', 'client_timezone',
                             name='ajax_timezone_data_send', ),
                         )
+urlpatterns += patterns('apps.ajax.geoip',
+                        url(r'^resolve/$', 'resolve_client_geolocation',
+                            name='ajax_geolocation_resolve', ),
+                        )

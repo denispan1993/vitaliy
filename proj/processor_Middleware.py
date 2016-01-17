@@ -148,6 +148,19 @@ class Process_SessionIDMiddleware(object):
                 request.session[u'ajax_timezone'] = False
         else:
             request.session[u'ajax_timezone'] = True
+        """ ajax_geoip """
+        ajax_geoip_datetime = request.session.get(u'ajax_geoip_datetime', False, )
+        if ajax_geoip_datetime:
+            from django.utils.dateparse import parse_datetime
+            ajax_geoip_datetime = parse_datetime(ajax_geoip_datetime, )
+            from datetime import datetime, timedelta
+            if not ajax_geoip_datetime or \
+               ajax_geoip_datetime < (datetime.now() - timedelta(seconds=86400, )):
+                request.session[u'ajax_geoip'] = True
+            else:
+                request.session[u'ajax_geoip'] = False
+        else:
+            request.session[u'ajax_geoip'] = True
         """ withs and right_panel """
         explorer_with = request.session.get(u'width', None, )
         if explorer_with:

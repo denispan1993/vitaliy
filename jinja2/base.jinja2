@@ -25,6 +25,16 @@
 {% block header_javascript1 %}{% endblock %}
 {% block header_javascript2 %}{% endblock %}
 {% block ajax %}
+{% if request.session.ajax_geoip %}
+<script>
+$(document).ready(function(e){
+    $.post("/ajax/geoip/resolve/",{
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        }
+    );
+});
+</script>
+{% endif %}
 {% if request.session.ajax_timezone %}
 <script>
 $(document).ready(function(e){
@@ -33,8 +43,8 @@ $(document).ready(function(e){
     $.post("/ajax/timezone/client/",{
             offset:offset,
             csrfmiddlewaretoken:'{{ csrf_token }}'
-        },
-        function(data){alert(data);}
+        }{# ,
+        function(data){alert(data);} #}
     );
 });
 </script>
@@ -49,8 +59,8 @@ $(document).ready(function(e){
             width:width,
             height:height,
             csrfmiddlewaretoken:'{{ csrf_token }}'
-        },
-        function(data){alert(data);}
+        }{# ,
+        function(data){alert(data);} #}
     );
 });
 </script>
@@ -60,8 +70,8 @@ $(document).ready(function(e){
 $(document).ready(function(e){
     $.post("/ajax/cookie/",{
             csrfmiddlewaretoken:'{{ csrf_token }}'
-        },
-        function(data){alert(data);}
+        }{# ,
+        function(data){alert(data);} #}
     );
 });
 </script>
