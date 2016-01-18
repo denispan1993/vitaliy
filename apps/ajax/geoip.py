@@ -28,7 +28,7 @@ def resolve_client_geolocation(request, ):
                 from requests import get
                 r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
                 from xml.etree import cElementTree
-                e = cElementTree.XML(r.text.encode('cp1251', ), )
+                e = cElementTree.XML(r.text, )  # .encode('cp1251', ), )
                 d = etree_to_dict(e, )
                 try:
                     city = d['ip-answer']['ip']['city']
