@@ -28,17 +28,19 @@ def resolve_client_geolocation(request, ):
                 from requests import get
                 r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
                 from xml.etree import cElementTree
-                e = cElementTree.XML(r.text.encode('cp1251', ), )
+                e = cElementTree.XML(r.text.encode('cp1251', errors='replace', ), )
                 print e
                 #d = etree_to_dict(e, )
                 #print d
                 try:
                     # city = d['ip-answer']['ip']['city']
                     city = e[0][2].text
+                    print 'r.url: ', r.url, ' City: ', city
                 # except KeyError:
                 except IndexError:
                     # city = d['ip-answer']['ip']['message']
                     city = e[0][0].text
+                    print 'r.url: ', r.url, ' City: ', city
 
                 request.session[u'ajax_geoip_city'] = city
             from datetime import datetime
