@@ -23,14 +23,22 @@ def resolve_client_geolocation(request, ):
                 ip = x_forwarded_for.split(',')[-1].strip()
             else:
                 ip = request.META.get('REMOTE_ADDR')
-            param = {'ip': ip, }
-            from requests import get
-            r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
-            from xml.etree import cElementTree as ET
-            e = ET.XML(r.text.encode('cp1251', ), )
-            d = etree_to_dict(e, )
-            city = d['ip-answer']['ip']['city']
-            request.session[u'ajax_geoip_city'] = city
+            if ip != '127.0.0.1':
+                param = {'ip': ip, }
+                from requests import get
+                r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
+                from xml.etree import cElementTree as ET
+                e = ET.XML(r.text.encode('cp1251', ), )
+                d = etree_to_dict(e, )
+                print e
+                print d
+                print r.text
+                try:
+                    city = d['ip-answer']['ip']['city']
+                except KeyError:
+                    city = d['ip-answer']['ip']['message']
+
+                request.session[u'ajax_geoip_city'] = city
             from datetime import datetime
             request.session[u'ajax_geoip_datetime'] = str(datetime.now(), )
             # response = {'result': 'Please enable cookies and try again.', }
