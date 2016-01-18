@@ -35,12 +35,12 @@ def resolve_client_geolocation(request, ):
                 try:
                     # city = d['ip-answer']['ip']['city']
                     city = e[0][2].text
-                    print 'r.url: ', r.url, ' City: ', city
+                    print 'e[0][2].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', )
                 # except KeyError:
                 except IndexError:
                     # city = d['ip-answer']['ip']['message']
                     city = e[0][0].text
-                    print 'r.url: ', r.url, ' City: ', city
+                    print 'e[0][0].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', )
 
                 request.session[u'ajax_geoip_city'] = city
             from datetime import datetime
