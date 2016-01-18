@@ -382,8 +382,8 @@ function CallBack_Enable(){
     //alert('40sec');
 }
 </script>
-{% if request.session.reclame %}{# Реклама #}
-<div id="rcl_div" class="reclama_banner-wrapper">
+{# {% if request.session.reclame %} #}{# Реклама #}
+{# <div id="rcl_div" class="reclama_banner-wrapper">
     <div id="rcl_div_ban" class="reclama_banner reclama_closed">
         <div id="rcl_exit" class="rcl_banner-exit"
              onClick="MouseClick_Close();"></div>
@@ -393,7 +393,7 @@ function CallBack_Enable(){
     </div>
     <div id="rcl_banner_bg" class="rcl_banner_bg"
          onclick="MouseClick_Close()"></div>
-</div>{% endif %}
+</div>{1% endif %} #}
 <p id="to-top"><a href="#top"><span></span>Вверх</a>
 </p>
 <script>
