@@ -26,23 +26,27 @@ def resolve_client_geolocation(request, ):
             if ip != '127.0.0.1':
                 param = {'ip': ip, }
                 from requests import get
-                r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
+                # r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
+                r = get(url='http://194.85.91.253:7020/geo', params=param, )
                 from xml.etree import cElementTree
                 e = cElementTree.XML(r.text.encode('cp1251', errors='replace', ), )
-                print e
+                #print e
                 #d = etree_to_dict(e, )
                 #print d
                 try:
                     # city = d['ip-answer']['ip']['city']
                     city = e[0][2].text
-                    print 'e[0][2].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', )
+                    region = e[0][3].text
+                    print 'e[0][2].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', ), ' Region: ', e[0][3].text.encode('utf-8', )
                 # except KeyError:
                 except IndexError:
                     # city = d['ip-answer']['ip']['message']
                     city = e[0][0].text
+                    region = e[0][0].text
                     print 'e[0][0].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', )
 
                 request.session[u'ajax_geoip_city'] = city
+                request.session[u'ajax_geoip_region'] = region
             from datetime import datetime
             request.session[u'ajax_geoip_datetime'] = str(datetime.now(), )
             # response = {'result': 'Please enable cookies and try again.', }
