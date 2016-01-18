@@ -30,12 +30,15 @@ def resolve_client_geolocation(request, ):
                 from xml.etree import cElementTree
                 e = cElementTree.XML(r.text.encode('cp1251', ), )
                 print e
-                d = etree_to_dict(e, )
-                print d
+                #d = etree_to_dict(e, )
+                #print d
                 try:
-                    city = d['ip-answer']['ip']['city']
-                except KeyError:
-                    city = d['ip-answer']['ip']['message']
+                    # city = d['ip-answer']['ip']['city']
+                    city = e[0][2].text
+                # except KeyError:
+                except IndexError:
+                    # city = d['ip-answer']['ip']['message']
+                    city = e[0][0].text
 
                 request.session[u'ajax_geoip_city'] = city
             from datetime import datetime
