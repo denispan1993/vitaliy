@@ -706,13 +706,13 @@ IGNORED_TEMPLATES = ["debug_toolbar/*"]
 #    'debug_toolbar.panels.logging.LoggingPanel',
 
 
-def show_toolbar(request):
-    return not request.is_ajax() and request.user and request.user.username == "admin"
+#def show_toolbar(request):
+#    return not request.is_ajax() and request.user and request.user.username == "admin"
 
 DEBUG_TOOLBAR_CONFIG = {
     'EXCLUDE_URLS': ('/admin/', ),  # данная опция находится в разработке
     'INTERCEPT_REDIRECTS': False,
-    'SHOW_TOOLBAR_CALLBACK': 'proj.settings.show_toolbar',
+#    'SHOW_TOOLBAR_CALLBACK': 'proj.settings.show_toolbar',
 }
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False

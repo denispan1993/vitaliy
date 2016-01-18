@@ -27,12 +27,9 @@ def resolve_client_geolocation(request, ):
                 param = {'ip': ip, }
                 from requests import get
                 r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
-                from xml.etree import cElementTree as ET
-                e = ET.XML(r.text.encode('cp1251', ), )
+                from xml.etree import cElementTree
+                e = cElementTree.XML(r.text.encode('cp1251', ), )
                 d = etree_to_dict(e, )
-                print e
-                print d
-                #print r.text
                 try:
                     city = d['ip-answer']['ip']['city']
                 except KeyError:
