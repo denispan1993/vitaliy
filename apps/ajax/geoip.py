@@ -32,7 +32,7 @@ def resolve_client_geolocation(request, ):
                 d = etree_to_dict(e, )
                 print e
                 print d
-                print r.text
+                #print r.text
                 try:
                     city = d['ip-answer']['ip']['city']
                 except KeyError:

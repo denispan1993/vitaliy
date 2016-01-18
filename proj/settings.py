@@ -514,8 +514,8 @@ SOCIAL_AUTH_DEFAULT_USERNAME = 'socialauth_user'
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 LOGIN_ERROR_URL = '/login/error/'
 #OpenAPI
-VKONTAKTE_APP_ID = '' # '3474809'
-VKONTAKTE_APP_SECRET = '' # 'BapEJeIg9oRgfXRQABor'
+VKONTAKTE_APP_ID = ''  # '3474809'
+VKONTAKTE_APP_SECRET = ''  # 'BapEJeIg9oRgfXRQABor'
 # Usage for applications auth: {'key': application_key, 'user_mode': 0 (default) | 1 (check) | 2 (online check) }
 # 0 means is_app_user request parameter is ignored, 1 - must be = 1, 2 - checked via VK API request (useful when user
 # connects to your application on app page and you reload the iframe)
@@ -536,7 +536,7 @@ DOUBAN_CONSUMER_KEY               = ''
 DOUBAN_CONSUMER_SECRET            = ''
 YANDEX_OAUTH2_CLIENT_KEY = '9827973f694743c493d9d3b0ca75ef9a'
 YANDEX_OAUTH2_CLIENT_SECRET = '9fd1bd404b25435b951b95a28ed96ed6'
-YANDEX_OAUTH2_API_URL = 'https://api-yaru.yandex.ru/me/' # http://api.moikrug.ru/v1/my/ for Moi Krug
+YANDEX_OAUTH2_API_URL = 'https://api-yaru.yandex.ru/me/'  # http://api.moikrug.ru/v1/my/ for Moi Krug
 DAILYMOTION_OAUTH2_KEY            = ''
 DAILYMOTION_OAUTH2_SECRET         = ''
 SHOPIFY_APP_API_KEY               = ''
@@ -713,7 +713,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
-INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.0/8', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', '46.33.254.0/24', )
+INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.0/8', '193.33.237.146', '46.33.240.0/20', '46.33.244.235', '95.109.173.122', '95.109.205.18', '95.109.178.14', '95.109.220.110', '95.109.192.176', '217.77.210.70', '127.0.0.1', '46.33.0.0/16', )
 #!!!=============== Django ToolBar ===================================
 #INSTALLED_APPS = (
 #    'static_sitemaps',
