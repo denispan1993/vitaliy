@@ -165,7 +165,7 @@ class Process_SessionIDMiddleware(object):
         reclame_datetime = request.session.get(u'reclame_datetime', False, )
         ajax_geoip_city = request.session.get(u'ajax_geoip_city', False, )
 
-        #if reclame_datetime and ajax_geoip_city == u'':
+        #if reclame_datetime and ajax_geoip_city == u'\u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432':
         #    from django.utils.dateparse import parse_datetime
         #    reclame_datetime = parse_datetime(reclame_datetime, )
         #    from datetime import datetime, timedelta

@@ -28,8 +28,10 @@ def resolve_client_geolocation(request, ):
                 from requests import get
                 r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
                 from xml.etree import cElementTree
-                e = cElementTree.XML(r.text, )  # .encode('cp1251', ), )
+                e = cElementTree.XML(r.text.encode('cp1251', ), )
+                print e
                 d = etree_to_dict(e, )
+                print d
                 try:
                     city = d['ip-answer']['ip']['city']
                 except KeyError:
@@ -59,10 +61,10 @@ def etree_to_dict(t):
         dd = defaultdict(list)
         for dc in map(etree_to_dict, children):
             for k, v in dc.iteritems():
-                dd[k].append(v.encode('cp1251', ))
-        d = {t.tag: {k:v[0].encode('cp1251', ) if len(v) == 1 else v for k, v in dd.iteritems()}}
+                dd[k].append(v)
+        d = {t.tag: {k:v[0] if len(v) == 1 else v for k, v in dd.iteritems()}}
     if t.attrib:
-        d[t.tag].update(('@' + k, v.encode('cp1251', )) for k, v in t.attrib.iteritems())
+        d[t.tag].update(('@' + k, v) for k, v in t.attrib.iteritems())
     if t.text:
         text = t.text.strip()
         if children or t.attrib:
