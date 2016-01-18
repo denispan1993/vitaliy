@@ -706,18 +706,19 @@ IGNORED_TEMPLATES = ["debug_toolbar/*"]
 #    'debug_toolbar.panels.logging.LoggingPanel',
 
 
-def show_toolbar(request):
-    return not request.is_ajax() and request.user and request.user.username == "admin"
+#def show_toolbar(request):
+#    return not request.is_ajax() and request.user and request.user.username == "admin"
 
 DEBUG_TOOLBAR_CONFIG = {
     'EXCLUDE_URLS': ('/admin/', ),  # данная опция находится в разработке
     'INTERCEPT_REDIRECTS': False,
-    'SHOW_TOOLBAR_CALLBACK': 'proj.settings.show_toolbar',
+#    'SHOW_TOOLBAR_CALLBACK': 'proj.settings.show_toolbar',
 }
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
-#INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.0/8', '217.77.210.70', '127.0.0.1', '46.33.254.179', )
+INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.0/8', '217.77.210.70', '127.0.0.1',
+                '46.33.254.179', )
 #!!!=============== Django ToolBar ===================================
 #INSTALLED_APPS = (
 #    'static_sitemaps',
