@@ -28,7 +28,7 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
 def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
     from django.core.cache import cache
     key = 'one_block_%s_%d' % (category_or_product, block.pk, )
-    this_one_block = cache.get(key=key, )
+    this1_one_block = cache.get(key=key, )
     #if not this_one_block:
     if last_loop:
         margin_bottom = '0px'
@@ -51,5 +51,6 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
                                                'choice': choice,
                                                'margin_bottom': margin_bottom,
                                                'margin_left': margin_left, }, )
-    #cache.set(key=key, value=this_one_block, timeout=120, )
+    cache.set(key=key, value=this1_one_block, timeout=120, )
+    print 'key: ', key, ' this_one_block: ', type(this_one_block, ), ' this_one_block: ', type(this1_one_block, )
     return this_one_block
