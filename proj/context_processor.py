@@ -112,13 +112,13 @@ def context(request):
         try:
             value = full_path.encode('us-ascii', )
         except:
-            # print 'Not US-ASCII'
-            # try:
-            #     value = full_path.encode('utf8')
-            # except:
-            #     pass
-            # else:
-            #     print 'utf8', type(value, ), value
+            print 'Not US-ASCII'
+            try:
+                value = full_path.encode('utf8')
+            except:
+                pass
+            else:
+                print 'utf8', type(value, ), value
             try:
                 value = full_path.decode('cp866').encode('utf8')
             except:
@@ -173,8 +173,8 @@ def context(request):
                 pass
             else:
                 print 'koi8', type(value, ), value
-        # else:
-        #     print 'ascii', type(value, ), value
+        else:
+            print 'ascii', type(value, ), value
 
     from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
@@ -211,8 +211,8 @@ def context(request):
             except:
                 pass
             print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
-        # else:
-        #     print view, args, kwargs
+        else:
+            print view, args, kwargs
 #        try:
 #            print 'Not error: ', request.path
 #        except UnicodeEncodeError:
