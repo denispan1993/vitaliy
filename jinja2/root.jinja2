@@ -237,7 +237,7 @@ font-weight:bold;
                 <a id="new_items" href="/">Новинки</a>
             </li>
 {#                 {% for cat in categories_basement_|sort(attribute='serial_number') recursive %} #}
-            {% cache 600 categories %}
+            {% cache 600 'categories' %}
             {% for cat in categories_basement_ recursive %}
 {#                 {% set children = cat.children.all()|sort(attribute='serial_number') %} #}
                 {% set children = cat.children.serial_number() %}
