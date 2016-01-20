@@ -90,6 +90,7 @@ class Slide(models.Model):
             return self.parent.get_absolute_url()
         else:
             return '#'
+
     def __unicode__(self, ):
 #        text = u'Активный' if self.is_active else text = u'Пасивный'
 #        return u'Слайд: %s - %s %s' % (self.title, self.text, text, )

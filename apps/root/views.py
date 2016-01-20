@@ -79,11 +79,16 @@ def root_page(request, template_name=u'index.jinja2', ):
     #     limit_on_page = 12
     # finally:
     #     in_main_page = Product.manager.in_main_page(limit_on_page, )
-    from apps.product.models import Product
-    try:
-        in_main_page = Product.objects.in_main_page(no_limit=True, )  # limit_on_page, )
-    except Product.DoesNotExist:
-        in_main_page = None
+    from django.core.cache import cache
+    in_main_page = cache.get('products_in_main_page', )
+    if not in_main_page:
+        from apps.product.models import Product
+        try:
+            in_main_page = Product.objects.in_main_page(no_limit=True, )  # limit_on_page, )
+        except Product.DoesNotExist:
+            in_main_page = None
+        else:
+            cache.set(key='products_in_main_page', value=in_main_page, timeout=600, )
 
     # children_categories = categories_first.children.all()
 

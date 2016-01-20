@@ -106,12 +106,12 @@ div#div_logo a#logo{
     background-attachment:scroll;
     /*background-image:url("/media/img/logoNewYear2.png");*/
     display:block;
-    height:132px;
+    height:128px;
     left:5%;
     position: absolute;
     top:105px;
     /*width:113px; - Обычный логотип. */
-    width:148px;/* - Логотип с новогодней шапкой. */
+    width:108px;/* - Логотип с новогодней шапкой. */
     z-index:100;
 }
 section#main{
