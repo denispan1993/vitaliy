@@ -28,30 +28,28 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
 def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
     from django.core.cache import cache
     key = 'one_block_%s_%d' % (category_or_product, block.pk, )
-    this1_one_block = cache.get(key=key, )
-    #if not this_one_block:
-    if last_loop:
-        margin_bottom = '0px'
-    else:
-        margin_bottom = '10px'
-    if cycle == 1:
-        margin_left = '0px'
-    else:
-        margin_left = '10px'
-    template_name = u'product/templatetags/block_product.jinja2'
-    if category_or_product == 'category':
-        template_name = u'category/templatetags/block_category.jinja2'
-    # elif category_or_product == 'product':
-    #     template_name = u'product/templatetags/block_product.jinja2.html'
-    from proj.settings import MEDIA_URL
-    this_one_block = render_to_string(template_name=template_name,
-                                      context={'block': block,
-                                               'request': request,
-                                               'MEDIA_URL': MEDIA_URL,
-                                               'choice': choice,
-                                               'margin_bottom': margin_bottom,
-                                               'margin_left': margin_left, }, )
-    cache.set(key=key, value=this_one_block, timeout=120, )
-    this1_one_block = this1_one_block.decode('utf-8', )
-    print 'key: ', key, ' this_one_block: ', type(this_one_block, ), ' this1_one_block: ', type(this1_one_block, )
+    this_one_block = cache.get(key=key, ).decode('utf-8', )
+    if not this_one_block:
+        if last_loop:
+            margin_bottom = '0px'
+        else:
+            margin_bottom = '10px'
+        if cycle == 1:
+            margin_left = '0px'
+        else:
+            margin_left = '10px'
+        template_name = u'product/templatetags/block_product.jinja2'
+        if category_or_product == 'category':
+            template_name = u'category/templatetags/block_category.jinja2'
+        # elif category_or_product == 'product':
+        #     template_name = u'product/templatetags/block_product.jinja2.html'
+        from proj.settings import MEDIA_URL
+        this_one_block = render_to_string(template_name=template_name,
+                                          context={'block': block,
+                                                   'request': request,
+                                                   'MEDIA_URL': MEDIA_URL,
+                                                   'choice': choice,
+                                                   'margin_bottom': margin_bottom,
+                                                   'margin_left': margin_left, }, )
+        cache.set(key=key, value=this_one_block, timeout=120, )
     return this_one_block
