@@ -53,12 +53,13 @@ def order_email_test(request, ):
                         data = dumps(response, )
                         mimetype = 'application/javascript'
                         return HttpResponse(data, mimetype, )
-                    else:
-                        response = {'result': 'Bad',
-                                    'email_error': email_error, }
-                        data = dumps(response, )
-                        mimetype = 'application/javascript'
-                        return HttpResponse(data, mimetype, )
+                else:
+                    email_error = u'В поле E-Mail адреса пусто'
+                response = {'result': 'Bad',
+                            'email_error': email_error, }
+                data = dumps(response, )
+                mimetype = 'application/javascript'
+                return HttpResponse(data, mimetype, )
             else:
                 return HttpResponse(status=400, )
         elif request.method == 'GET':
