@@ -51,6 +51,6 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
                                                'choice': choice,
                                                'margin_bottom': margin_bottom,
                                                'margin_left': margin_left, }, )
-    cache.set(key=key, value=this1_one_block, timeout=120, )
-    print 'key: ', key, ' this_one_block: ', type(this_one_block, ), ' this_one_block: ', type(this1_one_block, )
+    cache.set(key=key, value=this_one_block, timeout=120, )
+    print 'key: ', key, ' this_one_block: ', type(this_one_block, ), ' this1_one_block: ', type(this1_one_block, )
     return this_one_block
