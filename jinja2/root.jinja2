@@ -237,8 +237,8 @@ font-weight:bold;
                 <a id="new_items" href="/">Новинки</a>
             </li>
 {#                 {% for cat in categories_basement_|sort(attribute='serial_number') recursive %} #}
-            {% djcache 600 'categories' %}
             {% for cat in categories_basement_ recursive %}
+                {% djcache 600 'sub_categories' %}
 {#                 {% set children = cat.children.all()|sort(attribute='serial_number') %} #}
                 {% set children = cat.children.serial_number() %}
                 <li{# {% if children %} attribute="children_true"{% endif %} #}>
@@ -257,8 +257,8 @@ font-weight:bold;
                         <ul class="submenu sub_level">{{ loop(children) }}</ul>
                     {% endif %}
                 </li>
+                {% enddjcache %}
             {% endfor %}
-            {% enddjcache %}
             {# <li>
                 <a href="/"
                    alt='Домой'
