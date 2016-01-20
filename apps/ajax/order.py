@@ -54,7 +54,7 @@ def order_email_test(request, ):
                         mimetype = 'application/javascript'
                         return HttpResponse(data, mimetype, )
                 else:
-                    email_error = u'В поле E-Mail адреса пусто'
+                    email_error = u'В поле E-Mail адреса пусто!!! Пожалуйста, введите свой E-Mail...'
                 response = {'result': 'Bad',
                             'email_error': email_error, }
                 data = dumps(response, )
