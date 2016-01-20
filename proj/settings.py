@@ -726,6 +726,8 @@ INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.
 #
 #STATICSITEMAPS_ROOT_SITEMAP = 'media.sitemap'
 
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+
 TEMPLATES = [
     {
         # "BACKEND": "django.template.backends.jinja2.Jinja2",
@@ -737,6 +739,10 @@ TEMPLATES = [
             "match_extension": ".jinja2",
             "match_regex": r"^(?!admin/).*",  # this is additive to match_extension
             "context_processors": TEMPLATE_CONTEXT_PROCESSORS_,
+            "extensions": DEFAULT_EXTENSIONS + [
+                # Your extensions here...
+                "apps.utils.templatetags.cache.DjangoJinjaCacheExtension"
+            ]
         }
     },
     {

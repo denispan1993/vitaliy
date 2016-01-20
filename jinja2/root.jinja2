@@ -237,7 +237,7 @@ font-weight:bold;
                 <a id="new_items" href="/">Новинки</a>
             </li>
 {#                 {% for cat in categories_basement_|sort(attribute='serial_number') recursive %} #}
-            {# {1% cache 600 'categories' %} #}
+            {% djcache 600 'categories' %}
             {% for cat in categories_basement_ recursive %}
 {#                 {% set children = cat.children.all()|sort(attribute='serial_number') %} #}
                 {% set children = cat.children.serial_number() %}
@@ -258,7 +258,7 @@ font-weight:bold;
                     {% endif %}
                 </li>
             {% endfor %}
-            {# {1% endcache %} #}
+            {% enddjcache %}
             {# <li>
                 <a href="/"
                    alt='Домой'

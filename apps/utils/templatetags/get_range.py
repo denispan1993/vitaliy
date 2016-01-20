@@ -1,4 +1,5 @@
-__author__ = 'Alex Starov'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django_jinja.library import filter
 
