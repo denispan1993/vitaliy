@@ -26,18 +26,18 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
 
 @global_function()
 def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
+    if last_loop:
+        margin_bottom = '0px'
+    else:
+        margin_bottom = '10px'
+    if cycle == 1:
+        margin_left = '0px'
+    else:
+        margin_left = '10px'
+    key = 'one_block_%s_%d_%s_%s_%s' % (category_or_product, block.pk, choice, margin_bottom, margin_left, )
     from django.core.cache import cache
-    key = 'one_block_%s_%d' % (category_or_product, block.pk, )
     this_one_block = cache.get(key=key, )
     if not this_one_block:
-        if last_loop:
-            margin_bottom = '0px'
-        else:
-            margin_bottom = '10px'
-        if cycle == 1:
-            margin_left = '0px'
-        else:
-            margin_left = '10px'
         template_name = u'product/templatetags/block_product.jinja2'
         if category_or_product == 'category':
             template_name = u'category/templatetags/block_category.jinja2'
