@@ -57,5 +57,5 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
                                                    'choice': choice,
                                                    'margin_bottom': margin_bottom,
                                                    'margin_left': margin_left, }, )
-        cache.set(key=key, vaue=this_one_block, timeout=120, )
+        cache.set(key=key, value=this_one_block, timeout=120, )
     return this_one_block
