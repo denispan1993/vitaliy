@@ -278,11 +278,11 @@ h2.waitlist-title {
 	<div id="product_box_header" style="text-align:left;" class="clearFloat">
 		{{ header_category2(current_category, product)|safe }}
 	</div>
-	<div id="product_box_top" style="width:100%;position:relative;" class="clearFloat">
-		{# {% set photos = product.photo.all() %} #}
-		<script src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>
+	<div id="product_box_top" style="width:100%;position:relative;" class="clearFloat">{#
+		{% set photos = product.photo.all() %}
+	  #}<script src="/media/js/jquery/cloudzoom/cloudzoom_new.js"></script>{#
 		<!-- Call quick start function. -->
-		<script type="text/javascript">
+	  #}<script type="text/javascript">
 			CloudZoom.quickStart();
 		</script>
 		<div id="product_box_left">
