@@ -711,6 +711,7 @@ IGNORED_TEMPLATES = ["debug_toolbar/*"]
 
 DEBUG_TOOLBAR_CONFIG = {
     'EXCLUDE_URLS': ('/admin/', ),  # данная опция находится в разработке
+    'HIDE_FILTER_URL': '^/admin/',  # данная опция находится в разработке
     'INTERCEPT_REDIRECTS': False,
 #    'SHOW_TOOLBAR_CALLBACK': 'proj.settings.show_toolbar',
 }
