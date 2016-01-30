@@ -238,7 +238,10 @@ def context(request):
                 print 'Error: Resolver404 - utf8 - cp1252', full_path.encode('utf8').encode('cp1252', )
             except:
                 pass
-            print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
+            try:
+                print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
+            except:
+                print 'Error: Resolver404 - utf8', 'print value: Error'
         else:
             print view, args, kwargs
 #        try:
