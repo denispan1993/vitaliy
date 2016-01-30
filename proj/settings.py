@@ -750,7 +750,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [os.path.join(PROJECT_PATH, 'templates', ), ],
         "APP_DIRS": True,
-        "OPTIONS": {
+        # "OPTIONS": {
             #'loaders': [
             #    ('django.template.loaders.cached.Loader',
             #     [
@@ -760,8 +760,8 @@ TEMPLATES = [
             #     ),
             #],
             # "match_extension": ".html",
-            "context_processors": TEMPLATE_CONTEXT_PROCESSORS_,
-        }
+        #     "context_processors": TEMPLATE_CONTEXT_PROCESSORS_,
+        # }
     },
 ]
 
