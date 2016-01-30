@@ -10,6 +10,7 @@ def context(request):
 #        all_categories_ = None
 
 #    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
+    print 'First TEST:'
     from apps.static.models import Static
     try:
         static_pages = Static.objects.all()
@@ -118,31 +119,46 @@ def context(request):
             except:
                 pass
             else:
-                print 'utf8', type(value, ), value
+                try:
+                    print 'utf8', type(value, ), value
+                except:
+                    print 'utf8', type(value, ), 'print value: Error'
             try:
                 value = full_path.decode('cp866').encode('utf8')
             except:
                 pass
             else:
-                print 'cp866', type(value, ), value
+                try:
+                    print 'cp866', type(value, ), value
+                except:
+                    print 'cp866', type(value, ), 'print value: Error'
             try:
                 value = full_path.decode('cp1251').encode('utf8')
             except:
                 pass
             else:
-                print 'cp1251', type(value, ), value
+                try:
+                    print 'cp1251', type(value, ), value
+                except:
+                    print 'cp1251', type(value, ), 'print value: Error'
             try:
                 value = full_path.decode('cp1252').encode('utf8')
             except:
                 pass
             else:
-                print 'cp1252 -1', type(value, ), value
+                try:
+                    print 'cp1252 -1', type(value, ), value
+                except:
+                    print 'cp1252 -1', type(value, ), 'print value: Error'
             try:
                 value = full_path.encode('cp1252')
             except:
                 pass
             else:
-                print 'cp1252 -2', type(value, ), value
+                try:
+                    print 'cp1252 -2', type(value, ), value
+                except:
+                    print 'cp1252 -2', type(value, ), 'print value: Error'
             #try:
             #    value = full_path.encode('cp1252').decode('utf8')
             #except:
@@ -154,7 +170,10 @@ def context(request):
             except:
                 pass
             else:
-                print 'cp1252 -4', type(value, ), value
+                try:
+                    print 'cp1252 -4', type(value, ), value
+                except:
+                    print 'cp1252 -4', type(value, ), 'print value: Error'
             #try:
             #    value = full_path.encode('utf8').decode('cp1252').encode('utf8')
             #except:
@@ -166,15 +185,24 @@ def context(request):
             except:
                 pass
             else:
-                print 'cp1252 -6', type(value, ), value
+                try:
+                    print 'cp1252 -6', type(value, ), value
+                except:
+                    print 'cp1252 -6', type(value, ), 'print value: Error'
             try:
                 value = full_path.decode('koi8').encode('utf8')
             except:
                 pass
             else:
-                print 'koi8', type(value, ), value
+                try:
+                    print 'koi8', type(value, ), value
+                except:
+                    print 'koi8', type(value, ), 'print value: Error'
         else:
-            print 'ascii', type(value, ), value
+            try:
+                print 'ascii', type(value, ), value
+            except:
+                print 'ascii', type(value, ), 'print value: Error'
 
     from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
