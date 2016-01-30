@@ -3,6 +3,8 @@
 *.pyc
 .idea
 local_setting*.*
+keksik.py
+chipdip.py
 VirtEnv/
 VirtEnvironment/
 VirtualEnvironment/
