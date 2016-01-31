@@ -42,7 +42,7 @@ def context(request, ):
     except TypeError as e:
         print 'TypeError: ', e
     print 'WSGIRequest: ', url
-    url = request.get_full_path().stripe("'")
+    url = request.get_full_path()
     from django.utils.encoding import uri_to_iri
     url = uri_to_iri(url, )
     url = url.encode('cp1252', )
