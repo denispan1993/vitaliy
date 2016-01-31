@@ -55,11 +55,9 @@ def context(request, ):
     print view, args, kwargs
     from apps.product.views import show_product
     if 'view' in locals() and view == show_product:
-        print 'Show_Product'
         try:
             product_pk = int(kwargs[u'id'], )
         except ValueError:
-            print 'ValueError: '
             pass
         else:
             print product_pk, kwargs[u'product_url'].encode('utf8')
@@ -67,6 +65,7 @@ def context(request, ):
             """ Убираем НАХРЕН проверку именования товара product_url """
             # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
             product = get_product(product_pk=product_pk, )
+            print product
             return redirect(to=product.get_absolute_url(), )
     return redirect(to='http://keksik.com.ua%s' % url, )
     # return dict()
