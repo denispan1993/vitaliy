@@ -66,6 +66,6 @@ def context(request, ):
             # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
             product = get_product(product_pk=product_pk, )
             print product
-            return redirect(to=product.get_absolute_url(), )
-    return redirect(to='http://keksik.com.ua%s' % url, )
-    # return dict()
+            #return redirect(to=product.get_absolute_url(), )
+    #return redirect(to='http://keksik.com.ua%s' % url, )
+    return dict(url=product.get_absolute_url(), )
