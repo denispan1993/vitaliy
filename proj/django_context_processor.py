@@ -37,9 +37,9 @@ def context(request, ):
     try:
         url = dict(request)['WSGIRequest']
     except Exception as e:
-        print e
+        print 'Exception: ', e
     except TypeError as e:
-        print e
+        print 'TypeError: ', e
     print 'WSGIRequest: ', url
 
     return dict()
