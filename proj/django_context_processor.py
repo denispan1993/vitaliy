@@ -43,10 +43,11 @@ def context(request, ):
         print 'TypeError: ', e
     print 'WSGIRequest: ', url
     url = request.get_full_path()
+    from django.shortcuts import redirect
+    return redirect(to=url)
     from django.utils.encoding import uri_to_iri
     url = uri_to_iri(url, )
     url = url.encode('cp1252', )
     print 'Next URL: request.get_full_path: ', url
-    from django.shortcuts import redirect
     return redirect(to=url, )
     # return dict()
