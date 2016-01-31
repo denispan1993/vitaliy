@@ -42,7 +42,10 @@ def context(request, ):
     except TypeError as e:
         print 'TypeError: ', e
     print 'WSGIRequest: ', url
-    url = request.get_full_path()
+    url = request.get_full_path().stripe("'")
+    from django.utils.encoding import uri_to_iri
+    url = uri_to_iri(url, )
+    url = url.encode('cp1252', )
     print 'Next URL: request.get_full_path: ', url
     from django.shortcuts import redirect
     return redirect(to=url, )
