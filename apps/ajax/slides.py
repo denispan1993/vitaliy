@@ -39,32 +39,31 @@ def left(request, ):
                     product_block_count = int(floor(lambda_Height/300, ), )
                 html_block = None
                 if product_block_count > 0 and url_path:
-                    if url_path == '/':
-                        from apps.product.models import Product
-                        qs_products = Product.objects.none()
-                        try:
-                            all_products_count = Product.objects.count()
-                        except Product.DoesNotExist:
-                            all_products_count = 0
-                        else:
-                            while len(qs_products, ) != product_block_count:
-                                qs_products = products(products=qs_products,
-                                                       products_count=product_block_count,
-                                                       all_products_count=all_products_count, )
-                                # print qs_products, len(qs_products, )
-                            from apps.product.templatetags.blocks import many_blocks
-                            html_block = many_blocks(category_or_product='product',
-                                                     blocks=qs_products,
-                                                     top_border=False,
-                                                     limit_on_string=1,
-                                                     attachment='left',
-                                                     request=request, )
+                    # if url_path == '/':
+                    from apps.product.models import Product
+                    qs_products = Product.objects.none()
+                    try:
+                        all_products_count = Product.objects.count()
+                    except Product.DoesNotExist:
+                        all_products_count = 0
+                    else:
+                        while len(qs_products, ) != product_block_count:
+                            qs_products = products(  # products=qs_products,
+                                                   products_count=product_block_count,
+                                                   all_products_count=all_products_count, )
+                            # print qs_products, len(qs_products, )
+                        from apps.product.templatetags.blocks import many_blocks
+                        html_block = many_blocks(category_or_product='product',
+                                                 blocks=qs_products,
+                                                 top_border=False,
+                                                 limit_on_string=1,
+                                                 attachment='left',
+                                                 request=request, )
                 response = {'result': 'Ok',
                             'url_path': url_path,
                             'lambda_Height': lambda_Height,
                             'product_block_count': product_block_count,
                             'html_block': html_block, }
-                            # 'help_text': u'Номер купона не действительный', }
                 data = dumps(response, )
                 mimetype = 'application/javascript'
                 return HttpResponse(data, mimetype, )
@@ -81,7 +80,7 @@ def left(request, ):
 from apps.product.models import Product
 
 
-def products(products=Product.objects.none(),
+def products(  # products=Product.objects.none(),
              products_count=0,
              all_products_count=0, ):
     from apps.product.models import Product
