@@ -44,10 +44,10 @@ def context(request, ):
     print 'WSGIRequest: ', url
     url = request.get_full_path()
     from django.shortcuts import redirect
-    return redirect(to=url)
+    # return redirect(to=url)
     from django.utils.encoding import uri_to_iri
     url = uri_to_iri(url, )
     url = url.encode('cp1252', )
     print 'Next URL: request.get_full_path: ', url
-    return redirect(to=url, )
+    return redirect(to='http://keksik.com.ua%s' % url, )
     # return dict()
