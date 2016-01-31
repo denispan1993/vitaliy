@@ -42,7 +42,7 @@ def context(request, ):
     except TypeError as e:
         print 'TypeError: ', e
     print 'WSGIRequest: ', url
-    url = request.get_full_path
+    url = request.get_full_path()
     print 'Next URL: request.get_full_path: ', url
     from django.shortcuts import redirect
     return redirect(to=url, )
