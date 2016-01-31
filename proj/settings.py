@@ -768,9 +768,10 @@ TEMPLATES = [
             #     ),
             #],
             # "match_extension": ".html",
-            "context_processors": TCP + (
-                "proj.django_context_processor.context",
-            ),
+            "context_processors": TCP,
+            # "context_processors": TCP + (
+            #     "proj.django_context_processor.context",
+            # ),
         }
     },
 ]
