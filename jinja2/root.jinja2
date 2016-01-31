@@ -200,7 +200,8 @@ font-weight:bold;
         <ul>
             {% for slide in slides_ %}
                 <li>
-                    <a href="{% if slide.url == '#' %}/{% else %}{{ slide.url }}{% endif %}" target="_blank">
+                    {% set slide_url = slide.url %}
+                    <a href="{% if slide_url == '#' %}/{% else %}{{ slide_url }}{% endif %}" target="_blank">
                         <img src="{{ slide.slide.url }}"
                              {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}
                              title="{% if slide.title %}{{ slide.title }}{% endif %}"
