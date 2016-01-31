@@ -248,21 +248,21 @@ JINGO_EXCLUDE_APPS = ('debug_toolbar',
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-TEMPLATE_CONTEXT_PROCESSORS_ = TCP + (
+TCP += (
     'django.core.context_processors.request',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS_ += (
+TCP += (
     'django.core.context_processors.csrf',
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.request',
+    # 'django.contrib.auth.context_processors.auth',
+    # 'django.core.context_processors.debug',
+    # 'django.core.context_processors.i18n',
+    # 'django.core.context_processors.media',
+    # 'django.core.context_processors.request',
     # 'django.core.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
+    # 'django.contrib.messages.context_processors.messages',
     # Мой context processor
-    'proj.context_processor.context',
+#     'proj.context_processor.context',
     # 'compressor',
 )
 
@@ -489,7 +489,7 @@ AUTHENTICATION_BACKENDS = (
     # 'django.contrib.auth.backends.ModelBackend',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS_ += (
+TCP += (
     'social.apps.django_app.context_processors.backends',  # context_processors.social_auth_by_type_backends',
 )
 
@@ -729,6 +729,12 @@ INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.
 
 from django_jinja.builtins import DEFAULT_EXTENSIONS
 
+#Jinja2_TCP = TCP + (
+#    # Мой context processor
+#    'proj.context_processor.context',
+#    # 'compressor',
+#)
+
 TEMPLATES = [
     {
         # "BACKEND": "django.template.backends.jinja2.Jinja2",
@@ -739,7 +745,9 @@ TEMPLATES = [
             # 'environment': 'proj.jinja2.environment',
             "match_extension": ".jinja2",
             "match_regex": r"^(?!admin/).*",  # this is additive to match_extension
-            "context_processors": TEMPLATE_CONTEXT_PROCESSORS_,
+            "context_processors": TCP + (
+                "proj.context_processor.context",
+            ),
             "extensions": DEFAULT_EXTENSIONS + [
                 # Your extensions here...
                 "apps.utils.templatetags.cache.DjangoJinjaCacheExtension"
@@ -750,7 +758,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [os.path.join(PROJECT_PATH, 'templates', ), ],
         "APP_DIRS": True,
-        # "OPTIONS": {
+        "OPTIONS": {
             #'loaders': [
             #    ('django.template.loaders.cached.Loader',
             #     [
@@ -760,8 +768,8 @@ TEMPLATES = [
             #     ),
             #],
             # "match_extension": ".html",
-        #     "context_processors": TEMPLATE_CONTEXT_PROCESSORS_,
-        # }
+            "context_processors": TCP,
+        }
     },
 ]
 
