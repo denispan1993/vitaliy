@@ -35,8 +35,10 @@ def context(request, ):
                 print 'cp1252 -2', type(value, ), 'print value: Error'
 
     try:
-        url = request['WSGIRequest']
-    except () as e:
+        url = dict(request)['WSGIRequest']
+    except Exception as e:
+        print e
+    except TypeError as e:
         print e
     print 'WSGIRequest: ', url
 

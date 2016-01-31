@@ -325,4 +325,4 @@ urlpatterns += patterns('',
                             {'sitemaps': sitemaps}, name='sitemaps'),
                         )
 
-handler404 = 'apps.handlers.views.handler404'
+#handler404 = 'apps.handlers.views.handler404'
