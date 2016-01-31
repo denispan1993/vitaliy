@@ -35,11 +35,15 @@ def context(request, ):
                 print 'cp1252 -2', type(value, ), 'print value: Error'
 
     try:
-        url = dict(request)['WSGIRequest']
+        url = dict(request)
+        url = url['WSGIRequest']
     except Exception as e:
         print 'Exception: ', e
     except TypeError as e:
         print 'TypeError: ', e
     print 'WSGIRequest: ', url
-
-    return dict()
+    url = request.get_full_path
+    print 'Next URL: request.get_full_path: ', url
+    from django.shortcuts import redirect
+    return redirect(to=url, )
+    # return dict()
