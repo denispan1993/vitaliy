@@ -36,6 +36,7 @@ def context(request, ):
 
     try:
         url = dict(request)
+        print 'dict: ', url
         url = url['WSGIRequest']
     except Exception as e:
         print 'Exception: ', e
@@ -49,5 +50,8 @@ def context(request, ):
     url = uri_to_iri(url, )
     url = url.encode('cp1252', )
     print 'Next URL: request.get_full_path: ', url
+    from django.core.urlresolvers import resolve, Resolver404
+    view, args, kwargs = resolve(url, )
+    print view, args, kwargs
     return redirect(to='http://keksik.com.ua%s' % url, )
     # return dict()
