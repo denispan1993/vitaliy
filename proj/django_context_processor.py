@@ -53,5 +53,18 @@ def context(request, ):
     from django.core.urlresolvers import resolve, Resolver404
     view, args, kwargs = resolve(url, )
     print view, args, kwargs
+    from apps.product.views import show_product
+    if 'view' in locals() and view == show_product:
+        try:
+            product_pk = int(kwargs[u'id'], )
+        except ValueError:
+            pass
+        else:
+            print product_pk, kwargs[u'product_url'].encode('utf8')
+            from apps.product.views import get_product
+            """ Убираем НАХРЕН проверку именования товара product_url """
+            # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+            product = get_product(product_pk=product_pk, )
+            return redirect(to=product.get_absolute_url(), )
     return redirect(to='http://keksik.com.ua%s' % url, )
     # return dict()
