@@ -3,7 +3,7 @@ __author__ = 'AlexStarov'
 
 
 def handler404(request, param=None,
-               template_name=u'404.jinja2.html',
+               template_name=u'404.jinja2',
                ):
     from django.views.defaults import page_not_found
     page_not_found(request, )
@@ -18,7 +18,9 @@ def handler404(request, param=None,
 #    c = Context({'basement_categories': basement_categories, }, )
     html = t.render(c)
     from django.http import HttpResponse
-    response = HttpResponse(html, )
+    response = HttpResponse(content=html,
+                            content_type='text/html; charset=utf-8',
+                            status=404, )
 #    from django.shortcuts import redirect
 #    return redirect('/')
     # Мы не можем выяснить когда менялись внутринние подкатегории.
