@@ -55,9 +55,11 @@ def context(request, ):
     print view, args, kwargs
     from apps.product.views import show_product
     if 'view' in locals() and view == show_product:
+        print 'Show_Product'
         try:
             product_pk = int(kwargs[u'id'], )
         except ValueError:
+            print 'ValueError: '
             pass
         else:
             print product_pk, kwargs[u'product_url'].encode('utf8')
