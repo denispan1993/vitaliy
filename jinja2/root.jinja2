@@ -89,7 +89,7 @@ try{
 {% block header %}
 {% if user.is_anonymous %}
     <div id="auth" class="auth-panel">
-        <a class="auth-tab" href onclick="return false;">Auth tab</a>
+        <a class="auth-tab" href="" onclick="return false;">Auth tab</a>
         <a href="/accounts/signin/">Вход</a>/
         <a href="/accounts/signup/">Регистрация</a>/{# {{ social_auth_widget() }} #}
         <a href="/social/login/odnoklassniki-oauth2/">odnoklassniki-oauth2</a>/
@@ -290,79 +290,82 @@ margin-left:-10px;
 {# <script src="/media/js/jquery/inview/inview.js"></script> #}
 <script>
 $(document).ready(function(){
-        //var form_slide_left = document.getElementById('form_slide_left');
-        //var script_jquery_inview = document.createElement('script');
-        //script_jquery_inview.src = "{{ MEDIA_URL }}js/jquery/inview/inview.js";
-        //form_slide_left.appendChild(script_jquery_inview);
+    var height_visible_part_of_window = window.innerHeight
+            || document.documentElement.clientHeight
+            || document.body.clientHeight;
+    var main_left_Height = document.getElementById('main_left').offsetHeight;
+    var main_center_Height = document.getElementById('main_center').offsetHeight;
+    var lambda_Height = main_center_Height - main_left_Height;
+    var form_slide_left = document.getElementById('form_slide_left');
+    if(lambda_Height>=300 && height_visible_part_of_window>=300){
         $.getScript("{{ MEDIA_URL }}js/jquery/inview/inview.js",
-                function(){
-                    var form_slide_left = document.getElementById('form_slide_left');
-                    $(form_slide_left).bind('inview', function (event, visible, visiblePartX, visiblePartY){
-                if(visible == true && form_slide_left.className == ''){
-                    form_slide_left.className = 'reviewed';
-                    var height_visible_part_of_window = window.innerHeight
-                            || document.documentElement.clientHeight
-                            || document.body.clientHeight;
-                    var main_left_Height = document.getElementById('main_left').offsetHeight;
-                    var main_center_Height = document.getElementById('main_center').offsetHeight;
-                    $.post(url = "/ajax/slides/left/",
-                            data = {
-                                url_path: '{{ url }}',
-                                height_visible_part_of_window: height_visible_part_of_window,
-                                main_left_Height: main_left_Height,
-                                main_center_Height: main_center_Height,
-                                csrfmiddlewaretoken: '{{ csrf_token }}'
-                            },
-                            function(data, textStatus, jqXHR){
-                                if (data.result == 'Ok'){
-                                    form_slide_left.insertAdjacentHTML('afterEnd', data.html_block);
-(function() {
+            function(){
+                $(form_slide_left).bind('inview', function(event, visible, visiblePartX, visiblePartY){
+                    if(visible == true && form_slide_left.className == ''){
+                        form_slide_left.className = 'reviewed';
+                        $.post(url = "/ajax/slides/left/",
+                                data = {
+                                    url_path: '{{ url }}',
+                                    height_visible_part_of_window: height_visible_part_of_window,
+                                    main_left_Height: main_left_Height,
+                                    main_center_Height: main_center_Height,
+                                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                                },
+                                function(data, textStatus, jqXHR){
+                                    if(data.result == 'Ok'){
+                                        form_slide_left.insertAdjacentHTML('afterEnd', data.html_block);
+(function(){
     var a = document.querySelector('#products_block_left'), b = null, P = 0;
-    //$(window).scroll(function () {
+{#     //$(window).scroll(function () { #}
 window.addEventListener('scroll', Ascroll, false);
 document.body.addEventListener('scroll', Ascroll, false);
-function Ascroll() {
-    if (b == null) {
-            var Sa = getComputedStyle(a, ''), s = '';
-            for (var i = 0; i < Sa.length; i++) {
-                if (Sa[i].indexOf('box-sizing') == 0 || Sa[i].indexOf('overflow') == 0 || Sa[i].indexOf('width') == 0 || Sa[i].indexOf('padding') == 0 || Sa[i].indexOf('border') == 0 || Sa[i].indexOf('outline') == 0 || Sa[i].indexOf('box-shadow') == 0 || Sa[i].indexOf('background') == 0) {
-                    s += Sa[i] + ': ' + Sa.getPropertyValue(Sa[i]) + '; '
-                }
+function Ascroll(){
+    if(b == null){
+        var Sa = getComputedStyle(a, ''), s = '';
+        for (var i = 0; i < Sa.length; i++) {
+            if (Sa[i].indexOf('box-sizing') == 0 || Sa[i].indexOf('overflow') == 0 || Sa[i].indexOf('width') == 0 || Sa[i].indexOf('padding') == 0 || Sa[i].indexOf('border') == 0 || Sa[i].indexOf('outline') == 0 || Sa[i].indexOf('box-shadow') == 0 || Sa[i].indexOf('background') == 0) {
+                s += Sa[i] + ': ' + Sa.getPropertyValue(Sa[i]) + '; '
             }
-            a.innerHTML = '<div style="' + s + '">' + a.innerHTML + '</div>';
-            b = a.children[0];
-            a.style.height = b.getBoundingClientRect().height + 'px';
-            a.style.padding = '0';
-            a.style.border = '0';
         }
-  var Ra = a.getBoundingClientRect(),
-      R = Math.round(Ra.top + b.getBoundingClientRect().height - document.querySelector('footer').getBoundingClientRect().top + 0);
+        a.innerHTML = '<div style="' + s + '">' + a.innerHTML + '</div>';
+        b = a.children[0];
+        a.style.height = b.getBoundingClientRect().height + 'px';
+        a.style.padding = '0';
+        a.style.border = '0';
+    }
+    var Ra = a.getBoundingClientRect(),
+            R = Math.round(Ra.top + b.getBoundingClientRect().height - document.querySelector('footer').getBoundingClientRect().top + 0);
 {# // селектор блока, при достижении верхнего края которого нужно открепить прилипающий элемент;  Math.round() только для IE; если ноль заменить на число, то блок будет прилипать до того, как нижний край элемента дойдёт до футера #}
 {#         var Ra = a.getBoundingClientRect(),
                 R = Math.round(Ra.top + b.getBoundingClientRect().height - document.querySelector('#main_center').getBoundingClientRect().bottom); #}
         {#   // селектор блока, при достижении нижнего края которого нужно открепить прилипающий элемент #}
-        if ((Ra.top - P) <= 0) {
-            if ((Ra.top - P) <= R) {
+        if((Ra.top - P) <= 0){
+            if((Ra.top - P) <= R){
                 b.className = 'stop';
                 b.style.top = -R + 'px';
-            } else {
+            }else{
                 b.className = 'sticky';
                 b.style.top = P + 'px';
             }
-        } else {
+        }else{
             b.className = '';
             b.style.top = '';
         }
     }
 })();
-                                }
-                            },
-                            dataType = "json"
-                    );
-                }
-            });
-        });
-            });
+                                    }
+                                },
+                                dataType = "json"
+                        );
+                    }
+                });
+            }
+        );
+    }
+    else{
+        form_slide_left.remove();
+    }
+});
 </script>
 {% endif %}
 {% endif %}
