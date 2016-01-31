@@ -3,7 +3,7 @@ __author__ = 'AlexStarov'
 
 
 def handler404(request, param=None,
-               template_name=u'404.jinja2',
+               template_name=u'404.html',
                ):
     from django.views.defaults import page_not_found
     page_not_found(request, )
