@@ -538,6 +538,7 @@ class Product(models.Model):
         from apps.product.models import Currency
         print 'currency: ', currency
         if request:
+            print request.META['REMOTE_ADDR']
             currency_pk = request.session.get(u'currency_pk', )
             if currency_pk:
                 try:
