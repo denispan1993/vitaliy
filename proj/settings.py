@@ -759,14 +759,14 @@ TEMPLATES = [
         "DIRS": [os.path.join(PROJECT_PATH, 'templates', ), ],
         "APP_DIRS": False,
         "OPTIONS": {
-            #'loaders': [
-            #    ('django.template.loaders.cached.Loader',
-            #     [
-            #         'django.template.loaders.filesystem.Loader',
-            #         'django.template.loaders.app_directories.Loader',
-            #     ],
-            #     ),
-            #],
+            'loaders': [
+                ('django.template.loaders.cached.Loader',
+                 [
+                     'django.template.loaders.filesystem.Loader',
+                     'django.template.loaders.app_directories.Loader',
+                 ],
+                 ),
+            ],
             # "match_extension": ".html",
             "context_processors": TCP,
             # "context_processors": TCP + (
