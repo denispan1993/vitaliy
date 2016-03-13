@@ -536,7 +536,7 @@ class Product(models.Model):
     def get_price(self, request=None, price=None, calc_or_show='show', currency=None, ):
         currency_pk = 1
         from apps.product.models import Currency
-        print 'currency: ', currency
+#        print 'currency: ', currency
         if request:
             print request.META['REMOTE_ADDR']
             currency_pk = request.session.get(u'currency_pk', )
@@ -545,8 +545,8 @@ class Product(models.Model):
                     currency_pk = int(currency_pk, )
                 except ValueError:
                     pass
-                else:
-                    print 'currency_pk: ', currency_pk
+#                else:
+#                    print 'currency_pk: ', currency_pk
         elif not request and currency:
             try:
                 currency = Currency.objects.get(currency_code_number=currency, )
@@ -560,8 +560,8 @@ class Product(models.Model):
                 current_currency_object = Currency.objects.get(pk=currency_pk, )
             except Currency.DoesNotExist:
                 pass
-            else:
-                print 'currency_object.pk: ', current_currency_object.pk
+#            else:
+#                print 'currency_object.pk: ', current_currency_object.pk
         if not price:
             if self.in_action:
                 price = self.action_price
@@ -570,11 +570,11 @@ class Product(models.Model):
             # return u'%5.2f'.replace(',', '.', ) % price
         if 'current_currency_object' in locals() or 'current_currency_object' in globals():
             current_currency_pk = current_currency_object.pk
-            print 'current_currency_pk', current_currency_pk
+#            print 'current_currency_pk', current_currency_pk
             current_currency = current_currency_object.currency
-            print 'current_currency', current_currency
+#            print 'current_currency', current_currency
             current_exchange_rate = current_currency_object.exchange_rate
-            print 'current_exchange_rate', current_exchange_rate
+#            print 'current_exchange_rate', current_exchange_rate
 
             product_currency_pk = self.currency_id
             product_currency = self.currency.currency
