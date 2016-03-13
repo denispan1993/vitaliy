@@ -202,23 +202,7 @@ class Category(MPTTModel):
         verbose_name_plural = u'Категории'
 
 
-#Availability = (
-#    (1, _(u'Есть в наличии', ), ),
-#    (2, _(u'Ожидается', ), ),
-#    (3, _(u'Под заказ', ), ),
-#    (4, _(u'Недоступен', ), ),
-#)
-
-
-#def get_display_on_id(key, list, ):
-#    d = dict(list)
-#    if key in d:
-#        return d[key]
-#    return key
-
-
 class Product(models.Model):
-    # id = models.AutoField(primary_key=True, db_index=True, )
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы товар был пасивный, убираем галочку.')
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
@@ -256,10 +240,8 @@ class Product(models.Model):
     recommended = models.ManyToManyField('Product',
                                          related_name=u'Product',
                                          verbose_name=u'Рекомендуемые товары',
-                                         blank=True, )  #  null=True, )
+                                         blank=True, )
     # Минимальное количество заказа
-    # minimal_quantity = models.PositiveSmallIntegerField(verbose_name=_(u'Минимальное количество заказа'), default=1,
-    #                                                    blank=False, null=False, )
     minimal_quantity = models.DecimalField(verbose_name=_(u'Минимальное количество заказа'), max_digits=8,
                                            decimal_places=2, default=1, blank=False, null=False, )
     quantity_of_complete = models.DecimalField(verbose_name=_(u'Количество единиц в комплекте'), max_digits=8,
@@ -270,28 +252,13 @@ class Product(models.Model):
                                             verbose_name=u'Единицы измерения',
                                             null=False,
                                             blank=False, )
-#    Counties = (
-#        (1, _('Украина', ), ),
-#        (2, _('Россия', ), ),
-#        (3, _('Казахстан', ), ),
-#        (4, _('Белоруссия', ), ),
-#        (5, _('Молдова', ), ),
-#        (6, _('Приднестровье', ), ),
-#    )
     Availability = (
         (1, _(u'Есть в наличии', ), ),
         (2, _(u'Под заказ', ), ),
         (3, _(u'Ожидается', ), ),
         (4, _(u'Недоступен', ), ),
     )
-#    is_availability = models.BooleanField(verbose_name=_(u'Товар'),
-#                                                       choices=Availability,
-#                                                       default=True,
-#                                                       blank=False,
-#                                                       null=False, )
-#    is_availability = models.PositiveSmallIntegerField(verbose_name=_(u'Товар'),
-#    is_availability = models.BooleanField(default=True, )
-    is_availability = models.IntegerField(verbose_name=_(u'Товар'),
+    is_availability = models.IntegerField(verbose_name=_(u'Наличие'),
                                           choices=Availability,
                                           default=1,
                                           blank=False,
@@ -536,17 +503,16 @@ class Product(models.Model):
     def get_price(self, request=None, price=None, calc_or_show='show', currency=None, ):
         currency_pk = 1
         from apps.product.models import Currency
-#        print 'currency: ', currency
+
         if request:
-            print request.META['REMOTE_ADDR']
+
             currency_pk = request.session.get(u'currency_pk', )
             if currency_pk:
                 try:
                     currency_pk = int(currency_pk, )
                 except ValueError:
                     pass
-#                else:
-#                    print 'currency_pk: ', currency_pk
+
         elif not request and currency:
             try:
                 currency = Currency.objects.get(currency_code_number=currency, )
@@ -560,21 +526,17 @@ class Product(models.Model):
                 current_currency_object = Currency.objects.get(pk=currency_pk, )
             except Currency.DoesNotExist:
                 pass
-#            else:
-#                print 'currency_object.pk: ', current_currency_object.pk
+
         if not price:
             if self.in_action:
                 price = self.action_price
             else:
                 price = self.price
-            # return u'%5.2f'.replace(',', '.', ) % price
+
         if 'current_currency_object' in locals() or 'current_currency_object' in globals():
             current_currency_pk = current_currency_object.pk
-#            print 'current_currency_pk', current_currency_pk
             current_currency = current_currency_object.currency
-#            print 'current_currency', current_currency
             current_exchange_rate = current_currency_object.exchange_rate
-#            print 'current_exchange_rate', current_exchange_rate
 
             product_currency_pk = self.currency_id
             product_currency = self.currency.currency
@@ -610,15 +572,6 @@ class Product(models.Model):
             if self.is_availability == 2:  # Если товар доступен под заказ?
                 price = price/2            # Берём 50% от стоимости
         return u'%5.2f'.replace(',', '.', ).strip() % price
-
-#    question = models.CharField(max_length=200)
-#    pub_date = models.DateTimeField('date published')
-
-#    Availability = (
-#        (1, _(u'Есть в наличии', ), ),
-#        (2, _(u'Ожидается', ), ),
-#        (3, _(u'Под заказ', ), ),
-#        (4, _(u'Недоступен', ), ),
 
     def check_product_availability(self, product_cart='product', ):
         if self.is_availability == 1:
