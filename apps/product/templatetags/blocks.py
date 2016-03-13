@@ -37,6 +37,8 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
     from django.core.cache import cache
     this_one_block = cache.get(key=key, )
 
+    print block.get_price(request)
+
     if not this_one_block:
         template_name = u'product/templatetags/block_product.jinja2'
         if category_or_product == 'category':
