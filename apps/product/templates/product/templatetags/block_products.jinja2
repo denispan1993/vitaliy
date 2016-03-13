@@ -30,7 +30,7 @@ function product_to_cart(data, product_pk, available_to_order){
     {% else %}
         {% set last_loop = False %}
     {% endif %}
-    {% cache 15 aaa111 %}
+    {% cache 15 %}
     {% for product in blocks|sort(attribute='serial_number')|sort(attribute='is_availability') %}
         {{ one_block(product, request, 'div', cycle, last_loop, 'product')|safe }}
         {% if cycle < limit_on_string %}
