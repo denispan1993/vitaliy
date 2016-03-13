@@ -87,7 +87,6 @@ class Slide(models.Model):
     @property
     def url(self, ):
         if self.parent:
-            print 'Slide: print self.parent: ', self.parent
             return self.parent.get_absolute_url()
         else:
             return '#'

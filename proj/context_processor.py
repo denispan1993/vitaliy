@@ -3,14 +3,7 @@ __author__ = 'Alex Starov'
 
 
 def context(request):
-#    from apps.product.models import Category
-#    try:
-#        all_categories_ = Category.manager.published()
-#    except Category.DoesNotExist:
-#        all_categories_ = None
 
-#    ajax_resolution_ = request.session.get(u'ajax_resolution', True, )
-    print 'First TEST:'
     from apps.static.models import Static
     try:
         static_pages = Static.objects.all()
