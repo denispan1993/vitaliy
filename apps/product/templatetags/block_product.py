@@ -1,5 +1,5 @@
-# coding=utf-8
-__author__ = 'Sergey'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django_jinja.library import Library
 from django.template.loader import render_to_string

@@ -1,5 +1,5 @@
-# coding=utf-8
-__author__ = 'Sergey'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 from django_jinja.library import global_function
 from django.template.loader import render_to_string
@@ -32,15 +32,16 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
     margin_left = '10px'
     if cycle == 1:
         margin_left = '0px'
+
     key = 'one_block_%s_%d_%s_%s_%s' % (category_or_product, block.pk, choice, margin_bottom, margin_left, )
     from django.core.cache import cache
     this_one_block = cache.get(key=key, )
+
     if not this_one_block:
         template_name = u'product/templatetags/block_product.jinja2'
         if category_or_product == 'category':
             template_name = u'category/templatetags/block_category.jinja2'
-        # elif category_or_product == 'product':
-        #     template_name = u'product/templatetags/block_product.jinja2.html'
+
         from proj.settings import MEDIA_URL
         this_one_block = render_to_string(template_name=template_name,
                                           context={'block': block,
@@ -49,6 +50,7 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
                                                    'choice': choice,
                                                    'margin_bottom': margin_bottom,
                                                    'margin_left': margin_left, }, )
+
         cache.set(key=key, value=this_one_block, timeout=600, )
     else:
         return this_one_block.decode('utf-8', )
