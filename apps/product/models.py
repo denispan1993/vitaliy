@@ -145,7 +145,7 @@ class Category(MPTTModel):
 #        return ('show_category', (),
 #                {'category_url': unicode(str(self.url)),
 #                 'id': unicode(str(self.pk)), }, )
-        return u'/%s/к%.6d/' % (self.url, self.id, )
+        return u'/%s/к%.6d/' % (self.url.lower(), self.id, )
 
     def save(self, *args, **kwargs):
         super(Category, self, ).save(*args, **kwargs)
@@ -602,10 +602,10 @@ class Product(models.Model):
 #        return ('show_product', (),
 #                {'product_url': self.url,
 #                 'id': self.pk, }, )
-        return u'/%s/п%.6d/' % (self.url, self.id, )
+        return u'/%s/п%.6d/' % (self.url.lower(), self.id, )
 
     def cache_key(self, ):
-        return u'%s-%.6d' % (self.url, self.id, )
+        return u'%s-%.6d' % (self.url.lower(), self.id, )
 
 #    def save(self, *args, **kwargs):
 ##        print(u'test1')

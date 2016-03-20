@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Sergey'
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
-
 from compat.FormSlug.fields import FormSlugField
+
+__author__ = 'AlexStarov'
 
 
 class ModelSlugField(models.CharField, ):
@@ -24,17 +23,3 @@ class ModelSlugField(models.CharField, ):
         defaults = {'form_class': FormSlugField, }
         defaults.update(kwargs)
         return super(ModelSlugField, self).formfield(**defaults)
-
-# описываем правила
-#rules = [
-#    (
-#        (ModelSlugField, ), [],
-#        {
-#            "null": ["null", {"default": False}],
-#            "blank": ["blank", {"default": False}],
-#        }
-#    ),
-#]
-# добавляем правила и модуль
-#from south.modelsinspector import add_introspection_rules
-#add_introspection_rules(rules, ["^compat\.FormSlug\.models\.ModelSlugField"])

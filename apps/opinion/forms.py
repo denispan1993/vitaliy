@@ -5,8 +5,8 @@ __author__ = 'AlexStarov'
 
 
 class OpinionAddForm(forms.Form):
-    name = forms.CharField()
-    email = forms.CharField()
-    phone = forms.CharField()
-    title = forms.CharField()
-    comment = forms.CharField()
+    name = forms.CharField(required=True)
+    email = forms.CharField(required=True)
+    phone = forms.CharField(required=False)
+    title = forms.CharField(required=False)
+    comment = forms.CharField(required=True)

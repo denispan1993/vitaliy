@@ -1,31 +1,21 @@
 # coding=utf-8
-__author__ = 'Sergey'
-
-from django.db import models
 from django.utils.translation import ugettext_lazy as _
-#from south.modelsinspector import add_introspection_rules
-
-#================================
-#from django.utils.translation import ugettext_lazy as _
-#from django.db import models
 import re
-
-#from compat.ruslug.forms import RuSlugFormField
-
-from django.forms import CharField #as FormCharField
-#from django.core import validators
+from django.forms import CharField
 from django.core.validators import RegexValidator
+
+__author__ = 'AlexStarov'
+
 
 # slug_re = re.compile(r'^[-a-zA-Zа-яА-ЯёЁіІїЇґҐєЄ0-9_.]+$')
 # slug_re = re.compile(r'^[-a-zA-Zа-яА-ЯёЁіІїЇґҐєЄ0-9_.]+$', re.U, )
-slug_re = re.compile(r'^[-\w]+$', re.U)
+slug_re = re.compile(r'^[-\w]+$'.lower(), re.U)
 
 validate_slug = RegexValidator(slug_re, _("Enter a valid 'slug' consisting of letters, numbers,"
                                           " underscores or hyphens."),
                                'invalid', )
 
 
-#class FormSlug(FormCharField, ):
 class FormSlugField(CharField, ):
     default_error_messages = {
         'invalid': _("Enter a valid 'slug' consisting of letters, numbers,"
