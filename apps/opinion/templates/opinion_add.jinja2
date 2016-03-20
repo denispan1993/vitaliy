@@ -1,5 +1,5 @@
 <form action="{{ url('opinion_ru:adding_ru') }}" method="post">{% csrf_token %}
-    {{ form.as_p }}
+    {{ form.as_p() }}
     <input type="submit" value="Добавить" />
     <input type="reset" value="Закрыть" />
 </form>

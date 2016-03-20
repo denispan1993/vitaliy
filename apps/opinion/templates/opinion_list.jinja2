@@ -18,7 +18,7 @@ $(document).ready(function() {
         <h1 style="float:left;"><a href="{{ url('opinion_ru:list_ru') }}" title="Отзывы о работе магазина Кексик">Отзывы о работе магазина Кексик</a></h1>
         <a href="{{ url('opinion_ru:add_ru') }}" style="float:right;" onClick="$('#opinion_add').show();return false;">Добавить свой отзыв</a>
     </div>
-    <div id="opinion_add" style="display:none;"></div>
+    <div id="opinion_add"></div>
     {% for opinion in opinion_list %}
         <ul>
             {% if opinion.title %}<li><h2><a href="{{ opinion.get_absolute_url() }}">{{ opinion.title }}</a></h2></li>{% endif %}
