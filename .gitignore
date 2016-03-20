@@ -11,3 +11,12 @@ VirtualEnvironment/
 VirtEnv-Win32/
 media/photo/
 media/slide/
+media/email_img/
+start.sh
+stop.sh
+reload.sh
+server.key
+server.mysql
+server.postgres
+envs_init.sh
+envs_manage.sh
