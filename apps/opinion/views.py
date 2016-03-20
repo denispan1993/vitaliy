@@ -1,17 +1,25 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import TemplateView, DetailView, ListView, FormView
+from django.views.generic import TemplateView, DetailView, ListView, FormView, CreateView
 
 __author__ = 'AlexStarov'
 
 
 class OpinionAddView(FormView):
     template_name = 'opinion_add.jinja2'
+    from apps.opinion.forms import OpinionAddForm
+    form_class = OpinionAddForm
 
 
-class OpinionAddedView(TemplateView):
+class OpinionAddedView(CreateView):
+    from apps.comment.models import Comment
+    model = Comment
+    success_url = '/ok/vse/good/'
+
+
+class OpinionAddingView(TemplateView):
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(OpinionAddedView, self).render_to_response(context, **response_kwargs)
+        response = super(OpinionAddingView, self).render_to_response(context, **response_kwargs)
         print response
         response.template_name = 'opinion_added_succesffuly.jinja2'
         print response
