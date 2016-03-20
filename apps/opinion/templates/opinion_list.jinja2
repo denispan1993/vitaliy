@@ -4,8 +4,10 @@
 {% block description %}{% endblock %}
 {% block keywords %}{% endblock %}
 {% block content_center %}
-    <h2>Отзывы</h2>
-    <a href="{{ url('opinion_ru:add_ru') }}">Добавить свой отзыв</a>
+    <div id="opinion_title">
+        <h2 style="float:left;">Отзывы о работе магазина Кексик</h2>
+        <a href="{{ url('opinion_ru:add_ru') }}" style="float:right;">Добавить свой отзыв</a>
+    </div>
     {% for opinion in opinion_list %}
         <ul>
             {% if opinion.title %}<li><a href="{{ opinion.get_absolute_url() }}"><h3>{{ opinion.title }}</h3></a></li>{% endif %}
