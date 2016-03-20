@@ -1,7 +1,21 @@
 # -*- coding: utf-8 -*-
+from django.views.generic import TemplateView, DetailView, ListView, FormView
+
 __author__ = 'AlexStarov'
 
-from django.views.generic import DetailView, ListView
+
+class OpinionAddView(FormView):
+    template_name = 'opinion_add.jinja2'
+
+
+class OpinionAddedView(TemplateView):
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super(OpinionAddedView, self).render_to_response(context, **response_kwargs)
+        print response
+        response.template_name = 'opinion_added_succesffuly.jinja2'
+        print response
+        return response
 
 
 class OpinionListView(ListView):

@@ -3,14 +3,20 @@
 {% block title %}Отзывы посетителей магазина Кексик{% endblock %}
 {% block description %}{% endblock %}
 {% block keywords %}{% endblock %}
+<script>
+function load_opinion_add() {
+    $('#opinion').load('{{ url('opinion_en:add_en') }}').hide();
+}
+</script>
 {% block content_center %}
     <div id="opinion_title">
-        <h2 style="float:left;">Отзывы о работе магазина Кексик</h2>
-        <a href="{{ url('opinion_ru:add_ru') }}" style="float:right;">Добавить свой отзыв</a>
+        <h1 style="float:left;"><a href="{{ url('opinion_ru:list_ru') }}" title="Отзывы о работе магазина Кексик">Отзывы о работе магазина Кексик</a></h1>
+        <a href="{{ url('opinion_ru:add_ru') }}" style="float:right;" onClick="$('#opinion').show();return;">Добавить свой отзыв</a>
     </div>
+    <div id="opinion_add" style="display:none;"></div>
     {% for opinion in opinion_list %}
         <ul>
-            {% if opinion.title %}<li><a href="{{ opinion.get_absolute_url() }}"><h3>{{ opinion.title }}</h3></a></li>{% endif %}
+            {% if opinion.title %}<li><h2><a href="{{ opinion.get_absolute_url() }}">{{ opinion.title }}</a></h2></li>{% endif %}
             <li><a href="{{ opinion.get_absolute_url() }}">{{ opinion.name }}</a></li>
             <li><p>{{ opinion.comment }}</p></li>
         </ul>
