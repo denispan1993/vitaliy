@@ -1,0 +1,16 @@
+{# language: jinja2 #}
+{% extends 'root.jinja2' %}
+{% block title %}Отзывы посетителей магазина Кексик{% endblock %}
+{% block description %}{% endblock %}
+{% block keywords %}{% endblock %}
+{% block content_center %}
+    <h2>Отзывы</h2>
+    <a href="{{ url('opinion_ru:add_ru') }}">Добавить свой отзыв</a>
+    {% for opinion in opinion_list %}
+        <ul>
+            {% if opinion.title %}<li><a href="{{ opinion.get_absolute_url() }}"><h3>{{ opinion.title }}</h3></a></li>{% endif %}
+            <li><a href="{{ opinion.get_absolute_url() }}">{{ opinion.name }}</a></li>
+            <li><p>{{ opinion.comment }}</p></li>
+        </ul>
+    {% endfor %}
+{% endblock %}
