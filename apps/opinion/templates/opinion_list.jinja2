@@ -3,11 +3,16 @@
 {% block title %}Отзывы посетителей магазина Кексик{% endblock %}
 {% block description %}{% endblock %}
 {% block keywords %}{% endblock %}
+{% block root_header_js %}
 <script>
 function load_opinion_add() {
     $('#opinion').load('{{ url('opinion_en:add_en') }}').hide();
 }
+$(document).ready(function() {
+    load_opinion_add();
+});
 </script>
+{% endblock %}
 {% block content_center %}
     <div id="opinion_title">
         <h1 style="float:left;"><a href="{{ url('opinion_ru:list_ru') }}" title="Отзывы о работе магазина Кексик">Отзывы о работе магазина Кексик</a></h1>
