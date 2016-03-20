@@ -207,6 +207,17 @@ urlpatterns += patterns('',
                         url(r'^ajax/timezone/', include('apps.ajax.urls', ), ),
                         url(r'^ajax/geoip/', include('apps.ajax.urls', ), ),
                         )
+#Opinion - Мнение - Отыв
+urlpatterns += patterns('',
+                        url(regex=r'^opinion/',
+                            view=include(arg='apps.opinion.urls',
+                                         namespace='opinion_en', ),
+                            ),
+                        url(regex=ur'^отзыв/',
+                            view=include(arg='apps.opinion.urls',
+                                         namespace='opinion_ru', ),
+                            ),
+                        )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile
 PROJECT_PATH = abspath(dirname(__name__, ), )

@@ -361,6 +361,7 @@ INSTALLED_APPS = (
     'apps.ajax',
     'apps.cart',
     'apps.comment',
+    'apps.opinion',
     'apps.currency',
     # 'apps.extended_price',
     'apps.slide',

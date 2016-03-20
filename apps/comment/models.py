@@ -4,8 +4,15 @@ from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel
 
+COMMENT_TYPES = (
+    (0, 'comment'),
+    (1, 'opinion'),
+)
+
 
 class Comment(MPTTModel, ):
+    type = models.PositiveSmallIntegerField(choices=COMMENT_TYPES, blank=True, null=True, )
+
     from mptt import models as modelsTree
     comment_parent = modelsTree.TreeForeignKey('Comment',
                                                verbose_name=_(u'Комментарий на который отвечает этот комментарий', ),
@@ -58,14 +65,13 @@ class Comment(MPTTModel, ):
                                                blank=False,
                                                null=False,
                                                help_text=_(u'Размер шрифта комментария в пикселях,', ), )
-    #Кто создал
-    name = models.CharField(verbose_name=_(u'Имя'),
+    """ Кто создал комментарий """
+    name = models.CharField(verbose_name=_(u'Имя комментатора'),
                             default=None,
                             max_length=64,
                             null=False,
                             blank=False,
                             help_text=_(u'Как человек представился, имя которое будет выводится на сайте.'), )
-    # from django.contrib.auth.models import User
     from proj.settings import AUTH_USER_MODEL
     user = models.ForeignKey(to=AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
@@ -75,6 +81,8 @@ class Comment(MPTTModel, ):
                                  max_length=32,
                                  null=True,
                                  blank=True, )
+    """ Заголовок комментария """
+    title = models.TextField(verbose_name=_(u'Заголовок комментария', ), blank=True, null=True, )
     """ Собственно сам комментарий """
     comment = models.TextField(verbose_name=_(u'Комментарий', ), null=False, blank=False, )
     rating = models.SmallIntegerField(verbose_name=_(u'Рейтинг', ), null=True, blank=True, )
@@ -115,14 +123,17 @@ class Comment(MPTTModel, ):
     from apps.comment import managers
     objects = managers.Manager()
 
-#    @models.permalink
     def get_absolute_url(self, ):
-#        return ('show_product', (),
-#                {'product_url': self.url,
-#                 'id': self.pk, }, )
-        # model = self.content_type.model_class()
-        # object = model.objects.get(pk=self.object_id, )
-        # url = object.get_absolute_url()
+        if self.type == 1:
+            from django.core.urlresolvers import reverse
+            if self.title:
+                from django.utils.text import slugify
+                return reverse(viewname='opinion_ru:opinion_long',
+                               kwargs={'opinion_url': slugify(self.url, unicode=True), 'pk': self.pk, }, )
+            else:
+                return reverse(viewname='opinion_ru:opinion_short',
+                               kwargs={'pk': self.pk, }, )
+
         if self.content_type:
             object = self.content_type.get_object_for_this_type(pk=self.object_id, )
             url = object.get_absolute_url()
