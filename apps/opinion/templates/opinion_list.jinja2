@@ -6,7 +6,7 @@
 {% block root_header_js %}
 <script>
 function load_opinion_add() {
-    $('#opinion').load('{{ url('opinion_en:add_en') }}').hide();
+    $('#opinion_add').load('{{ url('opinion_en:add_en') }}').hide();
 }
 $(document).ready(function() {
     load_opinion_add();
