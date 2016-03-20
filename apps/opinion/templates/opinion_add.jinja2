@@ -1,16 +1,17 @@
-<form action="{{ url('opinion_ru:adding_ru') }}" method="post" style="text-align:left;">{% csrf_token %}
-    <label for="form.name.id_label_tag">Имя <span style="vertical-align:super;font-size:small;color:Red;display:block;">*</span> :</label>
+<form action="{{ url('opinion_ru:adding_ru') }}" method="post"">{% csrf_token %}
+    <label for="form.name.id_label_tag">Имя <span style="">*</span> :</label>
     <input id="form.name.id_label_tag" name="name" type="text" />
 
-    <label for="form.email.id_label_tag">E-Mail <span style="vertical-align:super;font-size:small;color:Red;display:block;">*</span> :</label>
+    <label for="form.email.id_label_tag">E-Mail <span>*</span> :</label>
     <input id="form.email.id_label_tag" name="email" type="email" />
 
-    <label for="form.title.id_label_tag">Заголовок <span style="vertical-align:super;font-size:small;color:Red;display:block;">*</span> :</label>
+    <label for="form.title.id_label_tag">Заголовок <span>*</span> :</label>
     <input id="form.title.id_label_tag" name="title" type="text" />
 
-    <label for="form.opinion.id_label_tag">Отзыв <span style="vertical-align:super;font-size:small;color:Red;display:block;">*</span> :</label>
+    <label for="form.opinion.id_label_tag">Отзыв <span>*</span> :</label>
     <textarea id="form.opinion.id_label_tag" name="comment" rows="10" cols="60"></textarea>
 
+    <br>
     <input type="submit" value="Добавить" />
     <input type="reset" value="Закрыть" />
 </form>
