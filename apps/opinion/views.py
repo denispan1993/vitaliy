@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import TemplateView, DetailView, ListView, FormView, CreateView
+from django.core.urlresolvers import reverse, reverse_lazy
 
 __author__ = 'AlexStarov'
 
@@ -10,18 +11,24 @@ class OpinionAddView(FormView):
     form_class = OpinionAddForm
 
 
-class OpinionAddedView(CreateView):
+class OpinionAddingView(CreateView):
     from apps.comment.models import Comment
     model = Comment
-    success_url = '/ok/vse/good/'
+    http_method_names = [u'post', ]
+    success_url = reverse_lazy('opinion_ru:added_successfully_ru')
+
+    def form_invalid(self, form):
+        # response = super(OpinionAddingView, self).form_invalid(form)
+        from django.shortcuts import redirect
+        return redirect(reverse('opinion_ru:added_not-successfully_ru'))
 
 
-class OpinionAddingView(TemplateView):
+class OpinionAddedView(CreateView):
+    template_name = 'opinion_added.jinja2'
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(OpinionAddingView, self).render_to_response(context, **response_kwargs)
+        response = super(OpinionAddedView, self).render_to_response(context, **response_kwargs)
         print response
-        response.template_name = 'opinion_added_succesffuly.jinja2'
         print response
         return response
 

@@ -201,50 +201,12 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '^p()7zbza81@&amp;!bra3fvugv$=+zf*7&amp;$c)e(wpkl7=qg!vfx@$'
 
-# List of callables that know how to import templates from various sources.
-#TEMPLATE_LOADERS = (
-#    # ('coffin.template.loaders.JinjaCachedLoader',
-#    ('django.template.loaders.cached.Loader',
-#     (
-#         'jingo.Loader',
-#         'django_jinja.loaders.AppLoader',
-#         'django_jinja.loaders.FileSystemLoader',
-         # 'django.template.loaders.app_directories.Loader',
-         # 'django.template.loaders.filesystem.Loader',
-         # 'django.template.loaders.filesystem.Loader',
-         # 'django.template.loaders.app_directories.Loader',
-         # 'django.template.loaders.eggs.Loader',
-#     ),
-#     ),
-#)
-
-#JINJA2_TEMPLATE_LOADERS = (
-#    ('django.template.loaders.cached.Loader',
-#     (
-#         'django.template.loaders.app_directories.Loader',
-#         'django.template.loaders.filesystem.Loader',
-#     ),
-#    ),
-#)
-
-#TEMPLATE_LOADERS = (
-#    'coffin.template.loaders.JinjaCachedLoader',
-#)
-
-
-#DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2'
-
 JINGO_INCLUDE_PATTERN = r'\.jingo.html'
 
 JINGO_EXCLUDE_APPS = ('debug_toolbar',
                       'django.contrib.admin',
                       'django.contrib.admindocs', )
 
-#TEMPLATE_LOADERS = (
-#    'django.template.loaders.filesystem.Loader',
-#    'django.template.loaders.app_directories.Loader',
-##    'django.template.loaders.eggs.Loader',
-#)
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
@@ -254,21 +216,7 @@ TCP += (
 
 TCP += (
     'django.core.context_processors.csrf',
-    # 'django.contrib.auth.context_processors.auth',
-    # 'django.core.context_processors.debug',
-    # 'django.core.context_processors.i18n',
-    # 'django.core.context_processors.media',
-    # 'django.core.context_processors.request',
-    # 'django.core.context_processors.auth',
-    # 'django.contrib.messages.context_processors.messages',
-    # Мой context processor
-#     'proj.context_processor.context',
-    # 'compressor',
 )
-
-#JINJA2_EXTENSIONS = [
-#    'compressor.contrib.jinja2ext.CompressorExtension',
-#]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -321,12 +269,6 @@ ROOT_URLCONF = 'proj.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'proj.wsgi.application'
 
-
-#TEMPLATE_DIRS = ('templates',
-#                 'templates/jinja2',
-#                 'jinja2', )
-
-#DIRS = ['templates', ]
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -385,9 +327,7 @@ INSTALLED_APPS = (
 )
 
 PAYPAL_RECEIVER_EMAIL = "simagina.svetlana@gmail.com"
-#SOUTH_MIGRATION_MODULES = {
-#    'easy_thumbnails': 'easy_thumbnails.south_migrations',
-#}
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -639,38 +579,10 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
 )
-#DEBUG_TOOLBAR_PANELS = (
-#    'debug_toolbar.panels.version.VersionDebugPanel',
-#    'debug_toolbar.panels.timer.TimerDebugPanel',
-##    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-#    'debug_toolbar.panels.headers.HeaderDebugPanel',
-#    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-#    'debug_toolbar.panels.template.TemplateDebugPanel',
-#    'debug_toolbar.panels.sql.SQLDebugPanel',
-#    'debug_toolbar.panels.cache.CacheDebugPanel',
-#    'debug_toolbar.panels.signals.SignalDebugPanel',
-##    'debug_toolbar.panels.logger.LoggingPanel',
-#)
 
 DEBUG_TOOLBAR_PANELS += (
     'debug_toolbar.panels.profiling.ProfilingPanel',
 )
-
-#INSTALLED_APPS += (
-#    'debug_toolbar_htmltidy',
-#)
-
-#DEBUG_TOOLBAR_PANELS += (
-#    'debug_toolbar_htmltidy.panels.HTMLTidyDebugPanel',
-#)
-
-#INSTALLED_APPS += (
-#    'debug_toolbar_autoreload',
-#)
-
-#DEBUG_TOOLBAR_PANELS += (
-#    'debug_toolbar_autoreload.AutoreloadPanel',
-#)
 
 DEBUG_TOOLBAR_FILTER_URL = ('^admin/', )
 
@@ -684,32 +596,6 @@ DEBUG_TOOLBAR_PANELS += (
 
 IGNORED_TEMPLATES = ["debug_toolbar/*"]
 
-#INSTALLED_APPS += (
-#    'memcache_toolbar',
-#)
-
-#DEBUG_TOOLBAR_PANELS += (
-#    'memcache_toolbar.panels.memcache.MemcachePanel',
-#)
-
-#    'debug_toolbar.panels.version.VersionDebugPanel',
-#    'debug_toolbar.panels.timer.TimerDebugPanel',
-#    'debug_toolbar.panels.settings.SettingsPanel',
-##    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-#    'debug_toolbar.panels.headers.HeaderDebugPanel',
-#    'debug_toolbar.panels.profiling.ProfilingPanel',
-#    'debug_toolbar.panels.redirects.RedirectsPanel',
-#    'debug_toolbar.panels.request.RequestPanel',
-#    'debug_toolbar.panels.template.TemplateDebugPanel',
-#    'debug_toolbar.panels.sql.SQLDebugPanel',
-#    'debug_toolbar.panels.cache.CacheDebugPanel',
-#    'debug_toolbar.panels.signals.SignalDebugPanel',
-#    'debug_toolbar.panels.logging.LoggingPanel',
-
-
-#def show_toolbar(request):
-#    return not request.is_ajax() and request.user and request.user.username == "admin"
-
 DEBUG_TOOLBAR_CONFIG = {
     'EXCLUDE_URLS': ('/admin/', ),  # данная опция находится в разработке
     'HIDE_FILTER_URL': '^/admin/',  # данная опция находится в разработке
@@ -720,21 +606,8 @@ DEBUG_TOOLBAR_CONFIG = {
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.0/8', '217.77.210.70', '127.0.0.1', )
-#                '46.33.254.179', )
-#!!!=============== Django ToolBar ===================================
-#INSTALLED_APPS = (
-#    'static_sitemaps',
-#)
-#
-#STATICSITEMAPS_ROOT_SITEMAP = 'media.sitemap'
 
 from django_jinja.builtins import DEFAULT_EXTENSIONS
-
-#Jinja2_TCP = TCP + (
-#    # Мой context processor
-#    'proj.context_processor.context',
-#    # 'compressor',
-#)
 
 TEMPLATES = [
     {

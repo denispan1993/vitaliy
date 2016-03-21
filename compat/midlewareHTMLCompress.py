@@ -1,4 +1,5 @@
-__author__ = 'user'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 # Aliasing it for the sake of page size.
 from django.utils.html import strip_spaces_between_tags as short
