@@ -32,11 +32,9 @@ class Process_SessionIDMiddleware(object):
                     s.save()
                 except OperationalError:
                     print 'S.save() Error: "OperationalError: database is locked" '
-                    # pass
                 else:
                     s_save = True
             session_ID = s.session_key
-        # print 'session: ', session
         if not session and not sessionid:
             """
                 Вот здесь мы будем "что-то" делать........ чтобы понять откуда пришел пользователь

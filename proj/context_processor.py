@@ -38,12 +38,9 @@ def context(request):
     from apps.slide.models import Slide
     try:
         slides = Slide.manager.visible()
-        # objects.all().order_by('order', )
     except Slide.DoesNotExist:
         slides = None
 
-    for slide in slides:
-        print 'slide.url: ', slide.url, ' slide.slide.url: ', slide.slide.url
 
     from apps.product.models import Category
     try:
