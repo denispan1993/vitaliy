@@ -201,11 +201,11 @@ font-weight:bold;
             {% for slide in slides_ %}
                 <li>
                     {% set slide_url = slide.url %}
-                    {{ pprint(slide_url) }}
+                    {{ slide_url|pprint }}
                     <script>var slide_url = {{ slide_url }}</script>
                     <a href="{% if slide_url == '#' %}/{% else %}{{ slide_url }}{% endif %}" target="_blank">
                         <script>var slide_slide_url = {{ slide.slide.url }}</script>
-                        {{ pprint(slide.slide.url) }}
+                        {{ slide.slide.url|pprint }}
                         <img src="{{ slide.slide.url }}"
                              {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}
                              title="{% if slide.title %}{{ slide.title }}{% endif %}"
