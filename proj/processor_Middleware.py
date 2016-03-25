@@ -1,39 +1,14 @@
-﻿# coding=utf-8
-#import time
-#from django.conf import settings
-#from django.utils.cache import patch_vary_headers
-#from django.utils.http import cookie_date
-#from django.utils.importlib import import_module
-##from django.core.context_processors import csrf
-#from django.conf import settings
-##from django.core.urlresolvers import reverse
-#from django.http import HttpResponse, HttpResponseRedirect
-#from django.shortcuts import render_to_response
-##from django.template import RequestContext
-#from django.contrib.sessions.models import Session
-#from django.contrib.auth.models import User
-##from django.contrib.sites.models import Site
-#from django.forms.models import modelformset_factory
-##from django.forms.widgets import RadioSelect, CheckboxSelectMultiple, Select
-
-##from registration.forms import RegistrationForm, RegistrationFormUniqueEmail, ProfileForm
-##from database_products.forms import ColorsForm, SizesForm
-#from Carts.models import Carts, More_Options_Carts
-#from database_products.models import database_products, Last_viewed
-#from database_products.views import _cart_id #views_price_per_piece, 
-#from Manufacturers.models import Manufacturers, Countrys
-#from database_products.models import Rubrics, Categories, database_products, Views, Colors_m2m, Colors, Sizes_m2m, Sizes
+﻿# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 
 class Process_SessionIDMiddleware(object):
     def process_response(self, request, response, ):
-        # print 'Cookie'
         """
             Узнаем текущий key session.
             Он лежит именно в COOKIES.
         """
         sessionid = request.COOKIES.get('sessionid', False, )
-        # print 'sessionid: ', sessionid
         """
             Узнаем предыдуший key session.
             Если он конечно есть.

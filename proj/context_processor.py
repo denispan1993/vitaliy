@@ -42,6 +42,9 @@ def context(request):
     except Slide.DoesNotExist:
         slides = None
 
+    for slide in slides:
+        print 'slide.url: ', slide.url, ' slide.slide.url: ', slide.slide.url
+
     from apps.product.models import Category
     try:
         categories_basement = Category.objects.basement()
