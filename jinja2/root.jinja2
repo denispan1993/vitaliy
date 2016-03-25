@@ -202,9 +202,9 @@ font-weight:bold;
                 <li>
                     {% set slide_url = slide.url %}
                     {# {1{ dprint('slide.url: ', slide.url) }} #}
-                    <script>var slide_url = {{ slide_url }}</script>
+                    {# <script>var slide_url = {{ slide_url }}</script> #}
                     <a href="{% if slide_url == '#' %}/{% else %}{{ slide_url }}{% endif %}" target="_blank">
-                        <script>var slide_slide_url = {{ slide.slide.url }}</script>
+                        {# <script>var slide_slide_url = {{ slide.slide.url }}</script> #}
                         {# {1{ dprint('slide.slide.url: ', slide.slide.url) }} #}
                         <img src="{{ slide.slide.url }}"
                              {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}
