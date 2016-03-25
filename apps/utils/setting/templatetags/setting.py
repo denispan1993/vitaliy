@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
-#from libxml2mod import name
+from django_jinja.library import global_function
+
 __author__ = 'AlexStarov'
-
-from django_jinja.library import global_function #import library
-
-#register = Library()
 
 variable_types = {'char', 'text', 'integer', 'positivesmallinteger', 'img', }
 
 
-#@register.global_function(name='get_value_variable', )
-#@library.global_function(name='get_value_variable', )
 @global_function(name='get_value_variable', )
 def get_value_variable(variable_name, variable_type, ):
     value = 'None'
