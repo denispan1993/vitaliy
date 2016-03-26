@@ -36,8 +36,11 @@ class OpinionAddedView(CreateView):
 
         form = self.form_class(request.POST)
 
+        print request.POST
+
         if form.is_valid():
             data = form.cleaned_data
+            print data
 
         return response
 
