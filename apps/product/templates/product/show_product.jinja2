@@ -395,8 +395,7 @@ document.write(VK.Share.button({
                     <div id="slider">
                         {% set count_photos = photos|length %}
                         {% if count_photos > 3 %}
-                            <script>
-                            // Initialize the sliders.
+                            <script>{# // Initialize the sliders. #}
                             $(function(){
                                 $('#slider').Thumbelina({
                                     $bwdBut:$('#slider .left'),
@@ -497,21 +496,21 @@ document.write(VK.Share.button({
 }
 </style>
                     <p style="font-size:22px;font-weight:bold;color:Red;">До окончания акции осталось:</p>
-                    <div class="clock"{#  style="margin:2em;" #}></div>
+                    <div class="clock"></div>
 <script src="{{ MEDIA_URL }}js/jquery/flipclock/flipclock.min.js"></script>
 <script>
 var clock;
 $(document).ready(function() {
-// Grab the current date
+{# // Grab the current date #}
 var currentDate = new Date();
     {% set actions = product.action.all() %}
     {% set action = actions[0] %}
     {% set datetime_end = action.datetime_end %}
-// Set some date in the future. In this case, it's always Jan 1
+{# // Set some date in the future. In this case, it's always Jan 1 #}
 var futureDate = new Date("{{ datetime_end.isoformat() }}");
-// Calculate the difference in seconds between the future and current date
+{# // Calculate the difference in seconds between the future and current date #}
 var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
-// Instantiate a coutdown FlipClock
+{# // Instantiate a coutdown FlipClock #}
 clock = $('.clock').FlipClock(diff, {
 clockFace:'DailyCounter',
 countdown:true,
@@ -746,7 +745,6 @@ a{
 		</div>
     </div>
 </div>
-{# {% if user.is_authenticated and user.is_staff %} #}
 {% if products_recommended %}
 <style>
 a.a-tab{
@@ -853,6 +851,7 @@ box-shadow:-4px -5px 4px #000000;
     var commentsElem = document.getElementById('li-comments');
     var tab_recomendationElem = document.getElementById('tab_recommended_products');
     var tab_commentsElem = document.getElementById('tab-comments');
+    console.log('tav_click');
     if(element.id == 'li-recomendations') {
         commentsElem.classList.remove('active');
         tab_commentsElem.style.display = 'none';
@@ -868,6 +867,7 @@ box-shadow:-4px -5px 4px #000000;
 }
 $(document).load(function($){
     var recomendationElem = document.getElementById('li-recomendations');
+    console.log('jQuery - load');
     tab_click(recomendationElem);
 });</script>
 {% endif %}
