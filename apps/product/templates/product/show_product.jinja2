@@ -374,7 +374,7 @@ document.write(VK.Share.button({
                 {% set main_photo = product.main_photo %}
 				{% if main_photo %}
                     <div class="image-wrap" style="height:372px;line-height:370px;">
-                        <img class='cloudzoom' style='vertical-align:middle;' id='zoom' src='{{ main_photo.photo.url_345x370 }}'{# small image #}
+                        <img class='cloudzoom-zoom' style='vertical-align:middle;' id='main-zoom' src='{{ main_photo.photo.url_345x370 }}'{# small image #}
                              data-cloudzoom="zoomImage:'{{ main_photo.photo.url }}',{# large image #}zoomPosition:3,zoomSizeMode:'image',zoomOffsetX:15{# ,zoomOffsetY:25, maxMagnification:4 #}"
                              alt='{{ main_photo.title }}'
                              title='{{ main_photo.title }}'
@@ -415,7 +415,7 @@ document.write(VK.Share.button({
                                              {% if loop.index > 1 %}style="margin-left:4px;"{% endif %}
                                              src="{{ photo.photo.url_90x95 }}" {# icon image #}
                                              title='{{ photo.sign }}'
-                                             data-cloudzoom="useZoom:'#zoom',image:'{{ photo.photo.url_345x370 }}',{# small image #}zoomImage:'{{ photo.photo.url }}'{# large image #}" />
+                                             data-cloudzoom="useZoom:'#main-zoom',image:'{{ photo.photo.url_345x370 }}',{# small image #}zoomImage:'{{ photo.photo.url }}'{# large image #}" />
                                     </li>
                                 {% endfor %}
                             </ul>

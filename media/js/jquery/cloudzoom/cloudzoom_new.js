@@ -699,7 +699,7 @@ r.fn.CloudZoom.defaults = {
     zoomOffsetY: 0,
     zoomFullSize: k,
     zoomFlyOut: h,
-    zoomClass: "cloudzoom",
+    zoomClass: "cloudzoom-zoom",
     zoomInsideClass: "cloudzoom-zoom-inside",
     captionSource: "title",
     captionType: "attr",
