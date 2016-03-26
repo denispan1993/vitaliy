@@ -96,13 +96,13 @@ class Comment(MPTTModel, ):
                                              null=False,
                                              blank=False,
                                              help_text=_(u'Пользователь запросил ответ на свой комментарий.', ), )
-    email_for_response = models.CharField(verbose_name=_(u'E-Mail пользователя', ),
-                                          default=None,
-                                          max_length=64,
-                                          null=True,
-                                          blank=True,
-                                          help_text=_(u'E-Mail пользователя на который нужно отослать ссылку'
-                                                      u' на ответ на комментарий.', ), )
+    email = models.CharField(verbose_name=_(u'E-Mail пользователя', ),
+                             default=None,
+                             max_length=64,
+                             null=True,
+                             blank=True,
+                             help_text=_(u'E-Mail пользователя на который нужно отослать ссылку'
+                                         u' на ответ на комментарий.', ), )
     phone = models.CharField(verbose_name=_(u'Телефон пользователя', ),
                              default=None,
                              max_length=32,
