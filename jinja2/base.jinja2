@@ -1,4 +1,3 @@
-{# language: jinja2 #}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -20,6 +19,7 @@
 {% block product_header_css %}{% endblock %}
 <script src="{{ MEDIA_URL }}js/jquery/jquery-1.9.1.min.js"></script>
 <script src="{{ MEDIA_URL }}js/animate_cart.js"></script>
+{% block root_header_js %}{% endblock %}
 {% block header_js %}{% endblock %}
 {% block header_javascript1 %}{% endblock %}
 {% block header_javascript2 %}{% endblock %}
@@ -369,9 +369,7 @@ function CallBack_Enable(){
 </p>
 <script>
 $(document).ready(function(){
-    // hide #to-top first
     $("p#to-top").hide();
-    // fade in #to-top
     $(function(){
         $(window).scroll(function(){
             if($(this).scrollTop()>200){
@@ -384,7 +382,6 @@ $(document).ready(function(){
                 $('p#to-top').fadeOut();
             }
         });
-        // scroll body to 0px on click
         $('p#to-top a').click(function(){
             $('body,html').animate({
                 scrollTop:0

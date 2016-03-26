@@ -88,7 +88,7 @@ try{
 {% block header %}
 {% if user.is_anonymous %}
     <div id="auth" class="auth-panel">
-        <a class="auth-tab" href="" onclick="return false;">Auth tab</a>
+        <a class="auth-tab" href="javascript:void(0);" onclick="return false;">Auth tab</a>
         <a href="/accounts/signin/">Вход</a>/
         <a href="/accounts/signup/">Регистрация</a>/{# {{ social_auth_widget() }} #}
         <a href="/social/login/odnoklassniki-oauth2/">odnoklassniki-oauth2</a>/
