@@ -699,7 +699,7 @@ r.fn.CloudZoom.defaults = {
     zoomOffsetY: 0,
     zoomFullSize: k,
     zoomFlyOut: h,
-    zoomClass: "cloudzoom-zoom",
+    zoomClass: "cloudzoom",
     zoomInsideClass: "cloudzoom-zoom-inside",
     captionSource: "title",
     captionType: "attr",
@@ -835,4 +835,4 @@ L.prototype.S = function () {
     })
 };
 B.CloudZoom = J;
-J.la();;
+J.la();
