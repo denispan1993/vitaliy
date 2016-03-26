@@ -25,7 +25,8 @@ class OpinionAddView(FormView):
 
 
 class OpinionAddedView(CreateView):
-    form_class = RouteFilterForm
+    from apps.opinion.forms import OpinionAddedForm
+    form_class = OpinionAddedForm
     from apps.comment.models import Comment
     model = Comment
     success_url = '/ok/vse/good/'
