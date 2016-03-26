@@ -1,5 +1,5 @@
-<!-- Rating@Mail.ru counter -->
-<script async=""{# type="text/javascript" #}>
+{# <!-- Rating@Mail.ru counter --> #}
+<script>
 var _tmr = _tmr || [];
 _tmr.push({id: "2535504", type: "pageView", start: (new Date()).getTime()});
 (function (d, w) {
@@ -10,5 +10,4 @@ _tmr.push({id: "2535504", type: "pageView", start: (new Date()).getTime()});
 })(document, window);
 </script><noscript><div style="position:absolute;left:-10000px;">
 <img src="//top-fwz1.mail.ru/counter?id=2535504;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
-</div></noscript>
-<!-- //Rating@Mail.ru counter -->
+</div></noscript>{# <!-- //Rating@Mail.ru counter --> #}
