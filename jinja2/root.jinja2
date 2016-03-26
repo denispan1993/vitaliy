@@ -1,4 +1,3 @@
-{# language: jinja2 #}
 {% extends "base.jinja2" %}
 {% block root_header_css %}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/root_style.css" />
@@ -99,8 +98,8 @@ try{
 {% endif %}
 <div id="cart" class="opened">
     <div id="currencies_block_top">
-        <!-- cpt_container_start -->
-        <form method="POST" action="/Валюта/Изменение/" name="CurrencyChange" {# id="setCurrency" #}>
+        {# <!-- cpt_container_start --> #}
+        <form method="POST" action="/Валюта/Изменение/" name="CurrencyChange">
 			<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 			<input type="hidden" name="action" value="CurrencyChange" />
 			<input type="hidden" name="redirect_url" value="{{ request.get_full_path() }}" />
@@ -112,11 +111,6 @@ try{
                     document.CurrencyChange.submit();
                 }
             </script>
-{# <style>
-select option[selected]{
-font-weight:bold;
-}
-</style> #}
             <select onchange="document.CurrencyChange.submit();"
                     name="currency">
                 {% for currency in currency_ %}
@@ -132,15 +126,14 @@ font-weight:bold;
                 {% endfor %}
             </select>
         </form>
-        <!-- cpt_container_end-->
+        {# <!-- cpt_container_end--> #}
     </div>
     <div id="cart_button">
         <a onclick="Cart.toggle();return false;" href="javascript:void(0)" style="line-height:0px;" title="Для начала оформления заказа перейдите в корзину">
             <img width="60" src="{{ MEDIA_URL }}img/shopping_cart.png" alt="Корзина покупателя магазина Кексик.com.ua">
         </a>
     </div>
-    <div id="showcart">{# googleoff:all #}
-        {# <noindex> #}
+    <div id="showcart">{# googleoff:all #}{# <noindex> #}
             <div id="dynamic_div_showcart">
                 {% if user_cart_ %}
                     <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
@@ -151,8 +144,7 @@ font-weight:bold;
                     <strong>Ваша корзина пуста!!!</strong>
                 {% endif %}
             </div>
-            <b><a href="/корзина/">Перейти в корзину</a></b>
-        {# </noindex> #}{# googleon:all #}
+            <b><a href="/корзина/">Перейти в корзину</a></b>{# </noindex> #}{# googleon:all #}
     </div>
 </div>
 <div id="static_menu-wrapper">
@@ -161,22 +153,12 @@ font-weight:bold;
             {% for static_page in static_pages_ %}
                 <li>
                     {% set static_path = '/' + static_page.url + '/' %}
-{#                         {% for static_page_path in static_pages_ %}
-                        {% if request.path == static_path %}
-                            {% set static_path = '/' + static_page.url + '/' %}
-                        {% endif %}
-                    {% endfor %} #}
                     <a href="{{ static_path }}">{{ static_page.title }}</a>
                 </li>
             {% endfor %}
         </ul>
     </div>
 </div>
-{# <div id="cart"><a href="/корзина/">Корзина:</a></div> #}
-{#             <p>User:{{ user }}</p>
-            <p>Authenticated:{{ user.is_authenticated }}</p>
-            <p>Anonymous:{{ user.is_anonymous }}</p>
-            <p>Staff:{{ user.is_staff }}</p> #}
 {% if user.is_authenticated and user.is_staff %}
     {% if request.session.category %}
         <div id="category_admin"><a href="/admin/product/category/{{ current_category.pk }}/">{{ current_category.title }}</a></div>
@@ -201,14 +183,10 @@ font-weight:bold;
             {% for slide in slides_ %}
                 <li>
                     {% set slide_url = slide.url %}
-                    {# {1{ dprint('slide.url: ', slide.url) }} #}
-                    {# <script>var slide_url = {{ slide_url }}</script> #}
                     <a href="{% if slide_url == '#' %}/{% else %}{{ slide_url }}{% endif %}" target="_blank">
-                        {# <script>var slide_slide_url = {{ slide.slide.url }}</script> #}
-                        {# {1{ dprint('slide.slide.url: ', slide.slide.url) }} #}
                         <img src="{{ slide.slide.url }}"
                              {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}
-                             title="{% if slide.title %}{{ slide.title }}{% endif %}"
+                             {% if slide.title %}title="{{ slide.title }}"{% endif %}
                              id="wows1_{{ slide.order }}">
                     </a>{{ slide.text }}
                 </li>
@@ -220,8 +198,7 @@ font-weight:bold;
             {% for slide in slides_ %}
                 <a href="#" {% if slide.title %}title="{{ slide.title }}"{% endif %}>
                     <img src="{{ slide.slide.url_240x96 }}"
-                         {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}>{#
-                    #}&#10022;</a>{# {{ slide.order}} #}{# &#8987; - песочніе часі &#9885; - звездочка #}
+                         {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}>&#10022;</a>{# {{ slide.order}} #}{# &#8987; - песочніе часі &#9885; - звездочка #}
             {% endfor %}
         </div>
     </div>
