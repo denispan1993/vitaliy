@@ -678,7 +678,7 @@ r.fn.CloudZoom = function (a) {
         } else r(this).data("CloudZoom", new J(r(this), a))
     })
 };
-r.fn.CloudZoom.attr = "data-zoom";
+r.fn.CloudZoom.attr = "data-cloudzoom";
 r.fn.CloudZoom.defaults = {
     image: "",
     zoomImage: "",
@@ -699,7 +699,7 @@ r.fn.CloudZoom.defaults = {
     zoomOffsetY: 0,
     zoomFullSize: k,
     zoomFlyOut: h,
-    zoomClass: "zoom",
+    zoomClass: "cloudzoom-zoom",
     zoomInsideClass: "cloudzoom-zoom-inside",
     captionSource: "title",
     captionType: "attr",
