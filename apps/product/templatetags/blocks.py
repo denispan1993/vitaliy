@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django_jinja.library import global_function
 from django.template.loader import render_to_string
+
+__author__ = 'AlexStarov'
 
 
 @global_function()
 def many_blocks(blocks, request, category_or_product, top_border, limit_on_string=0, attachment='', ):
 
-    # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
-    # request_csrf_token = request.COOKIES.get(u'csrftoken', None, )
     request_csrf_token = None
     template_name = u'category/templatetags/block_categories.jinja2'
 
