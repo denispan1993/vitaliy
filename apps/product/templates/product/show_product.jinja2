@@ -851,7 +851,6 @@ box-shadow:-4px -5px 4px #000000;
     var commentsElem = document.getElementById('li-comments');
     var tab_recomendationElem = document.getElementById('tab_recommended_products');
     var tab_commentsElem = document.getElementById('tab-comments');
-    console.log('tav_click');
     if(element.id == 'li-recomendations') {
         commentsElem.classList.remove('active');
         tab_commentsElem.style.display = 'none';
@@ -867,16 +866,9 @@ box-shadow:-4px -5px 4px #000000;
 }
 $(document).ready(function($){
     var recomendationElem = document.getElementById('li-recomendations');
-    console.log('jQuery - load');
     tab_click(recomendationElem);
 });</script>
 {% endif %}
-{# <style>
-#product_box_bottom_comment{
-    float:left;
-    clear:both;
-}
-</style> #}
 <div id="tab-comments" style="display:none;">
 {% if comments %}
 <style>
@@ -886,7 +878,6 @@ padding-bottom:10px;
 }
 </style>
 <h2 class="comment-title">Отзывы покупателей о {{ product.title }}</h2>
-{#             <div id="product_box_bottom_comment"> #}
 <ul>
                 {% for comment in comments %}
                     <li>
