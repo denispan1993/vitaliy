@@ -43,11 +43,11 @@ urlpatterns = patterns('',
                        url(regex=ur'^список/$',
                            view=views.OpinionListView.as_view(),
                            name='list_ru', ),
-
-                       url(regex=ur'^(?P<opinion_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/(?P<pk>\d+)/$',
+#
+                       url(regex=ur'^(?P<opinion_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/(?P<pk>[0-9]{6})/$',
                            view=views.OpinionDetailView.as_view(),
                            name='opinion_long', ),
-                       url(regex=ur'^(?P<pk>\d+)/$',
+                       url(regex=ur'^(?P<pk>[0-9]{6})/$',
                            view=views.OpinionDetailView.as_view(),
                            name='opinion_short', ),
                        )
