@@ -24,7 +24,7 @@ class OpinionAddView(FormView):
     form_class = OpinionAddForm
 
 
-class OpinionAddedView(CreateView):
+class OpinionAddingView(CreateView):
     from apps.opinion.forms import OpinionAddedForm
     form_class = OpinionAddedForm
     from apps.comment.models import Comment
@@ -32,7 +32,7 @@ class OpinionAddedView(CreateView):
     success_url = '/ok/vse/good/'
 
     def post(self, request, *args, **kwargs):
-        response = super(OpinionAddedView, self).post(request, *args, **kwargs)
+        response = super(OpinionAddingView, self).post(request, *args, **kwargs)
 
         form = self.form_class(request.POST)
 
@@ -45,10 +45,10 @@ class OpinionAddedView(CreateView):
         return response
 
 
-class OpinionAddingView(TemplateView):
+class OpinionAddedView(TemplateView):
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(OpinionAddingView, self).render_to_response(context, **response_kwargs)
+        response = super(OpinionAddedView, self).render_to_response(context, **response_kwargs)
         print response
         response.template_name = 'opinion_added.jinja2'
         print response
