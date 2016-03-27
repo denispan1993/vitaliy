@@ -128,10 +128,13 @@ class Comment(MPTTModel, ):
             from django.core.urlresolvers import reverse
             if self.title:
                 from django.utils.text import slugify
-                return reverse(viewname='opinion_ru:opinion_long',
+                return reverse(viewname='opinion_en:opinion_long',
                                kwargs={'opinion_url': slugify(self.url, unicode=True), 'pk': self.pk, }, )
             else:
-                return reverse(viewname='opinion_ru:opinion_short',
+                title = self.title
+                url = slugify(self.url, unicode=True)
+                pk = self.pk
+                return reverse(viewname='opinion_en:opinion_short',
                                kwargs={'pk': self.pk, }, )
 
         if self.content_type:
