@@ -217,6 +217,14 @@ urlpatterns += patterns('',
                             view=include(arg='apps.opinion.urls',
                                          namespace='opinion_ru', ),
                             ),
+                        url(regex=r'^opinions/',
+                            view=include(arg='apps.opinion.urls',
+                                         namespace='opinions_en', ),
+                            ),
+                        url(regex=ur'^отзывы/',
+                            view=include(arg='apps.opinion.urls',
+                                         namespace='opinions_ru', ),
+                            ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile

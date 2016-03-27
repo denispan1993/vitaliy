@@ -1,5 +1,5 @@
 {% extends 'root.jinja2' %}
-{% block title %}Отзывы посетителей магазина Кексик{% endblock %}
+{% block title %}Добавить отзыв о работе магазина Кексик{% endblock %}
 {% block description %}{% endblock %}
 {% block keywords %}{% endblock %}
 {% block header_page_css %}
@@ -23,7 +23,9 @@ div#opinion_add form br{
     clear:both;
 }
 </style>
+{% endblock %}
 {% block content_center %}
+    <h1>Добавить отзыв о работе магазина Кексик</h1>
     <form action="{{ url('opinion_ru:add_ru') }}" method="post">{% csrf_token %}
         <label for="form.name.id_label_tag">Имя <span style="">*</span> :</label>
         <input id="form.name.id_label_tag" name="name" type="text" size="75" />
