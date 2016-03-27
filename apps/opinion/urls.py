@@ -12,13 +12,6 @@ urlpatterns = patterns('',
                            view=views.OpinionAddView.as_view(),
                            name='add_ru', ),
 
-                       url(regex=r'^adding/$',
-                           view=views.OpinionAddingView.as_view(),
-                           name='adding_en', ),
-                       url(regex=ur'^добавление/$',
-                           view=views.OpinionAddingView.as_view(),
-                           name='adding_ru', ),
-
                        url(regex=r'^successfuly/added/$',
                            view=views.OpinionAddedView.as_view(),
                            name='added_successfully_en',
