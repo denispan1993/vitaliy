@@ -15,7 +15,7 @@ class OpinionAddView(FormView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object['type'] = 1
+        self.object.type = 1
         self.object.save()
         return super(OpinionAddView, self).form_valid(form)
 

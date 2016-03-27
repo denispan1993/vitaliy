@@ -9,4 +9,4 @@ class OpinionAddForm(ModelForm):
     class Meta(object):
         from apps.comment.models import Comment
         model = Comment
-        fields = ['name', 'title', 'comment', 'email', 'phone']
+        fields = ['type', 'name', 'title', 'comment', 'email', 'phone']
