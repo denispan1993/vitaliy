@@ -44,10 +44,10 @@ urlpatterns = patterns('',
                            view=views.OpinionListView.as_view(),
                            name='list_ru', ),
 
-                       url(regex=ur'^(?P<opinion_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/(?P<pk>\d{6})/$',
+                       url(regex=ur'^(?P<opinion_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/(?P<pk>\d+)/$',
                            view=views.OpinionDetailView.as_view(),
                            name='opinion_long', ),
-                       url(regex=ur'^(?P<pk>\d{6})/$',
+                       url(regex=ur'^(?P<pk>\d+)/$',
                            view=views.OpinionDetailView.as_view(),
                            name='opinion_short', ),
                        )
