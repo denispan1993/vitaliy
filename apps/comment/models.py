@@ -131,6 +131,7 @@ class Comment(MPTTModel, ):
                 return reverse(viewname='opinion_en:opinion_long',
                                kwargs={'opinion_url': slugify(self.url, unicode=True), 'pk': self.pk, }, )
             else:
+                from django.utils.text import slugify
                 title = self.title
                 url = slugify(self.url, unicode=True)
                 pk = self.pk
