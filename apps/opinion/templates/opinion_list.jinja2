@@ -9,36 +9,24 @@ div#opinion_title h1{
     border-radius:10px;
     color:#3c821c;
     padding:5px 10px;
+    float:left;
+}
+div#opinion_title a{
+    float:right;
+    color:Red;
+    text-decoration:none;
 }
 div#opinion_title a:link:visited:active{
     color:Red;
     text-decoration:none;
 }
-div#opinion_add form{
-    text-align:left;
-    margin-top:20px;
-}
-div#opinion_add form label{
-    text-align:left;
-    display:block;
-    margin-top:10px;
-    font-size:large;
-}
-div#opinion_add form label span{
-    vertical-align:super;
-    font-size:small;
-    color:Red;
-}
-div#opinion_add form br{
-    clear:both;
-}
 </style>
 {% endblock %}
 {% block content_center %}
     <div id="opinion_title">
-        <h1 style="float:left;"><a href="{{ url('opinions_ru:list') }}" title="Отзывы о работе магазина Кексик">Отзывы о работе магазина Кексик</a></h1>
-        <a href="{{ url('opinion_ru:add_ru') }}" style="float:right;">Добавить свой отзыв</a>
-        <br style="clear:both;">
+        <h1><a href="{{ url('opinions_ru:list') }}" title="Отзывы о работе магазина Кексик">Отзывы о работе магазина Кексик</a></h1>
+        <a href="{{ url('opinion_ru:add_ru') }}">Добавить свой отзыв</a>
+        <br class="clearFloat">
     </div>
     <div id="opinion_add"></div>
     {% for opinion in opinion_list %}
