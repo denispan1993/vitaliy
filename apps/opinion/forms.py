@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.forms import Form, ModelForm, CharField
+from django.forms import ModelForm
 
 __author__ = 'AlexStarov'
 
 
-class OpinionAddForm(Form):
-    name = CharField(required=True)
-    email = CharField(required=True)
-    phone = CharField(required=False)
-    title = CharField(required=False)
-    comment = CharField(required=True)
-
-
-class OpinionAddedForm(ModelForm):
+class OpinionAddForm(ModelForm):
 
     class Meta(object):
         from apps.comment.models import Comment
