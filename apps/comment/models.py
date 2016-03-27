@@ -129,11 +129,11 @@ class Comment(MPTTModel, ):
             if self.title:
                 from django.utils.text import slugify
                 return reverse(viewname='opinion_en:opinion_long',
-                               kwargs={'opinion_url': slugify(self.title, unicode=True), 'pk': self.pk, }, )
+                               kwargs={'opinion_url': slugify(self.title, allow_unicode=True), 'pk': self.pk, }, )
             else:
                 from django.utils.text import slugify
                 title = self.title
-                url = slugify(self.title, unicode=True)
+                url = slugify(self.title, allow_unicode=True)
                 pk = self.pk
                 return reverse(viewname='opinion_en:opinion_short',
                                kwargs={'pk': self.pk, }, )
