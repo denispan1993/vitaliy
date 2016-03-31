@@ -36,18 +36,24 @@ div#opinion_add form label span{
         <form action="{{ url('opinion_ru:add_ru') }}" method="post">{% csrf_token %}
             <input name="type" type="hidden" value="1" />
             <br>
+            {{ form.non_field_errors }}
+            {{ form.name.errors }}
             <label for="name_label">Имя <span style="">*</span> :</label>
             <input id="name_label" name="name" type="text" size="75" />
 
+            {{ form.email.errors }}
             <label for="email_label">E-Mail <span>*</span> :</label>
             <input id="email_label" name="email" type="email" size="75" />
 
+            {{ form.phone.errors }}
             <label for="phone_label">Телефон :</label>
             <input id="phone_label" name="phone" type="tel" size="75" />
 
+            {{ form.title.errors }}
             <label for="title_label">Заголовок :</label>
             <input id="title_label" name="title" type="text" size="75" />
 
+            {{ form.comment.errors }}
             <label for="opinion_label">Отзыв <span>*</span> :</label>
             <textarea id="opinion_label" name="comment" rows="10" cols="90"></textarea>
 

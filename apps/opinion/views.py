@@ -13,6 +13,17 @@ class OpinionAddView(FormView):
     model = Comment
     success_url = reverse_lazy('opinion_ru:added_successfully_ru')
 
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            return super(OpinionAddView, self).post(self, request, *args, **kwargs)
+
+        from django.shortcuts import render
+        print form
+        return render(request, self.template_name, {'form': form})
+
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.type = 1
@@ -20,17 +31,11 @@ class OpinionAddView(FormView):
         return super(OpinionAddView, self).form_valid(form)
 
     def form_invalid(self, form):
-        return super(OpinionAddView, self).form_invalid(self, form)
+        return super(OpinionAddView, self).form_invalid(form)
 
 
 class OpinionAddedView(TemplateView):
-
-    def render_to_response(self, context, **response_kwargs):
-        response = super(OpinionAddedView, self).render_to_response(context, **response_kwargs)
-        print response
-        response.template_name = 'opinion_added.jinja2'
-        print response
-        return response
+    template_name = 'opinion_added.jinja2'
 
 
 class OpinionListView(ListView):
