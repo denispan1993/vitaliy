@@ -1,20 +1,59 @@
-<form action="{{ url('opinion_ru:adding_ru') }}" method="post">{% csrf_token %}
-    <label for="form.name.id_label_tag">Имя <span style="">*</span> :</label>
-    <input id="form.name.id_label_tag" name="name" type="text" size="90" />
+{% extends 'root.jinja2' %}
+{% block title %}Добавить отзыв о работе магазина Кексик{% endblock %}
+{% block description %}{% endblock %}
+{% block keywords %}{% endblock %}
+{% block header_page_css %}
+<style>
+div#opinion_title h1{
+    background:#fff none repeat scroll 0 0;
+    border-radius:10px;
+    color:#3c821c;
+    padding:5px 10px;
+    float:left;
+}
+div#opinion_add form{
+    text-align:left;
+    margin-top:20px;
+}
+div#opinion_add form label{
+    text-align:left;
+    display:block;
+    margin-top:10px;
+    font-size:large;
+}
+div#opinion_add form label span{
+    vertical-align:super;
+    font-size:small;
+    color:Red;
+}
+</style>
+{% endblock %}
+{% block content_center %}
+    <div id="opinion_title">
+        <h1>Добавить отзыв о работе магазина Кексик</h1>
+    </div>
+    <div id="opinion_add">
+        <form action="{{ url('opinion_ru:add_ru') }}" method="post">{% csrf_token %}
+            <input name="type" type="hidden" value="1" />
+            <br>
+            <label for="name_label">Имя <span style="">*</span> :</label>
+            <input id="name_label" name="name" type="text" size="75" />
 
-    <label for="form.email.id_label_tag">E-Mail <span>*</span> :</label>
-    <input id="form.email.id_label_tag" name="email" type="email" size="90" />
+            <label for="email_label">E-Mail <span>*</span> :</label>
+            <input id="email_label" name="email" type="email" size="75" />
 
-    <label for="form.phone.id_label_tag">Теелефон :</label>
-    <input id="form.phone.id_label_tag" name="phone" type="tel" size="90" />
+            <label for="phone_label">Телефон :</label>
+            <input id="phone_label" name="phone" type="tel" size="75" />
 
-    <label for="form.title.id_label_tag">Заголовок :</label>
-    <input id="form.title.id_label_tag" name="title" type="text" size="90" />
+            <label for="title_label">Заголовок :</label>
+            <input id="title_label" name="title" type="text" size="75" />
 
-    <label for="form.opinion.id_label_tag">Отзыв <span>*</span> :</label>
-    <textarea id="form.opinion.id_label_tag" name="comment" rows="10" cols="90"></textarea>
+            <label for="opinion_label">Отзыв <span>*</span> :</label>
+            <textarea id="opinion_label" name="comment" rows="10" cols="90"></textarea>
 
-    <br>
-    <input type="submit" value="Добавить" />
-    <input type="reset" value="Закрыть" />
-</form>
+            <br class="clearFloat">
+            <input type="submit" value="Добавить" />
+            <input type="reset" value="Закрыть" />
+        </form>
+    </div>
+{% endblock %}

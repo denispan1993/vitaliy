@@ -1,5 +1,5 @@
-<!-- I.UA counter --><a href="http://www.i.ua/" target="_blank" onclick="this.href='http://i.ua/r.php?180980';" title="Rated by I.UA">
-<script async=""{# type="text/javascript" language="javascript"#}><!--
+{# <!-- I.UA counter --> #}<a href="http://www.i.ua/" target="_blank" onclick="this.href='http://i.ua/r.php?180980';" title="Rated by I.UA">
+<script><!--
 iS='<img src="'+(window.location.protocol=='https:'?'https':'http')+
 '://r.i.ua/s?u180980&p130&n'+Math.random();
 iD=document;if(!iD.cookie)iD.cookie="b=b; path=/";if(iD.cookie)iS+='&c1';
@@ -10,4 +10,4 @@ iT=iR=iD.referrer.replace(iP=/^[a-z]*:\/\//,'');iH=window.location.href.replace(
 if(iT!=iH.substring(0,iI))iS+='&f'+escape(iR);
 iS+='&r'+escape(iH);
 iD.write(iS+'" border="0" width="88" height="31" />');
-//--></script></a><!-- End of I.UA counter -->
+//--></script></a>{# <!-- End of I.UA counter --> #}

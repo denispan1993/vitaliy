@@ -104,8 +104,8 @@ function button_click(action, tag_type, tag_id){
             <label for="comment_require_a_response">Запрос на ответ:</label>
             <input type="checkbox" id="comment_require_a_response" value="{{ comment.require_a_response }}">
             <br>
-            <label for="comment_email_for_response">E-Mail для ответа:</label>
-            <input type="email" id="comment_email_for_response" value="{{ comment.email_for_response }}">
+            <label for="comment_email">E-Mail для ответа:</label>
+            <input type="email" id="comment_email" value="{{ comment.email }}">
             <br>
             <label for="comment_created_at">Дата и врямя создания:</label>
             <input type="datetime" id="comment_created_at" value="{{ comment.created_at }}" disabled>

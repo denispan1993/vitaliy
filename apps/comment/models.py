@@ -96,13 +96,13 @@ class Comment(MPTTModel, ):
                                              null=False,
                                              blank=False,
                                              help_text=_(u'Пользователь запросил ответ на свой комментарий.', ), )
-    email_for_response = models.CharField(verbose_name=_(u'E-Mail пользователя', ),
-                                          default=None,
-                                          max_length=64,
-                                          null=True,
-                                          blank=True,
-                                          help_text=_(u'E-Mail пользователя на который нужно отослать ссылку'
-                                                      u' на ответ на комментарий.', ), )
+    email = models.CharField(verbose_name=_(u'E-Mail пользователя', ),
+                             default=None,
+                             max_length=64,
+                             null=True,
+                             blank=True,
+                             help_text=_(u'E-Mail пользователя на который нужно отослать ссылку'
+                                         u' на ответ на комментарий.', ), )
     phone = models.CharField(verbose_name=_(u'Телефон пользователя', ),
                              default=None,
                              max_length=32,
@@ -128,10 +128,14 @@ class Comment(MPTTModel, ):
             from django.core.urlresolvers import reverse
             if self.title:
                 from django.utils.text import slugify
-                return reverse(viewname='opinion_ru:opinion_long',
-                               kwargs={'opinion_url': slugify(self.url, unicode=True), 'pk': self.pk, }, )
+                return reverse(viewname='opinion_en:opinion_long',
+                               kwargs={'opinion_url': slugify(value=self.title), 'pk': self.pk, }, )
             else:
-                return reverse(viewname='opinion_ru:opinion_short',
+                from django.utils.text import slugify
+                title = self.title
+                url = slugify(value=self.title)
+                pk = self.pk
+                return reverse(viewname='opinion_en:opinion_short',
                                kwargs={'pk': self.pk, }, )
 
         if self.content_type:

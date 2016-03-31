@@ -1,4 +1,3 @@
-{# language: jinja2 #}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -14,6 +13,7 @@
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/base_style.css">
 {% block root_header_css %}{% endblock %}
 {% block header_css %}{% endblock %}
+{% block header_page_css %}{% endblock %}
 {% block category_header_css %}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/categories_products_style.css">
 {% endblock %}
@@ -370,9 +370,7 @@ function CallBack_Enable(){
 </p>
 <script>
 $(document).ready(function(){
-    // hide #to-top first
     $("p#to-top").hide();
-    // fade in #to-top
     $(function(){
         $(window).scroll(function(){
             if($(this).scrollTop()>200){
@@ -385,7 +383,6 @@ $(document).ready(function(){
                 $('p#to-top').fadeOut();
             }
         });
-        // scroll body to 0px on click
         $('p#to-top a').click(function(){
             $('body,html').animate({
                 scrollTop:0

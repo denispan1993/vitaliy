@@ -39,7 +39,7 @@ def feedback_data_send(request, ):
                     Comment.objects.create(sessionid=sessionid,
                                            user_id=user_id,
                                            name=name,
-                                           email_for_response=email,
+                                           email=email,
                                            phone=phone,
                                            comment=comment, )
                 except Exception as e:

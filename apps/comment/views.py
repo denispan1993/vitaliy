@@ -35,9 +35,9 @@ def comment_add(request,
                         else:
                             require_a_response = request.POST.get(u'require_a_response', None, )
                             if require_a_response:
-                                email_for_response = request.POST.get(u'email_for_response', None, )
+                                email = request.POST.get(u'response', None, )
                             else:
-                                email_for_response = None
+                                email = None
                             if request.user.is_authenticated() and request.user.is_active:
                                 user_id_ = request.session.get(u'_auth_user_id', None, )
                                 from django.contrib.auth.models import User
@@ -52,7 +52,7 @@ def comment_add(request,
                                     rating = int(rating, )
                                 except ValueError:
                                     rating = None
-                                    email_for_response = u'Неправильный рэйтинг товара.'
+                                    email = u'Неправильный рэйтинг товара.'
                             if comment_id:
                                 try:
                                     comment_id = int(comment_id, )
@@ -73,7 +73,7 @@ def comment_add(request,
                                                              name=commenter_name,
                                                              comment=comment,
                                                              require_a_response=require_a_response,
-                                                             email_for_response=email_for_response,
+                                                             email=email,
                                                              rating=rating, )
 
     if isinstance(comment, Comment, ) and not error_message:
