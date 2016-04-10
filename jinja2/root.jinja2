@@ -182,11 +182,13 @@ try{
         <ul>
             {% for slide in slides_ %}
                 <li>
+                    {{ dprint('slide_url', slide.url)  }}
                     {% set slide_url = slide.url %}
                     <a href="{% if slide_url == '#' %}/{% else %}{{ slide_url }}{% endif %}" target="_blank">
+                        {{ dprint('slide.slide.url', slide.slide.url)  }}
                         <img src="{{ slide.slide.url }}"
-                             {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}
-                             title="{% if slide.title %}{{ slide.title }}{% else %}{{ slide.alt }}{% endif %}"
+                             {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}
+                             title="{% if slide.title %}{{ slide.title }}{% endif %}"
                              id="wows1_{{ slide.order }}">
                     </a>{{ slide.text }}
                 </li>

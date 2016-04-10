@@ -359,6 +359,7 @@ PAYPAL_RECEIVER_EMAIL = "simagina.svetlana@gmail.com"
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
+
     'formatters': {
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
@@ -366,24 +367,64 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
+        'main': {
+            'format': '%(asctime)s - %(levelname)s - %(name)s - %(filename)s:%(lineno)d %(message)s',
+            'datefmt': "%Y-%m-%d %H:%M:%S",
+        },
     },
+
     'handlers': {
-        'console':{
+        'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
+        'production': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '/usr/www/logs/keksik_com_ua/production.log',
+            'when': 'd',
+            'backupCount': 7,
+            'formatter': 'main',
+            # 'filters': ['require_debug_false'],
+        },
+        'log': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '/usr/www/logs/keksik_com_ua/log.log',
+            'when': 'd',
+            'backupCount': 7,
+            'formatter': 'main',
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '/usr/www/logs/keksik_com_ua/debug.log',
+            'when': 'd',
+            'backupCount': 7,
+            'formatter': 'main',
+        },
+        'null': {
+            "class": 'django.utils.log.NullHandler',
+        }
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'log', ],
             'propagate': True,
             'level': 'INFO',
         },
         'django.request': {
-            'handlers': ['console'],
+            'handlers': ['console', 'production', ],
             'level': 'ERROR',
             'propagate': False,
+        },
+        'debug': {
+            'handlers': ['debug', ],
+        },
+        '': {
+            'handlers': ['log', ],
+            'level': "DEBUG",
         },
     }
 }

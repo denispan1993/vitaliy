@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Slide(models.Model):
-    def default_slide_name():
+    def default_slide_name(self):
         from datetime import datetime
         return u'Слайд от %s' % datetime.now()
 
