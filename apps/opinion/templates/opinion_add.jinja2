@@ -36,7 +36,6 @@ div#opinion_add form label span{
         <form action="{{ url('opinion_ru:add_ru') }}" method="post">{% csrf_token %}
             <input name="type" type="hidden" value="1" />
             <br>
-            {{ form.non_field_errors }}
             {{ form.name.errors }}
             <label for="name_label">Имя <span style="">*</span> :</label>
             <input id="name_label" name="name" type="text" size="75" />
