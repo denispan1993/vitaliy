@@ -18,4 +18,5 @@ def truncatechar(value, arg, ):
 
 @global_function(name='dprint', )
 def dprint(name, value, ):
-    debug_log.info('name: {0}, value: {1}'.format(name, value, ), )
+    pass
+    # debug_log.info('name: {0}, value: {1}'.format(name, value, ), )
