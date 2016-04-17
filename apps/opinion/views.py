@@ -20,9 +20,7 @@ class OpinionAddView(FormView):
             return super(OpinionAddView, self).post(self, request, *args, **kwargs)
 
         from django.shortcuts import render
-        print form
         return render(request, self.template_name, {'form': form})
-
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
