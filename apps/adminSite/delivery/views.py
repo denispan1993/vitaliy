@@ -28,7 +28,7 @@ def index(request,
                         error_message = u'Рассылка с таким номером не существует.'
     #from datetime import datetime, timedelta
     #filter_datetime = datetime.now() - timedelta(days=93, )
-    #from apps.delivery.models import Delivery
+    from apps.delivery.models import Delivery
     mailings = Delivery.objects.all()  # filter(created_at__gte=filter_datetime, )
     return render(request=request,
                   template_name=template_name,
