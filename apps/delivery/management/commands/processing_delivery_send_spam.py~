@@ -98,36 +98,35 @@ class Command(BaseCommand, ):
                                 msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
                                 from smtplib import SMTPSenderRefused, SMTPDataError
                                 connection = connect(mail_account=mail_account, fail_silently=False, )
-                                if connection:
-                                    try:
-                                        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
-                                    except SMTPSenderRefused as e:
-                                        print 'SMTPSenderRefused: ', e
-                                        email.delete()
-                                        sleep(30, )
-                                        time += 30
-                                    except SMTPDataError as e:
-                                        print 'SMTPDataError: ', e
-                                        print 'SMTPDataError: smtp_code', e.smtp_code
-                                        print 'SMTPDataError: smtp_error', e.smtp_error
-                                        print 'SMTPDataError: args', e.args
-                                        print 'SMTPDataError: message', e.message
-                                        if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
-                                            print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
-                                            from datetime import datetime
-                                            mail_account.is_auto_active = False
-                                            mail_account.auto_active_datetime = datetime.now()
-                                            mail_account.save()
-                                        connection = connect(mail_account=mail_account, fail_silently=True, )
-                                        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
-                                        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
-                                        email.delete()
-                                        sleep(30, )
-                                        time += 30
-                                    except Exception as e:
-                                        print 'Exception: ', e
-                                        email.delete()
-                                    time = sleep_now(time=time, email=email, i=i, )
+                                try:
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+                                except SMTPSenderRefused as e:
+                                    print 'SMTPSenderRefused: ', e
+                                    email.delete()
+                                    sleep(30, )
+                                    time += 30
+                                except SMTPDataError as e:
+                                    print 'SMTPDataError: ', e
+                                    print 'SMTPDataError: smtp_code', e.smtp_code
+                                    print 'SMTPDataError: smtp_error', e.smtp_error
+                                    print 'SMTPDataError: args', e.args
+                                    print 'SMTPDataError: message', e.message
+                                    if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
+                                        print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
+                                        from datetime import datetime
+                                        mail_account.is_auto_active = False
+                                        mail_account.auto_active_datetime = datetime.now()
+                                        mail_account.save()
+                                    connection = connect(mail_account=mail_account, fail_silently=True, )
+                                    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
+                                    email.delete()
+                                    sleep(30, )
+                                    time += 30
+                                except Exception as e:
+                                    print 'Exception: ', e
+                                    email.delete()
+                                time = sleep_now(time=time, email=email, i=i, )
 
 #====================== SPAM
                         email = get_email(delivery=delivery, email_class=SpamEmail, )
@@ -146,29 +145,28 @@ class Command(BaseCommand, ):
                                 msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
                                 from smtplib import SMTPSenderRefused, SMTPDataError
                                 connection = connect(mail_account=mail_account, fail_silently=False, )
-                                if connection:
-                                    try:
-                                        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
-                                    except SMTPSenderRefused as e:
-                                        print 'SMTPSenderRefused: ', e
-                                        email.delete()
-                                        sleep(30, )
-                                        time += 30
-                                    except SMTPDataError as e:
-                                        print 'SMTPDataError: ', e
-                                        if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
-                                            print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
-                                            from datetime import datetime
-                                            mail_account.is_auto_active = False
-                                            mail_account.auto_active_datetime = datetime.now()
-                                            mail_account.save()
-                                        connection = connect(mail_account=mail_account, fail_silently=True, )
-                                        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
-                                        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
-                                        email.delete()
-                                        sleep(30, )
-                                        time += 30
-                                    except Exception as e:
-                                        print 'Exception: ', e
-                                        email.delete()
-                                    time = sleep_now(time=time, email=email, i=i, )
+                                try:
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+                                except SMTPSenderRefused as e:
+                                    print 'SMTPSenderRefused: ', e
+                                    email.delete()
+                                    sleep(30, )
+                                    time += 30
+                                except SMTPDataError as e:
+                                    print 'SMTPDataError: ', e
+                                    if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
+                                        print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
+                                        from datetime import datetime
+                                        mail_account.is_auto_active = False
+                                        mail_account.auto_active_datetime = datetime.now()
+                                        mail_account.save()
+                                    connection = connect(mail_account=mail_account, fail_silently=True, )
+                                    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
+                                    send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
+                                    email.delete()
+                                    sleep(30, )
+                                    time += 30
+                                except Exception as e:
+                                    print 'Exception: ', e
+                                    email.delete()
+                                time = sleep_now(time=time, email=email, i=i, )

@@ -278,7 +278,7 @@ def create_msg(delivery, mail_account, email, exception=False, test=False, ):
 
 
 def connect(mail_account=False, timeout=False, fail_silently=True, ):
-    from smtplib import SMTP, SMTP_SSL, SMTPException
+    from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected
     connection_class = SMTP_SSL if mail_account.server.use_ssl and \
                                    not mail_account.server.use_tls else SMTP
     from django.core.mail.utils import DNS_NAME
@@ -296,9 +296,11 @@ def connect(mail_account=False, timeout=False, fail_silently=True, ):
         if mail_account.username and mail_account.password:
             connection.login(mail_account.username, mail_account.password, )
         return connection
-    except SMTPException:
+    except SMTPException, SMTPServerDisconnected:
         if not fail_silently:
             raise
+        else:
+            return False
 
 
 def send_msg(connection, mail_account, email, msg, execption=False, ):
