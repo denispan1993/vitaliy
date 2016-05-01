@@ -434,13 +434,11 @@ document.write(VK.Share.button({
 					{{ product.name|capfirst }}
 				</a>
 			</h1>
-			<h3>
-				Артикул товара:&nbsp;<span itemprop="productID">{{ product.get_ItemID }}</span>
-			</h3>
+			<h3>Артикул товара:&nbsp;<span itemprop="productID">{{ product.get_ItemID }}</span></h3>
             {% set manufacturer = product.get_manufacturer %}
             {% if manufacturer %}
                 <p id="product_box_right_manufacturer">
-                    Производитель: <span itemprop="brand">{{ manufacturer }}</span>
+                    Производитель:&nbsp;<span itemprop="brand">{{ manufacturer }}</span>
                 </p>
             {% endif %}
 			{% if product.regular_price %}
