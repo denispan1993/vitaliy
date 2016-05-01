@@ -435,7 +435,7 @@ document.write(VK.Share.button({
 				</a>
 			</h1>
 			<h3>
-				Артикул товара: <span itemprop="productID">{{ product.get_ItemID }}</span>
+				Артикул товара:&nbsp;<span itemprop="productID">{{ product.get_ItemID }}</span>
 			</h3>
             {% set manufacturer = product.get_manufacturer %}
             {% if manufacturer %}
@@ -445,15 +445,14 @@ document.write(VK.Share.button({
             {% endif %}
 			{% if product.regular_price %}
 				<p id="product_box_right_regular_price">
-					Старая цена:
-					<span> {{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
+					Старая цена:&nbsp;<span>{{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
 				</p>
 			{% endif %}
             {% if not product.in_action %}
-                <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">{% if product.regular_price %}Цена распродажи:&nbsp;{% else %}Цена:&nbsp;{% endif %}:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">{{ product.get_price(request)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
+                <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer"{% if product.is_availability == 2 %} style="display:none;"{% endif %}>{% if product.regular_price %}Цена распродажи:&nbsp;{% else %}Цена:&nbsp;{% endif %}<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">{{ product.get_price(request)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
             {% else %}
                 <p id="product_box_right_action_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Акционная цена:&nbsp;<span class="Red" itemprop="price">{{ product.get_price(request, product.action_price)|replace(",", ".") }}</span>&nbsp;{{ get_currency(request) }}</p>
-                <p id="product_box_right_price">Обычная цена:<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" style="text-decoration:line-through;">&nbsp;{{ product.get_price(request, product.price)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
+                <p id="product_box_right_price">Обычная цена:&nbsp;<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" style="text-decoration:line-through;">{{ product.get_price(request, product.price)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
                 <div id="product_box_time_action_price">
 <style>
 .flip-clock-divider{
