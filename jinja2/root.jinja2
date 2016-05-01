@@ -181,12 +181,12 @@ try{
     <div class="ws_images">
         <ul>
             {% for slide in slides_ %}
-                <li>
+                <li>{#
                     {{ dprint('slide_url', slide.url)  }}
-                    {% set slide_url = slide.url %}
-                    <a href="{% if slide_url == '#' %}/{% else %}{{ slide_url }}{% endif %}" target="_blank">
+                    #}{% set slide_url = slide.url %}
+                    <a href="{% if slide_url == '#' %}/{% else %}{{ slide_url }}{% endif %}" target="_blank">{#
                         {{ dprint('slide.slide.url', slide.slide.url)  }}
-                        <img src="{{ slide.slide.url }}"
+                        #}<img src="{{ slide.slide.url }}"
                              {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}
                              title="{% if slide.title %}{{ slide.title }}{% endif %}"
                              id="wows1_{{ slide.order }}">
