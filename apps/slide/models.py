@@ -86,13 +86,9 @@ class Slide(models.Model):
 
     @property
     def url(self, ):
-        if self.parent:
-            print 'Slide: parent: ', self.parent, ' content_type: ', self.content_type, ' object_id: ', self.object_id,
-            url = self.parent.get_absolute_url()
-            print 'Slide: parent: get_absolute_url()', url.encode('utf8')
+        if self.content_type_id and self.object_id:
             return self.parent.get_absolute_url()
         else:
-            print 'Slide: parent: None'
             return '#'
 
     def __unicode__(self, ):
