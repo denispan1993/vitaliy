@@ -103,8 +103,7 @@ class Command(BaseCommand, ):
                                 except SMTPSenderRefused as e:
                                     print 'SMTPSenderRefused: ', e
                                     email.delete()
-                                    sleep(30, )
-                                    time += 30
+                                    sleep(30, ); time += 30
                                 except SMTPDataError as e:
                                     print 'SMTPDataError: ', e
                                     print 'SMTPDataError: smtp_code', e.smtp_code
@@ -121,8 +120,7 @@ class Command(BaseCommand, ):
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
                                     email.delete()
-                                    sleep(30, )
-                                    time += 30
+                                    sleep(30, ); time += 30
                                 except Exception as e:
                                     print 'Exception: ', e
                                     email.delete()
@@ -150,8 +148,7 @@ class Command(BaseCommand, ):
                                 except SMTPSenderRefused as e:
                                     print 'SMTPSenderRefused: ', e
                                     email.delete()
-                                    sleep(30, )
-                                    time += 30
+                                    sleep(30, ); time += 30
                                 except SMTPDataError as e:
                                     print 'SMTPDataError: ', e
                                     if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
@@ -164,8 +161,7 @@ class Command(BaseCommand, ):
                                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=False, )
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, execption=e, )
                                     email.delete()
-                                    sleep(30, )
-                                    time += 30
+                                    sleep(30, ); time += 30
                                 except Exception as e:
                                     print 'Exception: ', e
                                     email.delete()

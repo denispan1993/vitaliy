@@ -230,16 +230,15 @@ class Delivery(models.Model, ):
         EmailMiddleDelivery_all = EmailMiddleDelivery.objects.filter(delivery=self,
                                                                      delivery_test_send=False,
                                                                      spam_send=False,
-                                                                     delivery_send=True, )
+                                                                     delivery_send=True, ).values_list('pk', flat=True, )
         if len(EmailMiddleDelivery_all, ) < 1:
             EmailMiddleDelivery_all = EmailMiddleDelivery.objects.filter(delivery=self,
                                                                          delivery_test_send=False,
                                                                          spam_send=True,
-                                                                         delivery_send=False, )
+                                                                         delivery_send=False, ).values_list('pk', flat=True, )
         i = 0
         if not EmailMiddleDelivery_all == []:
-            for EmailMiddleDelivery_each in EmailMiddleDelivery_all:
-                i += EmailForDelivery.objects.filter(delivery=EmailMiddleDelivery_each, ).count()
+            i += EmailForDelivery.objects.filter(delivery_id__in=EmailMiddleDelivery_all, ).count()
         return i
 
     @property

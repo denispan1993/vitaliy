@@ -289,7 +289,6 @@ def connect(mail_account=False, timeout=False, fail_silently=True, ):
         connection = connection_class(host=mail_account.server.server,
                                       port=mail_account.server.port,
                                       **connection_params)
-        print 'connection1'
         if not mail_account.server.use_ssl and mail_account.server.use_tls:
             connection.ehlo()
             connection.starttls()
