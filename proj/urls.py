@@ -160,7 +160,7 @@ urlpatterns += patterns('apps.search.views',
 #Календарь
 urlpatterns += patterns('',
                         url(regex=ur'^календарь/',
-                            view=include(arg='apps.calendar.urls',
+                            view=include(arg='apps.mycalendar.urls',
                                          namespace='calendar', ),
                             ),
                         )

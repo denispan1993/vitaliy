@@ -10,8 +10,8 @@ from django.utils.timezone import now
 def add_months(d, x, ):
     new_month = (((d.month - 1) + x) % 12) + 1
     new_year = d.year + (((d.month - 1) + x) / 12)
-    import calendar
-    new_day = min(d.day, calendar.monthrange(new_year, new_month, )[1], )
+    import mycalendar
+    new_day = min(d.day, mycalendar.monthrange(new_year, new_month, )[1], )
     return date(new_year, new_month, new_day, ) #d.hour, d.minute, d.second, d.microsecond,
 
 

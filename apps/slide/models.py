@@ -2,7 +2,12 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-# Create your models here.
+
+def set_path_photo(self, filename, ):
+    return 'slide/%.2d/%s' % (
+        # self.product.pub_datetime.year,
+        self.order,
+        filename, )
 
 
 class Slide(models.Model):
@@ -63,12 +68,6 @@ class Slide(models.Model):
     # photo = generic.GenericRelation('Photo',
     #                                 content_type_field='content_type',
     #                                 object_id_field='object_id', )
-
-    def set_path_photo(self, filename, ):
-        return 'slide/%.2d/%s' % (
-            # self.product.pub_datetime.year,
-            self.order,
-            filename, )
 
     from compat.ImageWithThumbs import models as ImageModels
     slide = ImageModels.ImageWithThumbsField(verbose_name=u'Слайд',

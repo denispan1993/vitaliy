@@ -293,6 +293,7 @@ INSTALLED_APPS = (
     'mptt',
     'django_mptt_admin',
     'django_jinja',
+    'djcelery',
     #'bootstrap',
     #'bootstrap3',
     # Uncomment the next line to enable admin documentation:
@@ -308,7 +309,7 @@ INSTALLED_APPS = (
     # 'apps.extended_price',
     'apps.slide',
     'apps.static',
-    'apps.calendar',
+    'apps.mycalendar',
     'apps.search',
     'apps.utils',
     'apps.utils.setting',

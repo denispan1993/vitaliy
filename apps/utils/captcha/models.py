@@ -3,6 +3,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+def set_path_photo(self, filename, ):
+    return 'captcha/%.2d/%s' % (self.image_type, filename, )
+
+
 class Captcha_Images(models.Model, ):
     Image_Type = (
         (1, _(u'Цветы', ), ),
@@ -21,8 +25,6 @@ class Captcha_Images(models.Model, ):
                                                   blank=False,
                                                   null=False, )
 
-    def set_path_photo(self, filename, ):
-        return 'captcha/%.2d/%s' % (self.image_type, filename, )
     image = models.ImageField(verbose_name=u'Картинка',
                               upload_to=set_path_photo,
                               blank=False,
