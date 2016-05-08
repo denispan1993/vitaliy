@@ -1,5 +1,22 @@
 # -*- coding: utf-8 -*-
+#from __future__ import absolute_import
+
+# ^^^ The above is required if you want to import from the celery
+# library.  If you don't have this then `from celery.schedules import`
+# becomes `proj.celery.schedules` in Python 2.x since it allows
+# for relative imports by default.
+
 __author__ = 'AlexStarov'
+
+# Celery settings
+
+BROKER_URL = 'django://'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 # Django settings for Shop project.
 
@@ -77,16 +94,16 @@ TEMPLATE_DEBUG = DEBUG
 #        }
 #    }
 #else:
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#            'NAME': path('db/shop_mk_ua.sqlite3', ),  # Or path to database file if using sqlite3.
-#            'USER': '',                      # Not used with sqlite3.
-#            'PASSWORD': '',                  # Not used with sqlite3.
-#            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-#            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#        }
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': path('db/shop_mk_ua.sqlite3', ),  # Or path to database file if using sqlite3.
+#        'USER': '',                      # Not used with sqlite3.
+#        'PASSWORD': '',                  # Not used with sqlite3.
+#        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
 #    }
+#}
 
 #from sys import platform
 #if platform == 'win32':
@@ -294,6 +311,7 @@ INSTALLED_APPS = (
     'django_mptt_admin',
     'django_jinja',
     'djcelery',
+    'kombu.transport.django',
     #'bootstrap',
     #'bootstrap3',
     # Uncomment the next line to enable admin documentation:
@@ -329,106 +347,8 @@ INSTALLED_APPS = (
 
 PAYPAL_RECEIVER_EMAIL = "simagina.svetlana@gmail.com"
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': False,
-#    'filters': {
-#        'require_debug_false': {
-#            '()': 'django.utils.log.RequireDebugFalse'
-#        }
-#    },
-#    'handlers': {
-#        'mail_admins': {
-#            'level': 'ERROR',
-#            'filters': ['require_debug_false'],
-#            'class': 'django.utils.log.AdminEmailHandler'
-#        }
-#    },
-#    'loggers': {
-#        'django.request': {
-#            'handlers': ['mail_admins'],
-#            'level': 'ERROR',
-#            'propagate': True,
-#        },
-#    }
-#}
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
+from .logger import LOGGING
 
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-        'main': {
-            'format': '%(asctime)s - %(levelname)s - %(name)s - %(filename)s:%(lineno)d %(message)s',
-            'datefmt': "%Y-%m-%d %H:%M:%S",
-        },
-    },
-
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'production': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/usr/www/logs/keksik_com_ua/production.log',
-            'when': 'd',
-            'backupCount': 7,
-            'formatter': 'main',
-            # 'filters': ['require_debug_false'],
-        },
-        'log': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/usr/www/logs/keksik_com_ua/log.log',
-            'when': 'd',
-            'backupCount': 7,
-            'formatter': 'main',
-        },
-        'debug': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/usr/www/logs/keksik_com_ua/debug.log',
-            'when': 'd',
-            'backupCount': 7,
-            'formatter': 'main',
-        },
-        'null': {
-            "class": 'django.utils.log.NullHandler',
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'log', ],
-            'propagate': True,
-            'level': 'INFO',
-        },
-        'django.request': {
-            'handlers': ['console', 'production', ],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        'debug': {
-            'handlers': ['debug', ],
-        },
-        '': {
-            'handlers': ['log', ],
-            'level': "DEBUG",
-        },
-    }
-}
 #!!!=============== Python Social Auth =========================
 INSTALLED_APPS += (
     'social.apps.django_app.default',
@@ -622,21 +542,21 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.redirects.RedirectsPanel',
 )
 
-DEBUG_TOOLBAR_PANELS += (
-    'debug_toolbar.panels.profiling.ProfilingPanel',
-)
+#DEBUG_TOOLBAR_PANELS += (
+#    'debug_toolbar.panels.profiling.ProfilingPanel',
+#)
 
 DEBUG_TOOLBAR_FILTER_URL = ('^admin/', )
 
-INSTALLED_APPS += (
-    'template_timings_panel',
-)
+#INSTALLED_APPS += (
+#    'template_timings_panel',
+#)
 
-DEBUG_TOOLBAR_PANELS += (
-    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
-)
+#DEBUG_TOOLBAR_PANELS += (
+#    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+#)
 
-IGNORED_TEMPLATES = ["debug_toolbar/*"]
+IGNORED_TEMPLATES = ["debug_toolbar/*", "admin/*"]
 
 DEBUG_TOOLBAR_CONFIG = {
     'EXCLUDE_URLS': ('/admin/', ),  # данная опция находится в разработке

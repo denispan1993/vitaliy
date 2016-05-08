@@ -283,3 +283,6 @@ div.product_block_bottom div.product_block_price div.add_to_cart{
     text-align: center;
     text-decoration: none;
 }
+div.cloudzoom-zoom{
+    z-index:100;
+}
