@@ -2,9 +2,19 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
 from datetime import date, datetime
 from django.utils.timezone import now
+
+from apps.utils.captcha.views import key_generator
+from string import ascii_lowercase, digits
+
+
+def key():
+    return key_generator(size=6, chars=ascii_lowercase + digits, )
+
+
+def datetime_now_isoformat():
+    return datetime.now().isoformat()
 
 
 def add_months(d, x, ):
@@ -24,7 +34,7 @@ class CouponGroup(models.Model, ):
                             max_length=128,
                             blank=True,
                             null=True,
-                            default=datetime.now().isoformat(), )
+                            default=datetime_now_isoformat, )
     how_much_coupons = models.PositiveSmallIntegerField(verbose_name=_(u'Количество сгенерированных купонов', ),
                                                         blank=True,
                                                         null=True,
@@ -106,20 +116,18 @@ class Coupon(models.Model, ):
                             max_length=128,
                             blank=True,
                             null=True,
-                            default=datetime.now().isoformat(), )
+                            default=datetime_now_isoformat, )
     coupon_group = models.ForeignKey(to=CouponGroup,
                                      verbose_name=_(u'Группа купонов'),
                                      blank=True,
                                      null=True,
                                      help_text=u'Ссылка на групу купонов', )
-    from apps.utils.captcha.views import key_generator
-    from string import ascii_lowercase, digits
     key = models.CharField(verbose_name=_(u'Ключ купона', ),
                            unique=True,
                            max_length=8,
                            blank=False,
                            null=False,
-                           default=key_generator(size=6, chars=ascii_lowercase + digits, ), )
+                           default=key, )
     """
         Какой заказ создал этот купон.
     """
