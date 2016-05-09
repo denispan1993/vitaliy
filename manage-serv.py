@@ -1,9 +1,10 @@
 #!/usr/www/envs/keksik_com_ua/bin/python
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
+import sys
 
 import os
-import sys
+
+__author__ = 'AlexStarov'
 
 if __name__ == "__main__":
     os.environ["DJANGO_SETTINGS_MODULE"] = "proj.settings"
