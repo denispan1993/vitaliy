@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from proj.celery import app as celery_app
+from proj.celery import celery_app
 from datetime import datetime, timedelta
 from logging import getLogger
 
@@ -12,4 +12,5 @@ debug_log = getLogger('celery')
 def test():
     print 'All work!!!'
     debug_log.info(u'message: {0}, datetime: {1}'.format('All Work', datetime.now()))
+    return True, datetime.now()
 
