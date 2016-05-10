@@ -20,6 +20,7 @@ celery_app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 celery_app.conf.update(
     CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
+    CELERYBEAT_SCHEDULER='djcelery.schedulers.DatabaseScheduler',
 )
 
 
