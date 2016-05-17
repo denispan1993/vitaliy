@@ -65,7 +65,7 @@ class Captcha_Key(models.Model, ):
                                                   null=False, )
 
     from datetime import datetime
-    next_use = models.DateTimeField(default=datetime.now(), )
+    next_use = models.DateTimeField(default=datetime.now, )
 
     #Дата создания и дата обновления записи. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )

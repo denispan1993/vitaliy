@@ -32,6 +32,9 @@ __author__ = 'AlexStarov'
 #        },
 #    }
 #}
+
+CELERYD_HIJACK_ROOT_LOGGER = False
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -62,7 +65,7 @@ LOGGING = {
         'production': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/usr/www/logs/keksik_com_ua/production.log',
+            'filename': 'logs/logging/production.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -71,7 +74,7 @@ LOGGING = {
         'log': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/usr/www/logs/keksik_com_ua/log.log',
+            'filename': 'logs/logging/log.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -79,7 +82,7 @@ LOGGING = {
         'debug': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/usr/www/logs/keksik_com_ua/debug.log',
+            'filename': 'logs/logging/debug.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -87,11 +90,18 @@ LOGGING = {
         'celery': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/usr/www/logs/keksik_com_ua/celery.log',
+            'filename': 'logs/logging/celery.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'all_verbose',
         },
+        #'celery_sentry_handler': {
+        #    'level': 'ERROR',
+        #    'class': 'core.log.handlers.CelerySentryHandler',
+        #    'when': 'd',
+        #    'backupCount': 7,
+        #    'formatter': 'all_verbose',
+        #},
         'null': {
             "class": 'django.utils.log.NullHandler',
         }
@@ -110,6 +120,14 @@ LOGGING = {
         'debug': {
             'handlers': ['debug', ],
         },
+        'celery': {
+            'handlers': ['celery', ],
+            'level': 'ERROR',
+        },
+        #'celery': {
+        #    'handlers': ['celery_sentry_handler', 'celery', ],
+        #    'level': 'ERROR',
+        #},
         '': {
             'handlers': ['log', ],
             'level': "DEBUG",

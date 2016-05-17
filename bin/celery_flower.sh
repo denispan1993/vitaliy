@@ -2,4 +2,4 @@
 # -*- coding: utf-8 -*-
 ###!/usr/www/envs/keksik_com_ua/bin/python
 
-python celery flower --app proj --port=5555 --broker=django://
+celery flower --app=proj --address=127.0.0.1 --port=5555 --broker=django://localhost//

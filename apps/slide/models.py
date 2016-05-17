@@ -10,16 +10,18 @@ def set_path_photo(self, filename, ):
         filename, )
 
 
+def default_slide_name():
+    from datetime import datetime
+    return u'Слайд от %s' % datetime.now()
+
+
 class Slide(models.Model):
-    def default_slide_name():
-        from datetime import datetime
-        return u'Слайд от %s' % datetime.now()
 
     name = models.CharField(verbose_name=_(u'Наименование слайда', ),
                             max_length=128,
                             blank=True,
                             null=True,
-                            default=default_slide_name(), )
+                            default=default_slide_name, )
     order = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                              # visibility=True,
                                              db_index=True,
@@ -85,8 +87,11 @@ class Slide(models.Model):
 
     @property
     def url(self, ):
-        if self.content_type_id and self.object_id:
-            return self.parent.get_absolute_url()
+        if self.content_type_id and not self.content_type.app_label == 'slide' and self.object_id:
+            try:
+                return self.parent.get_absolute_url()
+            except AttributeError:
+                return '#'
         else:
             return '#'
 

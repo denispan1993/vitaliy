@@ -19,7 +19,7 @@ class MailAccount(models.Model, ):
     auto_active_datetime = models.DateTimeField(verbose_name=_(u'Дата закрытия аккаунта',),
                                                 blank=False,
                                                 null=False,
-                                                default=datetime.now(), )
+                                                default=datetime.now, )
     email = models.CharField(verbose_name=_(u'E-Mail', ),
                              max_length=64,
                              blank=False,
@@ -102,12 +102,16 @@ class MailServer(models.Model, ):
         verbose_name_plural = u'SMTP Servers'
 
 
+def datetime_in_iso_format():
+    return datetime.now().isoformat()
+
+
 class Delivery(models.Model, ):
     name = models.CharField(verbose_name=_(u'Имя рассылки', ),
                             max_length=128,
                             blank=True,
                             null=True,
-                            default=datetime.now().isoformat(), )
+                            default=datetime_in_iso_format, )
     Type_Mailings = (
         (1, _(u'Фэйк рассылка', ), ),
         (2, _(u'Акция', ), ),

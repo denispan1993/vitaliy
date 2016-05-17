@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel
@@ -1161,11 +1162,10 @@ class Viewed(models.Model):
                                  null=True, )
     sessionid = models.CharField(verbose_name=u'SessionID', max_length=32, blank=True, null=True, )
     """ Когда смотрел """
-    from datetime import datetime
     last_viewed = models.DateTimeField(verbose_name=u'Дата последнего просмотра',
                                        blank=False,
                                        null=False,
-                                       default=datetime.now(), )
+                                       default=datetime.now, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата добавления', )
     updated_at = models.DateTimeField(auto_now=True, verbose_name=u'Дата последнего изменения', )

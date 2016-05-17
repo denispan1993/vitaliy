@@ -12,13 +12,17 @@ BROKER_URL = 'django://'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_DEFAULT_QUEUE = 'celery'
 #CELERY_RESULT_BACKEND = BROKER_URL
 CELERY_IGNORE_RESULT = False
+
+CELERY_DEFAULT_QUEUE = 'celery'
 
 CELERY_QUEUES = (
     Queue('celery', Exchange('celery'), routing_key='celery'),
 )
+
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend',
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler',
 
 #CELERY_ROUTES = {
 #    'mail.tasks.send_message': {'queue': 'send_message'},
@@ -55,11 +59,6 @@ DEFAULT_FROM_EMAIL = 'Интернет магазин Кексик <subscribe@ke
 MANAGERS = ADMINS
 
 SERVER = os.path.isfile(path('server.key', ), )
-
-if SERVER:
-    Email_MANAGER = 'zakaz@keksik.com.ua'
-else:
-    Email_MANAGER = 'alex.starov@keksik.com.ua'
 
 ALLOWED_HOSTS = ['*']
 DEBUG = True
@@ -588,6 +587,7 @@ TEMPLATES = [
         "OPTIONS": {
             # 'environment': 'proj.jinja2.environment',
             "match_extension": ".jinja2",
+            "app_dirname": "templates",
             "match_regex": r"^(?!admin/).*",  # this is additive to match_extension
             "context_processors": TCP + (
                 "proj.context_processor.context",

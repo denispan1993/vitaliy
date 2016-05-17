@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
+from django.conf.urls import patterns, url
+from .views import AllViews
+
 __author__ = 'AlexStarov'
 
-from django.conf.urls import patterns, url
 
-
-urlpatterns = patterns('apps.mycalendar.views',
+urlpatterns = patterns('',
                        url(regex=ur'^$',
-                           view='all',
-                           kwargs={'template_name': u'all.jinja2', },
+                           view=AllViews.as_view(),
                            name='all_ru', ),
+                       )
+
+urlpatterns += patterns('apps.mycalendar.views',
                        url(regex=ur'^ведущий/(?P<leading_course_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$',
                            view='leading_course',
                            kwargs={'template_name': u'leading_course.jinja2', },

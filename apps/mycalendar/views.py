@@ -1,50 +1,108 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
-
+from datetime import datetime
 from django.shortcuts import render_to_response, render
+from django.views.generic import FormView, View
+from django.template.loader import get_template
+from django.http import HttpResponse
+from django.template.utils import get_app_template_dirs
+from django.views.generic.edit import ProcessFormView
 from django.template import RequestContext, Context
 from apps.product.models import Country
 from django.shortcuts import redirect
+from apps.mycalendar.models import Event
+
+__author__ = 'AlexStarov'
 
 
-def all(request,
-        template_name=u'all.jinja2', ):
-    from apps.calendar.models import Event
-    from datetime import datetime
-    try:
-        """ gte больше или равно """
-        events = Event.objects.filter(location_date_time__date_start__gte=datetime.today(), ).distinct()
-    except Event.DoesNotExist:
-        events = False
+class AllViews(View, ):
+    template_name = 'all.jinja2'
 
-    leadings_courses = []
-    if events:
-        for event in events:
-            leading_course = event.leading_course
-            if leading_course not in leadings_courses:
-                leadings_courses.append(leading_course, )
-    subjects = []
-    if events:
-        for event in events:
-            subject = event.subject
-            if subject not in subjects:
-                subjects.append(subject, )
-    cityes = []
-    if events:
-        for event in events:
-            locations_date_time = event.location_date_time.filter(date_start__gte=datetime.today(), )
-            for location_date_time in locations_date_time:
-                city = location_date_time.city
-                if city not in cityes:
-                    cityes.append(city, )
-    return render(request=request,
-                  template_name=template_name,
-                  context={'leadings_courses': leadings_courses,
-                           'cities': cityes,
-                           'subjects': subjects,
-                           'events': events, },
-                  content_type='text/html', )
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+
+        template = get_template(template_name=self.template_name)
+
+        html = template.render(request=request, context=context,)
+        response = HttpResponse(html, )
+
+        return response
+        #return render_to_response(template_name=self.template_name,
+        #                          context=context,
+        #                          context_instance=RequestContext(request))
+
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            context = self.get_context_data(**kwargs)
+            template = get_template(template_name='load/all.jinja2')
+
+            html = template.render(request=request, context=context,)
+            response = HttpResponse(html, )
+
+            return response
+        else:
+            return HttpResponse('Request method POST and AJAX()', )
+
+    def get_context_data(self, **kwargs):
+        if 'view' not in kwargs:
+            kwargs['view'] = self
+
+        query = Event.objects\
+            .filter(location_date_time__date_start__gte=datetime.today(), )
+
+        try:
+            """ gte больше или равно """
+            events = query.distinct()
+        except Event.DoesNotExist:
+            events = False
+
+        leadings_courses = []
+        subjects = []
+        cityes = []
+        if events:
+            for event in events:
+
+                leading_course = event.leading_course
+                if leading_course not in leadings_courses:
+                    leadings_courses.append(leading_course, )
+
+                subject = event.subject
+                if subject not in subjects:
+                    subjects.append(subject, )
+
+                locations_date_time = event.location_date_time.filter(date_start__gte=datetime.today(), )
+                for location_date_time in locations_date_time:
+                    city = location_date_time.city
+                    if city not in cityes:
+                        cityes.append(city, )
+
+        kwargs['leadings_courses'] = leadings_courses
+        kwargs['subjects'] = subjects
+        kwargs['cityes'] = cityes
+
+        try:
+            select_subject = int(self.request.POST.get('select_subject'))
+            if not select_subject == 0:
+                query = query.filter(subject_id=select_subject)
+        except (ValueError, TypeError):
+            pass
+
+        try:
+            leading_course = int(self.request.POST.get('leading_course'))
+            if not leading_course == 0:
+                query = query.filter(leading_course_id=leading_course)
+        except (ValueError, TypeError):
+            pass
+
+        try:
+            select_city = int(self.request.POST.get('select_city'))
+            if not select_city == 0:
+                query = query.filter(location_date_time__city_id=select_city)
+        except (ValueError, TypeError):
+            pass
+
+        kwargs['events'] = query.distinct()
+
+        return kwargs
 
 
 def leading_course(request,
