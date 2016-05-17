@@ -1,0 +1,2072 @@
+2016-05-14 11:15:56 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 13, in all
+    from apps.calendar.models import Event
+ImportError: No module named calendar.models
+2016-05-14 17:08:08 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '('calendar:all_ru')' from 'url('calendar:all_ru')'
+2016-05-14 17:15:31 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 634, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 430, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+TemplateSyntaxError: Invalid filter: 'reverse'
+2016-05-14 17:15:52 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 634, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 430, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+TemplateSyntaxError: Invalid filter: 'reverse'
+2016-05-14 17:16:18 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '('calendar:all_ru')' from 'url('calendar:all_ru')'
+2016-05-14 17:21:03 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '('calendar:all_ru')' from 'url('calendar:all_ru')'
+2016-05-14 17:21:58 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '("calendar:all_ru")' from 'url("calendar:all_ru")'
+2016-05-14 17:25:10 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'url("calendar:all_ru")', expected 'endblock'
+2016-05-14 17:26:03 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '('calendar:all_ru')' from 'url('calendar:all_ru')'
+2016-05-14 17:36:29 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-14 17:40:08 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 28, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-14 17:44:23 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 365, in resolve
+    for pattern in self.url_patterns:
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 401, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 395, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/user/PycharmProjects/Shop/proj/urls.py", line 164, in <module>
+    namespace='calendar', ),
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/urls.py", line 3, in <module>
+    from .views import AllViews
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26
+    template_name='load/all.jinja2',
+                 ^
+SyntaxError: invalid syntax
+2016-05-14 17:44:26 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 223, in get_response
+    response = middleware_method(request, response)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/debug_toolbar/middleware.py", line 129, in process_response
+    panel.generate_stats(request, response)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/debug_toolbar/panels/request.py", line 41, in generate_stats
+    match = resolve(request.path)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 365, in resolve
+    for pattern in self.url_patterns:
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 401, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 395, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/user/PycharmProjects/Shop/proj/urls.py", line 164, in <module>
+    namespace='calendar', ),
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/urls.py", line 3, in <module>
+    from .views import AllViews
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 26
+    template_name='load/all.jinja2',
+                 ^
+SyntaxError: invalid syntax
+2016-05-14 17:46:01 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 31, in get
+    return super(AllViews, self).get(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 205, in get
+    form = self.get_form()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 74, in get_form
+    return form_class(**self.get_form_kwargs())
+TypeError: 'NoneType' object is not callable
+2016-05-14 17:47:40 - ERROR - django.request - base.py:256 Internal Server Error: /media/css/base_style.css
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 223, in get_response
+    response = middleware_method(request, response)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/middleware.py", line 50, in process_response
+    request.session.save()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/cached_db.py", line 64, in save
+    super(SessionStore, self).save(must_create)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/db.py", line 65, in save
+    obj.save(force_insert=must_create, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 827, in _save_table
+    forced_update)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 877, in _do_update
+    return filtered._update(values) > 0
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/query.py", line 580, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1062, in execute_sql
+    cursor = super(SQLUpdateCompiler, self).execute_sql(result_type)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 840, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 79, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/utils.py", line 98, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 318, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: database is locked
+2016-05-14 17:47:40 - ERROR - django.request - base.py:256 Internal Server Error: /media/css/vertical-account-menu/blue.css
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 223, in get_response
+    response = middleware_method(request, response)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/middleware.py", line 50, in process_response
+    request.session.save()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/cached_db.py", line 64, in save
+    super(SessionStore, self).save(must_create)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/db.py", line 65, in save
+    obj.save(force_insert=must_create, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 827, in _save_table
+    forced_update)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 877, in _do_update
+    return filtered._update(values) > 0
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/query.py", line 580, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1062, in execute_sql
+    cursor = super(SQLUpdateCompiler, self).execute_sql(result_type)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 840, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 79, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/utils.py", line 98, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 318, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: database is locked
+2016-05-14 17:47:40 - ERROR - django.request - base.py:256 Internal Server Error: /media/css/bxSlider/bxSlider.css
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 223, in get_response
+    response = middleware_method(request, response)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/middleware.py", line 50, in process_response
+    request.session.save()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/cached_db.py", line 64, in save
+    super(SessionStore, self).save(must_create)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/db.py", line 65, in save
+    obj.save(force_insert=must_create, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 827, in _save_table
+    forced_update)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/base.py", line 877, in _do_update
+    return filtered._update(values) > 0
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/query.py", line 580, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1062, in execute_sql
+    cursor = super(SQLUpdateCompiler, self).execute_sql(result_type)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 840, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 79, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/utils.py", line 98, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py", line 318, in execute
+    return Database.Cursor.execute(self, query, params)
+OperationalError: database is locked
+2016-05-14 17:47:45 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 31, in get
+    return super(AllViews, self).get(request, *args, **kwargs)
+AttributeError: 'super' object has no attribute 'get'
+2016-05-14 18:09:31 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 29, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-14 18:12:01 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 29, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 137, in render_to_string
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: all.jinja2
+2016-05-14 18:16:51 - ERROR - django.request - base.py:256 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/root/views.py", line 118, in root_page
+    content_type='text/html', )
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 29, in get_template
+    engines = _engine_list(using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/jinja2.py", line 35, in __init__
+    self.env = environment_cls(**options)
+TypeError: __init__() got an unexpected keyword argument 'context_processors'
+2016-05-14 18:16:54 - ERROR - django.request - base.py:256 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 223, in get_response
+    response = middleware_method(request, response)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/debug_toolbar/middleware.py", line 129, in process_response
+    panel.generate_stats(request, response)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/debug_toolbar/panels/templates/panel.py", line 208, in generate_stats
+    template_dirs = get_template_dirs()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/debug_toolbar/compat.py", line 28, in get_template_dirs
+    engine = Engine.get_default()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/utils/lru_cache.py", line 125, in wrapper
+    result = user_function(*args, **kwds)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 73, in get_default
+    django_engines = [engine for engine in engines.all()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/jinja2.py", line 35, in __init__
+    self.env = environment_cls(**options)
+TypeError: __init__() got an unexpected keyword argument 'context_processors'
+2016-05-14 18:18:34 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 29, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-14 18:33:12 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-14 18:33:50 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-14 18:39:41 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-14 18:39:43 - ERROR - django.request - base.py:256 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/root/views.py", line 118, in root_page
+    content_type='text/html', )
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 35, in get_template
+    return engine.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 30, in get_template
+    return Template(self.engine.get_template(template_name, dirs))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '('root_page_title', 'char')' from 'get_value_variable('root_page_title', 'char')'
+2016-05-14 18:40:38 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 89, in render
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 137, in render_to_string
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: all.jinja2
+2016-05-14 18:50:38 - ERROR - django.request - base.py:256 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/root/views.py", line 118, in root_page
+    content_type='text/html', )
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 35, in get_template
+    return engine.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 30, in get_template
+    return Template(self.engine.get_template(template_name, dirs))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '('root_page_title', 'char')' from 'get_value_variable('root_page_title', 'char')'
+2016-05-15 12:36:01 - ERROR - django.request - base.py:256 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/root/views.py", line 118, in root_page
+    content_type='text/html', )
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 35, in get_template
+    return engine.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 30, in get_template
+    return Template(self.engine.get_template(template_name, dirs))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 318, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 424, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 640, in __init__
+    "from '%s'" % (token[upto:], token))
+TemplateSyntaxError: Could not parse the remainder: '('root_page_title', 'char')' from 'get_value_variable('root_page_title', 'char')'
+2016-05-15 12:37:41 - ERROR - django.request - base.py:256 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/root/views.py", line 118, in root_page
+    content_type='text/html', )
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: index.jinja2
+2016-05-15 12:42:19 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 34, in get
+    template = get_template(template_name=self.template_name)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: all.jinja2
+2016-05-15 12:49:27 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 34, in get
+    template = get_template(template_name=self.template_name)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: all.jinja2
+2016-05-15 12:50:02 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 34, in get
+    template = get_template(template_name=self.template_name)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: all.jinja2
+2016-05-15 12:50:56 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 42, in get
+    context_instance=RequestContext(request))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/shortcuts.py", line 45, in render_to_response
+    using=using)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader.py", line 115, in render_to_string
+    template_name, context, context_instance, dirs, dictionary)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 208, in render_to_string
+    t = self.get_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 62, in load_template
+    template, origin = self.find_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/cached.py", line 41, in find_template
+    template, display_name = loader(name, dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/engine.py", line 261, in compile_string
+    return parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 210, in do_extends
+    nodelist = parser.parse()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 184, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 342, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 872, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 395, in invalid_block_tag
+    (command, get_text_list(["'%s'" % p for p in parse_until])))
+TemplateSyntaxError: Invalid block tag: 'set', expected 'empty' \u0438\u043b\u0438 'endfor'
+2016-05-15 14:13:30 - ERROR - django.request - base.py:256 Internal Server Error: /admin/mycalendar/leadingcourse/2/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 164, in get_response
+    response = response.render()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 158, in render
+    self.content = self.rendered_content
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 74, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 210, in render
+    return self._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 89, in render
+    output = self.filter_expression.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 648, in resolve
+    obj = self.var.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 789, in resolve
+    value = self._resolve_lookup(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/__init__.py", line 41, in inner
+    bits = func(*args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/models.py", line 36, in get_absolute_url
+    {'leading_course_url': unicode(str(self.url)), }, )
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-6: ordinal not in range(128)
+2016-05-15 14:25:08 - ERROR - django.request - base.py:256 Internal Server Error: /admin/mycalendar/leadingcourse/2/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 164, in get_response
+    response = response.render()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 158, in render
+    self.content = self.rendered_content
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 74, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 210, in render
+    return self._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 89, in render
+    output = self.filter_expression.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 648, in resolve
+    obj = self.var.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 789, in resolve
+    value = self._resolve_lookup(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/__init__.py", line 41, in inner
+    bits = func(*args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/models.py", line 37, in get_absolute_url
+    {'leading_course_url': unicode(str(self.url)), }, )
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-6: ordinal not in range(128)
+2016-05-15 14:28:03 - ERROR - django.request - base.py:256 Internal Server Error: /admin/mycalendar/leadingcourse/2/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 164, in get_response
+    response = response.render()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 158, in render
+    self.content = self.rendered_content
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 74, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 210, in render
+    return self._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 89, in render
+    output = self.filter_expression.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 648, in resolve
+    obj = self.var.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 789, in resolve
+    value = self._resolve_lookup(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/__init__.py", line 41, in inner
+    bits = func(*args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/models.py", line 38, in get_absolute_url
+    {'leading_course_url': unicode(str(self.url)), }, )
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-6: ordinal not in range(128)
+2016-05-15 14:30:13 - ERROR - django.request - base.py:256 Internal Server Error: /admin/mycalendar/leadingcourse/1/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 164, in get_response
+    response = response.render()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 158, in render
+    self.content = self.rendered_content
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 74, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 210, in render
+    return self._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/test/utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 329, in render
+    return nodelist.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 905, in render
+    bit = self.render_node(node, context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 79, in render_node
+    return node.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/debug.py", line 89, in render
+    output = self.filter_expression.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 648, in resolve
+    obj = self.var.resolve(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 789, in resolve
+    value = self._resolve_lookup(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current()
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/db/models/__init__.py", line 42, in inner
+    return reverse(bits[0], None, *bits[1:3])
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 578, in reverse
+    return force_text(iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs)))
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 495, in _reverse_with_prefix
+    (lookup_view_s, args, kwargs, len(patterns), patterns))
+NoReverseMatch: Reverse for 'leading_course_ru' with arguments '()' and keyword arguments '{'leading_course_url': u''}' not found. 1 pattern(s) tried: [u'\u043a\u0430\u043b\u0435\u043d\u0434\u0430\u0440\u044c/\u0432\u0435\u0434\u0443\u0449\u0438\u0439/(?P<leading_course_url>[\u0430-\u044f\u0410-\u042fa-zA-Z\u0451\u0401\u0457\u0407\u0456\u0406\u0491\u0490\u0454\u04040-9_.-]+)/$']
+2016-05-15 14:37:40 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 36, in get
+    html = template.render(request=request, context=context,)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django_jinja/backend.py", line 105, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 989, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 754, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/templates/all.jinja2", line 1, in top-level template code
+    {% extends 'root.jinja2' %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 1, in top-level template code
+    {% extends "base.jinja2" %}
+  File "/home/user/PycharmProjects/Shop/jinja2/base.jinja2", line 89, in top-level template code
+    {% block content %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 359, in block "content"
+    {% block content_center %}
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/templates/all.jinja2", line 40, in block "content_center"
+    <option value="{{ city.pk }}">{{ cyty.subject }}</option>
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 408, in getattr
+    return getattr(obj, attribute)
+UndefinedError: 'cyty' is undefined
+2016-05-15 14:41:13 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 36, in get
+    html = template.render(request=request, context=context,)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django_jinja/backend.py", line 105, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 989, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 754, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/templates/all.jinja2", line 1, in top-level template code
+    {% extends 'root.jinja2' %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 1, in top-level template code
+    {% extends "base.jinja2" %}
+  File "/home/user/PycharmProjects/Shop/jinja2/base.jinja2", line 89, in top-level template code
+    {% block content %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 359, in block "content"
+    {% block content_center %}
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/templates/all.jinja2", line 75, in block "content_center"
+    {% set locations_date_time = event.location_date_time_gte_today() %}
+UndefinedError: 'apps.mycalendar.models.Event object' has no attribute 'location_date_time_gte_today'
+2016-05-15 14:46:01 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 36, in get
+    html = template.render(request=request, context=context,)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django_jinja/backend.py", line 105, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 989, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 754, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/templates/all.jinja2", line 1, in top-level template code
+    {% extends 'root.jinja2' %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 1, in top-level template code
+    {% extends "base.jinja2" %}
+  File "/home/user/PycharmProjects/Shop/jinja2/base.jinja2", line 89, in top-level template code
+    {% block content %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 359, in block "content"
+    {% block content_center %}
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/templates/all.jinja2", line 75, in block "content_center"
+    {% set locations_date_time = event.location_date_time_gte_today() %}
+AttributeError: 'QuerySet' object has no attribute '__call__'
+2016-05-15 15:42:06 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 33, in post
+    kwargs.pop(request)
+KeyError: <WSGIRequest: POST '/%D0%BA%D0%B0%D0%BB%D0%B5%D0%BD%D0%B4%D0%B0%D1%80%D1%8C/'>
+2016-05-15 15:42:47 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 33, in post
+    kwargs.update(request)
+ValueError: dictionary update sequence element #0 has length 100; 2 is required
+2016-05-15 15:43:18 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 33, in post
+    kwargs.update('request', request)
+TypeError: update expected at most 1 arguments, got 2
+2016-05-15 17:08:19 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 21, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+TypeError: int() argument must be a string or a number, not 'NoneType'
+2016-05-15 17:09:09 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 21, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 103, in get_context_data
+    kwargs['events'] = query()
+TypeError: 'QuerySet' object is not callable
+2016-05-15 17:09:49 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:16:08 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:18:43 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:19:21 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:22:54 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:24:46 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:28:06 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:29:30 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:30:56 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:31:22 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:32:56 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:36:29 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 25, in get
+    html = template.render(request=request, context=context,)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django_jinja/backend.py", line 105, in render
+    return self.template.render(context)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 989, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 754, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/templates/all.jinja2", line 1, in top-level template code
+    {% extends 'root.jinja2' %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 1, in top-level template code
+    {% extends "base.jinja2" %}
+  File "/home/user/PycharmProjects/Shop/jinja2/base.jinja2", line 85, in top-level template code
+    {% block header %}
+  File "/home/user/PycharmProjects/Shop/jinja2/root.jinja2", line 186, in block "header"
+    #}{% set slide_url = slide.url %}
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/jinja2/environment.py", line 408, in getattr
+    return getattr(obj, attribute)
+  File "/home/user/PycharmProjects/Shop/apps/slide/models.py", line 95, in url
+    print 'Slide bool: ', bool(aaa), len(aaa)
+UnboundLocalError: local variable 'aaa' referenced before assignment
+2016-05-15 17:38:04 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:38:16 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:40:28 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:42:18 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:43:19 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:44:06 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 83, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:45:31 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 84, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:46:19 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 84, in get_context_data
+    select_subject = int(self.request.POST.get('select_subject'))
+ValueError: invalid literal for int() with base 10: ''
+2016-05-15 17:47:40 - ERROR - django.request - base.py:256 Internal Server Error: /календарь/
+Traceback (most recent call last):
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 89, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 35, in post
+    context = self.get_context_data(**kwargs)
+  File "/home/user/PycharmProjects/Shop/apps/mycalendar/views.py", line 99, in get_context_data
+    query = query.location_date_time.filter(city_id=select_city)
+AttributeError: 'QuerySet' object has no attribute 'location_date_time'
