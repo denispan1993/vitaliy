@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django_jinja.library import global_function
 from django.template.loader import render_to_string
+from django.core.cache import cache
+import hashlib
 
 __author__ = 'AlexStarov'
 
@@ -16,13 +18,43 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
         request_csrf_token = get_token(request, )
         template_name = u'product/templatetags/block_products.jinja2'
 
-    return render_to_string(template_name=template_name,
-                            context={'blocks': blocks,
-                                     'request': request,
-                                     'csrf_token': request_csrf_token,
-                                     'top_border': top_border,
-                                     'limit_on_string': limit_on_string,
-                                     'attachment': attachment, }, )
+    key = '%s_block_' % ('prod' if category_or_product == 'product' else 'cat', )
+
+    for block in blocks:
+        key += '_%s' % str(block.pk)
+
+    key += '__currency_pk_%s' % request.session.get(u'currency_pk', )
+
+    if top_border:
+        key += '__top_border'
+
+    key += '__limit_on_string_%s' % str(limit_on_string)
+
+    if attachment:
+        key += '__attachment_%s' % attachment
+
+    m = hashlib.md5(key)
+
+    md5_key = '%s_blocks_%s' % (
+        'prod' if category_or_product == 'product' else 'cat',
+        m.hexdigest(), )
+
+    block = cache.get(key=md5_key, )
+
+    if block:
+        return block.decode('utf-8', )
+    else:
+        block = render_to_string(template_name=template_name,
+                                 context={'blocks': blocks,
+                                          'category_or_product': category_or_product,
+                                          'request': request,
+                                          'csrf_token': request_csrf_token,
+                                          'top_border': top_border,
+                                          'limit_on_string': limit_on_string,
+                                          'attachment': attachment, }, )
+        cache.set(key=md5_key, value=block, timeout=900, )
+        return block
+
 
 
 @global_function()
@@ -36,8 +68,9 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
     if cycle == 1:
         margin_left = '0px'
 
-    key = 'one_block_%s_%d_%s_%s_%s_%s' % (
-        category_or_product,
+    key = '%s_block_' % ('prod' if category_or_product == 'product' else 'cat', )
+
+    key += '%d_%s_%s_%s_%s' % (
         block.pk,
         request.session.get(u'currency_pk', ),
         choice,
@@ -45,7 +78,6 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
         margin_left,
     )
 
-    from django.core.cache import cache
     this_one_block = cache.get(key=key, )
 
     if this_one_block:
@@ -65,5 +97,5 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
                                                    'margin_bottom': margin_bottom,
                                                    'margin_left': margin_left, }, )
 
-        cache.set(key=key, value=this_one_block, timeout=600, )
+        cache.set(key=key, value=this_one_block, timeout=900, )
         return this_one_block
