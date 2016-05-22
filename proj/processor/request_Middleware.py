@@ -7,15 +7,13 @@ __author__ = 'AlexStarov'
 
 logging = getLogger(__name__)
 
-#logging.info('__name__: {0}'.format(__name__))
-
 
 class Process_Request_Middleware(object):
 
     def process_request(self, request, ):
-        logging.debug('---debug()---')
-        logging.info('---info()---')
-        logging.error('---error()---')
+        logging.debug(u'---debug()---')
+        logging.info(u'---info()---')
+        logging.error(u'---error()---')
         logging.info(u'')
         #try:
         #    logging_log_info.info('self = {0}'.format(self))
@@ -31,9 +29,9 @@ class Process_Request_Middleware(object):
         #except Exception as e:
         #    logging_log_error.error('Exception: {0}'.format(e))
 
-        logging.info('Start executions (START): {0}'.format(time.time()))
+        logging.info(u'Start executions (START): {0}'.format(time.time()))
 
-        logging.info('resolve: Process_Request_Middleware')
+        logging.info(u'resolve: Process_Request_Middleware')
 
         full_path = request.path
         logging.debug(u'full_path: {0}'.format(full_path))
