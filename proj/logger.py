@@ -65,7 +65,7 @@ LOGGING = {
         'production': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'logs/logging/production.log',
+            'filename': '../../logs/keksik_com_ua/logging/production.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -74,7 +74,7 @@ LOGGING = {
         'log': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'logs/logging/log.log',
+            'filename': '../../logs/keksik_com_ua/logging/log.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -82,7 +82,7 @@ LOGGING = {
         'debug': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'logs/logging/debug.log',
+            'filename': '../../logs/keksik_com_ua/logging/debug.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -90,7 +90,7 @@ LOGGING = {
         'celery': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'logs/logging/celery.log',
+            'filename': '../../logs/keksik_com_ua/logging/celery.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'all_verbose',

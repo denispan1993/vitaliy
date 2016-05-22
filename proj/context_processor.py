@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
-from apps.cart.views import get_cart_or_create
-from apps.product.models import Currency, Category
-from apps.product.views import get_product, show_product, get_or_create_Viewed
-from apps.slide.models import Slide
-from apps.static.models import Static
-from django.contrib.auth import get_user_model
-from django.core.urlresolvers import resolve, Resolver404
-
 __author__ = 'Alex Starov'
 
 
 def context(request):
 
+    from apps.static.models import Static
     try:
         static_pages = Static.objects.all()
     except Static.DoesNotExist:
         static_pages = None
 
+    from apps.product.models import Currency
     try:
         currency = Currency.objects.all()
     except Currency.DoesNotExist:
@@ -41,11 +35,14 @@ def context(request):
         request.session[u'currency_pk'] = 1
         current_currency = currency.get(pk=1, )
 
+    from apps.slide.models import Slide
     try:
         slides = Slide.manager.visible()
     except Slide.DoesNotExist:
         slides = None
 
+
+    from apps.product.models import Category
     try:
         categories_basement = Category.objects.basement()
     except Category.DoesNotExist:
@@ -53,6 +50,8 @@ def context(request):
 
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
+        # from django.contrib.auth.models import User
+        from django.contrib.auth import get_user_model
         UserModel = get_user_model()
         try:
             user_id_ = int(user_id_, )
@@ -63,6 +62,7 @@ def context(request):
     else:
         user_object = None
 
+    from apps.cart.views import get_cart_or_create
     user_cart = get_cart_or_create(request, user_object=user_object, created=False, )
 
     if user_cart:
@@ -100,103 +100,8 @@ def context(request):
     #             pass
 
     full_path = request.path
-    # print type(full_path, )
-    value = None
-    if isinstance(full_path, unicode):
-        try:
-            value = full_path.encode('us-ascii', )
-        except:
-            print 'Not US-ASCII'
-            try:
-                value = full_path.encode('utf8')
-            except:
-                pass
-            else:
-                try:
-                    print 'utf8', type(value, ), value
-                except:
-                    print 'utf8', type(value, ), 'print value: Error'
-            try:
-                value = full_path.decode('cp866').encode('utf8')
-            except:
-                pass
-            else:
-                try:
-                    print 'cp866', type(value, ), value
-                except:
-                    print 'cp866', type(value, ), 'print value: Error'
-            try:
-                value = full_path.decode('cp1251').encode('utf8')
-            except:
-                pass
-            else:
-                try:
-                    print 'cp1251', type(value, ), value
-                except:
-                    print 'cp1251', type(value, ), 'print value: Error'
-            try:
-                value = full_path.decode('cp1252').encode('utf8')
-            except:
-                pass
-            else:
-                try:
-                    print 'cp1252 -1', type(value, ), value
-                except:
-                    print 'cp1252 -1', type(value, ), 'print value: Error'
-            try:
-                value = full_path.encode('cp1252')
-            except:
-                pass
-            else:
-                try:
-                    print 'cp1252 -2', type(value, ), value
-                except:
-                    print 'cp1252 -2', type(value, ), 'print value: Error'
-            #try:
-            #    value = full_path.encode('cp1252').decode('utf8')
-            #except:
-            #    pass
-            #else:
-            #    print 'cp1252 -3', type(value, ), value
-            try:
-                value = full_path.encode('cp1252').encode('utf8')
-            except:
-                pass
-            else:
-                try:
-                    print 'cp1252 -4', type(value, ), value
-                except:
-                    print 'cp1252 -4', type(value, ), 'print value: Error'
-            #try:
-            #    value = full_path.encode('utf8').decode('cp1252').encode('utf8')
-            #except:
-            #    pass
-            #else:
-            #    print 'cp1252 -5', type(value, ), value
-            try:
-                value = full_path.encode('utf8').encode('cp1252')
-            except:
-                pass
-            else:
-                try:
-                    print 'cp1252 -6', type(value, ), value
-                except:
-                    print 'cp1252 -6', type(value, ), 'print value: Error'
-            try:
-                value = full_path.decode('koi8').encode('utf8')
-            except:
-                pass
-            else:
-                try:
-                    print 'koi8', type(value, ), value
-                except:
-                    print 'koi8', type(value, ), 'print value: Error'
-        else:
-            try:
-                print 'ascii', type(value, ), value
-            except:
-                print 'ascii', type(value, ), 'print value: Error'
 
+    from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
         print 'request.method', request.method
     else:
@@ -212,9 +117,13 @@ def context(request):
             # print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
             # print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
             # print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
+            print 'resolve:'
             view, args, kwargs = resolve(full_path, )
+
         except UnicodeDecodeError:
-            print 'Error: ', full_path.encode('utf8', )
+            print 'Error: '
+            print full_path.encode('utf8', )
+
         except Resolver404:
             try:
                 print 'request.get_full_path(): ', request.get_full_path()
@@ -226,35 +135,46 @@ def context(request):
                 print 'Error: Resolver404 - cp1252', full_path.encode('cp1252', )
             except:
                 pass
+
             try:
                 print 'Error: Resolver404 - utf8 - cp1252', full_path.encode('utf8').encode('cp1252', )
             except:
                 pass
+
             try:
                 print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
             except:
                 print 'Error: Resolver404 - utf8', 'print value: Error'
+
         else:
-            print view, args, kwargs
+            try:
+                print 'resolve(full_path, ) : view = ', view, ' args = ', args, ' kwargs = ', kwargs
+            except:
+                pass
+
 #        try:
 #            print 'Not error: ', request.path
 #        except UnicodeEncodeError:
 #            print 'Not print Not error: UniceodeEncodeError'
-        if 'view' in locals() and view == show_product:
+
+        from apps.product.views import show_product
+        if user_object and 'view' in locals() and view == show_product:
             try:
                 product_pk = int(kwargs[u'id'], )
             except ValueError:
                 pass
             else:
                 print product_pk, kwargs[u'product_url'].encode('utf8')
+                from apps.product.views import get_product
                 """ Убираем НАХРЕН проверку именования товара product_url """
                 # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
                 product = get_product(product_pk=product_pk, )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
     viewed = None
+    #from apps.product.models import Viewed
+    from apps.product.views import get_or_create_Viewed
     viewed = get_or_create_Viewed(request, int_product_pk=product_pk, product=product, user_obj=user_object, sessionid=sessionid, )
-
     #viewed = None
     #if 'product' in locals() and product:
     #    viewed = Viewed.objects.filter(user_obj=user_object,
@@ -283,3 +203,103 @@ def context(request):
                 # product_=product,
                 # ajax_resolution_=ajax_resolution_,
                 )
+
+
+#    # print type(full_path, )
+#    value = None
+#    if isinstance(full_path, unicode):
+#        try:
+#            value = full_path.encode('us-ascii', )
+#        except:
+#            print 'Not US-ASCII'
+#            try:
+#                value = full_path.encode('utf8')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'utf8', type(value, ), value
+#                except:
+#                    print 'utf8', type(value, ), 'print value: Error'
+#            try:
+#                value = full_path.decode('cp866').encode('utf8')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'cp866', type(value, ), value
+#                except:
+#                    print 'cp866', type(value, ), 'print value: Error'
+#            try:
+#                value = full_path.decode('cp1251').encode('utf8')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'cp1251', type(value, ), value
+#                except:
+#                    print 'cp1251', type(value, ), 'print value: Error'
+#            try:
+#                value = full_path.decode('cp1252').encode('utf8')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'cp1252 -1', type(value, ), value
+#                except:
+#                    print 'cp1252 -1', type(value, ), 'print value: Error'
+#            try:
+#                value = full_path.encode('cp1252')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'cp1252 -2', type(value, ), value
+#                except:
+#                    print 'cp1252 -2', type(value, ), 'print value: Error'
+#            #try:
+#            #    value = full_path.encode('cp1252').decode('utf8')
+#            #except:
+#            #    pass
+#            #else:
+#            #    print 'cp1252 -3', type(value, ), value
+#            try:
+#                value = full_path.encode('cp1252').encode('utf8')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'cp1252 -4', type(value, ), value
+#                except:
+#                    print 'cp1252 -4', type(value, ), 'print value: Error'
+#            #try:
+#            #    value = full_path.encode('utf8').decode('cp1252').encode('utf8')
+#            #except:
+#            #    pass
+#            #else:
+#            #    print 'cp1252 -5', type(value, ), value
+#            try:
+#                value = full_path.encode('utf8').encode('cp1252')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'cp1252 -6', type(value, ), value
+#                except:
+#                    print 'cp1252 -6', type(value, ), 'print value: Error'
+#            try:
+#                value = full_path.decode('koi8').encode('utf8')
+#            except:
+#                pass
+#            else:
+#                try:
+#                    print 'koi8', type(value, ), value
+#                except:
+#                    print 'koi8', type(value, ), 'print value: Error'
+#        else:
+#            try:
+#                print 'ascii', type(value, ), value
+#            except:
+#                print 'ascii', type(value, ), 'print value: Error'
+#
+#
