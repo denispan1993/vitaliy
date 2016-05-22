@@ -11,9 +11,9 @@ logging = getLogger(__name__)
 class Process_Request_Middleware(object):
 
     def process_request(self, request, ):
-        logging.debug(u'---debug()---')
-        logging.info(u'---info()---')
-        logging.error(u'---error()---')
+        #logging.debug(u'---debug()---')
+        #logging.info(u'---info()---')
+        #logging.error(u'---error()---')
         logging.info(u'')
         #try:
         #    logging_log_info.info('self = {0}'.format(self))
