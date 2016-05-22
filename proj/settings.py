@@ -259,6 +259,10 @@ MIDDLEWARE_CLASSES = (
     'proj.processor.response_Middleware.Process_Response_Middleware',
 )
 
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
 SESSION_SAVE_EVERY_REQUEST = False
 SESSION_COOKIE_AGE = 31622400  # 3600 * 24 * 366
 #SESSION_COOKIE_DOMAIN = u'.shop.mk.ua'
@@ -546,6 +550,7 @@ INSTALLED_APPS += (
 )
 
 DEBUG_TOOLBAR_PANELS = (
+    # Default built-in panels
     'debug_toolbar.panels.versions.VersionsPanel',
     'debug_toolbar.panels.timer.TimerPanel',
     'debug_toolbar.panels.settings.SettingsPanel',
@@ -558,21 +563,21 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.signals.SignalsPanel',
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
+    # Non-default built-in panels
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+    # Third-party panels
+    'debug_toolbar.panels.timer.TimerDebugPanel',
 )
 
-#DEBUG_TOOLBAR_PANELS += (
-#    'debug_toolbar.panels.profiling.ProfilingPanel',
-#)
+INSTALLED_APPS += (
+    'template_timings_panel',
+)
+
+DEBUG_TOOLBAR_PANELS += (
+    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+)
 
 DEBUG_TOOLBAR_FILTER_URL = ('^admin/', )
-
-#INSTALLED_APPS += (
-#    'template_timings_panel',
-#)
-
-#DEBUG_TOOLBAR_PANELS += (
-#    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
-#)
 
 IGNORED_TEMPLATES = ["debug_toolbar/*", "admin/*"]
 

@@ -247,7 +247,7 @@ if not isfile(path('server.key', ), ):
         urlpatterns += patterns('django.views.static',
                                 url(r'^media/(?P<path>.*)$', 'serve',
                                     {'document_root': path('media', ),
-                                    'show_indexes': True, },
+                                     'show_indexes': True, },
                                     ),
                                 )
     # if sys.platform.startswith('freebsd'):
