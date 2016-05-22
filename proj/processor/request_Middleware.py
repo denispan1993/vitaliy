@@ -5,6 +5,7 @@ from logging import getLogger
 
 __author__ = 'AlexStarov'
 
+logging = getLogger(__name__)
 logging_log_info = getLogger('log_info')
 logging_log_debug = getLogger('log_debug')
 logging_log_error = getLogger('log_error')
@@ -15,6 +16,9 @@ logging_log_info.info('__name__: {0}'.format(__name__))
 class Process_Request_Middleware(object):
 
     def process_request(self, request, ):
+        logging.debug('---denug()---')
+        logging.info('---info()---')
+        logging.error('---error()---')
         logging_log_info.info(u'')
         #try:
         #    logging_log_info.info('self = {0}'.format(self))
