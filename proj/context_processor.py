@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
+from django.core.urlresolvers import resolve, Resolver404
+from django.contrib.auth import get_user_model
+from apps.cart.views import get_cart_or_create
+from apps.product.views import get_product, show_product, get_or_create_Viewed
+from apps.static.models import Static
+from apps.product.models import Category, Currency
+from apps.slide.models import Slide
+
+__author__ = 'AlexStarov'
 
 
 def context(request):
 
-    from apps.static.models import Static
     try:
         static_pages = Static.objects.all()
     except Static.DoesNotExist:
         static_pages = None
 
-    from apps.product.models import Currency
     try:
         currency = Currency.objects.all()
     except Currency.DoesNotExist:
@@ -35,14 +41,11 @@ def context(request):
         request.session[u'currency_pk'] = 1
         current_currency = currency.get(pk=1, )
 
-    from apps.slide.models import Slide
     try:
         slides = Slide.manager.visible()
     except Slide.DoesNotExist:
         slides = None
 
-
-    from apps.product.models import Category
     try:
         categories_basement = Category.objects.basement()
     except Category.DoesNotExist:
@@ -51,7 +54,6 @@ def context(request):
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
         # from django.contrib.auth.models import User
-        from django.contrib.auth import get_user_model
         UserModel = get_user_model()
         try:
             user_id_ = int(user_id_, )
@@ -62,7 +64,6 @@ def context(request):
     else:
         user_object = None
 
-    from apps.cart.views import get_cart_or_create
     user_cart = get_cart_or_create(request, user_object=user_object, created=False, )
 
     if user_cart:
@@ -99,110 +100,87 @@ def context(request):
     #         except Product.DoesNotExist:
     #             pass
 
-    full_path = request.path
-
-    from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
         print 'request.method', request.method
     else:
-        """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
-            и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
-        """
-        try:
-            """ Вот где выскакивает эта ошибка """
-            # print 'HTTP_ACCEPT: ', request.META.get('HTTP_ACCEPT', None, )
-            # print 'HTTP_ACCEPT_ENCODING: ', request.META.get('HTTP_ACCEPT_ENCODING', None, )
-            # print 'HTTP_ACCEPT_LANGUAGE: ', request.META.get('HTTP_ACCEPT_LANGUAGE', None, )
-            # print 'LANG: ', request.META.get('LANG', None, )
-            # print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
-            # print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
-            # print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
-            print 'resolve:'
-            view, args, kwargs = resolve(full_path, )
+        if user_object:
+            full_path = request.path
 
-        except UnicodeDecodeError:
-            print 'Error: '
-            print full_path.encode('utf8', )
-
-        except Resolver404:
+            """ Оказывается get_full_path() возвращает полный путь со строкой запроса в случае запроса типа GET
+                и долбанный resolve не может её тогда обработать и вываливается с кодом 404.
+            """
             try:
-                print 'request.get_full_path(): ', request.get_full_path()
-            except:
-                pass
+                """ Вот где выскакивает эта ошибка """
+                # print 'HTTP_ACCEPT: ', request.META.get('HTTP_ACCEPT', None, )
+                # print 'HTTP_ACCEPT_ENCODING: ', request.META.get('HTTP_ACCEPT_ENCODING', None, )
+                # print 'HTTP_ACCEPT_LANGUAGE: ', request.META.get('HTTP_ACCEPT_LANGUAGE', None, )
+                # print 'LANG: ', request.META.get('LANG', None, )
+                # print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
+                # print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
+                # print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
+                print 'resolve:'
+                view, args, kwargs = resolve(full_path, )
 
-            try:
-                print 'Error: Resolver404 - cp1252 [2]', full_path.split('/')[2].encode('cp1252', )
-                print 'Error: Resolver404 - cp1252', full_path.encode('cp1252', )
-            except:
-                pass
+            except UnicodeDecodeError:
+                print 'Error: '
+                print full_path.encode('utf8', )
 
-            try:
-                print 'Error: Resolver404 - utf8 - cp1252', full_path.encode('utf8').encode('cp1252', )
-            except:
-                pass
+            except Resolver404:
+                try:
+                    print 'request.get_full_path(): ', request.get_full_path()
+                except:
+                    pass
 
-            try:
-                print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
-            except:
-                print 'Error: Resolver404 - utf8', 'print value: Error'
+                try:
+                    print 'Error: Resolver404 - cp1252 [2]', full_path.split('/')[2].encode('cp1252', )
+                    print 'Error: Resolver404 - cp1252', full_path.encode('cp1252', )
+                except:
+                    pass
 
-        else:
-            try:
-                print 'resolve(full_path, ) : view = ', view, ' args = ', args, ' kwargs = ', kwargs
-            except:
-                pass
+                try:
+                    print 'Error: Resolver404 - utf8 - cp1252', full_path.encode('utf8').encode('cp1252', )
+                except:
+                    pass
 
-#        try:
-#            print 'Not error: ', request.path
-#        except UnicodeEncodeError:
-#            print 'Not print Not error: UniceodeEncodeError'
+                try:
+                    print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
+                except:
+                    print 'Error: Resolver404 - utf8', 'print value: Error'
 
-        from apps.product.views import show_product
-        if user_object and 'view' in locals() and view == show_product:
-            try:
-                product_pk = int(kwargs[u'id'], )
-            except ValueError:
-                pass
             else:
-                print product_pk, kwargs[u'product_url'].encode('utf8')
-                from apps.product.views import get_product
-                """ Убираем НАХРЕН проверку именования товара product_url """
-                # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
-                product = get_product(product_pk=product_pk, )
+                try:
+                    print 'resolve(full_path, ) : view = ', view, ' args = ', args, ' kwargs = ', kwargs
+                except:
+                    pass
+
+    #        try:
+    #            print 'Not error: ', request.path
+    #        except UnicodeEncodeError:
+    #            print 'Not print Not error: UniceodeEncodeError'
+
+            if 'view' in locals() and view == show_product:
+                try:
+                    product_pk = int(kwargs[u'id'], )
+                except ValueError:
+                    pass
+                else:
+                    print product_pk, kwargs[u'product_url'].encode('utf8')
+                    """ Убираем НАХРЕН проверку именования товара product_url """
+                    # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
+                    product = get_product(product_pk=product_pk, )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
     viewed = None
-    #from apps.product.models import Viewed
-    from apps.product.views import get_or_create_Viewed
     viewed = get_or_create_Viewed(request, int_product_pk=product_pk, product=product, user_obj=user_object, sessionid=sessionid, )
-    #viewed = None
-    #if 'product' in locals() and product:
-    #    viewed = Viewed.objects.filter(user_obj=user_object,
-    #                                   sessionid=sessionid, ).\
-    #        order_by('-last_viewed', ).\
-    #        exclude(content_type=product.content_type, object_id=product.pk, )
-    #else:
-    #    viewed = Viewed.objects.filter(user_obj=user_object,
-    #                                   sessionid=sessionid, ).\
-    #        order_by('-last_viewed', )
 
-    return dict(#request=request,
-                static_pages_=static_pages,
+    return dict(static_pages_=static_pages,
                 currency_=currency,
                 current_currency_=current_currency,
                 slides_=slides,
                 categories_basement_=categories_basement,
                 user_cart_=user_cart,
                 coupon_=coupon,
-                viewed_=viewed,
-                # product_random_test_=product,
-                # viewed_count_=viewed_count,
-                # view_=view,
-                #args_=args,
-                #kwargs_=kwargs,
-                # product_=product,
-                # ajax_resolution_=ajax_resolution_,
-                )
+                viewed_=viewed, )
 
 
 #    # print type(full_path, )
