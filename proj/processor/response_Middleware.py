@@ -4,13 +4,13 @@ from logging import getLogger
 
 __author__ = 'AlexStarov'
 
-debug_log = getLogger('log')
+logging_log_info = getLogger('log_info')
 
 
 class Process_Response_Middleware(object):
 
     def process_response(self, request, response):
-        debug_log.info(u'Start executions (END): {0}'.format(time.time()))
-        debug_log.info(u'Start executions (END): {0}'.format(time.time()))
+        logging_log_info.info(u'Start executions (END): {0}'.format(time.time()))
+        logging_log_info.info(u'Start executions (END): {0}'.format(time.time()))
 
         return response

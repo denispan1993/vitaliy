@@ -71,12 +71,24 @@ LOGGING = {
             'formatter': 'main',
             # 'filters': ['require_debug_false'],
         },
-        'log': {
+        'log_info': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': '../../logs/keksik_com_ua/logging/log.log',
             'when': 'd',
             'backupCount': 7,
+            'formatter': 'main',
+        },
+        'log_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '../../logs/keksik_com_ua/logging/log.log',
+            'formatter': 'main',
+        },
+        'log_error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '../../logs/keksik_com_ua/logging/log.log',
             'formatter': 'main',
         },
         'debug': {
