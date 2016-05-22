@@ -6,20 +6,17 @@ from logging import getLogger
 __author__ = 'AlexStarov'
 
 logging = getLogger(__name__)
-logging_log_info = getLogger('log_info')
-logging_log_debug = getLogger('log_debug')
-logging_log_error = getLogger('log_error')
 
-logging_log_info.info('__name__: {0}'.format(__name__))
+logging.info('__name__: {0}'.format(__name__))
 
 
 class Process_Request_Middleware(object):
 
     def process_request(self, request, ):
-        logging.debug('---denug()---')
+        logging.debug('---debug()---')
         logging.info('---info()---')
         logging.error('---error()---')
-        logging_log_info.info(u'')
+        logging.info(u'')
         #try:
         #    logging_log_info.info('self = {0}'.format(self))
         #    logging_log_info.info('self.__class__ = {0}'.format(self.__class__))
@@ -34,18 +31,18 @@ class Process_Request_Middleware(object):
         #except Exception as e:
         #    logging_log_error.error('Exception: {0}'.format(e))
 
-        logging_log_info.info(u'Start executions (START): {0}'.format(time.time()))
+        logging.info(u'Start executions (START): {0}'.format(time.time()))
 
-        logging_log_info.info(u'resolve: Process_Request_Middleware')
+        logging.info(u'resolve: Process_Request_Middleware')
 
         full_path = request.path
-        logging_log_debug.debug(u'full_path: {0}'.format(full_path))
+        logging.debug(u'full_path: {0}'.format(full_path))
 
         try:
             view, args, kwargs = resolve(full_path, )
-            logging_log_debug.debug(u'resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
+            logging.debug(u'resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
         except Exception as e:
-            logging_log_error.error(u'Error resolve(full_path, ): full_path = {0}'.format(full_path))
+            logging.error(u'Error resolve(full_path, ): full_path = {0}'.format(full_path))
 
             try:
                 value = full_path.decode('cp1252').encode('utf8')
@@ -53,7 +50,7 @@ class Process_Request_Middleware(object):
                 pass
             else:
                 try:
-                    logging_log_error.error("full_path.decode('cp1252').encode('utf8') = {0}".format(value))
+                    logging.error("full_path.decode('cp1252').encode('utf8') = {0}".format(value))
                 except:
                     pass
             try:
@@ -62,7 +59,7 @@ class Process_Request_Middleware(object):
                 pass
             else:
                 try:
-                    logging_log_error.error("full_path.decode('cp1252') = {0}".format(value))
+                    logging.error("full_path.decode('cp1252') = {0}".format(value))
                     request.path = value
                 except:
                     pass

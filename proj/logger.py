@@ -146,6 +146,11 @@ LOGGING = {
         #},
         'proj.processor.request_Middleware': {
             'handlers': ['log_info', 'log_debug', 'log_error', ],
+            'level': 'INFO',
+        },
+        '': {
+            'handlers': ['log_info', 'log_debug', 'log_error', ],
+            'level': 'INFO',
         },
     }
 }
