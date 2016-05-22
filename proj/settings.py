@@ -31,7 +31,6 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler',
 #CELERYD_PREFETCH_MULTIPLIER = 0
 
 # Django settings for Shop project.
-
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
 
@@ -243,19 +242,21 @@ TCP += (
 )
 
 MIDDLEWARE_CLASSES = (
+    'proj.middleware.request_Middleware.Process_Request_Middleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'userena.middleware.UserenaLocaleMiddleware',
     # Мой middleware
-    'proj.processor_Middleware.Process_SessionIDMiddleware',
+    'proj.middleware.processor_Middleware.Process_SessionIDMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'compat.midlewareHTMLCompress.SpacelessMiddleware',
+    'proj.middleware.response_Middleware.Process_Response_Middleware',
 )
 
 SESSION_SAVE_EVERY_REQUEST = False
@@ -353,8 +354,6 @@ INSTALLED_APPS = (
 )
 
 PAYPAL_RECEIVER_EMAIL = "simagina.svetlana@gmail.com"
-
-from .logger import LOGGING
 
 #!!!=============== Python Social Auth =========================
 INSTALLED_APPS += (

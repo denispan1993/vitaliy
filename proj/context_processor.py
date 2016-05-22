@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
+from apps.cart.views import get_cart_or_create
+from apps.product.models import Currency, Category
+from apps.product.views import get_product, show_product, get_or_create_Viewed
+from apps.slide.models import Slide
+from apps.static.models import Static
+from django.contrib.auth import get_user_model
+from django.core.urlresolvers import resolve, Resolver404
+
 __author__ = 'Alex Starov'
 
 
 def context(request):
 
-    from apps.static.models import Static
     try:
         static_pages = Static.objects.all()
     except Static.DoesNotExist:
         static_pages = None
 
-    from apps.product.models import Currency
     try:
         currency = Currency.objects.all()
     except Currency.DoesNotExist:
@@ -35,14 +41,11 @@ def context(request):
         request.session[u'currency_pk'] = 1
         current_currency = currency.get(pk=1, )
 
-    from apps.slide.models import Slide
     try:
         slides = Slide.manager.visible()
     except Slide.DoesNotExist:
         slides = None
 
-
-    from apps.product.models import Category
     try:
         categories_basement = Category.objects.basement()
     except Category.DoesNotExist:
@@ -50,8 +53,6 @@ def context(request):
 
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
-        # from django.contrib.auth.models import User
-        from django.contrib.auth import get_user_model
         UserModel = get_user_model()
         try:
             user_id_ = int(user_id_, )
@@ -62,7 +63,6 @@ def context(request):
     else:
         user_object = None
 
-    from apps.cart.views import get_cart_or_create
     user_cart = get_cart_or_create(request, user_object=user_object, created=False, )
 
     if user_cart:
@@ -197,7 +197,6 @@ def context(request):
             except:
                 print 'ascii', type(value, ), 'print value: Error'
 
-    from django.core.urlresolvers import resolve, Resolver404
     if not request.method == 'GET':
         print 'request.method', request.method
     else:
@@ -241,7 +240,6 @@ def context(request):
 #            print 'Not error: ', request.path
 #        except UnicodeEncodeError:
 #            print 'Not print Not error: UniceodeEncodeError'
-        from apps.product.views import show_product
         if 'view' in locals() and view == show_product:
             try:
                 product_pk = int(kwargs[u'id'], )
@@ -249,16 +247,14 @@ def context(request):
                 pass
             else:
                 print product_pk, kwargs[u'product_url'].encode('utf8')
-                from apps.product.views import get_product
                 """ Убираем НАХРЕН проверку именования товара product_url """
                 # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
                 product = get_product(product_pk=product_pk, )
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
     viewed = None
-    #from apps.product.models import Viewed
-    from apps.product.views import get_or_create_Viewed
     viewed = get_or_create_Viewed(request, int_product_pk=product_pk, product=product, user_obj=user_object, sessionid=sessionid, )
+
     #viewed = None
     #if 'product' in locals() and product:
     #    viewed = Viewed.objects.filter(user_obj=user_object,

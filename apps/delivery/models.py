@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
+from datetime import datetime
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from datetime import date, datetime
+__author__ = 'AlexStarov'
 
 
 class MailAccount(models.Model, ):
@@ -198,7 +198,6 @@ class Delivery(models.Model, ):
                     thumb_size = ((img[i-1].height, img[i-1].width, ), )
                     #file_name = img_aaa.name.rsplit('/', 1, )[1]
                     #file_format = file_name.rsplit('.', 1, )[1]
-                    from compat.ImageWithThumbs.utils import generate_thumb
                     img_aaa.field.sizes = thumb_size
                     #img_aaa.save(name=file_name,
                     #             content=generate_thumb(img=img_aaa,
