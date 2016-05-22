@@ -26,3 +26,22 @@ class Process_Request_Middleware(object):
             logging_log_debug.debug(u'resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
         except Exception as e:
             logging_log_error.error(u'Error resolve(full_path, ): full_path = {0}'.format(full_path))
+
+            try:
+                value = full_path.decode('cp1252').encode('utf8')
+            except:
+                pass
+            else:
+                try:
+                    logging_log_error.error("full_path.decode('cp1252').encode('utf8') = {0}".format(value))
+                except:
+                    pass
+            try:
+                value = full_path.encode('cp1252')
+            except:
+                pass
+            else:
+                try:
+                    logging_log_error.error("full_path.decode('cp1252') = {0}".format(value))
+                except:
+                    pass
