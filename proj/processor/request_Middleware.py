@@ -35,7 +35,10 @@ class Process_Request_Middleware(object):
                     value = full_path.decode('cp1252').encode('utf8')
                     try:
                         logging.error(u'full_path.decode("cp1252").encode("utf8") = {0}'.format(value))
-                        request.path = value
+                        try:
+                            request.path = value
+                        except Exception as e:
+                            logging.error(u'Error: request.path = value Exception = {0}'.format(e))
                     except:
                         pass
                 except:
@@ -45,7 +48,10 @@ class Process_Request_Middleware(object):
                     value = full_path.encode('cp1252')
                     try:
                         logging.error(u'full_path.decode("cp1252") = {0}'.format(value))
-                        request.path = value
+                        try:
+                            request.path = value
+                        except Exception as e:
+                            logging.error(u'Error: request.path = value Exception = {0}'.format(e))
                     except:
                         pass
                 except:
@@ -53,6 +59,6 @@ class Process_Request_Middleware(object):
 
                 if "{{ no such element: apps.slide.models.Slide object['url'] }}" in full_path:
                     try:
-                        logging.error(u'full_path = {0}'.format(full_path.split('{{')[0]))
+                        logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(full_path.split('{{')[0]))
                     except:
                         pass
