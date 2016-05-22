@@ -14,6 +14,15 @@ class Process_Request_Middleware(object):
 
     def process_request(self, request, ):
         logging_log_info.info(u'')
+        try:
+            logging_log_info.info(self)
+            logging_log_info.info(self.__class__)
+            logging_log_info.info(self.__doc__)
+            logging_log_info.info(self.__module__)
+            logging_log_info.info(self.__repr__())
+        except Exception as e:
+            logging_log_error.error('Exception: {0}'.format(e))
+
         logging_log_info.info(u'Start executions (START): {0}'.format(time.time()))
 
         logging_log_info.info(u'resolve: Process_Request_Middleware')
