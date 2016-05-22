@@ -142,7 +142,7 @@ LOGGING = {
         #},
         '': {
             'handlers': ['log_info', 'log_debug', 'log_error', ],
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
     }
 }
