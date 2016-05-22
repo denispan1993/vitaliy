@@ -74,7 +74,7 @@ LOGGING = {
         'log_info': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../../logs/keksik_com_ua/logging/log.log',
+            'filename': '../../logs/keksik_com_ua/logging/log_info.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'all_verbose',
@@ -82,7 +82,7 @@ LOGGING = {
         'log_debug': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../../logs/keksik_com_ua/logging/log.log',
+            'filename': '../../logs/keksik_com_ua/logging/log_debug.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'all_verbose',
@@ -90,7 +90,7 @@ LOGGING = {
         'log_error': {
             'level': 'ERROR',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../../logs/keksik_com_ua/logging/log.log',
+            'filename': '../../logs/keksik_com_ua/logging/log_error.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'all_verbose',
@@ -146,10 +146,12 @@ LOGGING = {
         #},
         'proj.processor.request_Middleware': {
             'handlers': ['log_info', 'log_debug', 'log_error', ],
-            'level': 'INFO',
+        },
+        'proj.processor.response_Middleware': {
+            'handlers': ['log_info', 'log_debug', 'log_error', ],
         },
         '': {
-            'handlers': ['log_info', 'log_debug', 'log_error', ],
+            'handlers': ['console', ],
             'level': 'INFO',
         },
     }
