@@ -71,18 +71,12 @@ LOGGING = {
             'formatter': 'main',
             # 'filters': ['require_debug_false'],
         },
-        'log': {
+        'log_info': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': '../../logs/keksik_com_ua/logging/log.log',
             'when': 'd',
             'backupCount': 7,
-            'formatter': 'all_verbose',
-        },
-        'log_info': {
-            'level': 'INFO',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../../logs/keksik_com_ua/logging/log.log',
             'formatter': 'all_verbose',
         },
         'log_debug': {
@@ -126,7 +120,7 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'log', ],
+            'handlers': ['console', ],
             'propagate': True,
             'level': 'INFO',
         },
@@ -147,8 +141,8 @@ LOGGING = {
         #    'level': 'ERROR',
         #},
         '': {
-            'handlers': ['log', 'log_info', 'log_debug', 'log_error', ],
-            'level': "DEBUG",
+            'handlers': ['log_info', 'log_debug', 'log_error', ],
+            'level': 'INFO',
         },
     }
 }
