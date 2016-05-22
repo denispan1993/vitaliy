@@ -154,10 +154,12 @@ LOGGING = {
         #    'level': 'ERROR',
         #},
         'proj.processor.request_Middleware': {
-            'handlers': ['log_info', 'log_debug', 'log_error', ],
+            'handlers': ['log_debug', 'log_info', 'log_error', ],
+            'level': 'DEBUG',
         },
         'proj.processor.response_Middleware': {
-            'handlers': ['log_info', 'log_debug', 'log_error', ],
+            'handlers': ['log_debug', 'log_info', 'log_error', ],
+            'level': 'DEBUG',
         },
         '': {
             'handlers': ['all', ],
