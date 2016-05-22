@@ -7,7 +7,7 @@ __author__ = 'AlexStarov'
 
 logging = getLogger(__name__)
 
-logging.info('__name__: {0}'.format(__name__))
+#logging.info('__name__: {0}'.format(__name__))
 
 
 class Process_Request_Middleware(object):
@@ -31,18 +31,18 @@ class Process_Request_Middleware(object):
         #except Exception as e:
         #    logging_log_error.error('Exception: {0}'.format(e))
 
-        logging.info(u'Start executions (START): {0}'.format(time.time()))
+        logging.info('Start executions (START): {0}'.format(time.time()))
 
-        logging.info(u'resolve: Process_Request_Middleware')
+        logging.info('resolve: Process_Request_Middleware')
 
         full_path = request.path
-        logging.debug(u'full_path: {0}'.format(full_path))
+        logging.debug('full_path: {0}'.format(full_path))
 
         try:
             view, args, kwargs = resolve(full_path, )
-            logging.debug(u'resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
+            logging.debug('resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
         except Exception as e:
-            logging.error(u'Error resolve(full_path, ): full_path = {0}'.format(full_path))
+            logging.error('Error resolve(full_path, ): full_path = {0}'.format(full_path))
 
             try:
                 value = full_path.decode('cp1252').encode('utf8')
