@@ -66,7 +66,6 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': '../../logs/keksik_com_ua/logging/production.log',
-            'maxBytes': 1024 * 1024 * 10, # 10 MB
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -76,7 +75,6 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': '../../logs/keksik_com_ua/logging/log.log',
-            'maxBytes': 1024 * 1024 * 10, # 10 MB
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
