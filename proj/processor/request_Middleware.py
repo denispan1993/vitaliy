@@ -9,6 +9,8 @@ logging_log_info = getLogger('log_info')
 logging_log_debug = getLogger('log_debug')
 logging_log_error = getLogger('log_error')
 
+logging_log_info.info('__name__: {0}'.format(__name__))
+
 
 class Process_Request_Middleware(object):
 

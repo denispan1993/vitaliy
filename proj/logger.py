@@ -60,7 +60,7 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'simple',
         },
         'production': {
             'level': 'DEBUG',
@@ -142,7 +142,7 @@ LOGGING = {
         #},
         '': {
             'handlers': ['log_info', 'log_debug', 'log_error', ],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
     }
 }
