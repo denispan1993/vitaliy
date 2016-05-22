@@ -20,7 +20,7 @@ class Process_Request_Middleware(object):
             # logging_log_info.info('self.__doc__ = {0}'.format(self.__doc__))
             logging_log_info.info('self.__module__= {0}'.format(self.__module__))
             # logging_log_info.info('self.__repr__() = {0}'.format(self.__repr__()))
-            logging_log_info.info('object = {0}'.format(object))
+            # logging_log_info.info('object = {0}'.format(object))
             # logging_log_info.info('object.__class__ = {0}'.format(object.__class__))
             # logging_log_info.info('object.__doc__ = {0}'.format(object.__doc__))
             # logging_log_info.info('object.__module__ = {0}'.format(object.__module__))
