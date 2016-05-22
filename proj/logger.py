@@ -72,7 +72,7 @@ LOGGING = {
             # 'filters': ['require_debug_false'],
         },
         'log': {
-            'level': {'DEBUG', 'INFO', },
+            'level': ['DEBUG', 'INFO', ],
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': '../../logs/keksik_com_ua/logging/log.log',
             'when': 'd',
