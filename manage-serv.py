@@ -1,7 +1,6 @@
-#!/usr/www/envs/keksik_com_ua/bin/python
+#!/www/envs/keksik_com_ua/bin/python
 # -*- coding: utf-8 -*-
 import sys
-
 import os
 
 __author__ = 'AlexStarov'

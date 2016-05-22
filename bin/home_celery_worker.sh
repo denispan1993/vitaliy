@@ -1,7 +1,7 @@
-#!/home/user/PycharmProjects/Env/bin/python
-# -*- coding: utf-8 -*-
+#!/bin/sh
 
-celery worker --app=proj \
+cd ..
+./manage_ubuntuhome.py celery worker --app=proj \
 --concurrency=1 \
 --autoreload \
 --queues=celery \

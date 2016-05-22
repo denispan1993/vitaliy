@@ -2,7 +2,7 @@
 from django_jinja.library import global_function
 from django.template.loader import render_to_string
 from django.core.cache import cache
-import hashlib
+#import hashlib
 
 __author__ = 'AlexStarov'
 
@@ -18,43 +18,37 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
         request_csrf_token = get_token(request, )
         template_name = u'product/templatetags/block_products.jinja2'
 
-    key = '%s_block_' % ('prod' if category_or_product == 'product' else 'cat', )
+#    key = '%s_block_' % ('prod' if category_or_product == 'product' else 'cat', )
 
-    for block in blocks:
-        key += '_%s' % str(block.pk)
+#    for block in blocks:
+#        key += '_%s' % str(block.pk)
 
-    key += '__currency_pk_%s' % request.session.get(u'currency_pk', )
+#    key += '__currency_pk_%s' % request.session.get(u'currency_pk', )
 
-    if top_border:
-        key += '__top_border'
+#    if top_border:
+#        key += '__top_border'
 
-    key += '__limit_on_string_%s' % str(limit_on_string)
+#    key += '__limit_on_string_%s' % str(limit_on_string)
 
-    if attachment:
-        key += '__attachment_%s' % attachment
+#    if attachment:
+#        key += '__attachment_%s' % attachment
 
-    m = hashlib.md5(key)
+#    m = hashlib.md5(key)
 
-    md5_key = '%s_blocks_%s' % (
-        'prod' if category_or_product == 'product' else 'cat',
-        m.hexdigest(), )
+#    md5_key = '%s_blocks_%s' % (
+#        'prod' if category_or_product == 'product' else 'cat',
+#        m.hexdigest(), )
 
-    block = cache.get(key=md5_key, )
+#    block = cache.get(key=md5_key, )
 
-    if block:
-        return block.decode('utf-8', )
-    else:
-        block = render_to_string(template_name=template_name,
-                                 context={'blocks': blocks,
-                                          'category_or_product': category_or_product,
-                                          'request': request,
-                                          'csrf_token': request_csrf_token,
-                                          'top_border': top_border,
-                                          'limit_on_string': limit_on_string,
-                                          'attachment': attachment, }, )
-        cache.set(key=md5_key, value=block, timeout=900, )
-        return block
-
+    return render_to_string(template_name=template_name,
+                            context={'blocks': blocks,
+                                     'category_or_product': category_or_product,
+                                     'request': request,
+                                     'csrf_token': request_csrf_token,
+                                     'top_border': top_border,
+                                     'limit_on_string': limit_on_string,
+                                     'attachment': attachment, }, )
 
 
 @global_function()
