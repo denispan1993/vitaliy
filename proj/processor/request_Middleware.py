@@ -57,5 +57,6 @@ class Process_Request_Middleware(object):
             else:
                 try:
                     logging_log_error.error("full_path.decode('cp1252') = {0}".format(value))
+                    request.path = value
                 except:
                     pass
