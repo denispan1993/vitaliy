@@ -62,6 +62,15 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
+        'all': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '../../logs/keksik_com_ua/logging/all.log',
+            'when': 'D',
+            'backupCount': 7,
+            'formatter': 'main',
+            # 'filters': ['require_debug_false'],
+        },
         'production': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
@@ -151,7 +160,7 @@ LOGGING = {
             'handlers': ['log_info', 'log_debug', 'log_error', ],
         },
         '': {
-            'handlers': ['console', ],
+            'handlers': ['all', ],
             'level': 'INFO',
         },
     }
