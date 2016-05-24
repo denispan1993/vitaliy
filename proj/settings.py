@@ -564,7 +564,7 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
     # Non-default built-in panels
-    'debug_toolbar.panels.profiling.ProfilingPanel',
+    # 'debug_toolbar.panels.profiling.ProfilingPanel',
     # Third-party panels
     'debug_toolbar.panels.timer.TimerDebugPanel',
 )
@@ -576,17 +576,6 @@ INSTALLED_APPS += (
 DEBUG_TOOLBAR_PANELS += (
     'template_timings_panel.panels.TemplateTimings.TemplateTimings',
 )
-
-DEBUG_TOOLBAR_FILTER_URL = ('^admin/', )
-
-IGNORED_TEMPLATES = ["debug_toolbar/*", "admin/*"]
-
-DEBUG_TOOLBAR_CONFIG = {
-    'EXCLUDE_URLS': ('/admin/', ),  # данная опция находится в разработке
-    'HIDE_FILTER_URL': '^/admin/',  # данная опция находится в разработке
-    'INTERCEPT_REDIRECTS': False,
-#    'SHOW_TOOLBAR_CALLBACK': 'proj.settings.show_toolbar',
-}
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 

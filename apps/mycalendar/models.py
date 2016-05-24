@@ -128,7 +128,7 @@ class Section(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     def __unicode__(self):
-        return u'Раздел мероприятия: %s' % self.subject
+        return u'Раздел мероприятия: %s' % self.section
 
     class Meta:
         db_table = 'CalendarSection'
@@ -148,7 +148,7 @@ class Topic(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     def __unicode__(self):
-        return u'Тема мероприятия: %s' % self.subject
+        return u'Тема мероприятия: %s' % self.topic
 
     class Meta:
         db_table = 'CalendarTopic'
@@ -213,7 +213,7 @@ class Event(models.Model):
     objects = managers.Manager()
 
     @property
-    def location_date_time_gte_today(self):
+    def location_date_gte_today(self):
         try:
             """ gte больше или равно """
             return self.location_date.filter(date_start__gte=datetime.today(),).distinct()

@@ -47,7 +47,7 @@ class AllViews(View, ):
             kwargs['view'] = self
 
         query = Event.objects\
-            .filter(location_date_time__date_start__gte=datetime.today(), )
+            .filter(location_date__date_start__gte=datetime.today(), )
 
         try:
             """ gte больше или равно """
@@ -56,7 +56,7 @@ class AllViews(View, ):
             events = False
 
         leadings_courses = []
-        subjects = []
+        sections = []
         cityes = []
         if events:
             for event in events:
@@ -65,24 +65,24 @@ class AllViews(View, ):
                 if leading_course not in leadings_courses:
                     leadings_courses.append(leading_course, )
 
-                subject = event.subject
-                if subject not in subjects:
-                    subjects.append(subject, )
+                section = event.section
+                if section not in sections:
+                    sections.append(section, )
 
-                locations_date_time = event.location_date_time.filter(date_start__gte=datetime.today(), )
-                for location_date_time in locations_date_time:
-                    city = location_date_time.city
+                locations_date = event.location_date.filter(date_start__gte=datetime.today(), )
+                for location_date in locations_date:
+                    city = location_date.city
                     if city not in cityes:
                         cityes.append(city, )
 
         kwargs['leadings_courses'] = leadings_courses
-        kwargs['subjects'] = subjects
+        kwargs['sections'] = sections
         kwargs['cityes'] = cityes
 
         try:
-            select_subject = int(self.request.POST.get('select_subject'))
-            if not select_subject == 0:
-                query = query.filter(subject_id=select_subject)
+            select_section = int(self.request.POST.get('select_section'))
+            if not select_section == 0:
+                query = query.filter(subject_id=select_section)
         except (ValueError, TypeError):
             pass
 
@@ -96,7 +96,7 @@ class AllViews(View, ):
         try:
             select_city = int(self.request.POST.get('select_city'))
             if not select_city == 0:
-                query = query.filter(location_date_time__city_id=select_city)
+                query = query.filter(location_date__city_id=select_city)
         except (ValueError, TypeError):
             pass
 
@@ -107,7 +107,7 @@ class AllViews(View, ):
 
 def leading_course(request,
         template_name=u'leading_course.jinja2', ):
-    from apps.calendar.models import Event
+    from apps.mycalendar.models import Event
     from datetime import datetime
     try:
         """ gte больше или равно """

@@ -22,15 +22,15 @@ div#calendar ul{
     <select name="select_subject"
         id="select_subject"
         style="float:left;width:33%;">
-            <option value="0" selected disabled>Тема курсов</option>
-        {% for subject in subjects %}
-            <option value="{{ subject.pk }}">{{ subject.subject }}</option>
+            <option value="0" selected><strong>Все темы курсов</strong></option>
+        {% for section in sections %}
+            <option value="{{ section.pk }}">{{ section.section }}</option>
         {% endfor %}
     </select>
     <select name="select_leading_course"
         id="select_leading_course"
         style="float:left;width:33%;">
-            <option value="0" selected disabled>Ведущ(ая)ий курсов</option>
+            <option value="0" selected><strong>Ведущие курсов</strong></option>
         {% for leading_course in leadings_courses %}
             <option value="{{ leading_course.pk }}">{{ leading_course.surname }} {{ leading_course.name }}{% if leading_course.patronymic %} {{ leading_course.patronymic }}{% endif %}</option>
         {% endfor %}
@@ -38,7 +38,7 @@ div#calendar ul{
     <select name="select_city"
         id="select_city"
         style="float:left;width:33%;">
-            <option value="0" selected disabled>Город проведения</option>
+            <option value="0" selected><strong>Города проведения</strong></option>
         {% for city in cityes %}
             <option value="{{ city.pk }}">{{ city.name_ru }}</option>
         {% endfor %}
@@ -48,19 +48,19 @@ div#calendar ul{
 $(document).ready(function(){
     onSelect();
 });
-$('#select_subject').change(function () {onSelect();});
+$('#select_section').change(function () {onSelect();});
 $('#select_leading_course').change(function () {onSelect();});
 $('#select_city').change(function () {onSelect();});
 function onSelect(){
-    var select_subject = $('#select_subject').val();
+    var select_section = $('#select_section').val();
     var leading_course = $('#select_leading_course').val();
     var select_city = $('#select_city').val();
 
     $('#form_events').load(
-        url='/календарь/{# { url('calendar:all_ru') } #}',
+        url='{# /календарь/ #}{{ url('calendar:all_ru') }}',
         data={
             'csrfmiddlewaretoken': '{{ csrf_token }}',
-            'select_subject': select_subject,
+            'select_section': select_section,
             'leading_course': leading_course,
             'select_city': select_city
         },

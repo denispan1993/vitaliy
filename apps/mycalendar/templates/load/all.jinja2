@@ -1,11 +1,12 @@
 {% for event in events %}
 <div id="form_event">
 <p><span>Ведущий(ая) курсов:</span> {{ event.leading_course.surname }} {{ event.leading_course.name }}{% if event.leading_course.patronymic %} {{ event.leading_course.patronymic }}{% endif %}</p>
-<p><span>Тема курсов:</span> {{ event.subject.subject }}</p>
+<p><span>Тема курсов:</span> {{ event.section.section }}</p>
+<p><span>Продолжительность курса:</span> {% if event.duration_days %}{{ event.duration_days }} дней.{% else %}{{ event.duration_hours }} часов.{% endif %}</p>
 <ul type="square">
-{% set locations_date_time = event.location_date_time_gte_today %}
-{% for location_date_time in locations_date_time %}
-<li><p><span>Город:</span> {{ location_date_time.city.name_ru }} <span>Дата начала:</span> {{ location_date_time.date_start }} <span>Дата окончания:</span> {{ location_date_time.date_end }}</p></li>
+{% set locations_date = event.location_date_gte_today %}
+{% for location_date in locations_date %}
+<li><p><span>Город:</span> {{ location_date.city.name_ru }} <span>Дата начала:</span> {{ location_date.date_start }}</p></li>
 {% endfor %}
 </ul>
 </div>
