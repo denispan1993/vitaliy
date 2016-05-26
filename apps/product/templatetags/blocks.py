@@ -31,6 +31,9 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
     if top_border:
         key += '__top_border'
 
+    if limit_on_string == 0:
+        limit_on_string = request.session.limit_on_string
+
     key += '__limit_on_string_%s' % str(limit_on_string)
 
     if attachment:

@@ -12,9 +12,8 @@
             {{ header_category2(current_category)|safe }}
         </div>
         {{ this_category(current_category, request.session.width_this_category)|safe }}
-    {% endif %}
-    {% if current_category is defined %}
         {% set categories = current_category.children.serial_number() %}{# .order_by('-created_at', 'serial_number') #}
+        {% set products = current_category.products.published() %}{# .order_by('-created_at', 'serial_number') #}
     {% endif %}
     {% if categories %}
         <br class="clearFloat">
@@ -22,10 +21,16 @@
             {{ many_blocks(categories, request, 'category', True)|safe }}
         {% endif %}
     {% endif %}
-    {% if current_category is defined %}
-        {% set products = current_category.products.published() %}{# .order_by('-created_at', 'serial_number') #}
-    {% endif %}
     {% if products %}
+<script>function product_to_cart(data, product_pk, available_to_order){
+$.post("/ajax/product_to_cart/",
+    {csrfmiddlewaretoken:'{{ csrf_token }}',
+    product_pk:product_pk,
+    available_to_order:available_to_order},
+    function(data, textStatus, jqXHR){$('#dynamic_div_showcart').html(data.html);},
+    "json");
+animate_cart(data);
+return false;}</script>
         <br class="clearFloat">
         {% if request is defined %}
             {{ many_blocks(products, request, 'product', True)|safe }}
