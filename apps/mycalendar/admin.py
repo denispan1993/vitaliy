@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from apps.mycalendar.models import LeadingCourse, CoordinatorCourse, LocationDate, Section, Topic, Event
+from apps.mycalendar.models import LeadingCourse, CoordinatorCourse, LocationDate, Section, Event
 
 __author__ = 'AlexStarov'
 
@@ -67,15 +67,8 @@ class SectionAdmin(admin.ModelAdmin, ):
 admin.site.register(Section, SectionAdmin, )
 
 
-class TopicAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'topic', 'created_at', 'updated_at', ]
-    list_display_links = ['pk', 'topic', ]
-    search_fields = ('topic', )
-admin.site.register(Topic, TopicAdmin, )
-
-
 class EventAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'leading_course', 'section', 'topic', 'title', 'created_at', 'updated_at', ]
+    list_display = ['pk', 'leading_course', 'section', 'topic', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'section', 'topic', ]
     search_fields = ('section', 'topic', )
 

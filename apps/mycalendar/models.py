@@ -137,26 +137,6 @@ class Section(models.Model):
         verbose_name_plural = u'Разделы'
 
 
-class Topic(models.Model):
-    topic = models.CharField(verbose_name=_(u'Тема мероприятия', ),
-                             max_length=256,
-                             blank=False,
-                             null=False,
-                             default='', )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
-
-    def __unicode__(self):
-        return u'Тема мероприятия: %s' % self.topic
-
-    class Meta:
-        db_table = 'CalendarTopic'
-        ordering = ['-created_at']
-        verbose_name = u'Тема'
-        verbose_name_plural = u'Темы'
-
-
 class Event(models.Model):
     """
     Событие
@@ -176,11 +156,11 @@ class Event(models.Model):
                                 blank=False,
                                 null=False,
                                 default=1, )
-    topic = models.ForeignKey(to=Topic,
-                              verbose_name=_(u'Тема курса', ),
-                              blank=False,
-                              null=False,
-                              default=1, )
+    topic = models.CharField(verbose_name=_(u'Тема курса', ),
+                             max_length=256,
+                             blank=False,
+                             null=False,
+                             default='', )
     leading_course = models.ForeignKey(to=LeadingCourse,
                                        verbose_name=_(u'Ведущий(ая) курсы', ),
                                        blank=False,
@@ -196,11 +176,6 @@ class Event(models.Model):
     duration_hours = models.PositiveSmallIntegerField(verbose_name=_(u'Продолжительность в часах', ),
                                                       blank=True,
                                                       null=True, )
-    title = models.CharField(verbose_name=_(u'Наименование', ),
-                             max_length=256,
-                             blank=False,
-                             null=False,
-                             default='', )
     description = models.TextField(verbose_name=_(u'Описание события', ),
                                    blank=True,
                                    null=True, )
