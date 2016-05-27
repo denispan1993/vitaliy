@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.utils import formataddr
+from re import split
+from apps.delivery.models import MailAccount
+
 __author__ = 'AlexStarov'
 
 
 def parsing(value, key, ):
-    from re import split
     values = split("{{ id }}*", value, )
     cycle = 1
     part_count = len(values, )
@@ -20,7 +26,6 @@ def parsing(value, key, ):
 
 
 def Mail_Account(pk=False, ):
-    from apps.delivery.models import MailAccount
     if pk:
         try:
             pk = int(pk, )
@@ -228,28 +233,33 @@ named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
 
 def create_msg(delivery, mail_account, email, exception=False, test=False, ):
-    from email.mime.multipart import MIMEMultipart
-    from email.mime.text import MIMEText
-    from email.mime.image import MIMEImage
 
-    msgRoot = MIMEMultipart('related', )
-    if test:
-        sbj = 'test - %s' % delivery.subject
-    else:
-        sbj = delivery.subject
+    from_email = formataddr((
+        'Интернет магаизн Keksik',
+        mail_account.email))
 
-    msgRoot['Subject'] = sbj
-    msgRoot['From'] = named(mail_account.email, )
-    if exception:
-        to = mail_account.email
-    else:
-        to = named(email.now_email.email, )
-    msgRoot['To'] = to
-    msgRoot.preamble = 'This is a multi-part message in MIME format.'
-    msgAlternative = MIMEMultipart('alternative', )
-    msgRoot.attach(msgAlternative, )
+    message_kwargs = {
+        'subject': 'test - {}'.format(delivery.subject) if test else delivery.subject,
+        'body': delivery.html,
+        'headers': headers,
+        'from_email': from_email,
+        'to': mail_account.email if exception else email.now_email.email,
+    }
 
-    charset = 'utf-8'
+    # msgRoot = MIMEMultipart('related', )
+
+    # msgRoot['Subject'] =
+    # msgRoot['From'] = named(mail_account.email, )
+    # if exception:
+    #     to = mail_account.email
+    # else:
+    #     to = named(email.now_email.email, )
+    # msgRoot['To'] = to
+    # msgRoot.preamble = 'This is a multi-part message in MIME format.'
+    # msgAlternative = MIMEMultipart('alternative', )
+    # msgRoot.attach(msgAlternative, )
+
+    # charset = 'utf-8'
     if exception:
         msgAlternative.attach(MIMEText('%s\nFrom: %s\nTo: %s' % (exception, mail_account, email, ),
                                        'plain',
@@ -289,7 +299,6 @@ def connect(mail_account=False, timeout=False, fail_silently=True, ):
         connection = connection_class(host=mail_account.server.server,
                                       port=mail_account.server.port,
                                       **connection_params)
-        print 'connection1'
         if not mail_account.server.use_ssl and mail_account.server.use_tls:
             connection.ehlo()
             connection.starttls()

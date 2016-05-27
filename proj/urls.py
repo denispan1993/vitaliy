@@ -226,6 +226,13 @@ urlpatterns += patterns('',
                                          namespace='opinions_ru', ),
                             ),
                         )
+#Delivery
+urlpatterns += patterns('',
+                        url(regex=r'^delivery/',
+                            view=include(arg='apps.delivery.urls',
+                                         namespace='delivery', ),
+                            ),
+                        )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile
 PROJECT_PATH = abspath(dirname(__name__, ), )

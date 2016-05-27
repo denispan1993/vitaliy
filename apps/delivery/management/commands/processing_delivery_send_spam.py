@@ -27,13 +27,7 @@ class Command(BaseCommand, ):
             deliveryes = Delivery.objects.filter(delivery_test=False,
                                                  send_test=True, send_spam=False, send_general=False,
                                                  type__in=[4, ], )
-            #deliveryes = Delivery.objects.all()
-            #for delivery in deliveryes:
-            #    print delivery.delivery_test
-            #    print delivery.send_test
-            #    print delivery.send_spam
-            #    print delivery.send_general
-            #    print delivery.type
+
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
