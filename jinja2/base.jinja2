@@ -19,10 +19,10 @@
 {% endblock %}
 {% block product_header_css %}{% endblock %}
 <script src="{{ MEDIA_URL }}js/jquery/jquery-1.9.1.min.js"></script>
-<script>function cachedScript(url,options){
-options=$.extend(options||{},{dataType:"script",cache:true,url:url});
-return jQuery.ajax(options);}
-</script>
+<script>function cachedScript(url,done_url,options){
+options=$.extend(options||{},{dataType:"script",cache:true});
+if(done_url){return $.ajax($.extend(options||{},{url:url})).done($.ajax($.extend(options||{},{url:done_url,timeout:100})))}
+else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 <script>$(function(){cachedScript("{{ MEDIA_URL }}js/animate_cart.js")})</script>{# <script src="{{ MEDIA_URL }}js/animate_cart.js"></script> #}
 {% block root_header_js %}{% endblock %}
 {% block header_js %}{% endblock %}
