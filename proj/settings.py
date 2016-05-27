@@ -61,7 +61,6 @@ SERVER = os.path.isfile(path('server.key', ), )
 
 ALLOWED_HOSTS = ['*']
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 #if os.path.isfile(path('server.mysql', ), ):
 #    DATABASES = {
