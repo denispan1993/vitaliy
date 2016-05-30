@@ -86,12 +86,12 @@ try{
 {% endblock %}
 {% block header %}
 {% if user.is_anonymous %}
-    <div id="auth" class="auth-panel">
+    <div id="auth" class="auth-panel" style="top:-26px;">
         <a class="auth-tab" href="javascript:void(0);" onclick="return false;">Auth tab</a>
-        <a href="/accounts/signin/">Вход</a>/
-        <a href="/accounts/signup/">Регистрация</a>/{# {{ social_auth_widget() }} #}
-        <a href="/social/login/odnoklassniki-oauth2/">odnoklassniki-oauth2</a>/
-        <a href="/social/login/vk-oauth2/">vk-oauth2</a>/
+        <a href="/accounts/signin/">Вход</a>&nbsp;|&nbsp;
+        <a href="/accounts/signup/">Регистрация</a>&nbsp;|&nbsp;{# {{ social_auth_widget() }} #}
+        <a href="/social/login/odnoklassniki-oauth2/">odnoklassniki-oauth2</a>&nbsp;|&nbsp;
+        <a href="/social/login/vk-oauth2/">vk-oauth2</a>&nbsp;|&nbsp;
         <a href="/social/login/google-oauth2/">google-oauth2</a>
     </div>
 {% endif %}
