@@ -96,7 +96,7 @@ div#auth{
     padding:5px;
     position:absolute;
     right:100px;
-    top:0px;
+    top:-26px;
     z-index:200;
 }
 div#div_logo a#logo{
