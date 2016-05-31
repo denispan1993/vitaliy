@@ -258,10 +258,6 @@ MIDDLEWARE_CLASSES = (
     'proj.processor.response_Middleware.Process_Response_Middleware',
 )
 
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
-
 SESSION_SAVE_EVERY_REQUEST = False
 SESSION_COOKIE_AGE = 31622400  # 3600 * 24 * 366
 #SESSION_COOKIE_DOMAIN = u'.shop.mk.ua'
@@ -534,11 +530,13 @@ USERENA_SIGNIN_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
+
 #!!!=============== Django Userena uMessages =========================
 INSTALLED_APPS += (
     'userena.contrib.umessages',
 )
 USERENA_USE_MESSAGES = True
+
 #!!!=============== Django ToolBar ===================================
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -565,16 +563,16 @@ DEBUG_TOOLBAR_PANELS = (
     # Non-default built-in panels
     # 'debug_toolbar.panels.profiling.ProfilingPanel',
     # Third-party panels
-    'debug_toolbar.panels.timer.TimerDebugPanel',
+    # 'debug_toolbar.panels.timer.TimerDebugPanel',
 )
 
-INSTALLED_APPS += (
-    'template_timings_panel',
-)
+#INSTALLED_APPS += (
+#    'template_timings_panel',
+#)
 
-DEBUG_TOOLBAR_PANELS += (
-    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
-)
+#DEBUG_TOOLBAR_PANELS += (
+#    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+#)
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 

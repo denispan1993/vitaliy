@@ -3,6 +3,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.utils import formataddr
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.utils.html import strip_tags
 from re import split
 from apps.delivery.models import MailAccount
 
@@ -234,21 +236,34 @@ named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
 def create_msg(delivery, mail_account, email, exception=False, test=False, ):
 
-    from_email = formataddr((
-        'Интернет магаизн Keksik',
-        mail_account.email))
+    headers = {'Reply-To': formataddr('Интернет магаизн Keksik', mail_account.email), }
 
     message_kwargs = {
         'subject': 'test - {}'.format(delivery.subject) if test else delivery.subject,
-        'body': delivery.html,
+        'body': strip_tags(parsing(value=delivery.html, key=email.key, ), ),
         'headers': headers,
-        'from_email': from_email,
+        'from_email': formataddr('Интернет магаизн Keksik', mail_account.email),
         'to': mail_account.email if exception else email.now_email.email,
     }
 
+    message = EmailMultiAlternatives(**message_kwargs)
+    message.attach_alternative(parsing(value=delivery.html, key=email.key, ), 'text/html')
+
+    return message.message()
+    #for attachment in (self.attachments or []):
+    #    path = os.path.join(
+    #        settings.MEDIA_ROOT, attachment['filepath'])
+    #    with open(path, 'r') as f:
+    #        message.attach(
+    #            attachment['filename'], f.read(),
+    #            attachment['mimetype'])
+    #    os.remove(path)
+
+#    return message.message().as_bytes()
+
     # msgRoot = MIMEMultipart('related', )
 
-    # msgRoot['Subject'] =
+    # msgRoot['Subject'] = 'test - {}'.format(delivery.subject) if test else delivery.subject
     # msgRoot['From'] = named(mail_account.email, )
     # if exception:
     #     to = mail_account.email
@@ -260,31 +275,31 @@ def create_msg(delivery, mail_account, email, exception=False, test=False, ):
     # msgRoot.attach(msgAlternative, )
 
     # charset = 'utf-8'
-    if exception:
-        msgAlternative.attach(MIMEText('%s\nFrom: %s\nTo: %s' % (exception, mail_account, email, ),
-                                       'plain',
-                                       _charset=charset), )
-    else:
-        from django.utils.html import strip_tags
-        msgAlternative.attach(MIMEText(strip_tags(parsing(value=delivery.html,
-                                                          key=email.key, ), ),
-                                       'plain',
-                                       _charset=charset), )
-        msgAlternative.attach(MIMEText(parsing(value=delivery.html,
-                                               key=email.key, ),
-                                       'html',
-                                       _charset=charset), )
-    """ Привязываем картинки. """
-    if not exception:
-        images = delivery.images
-        for image in images:
-            image_file = open(image.image.path, 'rb', )
-            msg_image = MIMEImage(image_file.read(), )
-            image_file.close()
-            # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
-            msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
-            msgRoot.attach(msg_image)
-    return msgRoot
+    #if exception:
+    #    msgAlternative.attach(MIMEText('%s\nFrom: %s\nTo: %s' % (exception, mail_account, email, ),
+    #                                   'plain',
+    #                                   _charset=charset), )
+    #else:
+    #    from django.utils.html import strip_tags
+    #    msgAlternative.attach(MIMEText(strip_tags(parsing(value=delivery.html,
+    #                                                      key=email.key, ), ),
+    #                                   'plain',
+    #                                   _charset=charset), )
+    #    msgAlternative.attach(MIMEText(parsing(value=delivery.html,
+    #                                           key=email.key, ),
+    #                                   'html',
+    #                                   _charset=charset), )
+#    """ Привязываем картинки. """
+#    if not exception:
+#        images = delivery.images
+#        for image in images:
+#            image_file = open(image.image.path, 'rb', )
+#            msg_image = MIMEImage(image_file.read(), )
+#            image_file.close()
+#            # msg_image.add_header('Content-Disposition', 'inline', filename=image.image.filename, )
+#            msg_image.add_header('Content-ID', '<%s>' % image.tag_name, )
+#            msgRoot.attach(msg_image)
+#    return msgRoot
 
 
 def connect(mail_account=False, timeout=False, fail_silently=True, ):
