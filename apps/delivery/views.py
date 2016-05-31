@@ -21,7 +21,7 @@ PIXEL_GIF = (
     '\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
 
 
-class ClickView(TrackMixin, RedirectView):
+class ClickView(RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
@@ -45,7 +45,7 @@ class ClickView(TrackMixin, RedirectView):
         return redirect_url
 
 
-class OpenView(TrackMixin, View):
+class OpenView(View):
 
     def get(self, request, *args, **kwargs):
         message = self.get_message(kwargs['mid'])
