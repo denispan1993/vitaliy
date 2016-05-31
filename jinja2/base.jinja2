@@ -399,7 +399,7 @@ $(function(){
 {# <!-- Yandex.Metrika counter --> #}{% include 'include/Yandex.Metrica.script' %}{# <!-- /Yandex.Metrika --> #}
 {# <!-- LiveInternet counter --> #}{% include 'include/LiveInternet.script' %}{# <!--/LiveInternet--> #}
 {# <!-- Mail.ru counter --> #}{% include 'include/Mail.ru.script' %}{# <!--/Mail.ru--> #}
-{# <!-- megaIndex.ru counter --> #}{% include 'include/megaIndex.ru.script' %}{# <!--/megaIndex.ru--> #}
+{# <!-- megaIndex.ru counter --> #}{# {% include 'include/megaIndex.ru.script' %} #}{# <!--/megaIndex.ru--> #}
 <footer id="footer">
 {% if user.is_authenticated and user.is_staff %}
 {# <!-- LiveInternet logo --> #}{% include 'include/LiveInternet.html' %}{# <!--/LiveInternet--> #}
