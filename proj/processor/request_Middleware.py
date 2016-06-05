@@ -56,7 +56,10 @@ class Process_Request_Middleware(object):
 
                         logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
 
-                        redirect(object)
+                        try:
+                            redirect(object)
+                        except Exception as e:
+                            logging.error(u'Error redirect to new_path: {0}'.format(e))
 
                     except Exception as e:
                         logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
