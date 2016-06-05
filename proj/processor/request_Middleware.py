@@ -37,10 +37,10 @@ class Process_Request_Middleware(object):
 
                 if "{{ no such element: apps.slide.models.Slide object['url'] }}" in full_path:
                     try:
-                        value = full_path.split('{{')[0]
+                        value = unicode(full_path.split('{{')[0])
                         logging.error(u'Redirect to new_path: {0}'.format(value))
 
-                        HttpResponsePermanentRedirect(value)
+                        HttpResponsePermanentRedirect(value.encode('utf8'))
 
                     except Exception as e:
                         logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
