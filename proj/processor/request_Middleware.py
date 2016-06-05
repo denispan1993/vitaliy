@@ -78,8 +78,8 @@ class Process_Request_Middleware(object):
                 else:
                     try:
                         values = full_path.split('/')
-                        for idx in range(0, len(values)):
-                            logging.error(u"full_path.split('/') = {0}, idx = {1}".format(values[idx]), idx)
+                        for value in values:
+                            logging.error(u"full_path.split('/') = {0}".format(value))
 
                         value = full_path.decode('cp1252').encode('utf8')
                         try:
@@ -87,11 +87,11 @@ class Process_Request_Middleware(object):
                             try:
                                 request.path = value
                             except Exception as e:
-                                logging.error(u'Error: request.path = value Exception = {0}'.format(e))
+                                logging.error(u'1Error: request.path = value Exception = {0}'.format(e))
                         except Exception as e:
-                            logging.error(u'Error: request.path = value Exception = {0}'.format(e))
+                            logging.error(u'2Error: request.path = value Exception = {0}'.format(e))
                     except Exception as e:
-                        logging.error(u'Error: request.path = value Exception = {0}'.format(e))
+                        logging.error(u'3Error: request.path = value Exception = {0}'.format(e))
 
                     try:
                         value = full_path.encode('cp1252')
