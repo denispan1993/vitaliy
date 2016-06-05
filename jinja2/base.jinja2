@@ -23,11 +23,29 @@
     function cachedScript(url,done_url,options){
 options=$.extend(options||{},{dataType:"script",cache:true});
 if(done_url){
-    console.log(options);
-    var done_url_ext = $.extend(options||{},{url:done_url,timeout:1000})
-    console.log($.extend(options||{},{async:false,url:url,success:function(){$.ajax(done_url_ext)}}));
-    console.log($.extend(options||{},{url:done_url}));
-    return $.ajax($.extend(options||{},{url:url})).done($.ajax($.extend(options||{},{url:done_url,timeout:1000})))}
+    return(
+            $.ajax(
+                    {
+                        url:url,
+                        dataType:"script",
+                        cache:true,
+                        async:false,
+                        success:function()
+                        {
+                            $.ajax(
+                                    {
+                                        url:done_url,
+                                        timeout:1000,
+                                        dataType:"script",
+                                        cache:true,
+                                        async:false
+                                    }
+                            )
+                        }
+                    }
+            )
+    )
+}
 else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 <script>$(function(){cachedScript("{{ MEDIA_URL }}js/animate_cart.js")})</script>{# <script src="{{ MEDIA_URL }}js/animate_cart.js"></script> #}
 {% block root_header_js %}{% endblock %}
