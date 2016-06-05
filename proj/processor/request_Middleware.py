@@ -42,7 +42,10 @@ class Process_Request_Middleware(object):
                         view, args, kwargs = resolve(value, )
                         logging.debug(u"resolve(value, ) after split '{{': view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
 
-                        model = Product if view == 'show_product' else model = Category
+                        if view == 'show_product':
+                            model = Product
+                        else:
+                            model = Category
 
                         try:
                             object = model.objects.get(pk=kwargs['id'])
