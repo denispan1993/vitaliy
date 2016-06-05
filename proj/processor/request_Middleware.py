@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import time
 from django.core.urlresolvers import resolve, Resolver404
+from django.shortcuts import HttpResponsePermanentRedirect
 from logging import getLogger
 
 __author__ = 'AlexStarov'
@@ -29,41 +30,53 @@ class Process_Request_Middleware(object):
                 view, args, kwargs = resolve(full_path, )
                 logging.debug(u'resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
             except Exception as e:
-                logging.error(u'Error resolve(full_path, ): full_path = {0}'.format(full_path))
-
-                try:
-                    value = full_path.decode('cp1252').encode('utf8')
-                    try:
-                        logging.error(u'full_path.decode("cp1252").encode("utf8") = {0}'.format(value))
-                        try:
-                            request.path = value
-                        except Exception as e:
-                            logging.error(u'Error: request.path = value Exception = {0}'.format(e))
-                    except Exception as e:
-                        logging.error(u'Error: request.path = value Exception = {0}'.format(e))
-                except Exception as e:
-                    logging.error(u'Error: request.path = value Exception = {0}'.format(e))
-
-                try:
-                    value = full_path.encode('cp1252')
-                    try:
-                        logging.error(u'full_path.decode("cp1252") = {0}'.format(value))
-                        try:
-                            request.path = value
-                        except Exception as e:
-                            logging.error(u'Error: request.path = value Exception = {0}'.format(e))
-                    except Exception as e:
-                        logging.error(u'Error: request.path = value Exception = {0}'.format(e))
-                except Exception as e:
-                    logging.error(u'Error: request.path = value Exception = {0}'.format(e))
+                logging.error(u'Error resolve(full_path, ): full_path = {0}, Exception = {1}'.format(full_path, e))
 
                 if "{{ no such element: apps.slide.models.Slide object['url'] }}" in full_path:
                     try:
                         value = full_path.split('{{')[0]
                         logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(value))
+
+                        HttpResponsePermanentRedirect(value)
+
+                    except Exception as e:
+                        logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
+
+                elif not full_path.endswith('/'):
+                    try:
+                        view, args, kwargs = resolve(full_path + '/', )
+                        logging.debug(u"resolve(full_path + '/', ): view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
+
+                        HttpResponsePermanentRedirect(full_path + '/')
+
+                    except Exception as e:
+                        logging.error(u"Error resolve(full_path + '/', ): full_path = {0}, Exception = {1}".format(full_path, e))
+
+                else:
+                    try:
+                        value = full_path.split('/')
+                        logging.error(u"full_path.split('/') = {0}".format(value))
+                        value = full_path.decode('cp1252').encode('utf8')
                         try:
-                            request.path = value
+                            logging.error(u'full_path.decode("cp1252").encode("utf8") = {0}'.format(value))
+                            try:
+                                request.path = value
+                            except Exception as e:
+                                logging.error(u'Error: request.path = value Exception = {0}'.format(e))
                         except Exception as e:
                             logging.error(u'Error: request.path = value Exception = {0}'.format(e))
                     except Exception as e:
-                        logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
+                        logging.error(u'Error: request.path = value Exception = {0}'.format(e))
+
+                    try:
+                        value = full_path.encode('cp1252')
+                        try:
+                            logging.error(u'full_path.decode("cp1252") = {0}'.format(value))
+                            try:
+                                request.path = value
+                            except Exception as e:
+                                logging.error(u'Error: request.path = value Exception = {0}'.format(e))
+                        except Exception as e:
+                            logging.error(u'Error: request.path = value Exception = {0}'.format(e))
+                    except Exception as e:
+                        logging.error(u'Error: request.path = value Exception = {0}'.format(e))
