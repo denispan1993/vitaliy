@@ -57,7 +57,7 @@ class Process_Request_Middleware(object):
                         logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
 
                         try:
-                            HttpResponsePermanentRedirect(object)
+                            return HttpResponsePermanentRedirect(object)
                         except Exception as e:
                             logging.error(u'Error redirect to new_path: {0}'.format(e))
 
@@ -70,29 +70,33 @@ class Process_Request_Middleware(object):
                         logging.debug(u"resolve(full_path + '/', ): view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
                         logging.error(u'Redirect to new_path: {0}'.format(full_path + '/'))
 
-                        HttpResponsePermanentRedirect(full_path + '/')
+                        return HttpResponsePermanentRedirect(full_path + '/')
 
                     except Exception as e:
                         logging.error(u"Error resolve(full_path + '/', ): full_path = {0}, Exception = {1}".format(full_path, e))
 
                 else:
                     try:
-                        values = full_path.split('/')
-                        for value in values:
-                            logging.error(u"full_path.split('/') = {0}".format(value))
+                        value = full_path.split('/')[2].encode('cp1252')
 
-                        value = values[2]
-                        logging.error(u'00Error: {0}'.format(value))
-                        value = value.encode('cp1252')
-                        logging.error(u'01Error: {0}'.format(value))
+                        if value[:2] == 'к':
+                            model = Category
+                        else:
+                            model = Product
+
                         try:
-                            logging.error(u'full_path.decode("cp1252").encode("utf8") = {0}'.format(value))
-                            try:
-                                HttpResponsePermanentRedirect(value)
-                            except Exception as e:
-                                logging.error(u'1Error: request.path = value Exception = {0}'.format(e))
+                            object = model.objects.get(pk=value[6:])
+                            logging.error(u'Object: {0}'.format(object))
+                        except model.DoesNotExist:
+                            pass
+
+                        logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
+
+                        try:
+                            return HttpResponsePermanentRedirect(object)
                         except Exception as e:
-                            logging.error(u'2Error: request.path = value Exception = {0}'.format(e))
+                            logging.error(u'Error redirect to new_path: {0}'.format(e))
+
                     except Exception as e:
                         logging.error(u'3Error: request.path = value Exception = {0}'.format(e))
 
