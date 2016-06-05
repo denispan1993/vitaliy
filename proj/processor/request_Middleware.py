@@ -85,7 +85,7 @@ class Process_Request_Middleware(object):
                             model = Product
 
                         try:
-                            object = model.objects.get(pk=value[6:])
+                            object = model.objects.get(pk=value[2:])
                             logging.error(u'Object: {0}'.format(object))
                         except model.DoesNotExist:
                             pass
