@@ -99,16 +99,3 @@ class Process_Request_Middleware(object):
 
                     except Exception as e:
                         logging.error(u'3Error: request.path = value Exception = {0}'.format(e))
-
-                    try:
-                        value = full_path.encode('cp1252')
-                        try:
-                            logging.error(u'full_path.decode("cp1252") = {0}'.format(value))
-                            try:
-                                request.path = value
-                            except Exception as e:
-                                logging.error(u'Error: request.path = value Exception = {0}'.format(e))
-                        except Exception as e:
-                            logging.error(u'Error: request.path = value Exception = {0}'.format(e))
-                    except Exception as e:
-                        logging.error(u'Error: request.path = value Exception = {0}'.format(e))
