@@ -39,32 +39,29 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
     if attachment:
         key += '__attachment_%s' % attachment
 
-    logging.debug('blocks: key for cache: {0}'.format(key))
-
     m = hashlib.md5(key)
 
     md5_key = '%s_blocks_%s' % (
         'prod' if category_or_product == 'product' else 'cat',
         m.hexdigest(), )
 
-    logging.debug('blocks: key for cache (MD5): {0}'.format(md5_key))
-
     block = cache.get(key=md5_key, )
+
     if block:
-        logging.debug('blocks: cache successful: YES')
+        return block.decode('utf-8', )
     else:
-        cache.set(key=md5_key, value='YES', timeout=900)
-        logging.debug('blocks: cache successful: NO')
+        block = render_to_string(template_name=template_name,
+                                 context={'blocks': blocks,
+                                          'category_or_product': category_or_product,
+                                          'request': request,
+                                          'csrf_token': request_csrf_token,
+                                          'top_border': top_border,
+                                          'limit_on_string': limit_on_string,
+                                          'attachment': attachment, }, )
 
+        cache.set(key=md5_key, value=block, timeout=900)
 
-    return render_to_string(template_name=template_name,
-                            context={'blocks': blocks,
-                                     'category_or_product': category_or_product,
-                                     'request': request,
-                                     'csrf_token': request_csrf_token,
-                                     'top_border': top_border,
-                                     'limit_on_string': limit_on_string,
-                                     'attachment': attachment, }, )
+        return block
 
 
 @global_function()
