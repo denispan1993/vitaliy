@@ -24,7 +24,8 @@
 options=$.extend(options||{},{dataType:"script",cache:true});
 if(done_url){
     console.log(options);
-    console.log($.extend(options||{},{async:false,url:url,success:function(){$.ajax($.extend(options||{},{url:done_url,timeout:1000}))}}));
+    var done_url_ext = $.extend(options||{},{url:done_url,timeout:1000})
+    console.log($.extend(options||{},{async:false,url:url,success:function(){$.ajax(done_url_ext)}}));
     console.log($.extend(options||{},{url:done_url}));
     return $.ajax($.extend(options||{},{url:url})).done($.ajax($.extend(options||{},{url:done_url,timeout:1000})))}
 else{return $.ajax($.extend(options||{},{url:url}));}}</script>
