@@ -57,7 +57,7 @@ class Process_Request_Middleware(object):
                         logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
 
                         try:
-                            redirect(object)
+                            HttpResponsePermanentRedirect(object)
                         except Exception as e:
                             logging.error(u'Error redirect to new_path: {0}'.format(e))
 
