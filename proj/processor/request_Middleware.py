@@ -4,6 +4,7 @@ from django.core.urlresolvers import resolve, Resolver404
 from django.shortcuts import HttpResponsePermanentRedirect
 from logging import getLogger
 from apps.product.models import Product, Category
+from apps.product.views import show_product
 
 __author__ = 'AlexStarov'
 
@@ -42,13 +43,14 @@ class Process_Request_Middleware(object):
                         view, args, kwargs = resolve(value, )
                         logging.debug(u"resolve(value, ) after split '{{': view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
 
-                        if view == 'show_product':
+                        if view == show_product:
                             model = Product
                         else:
                             model = Category
 
                         try:
                             object = model.objects.get(pk=kwargs['id'])
+                            logging.error(u'Object: {0}'.format(object))
                             url = object.get_absolute_url()
                         except model.DoesNotExist:
                             pass
