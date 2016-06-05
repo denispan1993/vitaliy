@@ -57,7 +57,7 @@ class Process_Request_Middleware(object):
                         logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
 
                         try:
-                            return HttpResponsePermanentRedirect(object)
+                            return redirect(to=object, permanent=True)
                         except Exception as e:
                             logging.error(u'Error redirect to new_path: {0}'.format(e))
 
@@ -70,7 +70,7 @@ class Process_Request_Middleware(object):
                         logging.debug(u"resolve(full_path + '/', ): view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
                         logging.error(u'Redirect to new_path: {0}'.format(full_path + '/'))
 
-                        return HttpResponsePermanentRedirect(full_path + '/')
+                        return redirect(to=full_path + '/', permanent=True)
 
                     except Exception as e:
                         logging.error(u"Error resolve(full_path + '/', ): full_path = {0}, Exception = {1}".format(full_path, e))
@@ -93,7 +93,7 @@ class Process_Request_Middleware(object):
                         logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
 
                         try:
-                            return HttpResponsePermanentRedirect(object)
+                            return redirect(to=object, permanent=True)
                         except Exception as e:
                             logging.error(u'Error redirect to new_path: {0}'.format(e))
 
