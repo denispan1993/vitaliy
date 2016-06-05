@@ -81,7 +81,10 @@ class Process_Request_Middleware(object):
                         for value in values:
                             logging.error(u"full_path.split('/') = {0}".format(value))
 
-                        value = values[2].encode('cp1252')
+                        value = values[2]
+                        logging.error(u'00Error: {0}'.format(value))
+                        value = value.encode('cp1252')
+                        logging.error(u'01Error: {0}'.format(value))
                         try:
                             logging.error(u'full_path.decode("cp1252").encode("utf8") = {0}'.format(value))
                             try:
