@@ -81,11 +81,11 @@ class Process_Request_Middleware(object):
                         for value in values:
                             logging.error(u"full_path.split('/') = {0}".format(value))
 
-                        value = full_path.decode('cp1252').encode('utf8')
+                        value = values[2].decode('cp1252').encode('utf8')
                         try:
                             logging.error(u'full_path.decode("cp1252").encode("utf8") = {0}'.format(value))
                             try:
-                                request.path = value
+                                HttpResponsePermanentRedirect(value)
                             except Exception as e:
                                 logging.error(u'1Error: request.path = value Exception = {0}'.format(e))
                         except Exception as e:
