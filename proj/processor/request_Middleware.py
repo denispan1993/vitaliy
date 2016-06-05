@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import time
 from django.core.urlresolvers import resolve, Resolver404
-from django.shortcuts import HttpResponsePermanentRedirect
+from django.shortcuts import redirect, HttpResponsePermanentRedirect
 from logging import getLogger
 from apps.product.models import Product, Category
 from apps.product.views import show_product
@@ -51,12 +51,12 @@ class Process_Request_Middleware(object):
                         try:
                             object = model.objects.get(pk=kwargs['id'])
                             logging.error(u'Object: {0}'.format(object))
-                            url = object.get_absolute_url()
                         except model.DoesNotExist:
                             pass
-                        logging.error(u'Redirect to new_path: {0}'.format(url))
 
-                        HttpResponsePermanentRedirect(url)
+                        logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
+
+                        redirect(object)
 
                     except Exception as e:
                         logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
