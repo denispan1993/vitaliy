@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-__author__ = 'user'
-
 from django.db import models
+
+__author__ = 'AlexStarov'
+
 
 #class Manager(models.Manager):
 #    pass

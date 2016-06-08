@@ -36,11 +36,11 @@ class Command(BaseCommand, ):
         from apps.authModel.models import Email
 
         for name in os.listdir(dir):
-            path_and_flename = os.path.join(dir, name)
-            if os.path.isfile(path_and_flename, ):
+            path_and_filename = os.path.join(dir, name)
+            if os.path.isfile(path_and_filename, ):
                 print '==============================================================================================================================='
-                print path_and_flename
-                f = open(name=path_and_flename, mode='r', buffering=True, )
+                print path_and_filename
+                f = open(name=path_and_filename, mode='r', buffering=True, )
                 while True:
                     line = f.readline()
                     if not line: break

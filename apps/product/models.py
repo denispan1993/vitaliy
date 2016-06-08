@@ -2,12 +2,24 @@
 from django.db import models
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes import generic
 
 from mptt.models import MPTTModel
+from mptt import models as modelsTree
+
+from compat.FormSlug import models as class_FormSlugField
+
+from apps.product.managers import Manager_Category, Manager_Product
+from apps.discount.models import Action
+from proj.settings import AUTH_USER_MODEL
+from apps.comment.models import Comment
+from django.contrib.contenttypes.models import ContentType
+from compat.FormSlug.models import ModelSlugField
+from compat.ImageWithThumbs.models import ImageWithThumbsField
 
 
 class Category(MPTTModel):
-    from mptt import models as modelsTree
+
     parent = modelsTree.TreeForeignKey(to='Category',
                                        verbose_name=_(u'Вышестоящая категория', ),
                                        null=True,
@@ -70,7 +82,6 @@ class Category(MPTTModel):
 #                                                                 u' со страницы категории, то ставим в True.', )
 #    from compat.ruslug.models import RuSlugField
 #    from apps.product.fields import ModelSlugField
-    from compat.FormSlug import models as class_FormSlugField
     url = class_FormSlugField.ModelSlugField()
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
@@ -106,14 +117,12 @@ class Category(MPTTModel):
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
     #Кто создал
     # from django.contrib.auth.models import User
-    from proj.settings import AUTH_USER_MODEL
     user_obj = models.ForeignKey(AUTH_USER_MODEL,
                                  verbose_name=u'ID Пользователя',
                                  blank=True,
                                  null=True, )
 
     # Вспомогательные поля
-    from django.contrib.contenttypes import generic
     photo = generic.GenericRelation('Photo',
                                     content_type_field='content_type',
                                     object_id_field='object_id', )
@@ -122,8 +131,7 @@ class Category(MPTTModel):
 #    objects = Manager()
 
 #    objects = models.Manager()
-    from apps.product import managers
-    objects = managers.Manager_Category()
+    objects = Manager_Category()
 #    manager = managers.Manager_Category()
 
 #    question = models.CharField(max_length=200)
@@ -225,7 +233,6 @@ class Product(models.Model):
                                                      default=1,
                                                      blank=True,
                                                      null=True, )
-    from compat.FormSlug import models as class_FormSlugField
     url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес продукта',
                                              max_length=255,
                                              null=True,
@@ -267,7 +274,6 @@ class Product(models.Model):
     """
         Акции
     """
-    from apps.discount.models import Action
     action = models.ManyToManyField(to=Action,
                                     verbose_name=u'Акции',
                                     related_name='product_in_action',
@@ -346,13 +352,11 @@ class Product(models.Model):
                                      default=True, )
     #Кто создал
     # from django.contrib.auth.models import User
-    from proj.settings import AUTH_USER_MODEL
     user_obj = models.ForeignKey(AUTH_USER_MODEL,
                                  verbose_name=u'ID Пользователя',
                                  blank=True,
                                  null=True, )
     # Вспомогательные поля
-    from django.contrib.contenttypes import generic
     photo = generic.GenericRelation('Photo',
                                     content_type_field='content_type',
                                     object_id_field='object_id', )
@@ -369,7 +373,6 @@ class Product(models.Model):
     Viewed = generic.GenericRelation('Viewed',
                                      content_type_field='content_type',
                                      object_id_field='object_id', )
-    from apps.comment.models import Comment
     comments = generic.GenericRelation(Comment,
                                        content_type_field='content_type',
                                        object_id_field='object_id', )
@@ -387,7 +390,6 @@ class Product(models.Model):
 
     @property
     def content_type(self, ):
-        from django.contrib.contenttypes.models import ContentType
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
 
     @property
@@ -590,9 +592,8 @@ class Product(models.Model):
             return 4, u'<strong>Товар недоступен.</strong><br>Рекоммендуем его удалить из корзины.'
 
     # objects = models.Manager()
-    from apps.product import managers
     # manager = managers.Manager_Product()
-    objects = managers.Manager_Product()
+    objects = Manager_Product()
 
 #    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
 #        super(Product, self).save(*args, **kwargs)
@@ -1320,8 +1321,6 @@ class AdditionalInformationForPrice(models.Model):
 
 
 # описываем правила
-from compat.FormSlug.models import ModelSlugField
-from compat.ImageWithThumbs.models import ImageWithThumbsField
 rules = [
     (
         (ModelSlugField, ), [],
