@@ -20,6 +20,11 @@ from compat.ImageWithThumbs.models import ImageWithThumbsField
 
 class Category(MPTTModel):
 
+    id_1c = models.CharField(verbose_name=_(u'1C Ид', ),
+                             max_length=36,
+                             blank=True,
+                             null=True,
+                             help_text=u'', )
     parent = modelsTree.TreeForeignKey(to='Category',
                                        verbose_name=_(u'Вышестоящая категория', ),
                                        null=True,
