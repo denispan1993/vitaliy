@@ -1,27 +1,26 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
-
 from django.core.management.base import BaseCommand
+
+from apps.product.models import Category, Product
+from apps.discount.models import Action
+
+__author__ = 'Alex Starov'
 
 
 class Command(BaseCommand, ):
     def handle(self, *args, **options):
-        from datetime import datetime
-        print datetime.now()
-        from apps.product.models import Category
+
         try:
             action_category = Category.objects.get(url=u'акции', )
         except Category.DoesNotExist:
             action_category = False
         """ Выключаем продукты из "АКЦИИ" срок действия акции которой уже подощёл к концу """
-        from apps.discount.models import Action
         action_not_active = Action.objects.not_active()
         if action_not_active:
             print 'Action - NOT ACTIVE:', action_not_active
             for action in action_not_active:
                 products_of_action = action.product_in_action.all()
                 print 'All products:', products_of_action
-                # print action
                 """
                     Если акция с авто окончанием,
                     то заканчиваем еЁ.
@@ -38,15 +37,6 @@ class Command(BaseCommand, ):
                             if action_category:
                                 product.category.remove(action_category, )
                             product.in_action = False
-                            # """
-                            #     Меняем местами нынешнюю и акционные цены местами
-                            # """
-                            # price = product.price
-                            # product.price = product.regular_price
-                            # if action.auto_del_action_price:
-                            #     product.regular_price = 0
-                            # else:
-                            #     product.regular_price = price
                             if action.auto_del_action_from_product:
                                 if action_category:
                                     product.action.remove(action, )
@@ -54,10 +44,6 @@ class Command(BaseCommand, ):
                         if action.auto_del:
                             action.deleted = True
                             action.save()
-            # from apps.product.models import Product
-            # Product.objects.filter(is_availability=2, ).update(is_availability=5, )
-            # Product.objects.filter(is_availability=3, ).update(is_availability=2, )
-            # Product.objects.filter(is_availability=5, ).update(is_availability=3, )
 
         action_active = Action.objects.active()
         if action_active:
@@ -65,7 +51,6 @@ class Command(BaseCommand, ):
             for action in action_active:
                 products_of_action = action.product_in_action.all()
                 print 'All products:', products_of_action
-                # print action
                 """
                     Если акция с автостартом,
                     то мы еЁ стартуем.
@@ -97,7 +82,6 @@ class Command(BaseCommand, ):
 
         """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
          но при этом отсутвует хоть какая то акция """
-        from apps.product.models import Product
         products = Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
         print 'Товары удаленные из акции по причине вывода их из акции: ', products
 

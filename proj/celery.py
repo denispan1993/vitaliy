@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 import os
+from django.conf import settings  # noqa
 
 from celery import Celery
 
@@ -8,8 +9,6 @@ __author__ = 'AlexStarov'
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proj.settings')
-
-from django.conf import settings  # noqa
 
 celery_app = Celery('proj')
 

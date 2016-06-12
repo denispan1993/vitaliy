@@ -5,14 +5,14 @@ __author__ = 'AlexStarov'
 
 # Celery settings
 
-BROKER_URL = 'django://'
+BROKER_URL = 'django://localhost/'
 
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-#CELERY_RESULT_BACKEND = BROKER_URL
+CELERY_RESULT_BACKEND = BROKER_URL
 CELERY_IGNORE_RESULT = False
 
 CELERY_DEFAULT_QUEUE = 'celery'
@@ -21,8 +21,9 @@ CELERY_QUEUES = (
     Queue('celery', Exchange('celery'), routing_key='celery'),
 )
 
-CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend',
-CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler',
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERY_TASK_RESULT_EXPIRES = 3600
 
 #CELERY_ROUTES = {
 #    'mail.tasks.send_message': {'queue': 'send_message'},

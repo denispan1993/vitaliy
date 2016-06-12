@@ -1,4 +1,4 @@
-#!/home/tor/PycharmProjects/Env/bin/python
+#!/home/user/PycharmProjects/Env/bin/python
 # -*- coding: utf-8 -*-
 import os
 import sys
