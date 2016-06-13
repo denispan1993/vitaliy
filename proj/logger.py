@@ -151,3 +151,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from local_logger import *
+except ImportError:
+    pass
