@@ -2,7 +2,9 @@
 
 cd ..
 
-./manage_ubuntuhome.py celery worker --app=proj \
+#./manage_ubuntuhome.py celery worker --app=proj \
+
+./manage_tor.py celery worker --app=proj \
 --concurrency=1 \
 --autoreload \
 --queues=celery \
