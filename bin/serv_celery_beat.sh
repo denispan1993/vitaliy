@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd..
+cd ..
 
 ./manage-serv.py celery beat --app=proj \
 --scheduler='djcelery.schedulers.DatabaseScheduler' \
