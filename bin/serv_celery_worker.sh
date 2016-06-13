@@ -1,14 +1,15 @@
 #!/bin/sh
 
 cd ..
+
 ./manage-serv.py celery worker --app=proj \
 --concurrency=1 \
 --autoreload \
 --queues=celery \
---hostname=worker1.%n \
+--hostname=worker \
 --loglevel=DEBUG \
---logfile=../../logs/keksik_com_ua/celery/worker1.%n.log \
---pidfile=../../run/celery__keksik_com_ua__worker1.%n.pid
+--logfile=../../logs/keksik_com_ua/celery/worker.log \
+--pidfile=../../run/celery__keksik_com_ua__worker.pid
 
 
 
