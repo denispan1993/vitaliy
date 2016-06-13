@@ -7,6 +7,7 @@ cd ..
 --autoreload \
 --queues=celery \
 --hostname=worker \
+--detach \
 --loglevel=DEBUG \
 --logfile=../../logs/keksik_com_ua/celery/worker.log \
 --pidfile=../../run/celery__keksik_com_ua__worker.pid

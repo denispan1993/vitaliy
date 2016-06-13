@@ -1,4 +1,8 @@
-#!/www/envs/keksik_com_ua/bin/python
-# -*- coding: utf-8 -*-
+#!/bin/sh
 
-celery flower --app=proj --address=127.0.0.1 --port=5555 --broker=django://localhost//
+cd ..
+
+./manage-serv.py celery flower --app=proj \
+--address=192.168.1.99 \
+--port=5555 \
+--broker=django://localhost//
