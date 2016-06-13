@@ -2,7 +2,7 @@
 
 cd ..
 
-./manage-serv.py celery beat --app=proj \
+./manage-serv.py celerybeat --app=proj \
 --scheduler='djcelery.schedulers.DatabaseScheduler' \
 --detach \
 --loglevel=DEBUG \
