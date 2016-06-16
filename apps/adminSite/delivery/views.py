@@ -5,6 +5,9 @@ from django.core.management import call_command
 
 from apps.delivery.models import Delivery
 from apps.delivery.forms import DeliveryCreateEditForm
+from apps.authModel.models import Email
+from apps.delivery.models import SpamEmail
+from apps.delivery.tasks import processing_delivery
 
 __author__ = 'AlexStarov'
 
@@ -208,8 +211,7 @@ def add_edit(request,
 @staff_member_required
 def start_delivery(request,
                    delivery_id=None,
-                   delivery_type='test',
-                   template_name=None, ):
+                   delivery_type='test', ):
     if request.method == "POST":
         POST_NAME = request.POST.get(u'POST_NAME', None, )
 
@@ -227,23 +229,28 @@ def start_delivery(request,
                     except Delivery.DoesNotExist:
                         error_message = u'В базе отсутсвует рассылка с таким номером.'
                         return redirect(to='admin_delivery:index', )
+
                     else:
                         if POST_NAME == 'start_delivery_test' \
                                 and delivery_type == 'test' \
                                 and not delivery.send_test:
+
                             call_command(name='processing_delivery_send_test',
                                          delivery_pk=delivery_id,
                                          delivery_test=True,
                                          delivery_general=False, )
+                            processing_delivery(delivery_type=delivery_type, delivery=delivery)
 
                         elif POST_NAME == 'start_delivery_general' \
                                 and delivery_type == 'general' \
                                 and delivery.send_test \
                                 and not delivery.send_general:
+
                             call_command(name='processing_delivery_send',
                                          delivery_pk=delivery_id,
                                          delivery_test=False,
                                          delivery_general=True, )
+                            processing_delivery(delivery_type=delivery_type, delivery=delivery)
 
     return redirect(to='admin_delivery:index', )
 
@@ -251,13 +258,10 @@ def start_delivery(request,
 @staff_member_required
 def exclude_email_from_delivery(request,
                                 template_name=None, ):
-    from django.shortcuts import redirect
     if request.method == "POST":
         POST_NAME = request.POST.get(u'POST_NAME', None, )
-        # if POST_NAME in ('start_delivery_test', 'start_delivery_general'):
         if POST_NAME == 'exclude_email':
             email = request.POST.get(u'bad_email', None, )
-            from apps.authModel.models import Email
             try:
                 email = Email.objects.get(email=email, )
             except Email.DoesNotExist:
@@ -265,7 +269,6 @@ def exclude_email_from_delivery(request,
             else:
                 email.bad_email = True
                 email.save()
-            from apps.delivery.models import SpamEmail
             try:
                 email = SpamEmail.objects.get(email=email, )
             except SpamEmail.DoesNotExist:
