@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.management import call_command
+
+from apps.delivery.models import Delivery
+from apps.delivery.forms import DeliveryCreateEditForm
+
+__author__ = 'AlexStarov'
 
 
 @staff_member_required
@@ -19,16 +23,13 @@ def index(request,
                 except ValueError:
                     error_message = u'Некорректно введен номер Рассылки.'
                 else:
-                    from apps.delivery.models import Delivery
                     if Delivery.objects.get(pk=id, ).exists():
                         id = '%06d' % id
-                        from django.shortcuts import redirect
                         return redirect(to='admin_delivery:edit', id=id, )
                     else:
                         error_message = u'Рассылка с таким номером не существует.'
     #from datetime import datetime, timedelta
     #filter_datetime = datetime.now() - timedelta(days=93, )
-    from apps.delivery.models import Delivery
     mailings = Delivery.objects.all()  # filter(created_at__gte=filter_datetime, )
     return render(request=request,
                   template_name=template_name,
@@ -117,7 +118,6 @@ def add_edit(request,
             html = request.POST.get(u'html', None, )
             """ Проверяем, это новая рассылка?
                 Или отредактированная старая? """
-            from apps.delivery.models import Delivery
             delivery_pk = request.POST.get(u'delivery_pk', None, )
             # if delivery_pk == delivery_id:
             #     print 'delivery_id', delivery_id, 'delivery_pk', delivery_pk
@@ -179,10 +179,8 @@ def add_edit(request,
                         image.image = image_file
                         print '2'
                         image.save()
-            from django.shortcuts import redirect
             return redirect(to='admin_delivery:index', )
 
-    from django.shortcuts import redirect
     if delivery_id:
         try:
             delivery_id = int(delivery_id, )
@@ -190,7 +188,6 @@ def add_edit(request,
             error_message = u'Некорректно введен номер рассылки.'
             return redirect(to='admin_delivery:index', )
         else:
-            from apps.delivery.models import Delivery
             try:
                 delivery = Delivery.objects.get(pk=delivery_id, )
             except Delivery.DoesNotExist:
@@ -198,9 +195,7 @@ def add_edit(request,
                 return redirect(to='admin_delivery:index', )
     else:
         delivery = None
-    from apps.delivery.models import Delivery
     type_mailings = Delivery.Type_Mailings
-    from apps.delivery.forms import DeliveryCreateEditForm
     return render(request=request,
                   template_name=template_name,
                   context={'delivery_id': delivery_id,
@@ -209,16 +204,16 @@ def add_edit(request,
                            'form': DeliveryCreateEditForm, },
                   content_type='text/html', )
 
+
 @staff_member_required
 def start_delivery(request,
                    delivery_id=None,
                    delivery_type='test',
                    template_name=None, ):
-    from django.shortcuts import redirect
     if request.method == "POST":
         POST_NAME = request.POST.get(u'POST_NAME', None, )
-        # if POST_NAME in ('start_delivery_test', 'start_delivery_general'):
-        if POST_NAME == 'start_delivery_test':
+
+        if POST_NAME in ('start_delivery_test', 'start_delivery_general'):
             if delivery_id:
                 try:
                     delivery_id = int(delivery_id, )
@@ -227,24 +222,28 @@ def start_delivery(request,
                     error_message = u'Отсутвует номер рассылки'
                     return redirect(to='admin_delivery:index', )
                 else:
-                    from apps.delivery.models import Delivery
                     try:
                         delivery = Delivery.objects.get(pk=delivery_id, )
                     except Delivery.DoesNotExist:
                         error_message = u'В базе отсутсвует рассылка с таким номером.'
                         return redirect(to='admin_delivery:index', )
                     else:
-                        from django.core.management import call_command
-                        if POST_NAME == 'start_delivery_test' and delivery_type == 'test' and not delivery.send_test:
+                        if POST_NAME == 'start_delivery_test' \
+                                and delivery_type == 'test' \
+                                and not delivery.send_test:
                             call_command(name='processing_delivery_send_test',
                                          delivery_pk=delivery_id,
                                          delivery_test=True,
                                          delivery_general=False, )
-                        #elif POST_NAME == 'start_delivery_general' and delivery_type == 'general' and not delivery.send_general:
-                        #    call_command(name='processing_delivery_send',
-                        #                 delivery_pk=delivery_id,
-                        #                 delivery_test=False,
-                        #                 delivery_general=True, )
+
+                        elif POST_NAME == 'start_delivery_general' \
+                                and delivery_type == 'general' \
+                                and delivery.send_test \
+                                and not delivery.send_general:
+                            call_command(name='processing_delivery_send',
+                                         delivery_pk=delivery_id,
+                                         delivery_test=False,
+                                         delivery_general=True, )
 
     return redirect(to='admin_delivery:index', )
 

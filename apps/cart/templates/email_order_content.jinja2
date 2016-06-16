@@ -1,6 +1,6 @@
 
-{% if order.user %}<p>User: {{ order.user }}</p>{% endif %}
-{% if order.sessionid %}<p>SessionId: {{ order.sessionid }}</p>{% endif %}
+{# {1% if order.user %}<p>User: {{ order.user }}</p>{% endif %}
+{% if order.sessionid %}<p>SessionId: {{ order.sessionid }}</p>{% endif %} #}
 <p>ФИО: {{ order.FIO }}</p>
 <p>E-Mail: {{ order.email }}</p>
 <p>Номер мобильного телефона: {{ order.phone }}</p>
@@ -20,7 +20,7 @@
 <p>Дата и время созания заказа: {{ order.created_at|date("d-M-Y H:i:s") }}</p>
 <p>Дата и время обновления заказа: {{ order.updated_at|date("d-M-Y H:i:s") }}</p>
 
-<p>{% set url = order.pk|int_to_string %}
+{# <p>{1% set url = order.pk|int_to_string %}
    {% set int_range = 6 - url|length %}
    {% if int_range > 0 %}
        {% for i in int_range|get_range %}
@@ -29,7 +29,7 @@
                <a href="http://keksik.com.ua/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a>
            {% endif %}
        {% endfor %}
-   {% endif %}</p>
+   {% endif %}</p> #}
 
 
 <table id="table_carts" cols="6" summary="Корзина">
@@ -55,9 +55,9 @@
                 </a>
             </td>
             <td>
-                <a href="http://keksik.com.ua/admin/product/product/{{ real_product.id }}/">
+{#                <a href="http://keksik.com.ua/admin/product/product/{1{ real_product.id }}/"> #}
                     {{ real_product.get_ItemID }}
-                </a>
+{#                </a> #}
             </td>
             <td style="padding:0px;">
                 {{ product.price }}

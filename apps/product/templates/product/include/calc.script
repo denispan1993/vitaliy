@@ -2,7 +2,7 @@
 var price_qty_array = new Array();
 var price_array = new Array();
 price_qty_array[0]=1;
-price_array[0]={{ product.get_price(request, price=None, calc_or_show='calc') }}; {# |replace(",", ".") #}
+price_array[0]={{ product.get_price(request) }}; {# |replace(",", ".") #}
 {#  {% if discount1 != None %}
 		{% if discount1.price %}
 			{% for discount in discounts %}

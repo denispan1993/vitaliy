@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
-
 from django.conf.urls import patterns, include, url
+
+__author__ = 'Alex Starov'
 
 
 urlpatterns = patterns('apps.adminSite.delivery.views',

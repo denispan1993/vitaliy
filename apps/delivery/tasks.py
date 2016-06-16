@@ -11,6 +11,14 @@ logger = get_task_logger(__name__)
 std_logger = getLogger(__name__)
 
 
+@celery_app.task()
+def processing_delivery(*args, **kwargs):
+    print 'All work!!!'
+    logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
+    # std_logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
+    debug_log.info(u'message: {0}, datetime: {1}'.format('All Work', datetime.now()))
+    return True, datetime.now()
+
 @celery_app.task(run_every=timedelta(seconds=1))
 def test():
     print 'All work!!!'

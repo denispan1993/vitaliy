@@ -122,26 +122,26 @@ body{
                         Из них плохие: {{ delivery.bad_emails }}
                     </td>
                 </tr>
-                {% if not delivery.send_test %}{# or not delivery.send_general  #}
-                <tr>
-                    <td colspan="4">
-                        {% if not delivery.send_test %}
+                {% if not delivery.send_test and not delivery.send_general %}
+                    <tr>
+                        <td colspan="4">
                             <form action="{{ url('admin_delivery:start_delivery_test', delivery_id=delivery.get_url_number) }}" method="POST">
                                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                 <input type="hidden" name="POST_NAME" value="start_delivery_test">
                                 <input type="submit" value="Отправить тестовую Рассылку">
                             </form>
-                        {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if not delivery.send_general and delivery.send_test %}
+                <tr>
+                    <td colspan="4">
+                        <form action="{{ url('admin_delivery:start_delivery_general', delivery_id=delivery.get_url_number) }}" method="POST">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            <input type="hidden" name="POST_NAME" value="start_delivery_general">
+                            <input type="submit" value="Отправить ГЛАВНУЮ Рассылку">
+                        </form>
                     </td>
-                    {# <td colspan="2">
-                        {1% if not delivery.send_general %}
-                            <form action="{{ url('admin_delivery:start_delivery_general', delivery_id=delivery.get_url_number) }}" method="POST">
-                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                                <input type="hidden" name="POST_NAME" value="start_delivery_general">
-                                <input type="submit" value="Отправить ГЛАВНУЮ Рассылку">
-                            </form>
-                        {% endif %}
-                    </td> #}
                 </tr>
                 {% endif %}
                 {% endfor %}

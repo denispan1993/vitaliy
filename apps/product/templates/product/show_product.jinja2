@@ -379,7 +379,7 @@ document.write(VK.Share.button({
                                  data-cloudzoom="{# zoomImage:'{{ main_photo.photo.url }}', #}{# large image #}zoomPosition:3,zoomSizeMode:'image'{# ,zoomOffsetX:15,zoomOffsetY:25, maxMagnification:4 #}"
                                  alt='{{ main_photo.title }}' itemprop='image'/>
                         </a>
-                     </div>
+                    </div>
                 <script src="/media/js/jquery/cloudzoom/cldzoom.js"></script>{#
         		<!-- Call quick start function. -->
                 #}<script>CloudZoom.quickStart();</script>
@@ -446,9 +446,9 @@ document.write(VK.Share.button({
 					Старая цена:&nbsp;<span>{{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</span>
 				</p>
 			{% endif %}
-            {% if not product.in_action %}
+            {% if not product.in_action and not product.is_availability == 4 %}
                 <p id="product_box_right_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer"{% if product.is_availability == 2 %} style="display:none;"{% endif %}>{% if product.regular_price %}Цена распродажи:&nbsp;{% else %}Цена:&nbsp;{% endif %}<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" itemprop="price">{{ product.get_price(request)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
-            {% else %}
+            {% elif product.in_action %}
                 <p id="product_box_right_action_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Акционная цена:&nbsp;<span class="Red" itemprop="price">{{ product.get_price(request, product.action_price)|replace(",", ".") }}</span>&nbsp;{{ get_currency(request) }}</p>
                 <p id="product_box_right_price">Обычная цена:&nbsp;<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" style="text-decoration:line-through;">{{ product.get_price(request, product.price)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
                 <div id="product_box_time_action_price">

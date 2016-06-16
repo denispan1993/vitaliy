@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render
+
+__author__ = 'AlexStarov'
 
 
 @staff_member_required
