@@ -236,13 +236,13 @@ named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
 def create_msg(delivery, mail_account, email, exception=False, test=False, ):
 
-    headers = {'Reply-To': formataddr('Интернет магаизн Keksik', mail_account.email), }
+    headers = {'Reply-To': formataddr((u'Интернет магаизн Keksik', mail_account.email)), }
 
     message_kwargs = {
         'subject': 'test - {}'.format(delivery.subject) if test else delivery.subject,
         'body': strip_tags(parsing(value=delivery.html, key=email.key, ), ),
         'headers': headers,
-        'from_email': formataddr('Интернет магаизн Keksik', mail_account.email),
+        'from_email': formataddr((u'Интернет магаизн Keksik', mail_account.email)),
         'to': mail_account.email if exception else email.now_email.email,
     }
 
