@@ -122,7 +122,7 @@ body{
                         Из них плохие: {{ delivery.bad_emails }}
                     </td>
                 </tr>
-                {% if not delivery.send_test and not delivery.send_general %}
+                {% if delivery.delivery_test and not delivery.send_test and not delivery.send_general and not delivery.send_spam %}
                     <tr>
                         <td colspan="4">
                             <form action="{{ url('admin_delivery:start_delivery_test', delivery_id=delivery.get_url_number) }}" method="POST">
@@ -133,7 +133,7 @@ body{
                         </td>
                     </tr>
                 {% endif %}
-                {% if not delivery.send_general and delivery.send_test %}
+                {% if not delivery.delivery_test and delivery.send_test and not delivery.send_general and not delivery.send_spam %}
                 <tr>
                     <td colspan="4">
                         <form action="{{ url('admin_delivery:start_delivery_general', delivery_id=delivery.get_url_number) }}" method="POST">
