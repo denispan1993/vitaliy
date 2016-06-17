@@ -243,7 +243,7 @@ def create_msg(delivery, mail_account, email, exception=False, test=False, ):
         'body': strip_tags(parsing(value=delivery.html, key=email.key, ), ),
         'headers': headers,
         'from_email': formataddr((u'Интернет магаизн Keksik', mail_account.email)),
-        'to': mail_account.email if exception else email.now_email.email,
+        'to': [mail_account.email if exception else email.now_email.email, ],
     }
 
     message = EmailMultiAlternatives(**message_kwargs)
