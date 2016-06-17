@@ -3,10 +3,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from django.core.management import call_command
 
-from apps.delivery.models import Delivery
-from apps.delivery.forms import DeliveryCreateEditForm
 from apps.authModel.models import Email
-from apps.delivery.models import SpamEmail
+from apps.delivery.models import Delivery, Email_Img, SpamEmail
+from apps.delivery.forms import DeliveryCreateEditForm
 from apps.delivery.tasks import processing_delivery
 
 __author__ = 'AlexStarov'
@@ -137,7 +136,6 @@ def add_edit(request,
                 try:
                     delivery = Delivery.objects.get(pk=delivery_pk, )
                 except Delivery.DoesNotExist:
-                    from django.shortcuts import redirect
                     return redirect(to='admin_delivery:index', )
 
             delivery.name = name
@@ -151,7 +149,6 @@ def add_edit(request,
             delivery.html = html
             delivery.save()
             """ Обрабатываем картинки. """
-            from apps.delivery.models import Email_Img
             for i in range(1, 50):
                 print i
                 image_pk = 'image_pk_%d' % i
