@@ -267,7 +267,7 @@ class Delivery(models.Model, ):
     def trace_of_visits_unique(self):
         aaa = TraceOfVisits.objects.filter(delivery=self.pk, )\
             .exclude(email__delivery__delivery_test_send=True, )\
-            .values_list('email__content_type', 'email__object_id', )\
+            .values('email__content_type', 'email__object_id', )\
             .distict()\
             .count()
         print aaa
