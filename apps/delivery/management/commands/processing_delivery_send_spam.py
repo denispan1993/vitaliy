@@ -1,7 +1,21 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
+from datetime import datetime
+import dns.resolver
+from apps.authModel.models import Email
+from apps.delivery.models import SpamEmail, EmailForDelivery
+from apps.delivery.utils import create_msg, parsing, Mail_Account, Backend, Test_Server_MX_from_email, get_email, create_msg, connect, send_msg, sleep_now
+from smtplib import SMTPSenderRefused, SMTPDataError
+from socket import error
+import sys
+
+from django.utils.html import strip_tags
+from time import sleep
+from django.core.mail import EmailMultiAlternatives
 
 from django.core.management.base import BaseCommand
+
+__author__ = 'AlexStarov'
+
 
 
 class Command(BaseCommand, ):
@@ -54,25 +68,12 @@ class Command(BaseCommand, ):
                     delivery.send_spam = True
                     delivery.save()
 
-                    from apps.authModel.models import Email
                     count_emails_try = Email.objects.filter(bad_email=False, ).count()
 
-                    import sys
-
-                    from apps.delivery.models import EmailForDelivery
-                    from apps.delivery.utils import parsing
-                    from django.utils.html import strip_tags
-                    from time import sleep
-                    from django.core.mail import EmailMultiAlternatives
-                    from apps.delivery.utils import Mail_Account, Backend, Test_Server_MX_from_email, get_email,\
-                        create_msg, connect, send_msg, sleep_now
                     i = 0
                     time = 0
-                    import dns.resolver
                     resolver = dns.resolver.Resolver()
                     resolver.nameservers = ['192.168.1.100', ]
-                    from apps.authModel.models import Email
-                    from apps.delivery.models import SpamEmail
                     for n in range(1, count_emails_try, ):
                         mail_account = Mail_Account()
                         email = get_email(delivery=delivery, email_class=Email, )
@@ -88,10 +89,15 @@ class Command(BaseCommand, ):
                                                                         # object_id=real_email.pk,
                                                                         now_email=email, )
                                 """ Отсылка """
-                                from apps.delivery.utils import create_msg, connect, send_msg
                                 msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
-                                from smtplib import SMTPSenderRefused, SMTPDataError
-                                connection = connect(mail_account=mail_account, fail_silently=False, )
+
+                                while True:
+                                    try:
+                                        connection = connect(mail_account=mail_account, fail_silently=False, )
+                                        break
+                                    except error:
+                                        sleep(1); time += 1
+
                                 try:
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
                                 except SMTPSenderRefused as e:
@@ -106,7 +112,6 @@ class Command(BaseCommand, ):
                                     print 'SMTPDataError: message', e.message
                                     if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
                                         print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
-                                        from datetime import datetime
                                         mail_account.is_auto_active = False
                                         mail_account.auto_active_datetime = datetime.now()
                                         mail_account.save()
@@ -133,9 +138,7 @@ class Command(BaseCommand, ):
                                                                         # object_id=real_email.pk,
                                                                         now_email=email, )
                                 """ Отсылка """
-                                from apps.delivery.utils import create_msg, connect, send_msg
                                 msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
-                                from smtplib import SMTPSenderRefused, SMTPDataError
                                 connection = connect(mail_account=mail_account, fail_silently=False, )
                                 try:
                                     send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
@@ -147,7 +150,6 @@ class Command(BaseCommand, ):
                                     print 'SMTPDataError: ', e
                                     if e.smtp_code == 554 and "5.7.1 Message rejected under suspicion of SPAM;" in e.smtp_error:
                                         print 'SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!'
-                                        from datetime import datetime
                                         mail_account.is_auto_active = False
                                         mail_account.auto_active_datetime = datetime.now()
                                         mail_account.save()

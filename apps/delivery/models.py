@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from apps.utils.captcha.views import key_generator
+from apps.authModel.models import Email
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
 
 __author__ = 'AlexStarov'
@@ -47,6 +51,15 @@ class MailAccount(models.Model, ):
                                       blank=True,
                                       null=True, )
                                       #default=datetime.now(), )
+
+    @property
+    def get_provider(self):
+        return self.email.split('@')[1]
+
+    @property
+    def get_return_path_subscribe(self):
+        return ''.join('subscribe@', self.get_provider)
+
 
     # @property
     # def is_active(self):
@@ -252,15 +265,11 @@ class Delivery(models.Model, ):
 
     @property
     def trace_of_visits_unique(self):
-        unique_email_pk = []
-        trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
-            .exclude(email__delivery__delivery_test_send=True, )
-        for trace in trace_of_visits:
-            email_pk = trace.email.now_email.pk
-            if not email_pk in unique_email_pk:
-                unique_email_pk.append(email_pk, )
-
-        return len(unique_email_pk, )
+        return TraceOfVisits.objects.filter(delivery=self, )\
+            .exclude(email__delivery__delivery_test_send=True, )\
+            .values_list('email__content_type', 'email__object_id', )\
+            .distict().\
+            count()
 
     @property
     def order_from_trace_of_visits(self):
@@ -448,32 +457,21 @@ class EmailMiddleDelivery(models.Model, ):
         verbose_name_plural = u'Промежуточные можели Рассылок'
 
 
-from apps.utils.captcha.views import key_generator
-from django.db import IntegrityError
-
-
-#def key_generate_for_email_delivery():
-#    return key_generator()
-
-
 class EmailForDelivery(models.Model, ):
     delivery = models.ForeignKey(to=EmailMiddleDelivery,
                                  verbose_name=_(u'Указатель на рассылку', ),
                                  blank=False,
                                  null=False, )
-    from apps.utils.captcha.views import key_generator
     key = models.CharField(verbose_name=_(u'ID E-Mail адреса и рассылки', ),
                            max_length=8,
                            blank=False,
                            null=False,
                            # unique=True, )
                            default=key_generator, )
-    from apps.authModel.models import Email
     email = models.ForeignKey(to=Email,
                               verbose_name=_(u'E-Mail', ),
                               blank=True,
                               null=True, )
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType,
                                      related_name='email_instance',
                                      verbose_name=_(u'Указатель на E-Mail', ),
@@ -482,7 +480,6 @@ class EmailForDelivery(models.Model, ):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    from django.contrib.contenttypes import generic
     now_email = generic.GenericForeignKey('content_type', 'object_id', )
 
     send = models.BooleanField(verbose_name=_(u'Флаг отсылки', ),
@@ -494,28 +491,24 @@ class EmailForDelivery(models.Model, ):
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
                                       null=True, )
-                                      # default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
                                       null=True, )
-                                      # default=datetime.now(), )
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            ok = True
-            while ok:
+            while True:
                 key = key_generator()
                 try:
                     EmailForDelivery.objects.get(key=key, )
                 except EmailForDelivery.DoesNotExist:
                     self.key = key
-                    ok = False
+                    break
                 except IntegrityError:
-                    print 'IntegrityError', ' Key: ', key
-                except Exception as inst:
-                    print type(inst, )
-                    print inst
+                    print 'IntegrityError Key: %s' % key
+                except Exception as e:
+                    print 'Exception type: %s, message: %s' % (type(e, ), e, )
         super(EmailForDelivery, self).save(*args, **kwargs)
 
     def __unicode__(self):

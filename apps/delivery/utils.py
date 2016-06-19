@@ -7,6 +7,9 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.utils.html import strip_tags
 from re import split
 from apps.delivery.models import MailAccount
+from datetime import date
+from time import time
+from random import randint
 
 __author__ = 'AlexStarov'
 
@@ -236,7 +239,18 @@ named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
 def create_msg(delivery, mail_account, email, exception=False, test=False, ):
 
-    headers = {'Reply-To': formataddr((u'Интернет магаизн Keksik', mail_account.email)), }
+    """ div - Delivery id """
+    div = get_div(delivery=delivery)
+    headers = {'X-Did': div}
+    """ eid - Email id """
+    eid = get_eid(email=email)
+    headers['X-Eid'] = eid
+    """ mid - Message id """
+    mid = get_mid(div=div, eid=eid)
+    headers['X-Mid'] = mid
+    """ Reply-To + Return-Path """
+    headers['Return-Path'] = formataddr((u'Интернет магаизн Keksik', mail_account.get_return_path_subscribe))
+    headers['Reply-To'] = formataddr((u'Интернет магаизн Keksik', mail_account.get_return_path_subscribe))
 
     message_kwargs = {
         'subject': u'test - {}'.format(delivery.subject) if test else delivery.subject,
@@ -255,7 +269,7 @@ def create_msg(delivery, mail_account, email, exception=False, test=False, ):
     #        settings.MEDIA_ROOT, attachment['filepath'])
     #    with open(path, 'r') as f:
     #        message.attach(
-    #            attachment['filename'], f.read(),
+    #                                                                                                                                                                                                                                                                 attachment['filename'], f.read(),
     #            attachment['mimetype'])
     #    os.remove(path)
 
@@ -353,3 +367,25 @@ def sleep_now(time, email, i, ):
         sleep(1, )
     print '\n'
     return time
+
+
+def get_div(delivery):
+    """ div - Delivery id """
+    return '{0:04d}-{0:02d}'.format(delivery.pk, delivery.type, )
+
+
+def get_eid(email):
+    """ eid - Email id
+        1 - Нормальные E-Mail
+        2 - Spam E-Mail """
+    if email.__class__.__name__ == 'Email':
+        email_type = 1
+    elif email.__class__.__name__ == 'SpamEmail':
+        email_type = 2
+
+    return '{0:02d}-{1:07d}-{2:x}-{3:x}-{4:x}'.format(email_type, email.pk, )
+
+
+def get_mid(div, eid):
+    """ mid - Message id """
+    return '{0}-{1}-{2:x}-{3:x}-{4:x}'.format(div, eid, int(date()), int(time()), randint(0, 10000000), )
