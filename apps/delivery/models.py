@@ -265,10 +265,9 @@ class Delivery(models.Model, ):
 
     @property
     def trace_of_visits_unique(self):
-        return TraceOfVisits.objects.filter(delivery=self, )\
+        return TraceOfVisits.objects.filter(delivery=self.pk, )\
             .exclude(email__delivery__delivery_test_send=True, )\
-            .values_list('email__content_type', 'email__object_id', )\
-            .distict()
+            .values_list('email__content_type', 'email__object_id', ).distict().count()
 
     @property
     def order_from_trace_of_visits(self):
