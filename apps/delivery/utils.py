@@ -389,4 +389,4 @@ def get_eid(email):
 
 def get_mid(div, eid):
     """ mid - Message id """
-    return '{0}-{1}-{2:x}-{3:x}-{4:x}'.format(div, eid, int(date()), int(time()), randint(0, 10000000), )
+    return '{0}-{1}-{2:x}-{3:x}-{4:x}'.format(div, eid, int(date.today()), int(time()), randint(0, 10000000), )
