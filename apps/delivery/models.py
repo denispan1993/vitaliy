@@ -58,7 +58,7 @@ class MailAccount(models.Model, ):
 
     @property
     def get_return_path_subscribe(self):
-        return 'subscribe@'.join(self.get_provider, )
+        return 'subscribe@{0}'.format(self.get_provider, )
 
 
     # @property
