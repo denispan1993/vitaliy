@@ -244,10 +244,9 @@ def create_msg(delivery, mail_account, email, exception=False, test=False, ):
     headers = {'X-Did': div}
     """ eid - Email id """
     eid = get_eid(email=email.now_email)
-    headers['X-Eid'] = eid
+    headers['X-Eid'] = get_eid(email=email.now_email)
     """ mid - Message id """
-    mid = get_mid(div=div, eid=eid)
-    headers['X-Mid'] = mid
+    headers['X-Mid'] = get_mid(div=div, eid=eid)
     """ Reply-To + Return-Path """
     headers['Return-Path'] = formataddr((u'Интернет магаизн Keksik', mail_account.get_return_path_subscribe))
     headers['Reply-To'] = formataddr((u'Интернет магаизн Keksik', mail_account.get_return_path_subscribe))
