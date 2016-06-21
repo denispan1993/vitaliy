@@ -236,7 +236,6 @@ def start_delivery(request,
                                          delivery_pk=delivery_id,
                                          delivery_test=True,
                                          delivery_general=False, )
-                            processing_delivery(delivery_type=delivery_type, delivery_pk=delivery.pk)
 
                         elif POST_NAME == 'start_delivery_general' \
                                 and delivery_type == 'general' \
@@ -247,7 +246,8 @@ def start_delivery(request,
                                          delivery_pk=delivery_id,
                                          delivery_test=False,
                                          delivery_general=True, )
-                            processing_delivery(delivery_type=delivery_type, delivery=delivery)
+
+                        processing_delivery(delivery_type=delivery_type, delivery_pk=delivery.pk)
 
     return redirect(to='admin_delivery:index', )
 
