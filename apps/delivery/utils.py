@@ -243,7 +243,7 @@ def create_msg(delivery, mail_account, email, exception=False, test=False, ):
     div = get_div(delivery=delivery)
     headers = {'X-Did': div}
     """ eid - Email id """
-    eid = get_eid(email=email)
+    eid = get_eid(email=email.now_email)
     headers['X-Eid'] = eid
     """ mid - Message id """
     mid = get_mid(div=div, eid=eid)
@@ -382,8 +382,10 @@ def get_eid(email):
         email_type = 1
     elif email.__class__.__name__ == 'SpamEmail':
         email_type = 2
+    else:
+        email_type = 0
 
-    return '{0:02d}-{1:07d}-{2:x}-{3:x}-{4:x}'.format(email_type, email.pk, )
+    return '{0:02d}-{1:07d}'.format(email_type, email.pk, )
 
 
 def get_mid(div, eid):
