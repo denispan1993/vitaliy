@@ -2,14 +2,17 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
-from email.utils import formataddr
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.utils.html import strip_tags
+from random import randrange, randint
 from re import split
+from datetime import datetime, timedelta
+from time import mktime, time, sleep
+
+from django.core.mail import get_connection
+from apps.delivery import random_Email, random_SpamEmail
+from email.utils import formataddr
 from apps.delivery.models import MailAccount
-from datetime import date
-from time import time
-from random import randint
 
 __author__ = 'AlexStarov'
 
@@ -47,7 +50,6 @@ def Mail_Account(pk=False, ):
 
     # last_mail_accounts = MailAccount.objects.latest('pk', )
     len_mail_accounts = len(mail_accounts, )
-    from random import randrange
     loop = True
     while loop:
         mail_account_id = randrange(1, len_mail_accounts, )
@@ -60,7 +62,6 @@ def Mail_Account(pk=False, ):
                 print 'MailAccount: ', mail_account
                 return mail_account
             else:
-                from datetime import datetime, timedelta
                 # print '==================================================================='
                 # aaa = timedelta(days=1, hours=1, minutes=30, )
                 # print 'TimeDelta: timedelta(days=1, hours=1, minutes=30, ): ', aaa
@@ -100,7 +101,6 @@ def Mail_Account(pk=False, ):
 def Backend(mail_account=None, ):
     if mail_account is None:
         mail_account = Mail_Account()
-    from django.core.mail import get_connection
 
     if mail_account.server.use_ssl and not mail_account.server.use_tls:
         backend='apps.delivery.backends.smtp.EmailBackend',
@@ -202,10 +202,6 @@ def get_email(delivery, email_class=None, pk=False, ):
                 for email in emails_fordelivery:
                     i += 1
                     print 'i: ', i, ' - ', email
-
-
-from random import randrange
-from apps.delivery import random_Email, random_SpamEmail
 
 
 def random(last_email, ):
@@ -354,8 +350,6 @@ def send_msg(connection, mail_account, email, msg, execption=False, ):
 
 
 def sleep_now(time, email, i, ):
-    from time import sleep
-    from random import randrange
     print 'i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email
     time_now = randrange(9, 33, )
     time += time_now
@@ -389,4 +383,5 @@ def get_eid(email):
 
 def get_mid(div, eid):
     """ mid - Message id """
-    return '{0}-{1}-{2:x}-{3:x}-{4:x}'.format(div, eid, int(date.today()), int(time()), randint(0, 10000000), )
+    return '{0}-{1}-{2:011x}-{3:x}'\
+        .format(div, eid, int(mktime(datetime.now().timetuple())), randint(0, 10000000), )
