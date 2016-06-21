@@ -19,10 +19,10 @@ def processing_delivery(*args, **kwargs):
         print key, ': ', value
     delivery_type = kwargs.get('delivery_type')
     print 'delivery_type: ', delivery_type
-    delivery = kwargs.get('delivery')
-    print 'delivery: ', delivery
+    delivery_pk = kwargs.get('delivery_pk')
+    print 'delivery_pk: ', delivery_pk
 
-    delivery = Delivery.objects.get(pk=delivery, )
+    delivery = Delivery.objects.get(pk=delivery_pk, )
     print 'delivery: ', delivery
 
     print 'All work!!!'
