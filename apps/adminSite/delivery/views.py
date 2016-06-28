@@ -247,7 +247,9 @@ def start_delivery(request,
                                          delivery_test=False,
                                          delivery_general=True, )
 
-                        processing_delivery(delivery_type=delivery_type, delivery_pk=delivery.pk)
+                        processing_delivery.apply(
+                            queue='delivery',
+                            kwargs={'delivery_type': delivery_type, 'delivery_pk': delivery.pk})
 
     return redirect(to='admin_delivery:index', )
 

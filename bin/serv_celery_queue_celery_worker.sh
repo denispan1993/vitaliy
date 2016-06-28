@@ -6,11 +6,11 @@ cd ..
 --concurrency=1 \
 --autoreload \
 --queues=celery \
---hostname=worker \
+--hostname=queue_celery__worker \
 --detach \
 --loglevel=DEBUG \
---logfile=../../logs/keksik_com_ua/celery/worker.log \
---pidfile=../../run/celery__keksik_com_ua__worker.pid
+--logfile=../../logs/keksik_com_ua/celery/queue_celery_worker.log \
+--pidfile=../../run/celery__keksik_com_ua__queue_celery__worker.pid
 
 
 
