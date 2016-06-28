@@ -18,17 +18,16 @@ def processing_delivery(*args, **kwargs):
     for key, value in kwargs.items():
         print key, ': ', value
     delivery_type = kwargs.get('delivery_type')
-    print 'delivery_type: ', delivery_type
+    logger.info(u'delivery_type: {0}'.format(delivery_type))
     delivery_pk = kwargs.get('delivery_pk')
-    print 'delivery_pk: ', delivery_pk
+    logger.info(u'delivery_pk: {0}'.format(delivery_pk))
 
     delivery = Delivery.objects.get(pk=delivery_pk, )
-    print 'delivery: ', delivery
+    logger.info(u'delivery: {0}'.format(delivery))
 
-    print 'All work!!!'
-    logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
+    logger.info(u'message: datetime.now() {0}, {1}, {2}'.format(datetime.now(), delivery_type, delivery_pk))
     # std_logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
-    debug_log.info(u'message: {0}, datetime: {1}'.format('All Work', datetime.now()))
+    # debug_log.info(u'message: {0}, datetime: {1}'.format('All Work', datetime.now()))
     return True, datetime.now()
 
 

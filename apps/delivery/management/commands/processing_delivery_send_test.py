@@ -50,7 +50,7 @@ class Command(BaseCommand, ):
                     delivery.save()
                     from apps.authModel.models import Email
                     from apps.delivery.utils import get_email
-                    real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # subscribe@keksik.com.ua
+                    real_email = get_email(delivery=delivery, email_class=Email, pk=6, ) # pk=2836, )  # subscribe@keksik.com.ua
                     from apps.delivery.models import EmailForDelivery
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                             now_email=real_email,
@@ -90,7 +90,7 @@ class Command(BaseCommand, ):
                         send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
 
 
-                    real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # check-auth2@verifier.port25.com
+                    real_email = get_email(delivery=delivery, email_class=Email, pk=6, ) # pk=3263, )  # check-auth2@verifier.port25.com
                     from apps.delivery.models import EmailForDelivery
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                             now_email=real_email,

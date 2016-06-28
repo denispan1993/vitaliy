@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
 from apps.utils.captcha.views import key_generator
 from apps.authModel.models import Email
+from apps.cart.models import Order
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
+from datetime import datetime
 
 __author__ = 'AlexStarov'
 
@@ -178,7 +179,6 @@ class Delivery(models.Model, ):
                                       # default=datetime.now(), )
 
     # Вспомогательные поля
-    from django.contrib.contenttypes import generic
     img = generic.GenericRelation('Email_Img',
                                   content_type_field='content_type',
                                   object_id_field='object_id', )
@@ -265,13 +265,11 @@ class Delivery(models.Model, ):
 
     @property
     def trace_of_visits_unique(self):
-        aaa = TraceOfVisits.objects.filter(delivery=self.pk, )\
+        return TraceOfVisits.objects.filter(delivery=self, )\
             .exclude(email__delivery__delivery_test_send=True, )\
-            .distinct()\
             .values('email__content_type', 'email__object_id', )\
+            .distinct()\
             .count()
-        print aaa
-        return aaa
 
     @property
     def order_from_trace_of_visits(self):
@@ -284,11 +282,10 @@ class Delivery(models.Model, ):
                 unique_trace_email_pk.append(trace_email_pk, )
         #from datetime import timedelta
         #delta = timedelta(days=100, )
-        from apps.cart.models import Order
         unique_orders = []
         for trace_pk in unique_trace_email_pk:
             try:
-                this_trace = trace_of_visits.get(pk=trace_pk, )
+                this_trace = trace_of_visits.get(pk__in=trace_pk, )
             except TraceOfVisits.DoesNotExist:
                 continue
             else:
