@@ -8,7 +8,7 @@ from smtplib import SMTPSenderRefused, SMTPDataError
 
 from apps.delivery.models import Delivery, EmailMiddleDelivery, EmailForDelivery
 from apps.authModel.models import Email
-from apps.delivery.utils import Mail_Account, get_email, create_msg, connect, send_msg
+from apps.delivery.utils import get_mail_account, get_email, create_msg, connect, send_msg
 
 __author__ = 'AlexStarov'
 
@@ -37,18 +37,14 @@ def send(delivery, mail_account, email, msg):
 
 
 @celery_app.task()
-def processing_delivery(*args, **kwargs):
-    for key, value in kwargs.items():
-        logger.info(key, ': ', value)
+def pre_processing_delivery(*args, **kwargs):
     delivery_type = kwargs.get('delivery_type')
-    logger.info(u'delivery_type: {0}'.format(delivery_type))
     delivery_pk = kwargs.get('delivery_pk')
-    logger.info(u'delivery_pk: {0}'.format(delivery_pk))
 
     try:
         """ Исключаем:
             1. Тестовая рассылка и она отослана.
-            2. Не естовая рассылка и она отослана.
+            2. Не тестовая рассылка и она отослана.
         """
         delivery = Delivery.objects\
             .get(~Q(delivery_test=True, send_test=True, send_spam=False) | \
@@ -56,11 +52,6 @@ def processing_delivery(*args, **kwargs):
     except Delivery.DoesNotExist:
         delivery = False
 
-    aaa = EmailMiddleDelivery.objects.filter(delivery=delivery,
-                                   delivery_test_send=True,
-                                   delivery_send=False,
-                                   updated_at__lte=delivery.updated_at, )
-    logger.info(u'delivery aaa: {0}'.format(len(aaa)))
     if delivery and delivery_type == 'test':
         """ Создаем ссылочку на отсылку рассылки """
         email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
@@ -74,7 +65,7 @@ def processing_delivery(*args, **kwargs):
         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                 now_email=real_email,
                                                 email=real_email, )
-        mail_account = Mail_Account(pk=1, )
+        mail_account = get_mail_account(pk=1, )
         msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
         """ Посылаем письмо - subscribe@keksik.com.ua """
         send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
@@ -86,10 +77,60 @@ def processing_delivery(*args, **kwargs):
                                                 email=real_email, )
         send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
-    else:
-        kwargs_data = {'delivery_type': 'delivery', }
+    elif delivery and delivery_type != 'test':
+        """ Создаем ссылочку на отсылку рассылки """
+        email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
+                                                                   delivery_send=True, )
+        """ Закрываем отсылку в самой рассылке """
+        delivery.send = True
+        delivery.save()
 
-    logger.info(u'message: datetime.now() {0}, {1}'.format(delivery_type, delivery_pk))
+        while True:
+            real_email = get_email(delivery=delivery, email_class=Email, )
+            if not real_email:
+                break
+            logger.info(u'Email.__name__: {0}'.format(Email.__name__))
+
+            processing_delivery.apply_async(
+                queue='delivery',
+                kwargs={'delivery_pk': delivery.pk,
+                        'email_middle_delivery_pk': email_middle_delivery.pk,
+                        'email_class': Email.__name__,
+                        'email_pk': real_email.pk}, )
+
+        # logger.info(u'message: datetime.now() {0}, {1}'.format(delivery_type, delivery_pk))
+    return None  # '__name__: {0}'.format(str(__name__))
+
+
+@celery_app.task()
+def processing_delivery(*args, **kwargs):
+
+    delivery_pk = kwargs.get('delivery_pk')
+    logger.info(u'delivery_pk: {0}'.format(delivery_pk))
+    delivery = Delivery.objects.get(pk=delivery_pk, )
+
+    email_middle_delivery_pk = kwargs.get('email_middle_delivery_pk')
+    logger.info(u'email_middle_delivery_pk: {0}'.format(email_middle_delivery_pk))
+    email_middle_delivery = EmailMiddleDelivery.objects.get(pk=email_middle_delivery_pk, )
+
+    email_class = kwargs.get('email_class')
+    logger.info(u'email_class: {0}'.format(email_class))
+
+    email_pk = kwargs.get('email_pk')
+    logger.info(u'email_pk: {0}'.format(email_pk))
+
+    real_email = get_email(delivery=delivery, email_class=email_class, pk=email_pk, )
+
+    email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                            now_email=real_email,
+                                            email=real_email, )
+
+    mail_account = get_mail_account()
+    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
+
+    send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
+
+    logger.info(u'message: datetime.now() {0}, delivery_pk: {1}'.format(datetime.now(), delivery_pk))
     return '__name__: {0}'.format(str(__name__))
 
 

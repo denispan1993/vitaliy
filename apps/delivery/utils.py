@@ -2,19 +2,25 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
+from re import split
+import sys
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.utils.html import strip_tags
 from random import randrange, randint
-from re import split
 from datetime import datetime, timedelta
 from time import mktime, time, sleep
+from django.db.models import Q
 
 from django.core.mail import get_connection
+from logging import getLogger
 from apps.delivery import random_Email, random_SpamEmail
 from email.utils import formataddr
-from apps.delivery.models import MailAccount
+from apps.delivery.models import MailAccount, EmailForDelivery, SpamEmail
+from apps.authModel.models import Email
 
 __author__ = 'AlexStarov'
+
+std_logger = getLogger(__name__)
 
 
 def parsing(value, key, ):
@@ -33,25 +39,22 @@ def parsing(value, key, ):
     return value
 
 
-def Mail_Account(pk=False, ):
+def get_mail_account(pk=False, ):
     if pk:
         try:
             pk = int(pk, )
-        except ValueError:
-            return False
-        else:
             try:
-                mail_account = MailAccount.objects.get(pk=pk, )
+                return MailAccount.objects.get(pk=pk, )
             except MailAccount.DoesNotExist:
                 return False
-            else:
-                return mail_account
+        except (TypeError, ValueError):
+            return False
+
     mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
 
-    # last_mail_accounts = MailAccount.objects.latest('pk', )
     len_mail_accounts = len(mail_accounts, )
-    loop = True
-    while loop:
+
+    while True:
         mail_account_id = randrange(1, len_mail_accounts, )
         try:
             mail_account = mail_accounts[mail_account_id]
@@ -59,48 +62,41 @@ def Mail_Account(pk=False, ):
             pass
         else:
             if mail_account.is_auto_active:
-                print 'MailAccount: ', mail_account
+                print('MailAccount: ', mail_account)
                 return mail_account
             else:
-                # print '==================================================================='
-                # aaa = timedelta(days=1, hours=1, minutes=30, )
-                # print 'TimeDelta: timedelta(days=1, hours=1, minutes=30, ): ', aaa
-                # bbb = mail_account.auto_active_datetime
-                # print 'mail_account.auto_active_datetime: ', bbb
-                # bbb = bbb.replace(tzinfo=None, )
-                # print 'mail_account.auto_active_datetime.replace(tzinfo=None): ', bbb
-                # bbb += aaa
-                # print 'mail_account.auto_active_datetime.replace(tzinfo=None) + TimeDelta: ', bbb
-                # ccc = datetime.now()
-                # print 'datetime.now(): ', ccc
-                # ccc = ccc.replace(tzinfo=None, )
-                # print 'datetime.now().replace(tzinfo=None, ): ', ccc
-                print '==================================================================='
+                print('===================================================================')
                 aaa = timedelta(hours=2, )
-                print 'TimeDelta: timedelta(hours=2, ): ', aaa
+                print('TimeDelta: timedelta(hours=2, ): ', aaa)
                 bbb = mail_account.auto_active_datetime
-                print 'mail_account.auto_active_datetime: ', bbb
+                print('mail_account.auto_active_datetime: ', bbb)
                 bbb = bbb.replace(tzinfo=None, )
-                print 'mail_account.auto_active_datetime.replace(tzinfo=None): ', bbb
+                print('mail_account.auto_active_datetime.replace(tzinfo=None): ', bbb)
                 bbb += aaa
-                print 'mail_account.auto_active_datetime.replace(tzinfo=None) + TimeDelta: ', bbb
+                print('mail_account.auto_active_datetime.replace(tzinfo=None) + TimeDelta: ', bbb)
                 ccc = datetime.now()
-                print 'datetime.now(): ', ccc
+                print('datetime.now(): ', ccc)
                 ccc = ccc.replace(tzinfo=None, )
-                print 'datetime.now().replace(tzinfo=None, ): ', ccc
-                print '==================================================================='
-                """ Берем дататайм из базы убираем часовой пояс + 2 часа нашего часового пояса + смещение 1 день 1 час 30 минут """
-                datetimedelta = mail_account.auto_active_datetime.replace(tzinfo=None, ) + timedelta(hours=2, ) + timedelta(days=1, hours=1, minutes=30, )
-                if datetimedelta < datetime.now():
+                print('datetime.now().replace(tzinfo=None, ): ', ccc)
+                print('===================================================================')
+                """ Берем дататайм из базы,
+                    убираем часовой пояс,
+                    + 2 часа нашего часового пояса,
+                    + смещение 1 день 1 час 30 минут """
+                datetime_delta = mail_account.auto_active_datetime.\
+                                     replace(tzinfo=None, )\
+                                     + timedelta(hours=2, )\
+                                     + timedelta(days=1, hours=1, minutes=30, )
+                if datetime_delta < datetime.now():
                     mail_account.is_auto_active = True
                     mail_account.save()
-                    print 'MailAccount: ', mail_account
+                    print('MailAccount: ', mail_account)
                     return mail_account
 
 
 def Backend(mail_account=None, ):
     if mail_account is None:
-        mail_account = Mail_Account()
+        mail_account = get_mail_account()
 
     if mail_account.server.use_ssl and not mail_account.server.use_tls:
         backend='apps.delivery.backends.smtp.EmailBackend',
@@ -148,87 +144,90 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
     else:
         return True
 
-import sys
-from apps.authModel.models import Email
-from apps.delivery.models import SpamEmail
 
+def get_email(delivery, email_class=None, pk=False, query=False, ):
 
-def get_email(delivery, email_class=None, pk=False, ):
-    from apps.delivery.models import EmailForDelivery
-    if email_class is None or (email_class != Email and email_class != SpamEmail):
-        from apps.authModel.models import Email as email_class
+    from apps.delivery.models import SpamEmail as EmailClass
+    if email_class is None or\
+            (email_class != Email and email_class != SpamEmail) or\
+            email_class == Email:
+        from apps.authModel.models import Email as EmailClass
 
-    last_emails = email_class.objects.filter(bad_email=False, ).order_by('-id', )[:1]
-    last_email = last_emails[0]
-    loop =True
-    while loop:
-        # print '.',
-        sys.stdout.flush()
-        random_email_pk = random(last_email, )
-        """ Если закончились цифры для перебора в рандоме - то выходим """
-        if not random_email_pk:
-            return False
+    if pk:
         try:
-            if pk:
-                try:
-                    pk = int(pk, )
-                    print 'pk: ', pk
-                except ValueError:
-                    print 'pk: ', pk
-                    return False
-                else:
-                    email = email_class.objects.get(pk=pk, )
-            else:
-                email = email_class.objects.get(pk=random_email_pk, bad_email=False, )
-        except email_class.DoesNotExist:
-            if pk:
-                print 'pk DoesNotExit: ', pk
+            pk = int(pk, )
+            try:
+                return EmailClass.objects.get(pk=pk, )
+            except EmailClass.DoesNotExist:
+                print('pk DoesNotExit: ', pk)
                 return False
-        else:
-            if pk:
-                return email
+
+        except (TypeError, ValueError):
+            return False
+
+    if not query:
+        query = Q(bad_email=False)
+    # emails = EmailClass.objects.filter(bad_email=False, ).order_by('-id', )[:1]
+    # last_email = emails[0]
+    last_email = EmailClass.objects.filter(query, ).latest('id', )
+    while True:
+        sys.stdout.flush()
+        try:
+            random_pk = random(last_email, query)
+            if not random_pk:
+                """ Если закончились цифры для перебора в рандоме - то выходим """
+                return False
+
+            email = EmailClass.objects.get(pk=random_pk, bad_email=False, )
+
             try:
                 EmailForDelivery.objects.get(delivery__delivery=delivery,
                                              content_type=email.content_type,
                                              object_id=email.pk, )
             except EmailForDelivery.DoesNotExist:
-                # print '\n'
                 return email
             except EmailForDelivery.MultipleObjectsReturned:
-                emails_fordelivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
-                                                                     content_type=email.content_type,
-                                                                     object_id=email.pk, )
-                i = 0
-                for email in emails_fordelivery:
-                    i += 1
-                    print 'i: ', i, ' - ', email
+                emails_for_delivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
+                                                                      content_type=email.content_type,
+                                                                      object_id=email.pk, )
+                i = 1
+                for email in emails_for_delivery:
+                    print('i: ', i, ' - ', email); i += 1
 
+        except EmailClass.DoesNotExist:
+            pass
 
-def random(last_email, ):
+def random(last_email, query=False):
+    if not query:
+        query = Q(bad_email=False)
+
     if isinstance(last_email, Email, ):
         random_list = random_Email
-        count_Emails = Email.objects.filter().count()
-        # print 'random_Email: ', random_list
+        count_emails = Email.objects.filter(query).count()
     elif isinstance(last_email, SpamEmail, ):
         random_list = random_SpamEmail
-        count_Emails = SpamEmail.objects.filter().count()
-        # print 'random_SpamEmail: ', random_list
-    len_random_list = len(random_list, ) - 5
-    """ Если длина листа больше чем количество емыйлов в базе - то выходим """
-    if len_random_list > count_Emails:
-        return False
+        count_emails = SpamEmail.objects.filter(query).count()
+
     random_false = False
     while True:
+
+        """ Если длина листа больше чем количество емыйлов в базе - то выходим """
+        if len(random_list, ) - 5 >= count_emails:
+            return False
+
         random_email_pk = randrange(1, last_email.pk, )
+        """ Если такого pk еще нету в листе, то добавляем и выходим - возвращая pk """
         if random_email_pk not in random_list:
             random_list.append(random_email_pk, )
             if random_false:
-                print '\n'
+                print('\n')
             return random_email_pk
+
         else:
             random_false = True
-            print random_email_pk, ', ',
+            print(random_email_pk, ', ')
             sys.stdout.flush()
+
 
 named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
