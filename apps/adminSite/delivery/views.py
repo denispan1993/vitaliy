@@ -232,10 +232,11 @@ def start_delivery(request,
                                 and delivery_type == 'test' \
                                 and not delivery.send_test:
 
-                            call_command(name='processing_delivery_send_test',
-                                         delivery_pk=delivery_id,
-                                         delivery_test=True,
-                                         delivery_general=False, )
+                            pass
+#                            call_command(name='processing_delivery_send_test',
+#                                         delivery_pk=delivery_id,
+#                                         delivery_test=True,
+#                                         delivery_general=False, )
 
                         elif POST_NAME == 'start_delivery_general' \
                                 and delivery_type == 'general' \
@@ -247,9 +248,8 @@ def start_delivery(request,
                                          delivery_test=False,
                                          delivery_general=True, )
 
-                        processing_delivery\
-                            .apply_async(
-                            queue='delivery',
+                        processing_delivery.apply_async(
+                            queue='celery',
                             kwargs={'delivery_type': delivery_type, 'delivery_pk': delivery.pk, }, )
 
     return redirect(to='admin_delivery:index', )

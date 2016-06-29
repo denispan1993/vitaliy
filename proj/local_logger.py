@@ -123,6 +123,10 @@ LOGGING = {
             'handlers': ['celery', ],
             'level': 'ERROR',
         },
+        'proj.processor.response_Middleware': {
+            'handlers': ['log', ],
+            'level': 'DEBUG',
+        },
         #'celery': {
         #    'handlers': ['celery_sentry_handler', 'celery', ],
         #    'level': 'ERROR',

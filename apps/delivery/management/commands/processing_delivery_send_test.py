@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django.core.management.base import BaseCommand
+
+from smtplib import SMTPSenderRefused, SMTPDataError
+
+from apps.delivery.models import Delivery, EmailMiddleDelivery, EmailForDelivery
+from apps.delivery.utils import Mail_Account, get_email, create_msg, connect, send_msg
+from apps.authModel.models import Email
+
+
+__author__ = 'AlexStarov'
 
 
 class Command(BaseCommand, ):
@@ -22,20 +29,18 @@ class Command(BaseCommand, ):
     #    parser.add_argument('delivery_id', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        from apps.delivery.models import Delivery
         try:
             deliveryes = Delivery.objects.filter(delivery_test=True, send_test=False, )
         except Delivery.DoesNotExist:
             deliveryes = None
         else:
-            from apps.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
                 # print 'delivery', delivery
                 try:
                     EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
-                            send_test=True,
-                            send_general=False,
+                            delivery_test_send=True,
+                            delivery_send=False,
                             updated_at__lte=delivery.updated_at, )
                     #print aaa, delivery.updated_at
                 except:
@@ -48,19 +53,15 @@ class Command(BaseCommand, ):
                     """ Закрываем отсылку теста в самой рассылке """
                     delivery.send_test = True
                     delivery.save()
-                    from apps.authModel.models import Email
-                    from apps.delivery.utils import get_email
+
                     real_email = get_email(delivery=delivery, email_class=Email, pk=6, ) # pk=2836, )  # subscribe@keksik.com.ua
-                    from apps.delivery.models import EmailForDelivery
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                             now_email=real_email,
                                                             email=real_email, )
                     """ Отсылаем тестовое письмо """
-                    from apps.delivery.utils import Mail_Account
                     mail_account = Mail_Account(pk=1, )
-                    from apps.delivery.utils import create_msg, connect, send_msg
                     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
-                    from smtplib import SMTPSenderRefused, SMTPDataError
+
                     try:
                         connection = connect(mail_account=mail_account, fail_silently=False, )
                     except SMTPSenderRefused as e:
@@ -89,9 +90,9 @@ class Command(BaseCommand, ):
                     else:
                         send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
 
-
-                    real_email = get_email(delivery=delivery, email_class=Email, pk=6, ) # pk=3263, )  # check-auth2@verifier.port25.com
+                    real_email = get_email(delivery=delivery, email_class=Email, pk=7, ) # pk=3263, )  # check-auth2@verifier.port25.com
                     from apps.delivery.models import EmailForDelivery
+
                     email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                             now_email=real_email,
                                                             email=real_email, )
