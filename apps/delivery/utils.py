@@ -5,6 +5,8 @@ from email.mime.image import MIMEImage
 from re import split
 import sys
 from django.core.mail import EmailMessage, EmailMultiAlternatives
+from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected
+from django.core.mail.utils import DNS_NAME
 from django.utils.html import strip_tags
 from random import randrange, randint
 from datetime import datetime, timedelta
@@ -311,11 +313,13 @@ def create_msg(delivery, mail_account, email, exception=False, test=False, ):
 
 
 def connect(mail_account=False, timeout=False, fail_silently=True, ):
-    from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected
+    if not mail_account:
+        mail_account = get_mail_account()
+
     connection_class = SMTP_SSL if mail_account.server.use_ssl and \
                                    not mail_account.server.use_tls else SMTP
-    from django.core.mail.utils import DNS_NAME
     connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
+
     if timeout:
         connection_params['timeout'] = timeout
     try:
@@ -329,7 +333,7 @@ def connect(mail_account=False, timeout=False, fail_silently=True, ):
         if mail_account.username and mail_account.password:
             connection.login(mail_account.username, mail_account.password, )
         return connection
-    except SMTPException, SMTPServerDisconnected:
+    except (SMTPException, SMTPServerDisconnected):
         if not fail_silently:
             raise
         else:
@@ -349,15 +353,15 @@ def send_msg(connection, mail_account, email, msg, execption=False, ):
 
 
 def sleep_now(time, email, i, ):
-    print 'i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email
+    print('i: ', i, 'Pk: ', email.now_email.pk, ' - ', email.now_email.email)
     time_now = randrange(9, 33, )
     time += time_now
-    print 'Time_now: ', time_now, ' average time: ', time/i
+    print('Time_now: ', time_now, ' average time: ', time/i)
     for n in range(1, time_now, ):
-        print '.',
+        print('.',)
         sys.stdout.flush()
         sleep(1, )
-    print '\n'
+    print('\n')
     return time
 
 

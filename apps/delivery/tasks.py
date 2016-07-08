@@ -126,7 +126,7 @@ def processing_delivery(*args, **kwargs):
                                             email=real_email, )
 
     mail_account = get_mail_account()
-    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
+    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
 
     send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
