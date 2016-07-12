@@ -1,12 +1,38 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django.contrib import admin
 
 from apps.utils.mediafile.models import MediaFile
 from django.contrib.contenttypes import generic
+from django.utils.translation import ugettext_lazy as _
 
+from apps.delivery.models import MailServer
 from apps.delivery.models import MailAccount
+
+__author__ = 'AlexStarov'
+
+
+class MailServerAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'server_name', 'use_smtp', 'server_smtp', 'port_smtp', 'use_ssl_smtp', 'use_tls_smtp',
+                    'use_imap', 'use_pop3',
+                    'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'use_smtp', 'server_name', 'server_smtp', 'port_smtp', 'use_imap', 'use_pop3', ]
+
+    fieldsets = [
+        (None, {'classes': ['wide'], 'fields': ['server_name', 'is_active', 'server_smtp', 'port_smtp',
+                                                'use_ssl_smtp', 'use_tls_smtp', ],
+                },
+         ),
+        (_(u'IMAP'), {'classes': ['collapse'], 'fields': ['use_imap', 'server_imap', 'port_imap',
+                                                          'use_ssl_imap', 'use_tls_imap', ],
+                      },
+         ),
+        (_(u'POP3'), {'classes': ['collapse'], 'fields': ['use_pop3', 'server_pop3', 'port_pop3',
+                                                          'use_ssl_pop3', 'use_tls_pop3', ],
+                      },
+         ),
+        ]
+
+admin.site.register(MailServer, MailServerAdmin, )
 
 
 class MailAccountAdmin(admin.ModelAdmin, ):
@@ -15,13 +41,6 @@ class MailAccountAdmin(admin.ModelAdmin, ):
 admin.site.register(MailAccount, MailAccountAdmin, )
 
 
-from apps.delivery.models import MailServer
-
-
-class MailServerAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'is_active', 'server', 'port', 'use_tls', 'use_ssl', 'created_at', 'updated_at', ]
-    list_display_links = ['pk', 'server', 'port', ]
-admin.site.register(MailServer, MailServerAdmin, )
 
 
 class genericStacked_MediaFile_InLine(generic.GenericStackedInline, ):

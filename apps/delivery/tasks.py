@@ -134,6 +134,98 @@ def processing_delivery(*args, **kwargs):
     return '__name__: {0}'.format(str(__name__))
 
 
+def str_encode(string='', encoding=None, errors='strict'):
+    return unicode(string, encoding, errors)
+
+def str_decode(value='', encoding=None, errors='strict'):
+    return value.decode(encoding, errors)
+
+import re
+import quopri
+import base64
+from imaplib import IMAP4, IMAP4_SSL
+
+
+#@celery_app.task()
+def get_mail_imap(*args, **kwargs):
+    mail_account = get_mail_account(pk=2, smtp=False, imap=True, )
+
+    server_IMAP = IMAP4_SSL(host=mail_account.server.server_imap,
+                            port=mail_account.server.port_imap, )
+
+    server_IMAP.login(user=mail_account.username,
+                      password=mail_account.password, )
+
+    server_IMAP.select(mailbox='inbox', )
+
+    result, ids = server_IMAP.search(
+        None, 'ALL')
+
+    result_ids = set()
+
+    if result == 'OK':
+
+        for id in ids[0].split():
+            fetch = server_IMAP.fetch(message_set=id,
+                                      message_parts='(BODY[HEADER])', )
+            print 'fetch: ', fetch
+            fetch = server_IMAP.fetch(message_set=id,
+                                      message_parts='(BODY[TEXT])', )
+            print 'fetch: ', fetch
+            fetch = server_IMAP.fetch(message_set=id,
+                                      message_parts='(BODY)', )
+            print 'fetch: ', fetch
+            fetch = server_IMAP.fetch(message_set=id,
+                                      message_parts='(BODY.PEEK[HEADER.FIELDS (SUBJECT)])', )
+            print 'fetch: ', fetch
+            subj = fetch[1][0][1].strip()
+            print '\t' + quopri.decodestring(subj.encode('utf-8', ), ).decode('utf-8', )
+            print '====================================== Convert ========================================='
+            try:
+                name, v = subj.split(': ', 1)
+            except ValueError:
+                print '\t===================== Next ============================'
+                continue
+
+            print 'id: ', id
+            print 'Name: ', name
+            values = v.split('\n')
+            value_results = []
+            for value in values:
+                print value
+                match = re.search(r'=\?((?:\w|-)+)\?(Q|q|B|b)\?(.+)\?=', value)
+                print 'match: ', match
+                if match:
+                    encoding, type_, code = match.groups()
+                    print 'encoding: ', encoding
+                    print 'type_: ', type_
+                    print 'code: ', code
+                    if type_.upper() == 'Q':
+                        value = quopri.decodestring(code)
+                        print 'type_Q: value() ', value
+                    elif type_.upper() == 'B':
+                        value = base64.decodestring(code)
+                        print 'type_B: value() ', value
+                    value = str_encode(value, encoding)
+                    print 'str_encode: value ', value
+                    value_results.append(value)
+                    print 'value_results: ', value_results
+                    if value_results:
+                        v = ''.join(value_results)
+            print name
+            print v
+            print '====================================== The End ========================================='
+
+            if name == 'Subject' and v == u'Недоставленное сообщение':
+                result_ids.add(id)
+
+        # print '\t' + b64decode(subj, )
+
+    print 'Result_IDS: ', result_ids
+
+    return None
+
+
 @celery_app.task(run_every=timedelta(seconds=1))
 def test():
     print('All work!!!')

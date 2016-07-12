@@ -12,11 +12,88 @@ from datetime import datetime
 __author__ = 'AlexStarov'
 
 
+class MailServer(models.Model, ):
+    server_name = models.CharField(verbose_name=_(u'Server Name', ),
+                                   max_length=64,
+                                   blank=True,
+                                   null=True, )
+    use_smtp = models.BooleanField(verbose_name=_(u'Сервер активный', ),
+                                   blank=False,
+                                   null=False,
+                                   default=True, )
+
+    server_smtp = models.CharField(verbose_name=_(u'SMTP Server', ),
+                                   max_length=128,
+                                   blank=True,
+                                   null=True, )
+
+    port_smtp = models.PositiveSmallIntegerField(verbose_name=_(u'SMTP Port', ),
+                                                 blank=True,
+                                                 null=True,
+                                                 default=465, )
+    use_tls_smtp = models.BooleanField(verbose_name=_(u'SMTP Use TLS', ),
+                                       default=True, )
+    use_ssl_smtp = models.BooleanField(verbose_name=_(u'SMTP Use SSL', ),
+                                       default=False, )
+
+    use_imap = models.BooleanField(verbose_name=_(u'Use IMAP protocol', ),
+                                   default=False, )
+    server_imap = models.CharField(verbose_name=_(u'IMAP Server', ),
+                                   max_length=128,
+                                   blank=True,
+                                   null=True, )
+    port_imap = models.PositiveSmallIntegerField(verbose_name=_(u'IMAP Port', ),
+                                                 blank=True,
+                                                 null=True,
+                                                 default=993, )
+    use_tls_imap = models.BooleanField(verbose_name=_(u'IMAP Use TLS', ),
+                                       default=True, )
+    use_ssl_imap = models.BooleanField(verbose_name=_(u'IMAP Use SSL', ),
+                                       default=False, )
+
+    use_pop3 = models.BooleanField(verbose_name=_(u'Use POP3 protocol', ),
+                                   default=False, )
+    server_pop3 = models.CharField(verbose_name=_(u'POP3 Server', ),
+                                   max_length=128,
+                                   blank=True,
+                                   null=True, )
+    port_pop3 = models.PositiveSmallIntegerField(verbose_name=_(u'POP3 Port', ),
+                                                 blank=True,
+                                                 null=True,
+                                                 default=995, )
+    use_tls_pop3 = models.BooleanField(verbose_name=_(u'POP3 Use TLS', ),
+                                       default=True, )
+    use_ssl_pop3 = models.BooleanField(verbose_name=_(u'POP3 Use SSL', ),
+                                       default=False, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+                                      # default=datetime.now(), )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+                                      # default=datetime.now(), )
+
+    def __unicode__(self):
+        return u'%s:%d' % (self.server_smtp, self.port_smtp, )
+
+    class Meta:
+        db_table = 'MailServer'
+        ordering = ['-created_at', ]
+        verbose_name = u'Mail Server'
+        verbose_name_plural = u'Mail Servers'
+
+
 class MailAccount(models.Model, ):
     is_active = models.BooleanField(verbose_name=_(u'Аккаунт активный', ),
                                     blank=False,
                                     null=False,
                                     default=True, )
+
     is_auto_active = models.BooleanField(verbose_name=_(u'Аккаунт автоматически активный', ),
                                          blank=False,
                                          null=False,
@@ -25,14 +102,11 @@ class MailAccount(models.Model, ):
                                                 blank=False,
                                                 null=False,
                                                 default=datetime.now, )
+
     email = models.CharField(verbose_name=_(u'E-Mail', ),
                              max_length=64,
                              blank=False,
                              null=False, )
-    server = models.ForeignKey(verbose_name=_(u'SMTP Server', ),
-                               to='MailServer',
-                               blank=False,
-                               null=False, )
     username = models.CharField(verbose_name=_(u'UserName - login', ),
                                 max_length=64,
                                 blank=False,
@@ -41,6 +115,12 @@ class MailAccount(models.Model, ):
                                 max_length=64,
                                 blank=False,
                                 null=False, )
+
+    server = models.ForeignKey(verbose_name=_(u'Server', ),
+                               to='MailServer',
+                               blank=False,
+                               null=False, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
@@ -67,53 +147,14 @@ class MailAccount(models.Model, ):
     #     return self.server.is_active
 
     def __unicode__(self):
-        return u'%s -> %s:%d' % (self.email, self.server.server, self.server.port, )
+        return u'%s -> %s:%d' % (self.email, self.server.server_smtp, self.server.port_smtp, )
 
     class Meta:
         db_table = 'MailAccount'
         ordering = ['-created_at', ]
         get_latest_by = 'pk'
-        verbose_name = u'SMTP Account'
-        verbose_name_plural = u'SMTP Accounts'
-
-
-class MailServer(models.Model, ):
-    is_active = models.BooleanField(verbose_name=_(u'Сервер активный', ),
-                                    blank=False,
-                                    null=False,
-                                    default=True, )
-    server = models.CharField(verbose_name=_(u'SMTP Server', ),
-                              max_length=64,
-                              blank=False,
-                              null=False, )
-    port = models.PositiveSmallIntegerField(verbose_name=_(u'SMTP Port', ),
-                                            blank=True,
-                                            null=True,
-                                            default=25, )
-    use_tls = models.BooleanField(verbose_name=_(u'Use TLS', ),
-                                  default=True, )
-    use_ssl = models.BooleanField(verbose_name=_(u'Use SSL', ),
-                                  default=False, )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_(u'Дата создания', ),
-                                      blank=True,
-                                      null=True, )
-                                      # default=datetime.now(), )
-    updated_at = models.DateTimeField(auto_now=True,
-                                      verbose_name=_(u'Дата обновления', ),
-                                      blank=True,
-                                      null=True, )
-                                      # default=datetime.now(), )
-
-    def __unicode__(self):
-        return u'%s:%d' % (self.server, self.port, )
-
-    class Meta:
-        db_table = 'MailServer'
-        ordering = ['-created_at', ]
-        verbose_name = u'SMTP Server'
-        verbose_name_plural = u'SMTP Servers'
+        verbose_name = u'Mail Account'
+        verbose_name_plural = u'Mail Accounts'
 
 
 def datetime_in_iso_format():

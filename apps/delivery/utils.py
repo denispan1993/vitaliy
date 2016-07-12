@@ -41,7 +41,7 @@ def parsing(value, key, ):
     return value
 
 
-def get_mail_account(pk=False, ):
+def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
     if pk:
         try:
             pk = int(pk, )
@@ -52,7 +52,15 @@ def get_mail_account(pk=False, ):
         except (TypeError, ValueError):
             return False
 
-    mail_accounts = MailAccount.objects.filter(is_active=True, ).order_by('?')
+    query = MailAccount.objects.all()
+    if smtp:
+        query += Q(server__use_smtp=True, ) & Q(is_active=True, )
+    if imap:
+        query += Q(server__use_imap=True, )
+    if pop3:
+        query += Q(server__use_pop3=True, )
+
+    mail_accounts = query.order_by('?')
 
     len_mail_accounts = len(mail_accounts, )
 
@@ -60,12 +68,15 @@ def get_mail_account(pk=False, ):
         mail_account_id = randrange(1, len_mail_accounts, )
         try:
             mail_account = mail_accounts[mail_account_id]
-        except IndexError:
-            pass
-        else:
-            if mail_account.is_auto_active:
+
+            if not smtp and (imap or pop3):
                 print('MailAccount: ', mail_account)
                 return mail_account
+
+            if not mail_account.is_auto_active:
+                print('MailAccount: ', mail_account)
+                return mail_account
+
             else:
                 print('===================================================================')
                 aaa = timedelta(hours=2, )
@@ -95,6 +106,9 @@ def get_mail_account(pk=False, ):
                     print('MailAccount: ', mail_account)
                     return mail_account
 
+        except IndexError:
+            pass
+
 
 def Backend(mail_account=None, ):
     if mail_account is None:
@@ -107,13 +121,13 @@ def Backend(mail_account=None, ):
     else:
         return None
     backend = get_connection(backend=backend,
-                             host=mail_account.server.server,
-                             port=mail_account.server.port,
+                             host=mail_account.server.server_smtp,
+                             port=mail_account.server.port_smtp,
                              username=mail_account.username,
                              password=mail_account.password,
-                             use_tls=mail_account.server.use_tls,
+                             use_tls=mail_account.server.use_tls_smtp,
                              fail_silently=False,
-                             use_ssl=mail_account.server.use_ssl,
+                             use_ssl=mail_account.server.use_ssl_smtp,
                              timeout=10, )
 
     return backend

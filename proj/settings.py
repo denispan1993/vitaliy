@@ -321,7 +321,7 @@ INSTALLED_APPS = (
     'django_jinja',
     'djcelery',
     'kombu.transport.django',
-    'django_mailbox',
+    # 'django_mailbox',
     #'bootstrap',
     #'bootstrap3',
     # Uncomment the next line to enable admin documentation:
