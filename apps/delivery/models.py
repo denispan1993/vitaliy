@@ -631,6 +631,11 @@ class SpamEmail(models.Model, ):
                                                default=True, )
     bad_email = models.BooleanField(verbose_name=_(u'Bad E-Mail', ),
                                     default=False, )
+    error550 = models.BooleanField(verbose_name=_(u'Error 550', ),
+                                   default=False, )
+    error550_date = models.DateField(verbose_name=_(u'Error 550 Date', ),
+                                     blank=True,
+                                     null=True, )
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
@@ -648,3 +653,49 @@ class SpamEmail(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Емэйл для спама'
         verbose_name_plural = u'Емэйлы для спама'
+
+
+class RawEmail(models.Model, ):
+    account = models.ForeignKey(to=MailAccount,
+                                verbose_name=_(u'MailBox', ),
+                                blank=True,
+                                null=True, )
+
+    message_id_header = models.CharField(verbose_name=_('Message-Id header'),
+                                         max_length=255,
+                                         blank=True,
+                                         null=True, )
+
+    from_header = models.CharField(verbose_name=_('From header'),
+                                   max_length=255,
+                                   blank=True,
+                                   null=True, )
+
+    to_header = models.TextField(verbose_name=_(u'To header'),
+                                 blank=True,
+                                 null=True, )
+
+    subject_header = models.TextField(verbose_name=_(u'Subject header'),
+                                      blank=True,
+                                      null=True, )
+
+    raw_email = models.TextField(verbose_name=_(u'Raw Email'),
+                                 blank=True,
+                                 null=True, )
+
+    # Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    def __unicode__(self):
+        return u'RawEmail: pk: %6d, Account: %s From: <%s>, To: <%s> | created_at: %s, updated_at: %s'\
+               % (self.pk, self.account.email, self.from_header, self.to_header, self.created_at, self.updated_at, )
+
+    class Meta:
+        db_table = 'RawEmail'
+        ordering = ['-created_at', ]
+        verbose_name = u'RawЕмэйл'
+        verbose_name_plural = u'RawЕмэйлы'

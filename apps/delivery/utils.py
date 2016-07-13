@@ -213,6 +213,18 @@ def get_email(delivery, email_class=None, pk=False, query=False, ):
         except EmailClass.DoesNotExist:
             pass
 
+
+def get_email_by_str(email, ):
+
+    try:
+        return Email.objects.get(email=email, )
+    except Email.DoesNotExist:
+        try:
+            return SpamEmail.objects.get(email=email, )
+        except SpamEmail.DoesNotExist:
+            return False
+
+
 def random(last_email, query=False):
     if not query:
         query = Q(bad_email=False)

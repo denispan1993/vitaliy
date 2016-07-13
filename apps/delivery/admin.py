@@ -5,8 +5,9 @@ from apps.utils.mediafile.models import MediaFile
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
 
-from apps.delivery.models import MailServer
-from apps.delivery.models import MailAccount
+from .models import MailServer, MailAccount, Email_Img, Delivery, EmailMiddleDelivery,\
+    EmailForDelivery, SpamEmail, TraceOfVisits, RawEmail
+
 
 __author__ = 'AlexStarov'
 
@@ -47,8 +48,6 @@ class genericStacked_MediaFile_InLine(generic.GenericStackedInline, ):
     model = MediaFile
     extra = 1
 
-from apps.delivery.models import Delivery
-
 
 class DeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'delivery_test', 'type', 'subject', 'created_at', 'updated_at', ]
@@ -63,8 +62,6 @@ class DeliveryAdmin(admin.ModelAdmin, ):
 
 admin.site.register(Delivery, DeliveryAdmin, )
 
-from apps.delivery.models import Email_Img
-
 
 class Email_ImgAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'tag_name', 'image', 'created_at', 'updated_at', ]
@@ -72,23 +69,16 @@ class Email_ImgAdmin(admin.ModelAdmin, ):
 admin.site.register(Email_Img, Email_ImgAdmin, )
 
 
-from apps.delivery.models import EmailMiddleDelivery
-
-
 class EmailMiddleDeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'delivery', 'delivery_test_send', 'delivery_send', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'delivery', ]
 admin.site.register(EmailMiddleDelivery, EmailMiddleDeliveryAdmin, )
-
-from apps.delivery.models import EmailForDelivery
 
 
 class EmailForDeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'delivery', 'key', 'send', 'created_at', ]
     list_display_links = ['pk', 'delivery', 'key', ]
 admin.site.register(EmailForDelivery, EmailForDeliveryAdmin, )
-
-from apps.delivery.models import SpamEmail
 
 
 class SpamEmailAdmin(admin.ModelAdmin, ):
@@ -101,8 +91,6 @@ class SpamEmailAdmin(admin.ModelAdmin, ):
 
 admin.site.register(SpamEmail, SpamEmailAdmin, )
 
-from apps.delivery.models import TraceOfVisits
-
 
 class TraceOfVisitsAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'delivery', 'email_fk', 'sessionid', 'url',
@@ -111,6 +99,13 @@ class TraceOfVisitsAdmin(admin.ModelAdmin, ):
     search_fields = ['url', ]
 
 admin.site.register(TraceOfVisits, TraceOfVisitsAdmin, )
+
+
+class RawEmailAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'message_id_header', 'from_header', 'to_header', 'subject_header', ]
+    list_display_links = ['pk', 'message_id_header', 'from_header', 'to_header', 'subject_header', ]
+
+admin.site.register(RawEmail, RawEmailAdmin, )
 
 #class CouponAdmin(admin.ModelAdmin, ):
 #    list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
