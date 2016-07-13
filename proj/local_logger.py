@@ -64,7 +64,7 @@ LOGGING = {
         'production': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../logs/keksik_com_ua/logging/production.log',
+            'filename': '../../logs/keksik_com_ua/logging/production.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -73,7 +73,7 @@ LOGGING = {
         'log': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../logs/keksik_com_ua/logging/log.log',
+            'filename': '../../logs/keksik_com_ua/logging/log.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -81,7 +81,7 @@ LOGGING = {
         'debug': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../logs/keksik_com_ua/logging/debug.log',
+            'filename': '../../logs/keksik_com_ua/logging/debug.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'main',
@@ -89,7 +89,7 @@ LOGGING = {
         'celery': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '../logs/keksik_com_ua/logging/celery.log',
+            'filename': '../../logs/keksik_com_ua/logging/celery.log',
             'when': 'd',
             'backupCount': 7,
             'formatter': 'all_verbose',
@@ -121,7 +121,11 @@ LOGGING = {
         },
         'celery': {
             'handlers': ['celery', ],
-            'level': 'ERROR',
+            'level': 'DEBUG',
+        },
+        'apps.discount.tasks.processing_action': {
+            'handlers': ['celery', ],
+            'level': 'DEBUG',
         },
         #'celery': {
         #    'handlers': ['celery_sentry_handler', 'celery', ],
