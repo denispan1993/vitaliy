@@ -2,17 +2,33 @@
 from proj.celery import celery_app
 from datetime import datetime, timedelta
 from celery.utils.log import get_task_logger
+from time import sleep
 
 from django.db.models import Q
 from smtplib import SMTPSenderRefused, SMTPDataError
 
-from apps.delivery.models import Delivery, EmailMiddleDelivery, EmailForDelivery
+import email
+from imaplib import IMAP4_SSL
+
 from apps.authModel.models import Email
-from apps.delivery.utils import get_mail_account, get_email, create_msg, connect, send_msg
+from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, RawEmail
+from .utils import get_mail_account, get_email, create_msg, connect, send_msg, str_conv, get_email_by_str
 
 __author__ = 'AlexStarov'
 
 logger = get_task_logger(__name__)
+
+reason550 = {'google.com': 'said: 550-5.1.1 The email account that you tried to reach does not exist.',
+             'mail.ru': 'said: 550 Message was not accepted -- invalid mailbox.',
+             'ukr.net': 'said: 550-Message for',
+             'i.ua': 'said: 550 Mailbox is frozen.',
+             'bigmir.net': 'said: 550 Mailbox is frozen.',
+
+
+             'dalgakiran.com.ua': 'said: 550 5.2.1 Mailbox unavailable.',
+             'cook-time.com': 'said: 550 No Such User Here',
+             'wr0.ru': 'said: 554 5.7.1',
+             }
 
 
 def send(delivery, mail_account, email, msg):
@@ -134,80 +150,92 @@ def processing_delivery(*args, **kwargs):
     return '__name__: {0}'.format(str(__name__))
 
 
-from imaplib import IMAP4, IMAP4_SSL
-from email.parser import HeaderParser
-from .utils import str_conv
-
-
-#@celery_app.task()
+@celery_app.task()
 def get_mail_imap(*args, **kwargs):
-    mail_account = get_mail_account(pk=2, smtp=False, imap=True, )
+    mail_account = get_mail_account(smtp=False, imap=True, )
 
-    server_IMAP = IMAP4_SSL(host=mail_account.server.server_imap,
+    box = IMAP4_SSL(host=mail_account.server.server_imap,
                             port=mail_account.server.port_imap, )
 
-    server_IMAP.login(user=mail_account.username,
+    box.login(user=mail_account.username,
                       password=mail_account.password, )
 
-    server_IMAP.select(mailbox='inbox', )
+    box.select(mailbox='inbox', )
 
-    result, ids = server_IMAP.search(
-        None, 'ALL')
-
-    result_ids = set()
+    result, msg_nums = box.search(None, 'ALL')
 
     if result == 'OK':
 
-        for id in ids[0].split():
-            if id != '22':
-                continue
-            fetch = server_IMAP.fetch(message_set=id,
-                                      message_parts='(BODY[HEADER])', )
-            #print 'fetch: ', fetch
-            fetch = fetch[1][0][1]
-            print 'fetch: ', fetch
-            parser = HeaderParser()
-            msg = parser.parsestr(fetch)
-            print 'msg: ', msg
-            print "msg['Subject']: ", msg['Subject']
-            email_subj = msg['Subject']
-            email_from = msg['From']
-            email_to = msg['To']
+        for msg_num in msg_nums[0].split():
+            sleep(5)
+            result, fetch = box.fetch(message_set=msg_num,
+                                      message_parts='(RFC822)', )
+            if result == 'OK':
+                parse_msg = email.message_from_string(fetch[0][1])
 
-            #fetch = server_IMAP.fetch(message_set=id,
-            #                          message_parts='(BODY[TEXT])', )
-            #print 'fetch: ', fetch
-            #fetch = server_IMAP.fetch(message_set=id,
-            #                          message_parts='(BODY)', )
-            #print 'fetch: ', fetch
-#            fetch = server_IMAP.fetch(message_set=id,
-#                                      message_parts='(BODY.PEEK[HEADER.FIELDS (SUBJECT)])', )
-#            print 'fetch: ', fetch
-#            subj = fetch[1][0][1].strip()
-#            print '\t' + quopri.decodestring(subj.encode('utf-8', ), ).decode('utf-8', )
-#            print '====================================== Convert ========================================='
-#            try:
-#                name, v = subj.split(': ', 1)
-#            except ValueError:
-#                print '\t===================== Next ============================'
-#                continue
+                email_message_id = parse_msg['Message-Id']
+                email_from = parse_msg['From']
+                email_to = parse_msg['To']
+                email_subj = parse_msg['Subject']
 
-            subj = str_conv(email_subj)
-            print 'id: ', id
-            print 'subject: ', email_subj
-            print 'subject: ', subj
-            print 'from: ', email_from
-            print 'to: ', email_to
-            print '====================================== The End ========================================='
+                subj = str_conv(email_subj)
 
-            if subj == u'Недоставленное сообщение':
-                result_ids.add(id)
+                if subj == u'Недоставленное сообщение' \
+                        and email_from == 'mailer-daemon@yandex.ru' \
+                        and email_to == mail_account.email:
 
-        # print '\t' + b64decode(subj, )
+                    body = ''
+                    if parse_msg.is_multipart():
+                        for part in parse_msg.walk():
+                            ctype = part.get_content_type()
+                            cdispo = str(part.get('Content-Disposition'))
 
-    print 'Result_IDS: ', result_ids
+                            # skip any text/plain (txt) attachments
+                            if ctype == 'text/plain' and 'attachment' not in cdispo:
+                                body = part.get_payload(decode=True)  # decode
+                                break
+                    # not multipart - i.e. plain text, no attachments, keeping fingers crossed
+                    else:
+                        body = parse_msg.get_payload(decode=True)
 
-    return None
+                    list_lines = body.split('\r\n')
+                    for line_num, line in enumerate(list_lines):
+                        # print line_num, ': ', line
+                        if ('host' in line and 'said:' in line) \
+                                or ('host' in line and 'said:' in list_lines[line_num + 1]):
+
+                            i = 1
+                            while True:
+                                try:
+                                    line = ' '.join((line.strip(), list_lines[line_num + i].strip()))
+                                    i += 1
+                                except IndexError:
+                                    break
+
+                            if any((key in line and value in line) for key, value in reason550.iteritems()):
+
+                                email_str = line.split('>')[0].strip('<')
+                                email_obj = get_email_by_str(email=email_str, )
+
+                                if email_obj:
+                                    email_obj.error550 = True
+                                    email_obj.error550_date = datetime.today()
+                                    email_obj.save()
+
+                                RawEmail.objects.create(
+                                    account=mail_account,
+                                    message_id_header=email_message_id,
+                                    from_header=email_from,
+                                    to_header=email_to,
+                                    subject_header=subj,
+                                    raw_email=fetch[0][1],
+                                )
+
+                                box.store(msg_num, '+FLAGS', '\\Deleted')
+
+    box.close()
+    box.logout()
+    return datetime.now()
 
 
 @celery_app.task(run_every=timedelta(seconds=1))

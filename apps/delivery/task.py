@@ -2,6 +2,7 @@
 from proj.celery import celery_app
 from datetime import datetime, timedelta
 from celery.utils.log import get_task_logger
+from time import sleep
 
 from django.db.models import Q
 from smtplib import SMTPSenderRefused, SMTPDataError
@@ -166,6 +167,7 @@ def get_mail_imap(*args, **kwargs):
     if result == 'OK':
 
         for msg_num in msg_nums[0].split():
+            sleep(5)
             result, fetch = box.fetch(message_set=msg_num,
                                       message_parts='(RFC822)', )
             if result == 'OK':
