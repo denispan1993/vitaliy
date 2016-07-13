@@ -251,6 +251,11 @@ class Email(models.Model, ):
                                                default=True, )
     bad_email = models.BooleanField(verbose_name=_(u'Bad E-Mail', ),
                                     default=False, )
+    error550 = models.BooleanField(verbose_name=_(u'Error 550', ),
+                                   default=False, )
+    error550_date = models.DateField(verbose_name=_(u'Error 550 Date', ),
+                                     blank=True,
+                                     null=True, )
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )

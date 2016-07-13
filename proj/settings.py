@@ -12,13 +12,14 @@ BROKER_URL = 'django://localhost/'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_RESULT_BACKEND = BROKER_URL
+#CELERY_RESULT_BACKEND = BROKER_URL
 CELERY_IGNORE_RESULT = False
 
 CELERY_DEFAULT_QUEUE = 'celery'
 
 CELERY_QUEUES = (
     Queue('celery', Exchange('celery'), routing_key='celery'),
+    Queue('delivery', Exchange('delivery'), routing_key='delivery'),
 )
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
@@ -320,6 +321,7 @@ INSTALLED_APPS = (
     'django_jinja',
     'djcelery',
     'kombu.transport.django',
+    'django_mailbox',
     #'bootstrap',
     #'bootstrap3',
     # Uncomment the next line to enable admin documentation:

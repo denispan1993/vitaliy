@@ -6,7 +6,7 @@ from django.core.management import call_command
 from apps.authModel.models import Email
 from apps.delivery.models import Delivery, Email_Img, SpamEmail
 from apps.delivery.forms import DeliveryCreateEditForm
-from apps.delivery.tasks import processing_delivery
+from apps.delivery.tasks import pre_processing_delivery, processing_delivery
 
 __author__ = 'AlexStarov'
 
@@ -231,23 +231,27 @@ def start_delivery(request,
                         if POST_NAME == 'start_delivery_test' \
                                 and delivery_type == 'test' \
                                 and not delivery.send_test:
+                            pass
 
-                            call_command(name='processing_delivery_send_test',
-                                         delivery_pk=delivery_id,
-                                         delivery_test=True,
-                                         delivery_general=False, )
+#                            call_command(name='processing_delivery_send_test',
+#                                         delivery_pk=delivery_id,
+#                                         delivery_test=True,
+#                                         delivery_general=False, )
 
                         elif POST_NAME == 'start_delivery_general' \
                                 and delivery_type == 'general' \
                                 and delivery.send_test \
                                 and not delivery.send_general:
+                            pass
 
-                            call_command(name='processing_delivery_send',
-                                         delivery_pk=delivery_id,
-                                         delivery_test=False,
-                                         delivery_general=True, )
+                            #call_command(name='processing_delivery_send',
+                            #             delivery_pk=delivery_id,
+                            #             delivery_test=False,
+                            #             delivery_general=True, )
 
-                        processing_delivery(delivery_type=delivery_type, delivery_pk=delivery.pk)
+                        pre_processing_delivery.apply_async(
+                            queue='celery',
+                            kwargs={'delivery_type': delivery_type, 'delivery_pk': delivery.pk, }, )
 
     return redirect(to='admin_delivery:index', )
 
