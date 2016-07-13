@@ -134,16 +134,9 @@ def processing_delivery(*args, **kwargs):
     return '__name__: {0}'.format(str(__name__))
 
 
-def str_encode(string='', encoding=None, errors='strict'):
-    return unicode(string, encoding, errors)
-
-def str_decode(value='', encoding=None, errors='strict'):
-    return value.decode(encoding, errors)
-
-import re
-import quopri
-import base64
 from imaplib import IMAP4, IMAP4_SSL
+from email.parser import HeaderParser
+from .utils import str_conv
 
 
 #@celery_app.task()
@@ -166,57 +159,48 @@ def get_mail_imap(*args, **kwargs):
     if result == 'OK':
 
         for id in ids[0].split():
+            if id != '22':
+                continue
             fetch = server_IMAP.fetch(message_set=id,
                                       message_parts='(BODY[HEADER])', )
+            #print 'fetch: ', fetch
+            fetch = fetch[1][0][1]
             print 'fetch: ', fetch
-            fetch = server_IMAP.fetch(message_set=id,
-                                      message_parts='(BODY[TEXT])', )
-            print 'fetch: ', fetch
-            fetch = server_IMAP.fetch(message_set=id,
-                                      message_parts='(BODY)', )
-            print 'fetch: ', fetch
-            fetch = server_IMAP.fetch(message_set=id,
-                                      message_parts='(BODY.PEEK[HEADER.FIELDS (SUBJECT)])', )
-            print 'fetch: ', fetch
-            subj = fetch[1][0][1].strip()
-            print '\t' + quopri.decodestring(subj.encode('utf-8', ), ).decode('utf-8', )
-            print '====================================== Convert ========================================='
-            try:
-                name, v = subj.split(': ', 1)
-            except ValueError:
-                print '\t===================== Next ============================'
-                continue
+            parser = HeaderParser()
+            msg = parser.parsestr(fetch)
+            print 'msg: ', msg
+            print "msg['Subject']: ", msg['Subject']
+            email_subj = msg['Subject']
+            email_from = msg['From']
+            email_to = msg['To']
 
+            #fetch = server_IMAP.fetch(message_set=id,
+            #                          message_parts='(BODY[TEXT])', )
+            #print 'fetch: ', fetch
+            #fetch = server_IMAP.fetch(message_set=id,
+            #                          message_parts='(BODY)', )
+            #print 'fetch: ', fetch
+#            fetch = server_IMAP.fetch(message_set=id,
+#                                      message_parts='(BODY.PEEK[HEADER.FIELDS (SUBJECT)])', )
+#            print 'fetch: ', fetch
+#            subj = fetch[1][0][1].strip()
+#            print '\t' + quopri.decodestring(subj.encode('utf-8', ), ).decode('utf-8', )
+#            print '====================================== Convert ========================================='
+#            try:
+#                name, v = subj.split(': ', 1)
+#            except ValueError:
+#                print '\t===================== Next ============================'
+#                continue
+
+            subj = str_conv(email_subj)
             print 'id: ', id
-            print 'Name: ', name
-            values = v.split('\n')
-            value_results = []
-            for value in values:
-                print value
-                match = re.search(r'=\?((?:\w|-)+)\?(Q|q|B|b)\?(.+)\?=', value)
-                print 'match: ', match
-                if match:
-                    encoding, type_, code = match.groups()
-                    print 'encoding: ', encoding
-                    print 'type_: ', type_
-                    print 'code: ', code
-                    if type_.upper() == 'Q':
-                        value = quopri.decodestring(code)
-                        print 'type_Q: value() ', value
-                    elif type_.upper() == 'B':
-                        value = base64.decodestring(code)
-                        print 'type_B: value() ', value
-                    value = str_encode(value, encoding)
-                    print 'str_encode: value ', value
-                    value_results.append(value)
-                    print 'value_results: ', value_results
-                    if value_results:
-                        v = ''.join(value_results)
-            print name
-            print v
+            print 'subject: ', email_subj
+            print 'subject: ', subj
+            print 'from: ', email_from
+            print 'to: ', email_to
             print '====================================== The End ========================================='
 
-            if name == 'Subject' and v == u'Недоставленное сообщение':
+            if subj == u'Недоставленное сообщение':
                 result_ids.add(id)
 
         # print '\t' + b64decode(subj, )

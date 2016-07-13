@@ -402,3 +402,35 @@ def get_mid(div, eid):
     """ mid - Message id """
     return '{0}-{1}-{2:011x}-{3:x}'\
         .format(div, eid, int(mktime(datetime.now().timetuple())), randint(0, 10000000), )
+
+
+import re
+import quopri
+import base64
+
+
+def str_encode(string='', encoding=None, errors='strict'):
+    return unicode(string, encoding, errors)
+
+
+def str_decode(value='', encoding=None, errors='strict'):
+    return value.decode(encoding, errors)
+
+
+def str_conv(str, ):
+    values = str.split('\n')
+    value_results = []
+    for value in values:
+        match = re.search(r'=\?((?:\w|-)+)\?(Q|q|B|b)\?(.+)\?=', value)
+        if match:
+            encoding, type_, code = match.groups()
+            if type_.upper() == 'Q':
+                value = quopri.decodestring(code)
+            elif type_.upper() == 'B':
+                value = base64.decodestring(code)
+            value = str_encode(value, encoding)
+            value_results.append(value)
+            if value_results:
+                return ''.join(value_results)
+
+    return str
