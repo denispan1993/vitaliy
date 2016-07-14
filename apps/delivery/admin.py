@@ -19,7 +19,7 @@ class MailServerAdmin(admin.ModelAdmin, ):
     list_display_links = ['pk', 'use_smtp', 'server_name', 'server_smtp', 'port_smtp', 'use_imap', 'use_pop3', ]
 
     fieldsets = [
-        (None, {'classes': ['wide'], 'fields': ['server_name', 'is_active', 'server_smtp', 'port_smtp',
+        (None, {'classes': ['wide'], 'fields': ['server_name', 'use_smtp', 'server_smtp', 'port_smtp',
                                                 'use_ssl_smtp', 'use_tls_smtp', ],
                 },
          ),
