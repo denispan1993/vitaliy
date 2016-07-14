@@ -37,11 +37,9 @@ admin.site.register(MailServer, MailServerAdmin, )
 
 
 class MailAccountAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'is_active', 'is_auto_active', 'auto_active_datetime', 'email', 'username', 'created_at', 'updated_at', ]
+    list_display = ['pk', 'use_smtp', 'is_auto_active', 'auto_active_datetime', 'email', 'username', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'email', 'username', ]
 admin.site.register(MailAccount, MailAccountAdmin, )
-
-
 
 
 class genericStacked_MediaFile_InLine(generic.GenericStackedInline, ):

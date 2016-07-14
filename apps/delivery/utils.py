@@ -56,7 +56,7 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
             return False
 
     if smtp:
-        query = Q(server__use_smtp=True, ) & Q(is_active=True, )
+        query = Q(server__use_smtp=True, ) & Q(use_smtp=True, )
     if imap:
         query = Q(server__use_imap=True, )
     if pop3:

@@ -89,7 +89,7 @@ class MailServer(models.Model, ):
 
 
 class MailAccount(models.Model, ):
-    is_active = models.BooleanField(verbose_name=_(u'Аккаунт активный', ),
+    use_smtp = models.BooleanField(verbose_name=_(u'Аккаунт активный', ),
                                     blank=False,
                                     null=False,
                                     default=True, )
@@ -115,6 +115,12 @@ class MailAccount(models.Model, ):
                                 max_length=64,
                                 blank=False,
                                 null=False, )
+
+    use_imap = models.BooleanField(verbose_name=_(u'Use IMAP protocol', ),
+                                   default=False, )
+
+    use_pop3 = models.BooleanField(verbose_name=_(u'Use POP3 protocol', ),
+                                   default=False, )
 
     server = models.ForeignKey(verbose_name=_(u'Server', ),
                                to='MailServer',
