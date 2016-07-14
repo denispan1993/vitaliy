@@ -171,14 +171,13 @@ def get_mail_imap(*args, **kwargs):
         for msg_num in all_msg_nums[0].split():
 
             result, fetch = box.fetch(message_set=msg_num,
-                                      message_parts='(BODY.PEEK[HEADER.FIELDS(FROM TO SUBJECT)])', )
+                                      message_parts='(BODY.PEEK[HEADER.FIELDS(FROM SUBJECT)])', )
 
             if result == 'OK':
                 parse_msg = email.message_from_string(fetch[0][1])
 
                 if str_conv(parse_msg['Subject']) == u'Недоставленное сообщение' \
-                        and parse_msg['From'] == 'mailer-daemon@yandex.ru' \
-                        and parse_msg['To'] == mail_account.email:
+                        and parse_msg['From'] == 'mailer-daemon@yandex.ru':
 
                     msg_nums.add(msg_num)
 
