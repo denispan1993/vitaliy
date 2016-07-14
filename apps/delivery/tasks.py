@@ -162,11 +162,27 @@ def get_mail_imap(*args, **kwargs):
 
     box.select(mailbox='inbox', )
 
-    result, msg_nums = box.search(None, 'ALL')
+    result, all_msg_nums = box.search(None, 'ALL')
 
     if result == 'OK':
 
-        for msg_num in msg_nums[0].split():
+        msg_nums = set()
+
+        for msg_num in all_msg_nums[0].split():
+
+            result, fetch = box.fetch(message_set=msg_num,
+                                      message_parts='(BODY.PEEK[HEADER.FIELDS(FROM TO SUBJECT)])', )
+
+            if result == 'OK':
+                parse_msg = email.message_from_string(fetch[0][1])
+
+                if str_conv(parse_msg['Subject']) == u'Недоставленное сообщение' \
+                        and parse_msg['From'] == 'mailer-daemon@yandex.ru' \
+                        and parse_msg['To'] == mail_account.email:
+
+                    msg_nums.add(msg_num)
+
+        for msg_num in msg_nums:
             sleep(5)
             result, fetch = box.fetch(message_set=msg_num,
                                       message_parts='(RFC822)', )
@@ -176,62 +192,56 @@ def get_mail_imap(*args, **kwargs):
                 email_message_id = parse_msg['Message-Id']
                 email_from = parse_msg['From']
                 email_to = parse_msg['To']
-                email_subj = parse_msg['Subject']
+                subj = str_conv(parse_msg['Subject'])
 
-                subj = str_conv(email_subj)
+                body = ''
+                if parse_msg.is_multipart():
+                    for part in parse_msg.walk():
+                        ctype = part.get_content_type()
+                        cdispo = str(part.get('Content-Disposition'))
 
-                if subj == u'Недоставленное сообщение' \
-                        and email_from == 'mailer-daemon@yandex.ru' \
-                        and email_to == mail_account.email:
+                        # skip any text/plain (txt) attachments
+                        if ctype == 'text/plain' and 'attachment' not in cdispo:
+                            body = part.get_payload(decode=True)  # decode
+                            break
+                # not multipart - i.e. plain text, no attachments, keeping fingers crossed
+                else:
+                    body = parse_msg.get_payload(decode=True)
 
-                    body = ''
-                    if parse_msg.is_multipart():
-                        for part in parse_msg.walk():
-                            ctype = part.get_content_type()
-                            cdispo = str(part.get('Content-Disposition'))
+                list_lines = body.split('\r\n')
+                for line_num, line in enumerate(list_lines):
 
-                            # skip any text/plain (txt) attachments
-                            if ctype == 'text/plain' and 'attachment' not in cdispo:
-                                body = part.get_payload(decode=True)  # decode
+                    if ('host' in line and 'said:' in line) \
+                            or ('host' in line and 'said:' in list_lines[line_num + 1]):
+
+                        i = 1
+                        while True:
+                            try:
+                                line = ' '.join((line.strip(), list_lines[line_num + i].strip()))
+                                i += 1
+                            except IndexError:
                                 break
-                    # not multipart - i.e. plain text, no attachments, keeping fingers crossed
-                    else:
-                        body = parse_msg.get_payload(decode=True)
 
-                    list_lines = body.split('\r\n')
-                    for line_num, line in enumerate(list_lines):
+                        if any((key in line and value in line) for key, value in reason550.iteritems()):
 
-                        if ('host' in line and 'said:' in line) \
-                                or ('host' in line and 'said:' in list_lines[line_num + 1]):
+                            email_str = line.split('>')[0].strip('<')
+                            email_obj = get_email_by_str(email=email_str, )
 
-                            i = 1
-                            while True:
-                                try:
-                                    line = ' '.join((line.strip(), list_lines[line_num + i].strip()))
-                                    i += 1
-                                except IndexError:
-                                    break
+                            if email_obj:
+                                email_obj.error550 = True
+                                email_obj.error550_date = datetime.today()
+                                email_obj.save()
 
-                            if any((key in line and value in line) for key, value in reason550.iteritems()):
+                            RawEmail.objects.create(
+                                account=mail_account,
+                                message_id_header=email_message_id,
+                                from_header=email_from,
+                                to_header=email_to,
+                                subject_header=subj,
+                                raw_email=fetch[0][1],
+                            )
 
-                                email_str = line.split('>')[0].strip('<')
-                                email_obj = get_email_by_str(email=email_str, )
-
-                                if email_obj:
-                                    email_obj.error550 = True
-                                    email_obj.error550_date = datetime.today()
-                                    email_obj.save()
-
-                                RawEmail.objects.create(
-                                    account=mail_account,
-                                    message_id_header=email_message_id,
-                                    from_header=email_from,
-                                    to_header=email_to,
-                                    subject_header=subj,
-                                    raw_email=fetch[0][1],
-                                )
-
-                                box.store(msg_num, '+FLAGS', '\\Deleted')
+                            box.store(msg_num, '+FLAGS', '\\Deleted')
 
     box.close()
     box.logout()
