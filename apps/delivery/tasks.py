@@ -180,7 +180,6 @@ def get_mail_imap(*args, **kwargs):
 
                     msg_nums.add(msg_num)
 
-        print msg_nums
         for msg_num in msg_nums:
             sleep(5)
             result, fetch = box.fetch(message_set=msg_num,
@@ -231,7 +230,7 @@ def get_mail_imap(*args, **kwargs):
                                 email_obj.error550_date = datetime.today()
                                 email_obj.save()
 
-                            RawEmail.objects.create(
+                            raw_email_obj = RawEmail.objects.create(
                                 account=mail_account,
                                 message_id_header=email_message_id,
                                 from_header=email_from,
@@ -240,8 +239,10 @@ def get_mail_imap(*args, **kwargs):
                                 raw_email=fetch[0][1],
                             )
 
-                            box.store(msg_num, '+FLAGS', '\\Deleted')
-
+                            if email_obj and raw_email_obj:
+                                box.store(msg_num, '+FLAGS', '\\Deleted')
+                            else:
+                                box.store(msg_num, '-FLAGS', '\\Seen')
     box.close()
     box.logout()
     return datetime.now()
