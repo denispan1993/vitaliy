@@ -204,5 +204,5 @@ class Event(models.Model):
     class Meta:
         db_table = 'Calendar'
         ordering = ['-created_at']
-        verbose_name = u'Собитие'
+        verbose_name = u'Событие'
         verbose_name_plural = u'События'
