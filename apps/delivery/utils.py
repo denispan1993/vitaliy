@@ -58,9 +58,9 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
     if smtp:
         query = Q(server__use_smtp=True, ) & Q(use_smtp=True, )
     if imap:
-        query = Q(server__use_imap=True, )
+        query = Q(server__use_imap=True, ) & Q(use_imap=True, )
     if pop3:
-        query = Q(server__use_pop3=True, )
+        query = Q(server__use_pop3=True, ) & Q(use_pop3=True, )
 
     mail_accounts = MailAccount.objects.filter(query, ).order_by('?')
 
