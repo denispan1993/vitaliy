@@ -10,15 +10,18 @@ from django.core.mail.utils import DNS_NAME
 from django.utils.html import strip_tags
 from random import randrange, randint
 from datetime import datetime, timedelta
-from time import mktime, time, sleep
+from time import mktime, sleep
 from django.db.models import Q
-
 from django.core.mail import get_connection
 from logging import getLogger
 from apps.delivery import random_Email, random_SpamEmail
+
+from dns.resolver import NXDOMAIN, NoAnswer, NoNameservers
+
 from email.utils import formataddr
-from apps.delivery.models import MailAccount, EmailForDelivery, SpamEmail
 from apps.authModel.models import Email
+
+from .models import MailAccount, EmailForDelivery, SpamEmail
 
 __author__ = 'AlexStarov'
 
@@ -52,15 +55,14 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
         except (TypeError, ValueError):
             return False
 
-    query = MailAccount.objects.all()
     if smtp:
-        query += Q(server__use_smtp=True, ) & Q(is_active=True, )
+        query = Q(server__use_smtp=True, ) & Q(is_active=True, )
     if imap:
-        query += Q(server__use_imap=True, )
+        query = Q(server__use_imap=True, )
     if pop3:
-        query += Q(server__use_pop3=True, )
+        query = Q(server__use_pop3=True, )
 
-    mail_accounts = query.order_by('?')
+    mail_accounts = MailAccount.objects.filter(query, ).order_by('?')
 
     len_mail_accounts = len(mail_accounts, )
 
@@ -143,9 +145,8 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
     if resolver is None:
         import dns.resolver
         resolver = dns.resolver.Resolver()
-        resolver.nameservers = ['192.168.1.100', ]
+        resolver.nameservers = ['192.168.1.100', '192.168.5.100', ]
 
-    from dns.resolver import NXDOMAIN, NoAnswer, NoNameservers
     try:
         resolver.query(domain, 'mx', )
     except NXDOMAIN:

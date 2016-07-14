@@ -200,7 +200,7 @@ def get_mail_imap(*args, **kwargs):
 
                     list_lines = body.split('\r\n')
                     for line_num, line in enumerate(list_lines):
-                        # print line_num, ': ', line
+
                         if ('host' in line and 'said:' in line) \
                                 or ('host' in line and 'said:' in list_lines[line_num + 1]):
 
