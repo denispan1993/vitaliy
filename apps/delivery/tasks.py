@@ -53,6 +53,48 @@ def send(delivery, mail_account, email, msg):
 
 
 @celery_app.task()
+def processing_delivery_test(*args, **kwargs):
+    delivery_pk = kwargs.get('delivery_pk')
+
+    try:
+        """ Исключаем:
+            1. Тестовая рассылка и она отослана.
+            2. Не тестовая рассылка и она отослана.
+        """
+        delivery = Delivery.objects\
+            .get(~Q(delivery_test=True, send_test=True, send_spam=False) | \
+                 ~Q(delivery_test=False, send_test=True, send_spam=True), pk=delivery_pk, )
+
+        """ Создаем ссылочку на отсылку рассылки """
+        email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
+                                                                   delivery_test_send=True,
+                                                                   delivery_send=False, )
+        """ Закрываем отсылку теста в самой рассылке """
+        delivery.send_test = True
+        delivery.save()
+
+        real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
+        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                now_email=real_email,
+                                                email=real_email, )
+        mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
+        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
+        """ Посылаем письмо - subscribe@keksik.com.ua """
+        send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
+
+        """ Посылаем письмо - check-auth2@verifier.port25.com """
+        real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
+        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                now_email=real_email,
+                                                email=real_email, )
+        send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
+
+    except Delivery.DoesNotExist:
+        return False
+
+    return True, datetime.now(), '__name__: {0}'.format(str(__name__))
+
+@celery_app.task()
 def pre_processing_delivery(*args, **kwargs):
     delivery_type = kwargs.get('delivery_type')
     delivery_pk = kwargs.get('delivery_pk')
