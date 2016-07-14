@@ -155,10 +155,10 @@ def get_mail_imap(*args, **kwargs):
     mail_account = get_mail_account(smtp=False, imap=True, )
 
     box = IMAP4_SSL(host=mail_account.server.server_imap,
-                            port=mail_account.server.port_imap, )
+                    port=mail_account.server.port_imap, )
 
     box.login(user=mail_account.username,
-                      password=mail_account.password, )
+              password=mail_account.password, )
 
     box.select(mailbox='inbox', )
 
