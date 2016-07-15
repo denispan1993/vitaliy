@@ -198,6 +198,7 @@ def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=F
                 random_pk = rand(last_email, query)
                 print 'random_pk1: ', random_pk
             else:
+            else:
                 random_pk = choice(queryset_list, )
                 print 'random_pk2: ', random_pk
 
