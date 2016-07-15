@@ -8,7 +8,7 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected
 from django.core.mail.utils import DNS_NAME
 from django.utils.html import strip_tags
-from random import randrange, randint
+from random import randrange, randint, choice
 from datetime import datetime, timedelta
 from time import mktime, sleep
 from django.db.models import Q
@@ -162,13 +162,13 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
         return True
 
 
-def get_email(delivery, email_class=None, pk=False, query=False, ):
+def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=False, queryset=False, ):
 
-    from apps.delivery.models import SpamEmail as EmailClass
+    from apps.authModel.models import Email as EmailClass
     if email_class is None or\
             (email_class != Email and email_class != SpamEmail) or\
-            email_class == Email:
-        from apps.authModel.models import Email as EmailClass
+            email_class == SpamEmail:
+        from apps.delivery.models import SpamEmail as EmailClass
 
     if pk:
         try:
@@ -183,26 +183,56 @@ def get_email(delivery, email_class=None, pk=False, query=False, ):
             return False
 
     if not query:
-        query = Q(bad_email=False)
+        query = Q(bad_email=False, error550=False, )
     # emails = EmailClass.objects.filter(bad_email=False, ).order_by('-id', )[:1]
     # last_email = emails[0]
     last_email = EmailClass.objects.filter(query, ).latest('id', )
+    i=0
     while True:
+        sleep(10)
+        i += 1
+        print 'get_email: i: ', i
         sys.stdout.flush()
         try:
-            random_pk = random(last_email, query)
+            if not queryset_list and not queryset:
+                random_pk = rand(last_email, query)
+                print 'random_pk1: ', random_pk
+            else:
+                random_pk = choice(queryset_list, )
+                print 'random_pk2: ', random_pk
+
             if not random_pk:
                 """ Если закончились цифры для перебора в рандоме - то выходим """
                 return False
 
-            email = EmailClass.objects.get(pk=random_pk, bad_email=False, )
+            if not queryset_list and not queryset:
+                email = EmailClass.objects.get(pk=random_pk, bad_email=False, error550=False, )
+                print 'email_pk1: ', email.pk
+            else:
+                email = queryset.get(pk=random_pk)
+                print 'email_pk2: ', email.pk
 
             try:
                 EmailForDelivery.objects.get(delivery__delivery=delivery,
                                              content_type=email.content_type,
                                              object_id=email.pk, )
             except EmailForDelivery.DoesNotExist:
-                return email
+
+                if not queryset_list and not queryset:
+                    return email
+                else:
+                    print email
+                    print queryset_list
+                    print queryset
+
+                    print '================================='
+                    queryset_list.remove(random_pk)
+                    print queryset_list
+                    queryset = queryset.exclude(pk=random_pk)
+                    print queryset
+
+                    return email, queryset_list, queryset.exclude(pk=random_pk)
+
             except EmailForDelivery.MultipleObjectsReturned:
                 emails_for_delivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
                                                                       content_type=email.content_type,
@@ -212,8 +242,9 @@ def get_email(delivery, email_class=None, pk=False, query=False, ):
                     print('i: ', i, ' - ', email); i += 1
 
         except EmailClass.DoesNotExist:
-            pass
-
+            if queryset_list and queryset:
+                queryset_list = queryset_list.remove(random_pk, )
+                queryset = queryset.exclude(pk=random_pk)
 
 def get_email_by_str(email, ):
 
@@ -226,9 +257,9 @@ def get_email_by_str(email, ):
             return False
 
 
-def random(last_email, query=False):
+def rand(last_email, query=False):
     if not query:
-        query = Q(bad_email=False)
+        query = Q(bad_email=False, error550=False,)
 
     if isinstance(last_email, Email, ):
         random_list = random_Email
@@ -343,17 +374,17 @@ def connect(mail_account=False, timeout=False, fail_silently=True, ):
     if not mail_account:
         mail_account = get_mail_account()
 
-    connection_class = SMTP_SSL if mail_account.server.use_ssl and \
-                                   not mail_account.server.use_tls else SMTP
+    connection_class = SMTP_SSL if mail_account.server.use_ssl_smtp and \
+                                   not mail_account.server.use_tls_smtp else SMTP
     connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
 
     if timeout:
         connection_params['timeout'] = timeout
     try:
-        connection = connection_class(host=mail_account.server.server,
-                                      port=mail_account.server.port,
+        connection = connection_class(host=mail_account.server.server_smtp,
+                                      port=mail_account.server.port_smtp,
                                       **connection_params)
-        if not mail_account.server.use_ssl and mail_account.server.use_tls:
+        if not mail_account.server.use_ssl_smtp and mail_account.server.use_tls_smtp:
             connection.ehlo()
             connection.starttls()
             connection.ehlo()

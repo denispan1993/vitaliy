@@ -413,6 +413,8 @@ def set_path_photo(self, filename):
         # self.product.pub_datetime.year,
         self.object_id,
         filename)
+
+
 def set_path_img(self, filename):
     return 'email_img/%.6d/%s' % (
         # self.product.pub_datetime.year,

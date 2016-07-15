@@ -73,7 +73,7 @@ def processing_delivery_test(*args, **kwargs):
         delivery.send_test = True
         delivery.save()
 
-        real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
+        real_email = get_email(delivery=delivery, email_class=Email, pk=6, )  # pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                 now_email=real_email,
                                                 email=real_email, )
@@ -83,7 +83,7 @@ def processing_delivery_test(*args, **kwargs):
         send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
         """ Посылаем письмо - check-auth2@verifier.port25.com """
-        real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
+        real_email = get_email(delivery=delivery, email_class=Email, pk=7, )  #pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                 now_email=real_email,
                                                 email=real_email, )
@@ -95,8 +95,7 @@ def processing_delivery_test(*args, **kwargs):
     return True, datetime.now(), '__name__: {0}'.format(str(__name__))
 
 @celery_app.task()
-def pre_processing_delivery(*args, **kwargs):
-    delivery_type = kwargs.get('delivery_type')
+def processing_delivery_real(*args, **kwargs):
     delivery_pk = kwargs.get('delivery_pk')
 
     try:
@@ -107,54 +106,49 @@ def pre_processing_delivery(*args, **kwargs):
         delivery = Delivery.objects\
             .get(~Q(delivery_test=True, send_test=True, send_spam=False) | \
                  ~Q(delivery_test=False, send_test=True, send_spam=True), pk=delivery_pk, )
-    except Delivery.DoesNotExist:
-        delivery = False
 
-    if delivery and delivery_type == 'test':
-        """ Создаем ссылочку на отсылку рассылки """
-        email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
-                                                                   delivery_test_send=True,
-                                                                   delivery_send=False, )
-        """ Закрываем отсылку теста в самой рассылке """
-        delivery.send_test = True
-        delivery.save()
-
-        real_email = get_email(delivery=delivery, email_class=Email, pk=6, )  # pk=2836, )  # subscribe@keksik.com.ua
-        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                now_email=real_email,
-                                                email=real_email, )
-        mail_account = get_mail_account(pk=1, )
-        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
-        """ Посылаем письмо - subscribe@keksik.com.ua """
-        send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
-
-        """ Посылаем письмо - check-auth2@verifier.port25.com """
-        real_email = get_email(delivery=delivery, email_class=Email, pk=7, )  # pk=3263, )  # check-auth2@verifier.port25.com
-        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                now_email=real_email,
-                                                email=real_email, )
-        send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
-
-    elif delivery and delivery_type != 'test':
         """ Создаем ссылочку на отсылку рассылки """
         email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
                                                                    delivery_send=True, )
+        try:
+            query_emails = Email.objects.filter(bad_email=False, error550=False, )
+            print query_emails
+            query_emails_list = list(obj.pk for obj in query_emails)
+            print query_emails_list
+
+        except Email.DoesNotExist:
+            return False
+
+        while True:
+            real_email, query_emails_list, query_emails = get_email(
+                delivery=delivery,
+                queryset_list=query_emails_list,
+                queryset=query_emails,
+            )
+
+            print 'query_emails_list: ', query_emails_list
+            print 'query_emails: ', query_emails
+
+            if not real_email:
+                break
+
+            logger.info(u'Email.__name__: {0}'.format(Email.__name__), )
+
+            proc = processing_delivery.apply_async(
+                queue='delivery_send',
+                kwargs={'delivery_pk': delivery.pk,
+                        'email_middle_delivery_pk': email_middle_delivery.pk,
+                        'email_class': Email.__name__,
+                        'email_pk': real_email.pk},
+            )
+
+            sleep(5)
         """ Закрываем отсылку в самой рассылке """
         delivery.send = True
         delivery.save()
 
-        while True:
-            real_email = get_email(delivery=delivery, email_class=Email, )
-            if not real_email:
-                break
-            logger.info(u'Email.__name__: {0}'.format(Email.__name__))
-
-            processing_delivery.apply_async(
-                queue='delivery',
-                kwargs={'delivery_pk': delivery.pk,
-                        'email_middle_delivery_pk': email_middle_delivery.pk,
-                        'email_class': Email.__name__,
-                        'email_pk': real_email.pk}, )
+    except Delivery.DoesNotExist:
+            delivery = False
 
         # logger.info(u'message: datetime.now() {0}, {1}'.format(delivery_type, delivery_pk))
     return None  # '__name__: {0}'.format(str(__name__))
@@ -183,7 +177,7 @@ def processing_delivery(*args, **kwargs):
                                             now_email=real_email,
                                             email=real_email, )
 
-    mail_account = get_mail_account()
+    mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
     msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
 
     send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
