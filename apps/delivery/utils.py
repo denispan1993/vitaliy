@@ -162,13 +162,15 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
         return True
 
 
-def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=False, queryset=False, ):
+def get_email(delivery, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
 
-    from apps.authModel.models import Email as EmailClass
-    if email_class is None or\
+    from apps.delivery.models import SpamEmail as EmailClass
+
+    if (email_class and isinstance(email_class, str) and email_class == 'Email') or\
+            not email_class or\
             (email_class != Email and email_class != SpamEmail) or\
-            email_class == SpamEmail:
-        from apps.delivery.models import SpamEmail as EmailClass
+            email_class == Email:
+        from apps.authModel.models import Email as EmailClass
 
     if pk:
         try:
@@ -176,7 +178,6 @@ def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=F
             try:
                 return EmailClass.objects.get(pk=pk, )
             except EmailClass.DoesNotExist:
-                print('pk DoesNotExit: ', pk)
                 return False
 
         except (TypeError, ValueError):
@@ -184,23 +185,23 @@ def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=F
 
     if not query:
         query = Q(bad_email=False, error550=False, )
-    # emails = EmailClass.objects.filter(bad_email=False, ).order_by('-id', )[:1]
-    # last_email = emails[0]
+
     last_email = EmailClass.objects.filter(query, ).latest('id', )
-    i=0
+
     while True:
-        sleep(10)
-        i += 1
-        print 'get_email: i: ', i
         sys.stdout.flush()
         try:
-            if not queryset_list and not queryset:
+            print('get_mail111: ', 'queryset_list: ', queryset_list, bool(queryset_list), type(queryset_list), len(queryset_list))
+            print('get_mail222: ', 'queryset: ', queryset, bool(queryset), type(queryset), len(queryset))
+
+            if queryset_list is False and queryset is False:
                 random_pk = rand(last_email, query)
-                print 'random_pk1: ', random_pk
-            else:
-            else:
-                random_pk = choice(queryset_list, )
-                print 'random_pk2: ', random_pk
+            elif queryset_list and len(queryset_list, ) > 0 and\
+                    queryset and len(queryset, ) > 0:
+                random_pk = queryset_list.pop()
+            elif len(queryset_list, ) == 0 and\
+                    len(queryset, ) == 0:
+                return False, queryset_list, queryset
 
             if not random_pk:
                 """ Если закончились цифры для перебора в рандоме - то выходим """
@@ -208,10 +209,8 @@ def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=F
 
             if not queryset_list and not queryset:
                 email = EmailClass.objects.get(pk=random_pk, bad_email=False, error550=False, )
-                print 'email_pk1: ', email.pk
             else:
-                email = queryset.get(pk=random_pk)
-                print 'email_pk2: ', email.pk
+                email = queryset.get(pk=random_pk); queryset = queryset.exclude(pk=random_pk)
 
             try:
                 EmailForDelivery.objects.get(delivery__delivery=delivery,
@@ -222,17 +221,7 @@ def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=F
                 if not queryset_list and not queryset:
                     return email
                 else:
-                    print email
-                    print queryset_list
-                    print queryset
-
-                    print '================================='
-                    queryset_list.remove(random_pk)
-                    print queryset_list
-                    queryset = queryset.exclude(pk=random_pk)
-                    print queryset
-
-                    return email, queryset_list, queryset.exclude(pk=random_pk)
+                    return email, queryset_list, queryset
 
             except EmailForDelivery.MultipleObjectsReturned:
                 emails_for_delivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
@@ -246,6 +235,7 @@ def get_email(delivery, email_class=None, pk=False, query=False, queryset_list=F
             if queryset_list and queryset:
                 queryset_list = queryset_list.remove(random_pk, )
                 queryset = queryset.exclude(pk=random_pk)
+
 
 def get_email_by_str(email, ):
 

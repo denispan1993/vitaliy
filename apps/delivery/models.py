@@ -501,8 +501,8 @@ class EmailMiddleDelivery(models.Model, ):
     class Meta:
         db_table = 'EmailMiddleDelivery'
         ordering = ['-created_at', ]
-        verbose_name = u'Промежуточная можель Рассылки'
-        verbose_name_plural = u'Промежуточные можели Рассылок'
+        verbose_name = u'Промежуточная модель Рассылки'
+        verbose_name_plural = u'Промежуточные модели Рассылок'
 
 
 class EmailForDelivery(models.Model, ):
