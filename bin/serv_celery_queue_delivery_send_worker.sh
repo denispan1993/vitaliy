@@ -10,7 +10,7 @@ cd ..
 --detach \
 --loglevel=DEBUG \
 --logfile=../../logs/keksik_com_ua/celery/queue_delivery_send_worker.log \
---pidfile=../../run/celery__keksik_com_ua__queue_delivery_send__worker.pid
+--pidfile=../../run/celery__keksik_com_ua__queue_delivery_send__worker.pid &
 
 
 
