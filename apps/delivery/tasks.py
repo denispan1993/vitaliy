@@ -220,6 +220,8 @@ def get_mail_imap(*args, **kwargs):
 
     result, all_msg_nums = box.search(None, 'ALL')
 
+    result_msg_nums = set()
+
     if result == 'OK':
 
         msg_nums = set()
@@ -252,6 +254,7 @@ def get_mail_imap(*args, **kwargs):
         logger.info(
             u'Info msg ids for work: {0}'
             .format(msg_nums, ))
+
         for msg_num in msg_nums:
             sleep(1)
             logger.info(
@@ -261,7 +264,7 @@ def get_mail_imap(*args, **kwargs):
                                       message_parts='(RFC822)', )
             logger.info(
                 u'Info fecth msg id: {0} result --> {1}'
-                    .format(msg_num, result ))
+                .format(msg_num, result ))
             if result == 'OK':
                 parse_msg = email.message_from_string(fetch[0][1])
 
@@ -319,11 +322,12 @@ def get_mail_imap(*args, **kwargs):
 
                             if email_obj and raw_email_obj:
                                 box.store(msg_num, '+FLAGS', '\\Deleted')
+                                result_msg_nums.add(msg_num, )
                             else:
                                 box.store(msg_num, '-FLAGS', '\\Seen')
     box.close()
     box.logout()
-    return True, datetime.now()
+    return True, "Id's message deleted from server".format(result_msg_nums, ), datetime.now()
 
 
 @celery_app.task(run_every=timedelta(seconds=1))
