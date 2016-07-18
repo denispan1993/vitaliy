@@ -327,7 +327,7 @@ def get_mail_imap(*args, **kwargs):
                                 box.store(msg_num, '-FLAGS', '\\Seen')
     box.close()
     box.logout()
-    return True, "Id's message deleted from server".format(result_msg_nums, ), datetime.now()
+    return True, "Id's message deleted from server {0}".format(result_msg_nums, ), datetime.now()
 
 
 @celery_app.task(run_every=timedelta(seconds=1))
