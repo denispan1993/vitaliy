@@ -343,7 +343,8 @@ class Delivery(models.Model, ):
         #     else:
         from django.db.models import Q
         q = Q()
-        q |= [Q(name__icontains=email) for email in unique_trace_emails]
+        for email in unique_trace_emails:
+            q |= Q(name__icontains=email)
         try:
             orders = Order.objects.filter(q, )  # email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
                                       # created_at__lte=this_trace.cteated_at + delta, )
