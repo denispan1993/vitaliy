@@ -246,8 +246,14 @@ def get_mail_imap(*args, **kwargs):
                 .format(msg_nums, ))
         for msg_num in msg_nums:
             sleep(1)
+            logger.info(
+                u'Info msg id: {0} --> fetch from server for work'
+                    .format(msg_num, ))
             result, fetch = box.fetch(message_set=msg_num,
                                       message_parts='(RFC822)', )
+            logger.info(
+                u'Info fecth msg id: {0} result --> {1}'
+                    .format(msg_num, result ))
             if result == 'OK':
                 parse_msg = email.message_from_string(fetch[0][1])
 
