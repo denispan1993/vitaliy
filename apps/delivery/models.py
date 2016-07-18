@@ -322,31 +322,35 @@ class Delivery(models.Model, ):
     def order_from_trace_of_visits(self):
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
             .exclude(email__delivery__delivery_test_send=True, )
-        unique_trace_email_pk = []
-        for trace in trace_of_visits:
-            trace_email_pk = trace.email.now_email.pk
-            if trace_email_pk not in unique_trace_email_pk:
-                unique_trace_email_pk.append(trace_email_pk, )
+        # unique_trace_email_pk = set()
+        unique_trace_pks = set([trace.email.now_email.pk for trace in trace_of_visits])
+        unique_trace_emails = set([trace.email.now_email.email for trace in trace_of_visits])
+        # for trace in trace_of_visits:
+        #     trace_email_pk = trace.email.now_email.pk
+        #     if trace_email_pk not in unique_trace_email_pk:
+        #         unique_trace_email_pk.append(trace_email_pk, )
         #from datetime import timedelta
         #delta = timedelta(days=100, )
         unique_orders = []
-        for trace_pk in unique_trace_email_pk:
-            try:
-                this_trace = trace_of_visits.get(pk__in=trace_pk, )
-            except TraceOfVisits.DoesNotExist:
-                continue
-            else:
-                try:
-                    order = Order.objects.get(email=this_trace.email.now_email.email, )
-                                              # created_at__lte=this_trace.cteated_at + delta, )
-                except Order.DoesNotExist:
-                    continue
-                except Order.MultipleObjectsReturned:
-                    unique_orders.append(1, )
-                else:
-                    unique_orders.append(order.pk, )
+        # for trace_pk in unique_trace_email_pk:
+        #     try:
+        #         this_trace = trace_of_visits.get(pk__in=trace_pk, )
+        #     except TraceOfVisits.DoesNotExist:
+        #         continue
+        #     else:
+        try:
+            orders = Order.objects.filter(email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
+                                      # created_at__lte=this_trace.cteated_at + delta, )
+        except Order.DoesNotExist:
+            return 0
+        # except Order.MultipleObjectsReturned:
+        #     unique_orders.append(1, )
+        # else:
+        #     unique_orders.append(order.pk, )
 
-        return len(unique_orders, )
+        # return len(unique_orders, )
+
+        return len(orders, )
 
     @property
     def emails(self):
