@@ -443,14 +443,14 @@ def get_mid(div, eid):
 
 
 def str_encode(string='', encoding=None, errors='strict'):
-    return unicode(string, encoding, errors)
-
-
-def str_decode(value='', encoding=None, errors='strict'):
     # If errors is 'strict' (the default), a ValueError is raised on errors,
     #  while a value of 'ignore' causes errors to be silently ignored, and a
     #  value of 'replace' causes the official Unicode replacement character,
     #  U+FFFD, to be used to replace input characters which cannot be decoded.
+    return unicode(string, encoding, errors)
+
+
+def str_decode(value='', encoding=None, errors='strict'):
     return value.decode(encoding, errors)
 
 
