@@ -19,13 +19,20 @@ __author__ = 'AlexStarov'
 logger = get_task_logger(__name__)
 
 reason550 = {'google.com': 'said: 550-5.1.1 The email account that you tried to reach does not exist.',
-             'mail.ru': 'said: 550 Message was not accepted -- invalid mailbox.',
+             'GOOGLE.COM': 'said: 550 5.2.1 The email account that you tried to reach is disabled.',
+             'mail.ru': 'said: 550 Message was not accepted -- invalid mailbox. Local mailbox',
+             'mail.ru': 'said: 550 5.1.1 Bad destination mailbox address: invalid mailbox. Local mailbox',
              'ukr.net': 'said: 550-Message for',
              'i.ua': 'said: 550 Mailbox is frozen.',
              'bigmir.net': 'said: 550 Mailbox is frozen.',
+             'qip.ru': 'said: 550 Addresses failed:',
+             'rambler.ru': ': Recipient address rejected: Account deleted by user (in reply to RCPT TO command)',
 
-
-             'dalgakiran.com.ua': 'said: 550 5.2.1 Mailbox unavailable.',
+             'tuhs.org': 'Recipient address rejected: User unknown in local recipient table (in reply to RCPT TO command)',
+             '127.0.0.1': 'said: 554 5.1.1 Unknown user;',
+             'mts.com.ua': 'said: 550 #5.1.0 Address rejected. (in reply to RCPT TO command)',
+             'cummins-power.com.ua': 'said: 550 5.2.1 Mailbox unavailable. This server does not accept mails from this sender address (',
+             'dalgakiran.com.ua': 'said: 550 5.2.1 Mailbox unavailable. This server does not accept mails from this sender address (',
              'cook-time.com': 'said: 550 No Such User Here',
              'wr0.ru': 'said: 554 5.7.1',
              }
