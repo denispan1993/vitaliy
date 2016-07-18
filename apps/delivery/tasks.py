@@ -226,7 +226,6 @@ def get_mail_imap(*args, **kwargs):
                 parse_msg = email.message_from_string(fetch[0][1])
                 subj, error = str_conv(parse_msg['Subject'])
 
-
                 if error:
                     logger.info(
                         u'Error in msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4}'
@@ -234,9 +233,9 @@ def get_mail_imap(*args, **kwargs):
 
                 else:
                     logger.info(
-                        u'Info msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4} <---> Subject: {5}'
+                        u'Info msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4}'
                         .format(msg_num, parse_msg['From'], parse_msg['Date'],
-                                datetime.now(), parse_msg['Subject'], subj))
+                                datetime.now(), parse_msg['Subject'], ))
 
                 if subj == u'Недоставленное сообщение' \
                         and parse_msg['From'] == 'mailer-daemon@yandex.ru':
