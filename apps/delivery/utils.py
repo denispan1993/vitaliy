@@ -455,9 +455,14 @@ def str_decode(value='', encoding=None, errors='strict'):
 
 
 def str_conv(str, ):
+    error = False
+
+    if not str:
+        return str, error
+
     values = str.split('\n')
     value_results = []
-    error = False
+
     for value in values:
         match = re.search(r'=\?((?:\w|-)+)\?(Q|q|B|b)\?(.+)\?=', value)
         if match:
