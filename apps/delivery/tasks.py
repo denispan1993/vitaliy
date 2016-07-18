@@ -241,10 +241,16 @@ def get_mail_imap(*args, **kwargs):
                         .format(msg_num, parse_msg['From'], parse_msg['Date'], datetime.now(), parse_msg['Subject'], ))
 
                 else:
-                    logger.info(
-                        u'Info msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4}'
-                        .format(msg_num, parse_msg['From'], parse_msg['Date'],
-                                datetime.now(), parse_msg['Subject'], ))
+                    try:
+                        logger.info(
+                            u'Info msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4}'
+                            .format(msg_num, parse_msg['From'], parse_msg['Date'],
+                                    datetime.now(), parse_msg['Subject'], ))
+                    except UnicodeDecodeError:
+                        logger.info(
+                            u'Info msg id: {0} | From: {1} | Date: {2} | datetime.now() {3}'
+                            .format(msg_num, parse_msg['From'], parse_msg['Date'],
+                                    datetime.now(), ))
 
                 if subj == u'Недоставленное сообщение' \
                         and parse_msg['From'] == 'mailer-daemon@yandex.ru':
