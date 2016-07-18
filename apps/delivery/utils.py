@@ -3,6 +3,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from re import split
+import re
+import quopri
+import base64
 import sys
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected
@@ -439,11 +442,6 @@ def get_mid(div, eid):
         .format(div, eid, int(mktime(datetime.now().timetuple())), randint(0, 10000000), )
 
 
-import re
-import quopri
-import base64
-
-
 def str_encode(string='', encoding=None, errors='strict'):
     return unicode(string, encoding, errors)
 
@@ -467,9 +465,17 @@ def str_conv(str, ):
                 value = quopri.decodestring(code)
             elif type_.upper() == 'B':
                 value = base64.decodestring(code)
-            value = str_encode(string=value, encoding=encoding, errors='replace', )
+            try:
+                value = str_encode(string=value, encoding=encoding, )
+            except UnicodeDecodeError:
+                value = str_encode(string=value, encoding=encoding, errors='replace', )
+                error = True
             value_results.append(value)
-            if value_results:
-                return ''.join(value_results)
+
+    if value_results:
+        if 'error' in locals() and error:
+            return ''.join(value_results), error
+        else:
+            return ''.join(value_results)
 
     return str

@@ -220,10 +220,16 @@ def get_mail_imap(*args, **kwargs):
         for msg_num in all_msg_nums[0].split():
 
             result, fetch = box.fetch(message_set=msg_num,
-                                      message_parts='(BODY.PEEK[HEADER.FIELDS (FROM SUBJECT)])', )
+                                      message_parts='(BODY.PEEK[HEADER.FIELDS (FROM SUBJECT DATE)])', )
 
             if result == 'OK':
                 parse_msg = email.message_from_string(fetch[0][1])
+                subj, error = str_conv(parse_msg['Subject'])
+
+                if error:
+                    logger.info(u'Error in msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4}'
+                        .format(msg_num, parse_msg['From'], parse_msg['Date'], datetime.now(), parse_msg['Subject']))
+
                 if str_conv(parse_msg['Subject']) == u'Недоставленное сообщение' \
                         and parse_msg['From'] == 'mailer-daemon@yandex.ru':
 
@@ -294,7 +300,7 @@ def get_mail_imap(*args, **kwargs):
                                 box.store(msg_num, '-FLAGS', '\\Seen')
     box.close()
     box.logout()
-    return datetime.now()
+    return True, datetime.now()
 
 
 @celery_app.task(run_every=timedelta(seconds=1))
