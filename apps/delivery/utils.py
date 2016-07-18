@@ -449,6 +449,10 @@ def str_encode(string='', encoding=None, errors='strict'):
 
 
 def str_decode(value='', encoding=None, errors='strict'):
+    # If errors is 'strict' (the default), a ValueError is raised on errors,
+    #  while a value of 'ignore' causes errors to be silently ignored, and a
+    #  value of 'replace' causes the official Unicode replacement character,
+    #  U+FFFD, to be used to replace input characters which cannot be decoded.
     return value.decode(encoding, errors)
 
 
@@ -463,7 +467,7 @@ def str_conv(str, ):
                 value = quopri.decodestring(code)
             elif type_.upper() == 'B':
                 value = base64.decodestring(code)
-            value = str_encode(value, encoding)
+            value = str_encode(string=value, encoding=encoding, errors='replace', )
             value_results.append(value)
             if value_results:
                 return ''.join(value_results)
