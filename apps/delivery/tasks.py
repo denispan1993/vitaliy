@@ -228,13 +228,15 @@ def get_mail_imap(*args, **kwargs):
 
 
                 if error:
-                    logger.info(u'Error in msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4} <---> Subject: {5}'
-                        .format(msg_num, parse_msg['From'], parse_msg['Date'], datetime.now(), parse_msg['Subject'], subj))
+                    logger.info(
+                        u'Error in msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4}'
+                        .format(msg_num, parse_msg['From'], parse_msg['Date'], datetime.now(), parse_msg['Subject'], ))
 
                 else:
                     logger.info(
-                        u'Info msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4}'
-                            .format(msg_num, parse_msg['From'], parse_msg['Date'], datetime.now(), subj))
+                        u'Info msg id: {0} | From: {1} | Date: {2} | datetime.now() {3} --> Subject: {4} <---> Subject: {5}'
+                        .format(msg_num, parse_msg['From'], parse_msg['Date'],
+                                datetime.now(), parse_msg['Subject'], subj))
 
                 if subj == u'Недоставленное сообщение' \
                         and parse_msg['From'] == 'mailer-daemon@yandex.ru':
@@ -243,12 +245,12 @@ def get_mail_imap(*args, **kwargs):
 
         logger.info(
             u'Info msg ids for work: {0}'
-                .format(msg_nums, ))
+            .format(msg_nums, ))
         for msg_num in msg_nums:
             sleep(1)
             logger.info(
                 u'Info msg id: {0} --> fetch from server for work'
-                    .format(msg_num, ))
+                .format(msg_num, ))
             result, fetch = box.fetch(message_set=msg_num,
                                       message_parts='(RFC822)', )
             logger.info(
