@@ -245,7 +245,7 @@ def get_mail_imap(*args, **kwargs):
                 email_message_id = parse_msg['Message-Id']
                 email_from = parse_msg['From']
                 email_to = parse_msg['To']
-                subj = str_conv(parse_msg['Subject'])
+                subj, error = str_conv(parse_msg['Subject'])
 
                 body = ''
                 if parse_msg.is_multipart():

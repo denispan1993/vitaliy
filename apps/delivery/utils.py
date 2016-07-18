@@ -457,6 +457,7 @@ def str_decode(value='', encoding=None, errors='strict'):
 def str_conv(str, ):
     values = str.split('\n')
     value_results = []
+    error = False
     for value in values:
         match = re.search(r'=\?((?:\w|-)+)\?(Q|q|B|b)\?(.+)\?=', value)
         if match:
@@ -472,10 +473,7 @@ def str_conv(str, ):
                 error = True
             value_results.append(value)
 
-    if value_results:
-        if 'error' in locals() and error:
-            return ''.join(value_results), error
-        else:
-            return ''.join(value_results)
+    if len(value_results) > 0:
+        return ''.join(value_results), error
 
-    return str
+    return str, error
