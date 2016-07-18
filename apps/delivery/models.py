@@ -318,13 +318,16 @@ class Delivery(models.Model, ):
             .distinct()\
             .count()
 
+
     @property
     def order_from_trace_of_visits(self):
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
             .exclude(email__delivery__delivery_test_send=True, )
         # unique_trace_email_pk = set()
         unique_trace_pks = set([trace.email.now_email.pk for trace in trace_of_visits])
+        print unique_trace_pks
         unique_trace_emails = set([trace.email.now_email.email for trace in trace_of_visits])
+        print unique_trace_emails
         # for trace in trace_of_visits:
         #     trace_email_pk = trace.email.now_email.pk
         #     if trace_email_pk not in unique_trace_email_pk:
@@ -338,8 +341,11 @@ class Delivery(models.Model, ):
         #     except TraceOfVisits.DoesNotExist:
         #         continue
         #     else:
+        from django.db.models import Q
+        q = Q()
+        q |= [Q(name__icontains=email) for email in unique_trace_emails]
         try:
-            orders = Order.objects.filter(email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
+            orders = Order.objects.filter(q, )  # email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
                                       # created_at__lte=this_trace.cteated_at + delta, )
         except Order.DoesNotExist:
             return 0
