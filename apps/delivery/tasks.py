@@ -11,7 +11,7 @@ from imaplib import IMAP4_SSL
 
 from apps.authModel.models import Email
 from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, RawEmail
-from .utils import get_mail_account, get_email, create_msg, connect, send_msg, str_conv, get_email_by_str
+from .utils import get_mail_account, get_email, create_msg, connect, send_msg, str_conv, get_email_by_str, send
 
 __author__ = 'AlexStarov'
 
@@ -141,6 +141,7 @@ def processing_delivery_real(*args, **kwargs):
                     task = AsyncResult(task_id, )
                     if task.status == 'SUCCESS':
                         if task.result == True:
+                            pass
 
             else:
                 break
