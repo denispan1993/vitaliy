@@ -112,10 +112,11 @@ def processing_delivery_real(*args, **kwargs):
 
         task_set = set()
 
-        while True:
-            if len(query_emails_list) > 0 and len(query_emails) > 0:
+        while True or len(task_set, ) > 0:
+            if len(query_emails_list) > 0:
                 real_email, query_emails_list, query_emails = get_email(
                     delivery=delivery,
+                    email_class=Email.__class__.__name__,
                     queryset_list=query_emails_list,
                     queryset=query_emails,
                 )
@@ -133,24 +134,36 @@ def processing_delivery_real(*args, **kwargs):
                 )
 
                 logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
-                    .format(task.id, Email.__name__, email.email, ), )
+                    .format(task.id, Email.__class__.__name__, real_email.email, ), )
 
                 task_set.add(task.id, )
 
-                for task_id in task_set:
-                    task = AsyncResult(task_id, )
-                    if task.status == 'SUCCESS':
-                        if task.result == True:
-                            pass
+            """ Бежим по task.id и проверяем степень готовности """
+            for task_id in task_set.copy():
+                print('task_id: ', task_id,)
+                sleep(1)
 
-            else:
+                task = AsyncResult(task_id, )
+                if task.status == 'SUCCESS':
+
+                    task_set.remove(task_id)
+                    print('task_id: ', task_id, 'REMOVE!!!!!!')
+
+                    task_result_dict = task.result
+                    print('task_id: ', task_id, 'task.status: ', task.status, 'task_result_dict: ', task_result_dict)
+
+                    if task_result_dict['result'] is not True:
+                        query_emails_list.add(task_result_dict.real_email_pk)
+
+            """ Если task.id закончились - выходим """
+            if len(task_set, ) == 0:
                 break
 
         """ Закрываем отсылку в самой рассылке """
         delivery.send = True
         delivery.save()
 
-        print 'task_set: ', task_set
+        print('task_set: ', task_set, )
 
     except Delivery.DoesNotExist:
             delivery = False
@@ -162,38 +175,48 @@ def processing_delivery_real(*args, **kwargs):
 def processing_delivery(*args, **kwargs):
 
     delivery_pk = kwargs.get('delivery_pk')
-    logger.info(u'delivery_pk: {0}'.format(delivery_pk))
-    delivery = Delivery.objects.get(pk=delivery_pk, )
+    # logger.info(u'delivery_pk: {0}'.format(delivery_pk))
+    delivery = Delivery.objects.get(pk=kwargs.get('delivery_pk'), )
 
     email_middle_delivery_pk = kwargs.get('email_middle_delivery_pk')
-    logger.info(u'email_middle_delivery_pk: {0}'.format(email_middle_delivery_pk))
-    email_middle_delivery = EmailMiddleDelivery.objects.get(pk=email_middle_delivery_pk, )
+    # logger.info(u'email_middle_delivery_pk: {0}'.format(email_middle_delivery_pk))
+    email_middle_delivery = EmailMiddleDelivery.objects.get(pk=kwargs.get('email_middle_delivery_pk'), )
 
     email_class = kwargs.get('email_class')
-    logger.info(u'email_class: {0}'.format(email_class))
+    # logger.info(u'email_class: {0}'.format(email_class))
 
     email_pk = kwargs.get('email_pk')
-    logger.info(u'email_pk: {0}'.format(email_pk))
+    # logger.info(u'email_pk: {0}'.format(email_pk))
 
-    real_email = get_email(delivery=delivery, email_class=email_class, pk=email_pk, )
+    real_email = get_email(
+        delivery=delivery,
+        email_class=kwargs.get('email_class'),
+        pk=kwargs.get('email_pk'), )
 
-    email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                            now_email=real_email,
-                                            email=real_email, )
+    email_for = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+                                                now_email=real_email,
+                                                email=real_email, )
 
     mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
-    msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=False, )
+    if mail_account:
+        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email_for, test=False, )
 
-    send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
+        result = send(delivery=delivery, mail_account=mail_account, email=email_for, msg=msg)
+    else:
+        result = False
 
-    logger.info(
-        'function processing_delivery(__name__: {0} ): ',\
-        'message: datetime.now() {1}, delivery_pk: {2}, email_middle_delivery_pk: {3}, email_class: {4}, '\
-        'email_pk: {5}, real_email.email: {6}'\
-        .format(str(__name__), datetime.now(), delivery_pk, email_middle_delivery_pk,
-            email_class, email_pk, real_email.email))
-    sleep(15)
-    return True
+    if result:
+        logger.info(
+            'function processing_delivery(): message: datetime.now() {0}, delivery_pk: {1}, email_middle_delivery_pk: {2}'
+            .format(datetime.now(), delivery_pk, email_middle_delivery_pk, ), )
+        logger.info(
+            'function processing_delivery(): message: email_class: {0}, email_pk: {1}, real_email.email: {2}'
+            .format(email_class, email_pk, real_email.email))
+        sleep(17)
+        return dict(result=result, )
+    else:
+        email_for.delete()
+        return dict(result=result, real_email_pk=real_email.pk, )
 
 
 @celery_app.task()

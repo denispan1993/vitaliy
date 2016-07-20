@@ -58,19 +58,22 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
         except (TypeError, ValueError):
             return False
 
+    query = Q()
     if smtp:
-        query = Q(server__use_smtp=True, ) & Q(use_smtp=True, )
+        query &= Q(server__use_smtp=True, ) & Q(use_smtp=True, )
     if imap:
-        query = Q(server__use_imap=True, ) & Q(use_imap=True, )
+        query &= Q(server__use_imap=True, ) & Q(use_imap=True, )
     if pop3:
-        query = Q(server__use_pop3=True, ) & Q(use_pop3=True, )
+        query &= Q(server__use_pop3=True, ) & Q(use_pop3=True, )
 
     mail_accounts = MailAccount.objects.filter(query, ).order_by('?')
 
-    len_mail_accounts = len(mail_accounts, )
+    len_mail_accounts = MailAccount.objects.filter(query, ).latest('id', ).values_list('pk', flat=True)[0]
 
+    i = 0
     while True:
         mail_account_id = randrange(1, len_mail_accounts, )
+        i += 1
         try:
             mail_account = mail_accounts[mail_account_id]
 
@@ -78,7 +81,7 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
                 print('MailAccount: ', mail_account)
                 return mail_account
 
-            if not mail_account.is_auto_active:
+            if smtp and not mail_account.is_auto_active:
                 print('MailAccount: ', mail_account)
                 return mail_account
 
@@ -114,6 +117,11 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
         except IndexError:
             pass
 
+        if i > 100:
+            """ Если нету свободных почтовых аккаунтов,
+                то ждем пол часа и выходим """
+            sleep(1800, )
+            return False
 
 def Backend(mail_account=None, ):
     if mail_account is None:
@@ -194,45 +202,44 @@ def get_email(delivery, email_class=False, pk=False, query=False, queryset_list=
     while True:
         sys.stdout.flush()
         try:
-            print('get_mail111: ', 'queryset_list: ', queryset_list, bool(queryset_list), type(queryset_list), len(queryset_list))
-            print('get_mail222: ', 'queryset: ', queryset, bool(queryset), type(queryset), len(queryset))
 
-            if queryset_list is False and queryset is False:
+            if isinstance(queryset_list, bool) and queryset_list is False:
                 random_pk = rand(last_email, query)
-            elif queryset_list and len(queryset_list, ) > 0 and\
-                    queryset and len(queryset, ) > 0:
+            elif queryset_list and len(queryset_list, ) > 0:
                 random_pk = queryset_list.pop()
-            elif len(queryset_list, ) == 0 and\
-                    len(queryset, ) == 0:
+            elif len(queryset_list, ) == 0:
                 return False, queryset_list, queryset
 
             if not random_pk:
                 """ Если закончились цифры для перебора в рандоме - то выходим """
                 return False
 
-            if not queryset_list and not queryset:
-                email = EmailClass.objects.get(pk=random_pk, bad_email=False, error550=False, )
+            if isinstance(queryset_list, bool) and queryset_list is False:
+                real_email = EmailClass.objects.get(Q(pk=random_pk) & query)
             else:
-                email = queryset.get(pk=random_pk); queryset = queryset.exclude(pk=random_pk)
+                try:
+                    real_email = queryset.get(pk=random_pk); queryset = queryset.exclude(pk=random_pk)
+                except EmailClass.DoesNotExist:
+                    real_email = EmailClass.objects.get(Q(pk=random_pk) & query)
 
             try:
                 EmailForDelivery.objects.get(delivery__delivery=delivery,
-                                             content_type=email.content_type,
-                                             object_id=email.pk, )
+                                             content_type=real_email.content_type,
+                                             object_id=real_email.pk, )
             except EmailForDelivery.DoesNotExist:
 
-                if not queryset_list and not queryset:
-                    return email
+                if not isinstance(queryset_list, set):
+                    return real_email
                 else:
-                    return email, queryset_list, queryset
+                    return real_email, queryset_list, queryset
 
             except EmailForDelivery.MultipleObjectsReturned:
                 emails_for_delivery = EmailForDelivery.objects.filter(delivery__delivery=delivery,
-                                                                      content_type=email.content_type,
-                                                                      object_id=email.pk, )
+                                                                      content_type=real_email.content_type,
+                                                                      object_id=real_email.pk, )
                 i = 1
-                for email in emails_for_delivery:
-                    print('i: ', i, ' - ', email); i += 1
+                for real_email in emails_for_delivery:
+                    print('i: ', i, ' - ', real_email); i += 1
 
         except EmailClass.DoesNotExist:
             if queryset_list and queryset:
