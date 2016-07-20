@@ -5,14 +5,13 @@ from celery.utils.log import get_task_logger
 from time import sleep
 
 from django.db.models import Q
-from smtplib import SMTPSenderRefused, SMTPDataError
 
 import email
 from imaplib import IMAP4_SSL
 
 from apps.authModel.models import Email
 from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, RawEmail
-from .utils import get_mail_account, get_email, create_msg, connect, send_msg, str_conv, get_email_by_str
+from .utils import get_mail_account, get_email, create_msg, connect, send_msg, str_conv, get_email_by_str, send
 
 __author__ = 'AlexStarov'
 
@@ -36,27 +35,6 @@ reason550 = {'google.com': 'said: 550-5.1.1 The email account that you tried to 
              'cook-time.com': 'said: 550 No Such User Here',
              'wr0.ru': 'said: 554 5.7.1',
              }
-
-
-def send(delivery, mail_account, email, msg):
-    try:
-        connection = connect(mail_account=mail_account, fail_silently=False, )
-        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
-    except SMTPSenderRefused as e:
-        print('SMTPSenderRefused: ', e)
-    except SMTPDataError as e:
-        print('SMTPDataError: ', e)
-    except Exception as e:
-        print('Exception: ', e)
-        if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
-            print('SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
-            from datetime import datetime
-            mail_account.is_auto_active = False
-            mail_account.auto_active_datetime = datetime.now()
-            mail_account.save()
-        connection = connect(mail_account=mail_account, fail_silently=True, )
-        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
-        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
 
 
 @celery_app.task()
@@ -103,6 +81,7 @@ def processing_delivery_test(*args, **kwargs):
 
 
 from celery.utils import uuid
+from celery.result import AsyncResult
 
 
 @celery_app.task()
@@ -158,6 +137,12 @@ def processing_delivery_real(*args, **kwargs):
 
                 task_set.add(task.id, )
 
+                for task_id in task_set:
+                    task = AsyncResult(task_id, )
+                    if task.status == 'SUCCESS':
+                        if task.result == True:
+                            pass
+
             else:
                 break
 
@@ -201,9 +186,14 @@ def processing_delivery(*args, **kwargs):
 
     send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
-    logger.info(u'message: datetime.now() {0}, delivery_pk: {1}'.format(datetime.now(), delivery_pk))
-    sleep(30)
-    return '__name__: {0}'.format(str(__name__))
+    logger.info(
+        'function processing_delivery(__name__: {0} ): ',\
+        'message: datetime.now() {1}, delivery_pk: {2}, email_middle_delivery_pk: {3}, email_class: {4}, '\
+        'email_pk: {5}, real_email.email: {6}'\
+        .format(str(__name__), datetime.now(), delivery_pk, email_middle_delivery_pk,
+            email_class, email_pk, real_email.email))
+    sleep(15)
+    return True
 
 
 @celery_app.task()

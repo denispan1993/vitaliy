@@ -8,7 +8,7 @@ import quopri
 import base64
 import sys
 from django.core.mail import EmailMessage, EmailMultiAlternatives
-from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected
+from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 from django.core.mail.utils import DNS_NAME
 from django.utils.html import strip_tags
 from random import randrange, randint, choice
@@ -402,6 +402,33 @@ def send_msg(connection, mail_account, email, msg, execption=False, ):
                         msg=msg.as_string(), )
     connection.quit()
     return True
+
+
+def send(delivery, mail_account, email, msg):
+    try:
+        connection = connect(mail_account=mail_account, fail_silently=False, )
+        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+
+        return True
+
+    except SMTPSenderRefused as e:
+        print('SMTPSenderRefused: ', e)
+    except SMTPDataError as e:
+        print('SMTPDataError: ', e)
+
+    except Exception as e:
+        print('Exception: ', e)
+        if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
+            print('SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
+            from datetime import datetime
+            mail_account.is_auto_active = False
+            mail_account.auto_active_datetime = datetime.now()
+            mail_account.save()
+        connection = connect(mail_account=mail_account, fail_silently=True, )
+        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+
+    return False
 
 
 def sleep_now(time, email, i, ):
