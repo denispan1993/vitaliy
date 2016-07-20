@@ -318,7 +318,6 @@ class Delivery(models.Model, ):
             .distinct()\
             .count()
 
-
     @property
     def order_from_trace_of_visits(self):
         trace_of_visits = TraceOfVisits.objects.filter(delivery=self, )\
@@ -347,7 +346,8 @@ class Delivery(models.Model, ):
             q |= Q(email__icontains=email)
 
         try:
-            orders = Order.objects.filter(q, )  # email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
+            print q
+            orders = Order.objects.filter(q, ).values('email').distinct()  # email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
                                       # created_at__lte=this_trace.cteated_at + delta, )
         except Order.DoesNotExist:
             return 0
