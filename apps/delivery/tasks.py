@@ -86,6 +86,7 @@ from celery.result import AsyncResult
 
 @celery_app.task()
 def processing_delivery_real(*args, **kwargs):
+    start = datetime.now()
     delivery_pk = kwargs.get('delivery_pk')
 
     try:
@@ -113,7 +114,7 @@ def processing_delivery_real(*args, **kwargs):
         task_set = set()
 
         while True or len(task_set, ) > 0:
-            if len(query_emails_list) > 0:
+            if len(query_emails_list) > 0 and len(task_set) < 20:
                 real_email, query_emails_list, query_emails = get_email(
                     delivery=delivery,
                     email_class=Email.__class__.__name__,
@@ -141,7 +142,7 @@ def processing_delivery_real(*args, **kwargs):
             """ Бежим по task.id и проверяем степень готовности """
             for task_id in task_set.copy():
                 print('task_id: ', task_id,)
-                sleep(1)
+                sleep(2)
 
                 task = AsyncResult(task_id, )
                 if task.status == 'SUCCESS':
@@ -156,7 +157,7 @@ def processing_delivery_real(*args, **kwargs):
                         query_emails_list.add(task_result_dict.real_email_pk)
 
             """ Если task.id закончились - выходим """
-            if len(task_set, ) == 0:
+            if len(task_set) == 0:
                 break
 
         """ Закрываем отсылку в самой рассылке """
@@ -166,9 +167,9 @@ def processing_delivery_real(*args, **kwargs):
         print('task_set: ', task_set, )
 
     except Delivery.DoesNotExist:
-            delivery = False
+        return False
 
-    return True, datetime.now()  # '__name__: {0}'.format(str(__name__))
+    return True, 'Start: {0} | End: {1}'.format(start, datetime.now())  # '__name__: {0}'.format(str(__name__))
 
 
 @celery_app.task()
@@ -197,7 +198,7 @@ def processing_delivery(*args, **kwargs):
                                                 now_email=real_email,
                                                 email=real_email, )
 
-    mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
+    mail_account = get_mail_account()  # pk=1, )  # subscribe@keksik.com.ua
     if mail_account:
         msg = create_msg(delivery=delivery, mail_account=mail_account, email=email_for, test=False, )
 
