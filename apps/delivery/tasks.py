@@ -123,7 +123,7 @@ def processing_delivery_real(*args, **kwargs):
             if len(query_emails_list) > 0 and len(task_set) < 20:
                 real_email, query_emails_list, query_emails = get_email(
                     delivery=delivery,
-                    email_class='{0}.{1}'.format(Email._meta.app_label, Email.__name__, ),
+                    email_class=str('{0}.{1}'.format(Email._meta.app_label, Email.__name__)),
                     queryset_list=query_emails_list,
                     queryset=query_emails,
                 )
@@ -133,7 +133,7 @@ def processing_delivery_real(*args, **kwargs):
                         queue='delivery_send',
                         kwargs={'delivery_pk': delivery.pk,
                                 'email_middle_delivery_pk': email_middle_delivery.pk,
-                                'email_class': '{0}.{1}'.format(Email._meta.app_label, Email.__name__, ),
+                                'email_class': str('{0}.{1}'.format(Email._meta.app_label, Email.__name__)),
                                 'email_pk': real_email.pk, },
                         task_id='celery-task-id-{0}'.format(uuid(), ),
                     )
@@ -146,7 +146,7 @@ def processing_delivery_real(*args, **kwargs):
             if len(query_spam_emails_list) > 0 and len(task_set) < 20:
                 real_email, query_spam_emails_list, query_spam_emails = get_email(
                     delivery=delivery,
-                    email_class='{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail.__name__, ),
+                    email_class=str('{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail.__name__)),
                     queryset_list=query_spam_emails_list,
                     queryset=query_spam_emails,
                 )
@@ -156,7 +156,7 @@ def processing_delivery_real(*args, **kwargs):
                         queue='delivery_send',
                         kwargs={'delivery_pk': delivery.pk,
                                 'email_middle_delivery_pk': email_middle_delivery.pk,
-                                'email_class': '{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail.__name__, ),
+                                'email_class': str('{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail.__name__)),
                                 'email_pk': real_email.pk, },
                         task_id='celery-task-id-{0}'.format(uuid(), ),
                     )

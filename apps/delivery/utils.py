@@ -181,20 +181,14 @@ from django.db.models.loading import get_model
 
 def get_email(delivery=False, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
 
-    print('email_class', type(email_class), email_class)
-    if isinstance(email_class, str):
-        print('get_mail111')
+    if isinstance(email_class, (str, unicode)):
         email_model = get_model(*email_class.split('.'))
 
     if isinstance(email_class, (Email, SpamEmail)):
-        print('get_mail222')
         email_model = email_class
 
     if isinstance(email_class, bool):
-        print('get_mail333')
         from apps.authModel.models import Email as email_model
-
-    print('email_class', type(email_class), email_class)
 
     if pk:
         try:
