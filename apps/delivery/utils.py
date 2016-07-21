@@ -77,16 +77,18 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
         try:
             mail_account = mail_accounts[mail_account_id]
 
+            print('smtp: ', smtp, 'mail_account.is_auto_active', mail_account.is_auto_active)
+
             if not smtp and (imap or pop3):
                 print('MailAccount: ', mail_account)
                 return mail_account
 
-            if smtp and not mail_account.is_auto_active:
+            if smtp and mail_account.is_auto_active:
                 print('MailAccount: ', mail_account)
                 return mail_account
 
             else:
-                print('===================================================================')
+                print('==============| ', 'MailAccount: ', mail_account, ' |================')
                 aaa = timedelta(hours=2, )
                 print('TimeDelta: timedelta(hours=2, ): ', aaa)
                 bbb = mail_account.auto_active_datetime

@@ -10,8 +10,8 @@ import email
 from imaplib import IMAP4_SSL
 
 from apps.authModel.models import Email
-from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, RawEmail
-from .utils import get_mail_account, get_email, create_msg, connect, send_msg, str_conv, get_email_by_str, send
+from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail
+from .utils import get_mail_account, get_email, create_msg, str_conv, get_email_by_str, send
 
 __author__ = 'AlexStarov'
 
@@ -106,15 +106,21 @@ def processing_delivery_real(*args, **kwargs):
             query_emails = Email.objects\
                 .filter(bad_email=False, error550=False, )\
                 .order_by('?')
-            query_emails_list = set(obj.pk for obj in query_emails)
+            query_spam_emails = SpamEmail.objects\
+                .filter(bad_email=False, error550=False, )\
+                .order_by('?')
 
         except Email.DoesNotExist:
             return False, datetime.now()
 
-        task_set = set()
+        query_emails_list = set(obj.pk for obj in query_emails)
+        query_spam_emails_list = set(obj.pk for obj in query_spam_emails)
 
-        while True or len(task_set, ) > 0:
+        task_set = set()
+        flag = True
+        while flag:
             if len(query_emails_list) > 0 and len(task_set) < 20:
+                flag = True
                 real_email, query_emails_list, query_emails = get_email(
                     delivery=delivery,
                     email_class=Email.__class__.__name__,
@@ -123,19 +129,45 @@ def processing_delivery_real(*args, **kwargs):
                 )
 
                 if real_email is False:
-                    break
+                    flag = False
 
                 task = processing_delivery.apply_async(
                     queue='delivery_send',
                     kwargs={'delivery_pk': delivery.pk,
                             'email_middle_delivery_pk': email_middle_delivery.pk,
-                            'email_class': Email.__name__,
-                            'email_pk': real_email.pk},
+                            'email_class': Email.__class__.__name__,
+                            'email_pk': real_email.pk, },
                     task_id='celery-task-id-{0}'.format(uuid(), ),
                 )
 
                 logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
                     .format(task.id, Email.__class__.__name__, real_email.email, ), )
+
+                task_set.add(task.id, )
+
+            if len(query_spam_emails_list) > 0 and len(task_set) < 20:
+                flag = False
+                real_email, query_spam_emails_list, query_spam_emails = get_email(
+                    delivery=delivery,
+                    email_class=SpamEmail.__class__.__name__,
+                    queryset_list=query_spam_emails_list,
+                    queryset=query_spam_emails,
+                )
+
+                if real_email is False:
+                    flag = False
+
+                task = processing_delivery.apply_async(
+                    queue='delivery_send',
+                    kwargs={'delivery_pk': delivery.pk,
+                            'email_middle_delivery_pk': email_middle_delivery.pk,
+                            'email_class': SpamEmail.__class__.__name__,
+                            'email_pk': real_email.pk, },
+                    task_id='celery-task-id-{0}'.format(uuid(), ),
+                )
+
+                logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
+                            .format(task.id, SpamEmail.__class__.__name__, real_email.email, ), )
 
                 task_set.add(task.id, )
 
