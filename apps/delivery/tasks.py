@@ -218,8 +218,7 @@ def processing_delivery(*args, **kwargs):
         email_class=kwargs.get('email_class'),
         pk=kwargs.get('email_pk'), )
     email_for = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                now_email=real_email,
-                                                email=real_email, )
+                                                now_email=real_email, )
 
     mail_account = get_mail_account()  # pk=1, )  # subscribe@keksik.com.ua
     if mail_account:
