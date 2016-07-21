@@ -58,7 +58,7 @@ def processing_delivery_test(*args, **kwargs):
         delivery.send_test = True
         delivery.save()
 
-        real_email = get_email(delivery=delivery, email_class=Email, pk=6, )  # pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
+        real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                 now_email=real_email,
                                                 email=real_email, )
@@ -68,7 +68,7 @@ def processing_delivery_test(*args, **kwargs):
         send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
         """ Посылаем письмо - check-auth2@verifier.port25.com """
-        real_email = get_email(delivery=delivery, email_class=Email, pk=7, )  #pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
+        real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
         email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                 now_email=real_email,
                                                 email=real_email, )
@@ -142,7 +142,7 @@ def processing_delivery_real(*args, **kwargs):
             """ Бежим по task.id и проверяем степень готовности """
             for task_id in task_set.copy():
                 print('task_id: ', task_id,)
-                sleep(2)
+                sleep(4)
 
                 task = AsyncResult(task_id, )
                 if task.status == 'SUCCESS':
@@ -213,7 +213,8 @@ def processing_delivery(*args, **kwargs):
         logger.info(
             'function processing_delivery(): message: email_class: {0}, email_pk: {1}, real_email.email: {2}'
             .format(email_class, email_pk, real_email.email))
-        sleep(17)
+        sleep(33)
+        # sleep(17)
         return dict(result=result, )
     else:
         email_for.delete()
