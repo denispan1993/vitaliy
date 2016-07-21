@@ -123,7 +123,7 @@ def processing_delivery_real(*args, **kwargs):
             if len(query_emails_list) > 0 and len(task_set) < 20:
                 real_email, query_emails_list, query_emails = get_email(
                     delivery=delivery,
-                    email_class=Email.__class__.__name__,
+                    email_class='{0}.{1}'.format(Email._meta.app_label, Email.__name__, ),
                     queryset_list=query_emails_list,
                     queryset=query_emails,
                 )
@@ -133,20 +133,20 @@ def processing_delivery_real(*args, **kwargs):
                         queue='delivery_send',
                         kwargs={'delivery_pk': delivery.pk,
                                 'email_middle_delivery_pk': email_middle_delivery.pk,
-                                'email_class': Email.__class__.__name__,
+                                'email_class': '{0}.{1}'.format(Email._meta.app_label, Email.__name__, ),
                                 'email_pk': real_email.pk, },
                         task_id='celery-task-id-{0}'.format(uuid(), ),
                     )
 
-                    logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
-                        .format(task.id, Email.__class__.__name__, real_email.email, ), )
+                    logger.info(u'Task.id : {0} --> app_label: {1} model: {2} --> email: {3}'
+                                .format(task.id, Email._meta.app_label, Email.__name__, real_email.email, ), )
 
                     task_set.add(task.id, )
 
             if len(query_spam_emails_list) > 0 and len(task_set) < 20:
                 real_email, query_spam_emails_list, query_spam_emails = get_email(
                     delivery=delivery,
-                    email_class=SpamEmail.__class__.__name__,
+                    email_class='{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail.__name__, ),
                     queryset_list=query_spam_emails_list,
                     queryset=query_spam_emails,
                 )
@@ -156,29 +156,27 @@ def processing_delivery_real(*args, **kwargs):
                         queue='delivery_send',
                         kwargs={'delivery_pk': delivery.pk,
                                 'email_middle_delivery_pk': email_middle_delivery.pk,
-                                'email_class': SpamEmail.__class__.__name__,
+                                'email_class': '{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail.__name__, ),
                                 'email_pk': real_email.pk, },
                         task_id='celery-task-id-{0}'.format(uuid(), ),
                     )
 
-                    logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
-                                .format(task.id, SpamEmail.__class__.__name__, real_email.email, ), )
+                    logger.info(u'Task.id : {0} --> app_label: {1} model: {2} --> email: {3}'
+                                .format(task.id, SpamEmail._meta.app_label, SpamEmail.__name__, real_email.email, ), )
 
                     task_set.add(task.id, )
 
             """ Бежим по task.id и проверяем степень готовности """
             for task_id in task_set.copy():
-                #print('task_id: ', task_id,)
-                sleep(10)
+                sleep(6)
 
                 task = AsyncResult(task_id, )
                 if task.status == 'SUCCESS':
 
                     task_set.remove(task_id)
-                    print('task_id: ', task_id, 'REMOVE!!!!!!')
 
                     task_result_dict = task.result
-                    print('task_id: ', task_id, 'task.status: ', task.status, 'task_result_dict: ', task_result_dict)
+                    print('REMOVE!!!!!!!!! --> ', 'task_id: ', task_id, 'task.status: ', task.status, 'task_result_dict: ', task_result_dict)
 
                     if task_result_dict['result'] is not True:
                         query_emails_list.add(task_result_dict.real_email_pk)
@@ -219,7 +217,6 @@ def processing_delivery(*args, **kwargs):
     real_email = get_email(
         email_class=kwargs.get('email_class'),
         pk=kwargs.get('email_pk'), )
-    print('email_middle_delivery: ', email_middle_delivery, 'real_email: ', real_email)
     email_for = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                 now_email=real_email,
                                                 email=real_email, )
@@ -234,10 +231,10 @@ def processing_delivery(*args, **kwargs):
 
     if result:
         logger.info(
-            'function processing_delivery(): message: datetime.now() {0}, delivery_pk: {1}, email_middle_delivery_pk: {2}'
+            'function processing_delivery(): datetime.now() {0}, delivery_pk: {1}, email_middle_delivery_pk: {2}'
             .format(datetime.now(), delivery_pk, email_middle_delivery_pk, ), )
         logger.info(
-            'function processing_delivery(): message: email_class: {0}, email_pk: {1}, real_email.email: {2}'
+            'function processing_delivery(): email_class: {0}, email_pk: {1}, real_email.email: {2}'
             .format(email_class, email_pk, real_email.email))
         sleep(33)
         # sleep(17)

@@ -176,35 +176,35 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
     else:
         return True
 
+from django.db.models.loading import get_model
+
 
 def get_email(delivery=False, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
 
-    from apps.delivery.models import SpamEmail as EmailClass
+    if isinstance(email_class, str):
+        email_model = get_model(*email_class.split('.'), )
 
-    if (email_class and isinstance(email_class, str) and email_class == 'Email') or\
-            not email_class or\
-            (email_class != Email and email_class != SpamEmail) or\
-            email_class == Email:
-        from apps.authModel.models import Email as EmailClass
+    if isinstance(email_class, (Email, SpamEmail)):
+        email_model = email_class
+
+    if isinstance(email_class, bool):
+        from apps.authModel.models import Email as email_model
 
     if pk:
         try:
             pk = int(pk, )
             try:
-                print('get_mail111')
-                return EmailClass.objects.get(pk=pk, )
-            except EmailClass.DoesNotExist:
-                print('get_mail222')
+                return email_model.objects.get(pk=pk, )
+            except email_model.DoesNotExist:
                 return False
 
         except (TypeError, ValueError):
-            print('get_mail333')
             return False
 
     if not query:
         query = Q(bad_email=False, error550=False, )
 
-    last_email = EmailClass.objects.filter(query, ).latest('id', )
+    last_email = email_model.objects.filter(query, ).latest('id', )
 
     while True:
         sys.stdout.flush()
@@ -222,12 +222,12 @@ def get_email(delivery=False, email_class=False, pk=False, query=False, queryset
                 return False
 
             if isinstance(queryset_list, bool) and queryset_list is False:
-                real_email = EmailClass.objects.get(Q(pk=random_pk) & query)
+                real_email = email_model.objects.get(Q(pk=random_pk) & query)
             else:
                 try:
                     real_email = queryset.get(pk=random_pk); queryset = queryset.exclude(pk=random_pk)
-                except EmailClass.DoesNotExist:
-                    real_email = EmailClass.objects.get(Q(pk=random_pk) & query)
+                except email_model.DoesNotExist:
+                    real_email = email_model.objects.get(Q(pk=random_pk) & query)
 
             try:
                 EmailForDelivery.objects.get(delivery__delivery=delivery,
@@ -248,7 +248,7 @@ def get_email(delivery=False, email_class=False, pk=False, query=False, queryset
                 for real_email in emails_for_delivery:
                     print('i: ', i, ' - ', real_email); i += 1
 
-        except EmailClass.DoesNotExist:
+        except email_model.DoesNotExist:
             if queryset_list and queryset:
                 queryset_list = queryset_list.remove(random_pk, )
                 queryset = queryset.exclude(pk=random_pk)
