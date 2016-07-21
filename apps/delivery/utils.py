@@ -191,8 +191,10 @@ def get_email(delivery=False, email_class=False, pk=False, query=False, queryset
         try:
             pk = int(pk, )
             try:
+                print('get_mail111')
                 return EmailClass.objects.get(pk=pk, )
             except EmailClass.DoesNotExist:
+                print('get_mail222')
                 return False
 
         except (TypeError, ValueError):
