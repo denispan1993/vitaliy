@@ -68,7 +68,7 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
 
     mail_accounts = MailAccount.objects.filter(query, ).order_by('?')
 
-    len_mail_accounts = MailAccount.objects.filter(query, ).latest('id', ).values_list('pk', flat=True)[0]
+    len_mail_accounts = MailAccount.objects.values_list('pk', flat=True).filter(query, ).latest('id', )
 
     i = 0
     while True:
@@ -117,11 +117,13 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
         except IndexError:
             pass
 
+        sleep(1)
         if i > 100:
             """ Если нету свободных почтовых аккаунтов,
                 то ждем пол часа и выходим """
             sleep(1800, )
             return False
+
 
 def Backend(mail_account=None, ):
     if mail_account is None:
