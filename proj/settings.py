@@ -20,6 +20,7 @@ CELERY_DEFAULT_QUEUE = 'celery'
 CELERY_QUEUES = (
     Queue('celery', Exchange('celery'), routing_key='celery'),
     Queue('delivery', Exchange('delivery'), routing_key='delivery'),
+    Queue('delivery_send', Exchange('delivery_send'), routing_key='delivery_send'),
 )
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
