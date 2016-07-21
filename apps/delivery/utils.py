@@ -182,7 +182,7 @@ from django.db.models.loading import get_model
 def get_email(delivery=False, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
 
     if isinstance(email_class, str):
-        email_model = get_model(*email_class.split('.'), )
+        email_model = get_model(*email_class.split('.'))
 
     if isinstance(email_class, (Email, SpamEmail)):
         email_model = email_class
