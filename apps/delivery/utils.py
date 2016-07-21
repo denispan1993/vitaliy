@@ -77,8 +77,6 @@ def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
         try:
             mail_account = mail_accounts[mail_account_id]
 
-            print('smtp: ', smtp, 'mail_account.is_auto_active', mail_account.is_auto_active)
-
             if not smtp and (imap or pop3):
                 print('MailAccount: ', mail_account)
                 return mail_account

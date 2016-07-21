@@ -168,7 +168,7 @@ def processing_delivery_real(*args, **kwargs):
 
             """ Бежим по task.id и проверяем степень готовности """
             for task_id in task_set.copy():
-                sleep(6)
+                sleep(4)
 
                 task = AsyncResult(task_id, )
                 if task.status == 'SUCCESS':
