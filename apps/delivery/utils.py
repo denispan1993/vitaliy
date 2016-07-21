@@ -177,7 +177,7 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
         return True
 
 
-def get_email(delivery, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
+def get_email(delivery=False, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
 
     from apps.delivery.models import SpamEmail as EmailClass
 

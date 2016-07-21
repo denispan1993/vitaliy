@@ -100,7 +100,9 @@ def processing_delivery_real(*args, **kwargs):
 
         """ Создаем ссылочку на отсылку рассылки """
         email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
-                                                                   delivery_send=True, )
+                                                                   delivery_test_send=False,
+                                                                   spam_send=True,
+                                                                   delivery_send=False, )
 
         try:
             query_emails = Email.objects\
@@ -117,10 +119,8 @@ def processing_delivery_real(*args, **kwargs):
         query_spam_emails_list = set(obj.pk for obj in query_spam_emails)
 
         task_set = set()
-        flag = True
-        while flag:
+        while True:
             if len(query_emails_list) > 0 and len(task_set) < 20:
-                flag = True
                 real_email, query_emails_list, query_emails = get_email(
                     delivery=delivery,
                     email_class=Email.__class__.__name__,
@@ -128,25 +128,22 @@ def processing_delivery_real(*args, **kwargs):
                     queryset=query_emails,
                 )
 
-                if real_email is False:
-                    flag = False
+                if real_email:
+                    task = processing_delivery.apply_async(
+                        queue='delivery_send',
+                        kwargs={'delivery_pk': delivery.pk,
+                                'email_middle_delivery_pk': email_middle_delivery.pk,
+                                'email_class': Email.__class__.__name__,
+                                'email_pk': real_email.pk, },
+                        task_id='celery-task-id-{0}'.format(uuid(), ),
+                    )
 
-                task = processing_delivery.apply_async(
-                    queue='delivery_send',
-                    kwargs={'delivery_pk': delivery.pk,
-                            'email_middle_delivery_pk': email_middle_delivery.pk,
-                            'email_class': Email.__class__.__name__,
-                            'email_pk': real_email.pk, },
-                    task_id='celery-task-id-{0}'.format(uuid(), ),
-                )
+                    logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
+                        .format(task.id, Email.__class__.__name__, real_email.email, ), )
 
-                logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
-                    .format(task.id, Email.__class__.__name__, real_email.email, ), )
-
-                task_set.add(task.id, )
+                    task_set.add(task.id, )
 
             if len(query_spam_emails_list) > 0 and len(task_set) < 20:
-                flag = False
                 real_email, query_spam_emails_list, query_spam_emails = get_email(
                     delivery=delivery,
                     email_class=SpamEmail.__class__.__name__,
@@ -154,22 +151,20 @@ def processing_delivery_real(*args, **kwargs):
                     queryset=query_spam_emails,
                 )
 
-                if real_email is False:
-                    flag = False
+                if real_email:
+                    task = processing_delivery.apply_async(
+                        queue='delivery_send',
+                        kwargs={'delivery_pk': delivery.pk,
+                                'email_middle_delivery_pk': email_middle_delivery.pk,
+                                'email_class': SpamEmail.__class__.__name__,
+                                'email_pk': real_email.pk, },
+                        task_id='celery-task-id-{0}'.format(uuid(), ),
+                    )
 
-                task = processing_delivery.apply_async(
-                    queue='delivery_send',
-                    kwargs={'delivery_pk': delivery.pk,
-                            'email_middle_delivery_pk': email_middle_delivery.pk,
-                            'email_class': SpamEmail.__class__.__name__,
-                            'email_pk': real_email.pk, },
-                    task_id='celery-task-id-{0}'.format(uuid(), ),
-                )
+                    logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
+                                .format(task.id, SpamEmail.__class__.__name__, real_email.email, ), )
 
-                logger.info(u'Task.id : {0} --> Email.__name__: {1} --> email: {2}'
-                            .format(task.id, SpamEmail.__class__.__name__, real_email.email, ), )
-
-                task_set.add(task.id, )
+                    task_set.add(task.id, )
 
             """ Бежим по task.id и проверяем степень готовности """
             for task_id in task_set.copy():
@@ -193,7 +188,7 @@ def processing_delivery_real(*args, **kwargs):
                 break
 
         """ Закрываем отсылку в самой рассылке """
-        delivery.send = True
+        delivery.send_spam = True
         delivery.save()
 
         print('task_set: ', task_set, )
@@ -222,7 +217,6 @@ def processing_delivery(*args, **kwargs):
     # logger.info(u'email_pk: {0}'.format(email_pk))
 
     real_email = get_email(
-        delivery=delivery,
         email_class=kwargs.get('email_class'),
         pk=kwargs.get('email_pk'), )
 
