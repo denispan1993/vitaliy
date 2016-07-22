@@ -424,15 +424,17 @@ def send(delivery, mail_account, email, msg):
         print('SMTPSenderRefused: ', e)
 
     except SMTPDataError as e:
-        print('SMTPDataError: ', e)
+        print('SMTPDataError: ', e, ' messages: ', e.message, ' smtp_code: ', e.smtp_code, 'smtp_error: ', e.smtp_error, ' args: ', e.args)
+
         if "SMTPDataError(554, '5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/" in e:
             print('SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
             mail_account.is_auto_active = False
             mail_account.auto_active_datetime = datetime.now()
             mail_account.save()
-        connection = connect(mail_account=mail_account, fail_silently=True, )
-        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
-        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+
+            connection = connect(mail_account=mail_account, fail_silently=True, )
+            msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+            send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
 
     except Exception as e:
         print('Exception: ', e)
@@ -441,9 +443,10 @@ def send(delivery, mail_account, email, msg):
             mail_account.is_auto_active = False
             mail_account.auto_active_datetime = datetime.now()
             mail_account.save()
-        connection = connect(mail_account=mail_account, fail_silently=True, )
-        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
-        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+
+            connection = connect(mail_account=mail_account, fail_silently=True, )
+            msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+            send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
 
     return False
 
