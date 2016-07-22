@@ -425,7 +425,7 @@ def send(delivery, mail_account, email, msg):
 
     except SMTPDataError as e:
         print('SMTPDataError: ', e)
-        if "(554, '5.7.1 Message rejected under suspicion of SPAM;" in e:
+        if "SMTPDataError(554, '5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/" in e:
             print('SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
             mail_account.is_auto_active = False
             mail_account.auto_active_datetime = datetime.now()
@@ -436,7 +436,7 @@ def send(delivery, mail_account, email, msg):
 
     except Exception as e:
         print('Exception: ', e)
-        if "(554, '5.7.1 Message rejected under suspicion of SPAM;" in e:
+        if "SMTPDataError(554, '5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/" in e:
             print('SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
             mail_account.is_auto_active = False
             mail_account.auto_active_datetime = datetime.now()
