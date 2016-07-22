@@ -7,29 +7,29 @@ import re
 import quopri
 import base64
 import sys
-from django.core.mail import EmailMessage, EmailMultiAlternatives
-from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
+from django.core.mail import get_connection, EmailMultiAlternatives
 from django.core.mail.utils import DNS_NAME
+from django.db.models import Q
+from django.db.models.loading import get_model
 from django.utils.html import strip_tags
+from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 from random import randrange, randint, choice
 from datetime import datetime, timedelta
 from time import mktime, sleep
-from django.db.models import Q
-from django.core.mail import get_connection
 from logging import getLogger
-from apps.delivery import random_Email, random_SpamEmail
-
-from dns.resolver import NXDOMAIN, NoAnswer, NoNameservers
-
 from email.utils import formataddr
-from apps.authModel.models import Email
+from dns.resolver import Resolver, NXDOMAIN, NoAnswer, NoNameservers
 
+from . import random_Email, random_SpamEmail
+from apps.authModel.models import Email
 from .models import MailAccount, EmailForDelivery, SpamEmail
 
 __author__ = 'AlexStarov'
 
 std_logger = getLogger(__name__)
 
+"(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml",\
+"5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/0EgTP 1469197349-4HnTGIgAOk-MSwGPtbw"
 
 def parsing(value, key, ):
     values = split("{{ id }}*", value, )
@@ -156,8 +156,7 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
         return False
 
     if resolver is None:
-        import dns.resolver
-        resolver = dns.resolver.Resolver()
+        resolver = Resolver()
         resolver.nameservers = ['192.168.1.100', '192.168.5.100', ]
 
     try:
@@ -173,8 +172,6 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
         return False
     else:
         return True
-
-from django.db.models.loading import get_model
 
 
 def get_email(delivery=False, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
@@ -425,14 +422,22 @@ def send(delivery, mail_account, email, msg):
 
     except SMTPSenderRefused as e:
         print('SMTPSenderRefused: ', e)
+
     except SMTPDataError as e:
         print('SMTPDataError: ', e)
+        if "(554, '5.7.1 Message rejected under suspicion of SPAM;" in e:
+            print('SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
+            mail_account.is_auto_active = False
+            mail_account.auto_active_datetime = datetime.now()
+            mail_account.save()
+        connection = connect(mail_account=mail_account, fail_silently=True, )
+        msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+        send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
 
     except Exception as e:
         print('Exception: ', e)
-        if "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml" in e:
+        if "(554, '5.7.1 Message rejected under suspicion of SPAM;" in e:
             print('SPAM Bloked E-Mail: ', mail_account, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
-            from datetime import datetime
             mail_account.is_auto_active = False
             mail_account.auto_active_datetime = datetime.now()
             mail_account.save()
