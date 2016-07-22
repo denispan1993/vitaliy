@@ -168,7 +168,7 @@ def processing_delivery_real(*args, **kwargs):
 
             """ Бежим по task.id и проверяем степень готовности """
             for task_id in task_set.copy():
-                sleep(4)
+                sleep(3)
 
                 task = AsyncResult(task_id, )
                 if task.status == 'SUCCESS':
@@ -179,7 +179,7 @@ def processing_delivery_real(*args, **kwargs):
                     print('REMOVE!!!!!!!!! --> ', 'task_id: ', task_id, 'task.status: ', task.status, 'task_result_dict: ', task_result_dict)
 
                     if task_result_dict['result'] is not True:
-                        query_emails_list.add(task_result_dict.real_email_pk)
+                        query_emails_list.add(task_result_dict['real_email_pk'])
 
             """ Если task.id закончились - выходим """
             if len(task_set) == 0:
@@ -235,7 +235,7 @@ def processing_delivery(*args, **kwargs):
         logger.info(
             'function processing_delivery(): email_class: {0}, email_pk: {1}, real_email.email: {2}'
             .format(email_class, email_pk, real_email.email))
-        sleep(33)
+        sleep(29)
         # sleep(17)
         return dict(result=result, )
     else:
