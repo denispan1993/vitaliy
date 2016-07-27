@@ -147,20 +147,19 @@ class MailAccount(models.Model, ):
     def get_return_path_subscribe(self):
         return 'subscribe@{0}'.format(self.get_provider, )
 
-
     # @property
     # def is_active(self):
     #     return self.server.is_active
 
     def __unicode__(self):
-        return u'%s -> %s:%d' % (self.email, self.server.server_smtp, self.server.port_smtp, )
+        return u'%s --> %s:%d' % (self.email, self.server.server_smtp, self.server.port_smtp, )
 
     class Meta:
         db_table = 'MailAccount'
         ordering = ['-created_at', ]
         get_latest_by = 'pk'
-        verbose_name = u'Mail Account'
-        verbose_name_plural = u'Mail Accounts'
+        verbose_name = _(u'Mail Account', )
+        verbose_name_plural = _(u'Mail Accounts', )
 
 
 def datetime_in_iso_format():
@@ -203,10 +202,12 @@ class Delivery(models.Model, ):
                                             default=1,
                                             blank=False,
                                             null=False, )
-    subject = models.CharField(verbose_name=_(u'Subject рассылки', ),
-                               max_length=256,
-                               blank=True,
-                               null=True, )
+
+    # subject = models.CharField(verbose_name=_(u'Subject рассылки', ),
+    #                            max_length=256,
+    #                            blank=True,
+    #                            null=True, )
+
     html = models.TextField(verbose_name=_(u'Html текст рассылки "СЫРОЙ"', ),
                             blank=True,
                             null=True, )
@@ -218,12 +219,10 @@ class Delivery(models.Model, ):
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
                                       null=True, )
-                                      # default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
                                       null=True, )
-                                      # default=datetime.now(), )
 
     # Вспомогательные поля
     img = generic.GenericRelation('Email_Img',
@@ -418,6 +417,43 @@ class Delivery(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Рассылка'
         verbose_name_plural = u'Рассылки'
+
+
+class Subject(models.Model, ):
+    delivery = models.ForeignKey(to=Delivery,
+                                 blank=False,
+                                 null=False,)
+
+    subject = models.CharField(verbose_name=_(u'Тема письма', ),
+                               max_length=256,
+                               blank=False,
+                               null=False,
+                               default=_(u'Тема', ), )
+
+    chance = models.DecimalField(verbose_name=_(u'Вероятность', ),
+                                 max_digits=4,
+                                 decimal_places=2,
+                                 blank=False,
+                                 null=False,
+                                 default=1, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def __unicode__(self):
+        return u'Тема: № %6d --> [%s]:%2.2f' % (self.pk, self.subject, self.chance )
+
+    class Meta:
+        db_table = 'Subject'
+        ordering = ['-created_at', ]
+        verbose_name = _(u'Тема', )
+        verbose_name_plural = _(u'Темы', )
 
 
 def set_path_photo(self, filename):
