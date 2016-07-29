@@ -5,9 +5,8 @@ from apps.utils.mediafile.models import MediaFile
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
 
-from .models import MailServer, MailAccount, Email_Img, Delivery, EmailMiddleDelivery,\
+from .models import MailServer, MailAccount, Email_Img, Delivery, Subject, EmailMiddleDelivery,\
     EmailForDelivery, SpamEmail, TraceOfVisits, RawEmail
-
 
 __author__ = 'AlexStarov'
 
@@ -42,17 +41,22 @@ class MailAccountAdmin(admin.ModelAdmin, ):
 admin.site.register(MailAccount, MailAccountAdmin, )
 
 
-class genericStacked_MediaFile_InLine(generic.GenericStackedInline, ):
+class genericStackedMediaFileInLine(generic.GenericStackedInline, ):
     model = MediaFile
     extra = 1
 
 
+class SubjectTabularInLine(admin.TabularInline, ):
+    model = Subject
+    extra = 1
+
+
 class DeliveryAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'name', 'delivery_test', 'type', 'subject', 'created_at', 'updated_at', ]
-    list_display_links = ['pk', 'name', 'subject', ]
+    list_display = ['pk', 'name', 'delivery_test', 'type', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'name', ]
 
     inlines = [
-        genericStacked_MediaFile_InLine,
+        SubjectTabularInLine, genericStackedMediaFileInLine,
     ]
     save_as = True
     save_on_top = True
@@ -61,10 +65,10 @@ class DeliveryAdmin(admin.ModelAdmin, ):
 admin.site.register(Delivery, DeliveryAdmin, )
 
 
-class Email_ImgAdmin(admin.ModelAdmin, ):
+class EmailImgAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'tag_name', 'image', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'name', 'tag_name', ]
-admin.site.register(Email_Img, Email_ImgAdmin, )
+admin.site.register(Email_Img, EmailImgAdmin, )
 
 
 class EmailMiddleDeliveryAdmin(admin.ModelAdmin, ):

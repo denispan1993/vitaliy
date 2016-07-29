@@ -17,6 +17,8 @@ from django.contrib.contenttypes.models import ContentType
 from compat.FormSlug.models import ModelSlugField
 from compat.ImageWithThumbs.models import ImageWithThumbsField
 
+__author__ = 'AlexStarov'
+
 
 class Category(MPTTModel):
 

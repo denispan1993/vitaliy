@@ -1,6 +1,8 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
+__author__ = 'AlexStarov'
 
 
 def set_path_photo(self, filename, ):
@@ -13,6 +15,8 @@ def set_path_photo(self, filename, ):
 def default_slide_name():
     from datetime import datetime
     return u'Слайд от %s' % datetime.now()
+
+OPENING_METHOD = ((1, '_blank'), (2, '_self'), )
 
 
 class Slide(models.Model):
@@ -35,6 +39,17 @@ class Slide(models.Model):
                                     null=False,
                                     help_text=u'Если мы хотим чтобы слайд не показывался,'
                                               u' ставим данное поле в False.')
+
+    opening_method = models.PositiveSmallIntegerField(verbose_name=_(u'Метод открытия страницы слайда', ),
+                                                      choices=OPENING_METHOD,
+                                                      blank=False,
+                                                      null=False,
+                                                      default=1, )
+
+    url = models.CharField(verbose_name=_(u'Url', ),
+                           max_length=256,
+                           blank=True,
+                           null=True, )
     from django.contrib.contenttypes.models import ContentType
     # from apps.product.models import Product
     content_type = models.ForeignKey(ContentType,
@@ -85,15 +100,16 @@ class Slide(models.Model):
     from apps.slide import managers
     manager = managers.ManagerSlide()
 
-    @property
-    def url(self, ):
-        if self.content_type_id and not self.content_type.app_label == 'slide' and self.object_id:
+    def get_absolute_url(self, ):
+        if self.content_type_id and not self.content_type.app_label == 'slide' and self.object_id and not self.url:
             try:
                 return self.parent.get_absolute_url()
             except AttributeError:
-                return '#'
+                return '/'
+        if self.url and not self.content_type_id and not self.object_id:
+            return self.url
         else:
-            return '#'
+            return '/'
 
     def __unicode__(self, ):
 #        text = u'Активный' if self.is_active else text = u'Пасивный'

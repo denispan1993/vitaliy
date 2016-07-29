@@ -1,21 +1,23 @@
-# coding=utf-8
-__author__ = 'Админ'
+# -*- coding: utf-8 -*-
 
+from apps.product.models import Manufacturer
 from django.contrib import admin
-
-from apps.product.models import Photo
-admin.site.register(Photo, admin.ModelAdmin, )
 from django.contrib.contenttypes import generic
-#from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
-
-
-class genericStacked_Photo_InLine(generic.GenericStackedInline, ):
-    model = Photo
-    extra = 1
-
-from apps.product.models import Category
 
 from mptt.admin import MPTTModelAdmin
+
+from .models import Category, Photo, ItemID, IntermediateModelManufacturer, Information, Additional_Information
+
+admin.site.register(Photo, admin.ModelAdmin, )
+
+#from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
+
+__author__ = 'AlexStarov'
+
+
+class genericStackedPhotoInLine(generic.GenericStackedInline, ):
+    model = Photo
+    extra = 1
 
 
 class CategoryAdmin(MPTTModelAdmin, ):
@@ -33,10 +35,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
                                                   'shown_colored', 'font_color',
                                                   'shadow_color', 'shadow_px', 'shadow_blur_px',
                                                   'shown_bold', 'shown_italic', 'font_px',
-                                                  #'disclose_product',
                                                   'url', 'title',
-                                                  #'letter_to_article',
-                                                  # 'name',
                                                   'item_description', 'description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
@@ -44,11 +43,11 @@ class CategoryAdmin(MPTTModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
         (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]
-    #readonly_fields = (u'url', )
+
     prepopulated_fields = {'url': ('title', ), }
 
     inlines = [
-        genericStacked_Photo_InLine,
+        genericStackedPhotoInLine,
     ]
     save_as = True
     save_on_top = True
@@ -63,8 +62,6 @@ class CategoryAdmin(MPTTModelAdmin, ):
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
 
-from apps.product.models import ItemID
-
 
 class ItemIDAdmin(admin.ModelAdmin, ):
     model = ItemID
@@ -76,7 +73,7 @@ class ItemIDAdmin(admin.ModelAdmin, ):
 admin.site.register(ItemID, ItemIDAdmin, )
 
 
-class genericStacked_ItemID_InLine(generic.GenericStackedInline, ):
+class genericStackedItemIDInLine(generic.GenericStackedInline, ):
     model = ItemID
     extra = 1
     max_num = 1
@@ -85,15 +82,11 @@ class genericStacked_ItemID_InLine(generic.GenericStackedInline, ):
         bbb = ItemID.bbb
         # pass
 
-from apps.product.models import IntermediateModelManufacturer
-
 
 class genericStacked_IntermediateModelManufacturer_InLine(generic.GenericStackedInline, ):
     model = IntermediateModelManufacturer
     extra = 1
     max_num = 1
-
-from apps.product.models import Manufacturer
 
 
 class ManufacturerAdmin(admin.ModelAdmin, ):
@@ -101,20 +94,16 @@ class ManufacturerAdmin(admin.ModelAdmin, ):
 admin.site.register(Manufacturer, ManufacturerAdmin, )
 
 
-class generic_Photo_InLine_for_Information(generic.GenericStackedInline, ):
+class genericPhotoInLineforInformation(generic.GenericStackedInline, ):
     model = Photo
     extra = 1
     max_num = 1
 
-from apps.product.models import Information
-
 
 class admin_Information_InLine(admin.TabularInline, ):
     model = Information
-    inlines = [generic_Photo_InLine_for_Information, ]
+    inlines = [genericPhotoInLineforInformation, ]
     extra = 3
-
-from apps.product.models import Additional_Information
 
 
 class admin_Additional_Information_InLine(admin.StackedInline, ):
@@ -287,11 +276,11 @@ class ProductAdmin(admin.ModelAdmin, ):
     prepopulated_fields = {u'url': (u'title', ), }
     filter_horizontal = ('category', 'recommended', 'action', )
     inlines = [
-        genericStacked_ItemID_InLine,
+        genericStackedItemIDInLine,
         genericStacked_IntermediateModelManufacturer_InLine,
         Tabular_Discount_InLine,
         admin_Additional_Information_InLine,
-        genericStacked_Photo_InLine,
+        genericStackedPhotoInLine,
         Tabular_AdditionalInformationForPrice_InLine,
         Tabular_ExtendedPrice_InLine,
     ]

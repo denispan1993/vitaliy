@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-# Create your models here.
+from apps.product.models import Country
 
 
 class Cart(models.Model):
@@ -72,9 +72,6 @@ class Cart(models.Model):
         ordering = [u'-created_at']
         verbose_name = u'Корзина'
         verbose_name_plural = u'Корзины'
-
-
-from apps.product.models import Country
 
 
 class Order(models.Model):

@@ -143,18 +143,116 @@ option:checked{
                                {% if delivery %}value="{{ delivery.type }}{% endif %}"> #}
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="delivery_subject"
-                            class="col-md-4 control-label">Subject рассылки:</label>
-                    {# {1{ form.delivery.errors }} #}
-                    <div class="col-md-6">
-                        <input type="text"
-                               name="subject"
-                               id="delivery_subject"
-                               class="form-control"
-                               {% if delivery %}value="{{ delivery.subject }}{% endif %}"> {# {% elif form is defined %}{{ form.subject.value() }} #}
+{% if not delivery %}
+    {% set subjects = (1, 2, 3, ) %}
+{% else %}
+    {% set subjects = delivery.subjects %}
+{% endif %}
+{% if subjects|length < 1 %}
+    {% set subjects = (1, 2, 3, ) %}
+{% endif %}
+                {% set i = 0 %}
+                {% for subject in subjects %}
+                    {% set i = i + 1 %}
+                    <div class="form-group"
+                            id="subject_{{ i }}">
+                        <input type="hidden"
+                               id="subject_pk"
+                               name="subject_pk_{{ i }}"
+                                value="{% if subject.pk %}{{ subject.pk }}{% else %}0{% endif %}">
+                        <label for="subject_{{ i }}"
+                                class="col-md-4 control-label">Тема письма:</label>
+                        <div class="col-md-4">
+                            <input type="text"
+                                   id="subject"
+                                   name="subject_{{ i }}"
+                                   class="form-control"
+                                   value="{% if subject.subject %}{{ subject.subject }}{% endif %}">
+                        </div>
+                        <label for="subject_chance_{{ i }}"
+                                class="col-md-1">Шанс темы:</label>
+                        <div class="col-md-2">
+                            <input type="number"
+                                   id="subject_chance"
+                                   name="subject_chance_{{ i }}"
+                                   class="form-control"
+                                   value="{% if subject.chance %}{{ subject.chance }}{% else %}1{% endif %}">
+                        </div>
                     </div>
+                {% endfor %}
+                <div id="button"
+                     class="form-group col-md-4">
+                    <button type="button" id="form-control-add-subject-button">add</button>
                 </div>
+<script>
+document.getElementById('form-control-add-subject-button').onclick = function(){
+    var i = 0;
+    for(;;){
+        i++;
+        id = 'subject_' + i;
+        if(!document.getElementById(id)){
+            break;
+        }
+    }
+    i--;
+    if(i==0){
+        i++;
+    }
+    id = 'image_' + i;
+    var div_button = document.getElementById("button");
+    var div_parent = document.getElementById("parent");
+    var div_last = document.getElementById(id);
+{# div #}
+    var div = document.createElement("div");
+    i++;
+    div.setAttribute("id", "subject_" + i);
+    div.setAttribute("class", "form-group");
+{# input hidden pk #}
+    var input_hidden_pk = document.createElement("input");
+    input_hidden_pk.setAttribute("type", "hidden");
+    input_hidden_pk.setAttribute("id", "subject_pk");
+    input_hidden_pk.setAttribute("name", "subject_pk_" + i);
+    input_hidden_pk.setAttribute("value", "0");
+    div.appendChild(input_hidden_pk);
+{# Subject Label #}
+    var label_subject = document.createElement("label");
+    label_subject.setAttribute("for", "subject_" + i);
+    label_subject.setAttribute("class", "col-md-1");
+    label_subject.innerHTML = "Тема письма:";
+    div.appendChild(label_subject);
+{# Subject Div #}
+    var div_subject = document.createElement("div");
+    div_subject.setAttribute("class", "col-md-2");
+{# Subject Input #}
+    var input_subject = document.createElement("input");
+    input_subject.setAttribute("type", "text");
+    input_subject.setAttribute("id", "subject");
+    input_subject.setAttribute("name", "subject_" + i);
+    input_subject.setAttribute("class", "form-control");
+    div_subject.appendChild(input_subject);
+    div.appendChild(div_subject);
+{# Suject Chance Label #}
+    var label_chance = document.createElement("label");
+    label_chance.setAttribute("for", "subject_chance");
+    label_chance.setAttribute("class", "col-md-2");
+    label_chance.innerHTML = "Шанс темы:";
+    div.appendChild(label_chance);
+{# Suject Chance Div #}
+    var div_chance = document.createElement("div");
+    div_chance.setAttribute("class", "col-md-2");
+{# Suject Chance Input #}
+    var input_chance = document.createElement("input");
+    input_chance.setAttribute("type", "text");
+    input_chance.setAttribute("id", "subject_chance");
+    input_chance.setAttribute("name", "subject_chance_" + i);
+    input_chance.setAttribute("class", "form-control");
+    input_chance.setAttribute("value", 1);
+    div_chance.appendChild(input_chance);
+    div.appendChild(div_chance);
+
+    div_parent.insertBefore(div, div_button);
+}
+</script>
                 <div class="form-group">
                     <label for="delivery_html"
                             class="col-md-4 control-label">Html:</label>

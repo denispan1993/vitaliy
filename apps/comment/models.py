@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel
 
 COMMENT_TYPES = (
-    (0, 'comment'),
-    (1, 'opinion'),
+    (0, 'comment'),  # Комментарий
+    (1, 'opinion'),  # Отзыв
 )
 
 

@@ -225,7 +225,7 @@ class Delivery(models.Model, ):
                                       null=True, )
 
     # Вспомогательные поля
-    img = generic.GenericRelation('Email_Img',
+    img = generic.GenericRelation(to='Email_Img',
                                   content_type_field='content_type',
                                   object_id_field='object_id', )
 
@@ -363,6 +363,10 @@ class Delivery(models.Model, ):
     def emails(self):
         from apps.authModel.models import Email
         return Email.objects.count()
+
+    @property
+    def subjects(self):
+        return self.subject_set.all().order_by('pk', )
 
     @property
     def images(self):
