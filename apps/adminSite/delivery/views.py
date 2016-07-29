@@ -67,7 +67,7 @@ def add_edit(request,
                     else:
                         test = bool(test, )
                 else:
-                    print 'Test: Not unicode'
+                    print('Test: Not unicode', )
                     test = True
             send_test = request.POST.get(u'send_test', None, )
             if send_test == None:

@@ -155,25 +155,25 @@ option:checked{
                 {% for subject in subjects %}
                     {% set i = i + 1 %}
                     <div class="form-group"
-                            id="subject_{{ i }}">
+                            id="div_subject_{{ i }}">
                         <input type="hidden"
                                id="subject_pk"
                                name="subject_pk_{{ i }}"
                                 value="{% if subject.pk %}{{ subject.pk }}{% else %}0{% endif %}">
                         <label for="subject_{{ i }}"
-                                class="col-md-4 control-label">Тема письма:</label>
-                        <div class="col-md-4">
+                                class="col-md-3 control-label">Тема письма:</label>
+                        <div class="col-md-6">
                             <input type="text"
-                                   id="subject"
+                                   id="subject_{{ i }}"
                                    name="subject_{{ i }}"
                                    class="form-control"
                                    value="{% if subject.subject %}{{ subject.subject }}{% endif %}">
                         </div>
                         <label for="subject_chance_{{ i }}"
                                 class="col-md-1">Шанс темы:</label>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <input type="number"
-                                   id="subject_chance"
+                                   id="subject_chance_{{ i }}"
                                    name="subject_chance_{{ i }}"
                                    class="form-control"
                                    value="{% if subject.chance %}{{ subject.chance }}{% else %}1{% endif %}">
@@ -181,8 +181,8 @@ option:checked{
                     </div>
                 {% endfor %}
                 <div id="button"
-                     class="form-group col-md-4">
-                    <button type="button" id="form-control-add-subject-button">add</button>
+                     class="form-group col-md-12" style="text-align:center;">
+                    <button type="button" id="form-control-add-subject-button">Add field for Subject</button>
                 </div>
 <script>
 document.getElementById('form-control-add-subject-button').onclick = function(){
@@ -205,7 +205,7 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
 {# div #}
     var div = document.createElement("div");
     i++;
-    div.setAttribute("id", "subject_" + i);
+    div.setAttribute("id", "div_subject_" + i);
     div.setAttribute("class", "form-group");
 {# input hidden pk #}
     var input_hidden_pk = document.createElement("input");
@@ -217,16 +217,16 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
 {# Subject Label #}
     var label_subject = document.createElement("label");
     label_subject.setAttribute("for", "subject_" + i);
-    label_subject.setAttribute("class", "col-md-1");
+    label_subject.setAttribute("class", "col-md-3 control-label");
     label_subject.innerHTML = "Тема письма:";
     div.appendChild(label_subject);
 {# Subject Div #}
     var div_subject = document.createElement("div");
-    div_subject.setAttribute("class", "col-md-2");
+    div_subject.setAttribute("class", "col-md-6");
 {# Subject Input #}
     var input_subject = document.createElement("input");
     input_subject.setAttribute("type", "text");
-    input_subject.setAttribute("id", "subject");
+    input_subject.setAttribute("id", "subject_" + i);
     input_subject.setAttribute("name", "subject_" + i);
     input_subject.setAttribute("class", "form-control");
     div_subject.appendChild(input_subject);
@@ -234,16 +234,16 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
 {# Suject Chance Label #}
     var label_chance = document.createElement("label");
     label_chance.setAttribute("for", "subject_chance");
-    label_chance.setAttribute("class", "col-md-2");
+    label_chance.setAttribute("class", "col-md-1");
     label_chance.innerHTML = "Шанс темы:";
     div.appendChild(label_chance);
 {# Suject Chance Div #}
     var div_chance = document.createElement("div");
-    div_chance.setAttribute("class", "col-md-2");
+    div_chance.setAttribute("class", "col-md-1");
 {# Suject Chance Input #}
     var input_chance = document.createElement("input");
-    input_chance.setAttribute("type", "text");
-    input_chance.setAttribute("id", "subject_chance");
+    input_chance.setAttribute("type", "number");
+    input_chance.setAttribute("id", "subject_chance_" + i);
     input_chance.setAttribute("name", "subject_chance_" + i);
     input_chance.setAttribute("class", "form-control");
     input_chance.setAttribute("value", 1);
@@ -351,8 +351,8 @@ textarea.val(editor.getSession().getValue());
                 </div>
                 {% endfor %}
                 <div id="button"
-                     class="form-group">
-                    <button type="button" id="form-control-add-image-button">add</button>
+                     class="form-group col-md-12" style="text-align:center;">
+                    <button type="button" id="form-control-add-image-button">Add field for image</button>
                 </div>
 <script>
 document.getElementById('form-control-add-image-button').onclick = function(){
@@ -382,12 +382,13 @@ document.getElementById('form-control-add-image-button').onclick = function(){
     input_hidden_pk.setAttribute("name", "image_pk_" + i);
     input_hidden_pk.setAttribute("value", "0");
     div.appendChild(input_hidden_pk);
-{# Name #}
+{# Image Name Label #}
     var label_name = document.createElement("label");
     label_name.setAttribute("for", "image_name");
     label_name.setAttribute("class", "col-md-1");
     label_name.innerHTML = "Имя картинки:";
     div.appendChild(label_name);
+{# Image Name Div #}
     var div_name = document.createElement("div");
     div_name.setAttribute("class", "col-md-2");
     var input_name = document.createElement("input");
