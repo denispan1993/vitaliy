@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-from apps.utils.captcha.views import key_generator
-from apps.authModel.models import Email
-from apps.cart.models import Order
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
+
+from apps.utils.captcha.views import key_generator
+from apps.authModel.models import Email
+from apps.cart.models import Order
+from django.core.cache import cache
 
 __author__ = 'AlexStarov'
 
@@ -358,6 +360,41 @@ class Delivery(models.Model, ):
         # return len(unique_orders, )
 
         return len(orders, )
+
+    @property
+    def subject(self):
+        subject_value, subject_value_pk = 5000000, 0
+
+        subjects = self.subject_set.all()
+
+        for subject in subjects:
+            try:
+                subject_cache_value = cache.get_or_set(
+                    key='subject_cache_pk_{0}'.format(subject.pk, ),
+                    value=subject.chance,
+                    timeout=259200, )
+
+            except AttributeError:
+                subject_cache_value = cache.get(
+                    key='subject_cache_pk_{0}'.format(subject.pk, ), )
+
+                if not subject_cache_value:
+                    subject_cache_value = subject.chance
+                    cache.set(
+                        key='subject_cache_pk_{0}'.format(subject.pk, ),
+                        value=subject.chance,
+                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+            if subject_cache_value < subject_value:
+                subject_value, subject_value_pk = subject_cache_value, subject.pk
+
+        subject = subjects.get(pk=subject_value_pk, )
+        cache.set(
+            key='subject_cache_pk_{0}'.format(subject.pk, ),
+            value=subject_cache_value + subject.chance,
+            timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+        return subject.subject
 
     @property
     def emails(self):

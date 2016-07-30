@@ -12,9 +12,9 @@ def forwards(apps, schema_editor):
         return
 
     Subject = apps.get_model('delivery', 'Subject')
-    Subject.objects.bulk_create(
+    Subject.objects.bulk_create([
         Subject(delivery=delivery, subject=delivery.subject, chance=1, )
-        for delivery in Delivery.objects.all()
+        for delivery in Delivery.objects.all()]
     )
 
 
@@ -23,4 +23,3 @@ class Migration(migrations.Migration):
     dependencies = [
         ('delivery', '0063_auto_20160727_2229'),
     ]
-
