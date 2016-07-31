@@ -30,8 +30,8 @@ __author__ = 'AlexStarov'
 
 std_logger = getLogger(__name__)
 
-"(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml",\
-"5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/0EgTP 1469197349-4HnTGIgAOk-MSwGPtbw"
+# "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml",\
+# "5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/0EgTP 1469197349-4HnTGIgAOk-MSwGPtbw"
 
 
 def parsing(value, key, ):
