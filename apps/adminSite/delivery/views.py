@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.core.management import call_command
 
 from apps.authModel.models import Email
-from apps.delivery.models import Delivery, Email_Img, SpamEmail
+from apps.delivery.models import Delivery, Subject, Url, Email_Img, SpamEmail
 from apps.delivery.forms import DeliveryCreateEditForm
 from apps.delivery.tasks import processing_delivery_test, processing_delivery_real
 
@@ -51,10 +51,10 @@ def add_edit(request,
             if not name:
                 name = 'Имя рассылки'
             test = request.POST.get(u'test', None, )
-            print 'Test: ', test
+
             if test == None:
-                print 'Test: None'
                 test = True
+
             else:
                 if isinstance(test, unicode, ):
                     try:
@@ -147,6 +147,65 @@ def add_edit(request,
             delivery.type = delivery_type
             delivery.html = html
             delivery.save()
+
+            """ Обрабатываем Subjects. """
+            for key, value in request.POST.iteritems():
+
+                if key.startswith('subject_pk_'):
+                    try:
+                        subject_id = int(key.lstrip('subject_pk_'), )
+                        subject_pk = int(value, )
+
+                    except ValueError:
+                        subject_id = 0; subject_pk = 0
+
+                    if subject_pk != 0:
+                        """ Редактируется ссылка на существующий subject """
+                        try:
+                            subject = Subject.objects.get(pk=subject_pk, )
+                        except Subject.DoesNotExist:
+                            subject = Subject(delivery=delivery)
+                    else:
+                        subject = Subject(delivery=delivery)
+
+                    subject_delete = request.POST.get('subject_delete_%d' % subject_id, False, )
+                    if isinstance(subject_delete, unicode) and subject_delete.lower() == u'on':
+                        subject.delete()
+                        continue
+
+                    subject.subject = request.POST.get('subject_subject_%d' % subject_id, False, )
+                    subject.chance = request.POST.get('subject_chance_%d' % subject_id, False, )
+                    subject.save()
+                    continue
+
+                if key.startswith('url_pk_'):
+                    try:
+                        url_id = int(key.lstrip('url_pk_'), )
+                        url_pk = int(value, )
+
+                    except ValueError:
+                        url_id = 0; url_pk = 0
+
+                    if url_pk != 0:
+                        """ Редактируется ссылка на существующий url """
+                        try:
+                            url = Url.objects.get(pk=url_pk, )
+                        except Url.DoesNotExist:
+                            url = Url(delivery=delivery)
+                    else:
+                        url = Url(delivery=delivery)
+
+                    url_delete = request.POST.get('url_delete_%d' % url_id, False, )
+                    if isinstance(url_delete, unicode) and url_delete.lower() == u'on':
+                        url.delete()
+                        continue
+
+                    url.url_id = request.POST.get('url_id_%d' % url_id, False, )
+                    url.href = request.POST.get('url_href_%d' % url_id, False, )
+                    url.str = request.POST.get('url_str_%d' % url_id, False, )
+                    url.title = request.POST.get('url_title_%d' % url_id, False, )
+                    url.save()
+
             """ Обрабатываем картинки. """
             for i in range(1, 50):
                 image_pk = request.POST.get('image_pk_%d' % i, False, )

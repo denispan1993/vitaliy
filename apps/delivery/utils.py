@@ -3,6 +3,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from re import split
+
+import copy
 import re
 import quopri
 import base64
@@ -31,8 +33,9 @@ std_logger = getLogger(__name__)
 "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml",\
 "5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/0EgTP 1469197349-4HnTGIgAOk-MSwGPtbw"
 
+
 def parsing(value, key, ):
-    values = split("{{ id }}*", value, )
+    values = split("{{ id }}", value, )
     cycle = 1
     part_count = len(values, )
     if part_count > 1:
@@ -44,7 +47,8 @@ def parsing(value, key, ):
                 value = '%s%s' % (value, value_part, )
                 break
             cycle += 1
-    return value
+    """ Перед возвращением тела письма, парсим его на предмет "[[разных|одинаковых]]" слов """
+    return choice_str_in_tmpl(tmpl=value, )
 
 
 def get_mail_account(pk=False, smtp=True, imap=False, pop3=False, ):
@@ -297,14 +301,14 @@ named = lambda email, name=False: ('%s <%s>' % email, name) if name else email
 
 def create_msg(delivery, mail_account, email, exception=False, test=False, ):
 
-    """ div - Delivery id """
-    div = get_div(delivery=delivery)
-    headers = {'X-Delivery-id': div}
+    """ did - Delivery id """
+    did = get_div(delivery=delivery)
+    headers = {'X-Delivery-id': did}
     """ eid - Email id """
     eid = get_eid(email=email.now_email)
     headers['X-Email-id'] = get_eid(email=email.now_email)
     """ mid - Message id """
-    headers['X-Message-id'] = get_mid(div=div, eid=eid)
+    headers['X-Message-id'] = get_mid(div=did, eid=eid)
     """ Reply-To + Return-Path """
     headers['Return-Path'] = mail_account.get_return_path_subscribe
     headers['Reply-To'] = mail_account.get_return_path_subscribe
@@ -521,3 +525,51 @@ def str_conv(str, ):
         return ''.join(value_results), error
 
     return str, error
+
+tokenizer_replacement = re.compile('(\[[\[a-z|A-Z0-9\-\_\.]+\]])', re.MULTILINE)
+# ccc('aaa [[bbb|111]] ccc [[ddd|222]] eee [[fff|333|444|555|666]] ggg')
+
+
+def choice_str_in_tmpl(tmpl, ):
+    three = re.split(tokenizer_replacement, tmpl)
+
+    nodes = {}
+    for pos, block in enumerate(three):
+        if block.startswith('[[') and block.endswith(']]'):
+            keys = block.strip('[[]]').split('|')
+
+            value = keys[randrange(start=0, stop=len(keys))]
+
+            if pos not in nodes:
+                nodes[pos] = value
+
+    three = copy.copy(three)
+    for pos, value in nodes.iteritems():
+
+        three[pos] = value
+
+    return ''.join(three)
+
+
+tokenizer = re.compile('(\{{[a-zA-Z0-9\-\_\.]+\}})', re.MULTILINE)
+#bbb('aaa {{aaa1}} ccc {{bbb2}} eee {{ccc3}} ggg', {'aaa1': '1aaa', 'bbb2': 'bb2b', 'ccc3': 'ccc333ccc', })
+
+
+def bbb(tmpl, context={}, ):
+    three = re.split(tokenizer, tmpl)
+
+    nodes = {}
+    for pos, block in enumerate(three):
+        if block.startswith('{{') and block.endswith('}}'):
+            key = block.strip('{{}}')
+            if key not in nodes:
+                nodes[key] = []
+            nodes[key].append(pos)
+    keys = nodes.keys()
+    three = copy.copy(three)
+    for key, value in context.iteritems():
+        if key in keys:
+            for pos in nodes[key]:
+                three[pos] = value
+
+    print '!!!!!!!!!!', ''.join(three)

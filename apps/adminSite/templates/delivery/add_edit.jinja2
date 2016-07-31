@@ -14,7 +14,7 @@
         <form action="{% if delivery %}{{ url('admin_delivery:edit', delivery_id=delivery.get_url_number) }}{% else %}{{ url('admin_delivery:add') }}{% endif %}"
               class="form-horizontal row"
               enctype="multipart/form-data"
-              method="post"
+              method="POST"
               role="form">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="add_edit">
@@ -143,44 +143,50 @@ option:checked{
                                {% if delivery %}value="{{ delivery.type }}{% endif %}"> #}
                     </div>
                 </div>
-{% if not delivery %}
-    {% set subjects = (1, 2, 3, ) %}
-{% else %}
-    {% set subjects = delivery.subjects %}
+{% if not delivery %}{% set subjects = (1, 2, 3, ) %}
+{% else %}{% set subjects = delivery.subjects %}
 {% endif %}
-{% if subjects|length < 1 %}
-    {% set subjects = (1, 2, 3, ) %}
-{% endif %}
+{% if subjects|length < 1 %}{% set subjects = (1, 2, 3, ) %}{% endif %}
                 {% set i = 0 %}
                 {% for subject in subjects %}
                     {% set i = i + 1 %}
                     <div class="form-group"
-                            id="div_subject_{{ i }}">
+                            id="subject_{{ i }}">
                         <input type="hidden"
                                id="subject_pk"
                                name="subject_pk_{{ i }}"
                                 value="{% if subject.pk %}{{ subject.pk }}{% else %}0{% endif %}">
-                        <label for="subject_{{ i }}"
-                                class="col-md-3 control-label">Тема письма:</label>
+                        {% if subject.pk %}
+                        <label for="subject_delete"
+                                class="col-md-1 control-label">Удалить:</label>
+                        <div class="col-md-1">
+                            <input type="checkbox"
+                                   id="subject_delete"
+                                   name="subject_delete_{{ i }}"
+                                   class="form-control">
+                        </div>
+                        {% endif %}
+                        <label for="subject_subject"
+                                class="{% if delivery %}col-md-1{% else %}col-md-3{% endif %} control-label">Тема письма:</label>
                         <div class="col-md-6">
                             <input type="text"
-                                   id="subject_{{ i }}"
-                                   name="subject_{{ i }}"
+                                   id="subject_subject"
+                                   name="subject_subject_{{ i }}"
                                    class="form-control"
                                    value="{% if subject.subject %}{{ subject.subject }}{% endif %}">
                         </div>
-                        <label for="subject_chance_{{ i }}"
+                        <label for="subject_chance"
                                 class="col-md-1">Шанс темы:</label>
                         <div class="col-md-1">
                             <input type="number"
-                                   id="subject_chance_{{ i }}"
+                                   id="subject_chance"
                                    name="subject_chance_{{ i }}"
                                    class="form-control"
                                    value="{% if subject.chance %}{{ subject.chance }}{% else %}1{% endif %}">
                         </div>
                     </div>
                 {% endfor %}
-                <div id="button"
+                <div id="subject_button"
                      class="form-group col-md-12" style="text-align:center;">
                     <button type="button" id="form-control-add-subject-button">Add field for Subject</button>
                 </div>
@@ -188,9 +194,7 @@ option:checked{
 document.getElementById('form-control-add-subject-button').onclick = function(){
     var i = 0;
     for(;;){
-        i++;
-        id = 'subject_' + i;
-        if(!document.getElementById(id)){
+        if(!document.getElementById('subject_' + ++i)){
             break;
         }
     }
@@ -198,14 +202,11 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
     if(i==0){
         i++;
     }
-    id = 'image_' + i;
-    var div_button = document.getElementById("button");
+    var div_subject_button = document.getElementById("subject_button");
     var div_parent = document.getElementById("parent");
-    var div_last = document.getElementById(id);
 {# div #}
     var div = document.createElement("div");
-    i++;
-    div.setAttribute("id", "div_subject_" + i);
+    div.setAttribute("id", "subject_" + ++i);
     div.setAttribute("class", "form-group");
 {# input hidden pk #}
     var input_hidden_pk = document.createElement("input");
@@ -216,7 +217,7 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
     div.appendChild(input_hidden_pk);
 {# Subject Label #}
     var label_subject = document.createElement("label");
-    label_subject.setAttribute("for", "subject_" + i);
+    label_subject.setAttribute("for", "subject_subject");
     label_subject.setAttribute("class", "col-md-3 control-label");
     label_subject.innerHTML = "Тема письма:";
     div.appendChild(label_subject);
@@ -226,8 +227,8 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
 {# Subject Input #}
     var input_subject = document.createElement("input");
     input_subject.setAttribute("type", "text");
-    input_subject.setAttribute("id", "subject_" + i);
-    input_subject.setAttribute("name", "subject_" + i);
+    input_subject.setAttribute("id", "subject_subject");
+    input_subject.setAttribute("name", "subject_subject_" + i);
     input_subject.setAttribute("class", "form-control");
     div_subject.appendChild(input_subject);
     div.appendChild(div_subject);
@@ -243,14 +244,14 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
 {# Suject Chance Input #}
     var input_chance = document.createElement("input");
     input_chance.setAttribute("type", "number");
-    input_chance.setAttribute("id", "subject_chance_" + i);
-    input_chance.setAttribute("name", "subject_chance_" + i);
+    input_chance.setAttribute("id", "subject_chance");
     input_chance.setAttribute("class", "form-control");
+    input_chance.setAttribute("name", "subject_chance_" + i);
     input_chance.setAttribute("value", 1);
     div_chance.appendChild(input_chance);
     div.appendChild(div_chance);
 
-    div_parent.insertBefore(div, div_button);
+    div_parent.insertBefore(div, div_subject_button);
 }
 </script>
                 <div class="form-group">
@@ -295,6 +296,180 @@ textarea.val(editor.getSession().getValue());
 </script>
                     </div>
                 </div>
+
+{% if not delivery %}{% set urls = (1, 2, 3, ) %}
+{% else %}{% set urls = delivery.urls %}
+{% endif %}
+{% if urls|length < 1 %}{% set urls = (1, 2, 3, ) %}{% endif %}
+                {% set i = 0 %}
+                {% for url in urls %}
+                    {% set i = i + 1 %}
+                    <div class="form-group"
+                            id="url_{{ i }}">
+                        <input type="hidden"
+                               id="url_pk"
+                               name="url_pk_{{ i }}"
+                                value="{% if url.pk %}{{ url.pk }}{% else %}0{% endif %}">
+                        {% if url.pk %}
+                        <label for="url_delete"
+                                class="col-md-1 control-label">Удалить:</label>
+                        <div class="col-md-1">
+                            <input type="checkbox"
+                                   id="url_delete"
+                                   name="url_delete_{{ i }}"
+                                   class="form-control">
+                        </div>
+                        {% endif %}
+                        <label for="url_id"
+                                class="{% if delivery %}col-md-1{% else %}col-md-3{% endif %} control-label">Url ID:</label>
+                        <div class="col-md-1">
+                            <input type="number"
+                                   id="url_id"
+                                   name="url_id_{{ i }}"
+                                   class="form-control"
+                                   value="{% if url.url_id %}{{ url.url_id }}{% else %}{{ i }}{% endif %}">
+                        </div>
+                        <label for="url_href"
+                                class="col-md-1">Url:</label>
+                        <div class="col-md-2">
+                            <input type="text"
+                                   id="url_href"
+                                   name="url_href_{{ i }}"
+                                   class="form-control"
+                                   value="{% if url.href %}{{ url.href }}{% else %}http://keksik.com.ua/{% endif %}">
+                        </div>
+                        <label for="url_str"
+                                class="col-md-1">Url строка:</label>
+                        <div class="col-md-2">
+                            <input type="text"
+                                   id="url_str"
+                                   name="url_str_{{ i }}"
+                                   class="form-control"
+                                   value="{% if url.str %}{{ url.str }}{% else %}http://keksik.com.ua/{% endif %}">
+                        </div>
+                        <label for="url_title"
+                                class="col-md-1">Url title:</label>
+                        <div class="col-md-2">
+                            <input type="text"
+                                   id="url_title"
+                                   name="url_title_{{ i }}"
+                                   class="form-control"
+                                   value="{% if url.title %}{{ url.title }}{% else %}http://keksik.com.ua/{% endif %}">
+                        </div>
+                    </div>
+                {% endfor %}
+                <div id="url_button"
+                     class="form-group col-md-12" style="text-align:center;">
+                    <button type="button" id="form-control-add-url-button">Add field for Url</button>
+                </div>
+<script>
+document.getElementById('form-control-add-url-button').onclick = function(){
+    var i = 0;
+    for(;;){
+        if(!document.getElementById('url_' + ++i)){
+            break;
+        }
+    }
+    i--;
+    if(i==0){
+        i++;
+    }
+    var div_url_button = document.getElementById("url_button");
+    var div_parent = document.getElementById("parent");
+{# div #}
+    var div = document.createElement("div");
+    div.setAttribute("id", "url_" + ++i);
+    div.setAttribute("class", "form-group");
+{# input hidden pk #}
+    var input_hidden_pk = document.createElement("input");
+    input_hidden_pk.setAttribute("type", "hidden");
+    input_hidden_pk.setAttribute("id", "url_pk");
+    input_hidden_pk.setAttribute("name", "url_pk_" + i);
+    input_hidden_pk.setAttribute("value", "0");
+    div.appendChild(input_hidden_pk);
+
+{# Url Url_id Label #}
+    var label_url_id = document.createElement("label");
+    label_url_id.setAttribute("for", "url_id");
+    label_url_id.setAttribute("class", "col-md-3 control-label");
+    label_url_id.innerHTML = "Url ID:";
+    div.appendChild(label_url_id);
+{# Url_id Div #}
+    var div_url_id = document.createElement("div");
+    div_url_id.setAttribute("class", "col-md-1");
+{# Url_id Input #}
+    var input_url_id = document.createElement("input");
+    input_url_id.setAttribute("type", "number");
+    input_url_id.setAttribute("id", "subject_subject");
+    input_url_id.setAttribute("name", "subject_subject_" + i);
+    input_url_id.setAttribute("class", "form-control");
+    input_url_id.setAttribute("value", i);
+    div_url_id.appendChild(input_url_id);
+    div.appendChild(div_url_id);
+
+{# Url href Label #}
+    var label_href = document.createElement("label");
+    label_href.setAttribute("for", "url_href");
+    label_href.setAttribute("class", "col-md-1");
+    label_href.innerHTML = "Url:";
+    div.appendChild(label_href);
+{# Url href Div #}
+    var div_href = document.createElement("div");
+    div_href.setAttribute("class", "col-md-2");
+{# Url href Input #}
+    var input_href = document.createElement("input");
+    input_href.setAttribute("type", "text");
+    input_href.setAttribute("id", "url_href");
+    input_href.setAttribute("class", "form-control");
+    input_href.setAttribute("name", "url_href_" + i);
+    input_href.setAttribute("value", "http://keksik.com.ua/");
+    div_href.appendChild(input_href);
+    div.appendChild(div_href);
+
+{# Url str Label #}
+    var label_str = document.createElement("label");
+    label_str.setAttribute("for", "url_str");
+    label_str.setAttribute("class", "col-md-1");
+    label_str.innerHTML = "Url строка:";
+    div.appendChild(label_str);
+{# Url str Div #}
+    var div_str = document.createElement("div");
+    div_str.setAttribute("class", "col-md-2");
+{# Url str Input #}
+    var input_str = document.createElement("input");
+    input_str.setAttribute("type", "text");
+    input_str.setAttribute("id", "url_str");
+    input_str.setAttribute("class", "form-control");
+    input_str.setAttribute("name", "url_str_" + i);
+    input_str.setAttribute("value", "http://keksik.com.ua/");
+    div_str.appendChild(input_str);
+    div.appendChild(div_str);
+
+{# Url title Label #}
+    var label_title = document.createElement("label");
+    label_title.setAttribute("for", "url_title");
+    label_title.setAttribute("class", "col-md-1");
+    label_title.innerHTML = "Url title:";
+    div.appendChild(label_title);
+{# Url title Div #}
+    var div_title = document.createElement("div");
+    div_title.setAttribute("class", "col-md-2");
+{# Url title Input #}
+    var input_title = document.createElement("input");
+    input_title.setAttribute("type", "text");
+    input_title.setAttribute("id", "url_title");
+    input_title.setAttribute("class", "form-control");
+    input_title.setAttribute("name", "url_title_" + i);
+    input_title.setAttribute("value", "http://keksik.com.ua/");
+    div_title.appendChild(input_title);
+    div.appendChild(div_title);
+
+
+    div_parent.insertBefore(div, div_url_button);
+}
+</script>
+
+
 {% if not delivery %}
     {% set images = (1, 2, 3, ) %}
 {% else %}

@@ -147,11 +147,11 @@ def context(request):
                 except:
                     print 'Error: Resolver404 - utf8', 'print value: Error'
 
-            else:
-                try:
-                    print 'resolve(full_path, ) : view = ', view, ' args = ', args, ' kwargs = ', kwargs
-                except:
-                    pass
+            # else:
+            #     try:
+            #         print 'resolve(full_path, ) : view = ', view, ' args = ', args, ' kwargs = ', kwargs
+            #     except:
+            #         pass
 
     #        try:
     #            print 'Not error: ', request.path

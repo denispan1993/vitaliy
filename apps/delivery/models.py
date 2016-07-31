@@ -326,9 +326,9 @@ class Delivery(models.Model, ):
             .exclude(email__delivery__delivery_test_send=True, )
         # unique_trace_email_pk = set()
         unique_trace_pks = set([trace.email.now_email.pk for trace in trace_of_visits])
-        print unique_trace_pks
+        # print unique_trace_pks
         unique_trace_emails = set([trace.email.now_email.email for trace in trace_of_visits])
-        print unique_trace_emails
+        # print unique_trace_emails
         # for trace in trace_of_visits:
         #     trace_email_pk = trace.email.now_email.pk
         #     if trace_email_pk not in unique_trace_email_pk:
@@ -348,7 +348,7 @@ class Delivery(models.Model, ):
             q |= Q(email__icontains=email)
 
         try:
-            print q
+            # print q
             orders = Order.objects.filter(q, ).values('email').distinct()  # email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
                                       # created_at__lte=this_trace.cteated_at + delta, )
         except Order.DoesNotExist:
@@ -366,7 +366,7 @@ class Delivery(models.Model, ):
     def subject(self):
         subject_value, subject_value_pk = 5000000, 0
 
-        subjects = self.subject_set.all()
+        subjects = self.subjects
 
         for subject in subjects:
             try:
@@ -405,6 +405,10 @@ class Delivery(models.Model, ):
     @property
     def subjects(self):
         return self.subject_set.all().order_by('pk', )
+
+    @property
+    def urls(self):
+        return self.url_set.all().order_by('pk', )
 
     @property
     def images(self):
@@ -496,6 +500,55 @@ class Subject(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = _(u'Тема', )
         verbose_name_plural = _(u'Темы', )
+
+
+class Url(models.Model, ):
+    delivery = models.ForeignKey(to=Delivery,
+                                 verbose_name=_(u'Рассылка'),
+                                 blank=False,
+                                 null=False,)
+
+    url_id = models.PositiveSmallIntegerField(verbose_name=_(u'Url ID'),
+                                              blank=False,
+                                              null=False,
+                                              default=1, )
+
+    href = models.CharField(verbose_name=_(u'URL', ),
+                            max_length=256,
+                            blank=False,
+                            null=False,
+                            default='http://keksik.com.ua/', )
+
+    str = models.CharField(verbose_name=_(u'Строка', ),
+                           max_length=256,
+                           blank=False,
+                           null=False,
+                           default='http://keksik.com.ua/', )
+
+    title = models.CharField(verbose_name=_(u'Title', ),
+                             max_length=256,
+                             blank=False,
+                             null=False,
+                             default='http://keksik.com.ua/', )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def __unicode__(self):
+        return u'Url: № %6d --> [%s]:%2.2f' % (self.pk, self.subject, self.chance )
+
+    class Meta:
+        db_table = 'Url'
+        ordering = ['-created_at', ]
+        verbose_name = _(u'Url', )
+        verbose_name_plural = _(u'Urls', )
 
 
 def set_path_photo(self, filename):
