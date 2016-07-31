@@ -2,14 +2,15 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
+from django.core.cache import cache
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
+from django.db.models import Q
 
 from apps.utils.captcha.views import key_generator
 from apps.authModel.models import Email
 from apps.cart.models import Order
-from django.core.cache import cache
 
 __author__ = 'AlexStarov'
 
@@ -341,7 +342,7 @@ class Delivery(models.Model, ):
         #     except TraceOfVisits.DoesNotExist:
         #         continue
         #     else:
-        from django.db.models import Q
+
         q = Q()
         for email in unique_trace_emails:
             q |= Q(email__icontains=email)

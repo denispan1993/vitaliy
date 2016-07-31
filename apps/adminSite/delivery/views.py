@@ -145,13 +145,10 @@ def add_edit(request,
             delivery.send_general = send_general
             # print test
             delivery.type = delivery_type
-            delivery.subject = subject
             delivery.html = html
             delivery.save()
             """ Обрабатываем картинки. """
             for i in range(1, 50):
-                print i
-                image_pk = 'image_pk_%d' % i
                 image_pk = request.POST.get('image_pk_%d' % i, False, )
                 if image_pk:
                     try:
