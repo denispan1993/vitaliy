@@ -5,7 +5,7 @@ from apps.utils.mediafile.models import MediaFile
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
 
-from .models import MailServer, MailAccount, Email_Img, Delivery, Subject, EmailMiddleDelivery,\
+from .models import MailServer, MailAccount, Email_Img, Delivery, Subject, Body, EmailMiddleDelivery,\
     EmailForDelivery, SpamEmail, TraceOfVisits, RawEmail
 
 __author__ = 'AlexStarov'
@@ -51,12 +51,17 @@ class SubjectTabularInLine(admin.TabularInline, ):
     extra = 1
 
 
+class BodyTabularInLine(admin.TabularInline, ):
+    model = Body
+    extra = 1
+
+
 class DeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'delivery_test', 'type', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'name', ]
 
     inlines = [
-        SubjectTabularInLine, genericStackedMediaFileInLine,
+        SubjectTabularInLine, BodyTabularInLine, genericStackedMediaFileInLine,
     ]
     save_as = True
     save_on_top = True

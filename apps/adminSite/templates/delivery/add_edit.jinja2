@@ -254,7 +254,8 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
     div_parent.insertBefore(div, div_subject_button);
 }
 </script>
-                <div class="form-group">
+
+<!--                <div class="form-group">
                     <label for="delivery_html"
                             class="col-md-4 control-label">Html:</label>
                     {# {1{ form.key.errors }} #}
@@ -296,6 +297,31 @@ textarea.val(editor.getSession().getValue());
 </script>
                     </div>
                 </div>
+-->
+                <div class="form-group">
+                    <label for="delivery_html"
+                            class="col-md-4 control-label">Html:</label>
+                    <div class="col-md-6">
+                        <div id="div_editor_delivery_html">{% if delivery %}{{ delivery.html }}{% endif %}</div>
+                        <textarea type="text"
+                               name="html"
+                               id="textarea_tinymce_editor_delivery_html"
+                               class="form-control"
+                               style="visibility:hidden;display:none;">
+                        </textarea>
+<script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+
+<script>
+window.onload=function(){
+    tinymce.init({
+        selector: '#textarea_tinymce_editor_delivery_html'
+    });
+}
+</script>
+                    </div>
+                </div>
+
+
 
 {% if not delivery %}{% set urls = (1, 2, 3, ) %}
 {% else %}{% set urls = delivery.urls %}

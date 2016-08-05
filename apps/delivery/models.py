@@ -211,12 +211,12 @@ class Delivery(models.Model, ):
     #                            blank=True,
     #                            null=True, )
 
-    html = models.TextField(verbose_name=_(u'Html текст рассылки "СЫРОЙ"', ),
-                            blank=True,
-                            null=True, )
-    real_html = models.TextField(verbose_name=_(u'Html текст рассылки', ),
-                                 blank=True,
-                                 null=True, )
+    #html = models.TextField(verbose_name=_(u'Html текст рассылки "СЫРОЙ"', ),
+    #                        blank=True,
+    #                        null=True, )
+    #real_html = models.TextField(verbose_name=_(u'Html текст рассылки', ),
+    #                             blank=True,
+    #                             null=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
@@ -500,6 +500,52 @@ class Subject(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = _(u'Тема', )
         verbose_name_plural = _(u'Темы', )
+
+
+class Body(models.Model, ):
+    delivery = models.ForeignKey(to=Delivery,
+                                 blank=False,
+                                 null=False, )
+
+    html = models.TextField(verbose_name=_(u'Тело письма', ),
+                            blank=False,
+                            null=False,
+                            default=_(u'<html><head></head><body></body></html>', ), )
+
+    real_html = models.TextField(verbose_name=_(u'Тело письма', ),
+                                 blank=False,
+                                 null=False,
+                                 default=_(u'<html><head></head><body></body></html>', ), )
+
+    text = models.TextField(verbose_name=_(u'Тело письма', ),
+                            blank=False,
+                            null=False,
+                            default=_(u'', ), )
+
+    chance = models.DecimalField(verbose_name=_(u'Вероятность', ),
+                                 max_digits=4,
+                                 decimal_places=2,
+                                 blank=False,
+                                 null=False,
+                                 default=1, )
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def __unicode__(self):
+        return u'Тело письма: № %6d --> %s.... (%2.2f)' % (self.pk, self.html[0:50], self.chance)
+
+    class Meta:
+        db_table = 'Delivery_body'
+        ordering = ['-created_at', ]
+        verbose_name = _(u'Тело письма', )
+        verbose_name_plural = _(u'Тема писем', )
 
 
 class Url(models.Model, ):
