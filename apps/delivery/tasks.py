@@ -221,6 +221,7 @@ def processing_delivery(*args, **kwargs):
     real_email = get_email(
         email_class=kwargs.get('email_class'),
         pk=kwargs.get('email_pk'), )
+
     email_for = EmailForDelivery.objects.create(delivery=email_middle_delivery,
                                                 now_email=real_email, )
 
