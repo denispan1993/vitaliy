@@ -171,7 +171,7 @@ def show_product(request,
         # print(product)
         # print(products_recommended)
         # print(len(products_recommended))
-        product.get_or_create_ItemID
+        product.get_or_create_ItemID()
         viewed = get_or_create_Viewed(request=request, product=product, )
         # product_is_availability = product.is_availability
         categories_of_product = product.category.all()

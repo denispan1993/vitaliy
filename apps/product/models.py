@@ -204,7 +204,7 @@ class Category(MPTTModel):
         >>> print category.title
         Proverka123  -ф123
         """
-        return u'Категория: %s' % self.title
+        return u'%s' % self.title
 
     class MPTTMeta:
         level_attr = 'mptt_level'
@@ -219,6 +219,12 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
+    id_1c = models.CharField(verbose_name=_(u'1C Ид', ),
+                             max_length=36,
+                             blank=True,
+                             null=True,
+                             help_text=u'', )
+
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы товар был пасивный, убираем галочку.')
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
@@ -405,34 +411,30 @@ class Product(models.Model):
         """ Перемешать вывод https://docs.djangoproject.com/en/dev/ref/models/querysets/#order-by-fields """
         return self.recommended.filter(is_availability=1, ).order_by('?')
 
-    @property
-    def get_or_create_ItemID(self, ):
-#        ItemID = self.ItemID.all()
-#        if ItemID:
-#            return ItemID[0]
-#        else:
-#            from apps.product.models import ItemID
-        from apps.product.models import ItemID
+    def get_or_create_ItemID(self, itemid=None):
+        from . import ItemID
         try:
-            ItemID = ItemID.objects.get(content_type=self.content_type,
-                                        object_id=self.pk, )
-                # parent=self, )
+            return ItemID.objects.get(parent=self,
+                                      ItemID=itemid if itemid else None, )
         except ItemID.DoesNotExist:
             manufacturer = self.manufacturer.all()
-            if manufacturer:
-                ItemID = ItemID.objects.create(parent=self,
-                                               ItemID=u'%s-%.5d' % (manufacturer[0].key.letter_to_article.upper(),
-                                                                    self.id, ), )
+            if itemid:
+                return ItemID.objects.create(parent=self,
+                                             ItemID=itemid, )
+            elif manufacturer:
+                return ItemID.objects.create(parent=self,
+                                             ItemID=u'%s-%.5d' % (manufacturer[0].key.letter_to_article.upper(),
+                                                                  self.id, ), )
             else:
-                ItemID = ItemID.objects.create(parent=self,
-                                               ItemID=u'%.5d' % self.id, )
+                return ItemID.objects.create(parent=self,
+                                             ItemID=u'%.5d' % self.id, )
         except ItemID.MultipleObjectsReturned:
             ItemIDs = ItemID.objects.filter(content_type=self.content_type,
                                             object_id=self.pk, )
             for ItemID in ItemIDs:
                 if ItemID.ItemID == u'%.5d' % self.id:
                     ItemID.delete()
-        return ItemID
+            return ItemID
 
     @property
     def get_ItemID(self, ):
@@ -441,7 +443,7 @@ class Product(models.Model):
         try:
             return ItemID[0].ItemID
         except IndexError:
-            return self.get_or_create_ItemID.ItemID
+            return self.get_or_create_ItemID().ItemID
 
     @property
     def get_manufacturer(self, ):

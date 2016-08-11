@@ -26,7 +26,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
     #default is 10 pixels
     mptt_level_indent = 15
 
-    list_display = ('pk', 'url', 'title', 'parent', )  # 'name', ]
+    list_display = ('pk', 'serial_number', 'is_active', 'url', 'title', 'parent', )  # 'name', ]
     list_display_links = ('pk', 'url', 'title', )
     list_filter = ('title', )
     search_fields = ['title', ]
