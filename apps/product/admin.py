@@ -22,12 +22,12 @@ class genericStackedPhotoInLine(generic.GenericStackedInline, ):
 
 class CategoryAdmin(MPTTModelAdmin, ):
     #MPTT
-    mptt_indent_field = 'url'
+    mptt_indent_field = 'parent'
     #default is 10 pixels
     mptt_level_indent = 15
 
     list_display = ('pk', 'serial_number', 'is_active', 'url', 'title', 'parent', )  # 'name', ]
-    list_display_links = ('pk', 'url', 'title', )
+    list_display_links = ('pk', 'serial_number', 'url', 'title', )
     list_filter = ('title', )
     search_fields = ['title', ]
     fieldsets = [
@@ -250,8 +250,8 @@ class ProductAdminForm(forms.ModelForm):
 
 
 class ProductAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'url', 'title', 'name', ]
-    list_display_links = ['pk', 'url', 'title', 'name', ]
+    list_display = ['pk', 'serial_number', 'is_active', 'url', 'title', 'name', ]
+    list_display_links = ['pk', 'serial_number', 'url', 'title', 'name', ]
     list_filter = ('title', 'name', )
     search_fields = ['title', 'name', ]
     form = ProductAdminForm

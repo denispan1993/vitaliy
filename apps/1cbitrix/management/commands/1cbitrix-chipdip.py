@@ -1,22 +1,30 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 import xml.etree.ElementTree as ET
-from time import sleep
-from urllib import unquote
 import os
 
-from apps.product.models import Category, Product
+from apps.product.models import Category, Product, Unit_of_Measurement
 
 __author__ = 'AlexStarov'
 
 
-def search_in_category(name, id_1c, parent=None, ):
+def search_in_category(id_1c, name=None, parent=None, ):
+    if not name:
+        try:
+            return Category.objects.get(id_1c=id_1c, )
+        except Category.DoesNotExist:
+            pass
+
     try:
         return Category.objects.get(title=name, id_1c=id_1c, parent=parent, )
 
     except Category.DoesNotExist:
-        print name
-        return Category.objects.create(title=name, id_1c=id_1c, parent=parent, url=name.replace(' ', '-'), is_active=False)
+        return Category.objects.create(
+            title=name,
+            id_1c=id_1c,
+            parent=parent,
+            url=name.replace(' ', '-').lower(),
+            is_active=False)
 
     except Category.MultipleObjectsReturned:
         cats = Category.objects.filter(title=name, id_1c=id_1c, parent=parent, )
@@ -28,21 +36,44 @@ def search_in_category(name, id_1c, parent=None, ):
             try:
                 return Category.objects.get(title=name, parent=parent)
             except Category.DoesNotExist:
-                return Category.objects.create(title=name, id_1c=id_1c, parent=parent, url=name.replace(' ', '-'), is_active=False)
+                return Category.objects.create(
+                    title=name,
+                    id_1c=id_1c,
+                    parent=parent,
+                    url=name.replace(' ', '-').lower(),
+                    is_active=False)
 
 
-def add_product(product_list):
+def add_products(products_list):
 
-    product = Product()
-    product.id_1c = product_list[0].tag
+    for product in products_list:
+        product_list = list(product)
 
-    product.get_or_create_ItemID(itemid=product_list[1].tag)
+        try:
+            Product.objects.get(id_1c=product_list[0].text)
+            continue
+        except Product.DoesNotExist:
+            pass
 
-    product.title = product_list[2].tag
-    product.name = product_list[2].tag
+        unit_of_measurement_pk = Unit_of_Measurement.objects.\
+            filter(name__icontains=product_list[3].text).\
+            values_list('pk', flat=True, )[0]
 
-        and level_list[elem_level_Indx+3].tag == u'БазоваяЕдиница'\
-        and level_list[elem_level_Indx+4].tag == u'Группы':
+        product = Product.objects.create(
+            id_1c=product_list[0].text,
+            is_active=False,
+            title=product_list[2].text,
+            name=product_list[2].text,
+            url=product_list[2].text.replace(' ', '-').lower(),
+            unit_of_measurement_id=unit_of_measurement_pk,
+            description=product_list[5].text,
+        )
+
+        product.get_or_create_ItemID(itemid=product_list[1].tag)
+
+        for group in list(product_list[4]):
+            category = search_in_category(id_1c=group.text)
+            product.category.add(category)
 
     return None
 
@@ -55,8 +86,6 @@ def enter_the_level(level_list, level=1, parent=None):
 
             parent = search_in_category(name=level_list[elem_level_Indx + 1].text, id_1c=elem_level.text, parent=parent, )
 
-        print level, elem_level_Indx, elem_level, elem_level.tag, elem_level.attrib, elem_level.text
-
         if elem_level.tag == u'Наименование'\
             and elem_level.text == u'Классификатор (Каталог товаров)'\
             and level_list[elem_level_Indx+1].tag == u'Владелец'\
@@ -65,8 +94,7 @@ def enter_the_level(level_list, level=1, parent=None):
             level += 1
             enter_the_level(level_list=list(level_list[elem_level_Indx+2]), level=level, )
 
-        if elem_level.tag == u'Группа'\
-            or elem_level.tag == u'Товар':
+        if elem_level.tag == u'Группа':
 
             enter_the_level(level_list=list(level_list[elem_level_Indx]), level=level, parent=parent)
 
@@ -85,18 +113,6 @@ def enter_the_level(level_list, level=1, parent=None):
 
             level += 1
             enter_the_level(level_list=list(level_list[elem_level_Indx+2]), level=level, )
-
-        try:
-            if elem_level.tag == u'Ид'\
-                and level_list[elem_level_Indx+1].tag == u'Артикул'\
-                and level_list[elem_level_Indx+2].tag == u'Наименование'\
-                and level_list[elem_level_Indx+3].tag == u'БазоваяЕдиница'\
-                and level_list[elem_level_Indx+4].tag == u'Группы':
-                """ То это точно товар """
-                add_product(level_list)
-
-        except IndexError:
-            pass
 
     return None
 
@@ -120,56 +136,26 @@ class Command(BaseCommand, ):
 
     def handle(self, *args, **options):
         cwd = os.getcwd()
-        cwd = os.path.join(cwd, 'db\chipdip')
+        cwd = os.path.join(cwd, 'db/chipdip')
 
         for name in os.listdir(cwd):
             path_and_filename = os.path.join(cwd, name)
             if os.path.isfile(path_and_filename, ) and name == 'import.xml':
 
                 root = ET.parse(source=path_and_filename).getroot()
-                for elem_level1 in root:
+                for elem_first_level in root:
 
-                    if elem_level1.tag == u'Классификатор':
-                        enter_the_level(list(elem_level1))
+                    if elem_first_level.tag == u'Классификатор':
+                        enter_the_level(list(elem_first_level))
 
+                    if elem_first_level.tag == u'Каталог':
+                        elems_product_level = list(elem_first_level)
 
-                    if elem_level1.tag == u'Каталог товаров':
-                        elems_level1 = list(elem_level1)
+                        if elems_product_level[0].tag == u'Ид'\
+                            and elems_product_level[1].tag == u'ИдКлассификатора'\
+                            and elems_product_level[2].tag == u'Наименование'\
+                            and elems_product_level[2].text == u'Каталог товаров'\
+                            and elems_product_level[3].tag == u'Владелец'\
+                            and elems_product_level[4].tag == u'Товары':
 
-                        for elem_level2_Indx, elem_level2 in enumerate(elems_level1):
-
-                            if elem_level2.tag == u'Наименование' \
-                                    and elem_level2.text == u'Каталог товаров' \
-                                    and elems_level1[elem_level2_Indx + 1].tag == u'Товары':
-
-                                elems_level2 = list(elems_level1[elem_level2_Indx + 1])
-
-                                for elem_level3_Indx, elem_level3 in enumerate(elems_level2):
-                                    # print 'level3', elem_level3_Indx, elem_level3, elem_level3.tag, elem_level3.attrib, elem_level3.text
-
-                                    if elem_level3.tag == u'Товар':
-
-                                        elems_level3 = list(elem_level3)
-
-                                        for elem_level4_Indx, elem_level4 in enumerate(elems_level3):
-                                            # print 'level4', elem_level4_Indx, elem_level4, elem_level4.tag, elem_level4.attrib, elem_level4.text
-
-                                            if elem_level4.tag == u'Ид':
-                                                id_1c_prod = elem_level4.text
-                                            if elems_level3[elem_level4_Indx + 1].tag == u'Артикул':
-                                                articul = elems_level3[elem_level4_Indx + 1].text
-                                            if elems_level3[elem_level4_Indx + 2].tag == u'Наименование':
-                                                name = elems_level3[elem_level4_Indx + 2].text
-
-                                            if elem_level4.tag == u'Группы':
-
-                                                elems_level4 = list(elems_level3[elem_level4_Indx])
-
-                                                for elem_level5_Indx, elem_level5 in enumerate(elems_level4):
-                                                    # print 'level5', elem_level5_Indx, elem_level5, elem_level5.tag, elem_level5.attrib, elem_level5.text
-
-                                                    if elem_level5.tag == u'Ид':
-                                                        id_1c_cat = elem_level5.text
-
-        if 'level10' in locals():
-            print 'level10'
+                            add_products(list(elems_product_level[4]))

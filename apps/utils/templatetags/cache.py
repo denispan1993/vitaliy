@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
+
+import re
+from django.template import (Node, TemplateSyntaxError, VariableDoesNotExist, )
+
+from django.core.cache import InvalidCacheBackendError, cache, caches
+from django.core.cache.utils import make_template_fragment_key
 
 # from __future__ import unicode_literals
-
-from django.core.cache import InvalidCacheBackendError, caches
-from django.core.cache.utils import make_template_fragment_key
 #from django.template import (
 #    Library, Node, TemplateSyntaxError, VariableDoesNotExist,
 #)
-from django.template import (Node, TemplateSyntaxError, VariableDoesNotExist, )
+__author__ = 'AlexStarov'
 
 
 class CacheNode(Node):
@@ -146,7 +148,6 @@ class DjangoJinjaCacheExtension(Extension):
 
         cache_key = make_template_fragment_key(fragm_name, vary_on)
 
-        from django.core.cache import cache
         value = cache.get(cache_key)
         if value is None:
             value = caller()
@@ -157,7 +158,15 @@ class DjangoJinjaCacheExtension(Extension):
             except ImportError:
                 from django.utils.encoding import force_unicode as force_text
                 from django.utils.encoding import smart_str as force_bytes
+
+            #value = re.sub(r'>\s+<', '><', force_text(value, ), )
+            #value = re.sub(r'^\s+<', '<', value, )
+
             cache.set(cache_key, force_text(value), expire_time)
+
         else:
+            #value = re.sub(r'>\s+<', '><', force_text(value, ), )
+            #value = re.sub(r'^\s+<', '<', value, )
+
             value = value.decode('utf-8', )
         return value
