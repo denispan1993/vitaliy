@@ -414,25 +414,29 @@ class Product(models.Model):
     def get_or_create_ItemID(self, itemid=None):
         from . import ItemID
         try:
-            return ItemID.objects.get(parent=self,
+            return ItemID.objects.get(content_type=self.content_type,
+                                      object_id=self.pk,
                                       ItemID=itemid if itemid else None, )
         except ItemID.DoesNotExist:
             manufacturer = self.manufacturer.all()
             if itemid:
-                return ItemID.objects.create(parent=self,
+                return ItemID.objects.create(content_type=self.content_type,
+                                             object_id=self.pk,
                                              ItemID=itemid, )
             elif manufacturer:
-                return ItemID.objects.create(parent=self,
+                return ItemID.objects.create(content_type=self.content_type,
+                                             object_id=self.pk,
                                              ItemID=u'%s-%.5d' % (manufacturer[0].key.letter_to_article.upper(),
                                                                   self.id, ), )
             else:
-                return ItemID.objects.create(parent=self,
-                                             ItemID=u'%.5d' % self.id, )
+                return ItemID.objects.create(content_type=self.content_type,
+                                             object_id=self.pk,
+                                             ItemID=u'%.5d' % self.pk, )
         except ItemID.MultipleObjectsReturned:
             ItemIDs = ItemID.objects.filter(content_type=self.content_type,
                                             object_id=self.pk, )
             for ItemID in ItemIDs:
-                if ItemID.ItemID == u'%.5d' % self.id:
+                if ItemID.ItemID == u'%.5d' % self.pk:
                     ItemID.delete()
             return ItemID
 
@@ -613,7 +617,10 @@ class Product(models.Model):
 #        return ('show_product', (),
 #                {'product_url': self.url,
 #                 'id': self.pk, }, )
-        return u'/%s/п%.6d/' % (self.url.lower(), self.id, )
+        if self.url:
+            return u'/%s/п%.6d/' % (self.url.lower(), self.id, )
+        else:
+            return None
 
     def cache_key(self, ):
         return u'%s-%.6d' % (self.url.lower(), self.id, )

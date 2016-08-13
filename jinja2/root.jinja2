@@ -220,7 +220,7 @@ try{
                 <li{# {% if children %} attribute="children_true"{% endif %} #}>
                     <a {% if cat.shown_colored or cat.shown_bold or cat.shown_italic %}class="{% if cat.shown_colored %}colored {% endif %}{% if cat.shown_bold %}bold {% endif %}{% if cat.shown_italic %}italic{% endif %}" {% endif %}
                        href="{{ cat.get_absolute_url() }}"
-                       style="font-size:{{ cat.font_px }}px;color:{{ cat.font_color }};
+                       style="font-size:{{ cat.font_px }}px;{% if cat.font_color %}color:{{ cat.font_color }};{% endif %}
                                {% if cat.shadow_color or cat.shadow_px or cat.shadow_blur_px %}
                                    text-shadow:0 {% if cat.shadow_px %}{{ cat.shadow_px }}px{% else %}0{% endif %} {% if cat.shadow_blur_px %}{{ cat.shadow_blur_px }}px{% else %}0{% endif %} {% if cat.shadow_color %}{{ cat.shadow_color }}{% else %}Black{% endif %},
                                                {% if cat.shadow_px %}{{ cat.shadow_px }}px{% else %}0{% endif %} 0 {% if cat.shadow_blur_px %}{{ cat.shadow_blur_px }}px{% else %}0{% endif %} {% if cat.shadow_color %}{{ cat.shadow_color }}{% else %}Black{% endif %},
@@ -243,9 +243,7 @@ try{
         </ul>
     </div>
 {% if user.is_authenticated and user.is_staff %}
-{% set url = request.get_full_path() %}
-{% set deny_url = ['/корзина/', '/корзина/заказ/', '/корзина/заказ/принят/', '/админ/', '/admin/'] %}
-{% if url not in deny_url %}
+{% if request.get_full_path() not in ['/корзина/', '/корзина/заказ/', '/корзина/заказ/принят/', '/админ/', '/admin/'] %}
 <style>
 div#main_left div#products_block_left{
 margin-left:-10px;
@@ -351,11 +349,6 @@ function Ascroll(){
     {% block content_center %}
     {% endblock %}
 </div>
-{# <style>
-#main_right{
-    float:left;
-}
-</style> #}
 {% if request.session.right_panel %}
     <div id="main_right">
         {% block content_right %}
@@ -373,7 +366,7 @@ function Ascroll(){
                             <input type="text" name="query" class="search_input" style="width:140px;">
                         </td>
                         <td align="left">
-                            <input type="submit" value="Поиск" class="search_button">{# name="search_button" #}
+                            <input type="submit" value="Поиск" class="search_button">
                         </td>
                     </tr>
                     {# <tr>
