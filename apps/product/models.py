@@ -89,25 +89,21 @@ class Category(MPTTModel):
 #                                                                 u' со страницы категории, то ставим в True.', )
 #    from compat.ruslug.models import RuSlugField
 #    from apps.product.fields import ModelSlugField
+
     url = class_FormSlugField.ModelSlugField()
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
-    # Буквы дял автоматического создания Артикула товара
-    #letter_to_article = models.CharField(verbose_name=u'Буква для Артикула',
-    #                                     default='CAT',
-    #                                     max_length=3,
-    #                                     null=False,
-    #                                     blank=False,
-    #                                     help_text=u'Буквы для автоматического создания Артикула товара. '
-    #                                               u'Максимальнре количество букв - 3 шт.', )
-    # name = models.CharField(verbose_name=u'Наименование категории', max_length=255, null=True, blank=True, )
-    # Описание продукта
+
+    # Описание категории
     item_description = models.CharField(verbose_name=u'Краткое описание продукта',
                                         max_length=128, null=True, blank=True, )
     description = models.TextField(verbose_name=u'Описание категории', null=True, blank=True, )
+    bottom_description = models.TextField(verbose_name=u'Нижнее описание категории', null=True, blank=True, )
+
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
+
     #Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'Заголовок категории', max_length=190, null=True, blank=True,
                                   help_text=u'Данный заголовок читают поисковые системы для правильного расположения'

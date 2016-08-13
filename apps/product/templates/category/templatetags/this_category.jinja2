@@ -1,30 +1,22 @@
 {% if category.main_photo %}
-{#  <a class="this_category_title"
-       href="{{ category.get_absolute_url() }}"
-       title="{{ category.title }}">{{ category.name }}</a> #}
-    <div id="current_category" style="position:relative;padding-top:10px;">
-        <figure class="current_category_img" style="display:block;float:left;{# padding-bottom:10px; #}">
+    <div id="current_category">
+        <figure class="current_category_img">
             <a href="{{ category.get_absolute_url() }}"
-               style="line-height:0px;"
                {% if category.main_photo.meta_title %}title="{{ category.main_photo.meta_title }}"{% endif %}>
-                <img src="{{ category.main_photo.photo.url_210x160 }}"
-                     {# {% if category.main_photo.meta_alt %} #}alt="{{ category.main_photo.meta_alt }}"{# {% endif %} #} border="0">
+                <img src="{{ category.main_photo.photo.url_210x160 }}" alt="{{ category.main_photo.meta_alt }}" border="0">
             </a>
-            {# {% if category.main_photo.sign %} #}<figcaption><p>{{ category.main_photo.sign }}</p></figcaption>{# {% endif %} #}
+            <figcaption><p>{{ category.main_photo.sign }}</p></figcaption>
         </figure>
         {% if category.description %}
-            <div class="current_category_excerpt" style="color:Black;text-align:justify;display:block;font-size:15px;letter-spacing:1px;width:{{ width_this_category }}px;float:right;{# padding-bottom:10px; #}"
+            <div class="current_category_excerpt" style="width:{{ width_this_category }}px;"
                  {% if category.item_description %}title="{{ category.item_description }}"{% endif %}>{{ category.description|safe }}
             </div>
         {% endif %}
     </div>
 {% else %}
-{#  <a class="this_category_title"
-       href="{{ category.get_absolute_url() }}"
-       title="{{ category.title }}">{{ category.name }}</a> #}
     {% if category.description %}
-        <div id="current_category" style="position:relative;padding-top:10px;">
-            <div class="current_category_excerpt" style="color:Black;text-align:justify;margin-top:10px;{# padding-bottom:10px; #}"
+        <div id="current_category">
+            <div class="current_category_excerpt"
                  {% if category.item_description %}title="{{ category.item_description }}"{% endif %}>{{ category.description|safe }}
             </div>
         </div>
