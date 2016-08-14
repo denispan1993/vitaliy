@@ -61,7 +61,8 @@ class CategoryAdmin(MPTTModelAdmin, ):
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js',
-              'https://cdn.tinymce.com/4/tinymce.min.js', )
+              'https://cdn.tinymce.com/4/tinymce.min.js',
+              '/media/js/admin/tinymce/tinymce_init.js', )
 
 
 class ItemIDAdmin(admin.ModelAdmin, ):
