@@ -82,6 +82,10 @@ a.category_block_img{
     height:160px;
     margin-top:5px;
     margin-bottom:10px;
+    line-height:160px;
+}
+a.category_block_img img{
+    vertical-align:middle;
 }
 a.category_block_excerpt{
     font-size:12px;
