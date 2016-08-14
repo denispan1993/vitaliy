@@ -29,7 +29,21 @@ div#current_category figure.current_category_img p{
     position:relative;
     width:214px;
 }*/
-div#categories_block{
+div#categories_block div.top_border{
+    margin-top:10px;
+    padding-top:10px;
+    border-top-width:5px;
+    border-top-style:dashed;
+    border-top-color:#FFF6C9
+}
+div#categories_block.top_border{
+    margin-top:10px;
+    padding-top:10px;
+    border-top-width:5px;
+    border-top-style:dashed;
+    border-top-color:#FFF6C9
+}
+div.top_border{
     margin-top:10px;
     padding-top:10px;
     border-top-width:5px;
