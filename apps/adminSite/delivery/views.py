@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.core.management import call_command
 
 from apps.authModel.models import Email
-from apps.delivery.models import Delivery, Subject, Url, Email_Img, SpamEmail
+from apps.delivery.models import Delivery, Subject, Body, Url, Email_Img, SpamEmail
 from apps.delivery.forms import DeliveryCreateEditForm
 from apps.delivery.tasks import processing_delivery_test, processing_delivery_real
 
@@ -148,7 +148,7 @@ def add_edit(request,
             delivery.html = html
             delivery.save()
 
-            """ Обрабатываем Subjects. """
+            """ Обрабатываем POST keys and values. """
             for key, value in request.POST.iteritems():
 
                 if key.startswith('subject_pk_'):
@@ -159,23 +159,52 @@ def add_edit(request,
                     except ValueError:
                         subject_id = 0; subject_pk = 0
 
+                    subject = Subject(delivery=delivery)
+
                     if subject_pk != 0:
                         """ Редактируется ссылка на существующий subject """
                         try:
                             subject = Subject.objects.get(pk=subject_pk, )
-                        except Subject.DoesNotExist:
-                            subject = Subject(delivery=delivery)
-                    else:
-                        subject = Subject(delivery=delivery)
 
-                    subject_delete = request.POST.get('subject_delete_%d' % subject_id, False, )
-                    if isinstance(subject_delete, unicode) and subject_delete.lower() == u'on':
-                        subject.delete()
-                        continue
+                            subject_delete = request.POST.get('subject_delete_%d' % subject_id, False, )
+                            if isinstance(subject_delete, unicode) and subject_delete.lower() == u'on':
+                                subject.delete()
+                                continue
+
+                        except Subject.DoesNotExist:
+                            pass
 
                     subject.subject = request.POST.get('subject_subject_%d' % subject_id, False, )
                     subject.chance = request.POST.get('subject_chance_%d' % subject_id, False, )
                     subject.save()
+                    continue
+
+                if key.startswith('body_pk_'):
+                    try:
+                        body_id = int(key.lstrip('body_pk_'), )
+                        body_pk = int(value, )
+
+                    except ValueError:
+                        body_id = 0; body_pk = 0
+
+                    body = Body(delivery=delivery)
+
+                    if body_pk != 0:
+                        """ Редактируется ссылка на существующий body """
+                        try:
+                            body = Body.objects.get(pk=body_pk, )
+
+                            body_delete = request.POST.get('body_delete_%d' % body_id, False, )
+                            if isinstance(body_delete, unicode) and body_delete.lower() == u'on':
+                                body.delete()
+                                continue
+
+                        except body.DoesNotExist:
+                            pass
+
+                    body.html = request.POST.get('body_html_%d' % body_id, False, )
+                    body.chance = request.POST.get('body_chance_%d' % body_id, False, )
+                    body.save()
                     continue
 
                 if key.startswith('url_pk_'):

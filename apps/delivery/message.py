@@ -12,14 +12,25 @@ __author__ = 'AlexStarov'
 
 class Message(object):
 
-    def __init__(self, delivery_pk, recipient_class, recipient_pk, **kwargs):
+    def __init__(self, delivery=None, delivery_pk=None,
+                 recipient=None, recipient_class=None, recipient_pk=None,
+                 **kwargs):
 
-        self.delivery_pk = delivery_pk
-        self.delivery = self.get_delivery()
+        if delivery:
+            self.delivery = delivery
+            self.delivery_pk = delivery.pk
+        else:
+            self.delivery_pk = delivery_pk
+            self.delivery = self.get_delivery()
 
-        self.recipient_class = recipient_class
-        self.recipient_pk = recipient_pk
-        self.recipient = self.get_recipient()
+        if recipient:
+            self.recipient = recipient
+            self.recipient_class = self.get_recipient_class()
+            self.recipient_pk = self.get_recipient_pk()
+        else:
+            self.recipient_class = recipient_class
+            self.recipient_pk = recipient_pk
+            self.recipient = self.get_recipient()
 
         set.sender = self.get_sender()
 

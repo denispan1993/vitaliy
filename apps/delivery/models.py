@@ -232,7 +232,7 @@ class Delivery(models.Model, ):
                                   content_type_field='content_type',
                                   object_id_field='object_id', )
 
-    def save(self, *args, **kwargs):
+    """ def save(self, *args, **kwargs):
         real_html = self.html
         def_str1 = u'<figure><p><img src='
         def_str2 = u'</figure>'
@@ -288,7 +288,7 @@ class Delivery(models.Model, ):
                     #    pass
 
         self.real_html = real_html
-        super(Delivery, self).save(*args, **kwargs)  # Call the "real" save() method.
+        super(Delivery, self).save(*args, **kwargs)  # Call the "real" save() method."""
 
     @property
     def emails_delivered(self):
@@ -405,6 +405,10 @@ class Delivery(models.Model, ):
     @property
     def subjects(self):
         return self.subject_set.all().order_by('pk', )
+
+    @property
+    def bodies(self):
+        return self.body_set.all().order_by('pk', )
 
     @property
     def urls(self):
@@ -850,6 +854,42 @@ class SpamEmail(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Емэйл для спама'
         verbose_name_plural = u'Емэйлы для спама'
+
+
+class SendEmailDelivery(models.Model, ):
+    delivery = models.ForeignKey(to=Delivery,
+                                 verbose_name=_(u'Указатель на рассылку', ),
+                                 blank=False,
+                                 null=False, )
+    content_type = models.ForeignKey(ContentType,
+                                     related_name='email_instance',
+                                     verbose_name=_(u'Указатель на E-Mail', ),
+                                     blank=True,
+                                     null=True, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            blank=True,
+                                            null=True, )
+    email = generic.GenericForeignKey('content_type', 'object_id', )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def __unicode__(self):
+        return u'E-Mail: %s pk: %6d created_at: %s, updated_at: %s'\
+               % (self.email.email, self.pk, self.created_at, self.updated_at, )
+
+    class Meta:
+        db_table = 'SendEmailDelivery'
+        ordering = ['-created_at', ]
+        verbose_name = u'Рассылка отослана на (Email адрес)'
+        verbose_name_plural = u'Рассылки отосланы на (Email адреса)'
 
 
 class RawEmail(models.Model, ):

@@ -12,6 +12,7 @@ from imaplib import IMAP4_SSL
 from apps.authModel.models import Email
 from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail
 from .utils import get_mail_account, get_email, create_msg, str_conv, get_email_by_str, send
+from .message import Message
 
 __author__ = 'AlexStarov'
 
@@ -59,9 +60,10 @@ def processing_delivery_test(*args, **kwargs):
         delivery.save()
 
         real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
-        email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-                                                now_email=real_email,
-                                                email=real_email, )
+        #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+        #                                        now_email=real_email,
+        #                                        email=real_email, )
+        message = Message(delivery_pk=delivery.pk, )
         mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
         msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
         """ Посылаем письмо - subscribe@keksik.com.ua """

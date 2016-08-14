@@ -266,7 +266,7 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
     height: 275px;
 }
 </style>
-                        <div id="div_editor_delivery_html">{% if delivery %}{{ delivery.html }}{% endif %}</div>
+                        <div id="div_editor_delivery_html">{1% if delivery %}{1{ delivery.html }}{1% endif %}</div>
                         <textarea type="text"
                                name="html"
                                id="textarea_editor_delivery_html"
@@ -274,9 +274,9 @@ document.getElementById('form-control-add-subject-button').onclick = function(){
                                style="visibility:hidden;display:none;">
                                {# {% elif form is defined %}{{ form.html.value() }} #}
                         </textarea>
-<script src="{{ MEDIA_URL }}js/ace/ace.js"></script>
-<script src="{{ MEDIA_URL }}js/ace/theme-twilight.js"></script>
-<script src="{{ MEDIA_URL }}js/ace/mode-html.js"></script>
+<script src="{1{ MEDIA_URL }}js/ace/ace.js"></script>
+<script src="{1{ MEDIA_URL }}js/ace/theme-twilight.js"></script>
+<script src="{1{ MEDIA_URL }}js/ace/mode-html.js"></script>
 <script>
 window.onload=function(){
 var textarea=$('#textarea_editor_delivery_html');
@@ -298,18 +298,18 @@ textarea.val(editor.getSession().getValue());
                     </div>
                 </div>
 -->
-                <div class="form-group">
+<!--                <div class="form-group">
                     <label for="delivery_html"
                             class="col-md-4 control-label">Html:</label>
                     <div class="col-md-6">
-                        <div id="div_editor_delivery_html">{% if delivery %}{{ delivery.html }}{% endif %}</div>
+                        <div id="div_editor_delivery_html">{1% if delivery %}{1{ delivery.html }}{1% endif %}</div>
                         <textarea type="text"
                                name="html"
                                id="textarea_tinymce_editor_delivery_html"
                                class="form-control"
                                style="visibility:hidden;display:none;">
                         </textarea>
-<script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
 window.onload=function(){
@@ -319,8 +319,125 @@ window.onload=function(){
 }
 </script>
                     </div>
-                </div>
+                </div>-->
 
+
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+{% if not delivery %}{% set bodies = (1, 2, 3, ) %}
+{% else %}{% set bodies = delivery.bodies %}
+{% endif %}
+{% if bodies|length < 1 %}{% set bodies = (1, 2, 3, ) %}{% endif %}
+                {% set i = 0 %}
+                {% for body in bodies %}
+                    {% set i = i + 1 %}
+<script>
+tinymce.init({selector:'textarea#body_html_{{ i }}'});
+</script>
+                    <div class="form-group"
+                            id="body_{{ i }}">
+                        <input type="hidden"
+                               id="body_pk"
+                               name="body_pk_{{ i }}"
+                                value="{% if body.pk %}{{ body.pk }}{% else %}0{% endif %}">
+                        {% if body.pk %}
+                        <label for="body_delete"
+                                class="col-md-1 control-label">Удалить:</label>
+                        <div class="col-md-1">
+                            <input type="checkbox"
+                                   id="body_delete"
+                                   name="body_delete_{{ i }}"
+                                   class="form-control">
+                        </div>
+                        {% endif %}
+                        <label for="body_html"
+                                class="{% if delivery %}col-md-1{% else %}col-md-3{% endif %} control-label">Тело письма:</label>
+                        <div class="col-md-6">
+                            <textarea id="body_html_{{ i }}"
+                                   name="body_html_{{ i }}"
+                                   class="form-control">{% if body.html %}{{ body.html }}{% endif %}
+                            </textarea>
+                        </div>
+                        <label for="body_chance"
+                                class="col-md-1">Шанс тела:</label>
+                        <div class="col-md-1">
+                            <input type="number"
+                                   id="body_chance_{{ i }}"
+                                   name="body_chance_{{ i }}"
+                                   class="form-control"
+                                   value="{% if body.chance %}{{ body.chance }}{% else %}1{% endif %}">
+                        </div>
+                    </div>
+                {% endfor %}
+                <div id="body_button"
+                     class="form-group col-md-12" style="text-align:center;">
+                    <button type="button" id="form-control-add-body-button">Add field for Body</button>
+                </div>
+<script>
+document.getElementById('form-control-add-body-button').onclick = function(){
+    var i = 0;
+    for(;;){
+        if(!document.getElementById('body_' + ++i)){
+            break;
+        }
+    }
+    i--;
+    if(i==0){
+        i++;
+    }
+    var div_body_button = document.getElementById("body_button");
+    var div_parent = document.getElementById("parent");
+{# div #}
+    var div = document.createElement("div");
+    div.setAttribute("id", "body_" + ++i);
+    div.setAttribute("class", "form-group");
+{# input hidden pk #}
+    var input_hidden_pk = document.createElement("input");
+    input_hidden_pk.setAttribute("type", "hidden");
+    input_hidden_pk.setAttribute("id", "body_pk");
+    input_hidden_pk.setAttribute("name", "body_pk_" + i);
+    input_hidden_pk.setAttribute("value", "0");
+    div.appendChild(input_hidden_pk);
+{# Subject Label #}
+    var label_body = document.createElement("label");
+    label_body.setAttribute("for", "body_html_" + i);
+    label_body.setAttribute("class", "col-md-3 control-label");
+    label_body.innerHTML = "Тело письма:";
+    div.appendChild(label_body);
+{# Subject Div #}
+    var div_body = document.createElement("div");
+    div_body.setAttribute("class", "col-md-6");
+{# Subject Input #}
+    var input_body = document.createElement("input");
+    input_body.setAttribute("type", "text");
+    input_body.setAttribute("id", "body_html_" + i);
+    input_body.setAttribute("name", "body_html_" + i);
+    input_body.setAttribute("class", "form-control");
+    div_body.appendChild(input_body);
+    div.appendChild(div_body);
+{# Suject Chance Label #}
+    var label_chance = document.createElement("label");
+    label_chance.setAttribute("for", "body_chance");
+    label_chance.setAttribute("class", "col-md-1");
+    label_chance.innerHTML = "Шанс тела:";
+    div.appendChild(label_chance);
+{# Suject Chance Div #}
+    var div_chance = document.createElement("div");
+    div_chance.setAttribute("class", "col-md-1");
+{# Suject Chance Input #}
+    var input_chance = document.createElement("input");
+    input_chance.setAttribute("type", "number");
+    input_chance.setAttribute("id", "body_chance");
+    input_chance.setAttribute("class", "form-control");
+    input_chance.setAttribute("name", "body_chance_" + i);
+    input_chance.setAttribute("value", 1);
+    div_chance.appendChild(input_chance);
+    div.appendChild(div_chance);
+
+    div_parent.insertBefore(div, div_body_button);
+    alert(i);
+    tinymce.init({selector:'textarea#body_html_' + i});
+}
+</script>
 
 
 {% if not delivery %}{% set urls = (1, 2, 3, ) %}
@@ -426,8 +543,8 @@ document.getElementById('form-control-add-url-button').onclick = function(){
 {# Url_id Input #}
     var input_url_id = document.createElement("input");
     input_url_id.setAttribute("type", "number");
-    input_url_id.setAttribute("id", "subject_subject");
-    input_url_id.setAttribute("name", "subject_subject_" + i);
+    input_url_id.setAttribute("id", "url_id");
+    input_url_id.setAttribute("name", "url_id_" + i);
     input_url_id.setAttribute("class", "form-control");
     input_url_id.setAttribute("value", i);
     div_url_id.appendChild(input_url_id);
