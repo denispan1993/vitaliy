@@ -30,7 +30,11 @@ $.post("/ajax/product_to_cart/",
     "json");
 animate_cart(data);
 return false;}</script>
-        <br class="clearFloat">
+        {% if categories %}
+            <br class="clearFloat">
+        {% else %}
+            <span class="clearFloat">
+        {% endif %}
         {% if request is defined %}
             {{ many_blocks(products, request, 'product', True)|safe }}
         {% endif %}
