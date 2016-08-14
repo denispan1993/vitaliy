@@ -14,6 +14,15 @@ div#current_category figure.current_category_img{
 div#current_category figure.current_category_img a{
     float:left;
     line-height:0;
+    margin-right:15px;
+}
+div#current_category figure.current_category_img h1{
+    color:yellow;
+    font-size:25px;
+    font-style:italic;
+    font-weight:bolder;
+    margin:10px;
+    text-align:center;
 }
 /*div.first_category_block {
     background:none repeat scroll 0 0 #FFFFFF;
@@ -37,7 +46,7 @@ div.category_block{
     border:1px solid #EEEEEE;
     float:left;
     height:285px;
-    margin:0px;
+    margin:0;
     padding:7px;
     position:relative;
     width:214px;
@@ -49,11 +58,11 @@ div.category_block a.category_block_excerpt{
     width:174px;
     text-align:left;
 }
-div.category_block a{
+div.category_block a.arrow{
     position:absolute;
     bottom:2px;
     right:2px;
-    line-height:0px;
+    line-height:0;
 }
 a.category_block_title{
     font-size:18px;
