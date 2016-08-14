@@ -17,5 +17,5 @@ tinymce.init({
 });
 
 tinymce.init({
-    selector:'textarea#id_bottom_   description'
+    selector:'textarea#id_bottom_description'
 });
