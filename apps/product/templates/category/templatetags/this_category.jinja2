@@ -6,12 +6,12 @@
                 <img src="{{ category.main_photo.photo.url_210x160 }}" alt="{{ category.main_photo.meta_alt }}" border="0">
             </a>
             <figcaption><p>{{ category.main_photo.sign }}</p></figcaption>
-        </figure>
-        {% if category.description %}
+            {% if category.description %}
             <div class="current_category_excerpt" style="width:{{ width_this_category }}px;"
                  {% if category.item_description %}title="{{ category.item_description }}"{% endif %}>{{ category.description|safe }}
             </div>
-        {% endif %}
+            {% endif %}
+        </figure>
     </div>
 {% else %}
     {% if category.description %}

@@ -1,4 +1,3 @@
-{# language: jinja2 #}
 {% extends 'root.jinja2' %}
 {% block title %}{% if current_category is defined %}{% if current_category.meta_title %}{{ current_category.meta_title|capfirst }}{% else %}{{ current_category.title|capfirst }}{% endif %}{% else %}Магазин Кексик{% endif %}{% endblock %}
 {% block description %}{% if current_category is defined %}{% if current_category.meta_description %}{{ current_category.meta_description }}{% else %}{{ current_category.description }}{% endif %}{% else %}Страница категории - Магазин Кексик{% endif %}{% endblock %}
@@ -16,7 +15,7 @@
         {% set products = current_category.products.published() %}{# .order_by('-created_at', 'serial_number') #}
     {% endif %}
     {% if categories %}
-        <br class="clearFloat">
+        <span class="clearFloat">
         {% if request is defined %}
             {{ many_blocks(categories, request, 'category', True)|safe }}
         {% endif %}
@@ -31,7 +30,7 @@ $.post("/ajax/product_to_cart/",
     "json");
 animate_cart(data);
 return false;}</script>
-        <br class="clearFloat">
+        <span class="clearFloat">
         {% if request is defined %}
             {{ many_blocks(products, request, 'product', True)|safe }}
         {% endif %}
