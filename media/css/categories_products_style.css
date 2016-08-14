@@ -11,6 +11,9 @@ div#current_category figure.current_category_img{
     font-size:15px;
     letter-spacing:1px;
 }
+div#current_category figure.current_category_img figcaption{
+    text-align:center;
+}
 div#current_category figure.current_category_img a{
     float:left;
     line-height:1;
