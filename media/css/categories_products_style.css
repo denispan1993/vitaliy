@@ -11,7 +11,7 @@ div#current_category figure.current_category_img a{
     float:left;
     line-height:0;
 }
-div#current_category div.current_category_excerpt{
+div#current_category figure.current_category_img p{
     color:Black;
     text-align:justify;
     display:block;
@@ -29,15 +29,35 @@ div#current_category div.current_category_excerpt{
     position:relative;
     width:214px;
 }*/
+div#categories_block{
+    margin-top:10px;
+    padding-top:10px;
+    border-top-width:5px;
+    border-top-style:dashed;
+    border-top-color:#FFF6C9
+}
 div.category_block{
     background:none repeat scroll 0 0 #FFF6C9;
     border:1px solid #EEEEEE;
     float:left;
     height:285px;
-/*    margin:0 0 10px 10px;*/
+    margin:0px;
     padding:7px;
     position:relative;
     width:214px;
+}
+div.category_block a.category_block_excerpt{
+    display:inline-block;
+    float:left;
+    vertical-align:middle;
+    width:174px;
+    text-align:left;
+}
+div.category_block a{
+    position:absolute;
+    bottom:2px;
+    right:2px;
+    line-height:0px;
 }
 a.category_block_title{
     font-size:18px;
