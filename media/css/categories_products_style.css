@@ -58,28 +58,29 @@ div.category_block a.category_block_excerpt{
     width:174px;
     text-align:left;
 }
-div.category_block a.arrow{
+div.category_block a.category_block_arrow{
     position:absolute;
     bottom:2px;
     right:2px;
     line-height:0;
 }
 a.category_block_title{
+    text-decoration:none;
     font-size:18px;
 }
 a.category_block_img{
-    line-height:0;
     -moz-border-bottom-colors:none;
     -moz-border-left-colors:none;
     -moz-border-right-colors:none;
     -moz-border-top-colors:none;
     background-position:center center;
     background-repeat:no-repeat;
-    border-color:rgba(204, 157, 134, 1);
-    border-style:solid;
-    border-width:2px;
+/*    border-color:rgba(204, 157, 134, 1);*/
+    border-style:none;
+    border-width:0;
     display:block;
     height:160px;
+    margin-top:5px;
     margin-bottom:10px;
 }
 a.category_block_excerpt{
