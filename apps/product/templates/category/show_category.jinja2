@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content_center %}
     {% if current_category is defined %}
-        <div id="header_categories">
+        <div id="header_category">
             {{ header_category2(current_category)|safe }}
         </div>
         {{ this_category(current_category, request.session.width_this_category)|safe }}
@@ -38,5 +38,8 @@ return false;}</script>
         {% if request is defined %}
             {{ many_blocks(products, request, 'product', True)|safe }}
         {% endif %}
+    {% endif %}
+    {% if current_category is defined and current_category.bottom_category %}
+        <div id="bottom_category">{{ current_category.bottom_category|safe }}</div>
     {% endif %}
 {% endblock %}
