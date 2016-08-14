@@ -1,11 +1,17 @@
-{# language: jinja2 #}
 {% extends "root.jinja2" %}
 {% block title %}{{ get_value_variable('root_page_title', 'char') }}{% endblock %}
 {% block description %}{{ get_value_variable('root_page_description', 'char') }}{% endblock %}
 {% block keywords %}{{ get_value_variable('root_page_keywords', 'char') }}{% endblock %}
 {% block content_center %}
 <h1 class="center_title">Новинки магазина Кексик</h1>
-    {# <div class="products_container"> #}
+<script>function product_to_cart(data, product_pk, available_to_order){
+$.post("/ajax/product_to_cart/",
+    {csrfmiddlewaretoken:'{{ csrf_token }}',
+    product_pk:product_pk,
+    available_to_order:available_to_order},
+    function(data, textStatus, jqXHR){$('#dynamic_div_showcart').html(data.html);},
+    "json");
+animate_cart(data);
+return false;}</script>
         {{ many_blocks(in_main_page, request, 'product', False)|safe }}
-    {# </div> #}
 {% endblock %}
