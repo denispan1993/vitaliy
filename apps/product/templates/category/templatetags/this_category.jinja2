@@ -10,7 +10,7 @@
         {% if category.description %}{{ category.description|safe }}{% endif %}
     </figure>
 {% else %}
-    {% if category.item_description %}<h1>{{ category.description|safe }}</h1>{% endif %}
+    {% if category.item_description %}<h1>{{ category.item_description|safe }}</h1>{% endif %}
     {% if category.description %}{{ category.description|safe }}{% endif %}
 {% endif %}
 </div>
