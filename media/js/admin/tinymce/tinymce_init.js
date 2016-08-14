@@ -3,6 +3,5 @@
  */
 
 tinymce.init({
-    mode:'mytextarea',
-    selector:'#description'
+    selector:'textarea#description'
   });
