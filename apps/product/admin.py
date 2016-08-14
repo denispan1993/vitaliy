@@ -60,7 +60,8 @@ class CategoryAdmin(MPTTModelAdmin, ):
         obj.save()
 
     class Media:
-        js = ('/media/js/admin/ruslug-urlify.js', )
+        js = ('/media/js/admin/ruslug-urlify.js',
+              'https://cdn.tinymce.com/4/tinymce.min.js', )
 
 
 class ItemIDAdmin(admin.ModelAdmin, ):
