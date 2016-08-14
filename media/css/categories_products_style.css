@@ -6,18 +6,14 @@ div#current_category{
 div#current_category figure.current_category_img{
     display:block;
     float:left;
+    color:Black;
+    text-align:justify;
+    font-size:15px;
+    letter-spacing:1px;
 }
 div#current_category figure.current_category_img a{
     float:left;
     line-height:0;
-}
-div#current_category figure.current_category_img p{
-    color:Black;
-    text-align:justify;
-    display:block;
-    font-size:15px;
-    letter-spacing:1px;
-    float:left;
 }
 /*div.first_category_block {
     background:none repeat scroll 0 0 #FFFFFF;
