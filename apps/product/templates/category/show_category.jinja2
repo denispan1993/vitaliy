@@ -40,6 +40,11 @@ return false;}</script>
         {% endif %}
     {% endif %}
     {% if current_category is defined and current_category.bottom_category %}
+        {% if categories or products %}
+            <br class="clearFloat">
+        {% else %}
+            <span class="clearFloat">
+        {% endif %}
         <div id="bottom_category">{{ current_category.bottom_category|safe }}</div>
     {% endif %}
 {% endblock %}
