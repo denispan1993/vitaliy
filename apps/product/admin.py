@@ -36,7 +36,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
                                                   'shadow_color', 'shadow_px', 'shadow_blur_px',
                                                   'shown_bold', 'shown_italic', 'font_px',
                                                   'url', 'title',
-                                                  'item_description', 'description', ], }),
+                                                  'item_description', 'description', 'bottom_description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
                                                                                               'meta_keywords', ], }, ),

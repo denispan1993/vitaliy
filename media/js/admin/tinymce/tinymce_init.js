@@ -4,4 +4,8 @@
 
 tinymce.init({
     selector:'textarea#id_description'
-  });
+});
+
+tinymce.init({
+    selector:'textarea#id_bottom_description'
+});
