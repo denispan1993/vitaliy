@@ -13,8 +13,9 @@ div#current_category figure.current_category_img{
 }
 div#current_category figure.current_category_img a{
     float:left;
-    line-height:0;
+    line-height:1;
     margin-right:15px;
+    text-decoration:none;
 }
 div#current_category figure.current_category_img h1{
     color:yellow;
