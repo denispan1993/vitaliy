@@ -1,3 +1,7 @@
+div#header_categories{
+    color:Black;
+    text-align:left;
+}
 div#current_category{
     display:flex;
     position:relative;

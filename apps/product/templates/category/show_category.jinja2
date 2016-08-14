@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content_center %}
     {% if current_category is defined %}
-        <div id="header_categories" style="color:Black;text-align:left;">
+        <div id="header_categories">
             {{ header_category2(current_category)|safe }}
         </div>
         {{ this_category(current_category, request.session.width_this_category)|safe }}
@@ -30,7 +30,7 @@ $.post("/ajax/product_to_cart/",
     "json");
 animate_cart(data);
 return false;}</script>
-        <span class="clearFloat">
+        <br class="clearFloat">
         {% if request is defined %}
             {{ many_blocks(products, request, 'product', True)|safe }}
         {% endif %}
