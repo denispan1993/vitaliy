@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
+import re
+from copy import copy
 from django.core.cache import cache
 from django.db.models.loading import get_model
+from django.template.loader import render_to_string
 from random import randrange
 from datetime import datetime, timedelta
 from time import sleep
 
-from apps.delivery.models import Delivery, MailAccount
+from apps.delivery.models import Delivery, MailAccount, Url
 
 __author__ = 'AlexStarov'
+
+
+tokenizer_choiser = re.compile('(\[[\[a-z|A-Z0-9\-\_\.]+\]])', re.MULTILINE)  # [[str1|str2]]
+tokenizer_replacement = re.compile('(\{{[a-zA-Z0-9\-\_\.]+\}})', re.MULTILINE)  # {{url1}}
 
 
 class Message(object):
@@ -32,7 +39,12 @@ class Message(object):
             self.recipient_pk = recipient_pk
             self.recipient = self.get_recipient()
 
-        set.sender = self.get_sender()
+        self.sender = self.get_sender()
+
+        self.subject = self.get_subject()
+
+        self.body_raw = self.get_body_raw()
+        self.body_complit = self.get_body_complit()
 
         #self.msg = create_msg(delivery=delivery, mail_account=mail_account, email=email_for, test=False, )
 
@@ -57,6 +69,12 @@ class Message(object):
         email_model = get_model(*self.recipient_class.split('.'))
 
         return email_model.objects.get(pk=self.recipient_pk, )
+
+    def get_recipient_class(self):
+        return str('{0}.{1}'.format(self.recipient._meta.app_label, self.recipient.__class__.__name__))
+
+    def get_recipient_pk(self):
+        return self.recipient.pk
 
     def get_sender(self):
         senders = cache.get(key='senders', )
@@ -116,7 +134,129 @@ class Message(object):
                 return False
 
     def get_subject(self):
-        return self.delivery.subject
+        subject_value, subject_value_pk = 5000000, 0
+
+        subjects = self.delivery.subject_set.all().order_by('pk', )
+
+        for subject in subjects:
+            try:
+                subject_cache_value = cache.get_or_set(
+                    key='subject_cache_pk_{0}'.format(subject.pk, ),
+                    value=subject.chance,
+                    timeout=259200, )
+
+            except AttributeError:
+                subject_cache_value = cache.get(
+                    key='subject_cache_pk_{0}'.format(subject.pk, ), )
+
+                if not subject_cache_value:
+                    subject_cache_value = subject.chance
+                    cache.set(
+                        key='subject_cache_pk_{0}'.format(subject.pk, ),
+                        value=subject.chance,
+                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+            if subject_cache_value < subject_value:
+                subject_value, subject_value_pk = subject_cache_value, subject.pk
+
+        subject = subjects.get(pk=subject_value_pk, )
+        cache.set(
+            key='subject_cache_pk_{0}'.format(subject.pk, ),
+            value=subject_cache_value + subject.chance,
+            timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+        return subject.subject
+
+    def get_body_raw(self):
+        body_value, body_value_pk = 5000000, 0
+
+        bodies = self.delivery.body_set.all().order_by('pk', )
+
+        for body in bodies:
+            try:
+                body_cache_value = cache.get_or_set(
+                    key='body_cache_pk_{0}'.format(body.pk, ),
+                    value=body.chance,
+                    timeout=259200, )
+
+            except AttributeError:
+                body_cache_value = cache.get(
+                    key='body_cache_pk_{0}'.format(body.pk, ), )
+
+                if not body_cache_value:
+                    body_cache_value = body.chance
+                    cache.set(
+                        key='body_cache_pk_{0}'.format(body.pk, ),
+                        value=body.chance,
+                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+            if body_cache_value < body_value:
+                body_value, body_value_pk = body_cache_value, body.pk
+
+        body = bodies.get(pk=body_value_pk, )
+        cache.set(
+            key='body_cache_pk_{0}'.format(body.pk, ),
+            value=body_cache_value + body.chance,
+            timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+        return body.html
+
+    def get_body_complit(self):
+        body_complit = self.choice_str_in_tmpl(self.body_raw)
+        try:
+            urls = Url.objects.filter(delivery=self.delivery, )
+        except Url.DoesNotExist:
+            return []
+
+        urls_dict = {}
+        for url in urls:
+            urls_dict['url'] = render_to_string(template_name='render_img_string.jinja2', context=url, )
+        return body_complit
+
+    def choice_str_in_tmpl(self, tmpl, ):
+        """ ccc('aaa [[bbb|111]] ccc [[ddd|222]] eee [[fff|333|444|555|666]] ggg') """
+
+        three = re.split(tokenizer_choiser, tmpl)
+
+        nodes = {}
+        for pos, block in enumerate(three):
+            if block.startswith('[[') and block.endswith(']]'):
+                keys = block.strip('[[]]').split('|')
+
+                value = keys[randrange(start=0, stop=len(keys))]
+
+                if pos not in nodes:
+                    nodes[pos] = value
+
+        three = copy(three)
+        for pos, value in nodes.iteritems():
+
+            three[pos] = value
+
+        return ''.join(three)
+
+    def replace_str_in_tmpl(self, tmpl, context={}, ):
+        """ bbb('aaa {{aaa1}} ccc {{bbb2}} eee {{ccc3}} ggg', {'aaa1': '1aaa', 'bbb2': 'bb2b', 'ccc3': 'ccc333ccc', }) """
+
+        three = re.split(tokenizer_replacement, tmpl)
+
+        nodes = {}
+        for pos, block in enumerate(three):
+            if block.startswith('{{') and block.endswith('}}'):
+                key = block.strip('{{}}')
+
+                if key not in nodes:
+                    nodes[key] = []
+                nodes[key].append(pos)
+
+        keys = nodes.keys()
+        three = copy(three)
+        for key, value in context.iteritems():
+            if key in keys:
+                for pos in nodes[key]:
+                    three[pos] = value
+
+        print ''.join(three)
 
     def create_msg(self):
         return None

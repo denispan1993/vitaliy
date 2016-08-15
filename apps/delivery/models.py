@@ -272,7 +272,7 @@ class Delivery(models.Model, ):
                     img_url = img_aaa.url.rsplit('.', 1, )
                     img_url = '%s_%dx%d.%s' % (img_url[0], img[i-1].height, img[i-1].width, img_url[1], )
                     from django.template.loader import render_to_string
-                    link_str = render_to_string('render_img_string.jinja2.html',
+                    link_str = render_to_string('render_img_string.jinja2',
                                                 {'imgN': def_str,
                                                  'img_url': img_url,
                                                  'alt': img[i-1].meta_alt,
@@ -361,41 +361,6 @@ class Delivery(models.Model, ):
         # return len(unique_orders, )
 
         return len(orders, )
-
-    @property
-    def subject(self):
-        subject_value, subject_value_pk = 5000000, 0
-
-        subjects = self.subjects
-
-        for subject in subjects:
-            try:
-                subject_cache_value = cache.get_or_set(
-                    key='subject_cache_pk_{0}'.format(subject.pk, ),
-                    value=subject.chance,
-                    timeout=259200, )
-
-            except AttributeError:
-                subject_cache_value = cache.get(
-                    key='subject_cache_pk_{0}'.format(subject.pk, ), )
-
-                if not subject_cache_value:
-                    subject_cache_value = subject.chance
-                    cache.set(
-                        key='subject_cache_pk_{0}'.format(subject.pk, ),
-                        value=subject.chance,
-                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
-
-            if subject_cache_value < subject_value:
-                subject_value, subject_value_pk = subject_cache_value, subject.pk
-
-        subject = subjects.get(pk=subject_value_pk, )
-        cache.set(
-            key='subject_cache_pk_{0}'.format(subject.pk, ),
-            value=subject_cache_value + subject.chance,
-            timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
-
-        return subject.subject
 
     @property
     def emails(self):

@@ -498,6 +498,7 @@ def str_decode(value='', encoding=None, errors='strict'):
 
 
 def str_conv(str, ):
+    """ Конвертирование Subject во входящих Email """
     error = False
 
     if not str:
