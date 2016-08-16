@@ -6,6 +6,8 @@ from django.core.cache import cache
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
+from django.contrib.contenttypes.models import ContentType
+from django.template.loader import render_to_string
 from django.db.models import Q
 
 from apps.utils.captcha.views import key_generator
@@ -534,11 +536,11 @@ class Url(models.Model, ):
                             null=False,
                             default='http://keksik.com.ua/', )
 
-    str = models.CharField(verbose_name=_(u'Строка', ),
-                           max_length=256,
-                           blank=False,
-                           null=False,
-                           default='http://keksik.com.ua/', )
+    anchor = models.CharField(verbose_name=_(u'Якорь --> "Анкор"', ),
+                              max_length=256,
+                              blank=False,
+                              null=False,
+                              default='http://keksik.com.ua/', )
 
     title = models.CharField(verbose_name=_(u'Title', ),
                              max_length=256,
@@ -811,7 +813,6 @@ class SpamEmail(models.Model, ):
 
     @property
     def content_type(self, ):
-        from django.contrib.contenttypes.models import ContentType
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
 
     class Meta:
@@ -855,6 +856,145 @@ class SendEmailDelivery(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Рассылка отослана на (Email адрес)'
         verbose_name_plural = u'Рассылки отосланы на (Email адреса)'
+
+
+class Message(models.Model):
+    delivery = models.ForeignKey(to=Delivery,
+                                 verbose_name=_(u'Указатель на рассылку', ),
+                                 blank=False,
+                                 null=False, )
+
+    content_type = models.ForeignKey(ContentType,
+                                     related_name='email_instance',
+                                     verbose_name=_(u'Указатель на E-Mail', ),
+                                     blank=True,
+                                     null=True, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            blank=True,
+                                            null=True, )
+    email = generic.GenericForeignKey('content_type', 'object_id', )
+
+    direct_send = models.BooleanField(verbose_name=_(u'Шлем напрямую', ),
+                                      blank=True,
+                                      null=True,
+                                      default=True, )
+    direct_email = models.EmailField(verbose_name=_(u'E-Mail прямой отсылки', ),
+                                     blank=True,
+                                     null=True, )
+    sender_account = models.ForeignKey(to=MailAccount,
+                                       verbose_name=_(u'Account не прямой отсылки', ),
+                                       blank=True,
+                                       null=True, )
+
+    subject = models.ForeignKey(to=Subject,
+                                verbose_name=_(u'Указатель на subject', ),
+                                blank=False,
+                                null=False, )
+
+    subject_str = models.CharField(max_length=256,
+                                   verbose_name=_(u'Строка subject', ),
+                                   blank=False,
+                                   null=False, )
+
+
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def __unicode__(self):
+        return u'Massage --> pk: %6d created_at: %s, updated_at: %s'\
+               % (self.pk, self.created_at, self.updated_at, )
+
+    class Meta:
+        db_table = 'Delivery_Message'
+        ordering = ['-created_at', ]
+        verbose_name = u'Рассылка отослана на (Email адрес)'
+        verbose_name_plural = u'Рассылки отосланы на (Email адреса)'
+
+
+class MessageUrl(models.Model, ):
+    delivery = models.ForeignKey(to=Delivery,
+                                 verbose_name=_(u'Указатель на рассылку'),
+                                 blank=False,
+                                 null=False,)
+    url = models.ForeignKey(to=Url,
+                            verbose_name=_(u'Указатель на Url'),
+                            blank=False,
+                            null=False,)
+
+    key = models.CharField(verbose_name=_(u'ID E-Mail адреса рассылки и Url', ),
+                           max_length=64,
+                           blank=False,
+                           null=False,
+                           default=key_generator, )
+
+    content_type = models.ForeignKey(ContentType,
+                                     related_name='email_instance',
+                                     verbose_name=_(u'Указатель на E-Mail', ),
+                                     blank=True,
+                                     null=True, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            blank=True,
+                                            null=True, )
+    email = generic.GenericForeignKey('content_type', 'object_id', )
+
+    ready_url_str = models.CharField(verbose_name=_(u'Строка A tag', ),
+                                     max_length=256,
+                                     blank=False,
+                                     null=False, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            while True:
+                key = key_generator(size=64, )
+                try:
+                    MessageUrl.objects.get(key=key, )
+                except MessageUrl.DoesNotExist:
+                    self.key = key
+                    break
+                except IntegrityError:
+                    print 'IntegrityError Key: %s' % key
+                except Exception as e:
+                    print 'Exception type: %s, message: %s' % (type(e, ), e, )
+
+        if not self.ready_url_str:
+            self.ready_url_str = render_to_string(
+                template_name='render_url_string.jinja2',
+                context={
+                    'href': self.url.href,
+                    'key': self.key,
+                    'title': self.url.title,
+                    'anchor': self.url.anchor,
+
+                }, )
+
+        super(MessageUrl, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return u'Url: № %0.6d --> [%s]' % (self.pk, self.email.email, )
+
+    class Meta:
+        db_table = 'Delivery_Message_Url'
+        ordering = ['-created_at', ]
+        verbose_name = _(u'Message Url', )
+        verbose_name_plural = _(u'Messages Urls', )
 
 
 class RawEmail(models.Model, ):

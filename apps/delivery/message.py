@@ -3,12 +3,14 @@ import re
 from copy import copy
 from django.core.cache import cache
 from django.db.models.loading import get_model
-from django.template.loader import render_to_string
 from random import randrange
 from datetime import datetime, timedelta
 from time import sleep
 
-from apps.delivery.models import Delivery, MailAccount, Url
+from .models import Delivery, MailAccount,\
+    Message as model_Message,\
+    Url,\
+    MessageUrl as model_Message_Url
 
 __author__ = 'AlexStarov'
 
@@ -34,17 +36,23 @@ class Message(object):
             self.recipient = recipient
             self.recipient_class = self.get_recipient_class()
             self.recipient_pk = self.get_recipient_pk()
+            self.recipient_content_type = self.recipient.content_type
         else:
             self.recipient_class = recipient_class
             self.recipient_pk = recipient_pk
             self.recipient = self.get_recipient()
+            self.recipient_content_type = self.recipient.content_type
 
-        self.sender = self.get_sender()
+        self.subject_pk, self.subject = self.get_subject()
 
-        self.subject = self.get_subject()
+        self.message = self.create_message()
+
+        self.message_urls = self.create_message_urls()
 
         self.body_raw = self.get_body_raw()
         self.body_complit = self.get_body_complit()
+
+        self.sender = self.get_sender()
 
         #self.msg = create_msg(delivery=delivery, mail_account=mail_account, email=email_for, test=False, )
 
@@ -165,7 +173,29 @@ class Message(object):
             value=subject_cache_value + subject.chance,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        return subject.subject
+        return subject.pk, subject.subject
+
+    def create_message(self):
+        message = model_Message.objects.create(
+            delivery_id=self.delivery_pk)
+        return message
+
+    def create_message_urls(self):
+        try:
+            urls = Url.objects.filter(delivery=self.delivery, )
+        except Url.DoesNotExist:
+            return {}
+
+        dict_urls = {}
+        for url in urls:
+            dict_urls['url{}'.format(url.url_id, )] = model_Message_Url.objects.create(
+                delivery_id=self.delivery_pk,
+                url=url,
+                content_type=self.recipient_content_type,
+                object_id=self.recipient_pk
+            )
+
+        return dict_urls
 
     def get_body_raw(self):
         body_value, body_value_pk = 5000000, 0
@@ -201,8 +231,8 @@ class Message(object):
 
         return body.html
 
-    def get_body_complit(self):
-        body_complit = self.choice_str_in_tmpl(self.body_raw)
+    def get_body_finished(self):
+        body_finished = self.choice_str_in_tmpl(self.body_raw)
         try:
             urls = Url.objects.filter(delivery=self.delivery, )
         except Url.DoesNotExist:
@@ -211,7 +241,8 @@ class Message(object):
         urls_dict = {}
         for url in urls:
             urls_dict['url'] = render_to_string(template_name='render_img_string.jinja2', context=url, )
-        return body_complit
+
+        return body_finished
 
     def choice_str_in_tmpl(self, tmpl, ):
         """ ccc('aaa [[bbb|111]] ccc [[ddd|222]] eee [[fff|333|444|555|666]] ggg') """

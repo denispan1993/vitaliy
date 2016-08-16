@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
-
-__author__ = 'AlexStarov'
-
 from django.db import models
-
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, AbstractUser, UserManager, PermissionsMixin, )
-# Create your models here.
-
-# from django.contrib.auth.models import User
-# from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
-# from userena.models import UserenaBaseProfile, UserenaLanguageBaseProfile
+
+__author__ = 'AlexStarov'
 
 
 # Модифицируем поле email.
@@ -262,7 +256,6 @@ class Email(models.Model, ):
 
     @property
     def content_type(self, ):
-        from django.contrib.contenttypes.models import ContentType
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
 
     class Meta:
