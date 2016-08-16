@@ -812,6 +812,10 @@ class SpamEmail(models.Model, ):
     updated_at = models.DateTimeField(auto_now=True, )
 
     @property
+    def domain(self, ):
+        return self.email.split('@')[1]
+
+    @property
     def content_type(self, ):
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
 
@@ -928,6 +932,10 @@ class MessageUrl(models.Model, ):
                             verbose_name=_(u'Указатель на Url'),
                             blank=False,
                             null=False,)
+    message = models.ForeignKey(to=Message,
+                                verbose_name=_(u'Указатель на сообщение'),
+                                blank=False,
+                                null=False,)
 
     key = models.CharField(verbose_name=_(u'ID E-Mail адреса рассылки и Url', ),
                            max_length=64,

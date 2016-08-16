@@ -255,6 +255,10 @@ class Email(models.Model, ):
     updated_at = models.DateTimeField(auto_now=True, )
 
     @property
+    def domain(self, ):
+        return self.email.split('@')[1]
+
+    @property
     def content_type(self, ):
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
 

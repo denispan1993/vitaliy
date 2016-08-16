@@ -36,21 +36,40 @@ class Message(object):
             self.recipient = recipient
             self.recipient_class = self.get_recipient_class()
             self.recipient_pk = self.get_recipient_pk()
-            self.recipient_content_type = self.recipient.content_type
         else:
             self.recipient_class = recipient_class
             self.recipient_pk = recipient_pk
             self.recipient = self.get_recipient()
-            self.recipient_content_type = self.recipient.content_type
+
+        self.recipient_content_type = self.recipient.content_type
+        self.recipient_type = self.get_recipient_type()
 
         self.subject_pk, self.subject = self.get_subject()
 
-        self.message = self.create_message()
+        self.message_pk, self.message = self.create_message()
 
-        self.message_urls = self.create_message_urls()
+        self.qs_message_urls, self.dict_message_urls = self.create_message_urls()
 
         self.body_raw = self.get_body_raw()
-        self.body_complit = self.get_body_complit()
+        self.body_finished = self.get_body_finished()
+
+        """ did - Delivery id """
+        """ eid - Email id """
+        """ mid - Message id """
+        """ Reply-To + Return-Path """
+        headers = {
+            'X-Delivery-id': self.get_div(),
+            'X-Email-id': self.get_eid(),
+            'X-Message-id': self.get_mid(),
+            'Return-Path': self.recipient.get_return_path_subscribe,
+            'Reply-To': self.recipient.get_return_path_subscribe,
+        }
+
+        if self.recipient.domain in ['keksik.com.ua', 'yandex.ru', 'yandex.ua', ]:
+            self.send_mail_through()
+        else:
+            if not self.send_mail_direct():
+                self.send_mail_through()
 
         self.sender = self.get_sender()
 
@@ -80,6 +99,17 @@ class Message(object):
 
     def get_recipient_class(self):
         return str('{0}.{1}'.format(self.recipient._meta.app_label, self.recipient.__class__.__name__))
+
+    def get_recipient_type(self):
+        """ eid - Email id
+            1 - Нормальные E-Mail
+            2 - Spam E-Mail """
+        if self.recipient_class.split('.')[1] == 'Email':
+            return 1
+        elif self.recipient_class.split('.')[1] == 'SpamEmail':
+            return 2
+        else:
+            return 0
 
     def get_recipient_pk(self):
         return self.recipient.pk
@@ -178,24 +208,24 @@ class Message(object):
     def create_message(self):
         message = model_Message.objects.create(
             delivery_id=self.delivery_pk)
-        return message
+        return message.pk, message
 
     def create_message_urls(self):
-        try:
-            urls = Url.objects.filter(delivery=self.delivery, )
-        except Url.DoesNotExist:
-            return {}
-
-        dict_urls = {}
-        for url in urls:
-            dict_urls['url{}'.format(url.url_id, )] = model_Message_Url.objects.create(
+        qs_urls = model_Message_Url.objects.bulk_create([
+            model_Message_Url(
                 delivery_id=self.delivery_pk,
                 url=url,
+                message_id=self.message_pk,
                 content_type=self.recipient_content_type,
                 object_id=self.recipient_pk
             )
+            for url in Url.objects.filter(delivery=self.delivery, )]
+        )
+        dict_urls = {}
+        for url in qs_urls:
+            dict_urls['url{}'.format(url.url_id, )] = url.ready_url_str
 
-        return dict_urls
+        return qs_urls, dict_urls
 
     def get_body_raw(self):
         body_value, body_value_pk = 5000000, 0
@@ -233,14 +263,10 @@ class Message(object):
 
     def get_body_finished(self):
         body_finished = self.choice_str_in_tmpl(self.body_raw)
-        try:
-            urls = Url.objects.filter(delivery=self.delivery, )
-        except Url.DoesNotExist:
-            return []
 
-        urls_dict = {}
-        for url in urls:
-            urls_dict['url'] = render_to_string(template_name='render_img_string.jinja2', context=url, )
+        body_finished = self.replace_str_in_tmpl(
+            tmpl=body_finished,
+            context=self.dict_message_urls, )
 
         return body_finished
 
@@ -266,7 +292,13 @@ class Message(object):
 
         return ''.join(three)
 
-    def replace_str_in_tmpl(self, tmpl, context={}, ):
+    def replace_str_in_tmpl(
+            self,
+            tmpl,
+            context={
+                'url1': '<a href="http://keksik.com.ua/>www.keksik.com.ua</a>',
+            },
+    ):
         """ bbb('aaa {{aaa1}} ccc {{bbb2}} eee {{ccc3}} ggg', {'aaa1': '1aaa', 'bbb2': 'bb2b', 'ccc3': 'ccc333ccc', }) """
 
         three = re.split(tokenizer_replacement, tmpl)
@@ -287,7 +319,19 @@ class Message(object):
                 for pos in nodes[key]:
                     three[pos] = value
 
-        print ''.join(three)
+        return ''.join(three)
+
+    def get_div(self, ):
+        """ div - Delivery id """
+        return '{0:04d}-{0:02d}'.format(self.delivery_pk, self.delivery.type, )
+
+    def get_eid(self, ):
+        return '{0:02d}-{1:07d}'.format(self.recipient_type, self.recipient_pk, )
+
+    def get_mid(div, eid):
+        """ mid - Message id """
+        return '{0}-{1}-{2:011x}-{3:x}'\
+            .format(div, eid, int(mktime(datetime.now().timetuple())), randint(0, 10000000), )
 
     def create_msg(self):
         return None

@@ -59,11 +59,12 @@ def processing_delivery_test(*args, **kwargs):
         delivery.send_test = True
         delivery.save()
 
-        real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
+        real_email = get_email(delivery=delivery, email_class=Email, pk=6, )  # pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
         #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
         #                                        now_email=real_email,
         #                                        email=real_email, )
-        message = Message(delivery_pk=delivery.pk, )
+        message = Message(delivery=delivery, recipient=real_email, )
+
         mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
         msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
         """ Посылаем письмо - subscribe@keksik.com.ua """
