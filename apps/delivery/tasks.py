@@ -55,15 +55,12 @@ def processing_delivery_test(*args, **kwargs):
         email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
                                                                    delivery_test_send=True,
                                                                    delivery_send=False, )
-        """ Закрываем отсылку теста в самой рассылке """
-        delivery.send_test = True
-        delivery.save()
 
         real_email = get_email(delivery=delivery, email_class=Email, pk=6, )  # pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
         #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
         #                                        now_email=real_email,
         #                                        email=real_email, )
-        message = Message(delivery=delivery, recipient=real_email, )
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
 
         mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
         msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
@@ -76,6 +73,10 @@ def processing_delivery_test(*args, **kwargs):
                                                 now_email=real_email,
                                                 email=real_email, )
         send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
+
+        """ Закрываем отсылку теста в самой рассылке """
+        delivery.send_test = True
+        delivery.save()
 
     except Delivery.DoesNotExist:
         return False

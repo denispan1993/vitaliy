@@ -15,7 +15,7 @@ from django.db.models import Q
 from django.db.models.loading import get_model
 from django.utils.html import strip_tags
 from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
-from random import randrange, randint, choice
+from random import randrange, randint
 from datetime import datetime, timedelta
 from time import mktime, sleep
 from logging import getLogger

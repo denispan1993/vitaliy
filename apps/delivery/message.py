@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 import re
 from copy import copy
+from django.core.mail import get_connection, EmailMultiAlternatives
 from django.core.cache import cache
 from django.db.models.loading import get_model
-from random import randrange
+from django.utils.html import strip_tags
+from random import randrange, randint
+from time import mktime
 from datetime import datetime, timedelta
 from time import sleep
+import dns.resolver
+from email.utils import formataddr
 
 from .models import Delivery, MailAccount,\
     Message as model_Message,\
@@ -21,9 +26,12 @@ tokenizer_replacement = re.compile('(\{{[a-zA-Z0-9\-\_\.]+\}})', re.MULTILINE)  
 
 class Message(object):
 
-    def __init__(self, delivery=None, delivery_pk=None,
+    def __init__(self, test=False,
+                 delivery=None, delivery_pk=None,
                  recipient=None, recipient_class=None, recipient_pk=None,
                  **kwargs):
+
+        self.test = test
 
         if delivery:
             self.delivery = delivery
@@ -54,21 +62,28 @@ class Message(object):
         self.body_finished = self.get_body_finished()
 
         """ did - Delivery id """
+        self.did = self.get_did()
         """ eid - Email id """
+        self.eid = self.get_eid()
         """ mid - Message id """
+        self.mid = self.get_mid()
         """ Reply-To + Return-Path """
-        headers = {
-            'X-Delivery-id': self.get_div(),
-            'X-Email-id': self.get_eid(),
-            'X-Message-id': self.get_mid(),
+        self.headers = {
+            'X-Delivery-id': self.did,
+            'X-Email-id': self.eid,
+            'X-Message-id': self.mid,
             'Return-Path': self.recipient.get_return_path_subscribe,
             'Reply-To': self.recipient.get_return_path_subscribe,
         }
 
         if self.recipient.domain in ['keksik.com.ua', 'yandex.ru', 'yandex.ua', ]:
+            self.message = self.create_msg(directly=False, )
             self.send_mail_through()
         else:
+            self.MXes = self.get_MXes()
+            self.message = self.create_msg(directly=True, )
             if not self.send_mail_direct():
+                self.message = self.create_msg(directly=False, )
                 self.send_mail_through()
 
         self.sender = self.get_sender()
@@ -321,20 +336,41 @@ class Message(object):
 
         return ''.join(three)
 
-    def get_div(self, ):
-        """ div - Delivery id """
+    def get_did(self, ):
+        """ did - Delivery id """
         return '{0:04d}-{0:02d}'.format(self.delivery_pk, self.delivery.type, )
 
     def get_eid(self, ):
+        """ eid - Email id """
         return '{0:02d}-{1:07d}'.format(self.recipient_type, self.recipient_pk, )
 
-    def get_mid(div, eid):
+    def get_mid(self, ):
         """ mid - Message id """
         return '{0}-{1}-{2:011x}-{3:x}'\
-            .format(div, eid, int(mktime(datetime.now().timetuple())), randint(0, 10000000), )
+            .format(self.did, self.eid, int(mktime(datetime.now().timetuple())), randint(0, 10000000), )
 
-    def create_msg(self):
-        return None
+    def get_MXes(self, ):
+        answers = dns.resolver.query(self.recipient.domain, 'MX')
+        return sorted({rdata.preference: rdata.exchange for rdata in answers})
+
+    def get_email_send_direct(self, ):
+        return u'{}@keksik.com.ua'.format(self.mid, )
+
+    def create_msg(self, directly=True, ):
+        message_kwargs = {
+            'from_email': formataddr(
+                (u'Интернет магаизн Keksik',
+                 self.get_email_send_direct() if directly else self.get_sender().email)),
+            'to': [self.recipient.email, ],
+            'headers': self.headers,
+            'subject': u'test - {}'.format(self.subject) if self.test else self.subject,
+            'body': strip_tags(self.body_finished, ),
+        }
+
+        message = EmailMultiAlternatives(**message_kwargs)
+        message.attach_alternative(content=self.body_finished , mimetype='text/html')
+
+        return message.message()
 
     def send(self):
         return None
