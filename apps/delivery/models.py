@@ -968,16 +968,15 @@ class MessageUrl(models.Model, ):
                                       null=True, )
 
     def save(self, *args, **kwargs):
-        if not self.key:
+        if not self.key or len(self.key) < 64:
             while True:
-                key = key_generator(size=64, )
+                self.key = key_generator(size=64, )
                 try:
-                    MessageUrl.objects.get(key=key, )
+                    MessageUrl.objects.get(key=self.key, )
                 except MessageUrl.DoesNotExist:
-                    self.key = key
                     break
                 except IntegrityError:
-                    print 'IntegrityError Key: %s' % key
+                    print 'IntegrityError Key: %s' % self.key
                 except Exception as e:
                     print 'Exception type: %s, message: %s' % (type(e, ), e, )
 
