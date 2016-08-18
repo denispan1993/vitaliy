@@ -52,9 +52,9 @@ def processing_delivery_test(*args, **kwargs):
                  ~Q(delivery_test=False, send_test=True, send_spam=True), pk=delivery_pk, )
 
         """ Создаем ссылочку на отсылку рассылки """
-        email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
-                                                                   delivery_test_send=True,
-                                                                   delivery_send=False, )
+        # email_middle_delivery = EmailMiddleDelivery.objects.create(delivery=delivery,
+        #                                                            delivery_test_send=True,
+        #                                                            delivery_send=False, )
 
         real_email = get_email(delivery=delivery, email_class=Email, pk=6, )  # pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
         #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
