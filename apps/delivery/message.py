@@ -74,13 +74,13 @@ class Message(object):
             'X-Delivery-id': self.did,
             'X-Email-id': self.eid,
             'X-Message-id': self.mid,
-            'Return-Path': self.recipient.get_return_path_subscribe,
-            'Reply-To': self.recipient.get_return_path_subscribe,
         }
 
         if self.recipient.domain in ['keksik.com.ua', 'yandex.ru', 'yandex.ua', ]:
-            self.message = self.create_msg(directly=False, )
             self.sender = self.get_sender()
+            self.message = self.create_msg(directly=False, )
+            self.headers['Return-Path'] = self.sender.get_return_path_subscribe,
+            self.headers['Reply-To'] = self.sender.get_return_path_subscribe,
             self.send_mail_through()
 #        else:
 #            self.MXes = self.get_MXes()
@@ -149,7 +149,7 @@ class Message(object):
             i += 1
             try:
 
-                sender = senders[sender_id, ]
+                sender = senders.get(pk=sender_id, )
 
                 if sender.is_auto_active:
                     return sender
