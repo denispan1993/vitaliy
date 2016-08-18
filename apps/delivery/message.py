@@ -2,6 +2,7 @@
 import re
 from copy import copy
 from django.core.mail import get_connection, EmailMultiAlternatives
+from django.core.mail.utils import DNS_NAME
 from django.core.cache import cache
 from django.db.models.loading import get_model
 from django.utils.html import strip_tags
@@ -11,6 +12,7 @@ from datetime import datetime, timedelta
 from time import sleep
 import dns.resolver
 from email.utils import formataddr
+from smtplib import SMTP, SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
 from .models import Delivery, MailAccount,\
     Message as model_Message,\
@@ -78,15 +80,15 @@ class Message(object):
 
         if self.recipient.domain in ['keksik.com.ua', 'yandex.ru', 'yandex.ua', ]:
             self.message = self.create_msg(directly=False, )
+            self.sender = self.get_sender()
             self.send_mail_through()
-        else:
-            self.MXes = self.get_MXes()
-            self.message = self.create_msg(directly=True, )
-            if not self.send_mail_direct():
-                self.message = self.create_msg(directly=False, )
-                self.send_mail_through()
+#        else:
+#            self.MXes = self.get_MXes()
+#            self.message = self.create_msg(directly=True, )
+#            if not self.send_mail_direct():
+#                self.message = self.create_msg(directly=False, )
+#                self.send_mail_through()
 
-        self.sender = self.get_sender()
 
         #self.msg = create_msg(delivery=delivery, mail_account=mail_account, email=email_for, test=False, )
 
@@ -372,5 +374,56 @@ class Message(object):
 
         return message.message()
 
-    def send(self):
-        return None
+    def send_mail_through(self):
+        try:
+            connection_class = SMTP_SSL if self.sender.server.use_ssl_smtp and \
+                                           not self.sender.server.use_tls_smtp else SMTP
+            connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
+
+            # if timeout:
+            #     connection_params['timeout'] = timeout
+
+            try:
+                connection = connection_class(host=self.sender.server.server_smtp,
+                                              port=self.sender.server.port_smtp,
+                                              **connection_params)
+                if not self.sender.server.use_ssl_smtp and self.sender.server.use_tls_smtp:
+                    connection.ehlo()
+                    connection.starttls()
+                    connection.ehlo()
+                if self.sender.username and self.sender.password:
+                    connection.login(self.sender.username, self.sender.password, )
+
+                connection.sendmail(from_addr=self.sender.email,
+                                    to_addrs=[self.recipient.email, ],
+                                    msg=self.message.as_string(), )
+                connection.quit()
+
+            except (SMTPException, SMTPServerDisconnected):
+                pass
+                # if not fail_silently:
+                #     raise
+                # else:
+                #     return False
+
+        except SMTPSenderRefused as e:
+            print('SMTPSenderRefused: ', e)
+
+        except SMTPDataError as e:
+            print('SMTPDataError: ', e, ' messages: ', e.message, ' smtp_code: ', e.smtp_code, 'smtp_error: ', e.smtp_error, ' args: ', e.args)
+
+            if e.smtp_code == 554 and\
+                    "5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/" in e.smtp_error:
+                print('SPAM Bloked E-Mail: ', self.recipient, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
+                self.recipient.is_auto_active = False
+                self.recipient.auto_active_datetime = datetime.now()
+                self.recipient.save()
+
+                # connection = connect(mail_account=mail_account, fail_silently=True, )
+                # msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, exception=e, test=True, )
+                # send_msg(connection=connection, mail_account=mail_account, email=email, msg=msg, )
+
+        except Exception as e:
+            print('Exception: ', e)
+
+        return False
