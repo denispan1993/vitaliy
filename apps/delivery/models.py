@@ -87,7 +87,7 @@ class MailServer(models.Model, ):
         return u'%s:%d' % (self.server_smtp, self.port_smtp, )
 
     class Meta:
-        db_table = 'MailServer'
+        db_table = 'Delivery_MailServer'
         ordering = ['-created_at', ]
         verbose_name = u'Mail Server'
         verbose_name_plural = u'Mail Servers'
@@ -160,7 +160,7 @@ class MailAccount(models.Model, ):
         return u'%s --> %s:%d' % (self.email, self.server.server_smtp, self.server.port_smtp, )
 
     class Meta:
-        db_table = 'MailAccount'
+        db_table = 'Delivery_MailAccount'
         ordering = ['-created_at', ]
         get_latest_by = 'pk'
         verbose_name = _(u'Mail Account', )
@@ -430,7 +430,7 @@ class Delivery(models.Model, ):
 #        return super(CouponGroup, self).save(*args, **kwargs)
 
     class Meta:
-        db_table = 'Delivery'
+        db_table = 'Delivery_Delivery'
         ordering = ['-created_at', ]
         verbose_name = u'Рассылка'
         verbose_name_plural = u'Рассылки'
@@ -467,7 +467,7 @@ class Subject(models.Model, ):
         return u'Тема: № %6d --> [%s]:%2.2f' % (self.pk, self.subject, self.chance )
 
     class Meta:
-        db_table = 'Subject'
+        db_table = 'Delivery_Subject'
         ordering = ['-created_at', ]
         verbose_name = _(u'Тема', )
         verbose_name_plural = _(u'Темы', )
@@ -513,7 +513,7 @@ class Body(models.Model, ):
         return u'Тело письма: № %6d --> %s.... (%2.2f)' % (self.pk, self.html[0:50], self.chance)
 
     class Meta:
-        db_table = 'Delivery_body'
+        db_table = 'Delivery_Body'
         ordering = ['-created_at', ]
         verbose_name = _(u'Тело письма', )
         verbose_name_plural = _(u'Тема писем', )
@@ -562,7 +562,7 @@ class Url(models.Model, ):
         return u'Url: № %6d --> [%s]:%2.2f' % (self.pk, self.subject, self.chance )
 
     class Meta:
-        db_table = 'Url'
+        db_table = 'Delivery_Url'
         ordering = ['-created_at', ]
         verbose_name = _(u'Url', )
         verbose_name_plural = _(u'Urls', )
@@ -659,7 +659,7 @@ class EmailMiddleDelivery(models.Model, ):
                   self.created_at, self.updated_at, )
 
     class Meta:
-        db_table = 'EmailMiddleDelivery'
+        db_table = 'Delivery_EmailMiddleDelivery'
         ordering = ['-created_at', ]
         verbose_name = u'Промежуточная модель Рассылки'
         verbose_name_plural = u'Промежуточные модели Рассылок'
@@ -724,7 +724,7 @@ class EmailForDelivery(models.Model, ):
                % (self.now_email.email, self.pk, self.created_at, self.updated_at, )
 
     class Meta:
-        db_table = 'EmailForDelivery'
+        db_table = 'Delivery_EmailForDelivery'
         ordering = ['-created_at', ]
         verbose_name = u'Рассылка (Email адрес)'
         verbose_name_plural = u'Рассылки (Email адреса)'
@@ -778,7 +778,7 @@ class TraceOfVisits(models.Model, ):
         return self.email.key
 
     class Meta:
-        db_table = 'TraceOfVisits'
+        db_table = 'Delivery_TraceOfVisits'
         ordering = ['-created_at', ]
         verbose_name = u'След от посещения'
         verbose_name_plural = u'Следы от посещений'
@@ -820,7 +820,7 @@ class SpamEmail(models.Model, ):
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )
 
     class Meta:
-        db_table = 'SpamEmail'
+        db_table = 'Delivery_SpamEmail'
         ordering = ['-created_at', ]
         verbose_name = u'Емэйл для спама'
         verbose_name_plural = u'Емэйлы для спама'
@@ -832,7 +832,7 @@ class SendEmailDelivery(models.Model, ):
                                  blank=False,
                                  null=False, )
     content_type = models.ForeignKey(ContentType,
-                                     related_name='email_instance',
+                                     # related_name='email_instance',
                                      verbose_name=_(u'Указатель на E-Mail', ),
                                      blank=True,
                                      null=True, )
@@ -856,7 +856,7 @@ class SendEmailDelivery(models.Model, ):
                % (self.email.email, self.pk, self.created_at, self.updated_at, )
 
     class Meta:
-        db_table = 'SendEmailDelivery'
+        db_table = 'Delivery_SendEmailDelivery'
         ordering = ['-created_at', ]
         verbose_name = u'Рассылка отослана на (Email адрес)'
         verbose_name_plural = u'Рассылки отосланы на (Email адреса)'
@@ -869,7 +869,7 @@ class Message(models.Model):
                                  null=False, )
 
     content_type = models.ForeignKey(ContentType,
-                                     related_name='email_instance',
+                                     # related_name='email_instance',
                                      verbose_name=_(u'Указатель на E-Mail', ),
                                      blank=True,
                                      null=True, )
@@ -880,7 +880,6 @@ class Message(models.Model):
 
     direct_send = models.BooleanField(verbose_name=_(u'Шлем напрямую', ),
                                       blank=True,
-                                      null=True,
                                       default=True, )
     direct_email = models.EmailField(verbose_name=_(u'E-Mail прямой отсылки', ),
                                      blank=True,
@@ -892,13 +891,13 @@ class Message(models.Model):
 
     subject = models.ForeignKey(to=Subject,
                                 verbose_name=_(u'Указатель на subject', ),
-                                blank=False,
-                                null=False, )
+                                blank=True,
+                                null=True, )
 
     subject_str = models.CharField(max_length=256,
                                    verbose_name=_(u'Строка subject', ),
-                                   blank=False,
-                                   null=False, )
+                                   blank=True,
+                                   null=True, )
 
 
 
@@ -944,7 +943,7 @@ class MessageUrl(models.Model, ):
                            default=key_generator, )
 
     content_type = models.ForeignKey(ContentType,
-                                     related_name='email_instance',
+                                     # related_name='email_instance',
                                      verbose_name=_(u'Указатель на E-Mail', ),
                                      blank=True,
                                      null=True, )
@@ -999,7 +998,7 @@ class MessageUrl(models.Model, ):
         return u'Url: № %0.6d --> [%s]' % (self.pk, self.email.email, )
 
     class Meta:
-        db_table = 'Delivery_Message_Url'
+        db_table = 'Delivery_MessageUrl'
         ordering = ['-created_at', ]
         verbose_name = _(u'Message Url', )
         verbose_name_plural = _(u'Messages Urls', )
@@ -1045,7 +1044,7 @@ class RawEmail(models.Model, ):
                % (self.pk, self.account.email, self.from_header, self.to_header, self.created_at, self.updated_at, )
 
     class Meta:
-        db_table = 'RawEmail'
+        db_table = 'Delivery_RawEmail'
         ordering = ['-created_at', ]
         verbose_name = u'RawЕмэйл'
         verbose_name_plural = u'RawЕмэйлы'
