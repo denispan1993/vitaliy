@@ -410,9 +410,15 @@ class Product(models.Model):
     def get_or_create_ItemID(self, itemid=None):
         from . import ItemID
         try:
-            return ItemID.objects.get(content_type=self.content_type,
-                                      object_id=self.pk,
-                                      ItemID=itemid if itemid else None, )
+            if itemid:
+                return ItemID.objects.get(
+                    content_type=self.content_type,
+                    object_id=self.pk,
+                    ItemID=itemid, )
+            else:
+                return ItemID.objects.get(
+                    content_type=self.content_type,
+                    object_id=self.pk, )
         except ItemID.DoesNotExist:
             manufacturer = self.manufacturer.all()
             if itemid:
@@ -423,18 +429,25 @@ class Product(models.Model):
                 return ItemID.objects.create(content_type=self.content_type,
                                              object_id=self.pk,
                                              ItemID=u'%s-%.5d' % (manufacturer[0].key.letter_to_article.upper(),
-                                                                  self.id, ), )
+                                                                  self.pk, ), )
             else:
                 return ItemID.objects.create(content_type=self.content_type,
                                              object_id=self.pk,
                                              ItemID=u'%.5d' % self.pk, )
         except ItemID.MultipleObjectsReturned:
+            manufacturer = self.manufacturer.all()
             ItemIDs = ItemID.objects.filter(content_type=self.content_type,
                                             object_id=self.pk, )
-            for ItemID in ItemIDs:
-                if ItemID.ItemID == u'%.5d' % self.pk:
-                    ItemID.delete()
-            return ItemID
+            for i, inst_ItemID in enumerate(ItemIDs):
+
+                if i + 1 == len(ItemIDs):
+                    return inst_ItemID
+
+                if inst_ItemID.ItemID == u'%.5d' % self.pk\
+                    or inst_ItemID.ItemID == u'%s-%.5d' % (
+                                manufacturer[0].key.letter_to_article.upper(),
+                                self.pk, ):
+                    inst_ItemID.delete()
 
     @property
     def get_ItemID(self, ):
