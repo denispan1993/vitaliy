@@ -4,7 +4,7 @@
         <a href="{{ category.get_absolute_url() }}"
            {% if category.main_photo.meta_title %}title="{{ category.main_photo.meta_title }}"{% endif %}>
             <img src="{{ category.main_photo.photo.url_210x160 }}" alt="{{ category.main_photo.meta_alt }}" border="0">
-            {% if category.main_photo.sign %}<figcaption>{{ category.main_photo.sign }}</figcaption>{% endif %}
+            {% if category.main_photo.sign %}<figcaption>{{ category.main_photo.sign|trim_whitespace }}</figcaption>{% endif %}
         </a>
         {% if category.item_description %}<h1>{{ category.item_description|safe }}</h1><br>{% endif %}
         {% if category.description %}{{ category.description|safe }}{% endif %}
