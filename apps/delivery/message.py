@@ -149,7 +149,10 @@ class Message(object):
             i += 1
             try:
 
-                sender = senders.get(pk=sender_id, )
+                try:
+                    sender = senders.get(pk=sender_id, )
+                except MailAccount.DoesNotExist:
+                    continue
 
                 if sender.is_auto_active:
                     return sender
