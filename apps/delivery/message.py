@@ -276,7 +276,7 @@ class Message(object):
             value=body_cache_value + body.chance,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        print('get_body_raw(body.html): ', body.raw, )
+        print('get_body_raw(body.html): ', body.html, )
         return body.html
 
     def get_body_finished(self):
