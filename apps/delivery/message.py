@@ -22,7 +22,9 @@ from .models import Delivery, MailAccount,\
 __author__ = 'AlexStarov'
 
 
-tokenizer_choiser = re.compile('(\[[\[a-z|A-Z0-9\-\_\.]+\]])', re.MULTILINE)  # [[str1|str2]]
+# tokenizer_choiser = re.compile('(\[[\[a-z|A-Z0-9\-\_\.]+\]])', re.MULTILINE)  # [[str1|str2]]
+tokenizer_choiser = re.compile('(\[[[\w\-\_\|\.\s]+\]])', re.UNICODE)  # [[str1|str2]]
+
 tokenizer_replacement = re.compile('(\{{[a-zA-Z0-9\-\_\.]+\}})', re.MULTILINE)  # {{url1}}
 
 
