@@ -80,16 +80,23 @@ def processing_delivery_test(*args, **kwargs):
         # """ Посылаем письмо - subscribe@keksik.com.ua """
         # send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
-        # """ Посылаем письмо - check-auth2@verifier.port25.com """
-        # real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
+        """ Посылаем письмо - check-auth2@verifier.port25.com """
+        if os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
+        else:
+            real_email = get_email(delivery=delivery, email_class=Email, pk=7, )  # check-auth2@verifier.port25.com
+
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
+        print message
+
         # email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
         #                                         now_email=real_email,
         #                                         email=real_email, )
         # send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
         """ Закрываем отсылку теста в самой рассылке """
-        delivery.send_test = True
-        delivery.save()
+        # delivery.send_test = True
+        # delivery.save()
 
     except Delivery.DoesNotExist:
         return False

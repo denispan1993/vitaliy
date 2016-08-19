@@ -225,7 +225,7 @@ class Message(object):
             value=subject_cache_value + subject.chance,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        return subject.pk, subject.subject
+        return subject.pk, self.choice_str_in_tmpl(tmpl=subject.subject)
 
     def create_message(self):
         message = model_Message.objects.create(
