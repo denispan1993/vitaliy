@@ -23,9 +23,9 @@ __author__ = 'AlexStarov'
 
 
 # tokenizer_choiser = re.compile('(\[[\[a-z|A-Z0-9\-\_\.]+\]])', re.MULTILINE)  # [[str1|str2]]
-tokenizer_choiser = re.compile('(\[[[\w\-\_\|\.\s]+\]])', re.UNICODE)  # [[str1|str2]]
+tokenizer_choiser = re.compile('(\[\[[\w\-\_\|\.\s]+\]\])', re.UNICODE)  # [[str1|str2]]
 
-tokenizer_replacement = re.compile('(\{{[a-zA-Z0-9\-\_\.]+\}})', re.MULTILINE)  # {{url1}}
+tokenizer_replacement = re.compile('(\{\{[\w\-\_\.\s]+\}\})')  # {{url1}}
 
 
 class Message(object):
@@ -302,8 +302,6 @@ class Message(object):
 
         three = re.split(tokenizer_choiser, tmpl)
 
-        print('choice_str_in_tmpl(three): (1)', three)
-
         nodes = {}
         for pos, block in enumerate(three):
             if block.startswith('[[') and block.endswith(']]'):
@@ -314,15 +312,11 @@ class Message(object):
                 if pos not in nodes:
                     nodes[pos] = value
 
-        print('choice_str_in_tmpl(nodes): ', nodes)
-
         three = copy(three)
 
         for pos, value in nodes.iteritems():
 
             three[pos] = value
-
-        print('choice_str_in_tmpl(three): (2)', three)
 
         return ''.join(three)
 
