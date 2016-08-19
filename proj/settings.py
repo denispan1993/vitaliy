@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from kombu import Queue, Exchange
+import os
 
 __author__ = 'AlexStarov'
 
@@ -34,7 +35,6 @@ CELERY_TASK_RESULT_EXPIRES = 3600
 #CELERYD_PREFETCH_MULTIPLIER = 0
 
 # Django settings for Shop project.
-import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
 
 ROOT = PROJECT_PATH

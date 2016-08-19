@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from proj.celery import celery_app
 from datetime import datetime, timedelta
 from celery.utils.log import get_task_logger
@@ -17,6 +18,14 @@ from .message import Message
 __author__ = 'AlexStarov'
 
 logger = get_task_logger(__name__)
+
+PROJECT_PATH = os.path.abspath(os.path.dirname(__name__), )
+
+path = lambda base: os.path.abspath(
+    os.path.join(
+        PROJECT_PATH, base
+    ).replace('\\', '/')
+)
 
 reason550 = {'google.com': 'said: 550-5.1.1 The email account that you tried to reach does not exist.',
              'GOOGLE.COM': 'said: 550 5.2.1 The email account that you tried to reach is disabled.',
@@ -56,7 +65,11 @@ def processing_delivery_test(*args, **kwargs):
         #                                                            delivery_test_send=True,
         #                                                            delivery_send=False, )
 
-        real_email = get_email(delivery=delivery, email_class=Email, pk=6, )  # pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
+        if os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
+        else:
+            real_email = get_email(delivery=delivery, email_class=Email, pk=6, )
+
         #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
         #                                        now_email=real_email,
         #                                        email=real_email, )
