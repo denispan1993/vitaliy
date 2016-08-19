@@ -276,14 +276,19 @@ class Message(object):
             value=body_cache_value + body.chance,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
+        print('get_body_raw(body.html): ', body.raw, )
         return body.html
 
     def get_body_finished(self):
         body_finished = self.choice_str_in_tmpl(self.body_raw)
 
+        print('get_body_finished(body_finished): (1)', body_finished, )
+
         body_finished = self.replace_str_in_tmpl(
             tmpl=body_finished,
             context=self.dict_message_urls, )
+
+        print('get_body_finished(body_finished): (2)', body_finished, )
 
         return body_finished
 
@@ -291,6 +296,8 @@ class Message(object):
         """ ccc('aaa [[bbb|111]] ccc [[ddd|222]] eee [[fff|333|444|555|666]] ggg') """
 
         three = re.split(tokenizer_choiser, tmpl)
+
+        print('choice_str_in_tmpl(three): (1)', three)
 
         nodes = {}
         for pos, block in enumerate(three):
@@ -302,10 +309,15 @@ class Message(object):
                 if pos not in nodes:
                     nodes[pos] = value
 
+        print('choice_str_in_tmpl(nodes): ', nodes)
+
         three = copy(three)
+
         for pos, value in nodes.iteritems():
 
             three[pos] = value
+
+        print('choice_str_in_tmpl(three): (2)', three)
 
         return ''.join(three)
 
