@@ -74,7 +74,8 @@ def processing_delivery_test(*args, **kwargs):
         #                                        now_email=real_email,
         #                                        email=real_email, )
         message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message
+        print message.send()
+
         # mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
         # msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
         # """ Посылаем письмо - subscribe@keksik.com.ua """
@@ -87,7 +88,7 @@ def processing_delivery_test(*args, **kwargs):
             real_email = get_email(delivery=delivery, email_class=Email, pk=7, )  # check-auth2@verifier.port25.com
 
         message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message
+        print message.send()
 
         # email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
         #                                         now_email=real_email,

@@ -180,11 +180,11 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
 
 def get_email(delivery=False, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
 
-    print(type(email_class), email_class, Email)
+    # print(type(email_class), email_class, Email)
     if isinstance(email_class, (str, unicode)):
         email_model = get_model(*email_class.split('.'))
 
-    print(Email, email_class, email_class in (Email, SpamEmail), isinstance(email_class, (Email, SpamEmail)))
+    # print(Email, email_class, email_class in (Email, SpamEmail), isinstance(email_class, (Email, SpamEmail)))
     if email_class in (Email, SpamEmail):
         email_model = email_class
 

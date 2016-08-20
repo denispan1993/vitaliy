@@ -968,9 +968,11 @@ class MessageUrl(models.Model, ):
                                       null=True, )
 
     def save(self, *args, **kwargs):
+        print('save', self)
         if not self.key or len(self.key) < 64:
             while True:
                 self.key = key_generator(size=64, )
+                print('key', self.key)
                 try:
                     MessageUrl.objects.get(key=self.key, )
                 except MessageUrl.DoesNotExist:

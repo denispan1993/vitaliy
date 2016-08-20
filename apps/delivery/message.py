@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
+import socket
 from copy import copy
+from collections import OrderedDict
 from django.core.mail import get_connection, EmailMultiAlternatives
 from django.core.mail.utils import DNS_NAME
 from django.core.cache import cache
@@ -78,20 +80,7 @@ class Message(object):
             'X-Message-id': self.mid,
         }
 
-        if self.recipient.domain in ['keksik.com.ua', 'yandex.ru', 'yandex.ua', ]:
-            self.sender = self.get_sender()
-            self.message = self.create_msg(directly=False, )
-            self.headers['Return-Path'] = self.sender.get_return_path_subscribe,
-            self.headers['Reply-To'] = self.sender.get_return_path_subscribe,
-            self.send_mail_through()
-#        else:
-#            self.MXes = self.get_MXes()
-#            self.message = self.create_msg(directly=True, )
-#            if not self.send_mail_direct():
-#                self.message = self.create_msg(directly=False, )
-#                self.send_mail_through()
-
-
+        self.sender, self.MXes, self.server_host, self.port, self.connection = None, None, None, None, None
         #self.msg = create_msg(delivery=delivery, mail_account=mail_account, email=email_for, test=False, )
 
     def get_delivery(self):
@@ -243,8 +232,15 @@ class Message(object):
             )
             for url in Url.objects.filter(delivery=self.delivery, )]
         )
+        qs_urls = model_Message_Url.objects.filter(
+            delivery_id=self.delivery_pk,
+            message_id=self.message_pk,
+            content_type=self.recipient_content_type,
+            object_id=self.recipient_pk
+        )
         dict_urls = {}
         for url in qs_urls:
+            print(url.pk, url.url_id, url.key, url.ready_url_str)
             dict_urls['url{}'.format(url.url_id, )] = url.ready_url_str
 
         return qs_urls, dict_urls
@@ -281,19 +277,14 @@ class Message(object):
             value=body_cache_value + body.chance,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        print('get_body_raw(body.html): ', body.html, )
         return body.html
 
     def get_body_finished(self):
         body_finished = self.choice_str_in_tmpl(self.body_raw)
 
-        print('get_body_finished(body_finished): (1)', body_finished, )
-
         body_finished = self.replace_str_in_tmpl(
             tmpl=body_finished,
             context=self.dict_message_urls, )
-
-        print('get_body_finished(body_finished): (2)', body_finished, )
 
         return body_finished
 
@@ -339,9 +330,13 @@ class Message(object):
                 if key not in nodes:
                     nodes[key] = []
                 nodes[key].append(pos)
-
+        #print('replace_str_in_tmpl(nodes): ', nodes)
         keys = nodes.keys()
         three = copy(three)
+        #print('replace_str_in_tmpl(three): ', three)
+        # print('replace_str_in_tmpl(keys): ', keys)
+        print('replace_str_in_tmpl(context): ', context)
+
         for key, value in context.iteritems():
             if key in keys:
                 for pos in nodes[key]:
@@ -364,7 +359,8 @@ class Message(object):
 
     def get_MXes(self, ):
         answers = dns.resolver.query(self.recipient.domain, 'MX')
-        return sorted({rdata.preference: rdata.exchange for rdata in answers})
+        MX_dict = {rdata.preference: rdata.exchange.to_text().rstrip('.') for rdata in answers}
+        return OrderedDict(sorted(MX_dict.items()))
 
     def get_email_send_direct(self, ):
         return u'{}@keksik.com.ua'.format(self.mid, )
@@ -385,37 +381,50 @@ class Message(object):
 
         return message.message()
 
-    def send_mail_through(self):
+    def connect(self, directly=True, ):
+        connection_class = SMTP_SSL if not directly\
+                                       and self.sender.server.use_ssl_smtp\
+                                       and not self.sender.server.use_tls_smtp else SMTP
+        connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
+
+        # if timeout:
+        #     connection_params['timeout'] = timeout
+
         try:
-            connection_class = SMTP_SSL if self.sender.server.use_ssl_smtp and \
-                                           not self.sender.server.use_tls_smtp else SMTP
-            connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
+            print self.server_host if directly else self.sender.server.server_smtp
+            connection = connection_class(
+                host=self.server_host if directly else self.sender.server.server_smtp,
+                port=self.port if directly else self.sender.server.port_smtp,
+                **connection_params)
+            if not directly and not self.sender.server.use_ssl_smtp and self.sender.server.use_tls_smtp:
+                connection.ehlo()
+                connection.starttls()
+                connection.ehlo()
+            if not directly and self.sender.username and self.sender.password:
+                connection.login(self.sender.username, self.sender.password, )
+            if directly:
+                connection.ehlo()
 
-            # if timeout:
-            #     connection_params['timeout'] = timeout
+            return connection
 
-            try:
-                connection = connection_class(host=self.sender.server.server_smtp,
-                                              port=self.sender.server.port_smtp,
-                                              **connection_params)
-                if not self.sender.server.use_ssl_smtp and self.sender.server.use_tls_smtp:
-                    connection.ehlo()
-                    connection.starttls()
-                    connection.ehlo()
-                if self.sender.username and self.sender.password:
-                    connection.login(self.sender.username, self.sender.password, )
+        except (SMTPException, SMTPServerDisconnected):
+            return False
+            # if not fail_silently:
+            #     raise
+            # else:
+            #     return False
+        except socket.error:
+            return False
 
-                connection.sendmail(from_addr=self.sender.email,
-                                    to_addrs=[self.recipient.email, ],
-                                    msg=self.message.as_string(), )
-                connection.quit()
-
-            except (SMTPException, SMTPServerDisconnected):
-                pass
-                # if not fail_silently:
-                #     raise
-                # else:
-                #     return False
+    def send_mail(self, directly=True, ):
+        result = False
+        try:
+            self.connection.sendmail(
+                from_addr=self.get_email_send_direct() if directly else self.sender.email,
+                to_addrs=[self.recipient.email, ],
+                msg=self.message.as_string(), )
+            self.connection.quit()
+            result = True
 
         except SMTPSenderRefused as e:
             print('SMTPSenderRefused: ', e)
@@ -436,5 +445,35 @@ class Message(object):
 
         except Exception as e:
             print('Exception: ', e)
+
+        return result
+
+    def send(self, ):
+        if self.recipient.domain in ['keksik.com.ua', 'yandex.ru', 'yandex.ua', ]:
+            self.sender = self.get_sender()
+            self.message = self.create_msg(directly=False, )
+            self.headers['Return-Path'] = self.sender.get_return_path_subscribe
+            self.headers['Reply-To'] = self.sender.get_return_path_subscribe
+            self.connection = self.connect(directly=False, )
+            return self.send_mail(directly=False, )
+
+        else:
+            self.MXes = self.get_MXes()
+            self.message = self.create_msg(directly=True, )
+            self.headers['Return-Path'] = 'subscribe@keksik.com.ua'
+            self.headers['Reply-To'] = 'subscribe@keksik.com.ua'
+            self.port = 25
+            for preference, self.server_host in self.MXes.iteritems():
+                self.message = self.create_msg(directly=True, )
+                self.connection = self.connect(directly=True, )
+                if self.send_mail(directly=True, ):
+                    return True
+
+            self.sender = self.get_sender()
+            self.message = self.create_msg(directly=False, )
+            self.headers['Return-Path'] = self.sender.get_return_path_subscribe
+            self.headers['Reply-To'] = self.sender.get_return_path_subscribe
+            self.connection = self.connect(directly=False, )
+            return self.send_mail(directly=False, )
 
         return False
