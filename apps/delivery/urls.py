@@ -6,6 +6,9 @@ __author__ = 'AlexStarov'
 
 
 urlpatterns = [
+    url(regex=r'^$',
+        view=views.ClickView.as_view(),
+        name='click', ),
     url(r'^(?P<mid>[A-f0-9-]+).gif$',
         views.OpenView.as_view(), name='open'),
     url(r'^(?P<mid>[A-f0-9-]+)/(?P<hash>[A-f0-9]+)/$',

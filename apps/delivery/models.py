@@ -559,7 +559,11 @@ class Url(models.Model, ):
                                       null=True, )
 
     def __unicode__(self):
-        return u'Url: № %6d --> [%s]:%2.2f' % (self.pk, self.subject, self.chance )
+        return u'pk %0.6d [url%d] --> %s:%s' % (
+            self.pk,
+            self.url_id,
+            self.anchor,
+            self.title, )
 
     class Meta:
         db_table = 'Delivery_Url'
@@ -912,7 +916,7 @@ class Message(models.Model):
                                       null=True, )
 
     def __unicode__(self):
-        return u'Massage --> pk: %6d created_at: %s, updated_at: %s'\
+        return u'pk: %6d created_at: %s, updated_at: %s'\
                % (self.pk, self.created_at, self.updated_at, )
 
     class Meta:
@@ -968,11 +972,9 @@ class MessageUrl(models.Model, ):
                                       null=True, )
 
     def save(self, *args, **kwargs):
-        print('save', self)
         if not self.key or len(self.key) < 64:
             while True:
                 self.key = key_generator(size=64, )
-                print('key', self.key)
                 try:
                     MessageUrl.objects.get(key=self.key, )
                 except MessageUrl.DoesNotExist:
@@ -986,7 +988,7 @@ class MessageUrl(models.Model, ):
             self.ready_url_str = render_to_string(
                 template_name='render_url_string.jinja2',
                 context={
-                    'href': self.url.href,
+                    'href': 'http://keksik.com.ua/redirect/',
                     'key': self.key,
                     'title': self.url.title,
                     'anchor': self.url.anchor,
@@ -996,7 +998,7 @@ class MessageUrl(models.Model, ):
         super(MessageUrl, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return u'Url: № %0.6d --> [%s]' % (self.pk, self.email.email, )
+        return u'pk: %0.6d --> [%s]' % (self.pk, self.email.email, )
 
     class Meta:
         db_table = 'Delivery_MessageUrl'

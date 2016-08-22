@@ -222,16 +222,16 @@ class Message(object):
         return message.pk, message
 
     def create_message_urls(self):
-        qs_urls = model_Message_Url.objects.bulk_create([
-            model_Message_Url(
+        for url in Url.objects.filter(delivery=self.delivery, ):
+            model_Message_Url.objects.create(
                 delivery_id=self.delivery_pk,
-                url=url,
+                url_id=url.pk,
                 message_id=self.message_pk,
-                content_type=self.recipient_content_type,
-                object_id=self.recipient_pk
+                email=self.recipient,
+                # content_type=self.recipient_content_type,
+                # object_id=self.recipient_pk
             )
-            for url in Url.objects.filter(delivery=self.delivery, )]
-        )
+
         qs_urls = model_Message_Url.objects.filter(
             delivery_id=self.delivery_pk,
             message_id=self.message_pk,
@@ -240,8 +240,8 @@ class Message(object):
         )
         dict_urls = {}
         for url in qs_urls:
-            print(url.pk, url.url_id, url.key, url.ready_url_str)
-            dict_urls['url{}'.format(url.url_id, )] = url.ready_url_str
+            print(url.pk, url.url.url_id, url.key, url.ready_url_str)
+            dict_urls['url{}'.format(url.url.url_id, )] = url.ready_url_str
 
         return qs_urls, dict_urls
 
