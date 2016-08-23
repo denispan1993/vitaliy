@@ -62,7 +62,10 @@ class Message(object):
 
         self.message_pk, self.message = self.create_message()
 
-        self.qs_message_urls, self.dict_message_urls = self.create_message_urls()
+        self.qs_message_urls, self.dict_urls = self.create_message_urls()
+
+        self.inst_unsub_url, self.dict_urls['unsub'] = self.add_unsub_url()
+        self.inst_open_url, self.dict_urls['open'] = self.add_unsub_url()
 
         self.body_raw = self.get_body_raw()
         self.body_finished = self.get_body_finished()
@@ -74,10 +77,13 @@ class Message(object):
         """ mid - Message id """
         self.mid = self.get_mid()
         """ Reply-To + Return-Path """
+        print('List-Unsubscribe: ', self.dict_urls['unsub'])
+
         self.headers = {
             'X-Delivery-id': self.did,
             'X-Email-id': self.eid,
             'X-Message-id': self.mid,
+            'List-Unsubscribe': self.dict_urls['unsub'],
         }
 
         self.sender, self.MXes, self.server_host, self.port, self.connection = None, None, None, None, None
@@ -240,10 +246,33 @@ class Message(object):
         )
         dict_urls = {}
         for url in qs_urls:
-            print(url.pk, url.url.url_id, url.key, url.ready_url_str)
             dict_urls['url{}'.format(url.url.url_id, )] = url.ready_url_str
 
         return qs_urls, dict_urls
+
+    def add_unsub_url(self):
+        url = cache.get('unsub_url_{}'.format(self.delivery_pk), False)
+
+        if not url:
+            url, create = Url.objects.get_or_create(
+                delivery_id=self.delivery_pk,
+                href='http://keksik.com.ua/unsubscribe/',
+                type=2,
+            )
+
+            cache.set(
+                key='unsub_url_{}'.format(self.delivery_pk),
+                value=url,
+                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+        inst_unsub = model_Message_Url.objects.create(
+            delivery_id=self.delivery_pk,
+            url_id=url.pk,
+            message_id=self.message_pk,
+            email=self.recipient,
+        )
+
+        return inst_unsub, inst_unsub.ready_url_str
 
     def get_body_raw(self):
         body_value, body_value_pk = 5000000, 0
@@ -284,7 +313,7 @@ class Message(object):
 
         body_finished = self.replace_str_in_tmpl(
             tmpl=body_finished,
-            context=self.dict_message_urls, )
+            context=self.dict_urls, )
 
         return body_finished
 
@@ -330,12 +359,8 @@ class Message(object):
                 if key not in nodes:
                     nodes[key] = []
                 nodes[key].append(pos)
-        #print('replace_str_in_tmpl(nodes): ', nodes)
         keys = nodes.keys()
         three = copy(three)
-        #print('replace_str_in_tmpl(three): ', three)
-        # print('replace_str_in_tmpl(keys): ', keys)
-        print('replace_str_in_tmpl(context): ', context)
 
         for key, value in context.iteritems():
             if key in keys:
@@ -391,7 +416,6 @@ class Message(object):
         #     connection_params['timeout'] = timeout
 
         try:
-            print self.server_host if directly else self.sender.server.server_smtp
             connection = connection_class(
                 host=self.server_host if directly else self.sender.server.server_smtp,
                 port=self.port if directly else self.sender.server.port_smtp,
@@ -417,14 +441,15 @@ class Message(object):
             return False
 
     def send_mail(self, directly=True, ):
-        result = False
         try:
             self.connection.sendmail(
                 from_addr=self.get_email_send_direct() if directly else self.sender.email,
                 to_addrs=[self.recipient.email, ],
                 msg=self.message.as_string(), )
             self.connection.quit()
-            result = True
+            if not directly:
+                sleep(18)
+            return True
 
         except SMTPSenderRefused as e:
             print('SMTPSenderRefused: ', e)
@@ -446,7 +471,7 @@ class Message(object):
         except Exception as e:
             print('Exception: ', e)
 
-        return result
+        return False
 
     def send(self, ):
         if self.recipient.domain in ['keksik.com.ua', 'yandex.ru', 'yandex.ua', ]:
@@ -466,7 +491,7 @@ class Message(object):
             for preference, self.server_host in self.MXes.iteritems():
                 self.message = self.create_msg(directly=True, )
                 self.connection = self.connect(directly=True, )
-                if self.send_mail(directly=True, ):
+                if self.connection and self.send_mail(directly=True, ):
                     return True
 
             self.sender = self.get_sender()
@@ -475,5 +500,3 @@ class Message(object):
             self.headers['Reply-To'] = self.sender.get_return_path_subscribe
             self.connection = self.connect(directly=False, )
             return self.send_mail(directly=False, )
-
-        return False

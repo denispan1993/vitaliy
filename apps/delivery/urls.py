@@ -6,6 +6,9 @@ __author__ = 'AlexStarov'
 
 
 urlpatterns = [
+# aaa=re.compile(r'^\?(?P<key>[a-zA-Z0-9]{64,64})$')
+# print re.match(aaa, '?naJX2WhVXlGtXlg0NFhbY1hqXu51M8MyUzwxpLm1SBvdcWerdNDRJPmtXmZYR0qe').group('key')
+#    url(regex=r'^\?(?P<key>[a-zA-Z0-9]{64,64})$', --> это правильное выражение
     url(regex=r'^$',
         view=views.ClickView.as_view(),
         name='click', ),

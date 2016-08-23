@@ -526,9 +526,8 @@ class Url(models.Model, ):
                                  null=False,)
 
     url_id = models.PositiveSmallIntegerField(verbose_name=_(u'Url ID'),
-                                              blank=False,
-                                              null=False,
-                                              default=1, )
+                                              blank=True,
+                                              null=True, )
 
     href = models.CharField(verbose_name=_(u'URL', ),
                             max_length=256,
@@ -538,15 +537,24 @@ class Url(models.Model, ):
 
     anchor = models.CharField(verbose_name=_(u'Якорь --> "Анкор"', ),
                               max_length=256,
-                              blank=False,
-                              null=False,
-                              default='http://keksik.com.ua/', )
+                              blank=True,
+                              null=True, )
 
     title = models.CharField(verbose_name=_(u'Title', ),
                              max_length=256,
-                             blank=False,
-                             null=False,
-                             default='http://keksik.com.ua/', )
+                             blank=True,
+                             null=True, )
+    Type_Url = (
+        (1, _(u'Url', ), ),
+        (2, _(u'Unsub', ), ),
+        (3, _(u'Open', ), ),
+    )
+    type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип URL'),
+                                            choices=Type_Url,
+                                            default=1,
+                                            blank=False,
+                                            null=False, )
+
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -559,11 +567,20 @@ class Url(models.Model, ):
                                       null=True, )
 
     def __unicode__(self):
-        return u'pk %0.6d [url%d] --> %s:%s' % (
-            self.pk,
-            self.url_id,
-            self.anchor,
-            self.title, )
+        if self.type == 1:
+            return u'pk:%0.6d [url%d] --> %s:%s' % (
+                self.pk,
+                self.url_id,
+                self.anchor,
+                self.title, )
+        elif self.type == 2:
+            return u'pk:%0.6d [unsub] --> %s' % (
+                self.pk,
+                self.href, )
+        elif self.type == 3:
+            return u'pk:%0.6d [open] --> %s' % (
+                self.pk,
+                self.href, )
 
     class Meta:
         db_table = 'Delivery_Url'
@@ -741,8 +758,8 @@ class TraceOfVisits(models.Model, ):
                                  null=False, )
     email = models.ForeignKey(to=EmailForDelivery,
                               verbose_name=_(u'Указатель на E-Mail пользователя', ),
-                              blank=False,
-                              null=False, )
+                              blank=True,
+                              null=True, )
     sessionid = models.CharField(verbose_name=u'SessionID',
                                  max_length=32,
                                  blank=True,
@@ -756,9 +773,19 @@ class TraceOfVisits(models.Model, ):
                               max_length=32,
                               blank=True,
                               null=True, )
-    target_id = models.PositiveSmallIntegerField(verbose_name=_(u'Тип цэли захода на сайт'),
+    target_id = models.PositiveSmallIntegerField(verbose_name=_(u'Тип цэли обращения к сайту'),
                                                  blank=True,
                                                  null=True, )
+
+    content_type = models.ForeignKey(ContentType,
+                                     verbose_name=_(u'Указатель на E-Mail', ),
+                                     blank=True,
+                                     null=True, )
+    object_id = models.PositiveIntegerField(db_index=True,
+                                            blank=True,
+                                            null=True, )
+    now_email = generic.GenericForeignKey('content_type', 'object_id', )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
@@ -984,7 +1011,7 @@ class MessageUrl(models.Model, ):
                 except Exception as e:
                     print 'Exception type: %s, message: %s' % (type(e, ), e, )
 
-        if not self.ready_url_str:
+        if not self.ready_url_str and self.url.type==1:
             self.ready_url_str = render_to_string(
                 template_name='render_url_string.jinja2',
                 context={
@@ -992,7 +1019,14 @@ class MessageUrl(models.Model, ):
                     'key': self.key,
                     'title': self.url.title,
                     'anchor': self.url.anchor,
+                }, )
 
+        elif not self.ready_url_str and self.url.type==2:
+            self.ready_url_str = render_to_string(
+                template_name='render_unsub_url_string.jinja2',
+                context={
+                    'href': 'http://keksik.com.ua/redirect/',
+                    'key': self.key,
                 }, )
 
         super(MessageUrl, self).save(*args, **kwargs)

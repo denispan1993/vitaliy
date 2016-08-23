@@ -36,7 +36,7 @@ class ClickView(RedirectView, ):
                     url = MessageUrl.objects.get(key=query_string, )
 
                     TraceOfVisits.objects.create(
-                        email=url.email,
+                        now_email=url.email,
                         delivery=url.delivery,
                         url=url.url.href,
                         sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
