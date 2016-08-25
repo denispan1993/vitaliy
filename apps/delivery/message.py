@@ -64,8 +64,8 @@ class Message(object):
 
         self.qs_message_urls, self.dict_urls = self.create_message_urls()
 
-        self.inst_unsub_url, self.dict_urls['unsub'] = self.add_unsub_url()
-        self.inst_open_url, self.dict_urls['open'] = self.add_unsub_url()
+        self.inst_unsub_url, self.dict_urls['unsub'] = self.create_unsub_url()
+        self.inst_open_tag, self.dict_urls['open'] = self.create_open_tag()
 
         self.body_raw = self.get_body_raw()
         self.body_finished = self.get_body_finished()
@@ -77,7 +77,6 @@ class Message(object):
         """ mid - Message id """
         self.mid = self.get_mid()
         """ Reply-To + Return-Path """
-        print('List-Unsubscribe: ', self.dict_urls['unsub'])
 
         self.headers = {
             'X-Delivery-id': self.did,
@@ -228,7 +227,9 @@ class Message(object):
         return message.pk, message
 
     def create_message_urls(self):
-        for url in Url.objects.filter(delivery=self.delivery, ):
+        for url in Url.objects.filter(
+                delivery=self.delivery,
+                type=1, ):
             model_Message_Url.objects.create(
                 delivery_id=self.delivery_pk,
                 url_id=url.pk,
@@ -239,6 +240,7 @@ class Message(object):
             )
 
         qs_urls = model_Message_Url.objects.filter(
+            url__type=1,
             delivery_id=self.delivery_pk,
             message_id=self.message_pk,
             content_type=self.recipient_content_type,
@@ -250,13 +252,13 @@ class Message(object):
 
         return qs_urls, dict_urls
 
-    def add_unsub_url(self):
+    def create_unsub_url(self):
         url = cache.get('unsub_url_{}'.format(self.delivery_pk), False)
 
         if not url:
             url, create = Url.objects.get_or_create(
                 delivery_id=self.delivery_pk,
-                href='http://keksik.com.ua/unsubscribe/',
+                href='http://keksik.com.ua/delivery/unsubscribe/',
                 type=2,
             )
 
@@ -273,6 +275,30 @@ class Message(object):
         )
 
         return inst_unsub, inst_unsub.ready_url_str
+
+    def create_open_tag(self):
+        url = cache.get('open_url_{}'.format(self.delivery_pk), False)
+
+        if not url:
+            url, create = Url.objects.get_or_create(
+                delivery_id=self.delivery_pk,
+                href='http://keksik.com.ua/delivery/open/',
+                type=3,
+            )
+
+            cache.set(
+                key='open_url_{}'.format(self.delivery_pk),
+                value=url,
+                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+        inst_open = model_Message_Url.objects.create(
+            delivery_id=self.delivery_pk,
+            url_id=url.pk,
+            message_id=self.message_pk,
+            email=self.recipient,
+        )
+
+        return inst_open, inst_open.ready_url_str
 
     def get_body_raw(self):
         body_value, body_value_pk = 5000000, 0
@@ -326,7 +352,7 @@ class Message(object):
         for pos, block in enumerate(three):
             if block.startswith('[[') and block.endswith(']]'):
                 keys = block.strip('[[]]').split('|')
-
+                """ Выборка СЛУЧАЙНОГО значения """
                 value = keys[randrange(start=0, stop=len(keys))]
 
                 if pos not in nodes:
@@ -359,6 +385,7 @@ class Message(object):
                 if key not in nodes:
                     nodes[key] = []
                 nodes[key].append(pos)
+
         keys = nodes.keys()
         three = copy(three)
 
@@ -385,6 +412,8 @@ class Message(object):
     def get_MXes(self, ):
         answers = dns.resolver.query(self.recipient.domain, 'MX')
         MX_dict = {rdata.preference: rdata.exchange.to_text().rstrip('.') for rdata in answers}
+        for rdata in answers:
+            print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
         return OrderedDict(sorted(MX_dict.items()))
 
     def get_email_send_direct(self, ):
@@ -416,6 +445,7 @@ class Message(object):
         #     connection_params['timeout'] = timeout
 
         try:
+            print('Host: ', self.server_host if directly else self.sender.server.server_smtp, ' : PORT : ', self.port if directly else self.sender.server.port_smtp)
             connection = connection_class(
                 host=self.server_host if directly else self.sender.server.server_smtp,
                 port=self.port if directly else self.sender.server.port_smtp,
@@ -427,17 +457,20 @@ class Message(object):
             if not directly and self.sender.username and self.sender.password:
                 connection.login(self.sender.username, self.sender.password, )
             if directly:
+                print('connection1: ', connection)
                 connection.ehlo()
-
+            print('connection2: ', connection)
             return connection
 
-        except (SMTPException, SMTPServerDisconnected):
+        except (SMTPException, SMTPServerDisconnected) as e:
+            print('Exception(SMTPException, SMTPServerDisconnected): ', e)
             return False
             # if not fail_silently:
             #     raise
             # else:
             #     return False
-        except socket.error:
+        except socket.error as e:
+            print('Exception(socket.error): ', e)
             return False
 
     def send_mail(self, directly=True, ):
@@ -491,7 +524,9 @@ class Message(object):
             for preference, self.server_host in self.MXes.iteritems():
                 self.message = self.create_msg(directly=True, )
                 self.connection = self.connect(directly=True, )
+                print('preference: ', preference, ' self.server_host: ', self.server_host)
                 if self.connection and self.send_mail(directly=True, ):
+                    print('self.connection: ', self.connection)
                     return True
 
             self.sender = self.get_sender()

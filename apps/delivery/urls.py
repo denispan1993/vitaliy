@@ -12,8 +12,9 @@ urlpatterns = [
     url(regex=r'^$',
         view=views.ClickView.as_view(),
         name='click', ),
-    url(r'^(?P<mid>[A-f0-9-]+).gif$',
-        views.OpenView.as_view(), name='open'),
-    url(r'^(?P<mid>[A-f0-9-]+)/(?P<hash>[A-f0-9]+)/$',
-        views.ClickView.as_view(), name='click'),
+    url(regex=r'^(?P<key>[a-zA-Z0-9]{64}).gif$',
+        view=views.OpenView.as_view(),
+        name='open', ),
+#    url(r'^(?P<mid>[A-f0-9-]+)/(?P<hash>[A-f0-9]+)/$',
+#        views.ClickView.as_view(), name='click'),
 ]

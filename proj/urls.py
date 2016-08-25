@@ -19,7 +19,9 @@ urlpatterns = patterns(
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls, ), ),
     url(r'^captcha/', include('apps.utils.captcha.urls', ), ),
-    url(r'^redirect/', include('apps.delivery.urls', ), ),
+    url(regex=r'^redirect/',
+        view=include(arg='apps.delivery.urls',
+                     namespace='delivery'), ),
 )
 
 #from apps.root.views import root_page

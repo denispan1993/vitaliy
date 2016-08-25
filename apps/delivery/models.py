@@ -769,6 +769,18 @@ class TraceOfVisits(models.Model, ):
                            max_length=255,
                            blank=True,
                            null=True, )
+
+    Type_Url = (
+        (1, _(u'Url', ), ),
+        (2, _(u'Unsub', ), ),
+        (3, _(u'Open', ), ),
+    )
+    type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип URL'),
+                                            choices=Type_Url,
+                                            default=1,
+                                            blank=False,
+                                            null=False, )
+
     target = models.CharField(verbose_name=_(u'Цэль захода на сайт'),
                               max_length=32,
                               blank=True,
@@ -1011,21 +1023,29 @@ class MessageUrl(models.Model, ):
                 except Exception as e:
                     print 'Exception type: %s, message: %s' % (type(e, ), e, )
 
-        if not self.ready_url_str and self.url.type==1:
+        if not self.ready_url_str and self.url.type == 1:
             self.ready_url_str = render_to_string(
                 template_name='render_url_string.jinja2',
                 context={
-                    'href': 'http://keksik.com.ua/redirect/',
+                    'href': 'http://keksik.com.ua/delivery/redirect/',
                     'key': self.key,
                     'title': self.url.title,
                     'anchor': self.url.anchor,
                 }, )
 
-        elif not self.ready_url_str and self.url.type==2:
+        elif not self.ready_url_str and self.url.type == 2:
             self.ready_url_str = render_to_string(
                 template_name='render_unsub_url_string.jinja2',
                 context={
-                    'href': 'http://keksik.com.ua/redirect/',
+                    'href': 'http://keksik.com.ua/delivery/redirect/',
+                    'key': self.key,
+                }, )
+
+        elif not self.ready_url_str and self.url.type == 3:
+            self.ready_url_str = render_to_string(
+                template_name='render_open_img_string.jinja2',
+                context={
+                    'href': 'http://keksik.com.ua/delivery/open/',
                     'key': self.key,
                 }, )
 

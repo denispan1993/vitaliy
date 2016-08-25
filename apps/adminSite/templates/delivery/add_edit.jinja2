@@ -790,7 +790,7 @@ document.getElementById('form-control-add-body-button').onclick = function(){
                                    value="{% if url.href %}{{ url.href }}{% else %}http://keksik.com.ua/{% endif %}">
                         </div>
                         <label for="url_str"
-                                class="col-md-1">Url строка:</label>
+                                class="col-md-1">Анкор:</label>
                         <div class="col-md-2">
                             <input type="text"
                                    id="url_str"
@@ -881,7 +881,7 @@ document.getElementById('form-control-add-url-button').onclick = function(){
     var label_str = document.createElement("label");
     label_str.setAttribute("for", "url_str");
     label_str.setAttribute("class", "col-md-1");
-    label_str.innerHTML = "Url строка:";
+    label_str.innerHTML = "Анкор:";
     div.appendChild(label_str);
 {# Url str Div #}
     var div_str = document.createElement("div");

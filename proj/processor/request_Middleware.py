@@ -64,6 +64,33 @@ class Process_Request_Middleware(object):
                     except Exception as e:
                         logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
 
+                elif full_path.endswith('None'):  # full_path[-4:] == 'None'
+                    try:
+                        value = full_path.rstripe('None')
+                        view, args, kwargs = resolve(value, )
+                        logging.debug(u"resolve(value, ) after rstrip 'None': view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
+
+                        if view == show_product:
+                            model = Product
+                        else:
+                            model = Category
+
+                        try:
+                            object = model.objects.get(pk=kwargs['id'])
+                            logging.error(u'Object: {0}'.format(object))
+                        except model.DoesNotExist:
+                            pass
+
+                        logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
+
+                        try:
+                            return redirect(to=object, permanent=True)
+                        except Exception as e:
+                            logging.error(u'Error redirect to new_path: {0}'.format(e))
+
+                    except Exception as e:
+                        logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
+
                 elif not full_path.endswith('/'):
                     try:
                         view, args, kwargs = resolve(full_path + '/', )
@@ -73,7 +100,11 @@ class Process_Request_Middleware(object):
                         return redirect(to=full_path + '/', permanent=True)
 
                     except Exception as e:
-                        logging.error(u"Error resolve(full_path + '/', ): full_path = {0}, Exception = {1}".format(full_path, e))
+                        try:
+                            logging.error(u"Error resolve(full_path + '/', ): full_path = {0}, Exception = {1}".format(full_path, e))
+                        except UnicodeEncodeError:
+                            logging.error(u"Error resolve(full_path + '/', ): full_path = {0}".format(full_path))
+
 
                 else:
                     try:

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.forms.models import model_to_dict
 from django.http import Http404, HttpResponse
 from django.http.response import HttpResponseRedirectBase
-from django.views.generic.base import RedirectView, View
+from django.views.generic.base import RedirectView, View, TemplateView
 #from django_redis import get_redis_connection
 
 #from mail.utils import decode_mid
@@ -28,20 +28,35 @@ class ClickView(RedirectView, ):
     def get_redirect_url(self, *args, **kwargs):
 
         if self.request.method == 'GET':
-            query_string = self.request.META.get('QUERY_STRING', '')
+            key = self.request.META.get('QUERY_STRING', '')
 
-            if query_string and len(query_string) == 64:
+            if key and len(key) == 64:
 
                 try:
-                    url = MessageUrl.objects.get(key=query_string, )
+                    url = MessageUrl.objects.get(key=key, )
 
-                    TraceOfVisits.objects.create(
-                        now_email=url.email,
-                        delivery=url.delivery,
-                        url=url.url.href,
-                        sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
+                    if url.url.type == 1:
 
-                    return url.url.href
+                        TraceOfVisits.objects.create(
+                            now_email=url.email,
+                            delivery=url.delivery,
+                            type=1,
+                            url=url.url.href,
+                            sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
+
+                        return url.url.href
+
+                    elif url.url.type == 2:
+
+                        TraceOfVisits.objects.create(
+                            now_email=url.email,
+                            delivery=url.delivery,
+                            type=2,
+                            url=url.url.href,
+                            sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
+
+                        return url.url.href
+
 
                 except MessageUrl.DoesNotExist:
                     pass
@@ -52,9 +67,25 @@ class ClickView(RedirectView, ):
 class OpenView(View, ):
 
     def get(self, request, *args, **kwargs):
-        message = self.get_message(kwargs['mid'])
+        key = kwargs['key']
 
-        if not self.is_event_exists(kwargs['mid']):
-            self.save_event(message, **kwargs)
+        if key and len(key) == 64:
+
+            try:
+                url = MessageUrl.objects.get(key=key, )
+
+                TraceOfVisits.objects.create(
+                    now_email=url.email,
+                    delivery=url.delivery,
+                    type=3,
+                    url=url.url.href,
+                    sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
+
+            except MessageUrl.DoesNotExist:
+                pass
 
         return HttpResponse(PIXEL_GIF, content_type='image/gif')
+
+
+class UnsubView(TemplateView, ):
+    template_name = 'unsub.jinja2'

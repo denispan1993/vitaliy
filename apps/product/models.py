@@ -444,9 +444,11 @@ class Product(models.Model):
                     return inst_ItemID
 
                 if inst_ItemID.ItemID == u'%.5d' % self.pk\
-                    or inst_ItemID.ItemID == u'%s-%.5d' % (
-                                manufacturer[0].key.letter_to_article.upper(),
-                                self.pk, ):
+                    or (len(manufacturer) > 0\
+                        and inst_ItemID.ItemID == u'%s-%.5d' % (
+                             manufacturer[0].key.letter_to_article.upper(),
+                             self.pk, )
+                        ):
                     inst_ItemID.delete()
 
     @property

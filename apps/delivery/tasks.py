@@ -90,6 +90,42 @@ def processing_delivery_test(*args, **kwargs):
         message = Message(test=True, delivery=delivery, recipient=real_email, )
         print message.send()
 
+        if not os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=826, )  # alex.starov@gmail.com
+
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
+        print message.send()
+
+        if not os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=827, )  # starov.alex@gmail.com
+
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
+        print message.send()
+
+        if not os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=828, )  # gserg@mail333.com
+
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
+        print message.send()
+
+        if not os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=829, )  # krasnikov@wildpark.net
+
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
+        print message.send()
+
+        if not os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=830, )  # subscribe@torta.mk.ua
+
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
+        print message.send()
+
+        if not os.path.isfile(path('server.key', ), ):
+            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=831, )  # digicom-nikolaev@hotmail.com
+
+        message = Message(test=True, delivery=delivery, recipient=real_email, )
+        print message.send()
+
         # email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
         #                                         now_email=real_email,
         #                                         email=real_email, )
