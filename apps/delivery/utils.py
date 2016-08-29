@@ -576,3 +576,267 @@ def bbb(tmpl, context={}, ):
                 three[pos] = value
 
     print '!!!!!!!!!!', ''.join(three)
+
+
+def aaa():
+    # import socket
+    import sockschain as socks
+    # socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS4, "2.93.134.125", 1080)
+    s = socks.socksocket()
+    # socket.socket = socks.socksocket
+    # s.setproxy(socks.PROXY_TYPE_SOCKS5, "178.49.237.130", 1080)
+    # --> s.setproxy(socks.PROXY_TYPE_SOCKS5, "173.192.21.89", 1080)
+    # --> s.setproxy(socks.PROXY_TYPE_SOCKS5, "202.69.71.210", 1080)
+    s.setproxy(socks.PROXY_TYPE_SOCKS4, "114.35.74.8", 1080)
+
+    mailserver = ("alt1.gmail-smtp-in.l.google.com", 25)
+
+    # client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # client_socket = socket.socket
+    # client_socket.connect(mailserver)
+    s.connect(mailserver)
+
+    recv = s.recv(1024)
+    print("Message after connection request:" + recv.decode())
+
+    if recv[:3] != '220':
+        print('220 reply not received from server.')
+
+    heloCommand = 'HELO proxy.keksik.com.ua\r\n'
+    s.send(heloCommand.encode())
+    recv1 = s.recv(1024)
+    print("Message after HeLO command:" + recv1.decode())
+
+    if recv1[:3] != '250':
+        print('250 reply not received from server.')
+
+    mailFrom = "MAIL FROM:<alex.starov@gmail.com>\r\n"
+    s.send(mailFrom.encode())
+    recv2 = s.recv(1024)
+    print("After MAIL FROM command: " + recv2.decode())
+
+    rcptTo = "RCPT TO:<alex.starov@gmail.com>\r\n"
+
+    s.send(rcptTo.encode())
+    recv3 = s.recv(1024)
+    print("After RCPT TO command: " + recv3.decode())
+
+    data = "DATA\r\n"
+    s.send(data.encode())
+    recv4 = s.recv(1024)
+    print("After DATA command: " + recv4.decode())
+
+    msg = 'test - TEST - test\r\n.\r\n'
+    s.send(msg.encode())
+
+    recv_msg = s.recv(1024)
+    print("Response after sending message body:" + recv_msg.decode())
+
+    quit = "QUIT\r\n"
+    s.send(quit.encode())
+    recv5 = s.recv(1024)
+    print(recv5.decode())
+    s.close()
+
+
+from HTMLParser import HTMLParser
+from apps.delivery.models import ProxyServer
+
+gl_ip, gl_port, gl_type = False, False, False
+gl_start_div, gl_start_em = False, False
+
+
+class MyHTMLParser_hideme(HTMLParser):
+
+    def handle_starttag(self, tag, attrs):
+        global gl_ip, gl_port, gl_type, gl_start_div, gl_start_em
+        if gl_ip and tag=='td':
+            gl_port = True
+        for attr in attrs:
+            if tag=='td' and len(attr)>1 and attr[1]=='tdl':
+                gl_ip = True
+                #print("Start tag:", tag)
+                #print("     attr:", attr)
+
+        if tag == 'div':
+            gl_start_div = True
+
+        if gl_start_div and tag == 'span':
+            gl_ip, gl_port = False, False
+
+        if tag == 'em':
+            gl_start_em = True
+
+        if gl_start_em and tag == 'td':
+            gl_type = True
+
+#    def handle_endtag(self, tag):
+#        global gl_ip
+#        #gl_ip = False
+#        print("End tag  :", tag)
+
+    def handle_data(self, data):
+        global gl_ip, gl_port, gl_type, gl_start_div, gl_start_em
+        global pr_serv
+        if gl_ip and not gl_port:
+            gl_start_div, gl_start_em = False, False
+            print("Data   IP:", data)
+            try:
+                pr_serv = ProxyServer.objects.get(host=data)
+            except ProxyServer.DoesNotExist:
+                pr_serv = ProxyServer(from_whence=1)
+                pr_serv.host = data
+            except ProxyServer.MultipleObjectsReturned:
+                pr_serv = ProxyServer.objects.filter(host=data)
+                pr_serv[1].delete()
+                pr_serv = pr_serv[0]
+
+        elif gl_ip and gl_port:
+            print("Data PORT:", data)
+            pr_serv.port = data
+        elif gl_type:
+            gl_start_em, gl_type = False, False
+            print("Data TYPE:", data)
+            if 'HTTPS' in data:
+                data = data.split('HTTPS')
+                pr_serv.https = True
+                data = ''.join(data)
+            if 'HTTP' in data:
+                pr_serv.http = True
+            if '4' in data:
+                print 'socket4'
+                pr_serv.socks4 = True
+            if '5' in data:
+                print 'socket5'
+                pr_serv.socks5 = True
+            pr_serv.save()
+            print pr_serv
+#        else:
+#            print("Data     :", data)
+#    def handle_comment(self, data):
+#        print("Comment  :", data)
+#    def handle_entityref(self, name):
+#        c = chr(name2codepoint[name])
+#        print("Named ent:", c)
+#    def handle_charref(self, name):
+#        if name.startswith('x'):
+#            c = chr(int(name[1:], 16))
+#        else:
+#            c = chr(int(name))
+#        print("Num ent  :", c)
+#    def handle_decl(self, data):
+#        print("Decl     :", data)
+
+gl_tag_td = 0
+
+class MyHTMLParser_socks_proxy(HTMLParser):
+
+    def handle_starttag(self, tag, attrs):
+        global gl_tag_td
+        if tag=='tr':
+            gl_tag_td = 0
+        if tag=='td':
+            gl_tag_td += 1
+
+#    def handle_endtag(self, tag):
+#        global gl_ip
+#        #gl_ip = False
+#        print("End tag  :", tag)
+
+    def handle_data(self, data):
+        global gl_tag_td
+        global pr_serv
+        if gl_tag_td == 1:
+            print("Data   IP:", data)
+            try:
+                pr_serv = ProxyServer.objects.get(host=data)
+            except ProxyServer.DoesNotExist:
+                pr_serv = ProxyServer(from_whence=2)
+                pr_serv.host = data
+            except ProxyServer.MultipleObjectsReturned:
+                pr_serv = ProxyServer.objects.filter(host=data)
+                pr_serv[1].delete()
+                pr_serv = pr_serv[0]
+
+        elif gl_tag_td == 2:
+            print("Data PORT:", data)
+            pr_serv.port = data
+        elif gl_tag_td == 5:
+            print("Data TYPE:", data)
+            if '4' in data:
+                print 'socket4'
+                pr_serv.socks4 = True
+            if '5' in data:
+                print 'socket5'
+                pr_serv.socks5 = True
+            pr_serv.save()
+            print pr_serv
+#        else:
+#            print("Data     :", data)
+#    def handle_comment(self, data):
+#        print("Comment  :", data)
+#    def handle_entityref(self, name):
+#        c = chr(name2codepoint[name])
+#        print("Named ent:", c)
+#    def handle_charref(self, name):
+#        if name.startswith('x'):
+#            c = chr(int(name[1:], 16))
+#        else:
+#            c = chr(int(name))
+#        print("Num ent  :", c)
+#    def handle_decl(self, data):
+#        print("Decl     :", data)
+
+
+def ccc():
+    #!import socket
+    #!import sockschain as socks
+    # socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS4, "2.93.134.125", 1080)
+    # s = socks.socksocket()
+    # socket.socket = socks.socksocket
+    # s.setproxy(socks.PROXY_TYPE_SOCKS5, "178.49.237.130", 1080)
+    # --> s.setproxy(socks.PROXY_TYPE_SOCKS5, "173.192.21.89", 1080)
+    # --> s.setproxy(socks.PROXY_TYPE_SOCKS5, "202.69.71.210", 1080)
+    # socks.setproxy(socks.PROXY_TYPE_SOCKS4, "185.12.94.236", 4444)
+    #!socks.setdefaultproxy(socks.PROXY_TYPE_HTTP, "185.12.94.236", 4444)
+    #!socket.socket = socks.socksocket
+
+    import urllib2
+    hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+       'Accept-Encoding': 'none',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Connection': 'keep-alive'}
+
+    site='http://www.socks-proxy.net/'
+    req = urllib2.Request(site, headers=hdr)
+
+    content = urllib2.urlopen(req).read()
+
+    pars = MyHTMLParser_socks_proxy()
+    content = content.split('<tbody>')[1]
+    #print('split1: ', content)
+    content = content.split('</tbody>')[0]
+    #print('split2: ', content)
+    pars.feed(data=content)
+
+
+
+    for n in range(0, 1000, 64):
+        print n
+        site='http://hideme.ru/proxy-list/?start={}#list'.format(n)
+        print site
+        site='http://hideme.ru/proxy-list/?start={}#list'.format(n)
+        req = urllib2.Request(site, headers=hdr)
+
+        content = urllib2.urlopen(req).read()
+
+        pars = MyHTMLParser_hideme()
+        content = content.split('<table class=proxy__t>')[1]
+        #print('split1: ', content)
+        content = content.split('</table>')[0]
+        #print('split2: ', content)
+        pars.feed(data=content)
+        print n
+        sleep(1)

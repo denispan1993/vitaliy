@@ -11,7 +11,8 @@ import email
 from imaplib import IMAP4_SSL
 
 from apps.authModel.models import Email
-from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail
+from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail,\
+    Message as model_Message, ProxyServer
 from .utils import get_mail_account, get_email, create_msg, str_conv, get_email_by_str, send
 from .message import Message
 
@@ -65,66 +66,92 @@ def processing_delivery_test(*args, **kwargs):
         #                                                            delivery_test_send=True,
         #                                                            delivery_send=False, )
 
-        if os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
-        else:
-            real_email = get_email(delivery=delivery, email_class=Email, pk=6, )
+#        if os.path.isfile(path('server.key', ), ):
+#            real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
+#        else:
+#            real_email = get_email(delivery=delivery, email_class=Email, pk=6, )
 
-        #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
-        #                                        now_email=real_email,
-        #                                        email=real_email, )
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message.send()
+#        #email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
+#        #                                        now_email=real_email,
+#        #                                        email=real_email, )
+#        message = Message(test=True, delivery=delivery, recipient=real_email, )
+#        print message.send()
 
         # mail_account = get_mail_account(pk=1, )  # subscribe@keksik.com.ua
         # msg = create_msg(delivery=delivery, mail_account=mail_account, email=email, test=True, )
         # """ Посылаем письмо - subscribe@keksik.com.ua """
         # send(delivery=delivery, mail_account=mail_account, email=email, msg=msg)
 
-        """ Посылаем письмо - check-auth2@verifier.port25.com """
-        if os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
-        else:
-            real_email = get_email(delivery=delivery, email_class=Email, pk=7, )  # check-auth2@verifier.port25.com
+#        """ Посылаем письмо - check-auth2@verifier.port25.com """
+#        if os.path.isfile(path('server.key', ), ):
+#            real_email = get_email(delivery=delivery, email_class=Email, pk=3263, )  # pk=7, ) check-auth2@verifier.port25.com
+#        else:
+#            real_email = get_email(delivery=delivery, email_class=Email, pk=7, )  # check-auth2@verifier.port25.com
 
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message.send()
+#        message = Message(test=True, delivery=delivery, recipient=real_email, )
+#        print message.send()
 
-        if not os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=826, )  # alex.starov@gmail.com
+#        if not os.path.isfile(path('server.key', ), ):
+#            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=826, )  # alex.starov@gmail.com
 
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message.send()
+#        message = Message(test=True, delivery=delivery, recipient=real_email, )
+#        print message.send()
 
-        if not os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=827, )  # starov.alex@gmail.com
+#        if not os.path.isfile(path('server.key', ), ):
+#            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=827, )  # starov.alex@gmail.com
 
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message.send()
+#        message = Message(test=True, delivery=delivery, recipient=real_email, )
+#        print message.send()
 
         if not os.path.isfile(path('server.key', ), ):
             real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=828, )  # gserg@mail333.com
 
         message = Message(test=True, delivery=delivery, recipient=real_email, )
+        message_pk = message.get_message_pk()
         print message.send()
 
-        if not os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=829, )  # krasnikov@wildpark.net
+        task_set = set()
 
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message.send()
+        task = processing_delivery_through_socks.apply_async(
+            queue='delivery_send',
+            kwargs={'message_pk': message_pk, },
+            task_id='celery-task-id-{0}'.format(uuid(), ),
+        )
 
-        if not os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=830, )  # subscribe@torta.mk.ua
+        task_set.add(task.id, )
 
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message.send()
+        print(task_set)
 
-        if not os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=831, )  # digicom-nikolaev@hotmail.com
+#        if not os.path.isfile(path('server.key', ), ):
+#            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=829, )  # krasnikov@wildpark.net
 
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        print message.send()
+#        message = Message(test=True, delivery=delivery, recipient=real_email, )
+#        print message.send()
+
+#        if not os.path.isfile(path('server.key', ), ):
+#            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=830, )  # subscribe@torta.mk.ua
+
+#        message = Message(test=True, delivery=delivery, recipient=real_email, )
+#        print message.send()
+
+#        if not os.path.isfile(path('server.key', ), ):
+#            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=831, )  # digicom-nikolaev@hotmail.com
+
+#        message = Message(test=True, delivery=delivery, recipient=real_email, )
+#        message_pk = message.get_message_pk()
+#        print message.send()
+
+#        task_set = set()
+
+#        task = processing_delivery_through_socks.apply_async(
+#            queue='delivery_send',
+#            kwargs={'message_pk': message_pk, },
+#            task_id='celery-task-id-{0}'.format(uuid(), ),
+#        )
+
+#        task_set.add(task.id, )
+
+#        print(task_set)
 
         # email = EmailForDelivery.objects.create(delivery=email_middle_delivery,
         #                                         now_email=real_email,
@@ -447,3 +474,135 @@ def test():
     # debug_log.info(u'message: {0}, datetime: {1}'.format('All Work', datetime.now()))
     return True, datetime.now()
 
+
+import socket
+import sockschain as socks
+from random import randrange
+
+
+@celery_app.task()
+def processing_delivery_through_socks(*args, **kwargs):
+
+    # message_pk = kwargs.get('message_pk')
+    # logger.info(u'delivery_pk: {0}'.format(delivery_pk))
+    message = model_Message.objects.get(pk=kwargs.get('message_pk'), )
+
+    proxy_servers = ProxyServer.objects.filter(Q(socks4=True) | Q(socks5=True), ).order_by('-socks4_pos', '-socks5_pos', )
+    socket.setdefaulttimeout(10)
+    s = socks.socksocket()
+    type_socks = 4
+
+    for n, serv in enumerate(proxy_servers):
+        print('n: ', n, ' from: ', len(proxy_servers))
+        if serv.socks4 and serv.socks5:
+            type_socks = randrange(start=4, stop=5)
+            print('randrange: type_sock: ', type_socks)
+        if serv.socks4 or type_socks == 4:
+            type_socks = socks.PROXY_TYPE_SOCKS4
+        elif serv.socks5 or type_socks == 5:
+            type_socks = socks.PROXY_TYPE_SOCKS5
+        s.setproxy(type_socks, serv.host, serv.port)
+        print('type: ', type_socks, 'serv.host: ', serv.host, 'serv.port: ', serv.port, ' : ', serv.socks4_pos, ' : ', serv.socks5_pos)
+
+        for preference, smtp_serv in get_MXes(message.email.domain).iteritems():
+            try:
+                s.connect((smtp_serv, 25))
+            except socket.error as e:
+                print('Exception(socket.error): ', e)
+                serv.dec_pos(type_socks)
+                if socket.error.errno == 110:
+                    serv.dec_pos(type_socks, int_dec=10)
+                break
+            except socks.GeneralProxyError as e:
+                print('Exception(socks.GeneralProxyError): ', e)
+                serv.dec_pos(type_socks)
+                break
+            except socks.Socks4Error as e:
+                print('Exception(socks.Socks4Error): ', e)
+                serv.dec_pos(type_socks)
+                break
+            except socks.Socks5Error as e:
+                print('Exception(socks.Socks5Error): ', e)
+                serv.dec_pos(type_socks)
+                break
+
+
+            print('smtp_serv: ', smtp_serv, 'port: ', 25)
+
+            recv = s.recv(1024)
+            print("Message after connection request:" + recv.decode())
+
+            if recv[:3] != '220':
+                print('220 reply not received from server.')
+                break
+            else:
+                serv.inc_pos(type_socks, )
+
+            heloCommand = 'HELO proxy.keksik.com.ua\r\n'
+            s.send(heloCommand.encode())
+            recv1 = s.recv(1024)
+            print("Message after HeLO command:" + recv1.decode())
+
+            if recv1[:3] != '250':
+                print('250 reply not received from server.')
+                break
+            else:
+                serv.inc_pos(type_socks, )
+
+            mailFrom = "MAIL FROM:<alex.starov@gmail.com>\r\n"
+            s.send(mailFrom.encode())
+            recv2 = s.recv(1024)
+            print("After MAIL FROM command: " + recv2.decode())
+
+            if recv2[:3] != '250':
+                print('250 reply not received from server.')
+                break
+            else:
+                serv.inc_pos(type_socks, )
+
+            rcptTo = "RCPT TO:<gserg@mail333.com>\r\n"
+
+            s.send(rcptTo.encode())
+            recv3 = s.recv(1024)
+            print("After RCPT TO command: " + recv3.decode())
+
+            if recv3[:3] != '250':
+                print('250 reply not received from server.')
+                break
+            else:
+                serv.inc_pos(type_socks, )
+
+            data = "DATA\r\n"
+            s.send(data.encode())
+            recv4 = s.recv(1024)
+            print("After DATA command: " + recv4.decode())
+
+            msg = 'test - TEST - test\r\n.\r\n'
+            s.send(msg.encode())
+
+            recv_msg = s.recv(1024)
+            print("Response after sending message body:" + recv_msg.decode())
+
+            if recv_msg[:3] != '250':
+                print('250 reply not received from server.')
+                break
+            else:
+                serv.inc_pos(type_socks, 100)
+
+            quit = "QUIT\r\n"
+            s.send(quit.encode())
+            recv5 = s.recv(1024)
+            print(recv5.decode())
+            s.close()
+
+
+import dns.resolver
+from collections import OrderedDict
+
+
+def get_MXes(domain, ):
+    answers = dns.resolver.query(domain, 'MX')
+    MX_dict = {rdata.preference: rdata.exchange.to_text().rstrip('.') for rdata in answers}
+    # for rdata in answers:
+    #     print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
+    return OrderedDict(sorted(MX_dict.items()))

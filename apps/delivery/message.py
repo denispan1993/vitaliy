@@ -88,6 +88,9 @@ class Message(object):
         self.sender, self.MXes, self.server_host, self.port, self.connection = None, None, None, None, None
         #self.msg = create_msg(delivery=delivery, mail_account=mail_account, email=email_for, test=False, )
 
+    def get_message_pk(self, ):
+        return self.message_pk
+
     def get_delivery(self):
 
         delivery = cache.get(
@@ -223,7 +226,9 @@ class Message(object):
 
     def create_message(self):
         message = model_Message.objects.create(
-            delivery_id=self.delivery_pk)
+            delivery_id=self.delivery_pk,
+            email=self.recipient,
+        )
         return message.pk, message
 
     def create_message_urls(self):
@@ -412,8 +417,8 @@ class Message(object):
     def get_MXes(self, ):
         answers = dns.resolver.query(self.recipient.domain, 'MX')
         MX_dict = {rdata.preference: rdata.exchange.to_text().rstrip('.') for rdata in answers}
-        for rdata in answers:
-            print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
+        #for rdata in answers:
+        #    print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
         return OrderedDict(sorted(MX_dict.items()))
 
     def get_email_send_direct(self, ):
@@ -481,7 +486,7 @@ class Message(object):
                 msg=self.message.as_string(), )
             self.connection.quit()
             if not directly:
-                sleep(18)
+                sleep(1)
             return True
 
         except SMTPSenderRefused as e:
