@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.core.cache import cache
 
 __author__ = 'AlexStarov'
 
@@ -21,31 +22,31 @@ __author__ = 'AlexStarov'
 #        return self.filter(visibility=1, ).order_by('-created_at')
 
 
-class Manager_Category(models.Manager):
+class ManagerCategory(models.Manager):
 
-    def visible(self):
-        return self.filter(visibility=True, is_active=True, )
+    def visible(self, *args, **kwargs):
+        return self.filter(visibility=True, is_active=True, *args, **kwargs)
 
-    def published(self):
-        return self.visible().order_by('-created_at', )
+    def published(self, *args, **kwargs):
+        return self.visible(*args, **kwargs).order_by('-created_at', )
 
-    def serial_number(self):
-        return self.published().order_by('serial_number', )
+    def serial_number(self, *args, **kwargs):
+        return self.published(*args, **kwargs).order_by('serial_number', )
 
-    def basement(self):
-        return self.serial_number().filter(parent__isnull=True, )
+    def basement(self, *args, **kwargs):
+        return self.serial_number(*args, **kwargs).filter(parent__isnull=True, )
 
 
-class Manager_Product(models.Manager):
+class ManagerProduct(models.Manager):
 
-    def published(self, ):
-        return self.filter(visibility=True, ).order_by('-created_at')
+    def published(self, *args, **kwargs):
+        return self.filter(visibility=True, *args, **kwargs).order_by('-created_at')
 
-    def not_in_action(self, ):
-        return self.published().filter(in_action=False, )
+    def not_in_action(self, *args, **kwargs):
+        return self.published().filter(in_action=False, *args, **kwargs)
 
-    def in_action(self, ):
-        return self.published().filter(in_action=True, )
+    def in_action(self, *args, **kwargs):
+        return self.published().filter(in_action=True, *args, **kwargs)
 
 #    def recomendation(self, ):
 #        return self.recomendate.filter(is_availability=1, ).order_by('-created_at')
@@ -54,24 +55,21 @@ class Manager_Product(models.Manager):
 #        return self.filter(is_availability=1, ).order_by('-created_at')
 
     def in_main_page(self, limit=12, no_limit=False, ):
-        from django.core.cache import cache
         # try to get product from cache
-        # in_main_page = cache.get(u'in_main_page', )
+        in_main_page = cache.get(u'in_main_page', None, )
         # if a cache miss, fall back on db query
-        # if in_main_page:
-        #     return in_main_page
-        # else:
-        try:
-            if no_limit:
-                in_main_page = self.published().filter(in_main_page=True, )
-            else:
-                in_main_page = self.published().filter(in_main_page=True, )[:limit]
-        except self.model.DoesNotExist:
-            return None
-        # store item in cache for next time
-        else:
-            # cache.set(u'in_main_page', in_main_page, 3600, )  # 1h
-            return in_main_page
+        if not in_main_page:
+            try:
+                if no_limit:
+                    in_main_page = self.published().filter(in_main_page=True, )
+                else:
+                    in_main_page = self.published().filter(in_main_page=True, )[:limit]
+                cache.set(u'in_main_page', in_main_page, 300, )  # 5 min
+
+            except self.model.DoesNotExist:
+                pass
+
+        return in_main_page
 
 #    # Все опубликованные новости
 #

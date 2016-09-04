@@ -9,7 +9,7 @@ from mptt import models as modelsTree
 
 from compat.FormSlug import models as class_FormSlugField
 
-from apps.product.managers import Manager_Category, Manager_Product
+from .managers import ManagerCategory, ManagerProduct
 from apps.discount.models import Action
 from proj.settings import AUTH_USER_MODEL
 from apps.comment.models import Comment
@@ -130,15 +130,7 @@ class Category(MPTTModel):
                                     content_type_field='content_type',
                                     object_id_field='object_id', )
 
-#    from apps.product.managers import Manager
-#    objects = Manager()
-
-#    objects = models.Manager()
-    objects = Manager_Category()
-#    manager = managers.Manager_Category()
-
-#    question = models.CharField(max_length=200)
-#    pub_date = models.DateTimeField('date published')
+    objects = ManagerCategory()
 
     @property
     def main_photo(self, ):
@@ -152,11 +144,7 @@ class Category(MPTTModel):
         else:
             return None
 
-#    @models.permalink
     def get_absolute_url(self, ):
-#        return ('show_category', (),
-#                {'category_url': unicode(str(self.url)),
-#                 'id': unicode(str(self.pk)), }, )
         return u'/%s/к%.6d/' % (self.url.lower(), self.id, )
 
     def save(self, *args, **kwargs):
@@ -617,7 +605,7 @@ class Product(models.Model):
 
     # objects = models.Manager()
     # manager = managers.Manager_Product()
-    objects = Manager_Product()
+    objects = ManagerProduct()
 
 #    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
 #        super(Product, self).save(*args, **kwargs)
@@ -628,10 +616,11 @@ class Product(models.Model):
 #        return ('show_product', (),
 #                {'product_url': self.url,
 #                 'id': self.pk, }, )
-        if self.url:
-            return u'/%s/п%.6d/' % (self.url.lower(), self.id, )
-        else:
-            return None
+#        if self.url:
+#            return u'/%s/п%.6d/' % (self.url.lower(), self.id, )
+#        else:
+#            return None
+        return u'/%s/п%.6d/' % (self.url.lower() if self.url else u'продукт', self.id, )
 
     def cache_key(self, ):
         return u'%s-%.6d' % (self.url.lower(), self.id, )

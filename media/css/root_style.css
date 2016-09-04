@@ -197,6 +197,9 @@ div#main_right form#search{
 div#main_right form#search table{
     border-spacing:0;
 }
+div#main_right form#search table tbody tr td input.search_input{
+    width:140px
+}
 div#main_right div.rightSlider div.rightSliderItems{
     /* height:250px; */
     /* border-image:none; */

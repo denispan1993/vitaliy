@@ -353,8 +353,7 @@ function Ascroll(){
 {% if request.session.right_panel %}
     <div id="main_right">
         {% block content_right %}
-            <form method="get" action="/search/" id="search">
-                {% csrf_token %}
+            <form method="get" action="/search/" id="search">{# {% csrf_token %} #}
                 <table>
                     <tbody>
                     {# <tr>
@@ -364,7 +363,7 @@ function Ascroll(){
                     </tr> #}
                     <tr>
                         <td>
-                            <input type="text" name="query" class="search_input" style="width:140px;">
+                            <input type="text" name="query" class="search_input">
                         </td>
                         <td align="left">
                             <input type="submit" value="Поиск" class="search_button">

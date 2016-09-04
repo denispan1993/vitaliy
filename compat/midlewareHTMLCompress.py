@@ -18,11 +18,9 @@ __author__ = 'AlexStarov'
 
 class SpacelessMiddleware(object, ):
     """ trim spaces between tags """
-
     def process_response(self, request, response, ):
 
-        if 'text/html' in response['Content-Type']:  # 'text/html' in response['Content-Type']:
-                                                     # response_content_type == 'text/html':
+        if 'Content-Type'.lower() in response and 'text/html' in response['Content-Type']:
 
 #            response.content = strip_spaces_between_tags(response.content.strip(), )
             response.content = re.sub(r'>\s+<', '><', force_text(response.content, ), )
