@@ -130,7 +130,7 @@ class DjangoJinjaCacheExtension(Extension):
 
         while not parser.stream.current.test('block_end'):
             vary_on.append(parser.parse_expression())
-#
+
         body = parser.parse_statements(['name:enddjcache'], drop_needle=True)
 
         return nodes.CallBlock(
@@ -159,14 +159,9 @@ class DjangoJinjaCacheExtension(Extension):
                 from django.utils.encoding import force_unicode as force_text
                 from django.utils.encoding import smart_str as force_bytes
 
-            #value = re.sub(r'>\s+<', '><', force_text(value, ), )
-            #value = re.sub(r'^\s+<', '<', value, )
-
             cache.set(cache_key, force_text(value), expire_time)
 
         else:
-            #value = re.sub(r'>\s+<', '><', force_text(value, ), )
-            #value = re.sub(r'^\s+<', '<', value, )
 
             value = value.decode('utf-8', )
         return value

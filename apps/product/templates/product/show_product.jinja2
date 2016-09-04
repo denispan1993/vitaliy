@@ -1,4 +1,3 @@
-{# language: jinja2 #}
 {% extends 'root.jinja2' %}
 {% block title %}{% if product.meta_title %}{{ product.meta_title|capfirst }}{% else %}{{ product.title|capfirst }}{% endif %}{% endblock %}
 {% block description %}{{ product.meta_description }}{% endblock %}
@@ -223,65 +222,13 @@ h2.waitlist-title {
     </div>
 </div>
 {% endif %}
-<style>
-#product_box_left{
-	float:left;
-/*	z-index:10;*/
-	width:354px;
-}
-#product_box_left_top{
-	margin:5px 5px 5px 0;
-/*	text-align:center;*/
-}
-{# Вместо left_bottom -> slider
-#product_box_left_bottom{
-	margin-top:1px;
-	text-align:center;
-	height:55px;
-}
-#product_box_left_bottom ul{
-//	width:45px;// height:45px;
-//	margin-left:-15px;
-//	float:left;
-//	list-style-image:none;
-//	list-style-type:none;
-//	padding:0px;margin:2px;
-	text-align:center;
-}
-#product_box_left_bottom ul li{
-//	width:45px;// height:45px;
-//	margin-left:-15px;
-	float:left;
-	list-style-image:none;
-	list-style-type:none;
-	padding:0px;margin:2px;
-}
-#product_box_left_bottom ul li img{
-	width:45px;height:45px;
-//	margin-left:-15px;
-	float:left;
-	list-style-image:none;
-	list-style-type:none;
-	padding:0px;margin:2px;
-} #}
-</style>
-<div id="product_box" style="width:98%;height:auto;
-                             border:5px solid #FFF6C9;
-                             border-radius:10px;
-                             padding:5px;
-                             color:#333333;
-                             font-family:Arial,Helvetica,sans-serif;
-                             font-size:12px;
-                             line-height:125%;
-                             display:inline-block;"
-     itemscope itemtype="http://schema.org/Product">
-	<div id="product_box_header" style="text-align:left;" class="clearFloat">
+<div id="product_box" itemscope itemtype="http://schema.org/Product">
+	<div id="product_box_header" class="clearFloat">
 		{{ header_category2(current_category, product)|safe }}
 	</div>
-	<div id="product_box_top" style="width:100%;position:relative;" class="clearFloat">{#
-		{% set photos = product.photo.all() %}
-	  #}<div id="product_box_left">
-                <div id="social_links" style="display:inline-flex;margin-top:5px;">
+	<div id="product_box_top" class="clearFloat">
+        <div id="product_box_left">
+            <div id="social_links" style="display:inline-flex;margin-top:5px;">
 <script>
 var Share = {
     vkontakte: function(purl, ptitle, pimg, text) {
@@ -328,31 +275,6 @@ var Share = {
     }
 };
 </script>
-<style>
-a.social_link{
-background-image:url("http://share.pluso.ru/img/pluso-like/square/big/03.png");
-display:block;
-height:40px;
-width:40px;
-margin-right:15px;
-margin-bottom:5px;
-}
-a#social_button_VK{
-background-position:-168px 0;
-}
-a#social_button_OK{
-background-position:-126px 0;
-}
-a#social_button_FB{
-background-position:0 0;
-}
-a#social_button_TW{
-background-position:-42px 0;
-}
-a#social_button_MR{
-background-position:-294px 0;
-}
-</style>
 <a id="social_button_VK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.vkontakte('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
 <a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('http://keksik.com.ua{{ request.get_full_path() }}','{{ product.meta_description|capfirst  }}')"></a>
 <a id="social_button_FB" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.facebook('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
@@ -375,8 +297,8 @@ document.write(VK.Share.button({
 				{% if main_photo %}
                     <div class="image-wrap" style="height:372px;line-height:370px;">
                         <a href="{{ main_photo.photo.url }}" title='{{ main_photo.title }}'>
-                            <img class='cloudzoom' style='vertical-align:middle;' id='zoom1' src='{{ main_photo.photo.url_345x370 }}'{# small image #}
-                                 data-cloudzoom="{# zoomImage:'{{ main_photo.photo.url }}', #}{# large image #}zoomPosition:3,zoomSizeMode:'image'{# ,zoomOffsetX:15,zoomOffsetY:25, maxMagnification:4 #}"
+                            <img class='cloudzoom' style='vertical-align:middle;' id='zoom1' src='{{ main_photo.photo.url }}'{# small image #}{# {{ main_photo.photo.url_345x370 }} #}
+                                 data-cloudzoom='zoomPosition:3,zoomSizeMode:"image",autoInside:550'{# zoomImage:'{{ main_photo.photo.url }}', #}{# large image #}{# ,zoomOffsetX:15,zoomOffsetY:25, maxMagnification:4 #}
                                  alt='{{ main_photo.title }}' itemprop='image'/>
                         </a>
                     </div>
