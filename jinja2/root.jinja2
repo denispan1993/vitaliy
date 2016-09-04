@@ -178,7 +178,7 @@ try{
         <ul>
             {% for slide in slides_ %}
                 <li>
-                    <a href="{{ slide.url }}" target="{% if slide.opening_method == 1 %}_blank{% elif slide.opening_method == 2 %}_self{% endif %}">
+                    <a href="{{ slide.get_absolute_url() }}" target="{% if slide.opening_method == 1 %}_blank{% elif slide.opening_method == 2 %}_self{% endif %}">
                         <img src="{{ slide.slide.url }}"
                              {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}
                              title="{% if slide.title %}{{ slide.title }}{% endif %}"

@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ObjectDoesNotExist
+
+from compat.ImageWithThumbs import models as ImageModels
+import managers
 
 __author__ = 'AlexStarov'
 
@@ -13,7 +20,6 @@ def set_path_photo(self, filename, ):
 
 
 def default_slide_name():
-    from datetime import datetime
     return u'Слайд от %s' % datetime.now()
 
 OPENING_METHOD = ((1, '_blank'), (2, '_self'), )
@@ -50,8 +56,7 @@ class Slide(models.Model):
                            max_length=256,
                            blank=True,
                            null=True, )
-    from django.contrib.contenttypes.models import ContentType
-    # from apps.product.models import Product
+
     content_type = models.ForeignKey(ContentType,
                                      related_name='related_Slide',
                                      blank=True,
@@ -59,7 +64,6 @@ class Slide(models.Model):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    from django.contrib.contenttypes import generic
     parent = generic.GenericForeignKey('content_type', 'object_id', )
 
     title = models.CharField(verbose_name=u'title слайда',
@@ -81,12 +85,10 @@ class Slide(models.Model):
     # visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
 
     # Вспомогательные поля
-    # from django.contrib.contenttypes import generic
     # photo = generic.GenericRelation('Photo',
     #                                 content_type_field='content_type',
     #                                 object_id_field='object_id', )
 
-    from compat.ImageWithThumbs import models as ImageModels
     slide = ImageModels.ImageWithThumbsField(verbose_name=u'Слайд',
                                              upload_to=set_path_photo,
                                              sizes=((240, 96), (128, 48), ),
@@ -97,19 +99,23 @@ class Slide(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )
 
-    from apps.slide import managers
     manager = managers.ManagerSlide()
 
     def get_absolute_url(self, ):
-        if self.content_type_id and not self.content_type.app_label == 'slide' and self.object_id and not self.url:
+        if self.content_type_id\
+                and not self.content_type.app_label == 'slide'\
+                and self.object_id\
+                and not self.url:
+
             try:
-                return self.parent.get_absolute_url()
-            except AttributeError:
-                return '/'
+                return self.content_type.get_object_for_this_type(id=self.object_id).get_absolute_url()
+            except (ObjectDoesNotExist, AttributeError) as e:
+                print e
+
         if self.url and not self.content_type_id and not self.object_id:
             return self.url
-        else:
-            return '/'
+
+        return '/'
 
     def __unicode__(self, ):
 #        text = u'Активный' if self.is_active else text = u'Пасивный'
