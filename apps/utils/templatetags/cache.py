@@ -6,6 +6,13 @@ from django.template import (Node, TemplateSyntaxError, VariableDoesNotExist, )
 from django.core.cache import InvalidCacheBackendError, cache, caches
 from django.core.cache.utils import make_template_fragment_key
 
+try:
+    from django.utils.encoding import force_text
+    from django.utils.encoding import force_bytes
+except ImportError:
+    from django.utils.encoding import force_unicode as force_text
+    from django.utils.encoding import smart_str as force_bytes
+
 from proj.settings import SERVER
 
 # from __future__ import unicode_literals
@@ -150,19 +157,12 @@ class DjangoJinjaCacheExtension(Extension):
 
         cache_key = make_template_fragment_key(fragm_name, vary_on)
 
+        value = None
         if SERVER:
             value = cache.get(cache_key)
 
         if value is None:
             value = caller()
-
-            try:
-                from django.utils.encoding import force_text
-                from django.utils.encoding import force_bytes
-            except ImportError:
-                from django.utils.encoding import force_unicode as force_text
-                from django.utils.encoding import smart_str as force_bytes
-
             cache.set(cache_key, force_text(value), expire_time)
 
         else:
