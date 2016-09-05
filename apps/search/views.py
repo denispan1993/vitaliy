@@ -29,7 +29,7 @@ def search_page(request,
                 pass
 
             try:
-                products = Product.objects.published(Q(title__icontains=query), is_availability=1, )
+                products = Product.objects.published(Q(title__icontains=query), )
             except Product.DoesNotExist:
                 pass
 

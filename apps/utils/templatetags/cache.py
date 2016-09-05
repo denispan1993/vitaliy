@@ -6,6 +6,8 @@ from django.template import (Node, TemplateSyntaxError, VariableDoesNotExist, )
 from django.core.cache import InvalidCacheBackendError, cache, caches
 from django.core.cache.utils import make_template_fragment_key
 
+from proj.settings import SERVER
+
 # from __future__ import unicode_literals
 #from django.template import (
 #    Library, Node, TemplateSyntaxError, VariableDoesNotExist,
@@ -148,7 +150,9 @@ class DjangoJinjaCacheExtension(Extension):
 
         cache_key = make_template_fragment_key(fragm_name, vary_on)
 
-        value = cache.get(cache_key)
+        if SERVER:
+            value = cache.get(cache_key)
+
         if value is None:
             value = caller()
 
