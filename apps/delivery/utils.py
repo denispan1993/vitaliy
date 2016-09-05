@@ -801,16 +801,36 @@ def ccc():
     #!socks.setdefaultproxy(socks.PROXY_TYPE_HTTP, "185.12.94.236", 4444)
     #!socket.socket = socks.socksocket
 
-    import urllib2
-    hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-       'Accept-Encoding': 'none',
-       'Accept-Language': 'en-US,en;q=0.8',
-       'Connection': 'keep-alive'}
+    import requests
 
-    site='http://www.socks-proxy.net/'
-    req = urllib2.Request(site, headers=hdr)
+    url = 'http://gatherproxy.com/sockslist/plaintext'
+    # http://gatherproxy.com/ru/subscribe/login
+
+    while True:
+
+        r = requests.post(
+            url='http://gatherproxy.com/ru/subscribe/login',
+            data={
+                'Username': 'starov.alex@gmail.com',
+                'Password': 'l&;33wU|',
+                'Captcha': str(randrange(0, 9))},
+        )
+
+        if not 'The verify code invalid' in r.content:
+            break
+
+    import urllib2
+
+    hdr = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+        'Accept-Encoding': 'none',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Connection': 'keep-alive',
+    }
+
+    req = urllib2.Request('http://www.socks-proxy.net/', headers=hdr)
 
     content = urllib2.urlopen(req).read()
 
@@ -840,3 +860,77 @@ def ccc():
         pars.feed(data=content)
         print n
         sleep(1)
+
+def vvv():
+    import requests
+
+    url = 'http://gatherproxy.com/sockslist/plaintext'
+    # http://gatherproxy.com/ru/subscribe/login
+    i = 0
+    r = requests.get(
+        url='http://gatherproxy.com/ru/subscribe/login',
+    )
+    cookies = r.cookies
+    while True:
+        i += 1
+        data={
+            'Username': 'starov.alex@gmail.com',
+            'Password': 'l&;33wU|',
+            'Captcha': str(randrange(0, 9)),
+        }
+        r = requests.post(
+            url='http://gatherproxy.com/ru/subscribe/login',
+            cookies=cookies,
+            data=data,
+        )
+        content = r.content.split('<span class="field-validation-error">')[1]
+        content = content.split('</span>')[0]
+        print content
+
+        content = r.content.split('<span class="blue">')[1]
+        content = content.split('</span>')[0]
+        print content
+        number = {
+            'One': 1,
+            'Two': 2,
+            'Three': 3,
+            'Four': 4,
+            'Five': 5,
+            'Six': 6,
+            'Seven': 7,
+            'Eight': 8,
+            'Nine': 9,
+            'Zero': 0,
+        }
+        arithmetic_operation = {
+            'plus': '+',
+            '+': '+',
+            'minus': '-',
+            '-': '-',
+
+        }
+        try:
+            first = content.split()[0]
+            first = int(first)
+            print first
+        except ValueError as e:
+            print('ValueError: ', e, ' first: ', first)
+            first = number[first]
+            print('number[first]: ', first)
+
+        try:
+            second = content.split()[2]
+            second = int(second)
+            print second
+        except ValueError as e:
+            print('ValueError: ', e, ' second: ', second)
+            second = number[second]
+            print('number[second]: ', second)
+
+        print(i, ' : ', data['Captcha'])
+        #print r.content
+        #sleep(15)
+
+        if 'The verify code invalid' not in r.content:
+            print data['Captcha']
+            break
