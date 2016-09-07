@@ -1,6 +1,5 @@
 {% if cart %}
-    <form method="POST" action="{{ form1_action }}">
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+    <form method="POST" action="{{ form1_action }}">{% csrf_token %}
         <input type="hidden" name="POST_NAME" value="recalc_cart"/>
         <table id="table_carts" cols="6" summary="Ваша корзина">
             <caption style="font-size:20px;">Ваша корзина</caption>
@@ -246,8 +245,7 @@ $(document).ready(ReCalcSum(true));
                type="submit"
                value="Пересчитать корзину"/>
     </form>
-    <form method="POST" action="{{ form2_action }}">
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+    <form method="POST" action="{{ form2_action }}">{% csrf_token %}
         <input type="hidden" name="POST_NAME" value="order_cart"/>
         {% for product in cart.products %}
             <input name="product_in_request_{{ product.pk }}"

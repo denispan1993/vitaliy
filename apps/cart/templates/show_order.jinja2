@@ -1,5 +1,4 @@
 {% extends 'root.jinja2' %}
-{# {% load header_category %} #}
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
 {% block content_center %}
     <div id="show_order" style="color:Black;text-align:left;">
@@ -8,12 +7,10 @@
         {% if user_cart_.sum_money_of_all_products < 200 %}
             <div id="buttons"
                  style="margin:15px;">
-                {# <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a>&nbsp;&nbsp;&nbsp; #}
                 <a href="/корзина/" title="Редактировать корзину">&gt;&gt;&nbsp;Редактировать корзину</a>
             </div>
         {% else %}
-            <form method="POST" action="." id="form_order" name="form_order">
-                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
+            <form method="POST" action="." id="form_order" name="form_order">{% csrf_token %}
                 <input type="hidden" name="POST_NAME" value="order"/>
                 <style>
                     div#show_order form#form_order table tr td#first_column{
@@ -107,58 +104,16 @@ function sel_country(select_country){
 	jQuery.post("/ajax/country/",
 		request_dict,
 		function(data, textStatus, jqXHR) {
-//			if (data.result == 'Ok' && data.sel_country == 1) {
 				jQuery('#dynamic_div').html(data.html);
-//				jQuery('#select_country').attr('disabled', 'disabled');// };
-//            if (data.result == 'Ok' && data.sel_country != 1) {
-//				jQuery('#country_div').html(data.html);
-//				jQuery('#select_country').attr('disabled', 'disabled');
-//            };
 		},
 		"json");
 }
-//sel_country();
 </script>
                         </td>
                         <td></td>
                     </tr>
                 </table>
                 <div id="dynamic_div">
-{# {% if user.is_authenticated and user.is_staff %}
-                <br>
-                <select name="select_delivery_company"
-                        id="select_delivery_company"
-                        required=""
-                        style="float:left;width:240px;">
-                    {% if not select_delivery_company or select_delivery_company == '1000' %}
-                        <option value="1000"
-                            selected=""
-                            disabled="disabled">Компания доставщик
-                        </option>
-                    {% endif %}
-                    {% for delivery_company in delivery_companies_list %}
-                        {% if select_delivery_company == delivery_company.select_number and select_delivery_company != 1000 %}
-                            <option value="{{ delivery_company.select_number }}"
-                                    selected="">
-                                <strong>{{ delivery_company.select_string_ru }}</strong>
-                            </option>
-                        {% else %}
-                            <option value="{{ delivery_company.select_number }}">
-                                {{ delivery_company.select_string_ru }}
-                            </option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-{% endif %}
-                <br>
-                <label for="region">Область</label>
-                <input type="text" name="region" id="region" required>
-                <br>
-                <label for="settlement">Город (населённый пункт)</label>
-                <input type="text" name="settlement" id="settlement" required>
-                <br>
-                <label for="warehouse_number">Номер склада "Новой почты"</label>
-                <input type="number" name="warehouse_number" id="warehouse_number" required> #}
                 </div>
                 <br>
                 <label for="comment">Комментарий к заказу</label>
@@ -177,36 +132,9 @@ function sel_country(select_country){
                 <br>
                 <br>
                 <p>Нажимая кнопку отправить заказ я подтверждаю, что с <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> товара интернет-магазина Кексик, я ознакомлен</p>
-                {# <label>Нажимая кнопку оформить заказ я подтверждаю, что с <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> товара интернет магазина Кексик я ознакомлен</label> #}
-{# <script type="text/javascript">
-function CheckboxIagree(){
-    {# alert('asdfghjkl'); #1}
-    {# var element_checkbox_I_agree = document.getElementsByName("checkbox_I_agree"); #1}
-    {# var checkbox_checked = element_checkbox_I_agree.checked; #1}
-    {# var checkboxIagree = document.getElementsByName("checkboxIagree"); #1}
-    {# var checkbox_checked = document.getElementsByName("checkboxIagree").checked; #1}
-    {# var inputsubmit = document.getElementsByName("inputsubmit"); #1}
-    {# var checkbox_checked=document.forms["form_order"].checkbox_I_agree.checked; #1}
-    {# alert($("input[name=namecheckboxIagree]").is(':checked')); #1}
-    {# $("#isAgeSelected").is(':checked') #1}
-    if($("input[name=checkboxIagree]").is(':checked')){
-        {# alert(true); #}
-        {# document.getElementsByName("inputsubmit").disabled=false; #1}
-        $("input[name=inputsubmit]").prop("disabled",false);}
-    else{
-        {# alert(false); #1}
-        {# document.getElementsByName("inputsubmit").disabled=true; #1}
-        $("input[name=inputsubmit]").prop("disabled",true);}
-    return false;
-}
-</script>
-                <input id="checkboxIagree"
-                    name="checkboxIagree"
-                    onchange="CheckboxIagree();"
-                    type="checkbox"/> #}
                 <input type="submit"
                        name="inputsubmit"
-                       value="Отправить заказ"{# disabled="" / #}>
+                       value="Отправить заказ">
             </form>
         {% endif %}
     {% else %}

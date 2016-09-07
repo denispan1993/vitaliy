@@ -3,10 +3,15 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from datetime import date, datetime
+from calendar import monthrange
 from django.utils.timezone import now
 
-from apps.utils.captcha.views import key_generator
 from string import ascii_lowercase, digits
+
+from apps.utils.captcha.views import key_generator
+from apps.cart.models import Cart, Order
+
+__author__ = 'AlexStarov'
 
 
 def key():
@@ -18,10 +23,9 @@ def datetime_now_isoformat():
 
 
 def add_months(d, x, ):
-    new_month = (((d.month - 1) + x) % 12) + 1
     new_year = d.year + (((d.month - 1) + x) / 12)
-    import mycalendar
-    new_day = min(d.day, mycalendar.monthrange(new_year, new_month, )[1], )
+    new_month = (((d.month - 1) + x) % 12) + 1
+    new_day = min(d.day, monthrange(new_year, new_month, )[1], )
     return date(new_year, new_month, new_day, ) #d.hour, d.minute, d.second, d.microsecond,
 
 
@@ -55,6 +59,7 @@ class CouponGroup(models.Model, ):
                                              blank=True,
                                              null=True,
                                              default=add_three_month, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(verbose_name=_(u'Дата создания', ),
                                       blank=True,
@@ -81,28 +86,7 @@ class CouponGroup(models.Model, ):
         #         {'coupon_group_id': self.pk, }, )
 
     def __unicode__(self):
-        # """
-        # Проверка DocTest
-        # >>> category = Category.objects.create(title=u'Proverka123  -ф123')
-        # >>> category.item_description = u'Тоже проверка'
-        # >>> category.save()
-        # >>> if type(category.__unicode__()) is unicode:
-        # ...     print category.__unicode__() #.encode('utf-8')
-        # ... else:
-        # ...     print type(category.__unicode__())
-        # ...
-        # Категория: Proverka123  -ф123
-        # >>> print category.title
-        # Proverka123  -ф123
-        # """
         return u'Группа купонов: № %6d - %s' % (self.pk, self.name, )
-
-#    def save(self, *args, **kwargs):
-#        from django.utils.timezone import now
-#        if not self.created_at:
-#            self.created_at = now()
-#        self.updated_at = now()
-#        return super(CouponGroup, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'CouponGroup'
@@ -131,7 +115,6 @@ class Coupon(models.Model, ):
     """
         Какой заказ создал этот купон.
     """
-    from apps.cart.models import Cart, Order
     parent = models.ForeignKey(to=Order,
                                verbose_name=_(u'Заказ который создал этот купон', ),
                                blank=True,
@@ -205,26 +188,14 @@ class Coupon(models.Model, ):
 #    get_url = property(get_absolute_url)
 
     def __unicode__(self):
-        # """
-        # Проверка DocTest
-        # >>> category = Category.objects.create(title=u'Proverka123  -ф123')
-        # >>> category.item_description = u'Тоже проверка'
-        # >>> category.save()
-        # >>> if type(category.__unicode__()) is unicode:
-        # ...     print category.__unicode__() #.encode('utf-8')
-        # ... else:
-        # ...     print type(category.__unicode__())
-        # ...
-        # Категория: Proverka123  -ф123
-        # >>> print category.title
-        # Proverka123  -ф123
-        # """
         return u'Coupon: %6d - %s' % (self.pk, self.name, )
 
     def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = now().replace(tzinfo=None, )
         self.updated_at = now().replace(tzinfo=None, )
+
+        if not self.created_at:
+            self.created_at = self.updated_at
+
         return super(Coupon, self).save(*args, **kwargs)
 
     class Meta:

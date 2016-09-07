@@ -1,4 +1,7 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from apps.coupon.models import Coupon
+from apps.utils.captcha.views import key_generator
+
 __author__ = 'AlexStarov'
 
 
@@ -9,8 +12,6 @@ def coupon_create(name,
                   parent=None,
                   number_of_possible_uses=1,
                   percentage_discount=10, ):
-    from apps.coupon.models import Coupon
-    from apps.utils.captcha.views import key_generator
     key = key_generator()
     coupon = Coupon.objects.create(name=name,
                                    coupon_group=coupon_group,

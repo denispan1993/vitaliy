@@ -606,3 +606,89 @@ def get_MXes(domain, ):
     # for rdata in answers:
     #     print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
     return OrderedDict(sorted(MX_dict.items()))
+
+
+@celery_app.task()
+def socks_server_test(*args, **kwargs):
+
+    host = kwargs.get('host')
+    port = int(kwargs.get('port'))
+    socks4 = kwargs.get('socks4', False)
+    socks5 = kwargs.get('socks5', False)
+
+    if not socks4 and not socks5:
+        types_socks =
+
+    socket.setdefaulttimeout(10)
+    s = socks.socksocket()
+    connect = False
+    first_type_socks, second_type_socks = None, None
+
+    for type_socks in (socks.PROXY_TYPE_SOCKS4, socks.PROXY_TYPE_SOCKS5):
+        s.setproxy(type_socks, host, port)
+
+        try:
+            s.connect(('smtp.yandex.ru', 25))
+            recv = s.recv(1024)
+            print("Message after connection request:" + recv.decode())
+
+            if recv[:3] != '220':
+                print('220 reply not received from server.')
+                continue
+
+            s.send('HELO proxy.keksik.com.ua\r\n'.encode())
+            recv = s.recv(1024); print("Message after HeLO command:" + recv.decode())
+
+            if recv[:3] != '250':
+                print('250 reply not received from server.')
+
+            connect = True
+
+            if not first_type_socks and not second_type_socks:
+                first_type_socks = type_socks
+            elif first_type_socks and not second_type_socks:
+                second_type_socks = type_socks
+
+            print('first_type_socks: ', first_type_socks, ' second_type_socks: ', second_type_socks, )
+
+            quit = "QUIT\r\n"
+            s.send(quit.encode())
+            print(s.recv(1024).decode())
+            s.close()
+
+        except socket.error as e:
+            print('Exception(socket.error): ', e)
+            continue
+
+        except socks.GeneralProxyError as e:
+            print('Exception(socks.GeneralProxyError): ', e)
+            continue
+
+        except (socks.Socks4Error, socks.Socks5Error) as e:
+            print('Exception(socks.Socks4Error or socks.Socks5Error): ', e)
+            continue
+
+    if connect:
+        try:
+            pr_serv = ProxyServer.objects.get(host=host)
+        except ProxyServer.DoesNotExist:
+            pr_serv = ProxyServer(from_whence=3)
+            pr_serv.host = host
+            pr_serv.port = port
+
+            if first_type_socks == socks.PROXY_TYPE_SOCKS4\
+                    or second_type_socks == socks.PROXY_TYPE_SOCKS4:
+                pr_serv.socks4 = True
+            if first_type_socks == socks.PROXY_TYPE_SOCKS5\
+                    or second_type_socks == socks.PROXY_TYPE_SOCKS5:
+                pr_serv.socks5 = True
+            pr_serv.save()
+
+        except ProxyServer.MultipleObjectsReturned:
+            pr_serv = ProxyServer.objects.filter(host=host)
+            pr_serv[1].delete()
+            pr_serv = pr_serv[0]
+
+        print('pr_serv: ', pr_serv, ' host: ', host, ' port: ', port, ' OK')
+
+    return connect

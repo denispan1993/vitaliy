@@ -30,6 +30,19 @@ __author__ = 'AlexStarov'
 
 std_logger = getLogger(__name__)
 
+number = {
+    'One': 1,
+    'Two': 2,
+    'Three': 3,
+    'Four': 4,
+    'Five': 5,
+    'Six': 6,
+    'Seven': 7,
+    'Eight': 8,
+    'Nine': 9,
+    'Zero': 0,
+}
+
 # "(554, '5.7.1 Message rejected under suspicion of SPAM; http://help.yandex.ru/mail/spam/sending-limits.xml",\
 # "5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/0EgTP 1469197349-4HnTGIgAOk-MSwGPtbw"
 
@@ -861,76 +874,71 @@ def ccc():
         print n
         sleep(1)
 
+
 def vvv():
     import requests
 
-    url = 'http://gatherproxy.com/sockslist/plaintext'
-    # http://gatherproxy.com/ru/subscribe/login
-    i = 0
     r = requests.get(
         url='http://gatherproxy.com/ru/subscribe/login',
     )
     cookies = r.cookies
-    while True:
-        i += 1
-        data={
-            'Username': 'starov.alex@gmail.com',
-            'Password': 'l&;33wU|',
-            'Captcha': str(randrange(0, 9)),
-        }
-        r = requests.post(
-            url='http://gatherproxy.com/ru/subscribe/login',
-            cookies=cookies,
-            data=data,
-        )
-        content = r.content.split('<span class="field-validation-error">')[1]
-        content = content.split('</span>')[0]
-        print content
 
-        content = r.content.split('<span class="blue">')[1]
-        content = content.split('</span>')[0]
-        print content
-        number = {
-            'One': 1,
-            'Two': 2,
-            'Three': 3,
-            'Four': 4,
-            'Five': 5,
-            'Six': 6,
-            'Seven': 7,
-            'Eight': 8,
-            'Nine': 9,
-            'Zero': 0,
-        }
-        arithmetic_operation = {
-            'plus': '+',
-            '+': '+',
-            'minus': '-',
-            '-': '-',
+    content = r.content.split('<span class="blue">')[1]
+    content = content.split('</span>')[0]
 
-        }
-        try:
-            first = content.split()[0]
-            first = int(first)
-            print first
-        except ValueError as e:
-            print('ValueError: ', e, ' first: ', first)
-            first = number[first]
-            print('number[first]: ', first)
+    try:
+        first = content.split()[0]
+        first = int(first, )
+    except ValueError as e:
+        print('ValueError: ', e, ' first: ', first)
+        first = number[first]
 
-        try:
-            second = content.split()[2]
-            second = int(second)
-            print second
-        except ValueError as e:
-            print('ValueError: ', e, ' second: ', second)
-            second = number[second]
-            print('number[second]: ', second)
+    try:
+        second = content.split()[2]
+        second = int(second)
+    except ValueError as e:
+        print('ValueError: ', e, ' second: ', second)
+        second = number[second]
 
-        print(i, ' : ', data['Captcha'])
-        #print r.content
-        #sleep(15)
+    operation = content.split()[1]
 
-        if 'The verify code invalid' not in r.content:
-            print data['Captcha']
-            break
+    if 'plus' in operation or '+' in operation:
+        result = first + second
+
+    elif 'minus' in operation or '-' in operation:
+        result = first - second
+
+    elif 'multiplied' in operation or 'X' in operation:
+        result = first * second
+
+    data = {
+        'Username': 'starov.alex@gmail.com',
+        'Password': 'l&;33wU|',
+        'Captcha': result,
+    }
+    r = requests.post(
+        url='http://gatherproxy.com/ru/subscribe/login',
+        cookies=cookies,
+        data=data,
+    )
+
+    if 'The verify code invalid' not in r.content:
+        print data['Captcha']
+
+    r = requests.post(
+        url='http://gatherproxy.com/sockslist/plaintext',
+        cookies=cookies,
+        data=data,
+    )
+
+    content = r.content.split()
+
+    from .tasks import socks_server_test
+
+    for host in content:
+        socks_server_test.apply_async(
+            queue='socks_server_test',
+            kwargs={'host': host.split(':')[0],
+                    'port': host.split(':')[1], }, )
+
+    return r

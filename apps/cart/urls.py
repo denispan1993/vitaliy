@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django.conf.urls import patterns, url
+
+__author__ = 'AlexStarov'
 
 
 urlpatterns = patterns('apps.cart.order',

@@ -130,19 +130,31 @@ urlpatterns += patterns('',
 #urlpatterns += patterns(url(r'^captcha/', include('apps.utils.captcha.urls', ), ), )
 
 #Admin panel
-urlpatterns += patterns('apps.adminSite.views',
-                        url(ur'^админ/$', 'admin_panel',
-                            {'template_name': u'admin_panel.jinja2', },
+urlpatterns += patterns('apps.adminSite',
+                        url(regex=ur'^админ/$',
+                            view='views.admin_panel',
+                            kwargs={'template_name': u'admin_panel.jinja2', },
                             name='admin_panel', ),
                         # """ Админ панель Комментариев. """
-                        url(ur'^админ/комментарий/поиск/$', 'comment_search',
+                        url(ur'^админ/комментарий/поиск/$', 'views.comment_search',
                             {'template_name': u'comment/comment_search.jinja2', },
                             name='comment_search', ),
-                        url(ur'^админ/комментарий/редактор/(?P<id>\d{6})/$', 'comment_edit',
+                        url(ur'^админ/комментарий/редактор/(?P<id>\d{6})/$', 'views.comment_edit',
                             {'template_name': u'comment/comment_edit.jinja2', },
                             name='comment_edit', ),
+                        # """ Админ панель Заказов. """
+                        url(regex=ur'^админ/заказ/',
+                            view=include(arg='apps.adminSite.order.urls',
+                                         namespace='admin_order', ), ),
+                        # """ Админ панель Купонов. """
+                        url(regex=ur'^админ/купон/',
+                            view=include(arg='apps.adminSite.coupon.urls',
+                                         namespace='admin_coupon', ), ),
+                        # """ Админ панель Рассылок. """
+                        url(regex=ur'^админ/рассылка/',
+                            view=include(arg='apps.adminSite.delivery.urls',
+                                         namespace='admin_delivery', ), ),
                         )
-
 #Search
 urlpatterns += patterns('apps.search.views',
                         url(ur'^поиск/$', 'search_page',
@@ -165,24 +177,6 @@ urlpatterns += patterns('',
                         url(regex=ur'^календарь/',
                             view=include(arg='apps.mycalendar.urls',
                                          namespace='calendar', ),
-                            ),
-                        )
-urlpatterns += patterns('',
-                        # """ Админ панель Заказов. """
-                        url(ur'^админ/заказ/', include('apps.adminSite.order.urls'), ),
-                        )
-
-urlpatterns += patterns('',
-                        # """ Админ панель Купонов. """
-                        url(regex=ur'^админ/купон/',
-                            view=include(arg='apps.adminSite.coupon.urls',
-                                         namespace='admin_coupon', ),
-                            ),
-                        # """ Админ панель Рассылок. """
-                        # url(regex=ur'^админ/рассылка/',
-                        url(regex=ur'^админ/рассылка/',
-                            view=include(arg='apps.adminSite.delivery.urls',
-                                         namespace='admin_delivery', ),
                             ),
                         )
 #Ajax

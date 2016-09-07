@@ -1113,6 +1113,7 @@ class ProxyServer(models.Model, ):
     hosts = (
         (1, _(u'http://hideme.ru', ), ),
         (2, _(u'http://socks-proxy.net', ), ),
+        (3, _(u'http://gatherproxy.com', ), ),
     )
 
     from_whence = models.PositiveSmallIntegerField(verbose_name=_(u'Откуда', ),

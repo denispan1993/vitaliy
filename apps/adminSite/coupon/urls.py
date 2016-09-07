@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django.conf.urls import patterns, url
-
-
 from apps.utils.decorators import manager_required, member_required
 from apps.adminSite.coupon.views import CouponGroupCreateEdit, CouponCreateEdit
+
+__author__ = 'AlexStarov'
+
+
 #Admin panel
 urlpatterns = patterns('apps.adminSite.coupon.views',
                        # """ Админ панель Купонов. """
