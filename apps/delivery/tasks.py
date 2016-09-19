@@ -616,15 +616,18 @@ def socks_server_test(*args, **kwargs):
     socks4 = kwargs.get('socks4', False)
     socks5 = kwargs.get('socks5', False)
 
-    if not socks4 and not socks5:
-        types_socks =
+    types_socks = set(); types_socks.add(socks.PROXY_TYPE_SOCKS4, socks.PROXY_TYPE_SOCKS5, )
+    if socks4 and not socks5:
+        types_socks = set(socks.PROXY_TYPE_SOCKS4, )
+    elif not socks4 and socks5:
+        types_socks = set(socks.PROXY_TYPE_SOCKS5, )
 
     socket.setdefaulttimeout(10)
     s = socks.socksocket()
     connect = False
     first_type_socks, second_type_socks = None, None
 
-    for type_socks in (socks.PROXY_TYPE_SOCKS4, socks.PROXY_TYPE_SOCKS5):
+    for type_socks in types_socks:
         s.setproxy(type_socks, host, port)
 
         try:
