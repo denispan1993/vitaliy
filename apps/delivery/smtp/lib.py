@@ -3,14 +3,16 @@
 import smtplib
 import socket
 import sockschain as socks
+from sys import stderr
 
 __author__ = 'Auth0r'
 __author_remake__ = 'AlexStarov'
 __twitter__ = 'https://twitter.com/vxlab_info/'
 __version__ = '28.04.2016'
+__version_remake__ = '20.09.2016'
 
 
-class SMTP_SOCKS(smtplib.SMTP):
+class SMTP(smtplib.SMTP):
 
     def __init__(self, host='', port=0,
                  proxy=None,
@@ -45,7 +47,7 @@ class SMTP_SOCKS(smtplib.SMTP):
 
     def _get_socket(self, host, port, timeout):
         if self.debuglevel > 0:
-            print('connect --> host: ', host, ' port: ', port)
+            print>>stderr, 'connect:', (host, port)
         # -------------------------------------------
         socket_proxy = socks.socksocket()
         socket_proxy.setproxy(self.proxy[0], self.proxy[1], self.proxy[2])
