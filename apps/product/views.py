@@ -243,14 +243,15 @@ def add_to_cart(request,
             except ValueError:
                 quantity = 1
 
-        product_in_cart = Product.objects.create(key=product_cart,
-                                                 product=product,
-                                                 price=price,
-                                                 # True - Товар доступен под заказ.
-                                                 available_to_order=available_to_order,
-                                                 # 50% - предоплата.
-                                                 percentage_of_prepaid=percentage_of_prepaid,
-                                                 quantity=quantity, )
+        product_in_cart = models_cart.Product.objects.create(
+            key=product_cart,
+            product=product,
+            price=price,
+            # True - Товар доступен под заказ.
+            available_to_order=available_to_order,
+            # 50% - предоплата.
+            percentage_of_prepaid=percentage_of_prepaid,
+            quantity=quantity, )
     else:
         if not quantity:
             quantity = product.quantity_of_complete
