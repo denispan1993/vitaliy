@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from HTMLParser import HTMLParser
-from apps.delivery.models import ProxyServer
+import models
 
 __author__ = 'AlexStarov'
 
@@ -54,11 +54,11 @@ class HTMLParser_hideme(HTMLParser):
             gl_start_div, gl_start_em = False, False
 
             try:
-                pr_serv = ProxyServer.objects.get(host = data, )
-            except ProxyServer.DoesNotExist:
-                pr_serv = ProxyServer(from_whence=1, host=data, )
-            except ProxyServer.MultipleObjectsReturned:
-                pr_serv = ProxyServer.objects.filter(host = data, )
+                pr_serv = models.ProxyServer.objects.get(host = data, )
+            except models.ProxyServer.DoesNotExist:
+                pr_serv = models.ProxyServer(from_whence=1, host=data, )
+            except models.ProxyServer.MultipleObjectsReturned:
+                pr_serv = models.ProxyServer.objects.filter(host = data, )
                 pr_serv[1].delete()
                 pr_serv = pr_serv[0]
 
@@ -103,11 +103,11 @@ class HTMLParser_socks_proxy(HTMLParser):
         if gl_tag_td == 1:
 
             try:
-                pr_serv = ProxyServer.objects.get(host=data, )
-            except ProxyServer.DoesNotExist:
-                pr_serv = ProxyServer(from_whence=2, host=data, )
-            except ProxyServer.MultipleObjectsReturned:
-                pr_serv = ProxyServer.objects.filter(host=data, )
+                pr_serv = models.ProxyServer.objects.get(host=data, )
+            except models.ProxyServer.DoesNotExist:
+                pr_serv = models.ProxyServer(from_whence=2, host=data, )
+            except models.ProxyServer.MultipleObjectsReturned:
+                pr_serv = models.ProxyServer.objects.filter(host=data, )
                 pr_serv[1].delete()
                 pr_serv = pr_serv[0]
 
