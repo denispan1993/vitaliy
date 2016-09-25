@@ -12,7 +12,8 @@ from imaplib import IMAP4_SSL
 
 from apps.authModel.models import Email
 from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail,\
-    Message as model_Message, ProxyServer
+    Message as model_Message
+from apps.socks import models as models_socks
 from .utils import get_mail_account, get_email, create_msg, str_conv, get_email_by_str, send
 from .message import Message
 
@@ -487,7 +488,7 @@ def processing_delivery_through_socks(*args, **kwargs):
     # logger.info(u'delivery_pk: {0}'.format(delivery_pk))
     message = model_Message.objects.get(pk=kwargs.get('message_pk'), )
 
-    proxy_servers = ProxyServer.objects.filter(Q(socks4=True) | Q(socks5=True), ).order_by('-socks4_pos', '-socks5_pos', )
+    proxy_servers = models_socks.ProxyServer.objects.filter(Q(socks4=True) | Q(socks5=True), ).order_by('-socks4_pos', '-socks5_pos', )
     socket.setdefaulttimeout(10)
     s = socks.socksocket()
     type_socks = 4
@@ -673,9 +674,9 @@ def socks_server_test(*args, **kwargs):
 
     if connect:
         try:
-            pr_serv = ProxyServer.objects.get(host=host)
-        except ProxyServer.DoesNotExist:
-            pr_serv = ProxyServer(from_whence=3)
+            pr_serv = models_socks.ProxyServer.objects.get(host=host)
+        except models_socks.ProxyServer.DoesNotExist:
+            pr_serv = models_socks.ProxyServer(from_whence=3)
             pr_serv.host = host
             pr_serv.port = port
 
@@ -687,8 +688,8 @@ def socks_server_test(*args, **kwargs):
                 pr_serv.socks5 = True
             pr_serv.save()
 
-        except ProxyServer.MultipleObjectsReturned:
-            pr_serv = ProxyServer.objects.filter(host=host)
+        except models_socks.ProxyServer.MultipleObjectsReturned:
+            pr_serv = models_socks.ProxyServer.objects.filter(host=host)
             pr_serv[1].delete()
             pr_serv = pr_serv[0]
 
