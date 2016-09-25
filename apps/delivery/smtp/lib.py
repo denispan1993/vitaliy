@@ -23,8 +23,7 @@ class SMTP(smtplib.SMTP):
         self.esmtp_features = {}
 
         # -------------------------------------------
-        if proxy is not None:
-            self.proxy = proxy
+        self.proxy = proxy
         # -------------------------------------------
 
         if host:
@@ -56,3 +55,6 @@ class SMTP(smtplib.SMTP):
             socket_proxy.settimeout(timeout)
         return socket_proxy
         # -------------------------------------------
+
+class SMTP_SSL(SMTP):
+    pass

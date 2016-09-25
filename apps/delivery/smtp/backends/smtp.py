@@ -1,6 +1,6 @@
 """SMTP email backend class."""
 #import smtplib
-from apps.delivery.smtplib import smtplib
+from apps.delivery.smtp import lib as smtplib
 
 from django.core.mail.backends.smtp import EmailBackend
 from django.core.mail.utils import DNS_NAME

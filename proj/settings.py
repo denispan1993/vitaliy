@@ -353,6 +353,7 @@ INSTALLED_APPS = (
     'apps.callback',
     'apps.feedback',
     'apps.delivery',
+    'apps.socks',
     'paypal.standard.ipn',
     'apps.payment',
     # 'static_sitemaps',
