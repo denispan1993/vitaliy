@@ -14,6 +14,7 @@ from django.contrib.auth import get_user_model
 
 from proj.settings import SERVER, CACHE_TIMEOUT
 
+from apps.cart import models as models_cart
 from apps.cart.views import get_cart_or_create
 from .models import Category, Product, Viewed
 
@@ -206,26 +207,14 @@ def add_to_cart(request,
                 product_url=None,
                 quantity=None,
                 available_to_order=None, ):
-#    postdata = request.POST.copy()
-    # get product slug from post data, return blank if empty
-#    if not product_pk:
-#        product_pk = int(postdata.get(u'product_pk', None, ), )
-#    if not product_url:
-#        product_url = postdata.get(u'product_url', None, )
     if not product:
         product = get_product(int_product_pk, product_url, )
-    # get quantity added, return 1 if empty
-#    if not quantity:
-#        quantity = int(postdata.get('quantity', 1, ), )
-    #get cart
     """ Взятие корзины, или создание если её нету """
     product_cart, created = get_cart_or_create(request, created=True, )
-    # print 'Cart created:', created
     try:
         """ Присутсвие конкретного продукта в корзине """
         product_in_cart = product_cart.cart.get(product=product, )
-    #        change_exist_cart_option(cart_option=exist_cart_option, quantity=quantity, )
-    except Product.DoesNotExist:
+    except models_cart.Product.DoesNotExist:
         """ Занесение продукта в корзину если его нету """
         if not quantity:
             quantity = product.minimal_quantity

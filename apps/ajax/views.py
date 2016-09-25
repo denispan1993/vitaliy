@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'user'
+
+from apps.product.views import add_to_cart
+from django.http import HttpResponse
 
 try:
     from django.utils.simplejson import dumps
@@ -8,7 +10,7 @@ except ImportError:
     from json import dumps
     # import json
 
-from django.http import HttpResponse
+__author__ = 'AlexStarov'
 
 
 def resolution(request, ):
@@ -145,13 +147,12 @@ def product_to_cart(request, ):
                 except ValueError:
                     return HttpResponse(status=400, )
                 else:
-                    from apps.product.views import add_to_cart
                     # print product_pk
                     cart, product_in_cart = add_to_cart(request=request,
                                                         int_product_pk=product_pk,
                                                         available_to_order=available_to_order, )
-                    # print cart
-                    # print product_in_cart
+                    print cart
+                    print product_in_cart
                     html = '<b>Позиций:</b> %s' \
                            '<br>' \
                            '<b>На сумму:</b> %s грн. ' \

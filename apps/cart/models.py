@@ -1,6 +1,9 @@
 # coding=utf-8
-from django.db import models
+from django.db import models, OperationalError
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes import generic
+from proj import settings
+
 from apps.product.models import Country
 
 
@@ -9,16 +12,10 @@ class Cart(models.Model):
     Корзина
     """
     # from django.contrib.auth.models import User
-    from proj.settings import AUTH_USER_MODEL
-    user = models.ForeignKey(to=AUTH_USER_MODEL,
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
                              null=True,
                              blank=True, )
-    # from django.contrib.sessions.models import Session
-    # session = models.ForeignKey(to=Session,
-    #                             verbose_name=u'Session Foreign_Key',
-    #                             null=True,
-    #                             blank=True, )
     sessionid = models.CharField(verbose_name=u'SessionID',
                                  max_length=32,
                                  null=True,
@@ -29,7 +26,6 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     # Вспомогательные поля
-    from django.contrib.contenttypes import generic
     cart = generic.GenericRelation('Product',
                                    content_type_field='content_type',
                                    object_id_field='object_id', )
@@ -78,17 +74,10 @@ class Order(models.Model):
     """
     Заказ
     """
-    # from django.contrib.auth.models import User
-    from proj.settings import AUTH_USER_MODEL
-    user = models.ForeignKey(to=AUTH_USER_MODEL,
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
                              null=True,
                              blank=True, )
-    # from django.contrib.sessions.models import Session
-    # session = models.ForeignKey(to=Session,
-    #                             verbose_name=u'Session Foreign_Key',
-    #                             null=True,
-    #                             blank=True, )
     sessionid = models.CharField(verbose_name=u'SessionID',
                                  max_length=32,
                                  null=True,
@@ -161,7 +150,6 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     # Вспомогательные поля
-    from django.contrib.contenttypes import generic
     order = generic.GenericRelation('Product',
                                     content_type_field='content_type',
                                     object_id_field='object_id', )
@@ -240,15 +228,12 @@ class Product(models.Model):
                                      blank=False,
                                      null=False, )
     object_id = models.PositiveIntegerField(db_index=True, )
+
     from django.contrib.contenttypes import generic
     key = generic.GenericForeignKey('content_type', 'object_id', )
-#    cart = models.ForeignKey(Cart,
-#                             related_name='cart',
-#                             verbose_name=u'Корзина',
-#                             null=False,
-#                             blank=False, )
-    from apps.product.models import Product
-    product = models.ForeignKey(Product,
+
+    from apps.product import models as models_product
+    product = models.ForeignKey(models_product.Product,
                                 verbose_name=u'Продукт',
                                 null=False,
                                 blank=False, )
@@ -320,7 +305,6 @@ class Product(models.Model):
         elif quantity < 1:
             quantity = 1
         self.quantity = quantity
-        from django.db import OperationalError
         while True:
             try:
                 """
