@@ -232,7 +232,6 @@ JINGO_EXCLUDE_APPS = ('debug_toolbar',
                       'django.contrib.admin',
                       'django.contrib.admindocs', )
 
-
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TCP += (

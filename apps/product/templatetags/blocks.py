@@ -5,6 +5,8 @@ from django.core.cache import cache
 from logging import getLogger
 import hashlib
 
+from proj.settings import SERVER
+
 __author__ = 'AlexStarov'
 
 logging = getLogger('proj.processor.request_Middleware')
@@ -45,7 +47,10 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
         'prod' if category_or_product == 'product' else 'cat',
         m.hexdigest(), )
 
-    block = cache.get(key=md5_key, )
+    if SERVER:
+        block = cache.get(key=md5_key, )
+    else:
+        block = False
 
     if block:
         return block.decode('utf-8', )
@@ -85,7 +90,10 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
         margin_left,
     )
 
-    this_one_block = cache.get(key=key, )
+    if SERVER:
+        this_one_block = cache.get(key=key, )
+    else:
+        this_one_block = False
 
     if this_one_block:
         return this_one_block.decode('utf-8', )

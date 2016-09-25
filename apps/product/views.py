@@ -1,49 +1,38 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
 
-# Create your views here.
-from django.conf import settings
-#from jinja2 import Environment, FileSystemLoader
-#template_dirs = getattr(settings, 'TEMPLATE_DIRS', )
-#env = Environment(loader=FileSystemLoader(template_dirs, ), )
-
-#default_mimetype = getattr(settings, 'DEFAULT_CONTENT_TYPE', )
-#def render_to_response(request, filename, context={}, mimetype=default_mimetype, ):
-#    template = env.get_template(filename, )
-#    if request:
-#        context['request'] = request
-#        context['user'] = request.user
-#    rendered = template.render(**context)
-#    from django.http import HttpResponse
-#    return HttpResponse(rendered, mimetype=mimetype, )
-
-#def greater_than_fifty(x, ):
-#    return x > 50
-#env.tests['gtf'] = greater_than_fifty
-
-from django.shortcuts import render_to_response, render
+from datetime import datetime
 from django.template import RequestContext
+from django.template.loader import get_template, render_to_string
+from apps.utils.datetime2rfc import datetime2rfc
+from django.shortcuts import render_to_response, render, redirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.core.cache import cache
+from django.core.exceptions import MultipleObjectsReturned
+from django.core.mail import get_connection, EmailMultiAlternatives
+from django.utils.html import strip_tags
+from django.contrib.auth import get_user_model
+
+from proj.settings import SERVER, CACHE_TIMEOUT
+
+from apps.cart.views import get_cart_or_create
+from .models import Category, Product, Viewed
+
+__author__ = 'AlexStarov'
 
 
 def show_basement_category(request,
                            template_name=u'category/show_basement_category.jinja2', ):
-    from apps.product.models import Category
     try:
         basement_categories = Category.objects.basement()
     except Category.DoesNotExist:
-        from django.http import Http404
         raise Http404
-
-    from django.template.loader import get_template
 
     t = get_template(template_name)
     html = t.render(request=request, context={u'basement_categories': basement_categories, },)
-    from django.http import HttpResponse
     response = HttpResponse(html, )
     # Мы не можем выяснить когда менялись внутринние подкатегории.
     # Поэтому мы не отдаем дату изменения текущей категории.
-##    from apps.utils.datetime2rfc import datetime2rfc
-##    response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
+    # response['Last-Modified'] = datetime2rfc(current_category.updated_at, )
     return response
 
 
@@ -52,44 +41,37 @@ def show_category(request,
                   id,
                   template_name=u'category/show_category.jinja2', ):
     request.session[u'category'] = True
-    from apps.product.models import Category
+
     try:
         current_category = Category.objects.get(pk=id, url=category_url, )
     except Category.DoesNotExist:
         current_category = None
         categories_at_current_category_ = None
         current_products_ = None
-        from django.http import Http404
         raise Http404
     else:
         request.session[u'current_category'] = current_category.pk
         #categories_at_current_category_ = current_category.children.all()
-        #from apps.product.models import Product
         #try:
         #    current_products_ = current_category.products.all()
         #except Product.DoesNotExist:
         #    current_products_ = None
 
 
-#    from django.template import RequestContext
 #    context_instance = RequestContext(request, )
 
-#    from django.shortcuts import render_to_response
 #    response = render_to_response(template_name=template_name,
 #                                  dictionary={'current_category': current_category, },
 #                                  context_instance=context_instance,
 #                                  content_type='text/html', )
 #    return response
 
-    from django.template.loader import get_template
     t = get_template(template_name, )
 
-    # from django.template import RequestContext
     # c = RequestContext(request, {u'current_category': current_category, }, )
 
     # html = t.render(c)
     html = t.render(request=request, context={u'current_category': current_category, },)
-    from django.http import HttpResponse
     response = HttpResponse(html, )
 
     return response
@@ -111,13 +93,10 @@ def show_product(request,
                     product_pk = request.POST.get(u'product_pk', None, )
                     product_url = request.POST.get(u'product_url', None, )
                     quantity = request.POST.get(u'quantity', None, )
-                    from apps.product.models import Product
                     try:
-                        product = Product.objects.get(pk=product_pk, url=product_url, )
+                        product = Product.objects.get(pk=product_pk, )
+                        # product = Product.objects.get(pk=product_pk, url=product_url, )
                     except Product.DoesNotExist:
-                        # request.session[u'test1-product_pk'] = product_pk
-                        # request.session[u'test1-product_url'] = product_url
-                        from django.http import Http404
                         raise Http404
                     else:
                         if product.is_availability == 2:
@@ -132,45 +111,26 @@ def show_product(request,
                                     available_to_order=available_to_order, )
 #                        if request.
 #                        try:
-#                            from apps.cart.models import Cart
 #                            cart = Cart.objects.get(sessionid=, )
                     if action == u'makeanorder':
-                        from django.shortcuts import redirect
                         return redirect(to='show_cart', )
-                    from apps.product.models import Category
                     try:
                         current_category = Category.objects.get(pk=int(current_category, ), )
                     except Category.DoesNotExist:
-                        from django.http import Http404
                         raise Http404
                     else:
-                        from django.http import HttpResponseRedirect
                         return HttpResponseRedirect(current_category.get_absolute_url(), )
 #            elif action == u'makeanorder':
 #                pass
                 else:
-                    from django.http import Http404
                     raise Http404
             else:
-                from django.http import Http404
                 raise Http404
         else:
-            from django.http import Http404
             raise Http404
     else:
-#        request.session.set_test_cookie()
         product = get_product(product_pk=id, product_url=product_url, )
-#        from apps.product.models import Product
-#        try:
-#            product = Product.objects.get(pk=id, url=product_url, )
-#        except Product.DoesNotExist:
-#            from django.http import Http404
-#            raise Http404
-#        else:
-#        products_recommended = product.recommended.all()
-        # print(product)
-        # print(products_recommended)
-        # print(len(products_recommended))
+
         product.get_or_create_ItemID()
         viewed = get_or_create_Viewed(request=request, product=product, )
         # product_is_availability = product.is_availability
@@ -182,18 +142,16 @@ def show_product(request,
                         current_category = categories_of_product[0]
                     except IndexError:
                         send_error_manager(request, product=product, error_id=1, )
-                        from django.http import Http404
                         raise Http404
                     break
             else:
-                    try:
-                        current_category = categories_of_product[0]
-                    except IndexError:
-                        send_error_manager(request, product=product, error_id=1, )
-                        from django.http import Http404
-                        raise Http404
-                    else:
-                        request.session[u'current_category'] = current_category.pk
+                try:
+                    current_category = categories_of_product[0]
+                except IndexError:
+                    send_error_manager(request, product=product, error_id=1, )
+                    raise Http404
+                else:
+                    request.session[u'current_category'] = current_category.pk
         else:
             current_category = categories_of_product[0]
             request.session[u'current_category'] = current_category.pk
@@ -206,41 +164,26 @@ def show_product(request,
                       context=locals(),
                       # context_instance=RequestContext(request, ),
                       content_type='text/html', )
-    from proj.settings import SERVER
     if SERVER:
         updated_at = product.updated_at
     else:
-        from datetime import datetime
         updated_at = datetime.now()
-    from apps.utils.datetime2rfc import datetime2rfc
+
     response['Last-Modified'] = datetime2rfc(updated_at, )
     return response
 
 
 def get_product(product_pk, product_url=None, ):
-#        # try to get product from cache
-#        product_cache_key = request.path
-#        from django.core.cache import cache
-#        from proj.settings import CACHE_TIMEOUT
-#        product = cache.get(product_cache_key)
-#        # if a cache miss, fall back on db query
-    from django.http import Http404
     if type(product_pk, ) is unicode:
         try:
             product_pk = int(product_pk, )
         except ValueError:
             raise Http404
-    # product_cache_key = 'product-%.6d' % product_pk
     product_cache_key = 'product-%d' % product_pk
-    from django.core.cache import cache
-    from proj.settings import CACHE_TIMEOUT
     product = cache.get(product_cache_key, )
-    # if a cache miss, fall back on db query
     if not product:
         # fetch the product or return a missing page error
-#            from django.shortcuts import render_to_response, get_object_or_404
 #            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
-        from apps.product.models import Product
         try:
             #if product_url:
             """ Задумываюсь о необходимости проверки URL """
@@ -251,11 +194,8 @@ def get_product(product_pk, product_url=None, ):
             #    product = Product.objects.get(pk=product_pk, )
             product = Product.objects.get(pk=product_pk, )
         except Product.DoesNotExist:
-            # request.session[u'test1-product_pk'] = product_pk
-            # request.session[u'test1-product_url'] = product_url
             raise Http404
         else:
-            # store item in cache for next time
             cache.set(product_cache_key, product, CACHE_TIMEOUT, )
     return product
 
@@ -279,10 +219,8 @@ def add_to_cart(request,
 #        quantity = int(postdata.get('quantity', 1, ), )
     #get cart
     """ Взятие корзины, или создание если её нету """
-    from apps.cart.views import get_cart_or_create
     product_cart, created = get_cart_or_create(request, created=True, )
     # print 'Cart created:', created
-    from apps.cart.models import Product
     try:
         """ Присутсвие конкретного продукта в корзине """
         product_in_cart = product_cart.cart.get(product=product, )
@@ -347,12 +285,9 @@ def get_or_create_Viewed(request,
     if not product and int_product_pk and product_url:
         product = get_product(int_product_pk, product_url, )
 
-    from apps.product.models import Viewed
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
             user_id_ = request.session.get(u'_auth_user_id', None, )
-            # from django.contrib.auth.models import User
-            from django.contrib.auth import get_user_model
             UserModel = get_user_model()
             user_obj = UserModel.objects.get(pk=user_id_, )
     else:
@@ -362,7 +297,6 @@ def get_or_create_Viewed(request,
     if product:
         content_type = product.content_type
         product_pk = product.pk
-        from django.core.exceptions import MultipleObjectsReturned
         try:
             viewed, created = Viewed.objects.get_or_create(content_type=content_type,
                                                            object_id=product_pk,
@@ -376,7 +310,6 @@ def get_or_create_Viewed(request,
             viewed.delete()
         else:
             if not created and viewed is not []:
-                from datetime import datetime
                 viewed.last_viewed = datetime.now()
                 viewed.save()
     else:
@@ -399,28 +332,19 @@ def get_or_create_Viewed(request,
 
 def send_error_manager(requset=None, product=None, error_id=None, ):
     """ Отправка ошибки мэнеджеру """
-    if requset:
-        pass
-    else:
-        pass
     subject = u'В товаре № %d ошибка' % product.pk
-    from django.template.loader import render_to_string
     html_content = render_to_string('error_email/error_email.jinja2.html',
                                     {'product': product, 'error_id': error_id, })
-    from django.utils.html import strip_tags
     text_content = strip_tags(html_content, )
     from_email = u'site@keksik.com.ua'
 #                to_email = u'mamager@keksik.com.ua'
-    from proj.settings import SERVER
     if SERVER:
         to_email = u'manager@keksik.com.ua'
     else:
         to_email = u'alex.starov@keksik.com.ua'
 
-    from django.core.mail import get_connection
     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                              fail_silently=False, )
-    from django.core.mail import EmailMultiAlternatives
     msg = EmailMultiAlternatives(subject=subject,
                                  body=text_content,
                                  from_email=from_email,
@@ -430,4 +354,3 @@ def send_error_manager(requset=None, product=None, error_id=None, ):
                            mimetype="text/html", )
     msg.send(fail_silently=False, )
     return None
-#

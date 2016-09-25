@@ -21,11 +21,8 @@ class Process_Request_Middleware(object):
         if full_path not in skip_url:
 
             logging.info(u'')
-
             logging.info(u'Start executions (START): {0}'.format(time.time()))
-
             logging.info(u'resolve: Process_Request_Middleware')
-
             logging.debug(u'full_path: {0}'.format(full_path))
 
             try:
@@ -64,10 +61,12 @@ class Process_Request_Middleware(object):
                     except Exception as e:
                         logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
 
-                elif full_path.endswith('None'):  # full_path[-4:] == 'None'
+                elif full_path[-4:] == 'None':  # full_path.endswith('None'):
+
                     try:
-                        value = full_path.rstripe('None')
+                        value = full_path[:-4]
                         view, args, kwargs = resolve(value, )
+
                         logging.debug(u"resolve(value, ) after rstrip 'None': view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
 
                         if view == show_product:
@@ -104,7 +103,6 @@ class Process_Request_Middleware(object):
                             logging.error(u"Error resolve(full_path + '/', ): full_path = {0}, Exception = {1}".format(full_path, e))
                         except UnicodeEncodeError:
                             logging.error(u"Error resolve(full_path + '/', ): full_path = {0}".format(full_path))
-
 
                 else:
                     try:
