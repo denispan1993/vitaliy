@@ -27,7 +27,7 @@ CELERY_QUEUES = (
 
 CELERY_ROUTES = {
         'apps.socks.tasks.socks_server_get_from_internet': {
-            'queue': 'queues__socks_server_get',
+            'queue': 'socks_server_get',
             'routing_key': 'socks_server_get',
         },
 }
