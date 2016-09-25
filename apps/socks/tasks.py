@@ -24,7 +24,7 @@ hdr = {
 
 
 @celery_app.task()
-def socks_get_from_internet():
+def socks_server_get_from_internet():
 
     """ <--- Start ---> http://www.socks-proxy.net/ """
 

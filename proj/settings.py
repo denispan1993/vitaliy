@@ -22,7 +22,15 @@ CELERY_QUEUES = (
     Queue('celery', Exchange('celery'), routing_key='celery'),
     Queue('delivery', Exchange('delivery'), routing_key='delivery'),
     Queue('delivery_send', Exchange('delivery_send'), routing_key='delivery_send'),
+    Queue('socks_server_get', Exchange('socks_server_get'), routing_key='socks_server_get'),
 )
+
+CELERY_ROUTES = {
+        'apps.socks.tasks.socks_server_get_from_internet': {
+            'queue': 'queues__socks_server_get',
+            'routing_key': 'socks_server_get',
+        },
+}
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
