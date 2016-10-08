@@ -125,6 +125,7 @@ div.product_block,li.product_block{
     padding:7px;
     position:relative;
     width:214px;
+    margin:5px;
 }
 div.product_block_excerpt{
     height: 30px;

@@ -13,7 +13,7 @@ from email.utils import formataddr
 
 from validate_email import validate_email
 
-from proj.settings import SERVER, Email_MANAGER
+from proj.settings import SERVER
 from apps.product.models import Country
 from apps.cart.models import Product, DeliveryCompany, Cart, Order
 
@@ -243,7 +243,7 @@ def show_order(request,
                             subject=u'Заказ № %d. Кексик.' % order.pk,
                             body=strip_tags(html_content, ),
                             from_email=formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-                            to=[Email_MANAGER, ],
+                            to=[formataddr((u'Email zakaz@ Интернет магаизн Keksik', u'zakaz@keksik.com.ua')), ],
                             connection=backend, )
 
                         msg.attach_alternative(content=html_content,

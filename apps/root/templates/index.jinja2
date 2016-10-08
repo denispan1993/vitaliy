@@ -2,6 +2,12 @@
 {% block title %}{{ get_value_variable('root_page_title', 'char') }}{% endblock %}
 {% block description %}{{ get_value_variable('root_page_description', 'char') }}{% endblock %}
 {% block keywords %}{{ get_value_variable('root_page_keywords', 'char') }}{% endblock %}
+{% block root_page_header_css %}
+<link href="{{ MEDIA_URL }}css/media_screen_adaptive-max-480px.css" media="(max-width:480px)" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/media_screen_adaptive-min-481px-max-768px.css" media="(min-width:481px) and (max-width:768px)" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/media_screen_adaptive-min-769px-max-960px.css" media="(min-width:769px) and (max-width:960px)" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/media_screen_adaptive-min-961px.css" media="(min-width:961px)" rel="stylesheet">
+{% endblock %}
 {% block content_center %}
 <h1 class="center_title">Новинки магазина Кексик</h1>
 <script>function product_to_cart(data, product_pk, available_to_order){

@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">{# <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/base_style.css">
 {% block root_header_css %}{% endblock %}
+{% block root_page_header_css %}{% endblock %}
 {% block header_css %}{% endblock %}
 {% block header_page_css %}{% endblock %}
 {% block category_header_css %}
@@ -16,8 +17,12 @@
 {% endblock %}
 {% block product_header_css %}{% endblock %}
 <script src="{{ MEDIA_URL }}js/jquery/jquery-1.9.1.min.js"></script>
+{% block root_header_js %}{% endblock %}
+{% block header_js %}{% endblock %}
+{% block header_javascript1 %}{% endblock %}
+{% block header_javascript2 %}{% endblock %}
 <script>
-    function cachedScript(url,done_url,options){
+function cachedScript(url,done_url,options){
 options=$.extend(options||{},{dataType:"script",cache:true});
 if(done_url){
     return(
@@ -44,58 +49,6 @@ if(done_url){
     )
 }
 else{return $.ajax($.extend(options||{},{url:url}));}}</script>
-<script>$(function(){cachedScript("{{ MEDIA_URL }}js/animate_cart.js")})</script>{# <script src="{{ MEDIA_URL }}js/animate_cart.js"></script> #}
-{% block root_header_js %}{% endblock %}
-{% block header_js %}{% endblock %}
-{% block header_javascript1 %}{% endblock %}
-{% block header_javascript2 %}{% endblock %}
-{% block ajax %}
-{% if request.session.ajax_geoip %}
-<script>
-$(function(e){
-    $.post("/ajax/geoip/resolve/",{
-            csrfmiddlewaretoken:'{{ csrf_token }}'
-        }
-    );
-});
-</script>
-{% endif %}
-{% if request.session.ajax_timezone %}
-<script>
-$(function(e){
-    var d = new Date();
-    $.post("/ajax/timezone/client/",{
-            offset:d.getTimezoneOffset(),
-            csrfmiddlewaretoken:'{{ csrf_token }}'
-        }
-    );
-});
-</script>
-{% endif %}
-{% if request.session.ajax_resolution %}
-<script>
-$(function(e){
-    var browserWindow = $(window);
-    $.post("/ajax/resolution/",{
-            width:browserWindow.width(),
-            height:browserWindow.height(),
-            csrfmiddlewaretoken:'{{ csrf_token }}'
-        }
-    );
-});
-</script>
-{% endif %}
-{% if request.session.ajax_cookie %}
-<script>
-$(document).ready(function(e){
-    $.post("/ajax/cookie/",{
-            csrfmiddlewaretoken:'{{ csrf_token }}'
-        }
-    );
-});
-</script>
-{% endif %}
-{% endblock %}
 </head>
 <body style='background:url("{{ MEDIA_URL }}img/background2.jpg") repeat fixed center top transparent;'>
 <section id="body">
@@ -351,5 +304,68 @@ $(function(){
 {% block after_footer %}
 {% endblock %}
 </section>
+{# <script> #}{# // Shorthand for $( document ).ready() #}{# $(function(){ #}{# jQuery(window).load(function(){cachedScript("{{ MEDIA_URL }}js/animate_cart.js")})</script> #}{# <script src="{{ MEDIA_URL }}js/animate_cart.js"></script> #}
+<script>
+var Cart = new Object({initialize: function(){},toggle: function(){$('#cart').toggleClass('closed');}});
+
+function addClass_closed(){
+if($(window).width()<481){
+    $('#cart').addClass('closed');
+}}
+
+jQuery(window).load(function(){
+    jQuery(window).on('resize', addClass_closed())
+});
+
+function animate_cart(obj){
+    src = obj.src;
+    left_cart = Math.ceil($(obj).offset().left);
+    top_cart = Math.ceil($(obj).offset().top);
+    $('<img src="'+src+'" id="temp_cart_animate" style="z-index:1000;position:absolute;top:'+top_cart+'px;left:'+left_cart+'px;">').prependTo('body');
+    $('#temp_cart_animate').animate({top:220+$(window).scrollTop(),left:$('body').width()}, 2000,
+        function () {
+            $('#temp_cart_animate').remove();
+        }
+    );
+}</script>
+{% block ajax %}
+{% if request.session.ajax_geoip %}
+<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
+    $.post("/ajax/geoip/resolve/",{
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        }
+    );
+});</script>
+{% endif %}
+{% if request.session.ajax_timezone %}
+<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
+    var d = new Date();
+    $.post("/ajax/timezone/client/",{
+            offset:d.getTimezoneOffset(),
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        }
+    );
+});</script>
+{% endif %}
+{% if request.session.ajax_resolution %}
+<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
+    var browserWindow = $(window);
+    $.post("/ajax/resolution/",{
+            width:browserWindow.width(),
+            height:browserWindow.height(),
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        }
+    );
+});</script>
+{% endif %}
+{% if request.session.ajax_cookie %}
+<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
+    $.post("/ajax/cookie/",{
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+        }
+    );
+});</script>
+{% endif %}
+{% endblock %}
 </body>
 </html>

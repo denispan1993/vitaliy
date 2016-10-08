@@ -37,7 +37,7 @@ try{
 <script src="/media/js/jquery/tabSlider/tabSlideOut.js"></script>
 <script src="/media/js/jquery/tabSlider/LeftInit.js"></script>
 <script src="/media/js/jquery/tabSlider/TopInit.js"></script>
-{# try{jQuery(document).ready(function() {
+{# try{jQuery(document).ready(function(){
         $('.feedback-panel').tabSlideOut({
             tabHandle:'.feedback-tab',                   //class of the element that will be your tab -doesnt have to be an anchor
             pathToTabImage:'/media/img/feedbacktab.gif', //relative path to the image for the tab
@@ -91,7 +91,7 @@ try{
         <a href="/social/login/google-oauth2/">google-oauth2</a>
     </div>
 {% endif %}
-<div id="cart" class="opened">
+<div id="cart"{#  class="opened" #}>
     <div id="currencies_block_top">
         {# <!-- cpt_container_start --> #}
         <form method="POST" action="/Валюта/Изменение/" name="CurrencyChange">
@@ -129,17 +129,17 @@ try{
         </a>
     </div>
     <div id="showcart">{# googleoff:all #}{# <noindex> #}
-            <div id="dynamic_div_showcart">
-                {% if user_cart_ %}
-                    <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
-                    <br>
-                    <b>На сумму:</b> {{ user_cart_.sum_money_of_all_products_integral(request) }} {{ get_currency(request) }} {{ user_cart_.sum_money_of_all_products_fractional(request) }} {{ get_currency(request) }}{# нужно выводить единицу измерения в копейках, центах, и евроцентах #}
-                    <br>
-                {% else %}
-                    <strong>Ваша корзина пуста!!!</strong>
-                {% endif %}
-            </div>
-            <b><a href="/корзина/">Перейти в корзину</a></b>{# </noindex> #}{# googleon:all #}
+        <div id="dynamic_div_showcart">
+            {% if user_cart_ %}
+                <b>Позиций:</b> {{ user_cart_.count_name_of_products }}
+                <br>
+                <b>На сумму:</b> {{ user_cart_.sum_money_of_all_products_integral(request) }} {{ get_currency(request) }} {{ user_cart_.sum_money_of_all_products_fractional(request) }} {{ get_currency(request) }}{# нужно выводить единицу измерения в копейках, центах, и евроцентах #}
+                <br>
+            {% else %}
+                <strong>Ваша корзина пуста!!!</strong>
+            {% endif %}
+        </div>
+        <b><a href="/корзина/">Перейти в корзину</a></b>{# </noindex> #}{# googleon:all #}
     </div>
 </div>
 <div id="static_menu-wrapper">

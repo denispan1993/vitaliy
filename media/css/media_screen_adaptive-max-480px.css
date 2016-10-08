@@ -1,0 +1,28 @@
+section#body header#header{
+    height:250px;
+}
+section#body header#header div#auth{
+    display:none;
+}
+div.ws_shadow{
+    display:none;
+}
+div#card{
+    /*toggleClass('opened');}}); animate_cart.js*/
+    right:-240px!important;
+}
+section#main div#main_left{
+    margin-right:10px;
+}
+section#main div#main_left div#form_slide_left{
+    display:none;
+}
+section#main div#main_left div#products_block_left{
+    display:none;
+}
+section#main div#main_center h1.center_title{
+    font-size:17px;
+    font-weight:bolder;
+    letter-spacing:1px;
+    line-height:19px;
+}

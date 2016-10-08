@@ -5,7 +5,7 @@
  * Time: 19:07
  * To change this template use File | Settings | File Templates.
  */
-var Cart = new Object({initialize: function(){},toggle: function(){$('#cart').toggleClass('opened');}});
+var Cart = new Object({initialize: function(){},toggle: function(){$('#cart').toggleClass('closed');}});
 
 /*function open_cart(obj){
     $(obj).toggleClass('opened');

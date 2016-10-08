@@ -49,31 +49,49 @@ def add_products(products_list):
     for product in products_list:
         product_list = list(product)
 
-        try:
-            Product.objects.get(id_1c=product_list[0].text)
-            continue
-        except Product.DoesNotExist:
-            pass
+#        try:
+#            Product.objects.get(id_1c=product_list[0].text)
+#            continue
+#        except Product.DoesNotExist:
+#            pass
 
         unit_of_measurement_pk = Unit_of_Measurement.objects.\
             filter(name__icontains=product_list[3].text).\
             values_list('pk', flat=True, )[0]
 
-        product = Product.objects.create(
+        # product = Product.objects.create(
+        product = Product(
             id_1c=product_list[0].text,
             is_active=False,
-            title=product_list[2].text,
+            title=unicode(product_list[2].text),
             name=product_list[2].text,
             url=product_list[2].text.replace(' ', '-').lower(),
             unit_of_measurement_id=unit_of_measurement_pk,
             description=product_list[5].text,
         )
+        print product_list[2].text
 
-        product.get_or_create_ItemID(itemid=product_list[1].tag)
+#        product.get_or_create_ItemID(itemid=product_list[1].tag)
 
-        for group in list(product_list[4]):
-            category = search_in_category(id_1c=group.text)
-            product.category.add(category)
+#        for group in list(product_list[4]):
+#            category = search_in_category(id_1c=group.text)
+#            product.category.add(category)
+
+    return None
+
+
+def update_products(products_list):
+
+    for product in products_list:
+        product_list = list(product)
+
+        try:
+            real_product = Product.objects.get(id_1c=product_list[0].text)
+
+            #real_product.
+            print(u'Ид: ', product_list[0].text, ' real_product: ', real_product, ' quantity: ', product_list[5].text, )
+        except Product.DoesNotExist:
+            pass
 
     return None
 
@@ -84,7 +102,10 @@ def enter_the_level(level_list, level=1, parent=None):
 
         if level >= 2 and elem_level.tag == u'Ид' and level_list[elem_level_Indx + 1].tag == u'Наименование':
 
-            parent = search_in_category(name=level_list[elem_level_Indx + 1].text, id_1c=elem_level.text, parent=parent, )
+            parent = search_in_category(
+                name=level_list[elem_level_Indx + 1].text,
+                id_1c=elem_level.text,
+                parent=parent, )
 
         if elem_level.tag == u'Наименование'\
             and elem_level.text == u'Классификатор (Каталог товаров)'\
@@ -100,7 +121,7 @@ def enter_the_level(level_list, level=1, parent=None):
 
         try:
             if elem_level.tag == u'Наименование'\
-                and level_list[elem_level_Indx + 1].tag == u'Группы':
+                    and level_list[elem_level_Indx + 1].tag == u'Группы':
 
                 level += 1
                 enter_the_level(list(level_list[elem_level_Indx + 1]), level=level, parent=parent)
@@ -108,8 +129,8 @@ def enter_the_level(level_list, level=1, parent=None):
             pass
 
         if elem_level.tag == u'Каталог товаров'\
-            and level_list[elem_level_Indx+1].tag == u'Владелец'\
-            and level_list[elem_level_Indx+2].tag == u'Товары':
+                and level_list[elem_level_Indx+1].tag == u'Владелец'\
+                and level_list[elem_level_Indx+2].tag == u'Товары':
 
             level += 1
             enter_the_level(level_list=list(level_list[elem_level_Indx+2]), level=level, )
@@ -152,10 +173,20 @@ class Command(BaseCommand, ):
                         elems_product_level = list(elem_first_level)
 
                         if elems_product_level[0].tag == u'Ид'\
-                            and elems_product_level[1].tag == u'ИдКлассификатора'\
-                            and elems_product_level[2].tag == u'Наименование'\
-                            and elems_product_level[2].text == u'Каталог товаров'\
-                            and elems_product_level[3].tag == u'Владелец'\
-                            and elems_product_level[4].tag == u'Товары':
+                                and elems_product_level[1].tag == u'ИдКлассификатора'\
+                                and elems_product_level[2].tag == u'Наименование'\
+                                and elems_product_level[2].text == u'Каталог товаров'\
+                                and elems_product_level[3].tag == u'Владелец'\
+                                and elems_product_level[4].tag == u'Товары':
 
                             add_products(list(elems_product_level[4]))
+
+            if os.path.isfile(path_and_filename, ) and name == 'offers.xml':
+
+                root = ET.parse(source=path_and_filename).getroot()
+                for elem_first_level in root:
+
+                    if elem_first_level.tag == u'ПакетПредложений':
+                        for elem_second_level in list(elem_first_level):
+                            if elem_second_level.tag == u'Предложения':
+                                update_products(list(elem_second_level))

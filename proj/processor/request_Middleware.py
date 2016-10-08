@@ -35,6 +35,8 @@ class Process_Request_Middleware(object):
                     logging.error(u'Error resolve(full_path, ): Exception = {0}'.format(e))
 
                 if "{{ no such element: apps.slide.models.Slide object['url'] }}" in full_path:
+                    print("{{ no such element: apps.slide.models.Slide object['url'] }}")
+
                     try:
                         value = unicode(full_path.split('{{')[0])
                         view, args, kwargs = resolve(value, )
@@ -103,6 +105,32 @@ class Process_Request_Middleware(object):
                             logging.error(u"Error resolve(full_path + '/', ): full_path = {0}, Exception = {1}".format(full_path, e))
                         except UnicodeEncodeError:
                             logging.error(u"Error resolve(full_path + '/', ): full_path = {0}".format(full_path))
+
+                            full_path += '/'
+                            try:
+                                value = full_path.split('/')[2].encode('cp1252')
+
+                                if value[:2] == 'к':
+                                    model = Category
+                                else:
+                                    model = Product
+
+                                try:
+                                    logging.error(u'value[2:]: {0}'.format(value[2:]))
+                                    object = model.objects.get(pk=value[2:])
+                                    logging.error(u'Object: {0}'.format(object))
+                                except model.DoesNotExist:
+                                    pass
+
+                                logging.error(u'Redirect to new_path: {0}'.format(object.get_absolute_url()))
+
+                                try:
+                                    return redirect(to=object, permanent=True)
+                                except Exception as e:
+                                    logging.error(u'Error redirect to new_path: {0}'.format(e))
+
+                            except Exception as e:
+                                logging.error(u'3Error: request.path = value Exception = {0}'.format(e))
 
                 else:
                     try:
