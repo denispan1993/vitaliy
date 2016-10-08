@@ -1,10 +1,10 @@
 celery==3.1.23
 Django==1.8.15
 django-celery==3.1.17
-django-debug-toolbar==1.4
+django-debug-toolbar==1.6
 django-debug-toolbar-template-timings==0.6.6
 django-guardian==1.4.4
-django-jinja==2.1.2
+django-jinja==2.2.1
 django-mptt==0.8.4
 django-mptt-admin==0.3.6
 django-kombu==0.9.4
@@ -12,7 +12,7 @@ django-paypal==0.3.2
 django-suit==0.2.18
 django-suit-ckeditor==0.0.2
 django-userena==1.4.1
-dnspython==1.12.0
+dnspython==1.15.0
 easy-thumbnails==2.3
 flower==0.9.1
 html2text==2016.4.2
@@ -21,7 +21,7 @@ Markdown==2.6.6
 MarkupSafe==0.23
 MySQL-python==1.2.5
 oauthlib==1.0.3
-Pillow==3.2.0
+Pillow==3.4.1
 PyJWT==1.4.0
 python-memcached==1.57
 python-openid==2.2.5
