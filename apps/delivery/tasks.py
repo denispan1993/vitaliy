@@ -11,9 +11,9 @@ from django.utils.html import strip_tags
 from django.db.models import Q
 
 import email
-from email.utils import formataddr
 from imaplib import IMAP4_SSL
 
+from apps.cart.models import Order
 from apps.authModel.models import Email
 from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail,\
     Message as model_Message
@@ -705,10 +705,12 @@ def socks_server_test(*args, **kwargs):
 @celery_app.task()
 def delivery_order(*args, **kwargs):
 
-    from_email = kwargs.get('from_email')
-    from_email_massage = kwargs.get('from_email_massage')
-    to_email = kwargs.get('to_email', False)
-    to_email_message = kwargs.get('to_email_message', False)
+    order_pk = int(kwargs.get('order_pk'))
+
+    try:
+        order = Order.objects.get(pk=order_pk)
+    except Order.DoesNotExist:
+        return False
 
     """ Отправка заказа мэнеджеру """
     html_content = render_to_string('email_order_content.jinja2.html',
@@ -720,8 +722,8 @@ def delivery_order(*args, **kwargs):
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Кексик.' % order.pk,
         body=strip_tags(html_content, ),
-        from_email=formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-        to=[formataddr((u'Email zakaz@ Интернет магаизн Keksik', u'zakaz@keksik.com.ua')), ],
+        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Email zakaz@ Интернет магаизн Keksik', u'zakaz@keksik.com.ua')), ],
         connection=backend, )
 
     msg.attach_alternative(content=html_content,
@@ -736,7 +738,7 @@ def delivery_order(*args, **kwargs):
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
         body=strip_tags(html_content, ),
-        from_email=formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
+        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
         to=[email, ],
         connection=backend, )
 
