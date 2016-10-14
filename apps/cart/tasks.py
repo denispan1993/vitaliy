@@ -1,0 +1,88 @@
+# -*- coding: utf-8 -*-
+import os
+from proj.celery import celery_app
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail.backends import smtp
+from django.utils.html import strip_tags
+from time import sleep
+
+import email
+
+from apps.cart.models import Order
+
+__author__ = 'AlexStarov'
+
+
+@celery_app.task()
+def delivery_order(*args, **kwargs):
+
+    order_pk = int(kwargs.get('order_pk'))
+
+    try:
+        order = Order.objects.get(pk=order_pk)
+    except Order.DoesNotExist:
+        return False
+
+    """ Отправка заказа мэнеджеру """
+    html_content = render_to_string('email_order_content.jinja2.html',
+                                    {'order': order, })
+
+    backend = smtp.EmailBackend(
+        host='192.168.1.95',
+        port=465,
+        username='delivery@keksik.mk.ua',
+        password='dfvgbh',
+        use_tls=False,
+        fail_silently=False,
+        use_ssl=True,
+        timeout=30,
+        ssl_keyfile=None,
+        ssl_certfile=None,
+        **kwargs)
+
+    msg = EmailMultiAlternatives(
+        subject=u'Заказ № %d. Кексик.' % order.pk,
+        body=strip_tags(html_content, ),
+        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Email zakaz@ Интернет магаизн Keksik', u'zakaz@keksik.com.ua')), ],
+        connection=backend, )
+
+    msg.attach_alternative(content=html_content,
+                           mimetype="text/html", )
+
+    msg.content_subtype = "html"
+    i = 0
+    while True:
+        result = msg.send(fail_silently=False, )
+
+        if (isinstance(result, int) and result == 1) or i > 100:
+            i = 0
+            break
+
+        i += 1
+        sleep(5)
+
+    """ Отправка благодарности клиенту. """
+    html_content = render_to_string('email_successful_content.jinja2.html',
+                                    {'order': order, })
+    msg = EmailMultiAlternatives(
+        subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
+        body=strip_tags(html_content, ),
+        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
+        to=[email, ],
+        connection=backend, )
+
+    msg.attach_alternative(content=html_content,
+                           mimetype="text/html", )
+
+    while True:
+        result = msg.send(fail_silently=False, )
+
+        if (isinstance(result, int) and result == 1) or i > 100:
+            break
+
+        i += 1
+        sleep(5)
+
+    return True

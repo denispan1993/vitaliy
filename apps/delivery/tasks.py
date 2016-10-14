@@ -4,16 +4,12 @@ from proj.celery import celery_app
 from datetime import datetime, timedelta
 from celery.utils.log import get_task_logger
 from time import sleep
-from django.template.loader import render_to_string
-from django.core.mail import get_connection, EmailMultiAlternatives
-from django.utils.html import strip_tags
 
 from django.db.models import Q
 
 import email
 from imaplib import IMAP4_SSL
 
-from apps.cart.models import Order
 from apps.authModel.models import Email
 from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail,\
     Message as model_Message
@@ -700,49 +696,3 @@ def socks_server_test(*args, **kwargs):
         print('pr_serv: ', pr_serv, ' host: ', host, ' port: ', port, ' OK')
 
     return connect
-
-
-@celery_app.task()
-def delivery_order(*args, **kwargs):
-
-    order_pk = int(kwargs.get('order_pk'))
-
-    try:
-        order = Order.objects.get(pk=order_pk)
-    except Order.DoesNotExist:
-        return False
-
-    """ Отправка заказа мэнеджеру """
-    html_content = render_to_string('email_order_content.jinja2.html',
-                                    {'order': order, })
-
-    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                             fail_silently=False, )
-
-    msg = EmailMultiAlternatives(
-        subject=u'Заказ № %d. Кексик.' % order.pk,
-        body=strip_tags(html_content, ),
-        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Email zakaz@ Интернет магаизн Keksik', u'zakaz@keksik.com.ua')), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=html_content,
-                           mimetype="text/html", )
-
-    msg.content_subtype = "html"
-    msg.send(fail_silently=False, )
-
-    """ Отправка благодарности клиенту. """
-    html_content = render_to_string('email_successful_content.jinja2.html',
-                                    {'order': order, })
-    msg = EmailMultiAlternatives(
-        subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
-        body=strip_tags(html_content, ),
-        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-        to=[email, ],
-        connection=backend, )
-
-    msg.attach_alternative(content=html_content,
-                           mimetype="text/html", )
-
-    msg.send(fail_silently=False, )
