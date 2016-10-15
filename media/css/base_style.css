@@ -48,19 +48,19 @@ p#to-top{
     right:30px;
     z-index:999;
 }
-p#to-top a{
+/*p#to-top a{
     width:100px;
     display:block;
     text-align:center;
     font:11px/100% Arial, Helvetica, sans-serif;
     text-transform:uppercase;
     text-decoration:none;
-    color:#ddd;
+    color:#ddd;*/
     /* transition */
-    -webkit-transition:5s;
+/*    -webkit-transition:5s;
     -moz-transition:5s;
     transition:5s;
-}
+}*/
 p#to-top a:hover{
     color:#000;
 }

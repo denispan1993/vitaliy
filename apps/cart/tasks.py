@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
+
 from proj.celery import celery_app
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
@@ -9,7 +9,7 @@ from time import sleep
 
 import email
 
-from apps.cart.models import Order
+from .models import Order
 
 __author__ = 'AlexStarov'
 
@@ -25,7 +25,7 @@ def delivery_order(*args, **kwargs):
         return False
 
     """ Отправка заказа мэнеджеру """
-    html_content = render_to_string('email_order_content.jinja2.html',
+    html_content = render_to_string('email_order_content.jinja2',
                                     {'order': order, })
 
     backend = smtp.EmailBackend(
@@ -44,8 +44,8 @@ def delivery_order(*args, **kwargs):
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Кексик.' % order.pk,
         body=strip_tags(html_content, ),
-        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Email zakaz@ Интернет магаизн Keksik', u'zakaz@keksik.com.ua')), ],
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Email zakaz@ Интернет магазин Keksik', u'zakaz@keksik.com.ua')), ],
         connection=backend, )
 
     msg.attach_alternative(content=html_content,
@@ -60,17 +60,18 @@ def delivery_order(*args, **kwargs):
             i = 0
             break
 
+        print('cart.tasks.delivery_order.admin(i): ', i, ' result: ', result, )
         i += 1
         sleep(5)
 
     """ Отправка благодарности клиенту. """
-    html_content = render_to_string('email_successful_content.jinja2.html',
+    html_content = render_to_string('email_successful_content.jinja2',
                                     {'order': order, })
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
         body=strip_tags(html_content, ),
         from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-        to=[email, ],
+        to=[email.utils.formataddr((order.FIO, order.email)), ],
         connection=backend, )
 
     msg.attach_alternative(content=html_content,
@@ -82,7 +83,25 @@ def delivery_order(*args, **kwargs):
         if (isinstance(result, int) and result == 1) or i > 100:
             break
 
+        print('cart.tasks.delivery_order.user(i): ', i, ' result: ', result, )
         i += 1
         sleep(5)
 
     return True
+
+
+def aaa():
+    """ YowSup2 - Gateway """
+
+    from yowsup_gateway import YowsupGateway
+
+    gateway = YowsupGateway(credentials=("380664761290", "rw/XJQWbcCDpcDjpZ7BL8RItdQo="))
+
+    result = gateway.send_messages([("380952886976", "Номер Вашего заказа %d\nВаш магазин Кексик." % order.pk)])
+    if result.is_success:
+        print result.inbox, result.outbox
+
+    # Receive messages
+    result = gateway.receive_messages()
+    if result.is_sucess:
+        print result.inbox, result.outbox

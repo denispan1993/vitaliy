@@ -14,9 +14,9 @@
 <p>Адресс: {{ order.address }}</p>
 <p>Почтовый индекс: {{ order.postcode }}</p>
 {% endif %}
-<p>Комментарий к заказу: {{ order.comment }}</p>
 <p>Жду реквизиты: {{ order.checkbox1|true_false }}</p>
-<p>Жду звонка: {{ order.checkbox2|true_false }}</p>
+<p>Жду звонка: <span style="color:{% if order.checkbox2 %}Red{% else %}Blue{% endif %}">{{ order.checkbox2|true_false }}</span></p>
+<p>Комментарий к заказу: {{ order.comment }}</p>
 <p>Дата и время созания заказа: {{ order.created_at|date("d-M-Y H:i:s") }}</p>
 <p>Дата и время обновления заказа: {{ order.updated_at|date("d-M-Y H:i:s") }}</p>
 
@@ -30,7 +30,6 @@
            {% endif %}
        {% endfor %}
    {% endif %}</p> #}
-
 
 <table id="table_carts" cols="6" summary="Корзина">
     <caption>Корзина</caption>

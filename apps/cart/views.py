@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response, render, redirect
-from django.template import RequestContext, Context
-from django.template.loader import render_to_string
+from django.template import RequestContext
 from django.forms import EmailField
-from django.core.mail import get_connection, EmailMultiAlternatives
 from django.core.exceptions import ValidationError
 from django.http import Http404
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.utils.html import strip_tags
-from email.utils import formataddr
 
 from validate_email import validate_email
+import celery
 
 from proj.settings import SERVER
 from apps.product.models import Country
-from apps.cart.models import Product, DeliveryCompany, Cart, Order
+from .models import Product, DeliveryCompany, Cart, Order
+from .tasks import delivery_order
 
 __author__ = 'AlexStarov'
 
@@ -232,41 +230,11 @@ def show_order(request,
                         """ Удаляем старую корзину """
                         cart.delete()
 
-                        """ Отправка заказа мэнеджеру """
-                        html_content = render_to_string('email_order_content.jinja2.html',
-                                                        {'order': order, })
-
-                        backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                                                 fail_silently=False, )
-
-                        msg = EmailMultiAlternatives(
-                            subject=u'Заказ № %d. Кексик.' % order.pk,
-                            body=strip_tags(html_content, ),
-                            from_email=formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-                            to=[formataddr((u'Email zakaz@ Интернет магаизн Keksik', u'zakaz@keksik.com.ua')), ],
-                            connection=backend, )
-
-                        msg.attach_alternative(content=html_content,
-                                               mimetype="text/html", )
-
-                        msg.content_subtype = "html"
-                        msg.send(fail_silently=False, )
-
-                        """ Отправка благодарности клиенту. """
-                        html_content = render_to_string('email_successful_content.jinja2.html',
-                                                        {'order': order, })
-                        msg = EmailMultiAlternatives(
-                            subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
-                            body=strip_tags(html_content, ),
-                            from_email=formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
-                            to=[email, ],
-                            connection=backend, )
-
-                        msg.attach_alternative(content=html_content,
-                                               mimetype="text/html", )
-
-                        msg.send(fail_silently=False, )
-
+                        delivery = delivery_order.apply_async(
+                            queue='delivery_send',
+                            kwargs={'order_pk': order.pk, },
+                            task_id='celery-task-id-{0}'.format(celery.utils.uuid(), ),
+                        )
                         request.session[u'order_last'] = order.pk
                         return redirect(to=u'/корзина/заказ/принят/', )
 

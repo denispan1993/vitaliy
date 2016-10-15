@@ -1,17 +1,26 @@
 # -*- coding: utf-8 -*-
-__author__ = 'user'
+from django.shortcuts import render, redirect
+from django.core.mail import get_connection, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.contrib.contenttypes.models import ContentType
+from django.http import Http404
+import celery
 
-from django.shortcuts import render
-from django.template import RequestContext
-from django.shortcuts import redirect
+from proj.settings import SERVER
+from apps.product.models import Country
+from .tasks import delivery_order
+from .models import Order, Product, DeliveryCompany
+from .views import get_cart_or_create
+
+__author__ = 'AlexStarov'
+
 
 def ordering_step_one(request,
                       template_name=u'order/step_one.jinja2', ):
-    from apps.product.models import Country
     try:
         country_list = Country.objects.all()
     except Country.DoesNotExist:
-        from django.http import Http404
         raise Http404
     FIO = request.session.get(u'FIO', None, )
     email = request.session.get(u'email', None, )
@@ -21,11 +30,9 @@ def ordering_step_one(request,
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'order_cart':
             """ Взять корзину """
-            from apps.cart.views import get_cart_or_create
             product_cart, create = get_cart_or_create(request, )
             if create:
                 return redirect(to=u'/заказ/вы-где-то-оступились/', )
-            from apps.cart.models import Product
             try:
                 """ Выборка всех продуктов из корзины """
                 products_in_cart = product_cart.cart.all()
@@ -74,17 +81,14 @@ def ordering_step_two(request,
         request.session[u'phone'] = phone.strip()
     region, settlement, address, postcode = False, False, False, False
     country = request.POST.get(u'select_country', None, )
-    from apps.product.models import Country
     try:
         country_list = Country.objects.all()
     except Country.DoesNotExist:
-        from django.http import Http404
         raise Http404
     else:
         try:
             select_country = int(country, )
         except (ValueError, TypeError):
-            from django.http import Http404
             raise Http404
         else:
             country = country_list.get(pk=select_country, )
@@ -104,8 +108,6 @@ def ordering_step_two(request,
             """ Здесь как-то нужно проверить email """
             if email:
                 email = email.strip()
-                from proj.settings import SERVER
-                from validate_email import validate_email
                 if SERVER or not SERVER:
                     # if validate_email(email, check_mx=True, ):
                     #    """ Если проверка на существование сервера прошла...
@@ -198,11 +200,9 @@ def ordering_step_two(request,
     else:
         return redirect(to=u'/заказ/вы-где-то-оступились/', )
 
-    from apps.cart.models import DeliveryCompany
     try:
         delivery_companies_list = DeliveryCompany.objects.all()
     except Country.DoesNotExist:
-        from django.http import Http404
         raise Http404
 
     return render(request=request,
@@ -236,7 +236,6 @@ def result_ordering(request, ):
             except ValueError:
                 return redirect(to=u'/заказ/вы-где-то-оступились/', )
 
-            from apps.cart.models import Order
             try:
                 order = Order.objects.get(pk=order_pk, )
             except Order.DoesNotExist:
@@ -280,11 +279,9 @@ def result_ordering(request, ):
             comment = request.POST.get(u'comment', None, )
             order.comment = comment
             order.save()
-            from apps.cart.views import get_cart_or_create
             cart, create = get_cart_or_create(request, )
             if create:
                 return redirect(to=u'/заказ/вы-где-то-оступились/', )
-            from apps.cart.models import Product
             try:
                 """ Выборка всех продуктов из корзины """
                 all_products = cart.cart.all()
@@ -293,56 +290,18 @@ def result_ordering(request, ):
                 return redirect(to='show_cart', )
             else:
                 """ Берем указатель на model заказ """
-                from django.contrib.contenttypes.models import ContentType
                 ContentType_Order = ContentType.objects.get_for_model(Order, )
                 """ Перемещение всех продуктов из корзины в заказ """
                 """ Просто меняем 2-а поля назначения у всех продуктов в этой корзине """
                 all_products.update(content_type=ContentType_Order, object_id=order.pk, )
                 """ Удаляем старую корзину """
                 cart.delete()
-                """ Отправка заказа мэнеджеру """
-                subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
-                from django.template.loader import render_to_string
-                html_content = render_to_string('email_order_content.jinja2',
-                                                {'order': order, })
-                from django.utils.html import strip_tags
-                text_content = strip_tags(html_content, )
-                from_email = u'site@keksik.com.ua'
-#                to_email = u'mamager@keksik.com.ua'
-#                from proj.settings import SERVER
-#                if SERVER:
-#                    to_email = u'manager@keksik.com.ua'
-#                else:
-#                    to_email = u'alex.starov@keksik.com.ua'
 
-                from django.core.mail import get_connection
-                backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                                         fail_silently=False, )
-                from django.core.mail import EmailMultiAlternatives
-                from proj.settings import Email_MANAGER
-                msg = EmailMultiAlternatives(subject=subject,
-                                             body=text_content,
-                                             from_email=from_email,
-                                             to=[Email_MANAGER, ],
-                                             connection=backend, )
-                msg.attach_alternative(content=html_content,
-                                       mimetype="text/html", )
-                msg.send(fail_silently=False, )
-                """ Отправка благодарности клиенту. """
-                subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
-                html_content = render_to_string('email_successful_content.html',
-                                                {'order': order, }, )
-                text_content = strip_tags(html_content, )
-                from_email = u'site@keksik.com.ua'
-                to_email = email
-                msg = EmailMultiAlternatives(subject=subject,
-                                             body=text_content,
-                                             from_email=from_email,
-                                             to=[to_email, ],
-                                             connection=backend, )
-                msg.attach_alternative(content=html_content,
-                                       mimetype="text/html", )
-                msg.send(fail_silently=False, )
+                delivery = delivery_order.apply_async(
+                    queue='delivery_send',
+                    kwargs={'order_pk': order.pk, },
+                    task_id='celery-task-id-{0}'.format(celery.utils.uuid(), ),
+                )
 
                 request.session[u'order_pk_last'] = order.pk
 
@@ -382,3 +341,44 @@ def order_unsuccessful(request,
     return render(request=request,
                   template_name=template_name,
                   content_type='text/html', )
+
+
+def aaa():
+    """ Отправка заказа мэнеджеру """
+    subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
+    html_content = render_to_string('email_order_content.jinja2',
+                                    {'order': order, })
+    text_content = strip_tags(html_content, )
+    from_email = u'site@keksik.com.ua'
+    #                to_email = u'mamager@keksik.com.ua'
+    #                from proj.settings import SERVER
+    #                if SERVER:
+    #                    to_email = u'manager@keksik.com.ua'
+    #                else:
+    #                    to_email = u'alex.starov@keksik.com.ua'
+
+    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                             fail_silently=False, )
+    msg = EmailMultiAlternatives(subject=subject,
+                                 body=text_content,
+                                 from_email=from_email,
+                                 to=['zakaz@keksik.com.ua', ],
+                                 connection=backend, )
+    msg.attach_alternative(content=html_content,
+                           mimetype="text/html", )
+    msg.send(fail_silently=False, )
+    """ Отправка благодарности клиенту. """
+    subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
+    html_content = render_to_string('email_successful_content.jinja2',
+                                    {'order': order, }, )
+    text_content = strip_tags(html_content, )
+    from_email = u'site@keksik.com.ua'
+    to_email = email
+    msg = EmailMultiAlternatives(subject=subject,
+                                 body=text_content,
+                                 from_email=from_email,
+                                 to=[to_email, ],
+                                 connection=backend, )
+    msg.attach_alternative(content=html_content,
+                           mimetype="text/html", )
+    msg.send(fail_silently=False, )

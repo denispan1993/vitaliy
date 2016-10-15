@@ -4,6 +4,8 @@ from proj.celery import celery_app
 from datetime import datetime, timedelta
 from celery.utils.log import get_task_logger
 from time import sleep
+from celery.utils import uuid
+from celery.result import AsyncResult
 
 from django.db.models import Q
 
@@ -167,10 +169,6 @@ def processing_delivery_test(*args, **kwargs):
         return False
 
     return True, datetime.now(), '__name__: {0}'.format(str(__name__))
-
-
-from celery.utils import uuid
-from celery.result import AsyncResult
 
 
 @celery_app.task()

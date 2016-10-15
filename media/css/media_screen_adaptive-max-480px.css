@@ -26,3 +26,14 @@ section#main div#main_center h1.center_title{
     letter-spacing:1px;
     line-height:19px;
 }
+section#body p#to-top a span{
+    border-radius: 20px;
+    display: block;
+    height: 100px;
+    margin-bottom: 7px;
+    transition: all 2s ease 0s;
+    width: 100px;
+}
+section#body p#to-top a span span{
+    background: #aaa url("/media/img/arrow_to_top.png") no-repeat scroll center center;
+}
