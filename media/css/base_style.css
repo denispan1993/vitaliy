@@ -168,3 +168,63 @@ div#feedback-panel{
     text-indent:0;
     position:static;
 }
+@media (max-width:480px){
+    section#body header#header{
+        height:250px;
+    }
+    section#body header#header div#auth{
+        display:none;
+    }
+    section#body header#header div#static_menu{
+        display:none;
+    }
+    div.ws_shadow{
+        display:none;
+    }
+    div#card{
+        /*toggleClass('opened');}}); animate_cart.js*/
+        right:-240px!important;
+    }
+    section#main div#main_left{
+        margin-right:10px;
+    }
+    section#main div#main_left div#form_slide_left{
+        display:none;
+    }
+    section#main div#main_left div#products_block_left{
+        display:none;
+    }
+    section#main div#main_center{
+        width:240px !important;
+        border:1px solid #fff6c9;
+    }
+    section#main div#main_center h1.center_title{
+        font-size:17px;
+        font-weight:bolder;
+        letter-spacing:1px;
+        line-height:19px;
+    }
+    section#body div#feedback-panel{
+        display:none;
+    }
+    section#body p#to-top a span{
+        border-radius: 20px;
+        display: block;
+        height: 100px;
+        margin-bottom: 7px;
+        transition: all 2s ease 0s;
+        width: 100px;
+    }
+    section#body p#to-top{
+        display:none !important;
+    }
+    section#body p#to-top a span span{
+        background: #aaa url("/media/img/arrow_to_top.png") no-repeat scroll center center;
+    }
+    section#body div#clb-phone_div{
+        display:none !important;
+    }
+}
+/*<link href="{{ MEDIA_URL }}css/media_screen_adaptive-min-481px-max-768px.css" media="(min-width:481px) and (max-width:768px)" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/media_screen_adaptive-min-769px-max-960px.css" media="(min-width:769px) and (max-width:960px)" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/media_screen_adaptive-min-961px.css" media="(min-width:961px)" rel="stylesheet">*/

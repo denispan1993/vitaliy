@@ -25,6 +25,8 @@ section#main div#main_center h1.center_title{
     font-weight:bolder;
     letter-spacing:1px;
     line-height:19px;
+    width:240px !important;
+    border:1px solid #fff6c9;
 }
 section#body p#to-top a span{
     border-radius: 20px;
@@ -36,4 +38,7 @@ section#body p#to-top a span{
 }
 section#body p#to-top a span span{
     background: #aaa url("/media/img/arrow_to_top.png") no-repeat scroll center center;
+}
+section#body div#clb-phone_div{
+    display:none !important;
 }
