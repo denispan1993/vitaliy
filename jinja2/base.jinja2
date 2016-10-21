@@ -50,7 +50,7 @@ if(done_url){
 }
 else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 </head>
-<body style='background:url("{{ MEDIA_URL }}img/background2.jpg") repeat fixed center top transparent;'>
+<body>
 {% if user.is_authenticated and user.is_staff %}
 <ul class="navigation">
     <li class="nav-item"><a href="#">Home</a></li>
@@ -61,7 +61,73 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 </ul>
 <input type="checkbox" id="nav-trigger" class="nav-trigger" />
 <label for="nav-trigger"></label>
+{# <button class="cmn-toggle-switch cmn-toggle-switch__rot">
+<span></span>
+</button> #}
 <style>
+label[for="nav-trigger"]{
+  display:block;
+  position:fixed;
+  /*overflow: hidden;
+  margin: 0;
+  padding: 0;*/
+  width:60px;
+  height:50px;
+  /*font-size: 0;*/
+  text-indent:-9999px;
+  /*-webkit-appearance: none;*/
+  /*-moz-appearance: none;*/
+  /*appearance: none;
+  box-shadow: none;
+  border-radius:15px;
+  border: thin solid;
+  background: red none repeat scroll 0 0;
+  opacity:0.5;*/
+  cursor:pointer;
+  -webkit-transition:background 0.3s;
+          transition:background 0.3s;
+  z-index:2;
+  left:10px;
+  top:10px;
+}
+
+label[for="nav-trigger"]:focus{
+  outline: none;
+}
+
+
+label[for="nav-trigger"]{
+  display: block;
+  position: absolute;
+  top:20px;
+  left:10px;
+  right:10px;
+  height:6px;
+  background: white;
+  background-color: #0000ff;
+}
+
+label[for="nav-trigger"]::before,
+label[for="nav-trigger"]::after{
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-color: #0000ff;
+  content: "";
+}
+
+label[for="nav-trigger"]::before {
+  top:-14px;
+}
+
+label[for="nav-trigger"]::after {
+  bottom:-14px;
+}
+
+
+
 .navigation{
   /* critical sizing and position styles */
   width: 100%;
@@ -109,17 +175,17 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
   clip: rect(0, 0, 0, 0);
 }
 
-label[for="nav-trigger"] {
+label[for="nav-trigger"]{
   /* critical positioning styles */
   position: fixed;
   left: 15px; top: 15px;
   z-index: 2;
 
   /* non-critical apperance styles */
-  height: 30px;
+  height:6px;
   width: 30px;
   cursor: pointer;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
+  /*background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");*/
   background-size: contain;
 }
 
@@ -142,7 +208,7 @@ label[for="nav-trigger"] {
   /* Critical position and size styles */
   min-height: 100%;
   min-width: 100%;
-  background-color: white; /* Needs a background or else the nav will show through */
+/*  background-color: white;*/ /* Needs a background or else the nav will show through */
   position: relative;
   top: 0;
   bottom: 100%;
@@ -151,13 +217,13 @@ label[for="nav-trigger"] {
 
   /* non-critical apperance styles */
   /*padding: 4em;*/
-  background-image: linear-gradient(135deg, rgb(254,255,255) 0%,rgb(221,241,249) 35%,rgb(160,216,239) 100%);
-  background-size: 200%;
+/*  background-image: linear-gradient(135deg, rgb(254,255,255) 0%,rgb(221,241,249) 35%,rgb(160,216,239) 100%);*/
+/*  background-size: 200%;*/
 }
 </style>
 {% endif %}
 
-<section id="body" class="site-wrap">
+<section id="body" class="site-wrap" style='background:url("{{ MEDIA_URL }}img/background2.jpg") repeat fixed center top transparent;'>
 <header id="header">
 {% block header %}
 {% endblock %}
@@ -168,7 +234,7 @@ label[for="nav-trigger"] {
 {% endblock %}
 {% endblock %}
 </section>
-<div id="feedback-panel" style="left:-425px;">
+<div id="feedback-panel" style="left:-425px;height:445px;">
     <a class="feedback-tab" href="http://www.keksik.com.ua/"></a>
     <div id="feedback-banner_h1" class="feedback_banner-h1">У Вас есть замечания или пожелания по работе сайта, напишите нам.</div>
     <div class="feedback_banner-form-row">

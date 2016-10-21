@@ -6,6 +6,15 @@ header#header{
     overflow:hidden;
     position:relative;
 }
+body ul.navigation{
+    display:none;
+}
+body input#nav-trigger{
+    display:none;
+}
+body label[for='nav-trigger']{
+    display:none;
+}
 section#body{
     margin:0 auto;
     height:auto;
@@ -169,6 +178,12 @@ div#feedback-panel{
     position:static;
 }
 @media (max-width:480px){
+    body ul.navigation{
+        display:block !important;
+    }
+    body label[for="nav-trigger"]{
+        display:block !important;
+    }
     section#body header#header{
         height:250px;
     }
@@ -204,8 +219,17 @@ div#feedback-panel{
         letter-spacing:1px;
         line-height:19px;
     }
+    section#main div#main_right{
+        display:none !important;
+    }
     section#body div#feedback-panel{
-        display:none;
+        display:none !important;
+    }
+    section#body div#clb-phone_div{
+        display:none !important;
+    }
+    section#body p#to-top{
+        display:none !important;
     }
     section#body p#to-top a span{
         border-radius: 20px;
@@ -215,14 +239,8 @@ div#feedback-panel{
         transition: all 2s ease 0s;
         width: 100px;
     }
-    section#body p#to-top{
-        display:none !important;
-    }
     section#body p#to-top a span span{
         background: #aaa url("/media/img/arrow_to_top.png") no-repeat scroll center center;
-    }
-    section#body div#clb-phone_div{
-        display:none !important;
     }
 }
 /*<link href="{{ MEDIA_URL }}css/media_screen_adaptive-min-481px-max-768px.css" media="(min-width:481px) and (max-width:768px)" rel="stylesheet">
