@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# /apps/cart/views.py
 from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
 from django.forms import EmailField

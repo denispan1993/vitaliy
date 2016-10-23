@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
+from datetime import datetime
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -64,7 +64,7 @@ class Slide(models.Model):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
+    parent = GenericForeignKey('content_type', 'object_id', )
 
     title = models.CharField(verbose_name=u'title слайда',
                              max_length=255,

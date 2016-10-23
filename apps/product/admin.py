@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
-
+# /apps/product/admin.py
 from apps.product.models import Manufacturer
 from django.contrib import admin
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.admin import GenericStackedInline
+from django.db.models import Q
+from django import forms
+from suit_ckeditor.widgets import CKEditorWidget
+from suit.widgets import AutosizedTextarea
 
 from mptt.admin import MPTTModelAdmin
 
-from .models import Category, Photo, ItemID, IntermediateModelManufacturer, Information, Additional_Information
+from .models import Category, Product, Photo, ItemID, IntermediateModelManufacturer,\
+    Information, Additional_Information, Discount, Unit_of_Measurement,\
+    Country, View, Viewed, InformationForPrice, Currency, City, Region,\
+    AdditionalInformationForPrice, ExtendedPrice, InformationForPrice
 
 admin.site.register(Photo, admin.ModelAdmin, )
 
@@ -15,7 +22,7 @@ admin.site.register(Photo, admin.ModelAdmin, )
 __author__ = 'AlexStarov'
 
 
-class genericStackedPhotoInLine(generic.GenericStackedInline, ):
+class genericStackedPhotoInLine(GenericStackedInline, ):
     model = Photo
     extra = 1
 
@@ -75,7 +82,7 @@ class ItemIDAdmin(admin.ModelAdmin, ):
 admin.site.register(ItemID, ItemIDAdmin, )
 
 
-class genericStackedItemIDInLine(generic.GenericStackedInline, ):
+class genericStackedItemIDInLine(GenericStackedInline, ):
     model = ItemID
     extra = 1
     max_num = 1
@@ -85,7 +92,7 @@ class genericStackedItemIDInLine(generic.GenericStackedInline, ):
         # pass
 
 
-class genericStacked_IntermediateModelManufacturer_InLine(generic.GenericStackedInline, ):
+class genericStacked_IntermediateModelManufacturer_InLine(GenericStackedInline, ):
     model = IntermediateModelManufacturer
     extra = 1
     max_num = 1
@@ -96,7 +103,7 @@ class ManufacturerAdmin(admin.ModelAdmin, ):
 admin.site.register(Manufacturer, ManufacturerAdmin, )
 
 
-class genericPhotoInLineforInformation(generic.GenericStackedInline, ):
+class genericPhotoInLineforInformation(GenericStackedInline, ):
     model = Photo
     extra = 1
     max_num = 1
@@ -127,8 +134,6 @@ class admin_Additional_Information_InLine(admin.StackedInline, ):
 #        NestedStacked_Information_InLine,
 #    ]
 
-from apps.product.models import Discount
-
 
 class Tabular_Discount_InLine(admin.TabularInline, ):
     model = Discount
@@ -154,17 +159,12 @@ class Tabular_Discount_InLine(admin.TabularInline, ):
 #class Tabular_AdditionalInformationAndInformationForPrice_InLine(admin.TabularInline, ):
 #    model = AdditionalInformationAndInformationForPrice
 
-from apps.product.models import AdditionalInformationForPrice
-
 
 class Tabular_AdditionalInformationForPrice_InLine(admin.TabularInline, ):
     model = AdditionalInformationForPrice
 #    inlines = (Tabular_AdditionalInformationAndInformationForPrice_InLine, )
     filter_horizontal = ('information', )
     extra = 3
-
-# from django import forms
-from apps.product.models import ExtendedPrice
 
 
 # class ExtendedPriceForm(forms.ModelForm):
@@ -203,8 +203,6 @@ class Tabular_ExtendedPrice_InLine(admin.TabularInline, ):
 #                    from django.db.models import Q
 #                    kwargs["queryset"] =\
 #                        InformationForPrice.objects.filter(Q(product=product, ) | Q(product__isnull=True, ), )
-            from apps.product.models import InformationForPrice
-            from django.db.models import Q
             kwargs["queryset"] =\
                 InformationForPrice.objects.filter(Q(product=self.obj, ) | Q(product__isnull=True, ), )
         return super(Tabular_ExtendedPrice_InLine, self).formfield_for_manytomany(db_field, request, **kwargs)
@@ -227,19 +225,11 @@ class Tabular_ExtendedPrice_InLine(admin.TabularInline, ):
     #         return qs
     #     return qs.filter(author=request.user)
 
-from apps.product.models import Product
-
-
-from django import forms
-
 
 class ProductAdminForm(forms.ModelForm):
 
     class Meta:
         models = Product
-        from django.forms import widgets
-        from suit_ckeditor.widgets import CKEditorWidget
-        from suit.widgets import AutosizedTextarea
         widgets = {# 'name': widgets.TextInput(attrs={'size': 63, }, ),
                    # 'title': widgets.TextInput(attrs={'size': 63, }, ),
                    'name': AutosizedTextarea(attrs={'class': 'input-xxlarge', }, ),  # 'class': 'input-xlarge', 'style': 'with:500px;',
@@ -307,11 +297,6 @@ class ProductAdmin(admin.ModelAdmin, ):
         js = ('/media/js/admin/ruslug-urlify.js', )
 
 
-from apps.product.models import Unit_of_Measurement
-
-from apps.product.models import Country
-
-
 class CountryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name_ru', 'name_en', 'phone_code', 'url', ]
     list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
@@ -327,8 +312,6 @@ class CountryAdmin(admin.ModelAdmin, ):
         js = ('/media/js/admin/ruslug-urlify.js', )
 
 admin.site.register(Country, CountryAdmin, )
-
-from apps.product.models import Region
 
 
 class RegionAdmin(admin.ModelAdmin, ):
@@ -348,8 +331,6 @@ class RegionAdmin(admin.ModelAdmin, ):
         js = ('/media/js/admin/ruslug-urlify.js', )
 
 admin.site.register(Region, RegionAdmin, )
-
-from apps.product.models import City
 
 
 class CityAdmin(admin.ModelAdmin, ):
@@ -371,8 +352,6 @@ class CityAdmin(admin.ModelAdmin, ):
 
 admin.site.register(City, CityAdmin, )
 
-from apps.product.models import Currency
-
 
 class CurrenceAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'country', 'name_ru', 'name_truncated', 'name_en', ]
@@ -391,13 +370,10 @@ admin.site.register(Information, admin.ModelAdmin, )
 admin.site.register(Unit_of_Measurement, admin.ModelAdmin, )
 admin.site.register(Discount, admin.ModelAdmin, )
 
-from apps.product.models import View
 admin.site.register(View, admin.ModelAdmin, )
-from apps.product.models import Viewed
 admin.site.register(Viewed, admin.ModelAdmin, )
 #from apps.product.models import ExtendedPrice
 #admin.site.register(ExtendedPrice, admin.ModelAdmin, )
-from apps.product.models import InformationForPrice
 
 
 class InformationForPriceAdmin(admin.ModelAdmin, ):

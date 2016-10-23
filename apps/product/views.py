@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+# /apps/product/views.py
 from datetime import datetime
 from django.template import RequestContext
 from django.template.loader import get_template, render_to_string
@@ -45,18 +45,10 @@ def show_category(request,
 
     try:
         current_category = Category.objects.get(pk=id, url=category_url, )
-    except Category.DoesNotExist:
-        current_category = None
-        categories_at_current_category_ = None
-        current_products_ = None
-        raise Http404
-    else:
         request.session[u'current_category'] = current_category.pk
-        #categories_at_current_category_ = current_category.children.all()
-        #try:
-        #    current_products_ = current_category.products.all()
-        #except Product.DoesNotExist:
-        #    current_products_ = None
+
+    except Category.DoesNotExist:
+        raise Http404
 
 
 #    context_instance = RequestContext(request, )

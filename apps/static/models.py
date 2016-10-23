@@ -1,6 +1,9 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from compat.FormSlug.models import ModelSlugField
+
+__author__ = 'AlexStarov'
 
 # Create your models here.
 
@@ -13,8 +16,7 @@ class Static(models.Model):
                                              blank=True,
                                              null=True,
                                              help_text=u'Цифры от 1 до 99', )
-    from compat.FormSlug import models as class_FormSlugField
-    url = class_FormSlugField.ModelSlugField()
+    url = ModelSlugField()
     title = models.CharField(verbose_name=u'Заголовок страницы',
                              max_length=255,
                              null=False,
@@ -22,9 +24,11 @@ class Static(models.Model):
     text = models.TextField(verbose_name=u'Текст страницы',
                             null=True,
                             blank=True, )
+
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )
+
     #Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'META заголовок страницы',
                                   max_length=190,

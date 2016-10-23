@@ -1,10 +1,14 @@
 # coding=utf-8
+# /apps/cart/models.py
 from django.db import models, OperationalError
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+
 from proj import settings
 
-from apps.product.models import Country
+from apps.product.models import Country, Product as real_Product
+
+__author__ = 'AlexStarov'
 
 
 class Cart(models.Model):
@@ -26,9 +30,10 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     # Вспомогательные поля
-    cart = generic.GenericRelation('Product',
-                                   content_type_field='content_type',
-                                   object_id_field='object_id', )
+    cart = GenericRelation(
+        to='Product',
+        content_type_field='content_type',
+        object_id_field='object_id', )
 
     @property
     def products(self, ):
@@ -150,9 +155,10 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     # Вспомогательные поля
-    order = generic.GenericRelation('Product',
-                                    content_type_field='content_type',
-                                    object_id_field='object_id', )
+    order = GenericRelation(
+        to='Product',
+        content_type_field='content_type',
+        object_id_field='object_id', )
 
     @property
     def name(self, ):
@@ -167,10 +173,9 @@ class Order(models.Model):
                     obj_product=None,
                     quantity=None, ):
         if not obj_product:
-            from apps.product.models import Product as real_Product
             try:
                 obj_product = real_Product.objects.get(pk=int_product_pk, )
-            except Product.DoesNotExist:
+            except real_Product.DoesNotExist:
                 return self, False
         try:
             """ Присутсвие конкретного продукта в корзине """
@@ -229,8 +234,7 @@ class Product(models.Model):
                                      null=False, )
     object_id = models.PositiveIntegerField(db_index=True, )
 
-    from django.contrib.contenttypes import generic
-    key = generic.GenericForeignKey('content_type', 'object_id', )
+    key = GenericForeignKey('content_type', 'object_id', )
 
     from apps.product import models as models_product
     product = models.ForeignKey(models_product.Product,

@@ -235,10 +235,7 @@ try{
     <div id="static_menu">
         <ul>
             {% for static_page in static_pages_ %}
-                <li>
-                    {% set static_path = '/' + static_page.url + '/' %}
-                    <a href="{{ static_path }}">{{ static_page.title }}</a>
-                </li>
+                <li><a href="{{ static_page.get_absolute_url() }}">{{ static_page.title }}</a></li>
             {% endfor %}
         </ul>
     </div>

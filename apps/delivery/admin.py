@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+
 from django.contrib import admin
 
 from apps.utils.mediafile.models import MediaFile
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.admin import GenericStackedInline
 from django.utils.translation import ugettext_lazy as _
 
-from .models import MailServer, MailAccount, Email_Img, Delivery, Subject, Body, EmailMiddleDelivery,\
-    EmailForDelivery, SpamEmail, TraceOfVisits, RawEmail
+from .models import MailServer, MailAccount, Email_Img, Delivery, Subject, Body,\
+    EmailMiddleDelivery, EmailForDelivery, SpamEmail, TraceOfVisits, RawEmail
 
 __author__ = 'AlexStarov'
 
@@ -38,10 +39,11 @@ admin.site.register(MailServer, MailServerAdmin, )
 class MailAccountAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'use_smtp', 'is_auto_active', 'auto_active_datetime', 'email', 'username', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'email', 'username', ]
+
 admin.site.register(MailAccount, MailAccountAdmin, )
 
 
-class genericStackedMediaFileInLine(generic.GenericStackedInline, ):
+class genericStackedMediaFileInLine(GenericStackedInline, ):
     model = MediaFile
     extra = 1
 
@@ -79,12 +81,14 @@ admin.site.register(Email_Img, EmailImgAdmin, )
 class EmailMiddleDeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'delivery', 'delivery_test_send', 'delivery_send', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'delivery', ]
+
 admin.site.register(EmailMiddleDelivery, EmailMiddleDeliveryAdmin, )
 
 
 class EmailForDeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'delivery', 'key', 'send', 'created_at', ]
     list_display_links = ['pk', 'delivery', 'key', ]
+
 admin.site.register(EmailForDelivery, EmailForDeliveryAdmin, )
 
 

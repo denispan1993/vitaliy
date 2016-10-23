@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-from django.contrib.contenttypes import generic
+# /apps/delivery/models.py
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.template.loader import render_to_string
 from django.db.models import Q
 
+from compat.ImageWithThumbs import models as class_ImageWithThumb
 from apps.utils.captcha.views import key_generator
-from apps.authModel.models import Email
 from apps.cart.models import Order
+from apps.authModel.models import Email as authModel_Email
 
 __author__ = 'AlexStarov'
 
@@ -228,9 +230,10 @@ class Delivery(models.Model, ):
                                       null=True, )
 
     # Вспомогательные поля
-    img = generic.GenericRelation(to='Email_Img',
-                                  content_type_field='content_type',
-                                  object_id_field='object_id', )
+    img = GenericRelation(
+        to='Email_Img',
+        content_type_field='content_type',
+        object_id_field='object_id', )
 
     """ def save(self, *args, **kwargs):
         real_html = self.html
@@ -348,7 +351,6 @@ class Delivery(models.Model, ):
             q |= Q(email__icontains=email)
 
         try:
-            # print q
             orders = Order.objects.filter(q, ).values('email').distinct()  # email__icontains=unique_trace_emails, )  # this_trace.email.now_email.email, )
                                       # created_at__lte=this_trace.cteated_at + delta, )
         except Order.DoesNotExist:
@@ -364,8 +366,7 @@ class Delivery(models.Model, ):
 
     @property
     def emails(self):
-        from apps.authModel.models import Email
-        return Email.objects.count()
+        return authModel_Email.objects.count()
 
     @property
     def subjects(self):
@@ -385,8 +386,7 @@ class Delivery(models.Model, ):
 
     @property
     def bad_emails(self):
-        from apps.authModel.models import Email
-        return Email.objects.filter(bad_email=True, ).count()
+        return authModel_Email.objects.filter(bad_email=True, ).count()
 
     @property
     def text_type(self):
@@ -602,11 +602,9 @@ def set_path_img(self, filename):
 
 
 class Email_Img(models.Model):
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Email_Img', )
     object_id = models.PositiveIntegerField(db_index=True, )
-    from django.contrib.contenttypes import generic
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
+    parent = GenericForeignKey('content_type', 'object_id', )
 
     name = models.CharField(verbose_name=_(u'Наименование картинки', ),
                             max_length=256,
@@ -621,7 +619,6 @@ class Email_Img(models.Model):
                                             u' только английские маленькие буквы и цифры'
                                             u' без пробелов и подчеркиваний', ), )
 
-    from compat.ImageWithThumbs import models as class_ImageWithThumb
     image = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Картинка',
                                                       upload_to=set_path_img,
                                                       sizes=((26, 26, ), (50, 50, ), (90, 95, ),
@@ -695,7 +692,7 @@ class EmailForDelivery(models.Model, ):
                            null=False,
                            # unique=True, )
                            default=key_generator, )
-    email = models.ForeignKey(to=Email,
+    email = models.ForeignKey(to=authModel_Email,
                               verbose_name=_(u'E-Mail', ),
                               blank=True,
                               null=True, )
@@ -707,7 +704,7 @@ class EmailForDelivery(models.Model, ):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    now_email = generic.GenericForeignKey('content_type', 'object_id', )
+    now_email = GenericForeignKey('content_type', 'object_id', )
 
     send = models.BooleanField(verbose_name=_(u'Флаг отсылки', ),
                                blank=True,
@@ -794,7 +791,7 @@ class TraceOfVisits(models.Model, ):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    now_email = generic.GenericForeignKey('content_type', 'object_id', )
+    now_email = GenericForeignKey('content_type', 'object_id', )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -880,7 +877,7 @@ class SendEmailDelivery(models.Model, ):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    email = generic.GenericForeignKey('content_type', 'object_id', )
+    email = GenericForeignKey('content_type', 'object_id', )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -917,7 +914,7 @@ class Message(models.Model):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    email = generic.GenericForeignKey('content_type', 'object_id', )
+    email = GenericForeignKey('content_type', 'object_id', )
 
     direct_send = models.BooleanField(verbose_name=_(u'Шлем напрямую', ),
                                       blank=True,
@@ -991,7 +988,7 @@ class MessageUrl(models.Model, ):
     object_id = models.PositiveIntegerField(db_index=True,
                                             blank=True,
                                             null=True, )
-    email = generic.GenericForeignKey('content_type', 'object_id', )
+    email = GenericForeignKey('content_type', 'object_id', )
 
     ready_url_str = models.CharField(verbose_name=_(u'Строка A tag', ),
                                      max_length=256,

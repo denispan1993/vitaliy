@@ -178,12 +178,72 @@ div#feedback-panel{
     position:static;
 }
 @media (max-width:480px){
+    body{
+        overflow-x:hidden;
+    }
     body ul.navigation{
         display:block !important;
     }
+
+    body label[for="nav-trigger"]{
+        /* critical positioning styles */
+        position: fixed;
+        left: 15px; top: 15px;
+        z-index: 2;
+
+        /* non-critical apperance styles */
+        height:6px;
+        width: 30px;
+        cursor: pointer;
+        /*background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");*/
+        background-size: contain;
+    }
     body label[for="nav-trigger"]{
         display:block !important;
+        position:fixed;
+        /*overflow: hidden;
+        margin: 0;
+        padding: 0;*/
+        width:30px;
+        height:6px;
+        /*font-size: 0;*/
+        text-indent:-9999px;
+        /*-webkit-appearance: none;*/
+        /*-moz-appearance: none;*/
+        /*appearance: none;
+        box-shadow: none;
+        border-radius:15px;
+        border: thin solid;
+        background: red none repeat scroll 0 0;
+        opacity:0.5;*/
+        cursor:pointer;
+        -webkit-transition:background 1.9s;
+              transition:background 1.9s;
+        z-index:2;
+        left:20px;
+        top:30px;
+        background: white;
+        background-color: #0000ff;
     }
+    body label[for="nav-trigger"]::before{
+        top:-14px;
+    }
+    body label[for="nav-trigger"]::after {
+        bottom:-14px;
+    }
+    body label[for="nav-trigger"]::before, label[for="nav-trigger"]::after{
+        position: absolute;
+        display: block !important;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background-color: #0000ff;
+        content: "";
+    }
+    body label[for="nav-trigger"]:focus{
+        outline: none;
+    }
+
     section#body header#header{
         height:250px;
     }

@@ -240,7 +240,17 @@ JINGO_EXCLUDE_APPS = ('debug_toolbar',
                       'django.contrib.admin',
                       'django.contrib.admindocs', )
 
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+#from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+TCP = (
+    'django.contrib.auth.context_processors.auth',
+    'django.template.context_processors.debug',
+    'django.template.context_processors.i18n',
+    'django.template.context_processors.media',
+    'django.template.context_processors.static',
+    'django.template.context_processors.tz',
+    # 'django.template.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+)
 
 TCP += (
     'django.core.context_processors.request',

@@ -2,20 +2,18 @@
 from django.db import models
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
-from mptt.models import MPTTModel
-from mptt import models as modelsTree
+from mptt.models import MPTTModel, TreeForeignKey
 
-from compat.FormSlug import models as class_FormSlugField
+from compat.FormSlug.models import ModelSlugField
+from compat.ImageWithThumbs.models import ImageWithThumbsField
 
 from .managers import ManagerCategory, ManagerProduct
 from apps.discount.models import Action
-from proj.settings import AUTH_USER_MODEL
+from proj import settings
 from apps.comment.models import Comment
-from django.contrib.contenttypes.models import ContentType
-from compat.FormSlug.models import ModelSlugField
-from compat.ImageWithThumbs.models import ImageWithThumbsField
 
 __author__ = 'AlexStarov'
 
@@ -27,11 +25,12 @@ class Category(MPTTModel):
                              blank=True,
                              null=True,
                              help_text=u'', )
-    parent = modelsTree.TreeForeignKey(to='Category',
-                                       verbose_name=_(u'Вышестоящая категория', ),
-                                       null=True,
-                                       blank=True,
-                                       related_name=u'children', )
+    parent = TreeForeignKey(
+        to='Category',
+        verbose_name=_(u'Вышестоящая категория', ),
+        null=True,
+        blank=True,
+        related_name=u'children', )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                                      # visibility=True,
                                                      default=1,
@@ -90,7 +89,7 @@ class Category(MPTTModel):
 #    from compat.ruslug.models import RuSlugField
 #    from apps.product.fields import ModelSlugField
 
-    url = class_FormSlugField.ModelSlugField()
+    url = ModelSlugField()
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
 
@@ -120,15 +119,17 @@ class Category(MPTTModel):
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
     #Кто создал
     # from django.contrib.auth.models import User
-    user_obj = models.ForeignKey(AUTH_USER_MODEL,
-                                 verbose_name=u'ID Пользователя',
-                                 blank=True,
-                                 null=True, )
+    user_obj = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        verbose_name=u'ID Пользователя',
+        blank=True,
+        null=True, )
 
     # Вспомогательные поля
-    photo = generic.GenericRelation('Photo',
-                                    content_type_field='content_type',
-                                    object_id_field='object_id', )
+    photo = GenericRelation(
+        to='Photo',
+        content_type_field='content_type',
+        object_id_field='object_id', )
 
     objects = ManagerCategory()
 
@@ -230,10 +231,11 @@ class Product(models.Model):
                                                      default=1,
                                                      blank=True,
                                                      null=True, )
-    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес продукта',
-                                             max_length=255,
-                                             null=True,
-                                             blank=True, )
+    url = ModelSlugField(
+        verbose_name=u'URL адрес продукта',
+        max_length=255,
+        null=True,
+        blank=True, )
     title = models.CharField(verbose_name=u'Заголовок продукта', max_length=255, null=False, blank=False, )
     name = models.CharField(verbose_name=u'Наименование продукта', max_length=255, null=True, blank=True, )
     # Описание продукта
@@ -349,30 +351,37 @@ class Product(models.Model):
                                      default=True, )
     #Кто создал
     # from django.contrib.auth.models import User
-    user_obj = models.ForeignKey(AUTH_USER_MODEL,
-                                 verbose_name=u'ID Пользователя',
-                                 blank=True,
-                                 null=True, )
+    user_obj = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        verbose_name=u'ID Пользователя',
+        blank=True,
+        null=True, )
     # Вспомогательные поля
-    photo = generic.GenericRelation('Photo',
-                                    content_type_field='content_type',
-                                    object_id_field='object_id', )
+    photo = GenericRelation(
+        to='Photo',
+        content_type_field='content_type',
+        object_id_field='object_id', )
     #from apps.product.models import ItemID
-    ItemID = generic.GenericRelation('ItemID',
-                                     content_type_field='content_type',
-                                     object_id_field='object_id', )
-    manufacturer = generic.GenericRelation('IntermediateModelManufacturer',
-                                           content_type_field='content_type',
-                                           object_id_field='object_id', )
-    View = generic.GenericRelation('View',
-                                   content_type_field='content_type',
-                                   object_id_field='object_id', )
-    Viewed = generic.GenericRelation('Viewed',
-                                     content_type_field='content_type',
-                                     object_id_field='object_id', )
-    comments = generic.GenericRelation(Comment,
-                                       content_type_field='content_type',
-                                       object_id_field='object_id', )
+    ItemID = GenericRelation(
+        to='ItemID',
+        content_type_field='content_type',
+        object_id_field='object_id', )
+    manufacturer = GenericRelation(
+        to='IntermediateModelManufacturer',
+        content_type_field='content_type',
+        object_id_field='object_id', )
+    View = GenericRelation(
+        to='View',
+        content_type_field='content_type',
+        object_id_field='object_id', )
+    Viewed = GenericRelation(
+        to='Viewed',
+        content_type_field='content_type',
+        object_id_field='object_id', )
+    comments = GenericRelation(
+        to=Comment,
+        content_type_field='content_type',
+        object_id_field='object_id', )
 
 #    @property
 #    def function_is_availability(self, ):
@@ -529,14 +538,16 @@ class Product(models.Model):
                     pass
 
         elif not request and currency:
+
             try:
                 currency = Currency.objects.get(currency_code_number=currency, )
-            except Currency.DoesNotExist:
-                pass
-            else:
                 currency_pk = currency.pk
                 current_currency_object = currency
+            except Currency.DoesNotExist:
+                pass
+
         if 'current_currency_object' not in locals() or 'current_currency_object' not in globals():
+
             try:
                 current_currency_object = Currency.objects.get(pk=currency_pk, )
             except Currency.DoesNotExist:
@@ -656,11 +667,9 @@ class Product(models.Model):
 
 class ItemID(models.Model):
     """ Ссылка на главную запись """
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_ItemID', )
     object_id = models.PositiveIntegerField(db_index=True, )
-    from django.contrib.contenttypes import generic
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
+    parent = GenericForeignKey('content_type', 'object_id', )
 
     ItemID = models.CharField(verbose_name=u'ItemID', max_length=32, blank=True, null=True, )
     # slug = models.SlugField(verbose_name=u'Slug')
@@ -916,11 +925,9 @@ def set_path_photo(self, filename):
 
 
 class Photo(models.Model):
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Photo', )
     object_id = models.PositiveIntegerField(db_index=True, )
-    from django.contrib.contenttypes import generic
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
+    parent = GenericForeignKey('content_type', 'object_id', )
     serial_number = models.PositiveIntegerField(verbose_name=u'Порядковы номер фотографии',
                                                 default=1,
                                                 null=False,
@@ -931,14 +938,14 @@ class Photo(models.Model):
                                    default=False, )
 
 #    from compat.ImageWithThumbs.fields import ImageWithThumbsField
-    from compat.ImageWithThumbs import models as class_ImageWithThumb
-    photo = class_ImageWithThumb.ImageWithThumbsField(verbose_name=u'Фото',
-                                                      upload_to=set_path_photo,
-                                                      sizes=((26, 26, ), (50, 50, ), (90, 95, ),
-                                                             (205, 190, ), (210, 160, ), (345, 370, ),
-                                                             (700, 500, ), ),
-                                                      blank=False,
-                                                      null=False, )
+    photo = ImageWithThumbsField(
+        verbose_name=u'Фото',
+        upload_to=set_path_photo,
+        sizes=((26, 26, ), (50, 50, ), (90, 95, ),
+               (205, 190, ), (210, 160, ), (345, 370, ),
+               (700, 500, ), ),
+        blank=False,
+        null=False, )
     title = models.CharField(verbose_name=u'Заголовок фотографии',
                              max_length=256,
                              null=True,
@@ -983,9 +990,6 @@ class Photo(models.Model):
         verbose_name_plural = "Фотографии"
 
 
-from compat.FormSlug import models as class_FormSlugField
-
-
 class Country(models.Model):
     name_ru = models.CharField(verbose_name=u'Название страны Russian',
                                max_length=64,
@@ -998,10 +1002,11 @@ class Country(models.Model):
     phone_code = models.PositiveIntegerField(verbose_name=u'Телефонный код страны без +',
                                              blank=True,
                                              null=True, )
-    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес страны',
-                                             max_length=255,
-                                             null=True,
-                                             blank=True, )
+    url = ModelSlugField(
+        verbose_name=u'URL адрес страны',
+        max_length=255,
+        null=True,
+        blank=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -1030,10 +1035,11 @@ class Region(models.Model):
                                max_length=50,
                                blank=False,
                                null=False, )
-    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес страны',
-                                             max_length=255,
-                                             null=True,
-                                             blank=True, )
+    url = ModelSlugField(
+        verbose_name=u'URL адрес страны',
+        max_length=255,
+        null=True,
+        blank=True, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -1065,10 +1071,12 @@ class City(models.Model):
     phone_code = models.PositiveIntegerField(verbose_name=u'Телефонный код города',
                                              blank=True,
                                              null=True, )
-    url = class_FormSlugField.ModelSlugField(verbose_name=u'URL адрес страны',
-                                             max_length=255,
-                                             null=True,
-                                             blank=True, )
+    url = ModelSlugField(
+        verbose_name=u'URL адрес страны',
+        max_length=255,
+        null=True,
+        blank=True, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -1168,21 +1176,21 @@ class Viewed(models.Model):
                                      null=False, blank=False, default=1, )
     object_id = models.PositiveIntegerField(db_index=True,
                                             null=False, blank=False, default=1, )
-    from django.contrib.contenttypes import generic
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
+
+    parent = GenericForeignKey('content_type', 'object_id', )
     """ Кто смотрел """
-    # from django.contrib.auth.models import User
-    from proj.settings import AUTH_USER_MODEL
-    user_obj = models.ForeignKey(to=AUTH_USER_MODEL,
-                                 verbose_name=u'ID Пользователя',
-                                 blank=True,
-                                 null=True, )
+    user_obj = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        verbose_name=u'ID Пользователя',
+        blank=True,
+        null=True, )
     sessionid = models.CharField(verbose_name=u'SessionID', max_length=32, blank=True, null=True, )
     """ Когда смотрел """
     last_viewed = models.DateTimeField(verbose_name=u'Дата последнего просмотра',
                                        blank=False,
                                        null=False,
                                        default=datetime.now, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата добавления', )
     updated_at = models.DateTimeField(auto_now=True, verbose_name=u'Дата последнего изменения', )
@@ -1211,15 +1219,17 @@ class Viewed(models.Model):
 
 
 class InformationForPrice(models.Model):
-    product = models.ForeignKey(Product,
-                                verbose_name=_(u'Продукт', ),
-                                related_name='informationforprice',
-                                null=True,
-                                blank=True, )
+    product = models.ForeignKey(
+        to=Product,
+        verbose_name=_(u'Продукт', ),
+        related_name='informationforprice',
+        null=True,
+        blank=True, )
     information = models.CharField(verbose_name=_(u'Информация', ),
                                    max_length=255,
                                    null=False,
                                    blank=False, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -1235,11 +1245,12 @@ class InformationForPrice(models.Model):
 
 
 class ExtendedPrice(models.Model):
-    product = models.ForeignKey(Product,
-                                verbose_name=_(u'Продукт', ),
-                                related_name='extendedprice',
-                                null=False,
-                                blank=False, )
+    product = models.ForeignKey(
+        to=Product,
+        verbose_name=_(u'Продукт', ),
+        related_name='extendedprice',
+        null=False,
+        blank=False, )
     information = models.ManyToManyField(InformationForPrice,
                                          verbose_name=_(u'Информация', ),
                                          null=False,
@@ -1256,6 +1267,7 @@ class ExtendedPrice(models.Model):
                                 default=0,
                                 blank=False,
                                 null=False, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -1289,6 +1301,7 @@ class AdditionalInformationForPrice(models.Model):
     #                                verbose_name=_(u'Прайс', ),
     #                                null=False,
     #                                blank=False, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )

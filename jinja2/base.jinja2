@@ -53,11 +53,10 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 <body>
 {% if user.is_authenticated and user.is_staff %}
 <ul class="navigation">
-    <li class="nav-item"><a href="#">Home</a></li>
-    <li class="nav-item"><a href="#">Portfolio</a></li>
-    <li class="nav-item"><a href="#">About</a></li>
-    <li class="nav-item"><a href="#">Blog</a></li>
-    <li class="nav-item"><a href="#">Contact</a></li>
+    <li class="nav-item"><a href="/">Главная</a></li>
+    {% for static_page in static_pages_ %}
+        <li class="nav-item"><a href="{{ static_page.get_absolute_url() }}">{{ static_page.title }}</a></li>
+    {% endfor %}
 </ul>
 <input type="checkbox" id="nav-trigger" class="nav-trigger" />
 <label for="nav-trigger"></label>
@@ -65,69 +64,6 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 <span></span>
 </button> #}
 <style>
-label[for="nav-trigger"]{
-  display:block;
-  position:fixed;
-  /*overflow: hidden;
-  margin: 0;
-  padding: 0;*/
-  width:60px;
-  height:50px;
-  /*font-size: 0;*/
-  text-indent:-9999px;
-  /*-webkit-appearance: none;*/
-  /*-moz-appearance: none;*/
-  /*appearance: none;
-  box-shadow: none;
-  border-radius:15px;
-  border: thin solid;
-  background: red none repeat scroll 0 0;
-  opacity:0.5;*/
-  cursor:pointer;
-  -webkit-transition:background 0.3s;
-          transition:background 0.3s;
-  z-index:2;
-  left:10px;
-  top:10px;
-}
-
-label[for="nav-trigger"]:focus{
-  outline: none;
-}
-
-
-label[for="nav-trigger"]{
-  display: block;
-  position: absolute;
-  top:20px;
-  left:10px;
-  right:10px;
-  height:6px;
-  background: white;
-  background-color: #0000ff;
-}
-
-label[for="nav-trigger"]::before,
-label[for="nav-trigger"]::after{
-  position: absolute;
-  display: block;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  background-color: #0000ff;
-  content: "";
-}
-
-label[for="nav-trigger"]::before {
-  top:-14px;
-}
-
-label[for="nav-trigger"]::after {
-  bottom:-14px;
-}
-
-
-
 .navigation{
   /* critical sizing and position styles */
   width: 100%;
@@ -175,19 +111,6 @@ label[for="nav-trigger"]::after {
   clip: rect(0, 0, 0, 0);
 }
 
-label[for="nav-trigger"]{
-  /* critical positioning styles */
-  position: fixed;
-  left: 15px; top: 15px;
-  z-index: 2;
-
-  /* non-critical apperance styles */
-  height:6px;
-  width: 30px;
-  cursor: pointer;
-  /*background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");*/
-  background-size: contain;
-}
 
 /* Make the Magic Happen */
 .nav-trigger + label, .site-wrap {

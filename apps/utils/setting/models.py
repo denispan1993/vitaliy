@@ -1,6 +1,12 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+# /apps/utils/setting/models.py
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes.fields import GenericRelation
+
+from apps.product.models import Photo
+
+__author__ = 'AlexStarov'
 
 # Create your models here.
 
@@ -33,15 +39,15 @@ class Setting(models.Model):
     positivesmallinteger = models.PositiveSmallIntegerField(verbose_name=_(u'PositiveSmallInteger', ),
                                                             blank=True,
                                                             null=True, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )
 
-    from django.contrib.contenttypes import generic
-    from apps.product.models import Photo
-    img = generic.GenericRelation(Photo,
-                                  content_type_field='content_type',
-                                  object_id_field='object_id', )
+    img = GenericRelation(
+        to=Photo,
+        content_type_field='content_type',
+        object_id_field='object_id', )
 
     def __unicode__(self, ):
         return u'%s - %s' % (self.name, self.variable_name, )

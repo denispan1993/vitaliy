@@ -1,17 +1,17 @@
-# coding=utf-8
-__author__ = 'Админ'
-
+# -*- coding: utf-8 -*-
+# /apps/utils/setting/admin.py
 from django.contrib import admin
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.admin import GenericStackedInline
+
 from apps.product.models import Photo
+from .models import Setting
+
+__author__ = 'AlexStarov'
 
 
-class genericStacked_Img_InLine(generic.GenericStackedInline, ):
+class genericStacked_Img_InLine(GenericStackedInline, ):
     model = Photo
     extra = 1
-
-
-from apps.utils.setting.models import Setting
 
 
 class SettingAdmin(admin.ModelAdmin, ):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 __author__ = 'AlexStarov'
 
-from django.contrib import admin
-from django.contrib.contenttypes import generic
-from apps.product.models import Photo
+#from django.contrib import admin
+#from django.contrib.contenttypes import generic
+#from apps.product.models import Photo
 
 
 #class genericStacked_Img_InLine(generic.GenericStackedInline, ):
