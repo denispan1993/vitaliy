@@ -6,6 +6,9 @@ header#header{
     overflow:hidden;
     position:relative;
 }
+body nav{
+    display:none;
+}
 body ul.navigation{
     display:none;
 }
@@ -181,6 +184,10 @@ div#feedback-panel{
     body{
         overflow-x:hidden;
     }
+    body nav{
+        display:block !important;
+        position:absolute;
+    }
     body ul.navigation{
         display:block !important;
     }
@@ -247,11 +254,18 @@ div#feedback-panel{
     section#body header#header{
         height:250px;
     }
+    section#body header#header div#div_logo{
+        display:none !important;
+    }
     section#body header#header div#auth{
         display:none;
     }
     section#body header#header div#static_menu{
         display:none;
+    }
+    div#wowslider-container1{
+        margin:0 auto 0;
+        z-index:0;
     }
     div.ws_shadow{
         display:none;
@@ -259,6 +273,9 @@ div#feedback-panel{
     div#card{
         /*toggleClass('opened');}}); animate_cart.js*/
         right:-240px!important;
+    }
+    body section#body section#main{
+        z-index:0;
     }
     section#main div#main_left{
         margin-right:10px;
