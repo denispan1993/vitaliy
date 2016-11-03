@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 import xml.etree.ElementTree as ET
 import os
 
-from apps.product.models import Category, Product, Unit_of_Measurement
+from apps.product.models import Category, Product, ItemID, Unit_of_Measurement
 
 __author__ = 'AlexStarov'
 
@@ -45,27 +45,54 @@ def search_in_category(id_1c, name=None, parent=None, ):
 
 
 def get_products(products_list):
-
+    success = 0
+    unsuccess = 0
+    unsuccess_itemid =''
+    double = 0
+    double_itemid = ''
     for product in products_list:
         product_list = list(product)
-
+        itemid=product_list[1].text
+        print(itemid, len(itemid))
         try:
-            product = Product.objects.using(alias='real').get(ItemID__ItemID=product_list[1].text)
-            #product.id_1c = product_list[0].text
-            #product.save()
-            continue
-        except Product.DoesNotExist:
-            print u'Артикул:-->', product_list[1].text, '<--:Not Found'
+            itemid = ItemID.objects.using('real').get(ItemID=product_list[1].text)
+            success += 1
+            print success, ': ', u'Артикул:-->"', product_list[1].text, '"<--:Found'
+        except ItemID.DoesNotExist:
+            unsuccess += 1
+            double_itemid += '%s,' % product_list[1].text
+            print unsuccess, ': ', u'Артикул:-->"', product_list[1].text, '"<--:Not Found'
+        except ItemID.MultipleObjectsReturned:
+            double += 1
+            double_itemid += '%s,' % product_list[1].text
+            print double, ': ', u'Артикул:-->"', product_list[1].text, '"<--:Not Found'
 
-    try:
-        products = Product.objects.using(alias='real').filter(id_1c__isnull=True, )
-        for product in products:
-            try:
-                print 'Product:->>', product.name, '<<-Not Found', u'Артикул:-->', product.ItemID.all()[0].ItemID
-            except IndexError:
-                print 'Product:->>', product.name, '<<-Not Found', u'Артикул:-->', 'AAAAAAAAAAAA!!!!!!!!!!!!!!!! CRASH!!!!!!!!!!!!!'
-    except Product.DoesNotExist:
-        pass
+    print('success: ', success)
+    print('unsuccess: ', unsuccess)
+    print(unsuccess_itemid)
+    print('double: ', double)
+    print(double_itemid)
+
+
+    #        try:
+#            product = Product.objects.using('real').get(ItemID__ItemID=product_list[1].text)
+#            success += 1
+#            #product.id_1c = product_list[0].text
+#            #product.save()
+#            continue
+#        except Product.DoesNotExist:
+#            unsuccess += 1
+#            print unsuccess, ': ', u'Артикул:-->', product_list[1].text, '<--:Not Found'
+
+#    try:
+#        products = Product.objects.using(alias='real').filter(id_1c__isnull=True, )
+#        for product in products:
+#            try:
+#                print 'Product:->>', product.name, '<<-Not Found', u'Артикул:-->', product.ItemID.all()[0].ItemID
+#            except IndexError:
+#                print 'Product:->>', product.name, '<<-Not Found', u'Артикул:-->', 'AAAAAAAAAAAA!!!!!!!!!!!!!!!! CRASH!!!!!!!!!!!!!'
+#    except Product.DoesNotExist:
+#        pass
 
 #        unit_of_measurement_pk = Unit_of_Measurement.objects.\
 #            filter(name__icontains=product_list[3].text).\
@@ -178,8 +205,8 @@ class Command(BaseCommand, ):
                 root = ET.parse(source=path_and_filename).getroot()
                 for elem_first_level in root:
 
-                    if elem_first_level.tag == u'Классификатор':
-                        enter_the_level(list(elem_first_level))
+                    #if elem_first_level.tag == u'Классификатор':
+                    #    enter_the_level(list(elem_first_level))
 
                     if elem_first_level.tag == u'Каталог':
                         elems_product_level = list(elem_first_level)
@@ -187,8 +214,6 @@ class Command(BaseCommand, ):
                         if elems_product_level[0].tag == u'Ид'\
                                 and elems_product_level[1].tag == u'ИдКлассификатора'\
                                 and elems_product_level[2].tag == u'Наименование'\
-                                and elems_product_level[2].text == u'Каталог товаров'\
-                                and elems_product_level[3].tag == u'Владелец'\
-                                and elems_product_level[4].tag == u'Товары':
+                                and elems_product_level[3].tag == u'Товары':
 
-                            get_products(list(elems_product_level[4]))
+                            get_products(list(elems_product_level[3]))
