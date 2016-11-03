@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+
 from kombu import Queue, Exchange
 import os
 
@@ -118,6 +120,17 @@ DATABASES = {
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    },
+    'real': {
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'keksik_com_ua',       # Or path to database file if using sqlite3.
+        'USER': 'keksik_com_ua',       # Not used with sqlite3.
+        'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
+        'HOST': '192.168.1.90',        # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                # Set to empty string for default. Not used with sqlite3.
+        'OPTIONS': {
+            'charset': 'utf8',
+            'use_unicode': True, },
     }
 }
 
@@ -602,8 +615,6 @@ DEBUG_TOOLBAR_PANELS = (
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 INTERNAL_IPS = ('213.227.250.34/32', '172.22.0.0/16', '192.168.0.0/16', '10.0.0.0/8', '217.77.210.70', '127.0.0.1', )
-
-from django_jinja.builtins import DEFAULT_EXTENSIONS
 
 TEMPLATES = [
     {
