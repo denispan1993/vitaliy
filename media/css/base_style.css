@@ -2,7 +2,8 @@
 html,body{height:100%;}
 ul li{list-style:none outside none;}
 header#header{
-    height:450px;
+    height:auto;
+    min-height:50px;
     overflow:hidden;
     position:relative;
 }
@@ -252,7 +253,8 @@ div#feedback-panel{
     }
 
     section#body header#header{
-        height:250px;
+        height:auto;
+        min-height:30px;
     }
     section#body header#header div#div_logo{
         display:none !important;
@@ -264,15 +266,23 @@ div#feedback-panel{
         display:none;
     }
     div#wowslider-container1{
-        margin:0 auto 0;
-        z-index:0;
-    }
-    div.ws_shadow{
         display:none;
+/*        margin:0 auto 0;
+        z-index:0;*/
     }
-    div#card{
+/*    div.ws_shadow{
+        display:none;
+    }*/
+    section#body header#header div#cart.closed{
         /*toggleClass('opened');}}); animate_cart.js*/
-        right:-240px!important;
+        right:-250px!important;
+    }
+    body section#body header#header div#cart.closed div#cart_button{
+        height:45px;
+        width:50px;
+    }
+    body section#body header#header div#cart.closed div#cart_button a img{
+        width:50px;
     }
     body section#body section#main{
         z-index:0;
