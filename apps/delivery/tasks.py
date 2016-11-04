@@ -6,6 +6,8 @@ from celery.utils.log import get_task_logger
 from time import sleep
 from celery.utils import uuid
 from celery.result import AsyncResult
+import dns.resolver
+from collections import OrderedDict
 
 from django.db.models import Q
 
@@ -106,24 +108,61 @@ def processing_delivery_test(*args, **kwargs):
 #        message = Message(test=True, delivery=delivery, recipient=real_email, )
 #        print message.send()
 
-        if not os.path.isfile(path('server.key', ), ):
-            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=828, )  # gserg@mail333.com
+        if os.path.isfile(path('server.key', ), ):
+            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4991, )  # gserg@mail333.com
+        else:
+            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=828, )  # gserg@mail333.com
 
-        message = Message(test=True, delivery=delivery, recipient=real_email, )
-        message_pk = message.get_message_pk()
-        print message.send()
+        message = Message(test=True, delivery=delivery, recipient=recipient, )
+        print message.send_mail()
 
-        task_set = set()
+        if os.path.isfile(path('server.key', ), ):
+            recipient = get_email(delivery=delivery, email_class=Email, pk=2836, )  # subscribe@keksik.com.ua
+        else:
+            recipient = get_email(delivery=delivery, email_class=Email, pk=6, )  # subscribe@keksik.com.ua
 
-        task = processing_delivery_through_socks.apply_async(
-            queue='delivery_send',
-            kwargs={'message_pk': message_pk, },
-            task_id='celery-task-id-{0}'.format(uuid(), ),
-        )
+        message = Message(test=True, delivery=delivery, recipient=recipient, )
+        print message.send_mail()
 
-        task_set.add(task.id, )
+        if os.path.isfile(path('server.key', ), ):
+            recipient = get_email(delivery=delivery, email_class=Email, pk=3263, )  # check-auth2@verifier.port25.com
+        else:
+            recipient = get_email(delivery=delivery, email_class=Email, pk=7, )  # check-auth2@verifier.port25.com
 
-        print(task_set)
+        message = Message(test=True, delivery=delivery, recipient=recipient, )
+        print message.send_mail()
+
+        if os.path.isfile(path('server.key', ), ):
+            recipient = get_email(delivery=delivery, email_class=Email, pk=4007, )  # check-auth@verifier.port25.com
+        else:
+            recipient = get_email(delivery=delivery, email_class=Email, pk=8, )  # check-auth@verifier.port25.com
+
+        message = Message(test=True, delivery=delivery, recipient=recipient, )
+        print message.send_mail()
+
+        if os.path.isfile(path('server.key', ), ):
+            recipient = get_email(delivery=delivery, email_class=Email, pk=4008, )  # check-auth-alex.starov=keksik.com.ua@verifier.port25.com
+        else:
+            recipient = get_email(delivery=delivery, email_class=Email, pk=9, )  # check-auth-alex.starov=keksik.com.ua@verifier.port25.com
+
+        message = Message(test=True, delivery=delivery, recipient=recipient, )
+        print message.send_mail()
+
+        if os.path.isfile(path('server.key', ), ):
+            recipient = get_email(delivery=delivery, email_class=Email, pk=4009, )  # alex.starov@gmail.com
+        else:
+            recipient = get_email(delivery=delivery, email_class=Email, pk=5, )  # alex.starov@gmail.com
+
+        message = Message(test=True, delivery=delivery, recipient=recipient, )
+        print message.send_mail()
+
+        if os.path.isfile(path('server.key', ), ):
+            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4992, )  # webmaster@mk.mk.ua
+        else:
+            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=832, )  # webmaster@mk.mk.ua
+
+        message = Message(test=True, delivery=delivery, recipient=recipient, )
+        print message.send_mail()
 
 #        if not os.path.isfile(path('server.key', ), ):
 #            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=829, )  # krasnikov@wildpark.net
@@ -593,10 +632,6 @@ def processing_delivery_through_socks(*args, **kwargs):
             recv5 = s.recv(1024)
             print(recv5.decode())
             s.close()
-
-
-import dns.resolver
-from collections import OrderedDict
 
 
 def get_MXes(domain, ):
