@@ -826,6 +826,10 @@ class SpamEmail(models.Model, ):
     email = models.EmailField(verbose_name=_(u'E-Mail', ),
                               blank=False,
                               null=False, )
+    # Тест e'mail
+    test = models.BooleanField(
+        verbose_name=_(u"Тест e'mail", ),
+        default=False, )
     # Рассылка Спам
     delivery_spam = models.BooleanField(verbose_name=_(u'Спам', ),
                                         default=True, )

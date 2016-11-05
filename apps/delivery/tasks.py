@@ -108,61 +108,84 @@ def processing_delivery_test(*args, **kwargs):
 #        message = Message(test=True, delivery=delivery, recipient=real_email, )
 #        print message.send()
 
-        if os.path.isfile(path('server.key', ), ):
-            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4991, )  # gserg@mail333.com
-        else:
-            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=828, )  # gserg@mail333.com
+        i = 0
+        emails = SpamEmail.objects.filter(test=True)
+        for email in emails:
+            i += 1
+            print('i: ', i, ' --> ', email.email)
+            message = Message(test=True, delivery=delivery, recipient=email, )
+            print message.send_mail()
 
-        message = Message(test=True, delivery=delivery, recipient=recipient, )
-        print message.send_mail()
+        emails = Email.objects.filter(test=True)
+        for email in emails:
+            i += 1
+            print('i: ', i, ' --> ', email.email)
+            message = Message(test=True, delivery=delivery, recipient=email, )
+            print message.send_mail()
 
-        if os.path.isfile(path('server.key', ), ):
-            recipient = get_email(delivery=delivery, email_class=Email, pk=2836, )  # subscribe@keksik.com.ua
-        else:
-            recipient = get_email(delivery=delivery, email_class=Email, pk=6, )  # subscribe@keksik.com.ua
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4991, )  # gserg@mail333.com
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=828, )  # gserg@mail333.com
 
-        message = Message(test=True, delivery=delivery, recipient=recipient, )
-        print message.send_mail()
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
 
-        if os.path.isfile(path('server.key', ), ):
-            recipient = get_email(delivery=delivery, email_class=Email, pk=3263, )  # check-auth2@verifier.port25.com
-        else:
-            recipient = get_email(delivery=delivery, email_class=Email, pk=7, )  # check-auth2@verifier.port25.com
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=2836, )  # subscribe@keksik.com.ua
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=6, )  # subscribe@keksik.com.ua
 
-        message = Message(test=True, delivery=delivery, recipient=recipient, )
-        print message.send_mail()
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
 
-        if os.path.isfile(path('server.key', ), ):
-            recipient = get_email(delivery=delivery, email_class=Email, pk=4007, )  # check-auth@verifier.port25.com
-        else:
-            recipient = get_email(delivery=delivery, email_class=Email, pk=8, )  # check-auth@verifier.port25.com
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=3263, )  # check-auth2@verifier.port25.com
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=7, )  # check-auth2@verifier.port25.com
 
-        message = Message(test=True, delivery=delivery, recipient=recipient, )
-        print message.send_mail()
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
 
-        if os.path.isfile(path('server.key', ), ):
-            recipient = get_email(delivery=delivery, email_class=Email, pk=4008, )  # check-auth-alex.starov=keksik.com.ua@verifier.port25.com
-        else:
-            recipient = get_email(delivery=delivery, email_class=Email, pk=9, )  # check-auth-alex.starov=keksik.com.ua@verifier.port25.com
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=4007, )  # check-auth@verifier.port25.com
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=8, )  # check-auth@verifier.port25.com
 
-        message = Message(test=True, delivery=delivery, recipient=recipient, )
-        print message.send_mail()
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
 
-        if os.path.isfile(path('server.key', ), ):
-            recipient = get_email(delivery=delivery, email_class=Email, pk=4009, )  # alex.starov@gmail.com
-        else:
-            recipient = get_email(delivery=delivery, email_class=Email, pk=5, )  # alex.starov@gmail.com
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=4008, )  # check-auth-alex.starov=keksik.com.ua@verifier.port25.com
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=9, )  # check-auth-alex.starov=keksik.com.ua@verifier.port25.com
 
-        message = Message(test=True, delivery=delivery, recipient=recipient, )
-        print message.send_mail()
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
 
-        if os.path.isfile(path('server.key', ), ):
-            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4992, )  # webmaster@mk.mk.ua
-        else:
-            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=832, )  # webmaster@mk.mk.ua
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=4009, )  # alex.starov@gmail.com
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=Email, pk=5, )  # alex.starov@gmail.com
 
-        message = Message(test=True, delivery=delivery, recipient=recipient, )
-        print message.send_mail()
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
+
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4992, )  # webmaster@mk.mk.ua
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=832, )  # webmaster@mk.mk.ua
+
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
+
+#        if os.path.isfile(path('server.key', ), ):
+#            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4993, )  # keksik.com.ua@yandex.ru
+#        else:
+#            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=833, )  # keksik.com.ua@yandex.ru
+
+#        message = Message(test=True, delivery=delivery, recipient=recipient, )
+#        print message.send_mail()
 
 #        if not os.path.isfile(path('server.key', ), ):
 #            real_email = get_email(delivery=delivery, email_class=SpamEmail, pk=829, )  # krasnikov@wildpark.net

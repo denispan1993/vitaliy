@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
-from django.contrib import admin
 
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext, ugettext_lazy as _
+from django.contrib.auth.models import Permission
+from django.contrib.auth.admin import GroupAdmin #  as DjangoGroupAdmin
 
-#from django.contrib.auth.models import User
-from apps.authModel.models import User
+from .models import User, Email, Phone
+
+__author__ = 'AlexStarov'
 
 
 class UserCreationForm(forms.ModelForm):
@@ -98,8 +99,6 @@ admin.site.register(User, UserAdmin, )
 # unregister the Group model from admin.
 admin.site.unregister(Group, )
 
-from django.contrib.auth.admin import GroupAdmin #  as DjangoGroupAdmin
-
 
 class MyGroupAdmin(GroupAdmin, ):
     list_display = ('pk', 'name', )
@@ -111,10 +110,6 @@ admin.site.register(Group, MyGroupAdmin, )
 #admin.site.register(Permission, )
 
 
-from django.contrib.auth.models import Permission
-#from django.contrib.auth.admin import
-
-
 class PermissionAdmin(admin.ModelAdmin, ):
     list_display = ('pk', 'name', 'content_type', 'codename', )
     list_display_links = ('pk', 'name', 'content_type', 'codename', )
@@ -124,20 +119,14 @@ class PermissionAdmin(admin.ModelAdmin, ):
 admin.site.register(Permission, PermissionAdmin, )
 #admin.site.register(Permission, )
 
-from django.contrib.contenttypes.models import ContentType
 #admin.site.unregister(ContentType, )
 admin.site.register(ContentType, )
 
-from apps.authModel.models import Email
-
 
 class EmailAdmin(admin.ModelAdmin, ):
-    list_display = ('pk', 'user', 'email', 'created_at', 'updated_at', )
+    list_display = ('pk', 'user', 'email', 'test', 'created_at', 'updated_at', )
     list_display_links = ('pk', 'user', 'email', )
     search_fields = ['email', ]
 
 admin.site.register(Email, EmailAdmin, )
-
-from apps.authModel.models import Phone
-
 admin.site.register(Phone, )

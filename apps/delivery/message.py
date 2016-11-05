@@ -87,9 +87,12 @@ class Message(object):
         self.mid = self.get_mid()
 
         """ Reply-To + Return-Path """
+        """ X-Campaign-Id - EmailStream.ru """
+        """ List-id - postoffice.yandex.ru """
         self.headers = {
             'Return-Path': 'postmaster@keksik.com.ua',
             'Reply-To': 'postmaster@keksik.com.ua',
+            'X-Campaign-Id': self.did,
             'X-Delivery-id': self.did,
             'X-Email-id': self.eid,
             'X-Message-id': self.mid,

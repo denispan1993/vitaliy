@@ -223,6 +223,10 @@ class Email(models.Model, ):
                              related_name='email_parent_user',
                              null=True,
                              blank=True, )
+    # Тест e'mail
+    test = models.BooleanField(
+        verbose_name=_(u"Тест e'mail", ),
+        default=False, )
     email = models.EmailField(_('email address'),
                               blank=False,
                               null=False, )

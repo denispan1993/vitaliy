@@ -93,7 +93,7 @@ admin.site.register(EmailForDelivery, EmailForDeliveryAdmin, )
 
 
 class SpamEmailAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'email', 'bad_email', 'created_at', ]
+    list_display = ['pk', 'email', 'test', 'bad_email', 'created_at', ]
     list_display_links = ['pk', 'email', 'created_at', ]
 
     search_fields = ['email', ]

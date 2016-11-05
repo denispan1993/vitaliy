@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
+
+import os
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.forms import EmailField
+from django.utils.encoding import DjangoUnicodeDecodeError
 
 from django.core.management.base import BaseCommand
+
+from apps.delivery.models import SpamEmail
+from apps.authModel.models import Email
+
+__author__ = 'AlexStarov'
 
 
 class Command(BaseCommand, ):
@@ -22,18 +32,12 @@ class Command(BaseCommand, ):
     #    parser.add_argument('delivery_id', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        import os
         cwd = os.getcwd()
         print cwd
         cwd += '/apps/delivery/spam_txt_files'
         print cwd
         dir = cwd
         bad_email = 0; good_email = 0; email_inserted = 0; email_exist_in_spam_list = 0; email_exist_in_emails = 0
-        from django.forms import EmailField
-        from django.core.exceptions import ValidationError
-        from django.utils.encoding import DjangoUnicodeDecodeError
-        from apps.delivery.models import SpamEmail
-        from apps.authModel.models import Email
 
         for name in os.listdir(dir):
             path_and_filename = os.path.join(dir, name)
@@ -47,10 +51,8 @@ class Command(BaseCommand, ):
                     try:
                         email = line.split('<')[1].split('>')[0].lstrip('.')
                     except IndexError:
-                        from django.core.validators import validate_email
-                        from django.core.exceptions import ValidationError
                         try:
-                            email = line
+                            email = line.strip()
                             validate_email(email, )
                         except ValidationError:
                             continue
@@ -64,42 +66,41 @@ class Command(BaseCommand, ):
                         bad_email += 1
                         email_error = u'Ваш E-Mail адрес не существует.'
                         print email_error
+                        continue
                     except DjangoUnicodeDecodeError:
                         bad_email += 1
                         email_error = u'Unicode Error.'
                         print email_error
+                        continue
                     else:
                         email_domain = email.split('@')[1]
-                        if email_domain == '3x.pn'\
-                                or email_domain == '2x.pn'\
-                                or email_domain == '1x.pn'\
-                                or email_domain == '2x.jp'\
-                                or email_domain == '2x.gi':
+                        if '.pn' in email_domain\
+                                or '.jp' in email_domain\
+                                or '.gi' in email_domain:
                             bad_email += 1
                             email_error = u'Ваш E-Mail адрес не существует.'
                             print email_error
+                            continue
 
                         good_email += 1
                         try:
-                            exist_email = SpamEmail.objects.get(email=email, )
+                            SpamEmail.objects.get(email=email, )
+                            email_exist_in_spam_list += 1
+                            print 'email_exist_in_spam_list: ', email_exist_in_spam_list
+                            continue
                         except SpamEmail.DoesNotExist:
                             try:
-                                exist_email = Email.objects.get(email=email, )
+                                Email.objects.get(email=email, )
+                                email_exist_in_emails += 1
+                                print 'email_exist_in_emails: ', email_exist_in_emails
+                                continue
                             except Email.DoesNotExist:
                                 SpamEmail.objects.create(email=email, )
                                 email_inserted += 1
                                 print 'email_inserted: ', email_inserted
-                            else:
-                                email_exist_in_emails += 1
-                                print 'email_exist_in_emails: ', email_exist_in_emails
                         except SpamEmail.MultipleObjectsReturned:
                             exist_emails = SpamEmail.objects.filter(email=email, )
                             exist_emails[0].delete()
-                        else:
-                            email_exist_in_spam_list += 1
-                            print 'email_exist_in_spam_list: ', email_exist_in_spam_list
-                        # if email_error in locals() or email_error in globals():
-                        #     del email_error
 
                 f.close()
             else:
