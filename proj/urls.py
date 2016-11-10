@@ -229,6 +229,10 @@ urlpatterns += patterns('',
                             view=include(arg='apps.delivery.urls',
                                          namespace='delivery', ),
                             ),
+                        url(regex=r'^message/',
+                            view=include(arg='apps.delivery.urls',
+                                         namespace='message', ),
+                            ),
                         )
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile

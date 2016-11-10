@@ -239,7 +239,7 @@ class Message(object):
         return inst_unsub, inst_unsub.ready_url_str
 
     def create_open_tag(self):
-        url = cache.get('open_url_{}'.format(self.delivery_pk), False)
+        url = cache.get('open_url_{0}'.format(self.delivery_pk), False)
 
         if not url:
             url, create = Url.objects.get_or_create(
@@ -249,7 +249,7 @@ class Message(object):
             )
 
             cache.set(
-                key='open_url_{}'.format(self.delivery_pk),
+                key='open_url_{0}'.format(self.delivery_pk),
                 value=url,
                 timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
@@ -367,9 +367,9 @@ class Message(object):
         return '{0:02d}-{1:07d}'.format(self.recipient_type, self.recipient_pk, )
 
     def get_mid(self, ):
-        """ mid - Message id """
-        return '{0}-{1}-{2:011x}-{3:06x}'\
-            .format(self.did, self.eid, int(mktime(datetime.now().timetuple())), randint(0, 999999), )
+        """ mid - Message id """  # -{3:06x} - randint(0, 999999),
+        return '{0}-{1}-{2:010d}'\
+            .format(self.did, self.eid, int(mktime(datetime.now().timetuple())), )
 
     def create_msg(self, ):
         message_kwargs = {

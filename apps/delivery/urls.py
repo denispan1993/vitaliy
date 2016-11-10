@@ -12,7 +12,7 @@ urlpatterns = [
     url(regex=r'^$',
         view=views.ClickView.as_view(),
         name='click', ),
-    url(regex=r'^(?P<key>[a-zA-Z0-9]{64}).gif$',
+    url(regex=r'^track/(?P<key>[a-zA-Z0-9]{64})/opened/$',
         view=views.OpenView.as_view(),
         name='open', ),
 #    url(r'^(?P<mid>[A-f0-9-]+)/(?P<hash>[A-f0-9]+)/$',

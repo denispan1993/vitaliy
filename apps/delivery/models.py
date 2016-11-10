@@ -1044,7 +1044,6 @@ class MessageUrl(models.Model, ):
             self.ready_url_str = render_to_string(
                 template_name='render_open_img_string.jinja2',
                 context={
-                    'href': 'http://keksik.com.ua/delivery/open/',
                     'key': self.key,
                 }, )
 
