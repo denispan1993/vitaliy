@@ -1,10 +1,10 @@
-import datetime
+#import datetime
 #import user_agents
 
-from django.conf import settings
-from django.forms.models import model_to_dict
+#from django.conf import settings
+#from django.forms.models import model_to_dict
 from django.http import Http404, HttpResponse
-from django.http.response import HttpResponseRedirectBase
+#from django.http.response import HttpResponseRedirectBase
 from django.views.generic.base import RedirectView, View, TemplateView
 #from django_redis import get_redis_connection
 
@@ -35,28 +35,14 @@ class ClickView(RedirectView, ):
                 try:
                     url = MessageUrl.objects.get(key=key, )
 
-                    if url.url.type == 1:
+                    TraceOfVisits.objects.create(
+                        now_email=url.email,
+                        delivery=url.delivery,
+                        type=url.url.type,
+                        url=url.url.href,
+                        sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
 
-                        TraceOfVisits.objects.create(
-                            now_email=url.email,
-                            delivery=url.delivery,
-                            type=1,
-                            url=url.url.href,
-                            sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
-
-                        return url.url.href
-
-                    elif url.url.type == 2:
-
-                        TraceOfVisits.objects.create(
-                            now_email=url.email,
-                            delivery=url.delivery,
-                            type=2,
-                            url=url.url.href,
-                            sessionid=self.request.COOKIES.get(u'sessionid', None, ), )
-
-                        return url.url.href
-
+                    return url.url.href
 
                 except MessageUrl.DoesNotExist:
                     pass
