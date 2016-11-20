@@ -1,4 +1,4 @@
-#!/home/user/PycharmProjects/Env/bin/python
+#!/home/alexstarov/PycharmProjects/Env/bin/python
 #1!/home/alexstarov/PyCharmProjects/Env/bin/python
 # -*- coding: utf-8 -*-
 import os
