@@ -133,18 +133,11 @@ class Delivery(models.Model, ):
 
     def save(self, *args, **kwargs):
 
-        print self.task_id
-        print self.is_active
-        print self.started_at
-        if not kwargs.pop('skip_schedule', False):
-            print self.started_at.replace(tzinfo=None) > datetime.now()
-
-        if not kwargs.pop('skip_schedule', True)\
+        if not kwargs.pop('skip_schedule', False)\
                 and not self.task_id\
                 and not self.is_active\
                 and self.started_at\
                 and self.started_at.replace(tzinfo=None) > datetime.now():
-            print 'Uraaaaaaaaaaaa!!!!!!!!!!'
             print self.started_at.replace(tzinfo=None)
             print datetime.now()
             self.schedule_run()

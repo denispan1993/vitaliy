@@ -16,7 +16,8 @@ from django.db.models import Q
 
 from apps.authModel.models import Email as AuthEmail
 from apps.delivery.models import SpamEmail
-from .models import Delivery, Message
+from .models import Delivery, Message as modelMessage
+from .message import Message as classMessage
 
 #from .models import Delivery, EmailMiddleDelivery, EmailForDelivery, SpamEmail, RawEmail,\
 #    Message as model_Message
@@ -73,13 +74,33 @@ def send_delivery(*args, **kwargs):
             #)
 
             """ Берем все уже отправленные адреса (pk) из отправленных в этой рассылке """
-            spam_emails_delivered = Message.objects.values_list('pk', flat=True).filter(delivery_id=delivery_pk, is_send=True, content_type=ContentType.objects.get_for_model(SpamEmail), )
-            spam_emails = SpamEmail.objects.values_list('pk', flat=True).filter(test=True, bad_email=False, error550=False, ).exclude(id__in=spam_emails_delivered).order_by('?')
+            spam_emails_delivered = modelMessage.objects.values_list('object_id', flat=True)\
+                .filter(
+                delivery_id=delivery_pk,
+                is_send=True,
+                content_type=ContentType.objects.get_for_model(SpamEmail), )
+
+            spam_emails = SpamEmail.objects.values_list('pk', flat=True)\
+                .filter(
+                ~Q(id__in=spam_emails_delivered),
+                test=True,
+                bad_email=False,
+                error550=False, )\
+                .order_by('?')
+
             if len(spam_emails) == 0:
                 break
+
             spam_email = spam_emails[0]
+
+            message = classMessage(
+                delivery=delivery,
+                recipient_class=str('{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail._meta.model_name)),
+                recipient_pk=spam_email,
+
+            )
             print(len(spam_emails_delivered), ' : ', len(spam_emails), ' : ', spam_email, )
-            Message.objects.create(
+            modelMessage.objects.create(
                 delivery_id=delivery_pk,
                 email=SpamEmail.objects.get(pk=spam_email),
                 is_send=True,
