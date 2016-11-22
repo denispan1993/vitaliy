@@ -2,6 +2,7 @@
 import os
 import re
 import socket
+import proj.settings
 from copy import copy
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail.utils import DNS_NAME
@@ -15,7 +16,7 @@ from email.utils import formataddr
 from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
 from .models import Delivery, Message as modelMessage
-from .utils import cache_get_or_set
+from .utils import cache_get_or_set, get_mx_es
 
 __author__ = 'AlexStarov'
 
@@ -42,13 +43,6 @@ class Message(object):
                  recipient_pk=None,
                  **kwargs):
 
-        if delivery:
-            self.delivery = delivery
-            self.delivery_pk = delivery.pk
-        else:
-            self.delivery_pk = delivery_pk
-            self.delivery = self.get_delivery()
-
         if recipient:
             self.recipient = recipient
             self.recipient_class = self.get_recipient_class()
@@ -58,8 +52,19 @@ class Message(object):
             self.recipient_pk = recipient_pk
             self.recipient = self.get_recipient()
 
+        self.allow_to_send = self.allow_to_send()
+
+        if delivery:
+            self.delivery = delivery
+            self.delivery_pk = delivery.pk
+        else:
+            self.delivery_pk = delivery_pk
+            self.delivery = self.get_delivery()
+
         self.recipient_content_type = self.recipient.content_type
         self.recipient_type = self.get_recipient_type()
+
+        # =======================================================================================
 
         self.subject_pk, self.subject = self.get_subject()
 
@@ -69,6 +74,7 @@ class Message(object):
 
         self.inst_unsub_url, self.dict_urls['unsub'] = self.create_unsub_url()
         self.inst_open_tag, self.dict_urls['open'] = self.create_open_tag()
+
 
         self.body_raw = self.get_body_raw()
         self.body_finished = self.get_body_finished()
@@ -96,23 +102,6 @@ class Message(object):
         self.message = self.create_msg()
         self.connection = self.connect()
 
-    def get_delivery(self):
-
-        delivery = cache.get(
-            key='delivery_pk_{0}'.format(self.delivery_pk, ), )
-
-        if delivery:
-            return delivery
-
-        else:
-            delivery = Delivery.objects.get(pk=self.delivery_pk)
-            cache.set(
-                key='delivery_pk_{0}'.format(self.delivery_pk, ),
-                value=delivery,
-                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
-
-            return delivery
-
     def get_recipient_class(self):
         return str('{0}.{1}'.format(self.recipient._meta.app_label, self.recipient.__class__.__name__))
 
@@ -135,11 +124,40 @@ class Message(object):
     def get_recipient_pk(self):
         return self.recipient.pk
 
+    def allow_to_send(self):
+
+        key = get_mx_es(domain=self.recipient.domain, ).items()[0][1]
+        if cache.get(key='allow_to_send_{0}'.format(key, ), default=False, ):
+            return False
+
+        cache.set(key='allow_to_send_{0}'.format(key, ), value=True, timeout=300, )
+
+        return True
+
+    def get_delivery(self):
+
+        delivery = cache.get(
+            key='delivery_pk_{0}'.format(self.delivery_pk, ), )
+
+        if delivery:
+            return delivery
+
+        else:
+            delivery = Delivery.objects.get(pk=self.delivery_pk)
+            cache.set(
+                key='delivery_pk_{0}'.format(self.delivery_pk, ),
+                value=delivery,
+                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+            return delivery
+
+    # =======================================================================================
+
     def get_message_pk(self, ):
         return self.message_pk
 
     def get_sender_email(self):
-        return 'sender-email-{0}@keksik.com.ua'.format(self.mid, )
+        return 'sender-email-{0}@{1}'.format(self.mid, proj.settings.SENDER_DOMAIN, )
 
     def get_subject(self):
         subject_value, subject_value_pk = 5000000, 0
@@ -147,18 +165,32 @@ class Message(object):
         subjects = self.delivery.subject_set.all().order_by('pk', )
 
         for subject in subjects:
-            subject_cache_value = cache_get_or_set(
-                key='subject_cache_pk_{0}'.format(subject.pk, ),
-                value=subject.chance,
-                timeout=259200, )
+            try:
+                subject_cache_value = cache.get_or_set(
+                    key='subject_cache_pk_{0}'.format(subject.pk, ),
+                    value=subject.chance,
+                    timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+            except AttributeError:
+                subject_cache_value = cache.get(
+                    key='subject_cache_pk_{0}'.format(subject.pk, ),
+                    default=False, )
+
+                if not subject_cache_value:
+                    cache.set(
+                        key='subject_cache_pk_{0}'.format(subject.pk, ),
+                        value=subject.chance,
+                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+                    subject_cache_value = subject.chance
 
             if subject_cache_value < subject_value:
                 subject_value, subject_value_pk = subject_cache_value, subject.pk
+                break
 
         subject = subjects.get(pk=subject_value_pk, )
         cache.set(
             key='subject_cache_pk_{0}'.format(subject.pk, ),
-            value=subject_cache_value + subject.chance,
+            value=subject_value + subject.chance,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
         return subject.pk, self.choice_str_in_tmpl(tmpl=subject.subject)
@@ -167,6 +199,7 @@ class Message(object):
         message = modelMessage.objects.create(
             delivery_id=self.delivery_pk,
             email=self.recipient,
+            is_send=False,
         )
         return message.pk, message
 

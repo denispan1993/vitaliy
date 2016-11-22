@@ -21,6 +21,8 @@ from time import mktime, sleep
 from logging import getLogger
 from email.utils import formataddr
 from dns.resolver import Resolver, NXDOMAIN, NoAnswer, NoNameservers
+import dns.resolver
+from collections import OrderedDict
 
 from django.core.cache import cache
 
@@ -48,3 +50,11 @@ def cache_get_or_set(key,
                 value=value,
                 timeout=timeout, )
         return cache_value if cache_value else value
+
+
+def get_mx_es(domain, ):
+    answers = dns.resolver.query(domain, 'MX')
+    mx_dict = {rdata.preference: rdata.exchange.to_text().rstrip('.') for rdata in answers}
+    # for rdata in answers:
+    #     print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
+    return OrderedDict(sorted(mx_dict.items()))
