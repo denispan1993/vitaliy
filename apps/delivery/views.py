@@ -17,9 +17,18 @@ from django.views.generic.base import RedirectView, View, TemplateView
 #from .tasks import save_event
 from .models import MessageUrl, TraceOfVisits
 
+try:
+    from proj.settings import LOCAL_HOST
+except ImportError:
+    LOCAL_HOST = 'http://keksik.com.ua'
+
 PIXEL_GIF = (
     'GIF89a\x01\x00\x01\x00\x80\x00\x00\xff\xff\xff\xff\xff\xff!\xf9\x04\x01\n'
     '\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
+
+EMPTY_PNG = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP' \
+            '+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QYZCw8lAOxvjQAAABl0RVh0' \
+            'Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAANSURBVAjXY2BgYGAAAAAFAAFe8yo6AAAAAElFTkSuQmCC'
 
 
 class ClickView(RedirectView, ):
@@ -47,7 +56,7 @@ class ClickView(RedirectView, ):
                 except MessageUrl.DoesNotExist:
                     pass
 
-        return 'http://keksik.com.ua'
+        return LOCAL_HOST
 
 
 class OpenView(View, ):
@@ -70,7 +79,8 @@ class OpenView(View, ):
             except MessageUrl.DoesNotExist:
                 pass
 
-        return HttpResponse(PIXEL_GIF, content_type='image/gif')
+        # return HttpResponse(PIXEL_GIF, content_type='image/gif')
+        return HttpResponse(EMPTY_PNG.decode('base64'), content_type='image/png')
 
 
 class UnsubView(TemplateView, ):

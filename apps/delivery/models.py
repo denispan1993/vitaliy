@@ -853,6 +853,9 @@ class SpamEmail(models.Model, ):
                                       null=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
+    def __unicode__(self):
+        return '%d: %s' % (self.pk, self.email, )
+
     @property
     def domain(self, ):
         return self.email.split('@')[1]

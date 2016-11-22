@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 # /apps/delivery2/models.py
 
+import os
+import time
+import hashlib
 from celery.result import AsyncResult
+from celery.utils import uuid
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.template.loader import render_to_string
@@ -29,15 +33,15 @@ def upload_to(instance, filename, prefix=None, unique=True):
     :param unique: Unique for the same instance and filename
     :return:
     """
-    ext = op.splitext(filename)[1]
-    name = str(instance.pk or '') + filename + (str(time()) if unique else '')
+    ext = os.path.splitext(filename)[1]
+    name = str(instance.pk or '') + filename + (str(time.time()) if unique else '')
 
     # We think that we use utf8 based OS file system
-    filename = md5(name.encode('utf8')).hexdigest() + ext
-    basedir = op.join(instance._meta.app_label, instance._meta.module_name)
+    filename = hashlib.md5(name.encode('utf8')).hexdigest() + ext
+    basedir = os.path.join(instance._meta.app_label, instance._meta.module_name)
     if prefix:
-        basedir = op.join(basedir, prefix)
-    return op.join(basedir, filename[:2], filename[2:4], filename)
+        basedir = os.path.join(basedir, prefix)
+    return os.path.join(basedir, filename[:2], filename[2:4], filename)
 
 
 def datetime_in_iso_format():
@@ -51,6 +55,11 @@ class Delivery(models.Model, ):
                             null=True,
                             default=datetime_in_iso_format, )
 
+    can_send = models.BooleanField(verbose_name=_(u'Разрешено отправлять рассылку', ),
+                                   blank=True,
+                                   null=False,
+                                   default=False, )
+
     is_active = models.BooleanField(verbose_name=_(u'Рассылка идет', ),
                                     blank=True,
                                     null=False,
@@ -58,8 +67,8 @@ class Delivery(models.Model, ):
     task_id = models.CharField(verbose_name=_(u'task id'),
                                max_length=255,
                                blank=True,
-                               null=True,
-                               editable=False)
+                               null=True, )
+                               # editable=False)
 
     delivery_test = models.BooleanField(verbose_name=_(u'Тестовая рассылка', ),
                                         blank=True,
@@ -84,7 +93,8 @@ class Delivery(models.Model, ):
                                             blank=False,
                                             null=False, )
 
-    template = models.ForeignKey(to=EmailTemplate,
+    template = models.ForeignKey(to='EmailTemplate',
+                                 related_name='delivery_EmailTemplate',
                                  verbose_name=_(u'Template', ),
                                  blank=True,
                                  null=True, )
@@ -104,29 +114,42 @@ class Delivery(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def schedule_run(self, save=True):
+    def schedule_run(self, ):
         from .tasks import send_delivery
 
         if self.task_id:
             AsyncResult(self.task_id).revoke()
         self.task_id = None
+        started_at = self.started_at
         self.started_at = None
-        ar = send_delivery.apply_async([self.pk], eta=next_date)
-        self.task_id = ar.id
-        if save:
-            self.save(skip_schedule=True)
+        task = send_delivery.apply_async(queue='celery',
+                                         kwargs={'delivery_pk': self.pk},
+                                         task_id='celery-task-id-{0}'.format(uuid(), ),
+                                         eta=started_at)
+        self.task_id = task.id
+        print('Start Delivery at: ', started_at, self.started_at)
+
+        self.save(skip_schedule=True, )
 
     def save(self, *args, **kwargs):
-        need_run = False
 
-        if not self.is_active and self.send_at and self.send_at > datetime.now():
-            need_run = True
+        print self.task_id
+        print self.is_active
+        print self.started_at
+        if not kwargs.pop('skip_schedule', False):
+            print self.started_at.replace(tzinfo=None) > datetime.now()
 
-        super(Delivery, self).save(*args, **kwargs)
-
-        if need_run:
+        if not kwargs.pop('skip_schedule', True)\
+                and not self.task_id\
+                and not self.is_active\
+                and self.started_at\
+                and self.started_at.replace(tzinfo=None) > datetime.now():
+            print 'Uraaaaaaaaaaaa!!!!!!!!!!'
+            print self.started_at.replace(tzinfo=None)
+            print datetime.now()
             self.schedule_run()
 
+        super(Delivery, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'Рассылка: № %6d: %s' % (self.pk, self.name, )
@@ -264,6 +287,7 @@ class Message(models.Model):
                                   default=False, )
 
     content_type = models.ForeignKey(ContentType,
+                                     related_name='delivery_Message',
                                      verbose_name=_(u'Указатель на E-Mail', ),
                                      blank=True,
                                      null=True, )

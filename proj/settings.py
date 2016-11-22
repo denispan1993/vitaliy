@@ -383,6 +383,7 @@ INSTALLED_APPS = (
     'apps.callback',
     'apps.feedback',
     'apps.delivery',
+    'apps.delivery2',
     'apps.socks',
     'paypal.standard.ipn',
     'apps.payment',
