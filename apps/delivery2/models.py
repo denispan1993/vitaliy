@@ -4,17 +4,20 @@
 import os
 import time
 import hashlib
+import re
 from celery.result import AsyncResult
 from celery.utils import uuid
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_unicode
 from datetime import datetime, timedelta
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.template.loader import render_to_string
 from django.db.models import Q
 
+import proj.settings
 from compat.ImageWithThumbs import models as class_ImageWithThumb
 from apps.utils.captcha.views import key_generator
 from apps.cart.models import Order
@@ -38,7 +41,7 @@ def upload_to(instance, filename, prefix=None, unique=True):
 
     # We think that we use utf8 based OS file system
     filename = hashlib.md5(name.encode('utf8')).hexdigest() + ext
-    basedir = os.path.join(instance._meta.app_label, instance._meta.module_name)
+    basedir = os.path.join(instance._meta.app_label, instance.__class__.__name__)
     if prefix:
         basedir = os.path.join(basedir, prefix)
     return os.path.join(basedir, filename[:2], filename[2:4], filename)
@@ -93,11 +96,11 @@ class Delivery(models.Model, ):
                                             blank=False,
                                             null=False, )
 
-    template = models.ForeignKey(to='EmailTemplate',
-                                 related_name='delivery_EmailTemplate',
-                                 verbose_name=_(u'Template', ),
-                                 blank=True,
-                                 null=True, )
+#    template = models.ForeignKey(to='EmailTemplate',
+#                                 related_name='delivery_EmailTemplate',
+#                                 verbose_name=_(u'Template', ),
+#                                 blank=True,
+#                                 null=True, )
 
     #Дата Рассылки.
     started_at = models.DateTimeField(verbose_name=_(u'Дата и время рассылки', ),
@@ -150,11 +153,12 @@ class Delivery(models.Model, ):
     class Meta:
         db_table = 'Delivery2_Delivery'
         ordering = ['-created_at', ]
-        verbose_name = u'Рассылка'
-        verbose_name_plural = u'Рассылки'
+        verbose_name = _(u'Рассылка', )
+        verbose_name_plural = _(u'Рассылки', )
 
 
-class Subject(models.Model, ):
+class EmailSubject(models.Model, ):
+    """ subject будующей рассылки """
     delivery = models.ForeignKey(to=Delivery,
                                  blank=False,
                                  null=False,)
@@ -186,7 +190,7 @@ class Subject(models.Model, ):
         return u'Тема: № %6d: [%s]:%2.2f' % (self.pk, self.subject, self.chance )
 
     class Meta:
-        db_table = 'Delivery2_Subject'
+        db_table = 'Delivery2_EmailSubject'
         ordering = ['-created_at', ]
         verbose_name = _(u'Тема', )
         verbose_name_plural = _(u'Темы', )
@@ -198,7 +202,17 @@ class EmailTemplate(models.Model, ):
                                  blank=False,
                                  null=False, )
 
-    template = models.FileField(upload_to=upload_to, verbose_name=u'Шаблон')
+    name = models.CharField(max_length=64,
+                            unique=True,
+                            verbose_name=_(u'Название', ),
+                            blank=True,
+                            null=True,
+                            default=str(datetime.now, ), )
+
+    template = models.FileField(upload_to=upload_to,
+                                verbose_name=_(u'Шаблон', ),
+                                blank=True,
+                                null=True, )
 
     chance = models.DecimalField(verbose_name=_(u'Вероятность', ),
                                  max_digits=4,
@@ -217,14 +231,84 @@ class EmailTemplate(models.Model, ):
                                       blank=True,
                                       null=True, )
 
+    def get_image_names(self):
+        html = self.template.file.read()
+        img = re.findall(r'url\([\'|\"](?P<file>[^ \s]+)[\'|\"]\)', html)
+        style = re.findall(r'src=[\'|\"](?P<file>[^ \s]+)[\'|\"]', html)
+        return set(img + style)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        super(EmailTemplate, self).save(force_insert, force_update, using, update_fields)
+        images = self.get_image_names()
+
+        for url in images:
+            if not self.images.filter(url=url).exists():
+                self.images.create(url=url)
+
+    def get_template(self):
+        self.template.file.seek(0)
+        html = self.template.file.read()
+        html = force_unicode(html)
+        for image in self.images.all():
+            if image.image.name:
+                try:
+                    html = html.replace(image.url,
+                                        'http://{host}{url}'.format(host=proj.settings.IMAGE_STORE_HOST,
+                                                                    url=image.image.url, ), )
+                except Exception, e:
+                    pass
+        # TODO: Доделать ТЭГИ
+        # for tag in TAG_REPLACE:
+        #     html = html.replace(tag, TAG_REPLACE[tag])
+        # html = RE_REPLACE_GENDER.sub(replace_gender_callback, html)
+        #html = html.replace(
+        #    '</body>',
+        #    '<img src="http://{{ MAIN_DOMAIN }}{{ mail_obj.get_pixel_url }}" width="0" height="0" border="0" /></body>', )
+        return html
+
     def __unicode__(self):
-        return u'Тело письма: № %6d: %2.2f' % (self.pk, self.chance)
+        if self.pk:
+            return u'Тело письма: № %6d: %2.2f' % (self.pk, self.chance, )
+        else:
+            return u'Тело письма: № None: %2.2f' % self.chance
 
     class Meta:
-        db_table = 'Delivery2_Template'
+        db_table = 'Delivery2_EmailTemplate'
         ordering = ['-created_at', ]
-        verbose_name = _(u'Тело письма', )
-        verbose_name_plural = _(u'Тема писем', )
+        verbose_name = _(u'Template письма', )
+        verbose_name_plural = _(u'Templates писем', )
+
+
+class EmailImageTemplate(models.Model, ):
+    """ img in template будующей рассылки """
+    template = models.ForeignKey(to=EmailTemplate,
+                                 related_name='images',
+                                 verbose_name=u'Шаблон',
+                                 blank=False,
+                                 null=False, )
+    url = models.CharField(max_length=256, verbose_name=u'Путь')
+
+    image = models.ImageField(upload_to=upload_to,
+                              verbose_name=_(u'Изображение', ),
+                              blank=True,
+                              null=True, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    class Meta:
+        db_table = 'Delivery2_EmailImageTemplate'
+        ordering = ['-created_at', ]
+        verbose_name = _(u'Изображение в письме', )
+        verbose_name_plural = _(u'Изображения в письме', )
 
 
 class RedirectUrl(models.Model, ):
@@ -289,7 +373,7 @@ class Message(models.Model):
                                             null=True, )
     email = GenericForeignKey('content_type', 'object_id', )
 
-    subject = models.ForeignKey(to=Subject,
+    subject = models.ForeignKey(to=EmailSubject,
                                 verbose_name=_(u'Указатель на subject', ),
                                 blank=True,
                                 null=True, )

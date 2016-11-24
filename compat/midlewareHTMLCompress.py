@@ -22,9 +22,15 @@ class SpacelessMiddleware(object, ):
 
         if 'Content-Type'.lower() in response and 'text/html' in response['Content-Type']:
 
-#            response.content = strip_spaces_between_tags(response.content.strip(), )
-            response.content = re.sub(r'>\s+<', '><', force_text(response.content, ), )
-            response.content = re.sub(r'^\s+<', '<', response.content, )
+            # response.content = strip_spaces_between_tags(response.content.strip(), )
+            # print response.__class__.__name__
+            if response.__class__.__name__ is not 'FileResponse':
+                response.content = re.sub(r'>\s+<', '><', force_text(response.content, ), )
+                response.content = re.sub(r'^\s+<', '<', response.content, )
+            else:
+                pass
+                # response.content = re.sub(r'>\s+<', '><', force_text(response.streaming_content, ), )
+                # response.content = re.sub(r'^\s+<', '<', response.streaming_content, )
 #            response.content = RE_MULTISPACE.sub(" ", response.content, )
 #            response.content = RE_NEWLINE.sub("", response.content, )
 

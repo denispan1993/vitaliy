@@ -1,0 +1,33 @@
+{% if object_id %}
+    <iframe src="{% url "email:show_iframe" object_id %}" width="100%" height="640px"></iframe>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("td.field-image p.file-upload a").each(function(){
+                $(this).html("<img src='"+$(this).attr('href') +"' style='width:128px;height:128px;' />");
+            });
+        });
+    </script>
+{% endif %}
+<div>
+    <ul>
+        <li>#USER_ID#: ID пользователя</li>
+        <li>#USER_FULLNAME#: Полное имя(ФИО из базы) или второй столбец из csv</li>
+        <li>#USER_USERNAME#: Имя пользователя</li>
+        <li>#USER_FIRSTNAME#: Имя</li>
+        <li>#USER_LASTNAME#: Фамилия</li>
+        <li>#USER_PATRONYMIC#: Отчество(может быть пустым)</li>
+        <li>#USER_EMAIL#: Адрес пользователя</li>
+        <li>#MAIN_DOMAIN#: Домен ЦРМ. Без протокола и последнего слэша. crm.gosystems.ru</li>
+        <li>#MEDIA_DOMAIN#: Домен где лежит статика</li>
+        <li>#STATIC_URL#: Урл статики</li>
+        <li>#EMAIL_HASH#: Хэш почты для отписки</li>
+        <li>#UNSUBSCRIBE_URL#: Урл ссылки для отписки</li>
+        <li>#UNSUBSCRIBE_QUESTIONS_URL#: Урл ссылки для отписки от рассылок Давайте разберемся</li>
+        <li>#MAIL_WEB_LINK#: Урл ссылки веб версии письма</li>
+        <li>#GENDER#позвонил###позвонила#END_GENDER#</li>
+        <li>#LEGACY_RETURN_LINK#: ссылка для восстановления старых пользователей (только для сегментов "Старые пользователи")</li>
+        <li>#DREAM_PLACES#: вывод блока "Новые места для охоты/рыбалки/отдыха"</li>
+        <li>#NEW_ANSWERS#: выборка вопросов (за последние сутки) для ответов, на которые подписался пользователь</li>
+    </ul>
+</div>
