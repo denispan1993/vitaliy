@@ -13,10 +13,16 @@ class EmailSubjectInlineAdmin(admin.TabularInline, ):
     extra = 1
 
 
+class EmailTemplateInlineAdmin(admin.TabularInline, ):
+    model = EmailTemplate
+    fields = ['name', 'template', 'chance']
+    extra = 1
+
+
 class DeliveryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'delivery_test', 'type', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'name', ]
-    inlines = (EmailSubjectInlineAdmin,)
+    inlines = (EmailSubjectInlineAdmin, EmailTemplateInlineAdmin, )
 
     save_as = True
     save_on_top = True
@@ -49,9 +55,9 @@ class EmailTemplateAdmin(admin.ModelAdmin):
     list_display = ['pk', 'delivery', 'name', 'chance', ]
     list_display_links = ['pk', 'delivery', 'name', 'chance', ]
     # TODO: Показ template письма в админ панеле.
-    #suit_form_includes = (
-    #    ('delivery/admin/templates/iframe.html', 'middle', ''),
-    #)
+    suit_form_includes = (
+        ('delivery/admin/templates/iframe.html', 'middle', ''),
+    )
 
     inlines = (EmailImageInlineAdmin, )
 

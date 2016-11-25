@@ -20,7 +20,7 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls, ), ),
     url(r'^captcha/', include('apps.utils.captcha.urls', ), ),
     url(regex=r'^redirect/',
-        view=include(arg='apps.delivery.urls',
+        view=include(arg='apps.delivery2.urls',
                      namespace='delivery'), ),
 )
 
@@ -226,12 +226,16 @@ urlpatterns += patterns('',
 #Delivery
 urlpatterns += patterns('',
                         url(regex=r'^delivery/',
-                            view=include(arg='apps.delivery.urls',
+                            view=include(arg='apps.delivery2.urls',
                                          namespace='delivery', ),
                             ),
                         url(regex=r'^message/',
-                            view=include(arg='apps.delivery.urls',
+                            view=include(arg='apps.delivery2.urls',
                                          namespace='message', ),
+                            ),
+                        url(regex=r'^email/',
+                            view=include(arg='apps.delivery2.urls',
+                                         namespace='email', ),
                             ),
                         )
 #!!!===================== Static media ======================

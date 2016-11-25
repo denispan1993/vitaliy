@@ -16,7 +16,7 @@ from email.utils import formataddr
 from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
 from .models import Delivery, Message as modelMessage
-from .utils import cache_get_or_set, get_mx_es
+from .utils import allow_to_send
 
 __author__ = 'AlexStarov'
 
@@ -35,24 +35,34 @@ tokenizer_replacement = re.compile('(\{\{[\w\-\_\.\s]+\}\})')  # {{url1}}
 
 class Message(object):
 
+    def __new__(cls,
+                recipient=None,
+                recipient_class=None,
+                recipient_pk=None,
+                *args,
+                **kwargs):
+
+        email_model = get_model(*recipient_class.split('.'))
+
+        if allow_to_send(domain=email_model.objects.get(pk=recipient_pk, ).domain, ):
+            return super(Message, cls).__new__(cls, )
+        else:
+            return False
+
     def __init__(self,
                  delivery=None,
                  delivery_pk=None,
-                 recipient=None,
-                 recipient_class=None,
-                 recipient_pk=None,
+                 *args,
                  **kwargs):
 
-        if recipient:
-            self.recipient = recipient
+        self.recipient = kwargs.get('recipient', False, )
+        if self.recipient:
             self.recipient_class = self.get_recipient_class()
             self.recipient_pk = self.get_recipient_pk()
         else:
-            self.recipient_class = recipient_class
-            self.recipient_pk = recipient_pk
+            self.recipient_class = kwargs.get('recipient_class', False, )
+            self.recipient_pk = kwargs.get('recipient_pk', False, )
             self.recipient = self.get_recipient()
-
-        self.allow_to_send = self.allow_to_send()
 
         if delivery:
             self.delivery = delivery
@@ -66,7 +76,11 @@ class Message(object):
 
         # =======================================================================================
 
-        self.subject_pk, self.subject = self.get_subject()
+        self.subject = self.select_subject()
+
+        self.subject_str = self.get_subject()
+
+        self.template = self.select_template()
 
         self.message_pk, self.message = self.create_message()
 
@@ -74,7 +88,6 @@ class Message(object):
 
         self.inst_unsub_url, self.dict_urls['unsub'] = self.create_unsub_url()
         self.inst_open_tag, self.dict_urls['open'] = self.create_open_tag()
-
 
         self.body_raw = self.get_body_raw()
         self.body_finished = self.get_body_finished()
@@ -124,16 +137,6 @@ class Message(object):
     def get_recipient_pk(self):
         return self.recipient.pk
 
-    def allow_to_send(self):
-
-        key = get_mx_es(domain=self.recipient.domain, ).items()[0][1]
-        if cache.get(key='allow_to_send_{0}'.format(key, ), default=False, ):
-            return False
-
-        cache.set(key='allow_to_send_{0}'.format(key, ), value=True, timeout=300, )
-
-        return True
-
     def get_delivery(self):
 
         delivery = cache.get(
@@ -159,7 +162,7 @@ class Message(object):
     def get_sender_email(self):
         return 'sender-email-{0}@{1}'.format(self.mid, proj.settings.SENDER_DOMAIN, )
 
-    def get_subject(self):
+    def select_subject(self):
         subject_value, subject_value_pk = 5000000, 0
 
         subjects = self.delivery.subject_set.all().order_by('pk', )
@@ -193,21 +196,62 @@ class Message(object):
             value=subject_value + subject.chance,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        return subject.pk, self.choice_str_in_tmpl(tmpl=subject.subject)
+        return subject
+
+    def select_template(self, ):
+        template_value, template_value_pk = 5000000, 0
+
+        templates = self.delivery.template_set.all().order_by('pk', )
+
+        for template in templates:
+            try:
+                template_cache_value = cache.get_or_set(
+                    key='template_cache_pk_{0}'.format(template.pk, ),
+                    value=template.chance,
+                    timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+            except AttributeError:
+                template_cache_value = cache.get(
+                    key='template_cache_pk_{0}'.format(template.pk, ),
+                    default=False, )
+
+                if not template_cache_value:
+                    cache.set(
+                        key='template_cache_pk_{0}'.format(template.pk, ),
+                        value=template.chance,
+                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+                    template_cache_value = template.chance
+
+            if template_cache_value < template_value:
+                template_value, template_value_pk = template_cache_value, template.pk
+                break
+
+        template = templates.get(pk=template_value_pk, )
+        cache.set(
+            key='template_cache_pk_{0}'.format(template.pk, ),
+            value=template_value + template.chance,
+            timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+
+        return template
 
     def create_message(self):
         message = modelMessage.objects.create(
             delivery_id=self.delivery_pk,
             email=self.recipient,
+            subject_id=self.subject.pk,
+            template_id=self.template.pk,
             is_send=False,
         )
         return message.pk, message
+
+    def get_subject(self, ):
+        return self.choice_str_in_tmpl(tmpl=self.subject.subject)
 
     def create_message_urls(self):
         for url in Url.objects.filter(
                 delivery=self.delivery,
                 type=1, ):
-            model_Message_Url.objects.create(
+            modelMessage_Url.objects.create(
                 delivery_id=self.delivery_pk,
                 url_id=url.pk,
                 message_id=self.message_pk,

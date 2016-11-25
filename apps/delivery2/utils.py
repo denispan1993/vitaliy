@@ -58,3 +58,13 @@ def get_mx_es(domain, ):
     # for rdata in answers:
     #     print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
     return OrderedDict(sorted(mx_dict.items()))
+
+
+def allow_to_send(domain, ):
+    key = get_mx_es(domain=domain, ).items()[0][1]
+    if cache.get(key='allow_to_send_{0}'.format(key, ), default=False, ):
+        return False
+
+    cache.set(key='allow_to_send_{0}'.format(key, ), value=True, timeout=300, )
+
+    return True

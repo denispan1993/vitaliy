@@ -167,7 +167,7 @@ class EmailSubject(models.Model, ):
                                max_length=256,
                                blank=False,
                                null=False,
-                               default=_(u'Тема', ), )
+                               default=datetime.now, )
 
     chance = models.DecimalField(verbose_name=_(u'Вероятность', ),
                                  max_digits=4,
@@ -207,7 +207,7 @@ class EmailTemplate(models.Model, ):
                             verbose_name=_(u'Название', ),
                             blank=True,
                             null=True,
-                            default=str(datetime.now, ), )
+                            default=datetime.now, )
 
     template = models.FileField(upload_to=upload_to,
                                 verbose_name=_(u'Шаблон', ),
@@ -374,12 +374,12 @@ class Message(models.Model):
     email = GenericForeignKey('content_type', 'object_id', )
 
     subject = models.ForeignKey(to=EmailSubject,
-                                verbose_name=_(u'Указатель на subject', ),
+                                verbose_name=_(u'Subject', ),
                                 blank=True,
                                 null=True, )
 
     subject_str = models.CharField(max_length=256,
-                                   verbose_name=_(u'Строка subject', ),
+                                   verbose_name=_(u'Subject str', ),
                                    blank=True,
                                    null=True, )
 
