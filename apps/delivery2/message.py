@@ -78,11 +78,12 @@ class Message(object):
 
         self.subject = self.select_subject()
 
-        self.subject_str = self.get_subject()
-
         self.template = self.select_template()
 
         self.message_pk, self.message = self.create_message()
+
+        self.subject_str = self.get_subject()
+        self.template_body = self.get_template()
 
         self.qs_message_urls, self.dict_urls = self.create_message_urls()
 

@@ -26,6 +26,16 @@ from apps.delivery.models import SpamEmail as delivery_Email
 
 __author__ = 'AlexStarov'
 
+EMAIL_UNSUBSCRIBE_LINK = 'http://{host}/email/unsubscribe?code={code}'
+
+TAG_REPLACE = {
+    '#UNSUBSCRIBE_URL#': EMAIL_UNSUBSCRIBE_LINK\
+        .format(host=proj.settings.SENDER_DOMAIN, code='{{ email_hash }}'),
+    # '#SHOW_ONLINE_URL#':,
+    # '#OPEN_URL#':,
+    # '#GOOGLE_URL#':,
+}
+
 
 def upload_to(instance, filename, prefix=None, unique=True):
     """
@@ -259,9 +269,9 @@ class EmailTemplate(models.Model, ):
                 except Exception, e:
                     pass
         # TODO: Доделать ТЭГИ
-        # for tag in TAG_REPLACE:
-        #     html = html.replace(tag, TAG_REPLACE[tag])
-        # html = RE_REPLACE_GENDER.sub(replace_gender_callback, html)
+        for tag in TAG_REPLACE:
+            html = html.replace(tag, TAG_REPLACE[tag])
+        html = RE_REPLACE_GENDER.sub(replace_gender_callback, html)
         #html = html.replace(
         #    '</body>',
         #    '<img src="http://{{ MAIN_DOMAIN }}{{ mail_obj.get_pixel_url }}" width="0" height="0" border="0" /></body>', )
