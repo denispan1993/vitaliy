@@ -15,7 +15,7 @@ from datetime import datetime
 from email.utils import formataddr
 from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
-from .models import Delivery, Message as modelMessage
+from .models import Delivery, Message as modelMessage, EmailUrlTemplate, MessageRedirectUrl
 from .utils import allow_to_send
 
 __author__ = 'AlexStarov'
@@ -85,13 +85,14 @@ class Message(object):
         self.subject_str = self.get_subject()
         self.template_body = self.get_template()
 
-        self.qs_message_urls, self.dict_urls = self.create_message_urls()
+#        self.qs_message_urls, self.dict_urls = self.create_message_urls()
 
-        self.inst_unsub_url, self.dict_urls['unsub'] = self.create_unsub_url()
-        self.inst_open_tag, self.dict_urls['open'] = self.create_open_tag()
+#        self.inst_unsub_url, self.dict_urls['unsub'] = self.create_unsub_url()
+#        self.inst_open_tag, self.dict_urls['open'] = self.create_open_tag()
 
-        self.body_raw = self.get_body_raw()
-        self.body_finished = self.get_body_finished()
+#        self.body_raw = self.get_body_raw()
+        self.body_finished = self.template_body
+#        self.body_finished = self.get_body_finished()
 
         """ did - Delivery id """
         self.did = self.get_did()
@@ -110,11 +111,12 @@ class Message(object):
             'X-Delivery-id': self.did,
             'X-Email-id': self.eid,
             'X-Message-id': self.mid,
-            'List-Unsubscribe': self.dict_urls['unsub'],
+#            'List-Unsubscribe': self.dict_urls['unsub'],
         }
 
-        self.message = self.create_msg()
-        self.connection = self.connect()
+        self.sender = None
+        # self.message = self.create_msg()
+        # self.connection = self.connect()
 
     def get_recipient_class(self):
         return str('{0}.{1}'.format(self.recipient._meta.app_label, self.recipient.__class__.__name__))
@@ -248,122 +250,114 @@ class Message(object):
     def get_subject(self, ):
         return self.choice_str_in_tmpl(tmpl=self.subject.subject)
 
-    def create_message_urls(self):
-        for url in Url.objects.filter(
-                delivery=self.delivery,
-                type=1, ):
-            modelMessage_Url.objects.create(
-                delivery_id=self.delivery_pk,
-                url_id=url.pk,
-                message_id=self.message_pk,
-                email=self.recipient,
-                # content_type=self.recipient_content_type,
-                # object_id=self.recipient_pk
-            )
+    def get_template(self, ):
+        template_body = self.template.get_template()
 
-        qs_urls = model_Message_Url.objects.filter(
-            url__type=1,
-            delivery_id=self.delivery_pk,
-            message_id=self.message_pk,
-            content_type=self.recipient_content_type,
-            object_id=self.recipient_pk
-        )
-        dict_urls = {}
-        for url in qs_urls:
-            dict_urls['url{}'.format(url.url.url_id, )] = url.ready_url_str
+        urls_pk = re.findall(r'<a\s+(?:[^>]*?\s+)?href="#URL_([0-9]{6})#"', template_body, )
+        for url_pk in urls_pk:
+            url = EmailUrlTemplate.objects.get(pk=url_pk, )
+            message_url = MessageRedirectUrl.objects\
+                .create(delivery_id=self.delivery_pk, href_id=url.pk, )
 
-        return qs_urls, dict_urls
+            template_body = template_body\
+                .replace('#URL_{url_pk}'.format(url_pk=url_pk, ),
+                         'http://{redirect_host}{redirect_url}'.format(
+                             redirect_host=proj.settings.REDIRECT_HOST,
+                             redirect_url=message_url.get_absolute_url(), ),
+                         )
+        #TODO: Следующим этапом: ТЭГИ Unsub, img Open, Show online, Goggle tracking
 
-    def create_unsub_url(self):
-        url = cache.get('unsub_url_{}'.format(self.delivery_pk), False)
+        return template_body
+#    def create_unsub_url(self):
+#        url = cache.get('unsub_url_{}'.format(self.delivery_pk), False)
 
-        if not url:
-            url, create = Url.objects.get_or_create(
-                delivery_id=self.delivery_pk,
-                href='http://keksik.com.ua/delivery/unsubscribe/',
-                type=2,
-            )
+#        if not url:
+#            url, create = Url.objects.get_or_create(
+#                delivery_id=self.delivery_pk,
+#                href='http://keksik.com.ua/delivery/unsubscribe/',
+#                type=2,
+#            )
 
-            cache.set(
-                key='unsub_url_{}'.format(self.delivery_pk),
-                value=url,
-                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+#            cache.set(
+#                key='unsub_url_{}'.format(self.delivery_pk),
+#                value=url,
+#                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        inst_unsub = model_Message_Url.objects.create(
-            delivery_id=self.delivery_pk,
-            url_id=url.pk,
-            message_id=self.message_pk,
-            email=self.recipient,
-        )
+#        inst_unsub = modelMessageUrl.objects.create(
+#            delivery_id=self.delivery_pk,
+#            url_id=url.pk,
+#            message_id=self.message_pk,
+#            email=self.recipient,
+#        )
 
-        return inst_unsub, inst_unsub.ready_url_str
+#        return inst_unsub, inst_unsub.ready_url_str
 
-    def create_open_tag(self):
-        url = cache.get('open_url_{0}'.format(self.delivery_pk), False)
+#    def create_open_tag(self):
+#        url = cache.get('open_url_{0}'.format(self.delivery_pk), False)
 
-        if not url:
-            url, create = Url.objects.get_or_create(
-                delivery_id=self.delivery_pk,
-                href='http://keksik.com.ua/delivery/open/',
-                type=3,
-            )
+#        if not url:
+#            url, create = Url.objects.get_or_create(
+#                delivery_id=self.delivery_pk,
+#                href='http://keksik.com.ua/delivery/open/',
+#                type=3,
+#            )
 
-            cache.set(
-                key='open_url_{0}'.format(self.delivery_pk),
-                value=url,
-                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+#            cache.set(
+#                key='open_url_{0}'.format(self.delivery_pk),
+#                value=url,
+#                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        inst_open = model_Message_Url.objects.create(
-            delivery_id=self.delivery_pk,
-            url_id=url.pk,
-            message_id=self.message_pk,
-            email=self.recipient,
-        )
+#        inst_open = model_Message_Url.objects.create(
+#            delivery_id=self.delivery_pk,
+#            url_id=url.pk,
+#            message_id=self.message_pk,
+#            email=self.recipient,
+#        )
 
-        return inst_open, inst_open.ready_url_str
+#        return inst_open, inst_open.ready_url_str
 
-    def get_body_raw(self):
-        body_value, body_value_pk = 5000000, 0
+#    def get_body_raw(self):
+#        body_value, body_value_pk = 5000000, 0
 
-        bodies = self.delivery.body_set.all().order_by('pk', )
+#        bodies = self.delivery.body_set.all().order_by('pk', )
 
-        for body in bodies:
-            try:
-                body_cache_value = cache.get_or_set(
-                    key='body_cache_pk_{0}'.format(body.pk, ),
-                    value=body.chance,
-                    timeout=259200, )
+#        for body in bodies:
+#            try:
+#                body_cache_value = cache.get_or_set(
+#                    key='body_cache_pk_{0}'.format(body.pk, ),
+#                    value=body.chance,
+#                    timeout=259200, )
 
-            except AttributeError:
-                body_cache_value = cache.get(
-                    key='body_cache_pk_{0}'.format(body.pk, ), )
+#            except AttributeError:
+#                body_cache_value = cache.get(
+#                    key='body_cache_pk_{0}'.format(body.pk, ), )
 
-                if not body_cache_value:
-                    body_cache_value = body.chance
-                    cache.set(
-                        key='body_cache_pk_{0}'.format(body.pk, ),
-                        value=body.chance,
-                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+#                if not body_cache_value:
+#                    body_cache_value = body.chance
+#                    cache.set(
+#                        key='body_cache_pk_{0}'.format(body.pk, ),
+#                        value=body.chance,
+#                        timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-            if body_cache_value < body_value:
-                body_value, body_value_pk = body_cache_value, body.pk
+#            if body_cache_value < body_value:
+#                body_value, body_value_pk = body_cache_value, body.pk
 
-        body = bodies.get(pk=body_value_pk, )
-        cache.set(
-            key='body_cache_pk_{0}'.format(body.pk, ),
-            value=body_cache_value + body.chance,
-            timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
+#        body = bodies.get(pk=body_value_pk, )
+#        cache.set(
+#            key='body_cache_pk_{0}'.format(body.pk, ),
+#            value=body_cache_value + body.chance,
+#            timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-        return body.html
+#        return body.html
 
-    def get_body_finished(self):
-        body_finished = self.choice_str_in_tmpl(self.body_raw)
+#    def get_body_finished(self):
+#        body_finished = self.choice_str_in_tmpl(self.body_raw)
 
-        body_finished = self.replace_str_in_tmpl(
-            tmpl=body_finished,
-            context=self.dict_urls, )
+#        body_finished = self.replace_str_in_tmpl(
+#            tmpl=body_finished,
+#            context=self.dict_urls, )
 
-        return body_finished
+#        return body_finished
 
     def choice_str_in_tmpl(self, tmpl, ):
         """ ccc('aaa [[bbb|111]] ccc [[ddd|222]] eee [[fff|333|444|555|666]] ggg') """
@@ -388,35 +382,35 @@ class Message(object):
 
         return ''.join(three)
 
-    def replace_str_in_tmpl(
-            self,
-            tmpl,
-            context={
-                'url1': '<a href="http://keksik.com.ua/>www.keksik.com.ua</a>',
-            },
-    ):
-        """ bbb('aaa {{aaa1}} ccc {{bbb2}} eee {{ccc3}} ggg', {'aaa1': '1aaa', 'bbb2': 'bb2b', 'ccc3': 'ccc333ccc', }) """
+#    def replace_str_in_tmpl(
+#            self,
+#            tmpl,
+#            context={
+#                'url1': '<a href="http://keksik.com.ua/>www.keksik.com.ua</a>',
+#            },
+#    ):
+#        """ bbb('aaa {{aaa1}} ccc {{bbb2}} eee {{ccc3}} ggg', {'aaa1': '1aaa', 'bbb2': 'bb2b', 'ccc3': 'ccc333ccc', }) """
 
-        three = re.split(tokenizer_replacement, tmpl)
+#        three = re.split(tokenizer_replacement, tmpl)
 
-        nodes = {}
-        for pos, block in enumerate(three):
-            if block.startswith('{{') and block.endswith('}}'):
-                key = block.strip('{{}}')
+#        nodes = {}
+#        for pos, block in enumerate(three):
+#            if block.startswith('{{') and block.endswith('}}'):
+#                key = block.strip('{{}}')
 
-                if key not in nodes:
-                    nodes[key] = []
-                nodes[key].append(pos)
+#                if key not in nodes:
+#                    nodes[key] = []
+#                nodes[key].append(pos)
 
-        keys = nodes.keys()
-        three = copy(three)
+#        keys = nodes.keys()
+#        three = copy(three)
 
-        for key, value in context.iteritems():
-            if key in keys:
-                for pos in nodes[key]:
-                    three[pos] = value
+#        for key, value in context.iteritems():
+#            if key in keys:
+#                for pos in nodes[key]:
+#                    three[pos] = value
 
-        return ''.join(three)
+#        return ''.join(three)
 
     def get_did(self, ):
         """ did - Delivery id """
@@ -446,9 +440,12 @@ class Message(object):
 
         return message.message()
 
-    def connect(self, ):
+    def connect(self, sender, ):
+        self.sender = sender
+
         connection_class = SMTP_SSL
-        connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
+        #connection_params = {'local_hostname': DNS_NAME.get_fqdn()}
+        connection_params = {'local_hostname': 'mail-proxy.keksik.mk.ua', }
 
         try:
             connection = connection_class(

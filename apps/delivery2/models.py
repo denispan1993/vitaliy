@@ -2,16 +2,18 @@
 # /apps/delivery2/models.py
 
 import os
-import time
 import hashlib
 import re
+from random import randint
+import time
+from datetime import datetime, timedelta
 from celery.result import AsyncResult
 from celery.utils import uuid
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_unicode
-from datetime import datetime, timedelta
+from django.utils.baseconv import base62
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.template.loader import render_to_string
@@ -241,20 +243,47 @@ class EmailTemplate(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def get_image_names(self):
+    def get_image_and_style_names(self):
+        self.template.file.seek(0)
         html = self.template.file.read()
         img = re.findall(r'url\([\'|\"](?P<file>[^ \s]+)[\'|\"]\)', html)
         style = re.findall(r'src=[\'|\"](?P<file>[^ \s]+)[\'|\"]', html)
         return set(img + style)
 
+    def get_urls(self):
+        self.template.file.seek(0)
+        html = self.template.file.read()
+        url = re.findall(r'<a\s+(?:[^>]*?\s+)?href="([^"]*)"', html)
+        return set(url)
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         super(EmailTemplate, self).save(force_insert, force_update, using, update_fields)
-        images = self.get_image_names()
+        images = self.get_image_and_style_names()
 
         for url in images:
-            if not self.images.filter(url=url).exists():
-                self.images.create(url=url)
+            if not self.images.filter(url=url, ).exists():
+                self.images.create(url=url, )
+
+        urls = self.get_urls()
+
+        for href in urls:
+            if not self.urls.filter(href=href, ).exists():
+                self.urls.create(href=href, )
+
+        self.template.file.seek(0)
+        html = self.template.file.read()
+
+        for href in urls:
+            href_pk = EmailUrlTemplate.objects\
+                .values_list('id', flat=True)\
+                .get(template_id=self.id,
+                     href=href, )
+            html = html.replace(href,
+                                '#URL_{href_pk:06d}#'.format(href_pk=href_pk, ))
+
+        with open(self.template.path, 'w') as f:
+            f.write(html, )
 
     def get_template(self):
         self.template.file.seek(0)
@@ -269,9 +298,9 @@ class EmailTemplate(models.Model, ):
                 except Exception, e:
                     pass
         # TODO: Доделать ТЭГИ
-        for tag in TAG_REPLACE:
-            html = html.replace(tag, TAG_REPLACE[tag])
-        html = RE_REPLACE_GENDER.sub(replace_gender_callback, html)
+        #for tag in TAG_REPLACE:
+        #    html = html.replace(tag, TAG_REPLACE[tag])
+        #html = RE_REPLACE_GENDER.sub(replace_gender_callback, html)
         #html = html.replace(
         #    '</body>',
         #    '<img src="http://{{ MAIN_DOMAIN }}{{ mail_obj.get_pixel_url }}" width="0" height="0" border="0" /></body>', )
@@ -321,26 +350,17 @@ class EmailImageTemplate(models.Model, ):
         verbose_name_plural = _(u'Изображения в письме', )
 
 
-class RedirectUrl(models.Model, ):
-    """ Связка URL в письме и куда будет редирект """
-    id = models.BigIntegerField(primary_key=True, )
-
-    delivery = models.ForeignKey(to=Delivery,
-                                 verbose_name=_(u'Рассылка'),
+class EmailUrlTemplate(models.Model, ):
+    """ url in template будующей рассылки """
+    template = models.ForeignKey(to=EmailTemplate,
+                                 related_name='urls',
+                                 verbose_name=u'Шаблон',
                                  blank=False,
-                                 null=False,)
-
+                                 null=False, )
     href = models.CharField(verbose_name=_(u'URL', ),
                             max_length=256,
-                            blank=False,
-                            null=False,
-                            default='http://keksik.com.ua/', )
-
-    uuid = models.CharField(verbose_name=_(u'UUID', ),
-                            max_length=256,
-                            blank=False,
-                            null=False,
-                            default='http://keksik.com.ua/', )
+                            blank=True,
+                            null=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -351,6 +371,64 @@ class RedirectUrl(models.Model, ):
                                       verbose_name=_(u'Дата обновления', ),
                                       blank=True,
                                       null=True, )
+
+    def __unicode__(self):
+        return u'pk:%0.6d [unsub] --> %s' % (
+            self.pk,
+            self.href, )
+
+    class Meta:
+        db_table = 'Delivery2_EmailUrlTemplate'
+        ordering = ['-created_at', ]
+        verbose_name = _(u'Url в темплэйте', )
+        verbose_name_plural = _(u'Urls в темплэйте', )
+
+
+class MessageRedirectUrl(models.Model, ):
+    """ Связка URL в письме и куда будет редирект """
+    id = models.BigIntegerField(primary_key=True, )
+
+    delivery = models.ForeignKey(to=Delivery,
+                                 verbose_name=_(u'Рассылка'),
+                                 blank=False,
+                                 null=False, )
+
+    href = models.ForeignKey(to=EmailUrlTemplate,
+                             verbose_name=_(u'Url', ),
+                             blank=True,
+                             null=True, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    @classmethod
+    def code2int(cls, id_62, ):
+        try:
+            return base62.decode(id_62, )
+        except Exception:
+            raise ValueError
+
+    def save(self, *args, **kwargs):
+        while True:
+            if not self.pk:
+                self.pk = randint(1, 9223372036854775807)
+            try:
+                super(MessageRedirectUrl, self).save(*args, **kwargs)
+            except IntegrityError:
+                self.pk = None
+            else:
+                break
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'email:go', [base62.encode(self.pk), ]
 
     def __unicode__(self):
         return u'pk:%0.6d [href:%s]' % (self.pk, self.href, )

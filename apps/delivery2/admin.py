@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from .models import Delivery, Message, EmailSubject, EmailTemplate, EmailImageTemplate
+from .models import Delivery, Message, EmailSubject, EmailTemplate, EmailImageTemplate, EmailUrlTemplate
 
 __author__ = 'AlexStarov'
 
@@ -51,6 +51,19 @@ class EmailImageInlineAdmin(admin.TabularInline, ):
         return False
 
 
+class EmailUrlInlineAdmin(admin.TabularInline, ):
+    model = EmailUrlTemplate
+    fields = ['href', ]
+    readonly_fields = ('href', )
+    extra = 1
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 class EmailTemplateAdmin(admin.ModelAdmin):
     list_display = ['pk', 'delivery', 'name', 'chance', ]
     list_display_links = ['pk', 'delivery', 'name', 'chance', ]
@@ -59,7 +72,7 @@ class EmailTemplateAdmin(admin.ModelAdmin):
         ('delivery/admin/templates/iframe.html', 'middle', ''),
     )
 
-    inlines = (EmailImageInlineAdmin, )
+    inlines = (EmailImageInlineAdmin, EmailUrlInlineAdmin, )
 
     save_as = True
     save_on_top = True

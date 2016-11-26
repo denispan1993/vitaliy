@@ -129,5 +129,9 @@ class IFrameTemplateView(OnlyStaffMixin, View):
         return HttpResponse(template.render(context))
 
 
+class GoView(TemplateView, ):
+    template_name = 'unsub.jinja2'
+
+
 class ShowView(TemplateView, ):
     template_name = 'unsub.jinja2'
