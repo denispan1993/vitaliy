@@ -172,6 +172,7 @@ class Delivery(models.Model, ):
 class EmailSubject(models.Model, ):
     """ subject будующей рассылки """
     delivery = models.ForeignKey(to=Delivery,
+                                 related_name='subjects',
                                  blank=False,
                                  null=False,)
 
@@ -211,6 +212,7 @@ class EmailSubject(models.Model, ):
 class EmailTemplate(models.Model, ):
     """ template будующей рассылки """
     delivery = models.ForeignKey(to=Delivery,
+                                 related_name='templates',
                                  blank=False,
                                  null=False, )
 
@@ -434,7 +436,7 @@ class MessageRedirectUrl(models.Model, ):
         return u'pk:%0.6d [href:%s]' % (self.pk, self.href, )
 
     class Meta:
-        db_table = 'Delivery2_RedirectUrl'
+        db_table = 'Delivery2_MessageRedirectUrl'
         ordering = ['-created_at', ]
         verbose_name = _(u'Url', )
         verbose_name_plural = _(u'Urls', )

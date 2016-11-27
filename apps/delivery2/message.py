@@ -5,7 +5,7 @@ import socket
 import proj.settings
 from copy import copy
 from django.core.mail import EmailMultiAlternatives
-from django.core.mail.utils import DNS_NAME
+# from django.core.mail.utils import DNS_NAME
 from django.core.cache import cache
 from django.db.models.loading import get_model
 from django.utils.html import strip_tags
@@ -80,7 +80,7 @@ class Message(object):
 
         self.template = self.select_template()
 
-        self.message_pk, self.message = self.create_message()
+        self.message_pk, self.message_instance = self.create_message()
 
         self.subject_str = self.get_subject()
         self.template_body = self.get_template()
@@ -114,8 +114,9 @@ class Message(object):
 #            'List-Unsubscribe': self.dict_urls['unsub'],
         }
 
-        self.sender = None
-        # self.message = self.create_msg()
+        self.message = self.create_msg()
+
+        self.sender, self.connection = None, None
         # self.connection = self.connect()
 
     def get_recipient_class(self):
@@ -162,13 +163,10 @@ class Message(object):
     def get_message_pk(self, ):
         return self.message_pk
 
-    def get_sender_email(self):
-        return 'sender-email-{0}@{1}'.format(self.mid, proj.settings.SENDER_DOMAIN, )
-
     def select_subject(self):
         subject_value, subject_value_pk = 5000000, 0
 
-        subjects = self.delivery.subject_set.all().order_by('pk', )
+        subjects = self.delivery.subjects.all().order_by('pk', )
 
         for subject in subjects:
             try:
@@ -204,7 +202,7 @@ class Message(object):
     def select_template(self, ):
         template_value, template_value_pk = 5000000, 0
 
-        templates = self.delivery.template_set.all().order_by('pk', )
+        templates = self.delivery.templates.all().order_by('pk', )
 
         for template in templates:
             try:
@@ -265,9 +263,11 @@ class Message(object):
                              redirect_host=proj.settings.REDIRECT_HOST,
                              redirect_url=message_url.get_absolute_url(), ),
                          )
+
         #TODO: Следующим этапом: ТЭГИ Unsub, img Open, Show online, Goggle tracking
 
         return template_body
+
 #    def create_unsub_url(self):
 #        url = cache.get('unsub_url_{}'.format(self.delivery_pk), False)
 
@@ -457,7 +457,9 @@ class Message(object):
                 connection.login(self.sender.username, self.sender.password, )
                 connection.ehlo()
 
-            return connection
+            self.connection = connection
+
+            return True
 
         except (SMTPException, SMTPServerDisconnected) as e:
             print('Exception(SMTPException, SMTPServerDisconnected): ', e)
@@ -467,7 +469,10 @@ class Message(object):
             print('Exception(socket.error): ', e)
             return False
 
-    def send_mail(self, ):
+    def get_sender_email(self):
+        return 'sender-email-{0}@{1}'.format(self.mid, proj.settings.SENDER_DOMAIN, )
+
+    def send(self, ):
         try:
             self.connection.sendmail(
                 from_addr=formataddr(
@@ -487,11 +492,23 @@ class Message(object):
             if e.smtp_code == 554 and\
                     "5.7.1 Message rejected under suspicion of SPAM; https://ya.cc/" in e.smtp_error:
                 print('SPAM Bloked E-Mail: ', self.recipient, ' NOW !!!!!!!!!!!!!!!!!!!!!!!')
-                self.recipient.is_auto_active = False
-                self.recipient.auto_active_datetime = datetime.now()
-                self.recipient.save()
+                # self.recipient.is_auto_active = False
+                # self.recipient.auto_active_datetime = datetime.now()
+                # self.recipient.save()
 
         except Exception as e:
             print('Exception: ', e)
 
         return False
+
+    # @staticmethod
+    def delete(self, ):
+        self.message_instance.delete()
+        return True
+
+    # @staticmethod
+    def save(self, ):
+        self.message_instance.subject_str = self.subject_str
+        self.message_instance.template_body = self.template_body
+        self.message_instance.save()
+        return True

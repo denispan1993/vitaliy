@@ -15,7 +15,7 @@ from collections import OrderedDict
 from django.db.models import Q
 
 from apps.authModel.models import Email as AuthEmail
-from apps.delivery.models import SpamEmail
+from apps.delivery.models import SpamEmail, MailAccount
 from .models import Delivery, Message as modelMessage
 from .message import Message as classMessage
 
@@ -24,6 +24,7 @@ from .message import Message as classMessage
 #from apps.socks import models as models_socks
 #from .utils import get_mail_account, get_email, create_msg, str_conv, get_email_by_str, send
 #from .message import Message
+
 
 __author__ = 'AlexStarov'
 
@@ -66,7 +67,7 @@ def send_delivery(*args, **kwargs):
     if delivery.delivery_test and not delivery.test_send and not delivery.general_send:
 
         while True:
-            sleep(1)
+            sleep(5)
             #auth_emails = AuthEmail.objects.filter(
             #    test=True,
             #    bad_email=False,
@@ -79,7 +80,7 @@ def send_delivery(*args, **kwargs):
                 delivery_id=delivery_pk,
                 is_send=True,
                 content_type=ContentType.objects.get_for_model(SpamEmail), )
-
+            """ И убираем их из списка всех адресов, после чего берем один случайный pk """
             spam_emails = SpamEmail.objects.values_list('pk', flat=True)\
                 .filter(
                 ~Q(id__in=spam_emails_delivered),
@@ -99,12 +100,24 @@ def send_delivery(*args, **kwargs):
                 recipient_pk=spam_email,
 
             )
+            if message:
+                print('message: True', )
+                if not os.path.isfile(path('server.key', ), ):
+                    mail_account = MailAccount.objects.get(pk=4)
+
+                if message.connect(sender=mail_account, ):
+
+                    if message.send():
+                        message.save()
+                    else:
+                        message.delete()
+
             print(len(spam_emails_delivered), ' : ', len(spam_emails), ' : ', spam_email, )
-            modelMessage.objects.create(
-                delivery_id=delivery_pk,
-                email=SpamEmail.objects.get(pk=spam_email),
-                is_send=True,
-            )
+#            modelMessage.objects.create(
+#                delivery_id=delivery_pk,
+#                email=SpamEmail.objects.get(pk=spam_email),
+#                is_send=True,
+#            )
 
 #        if os.path.isfile(path('server.key', ), ):
 #            real_email = get_email(delivery=delivery, email_class=Email, pk=2836, )  # pk=6, ) subscribe@keksik.com.ua
