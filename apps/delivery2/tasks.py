@@ -3,6 +3,7 @@ import os
 from proj.celery import celery_app
 from datetime import datetime, timedelta
 from celery.utils.log import get_task_logger
+import time
 
 from django.contrib.contenttypes.models import ContentType
 
@@ -68,6 +69,8 @@ def send_delivery(*args, **kwargs):
 
         while True:
             sleep(5)
+            start = time.time()
+
             #auth_emails = AuthEmail.objects.filter(
             #    test=True,
             #    bad_email=False,
@@ -98,21 +101,25 @@ def send_delivery(*args, **kwargs):
                 delivery=delivery,
                 recipient_class=str('{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail._meta.model_name)),
                 recipient_pk=spam_email,
-
             )
+
             if message:
-                print('message: True', )
                 if not os.path.isfile(path('server.key', ), ):
-                    mail_account = MailAccount.objects.get(pk=4)
+                    mail_account = MailAccount.objects.get(pk=4, )
 
                 if message.connect(sender=mail_account, ):
-
                     if message.send():
                         message.save()
                     else:
                         message.delete()
 
-            print(len(spam_emails_delivered), ' : ', len(spam_emails), ' : ', spam_email, )
+            print(len(spam_emails_delivered), ' : ',
+                  len(spam_emails), ' : ',
+                  spam_email, ' : ',
+                  SpamEmail.objects.get(pk=spam_email, ).email, )
+
+            print "Process time: {}".format(time.time() - start, )
+
 #            modelMessage.objects.create(
 #                delivery_id=delivery_pk,
 #                email=SpamEmail.objects.get(pk=spam_email),

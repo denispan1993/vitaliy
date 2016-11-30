@@ -390,17 +390,28 @@ class MessageRedirectUrl(models.Model, ):
     """ Связка URL в письме и куда будет редирект """
     id = models.BigIntegerField(primary_key=True, )
 
-    delivery = models.ForeignKey(to=Delivery,
-                                 verbose_name=_(u'Рассылка'),
-                                 blank=False,
-                                 null=False, )
+    message = models.ForeignKey(to='Message',
+                                verbose_name=_(u'Письмо', ),
+                                blank=False,
+                                null=False, )
+
+    Type_Url = (
+        (1, _(u'Url', ), ),
+        (2, _(u'Unsub', ), ),
+        (3, _(u'Open', ), ),
+    )
+    type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип URL'),
+                                            choices=Type_Url,
+                                            default=1,
+                                            blank=False,
+                                            null=False, )
 
     href = models.ForeignKey(to=EmailUrlTemplate,
                              verbose_name=_(u'Url', ),
                              blank=True,
                              null=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
@@ -420,13 +431,14 @@ class MessageRedirectUrl(models.Model, ):
     def save(self, *args, **kwargs):
         while True:
             if not self.pk:
-                self.pk = randint(1, 9223372036854775807)
+                self.pk = randint(1, 9223372036854775807, )
+
             try:
-                super(MessageRedirectUrl, self).save(*args, **kwargs)
+                super(MessageRedirectUrl, self, ).save(*args, **kwargs)
+                break
+
             except IntegrityError:
                 self.pk = None
-            else:
-                break
 
     @models.permalink
     def get_absolute_url(self):

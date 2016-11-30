@@ -45,7 +45,7 @@ class Message(object):
         email_model = get_model(*recipient_class.split('.'))
 
         if allow_to_send(domain=email_model.objects.get(pk=recipient_pk, ).domain, ):
-            return super(Message, cls).__new__(cls, )
+            return super(Message, cls, ).__new__(cls, )
         else:
             return False
 
@@ -80,17 +80,17 @@ class Message(object):
 
         self.template = self.select_template()
 
-        self.message_pk, self.message_instance = self.create_message()
+        self.message_instance_pk, self.message_instance = self.create_message()
 
         self.subject_str = self.get_subject()
-        self.template_body = self.get_template()
 
-#        self.qs_message_urls, self.dict_urls = self.create_message_urls()
+        self.dict_urls = self.create_message_urls()
 
-#        self.inst_unsub_url, self.dict_urls['unsub'] = self.create_unsub_url()
+        self.dict_urls['#UNSUB_URL#'] = self.create_unsub_url()
 #        self.inst_open_tag, self.dict_urls['open'] = self.create_open_tag()
 
 #        self.body_raw = self.get_body_raw()
+        self.template_body = self.get_template()
         self.body_finished = self.template_body
 #        self.body_finished = self.get_body_finished()
 
@@ -160,15 +160,13 @@ class Message(object):
 
     # =======================================================================================
 
-    def get_message_pk(self, ):
-        return self.message_pk
-
     def select_subject(self):
         subject_value, subject_value_pk = 5000000, 0
 
         subjects = self.delivery.subjects.all().order_by('pk', )
 
         for subject in subjects:
+
             try:
                 subject_cache_value = cache.get_or_set(
                     key='subject_cache_pk_{0}'.format(subject.pk, ),
@@ -189,7 +187,6 @@ class Message(object):
 
             if subject_cache_value < subject_value:
                 subject_value, subject_value_pk = subject_cache_value, subject.pk
-                break
 
         subject = subjects.get(pk=subject_value_pk, )
         cache.set(
@@ -205,6 +202,7 @@ class Message(object):
         templates = self.delivery.templates.all().order_by('pk', )
 
         for template in templates:
+
             try:
                 template_cache_value = cache.get_or_set(
                     key='template_cache_pk_{0}'.format(template.pk, ),
@@ -225,7 +223,6 @@ class Message(object):
 
             if template_cache_value < template_value:
                 template_value, template_value_pk = template_cache_value, template.pk
-                break
 
         template = templates.get(pk=template_value_pk, )
         cache.set(
@@ -246,51 +243,45 @@ class Message(object):
         return message.pk, message
 
     def get_subject(self, ):
-        return self.choice_str_in_tmpl(tmpl=self.subject.subject)
+        return self.choice_str_in_tmpl(tmpl=self.subject.subject, )
+
+    def create_message_urls(self, ):
+        template_body = self.template.get_template()
+
+        urls_pk = re.findall(r'<a\s+(?:[^>]*?\s+)?href="#URL_([0-9]{6})#"', template_body, )
+        dict_urls = {}
+        for url_pk in urls_pk:
+            url = EmailUrlTemplate.objects.get(pk=url_pk, )
+            message_url = MessageRedirectUrl.objects\
+                .create(message_id=self.message_instance_pk,
+                        type=1,
+                        href_id=url.pk, )
+
+            dict_urls['#URL_{}'.format(url_pk, )] = message_url.get_absolute_url()
+
+        return dict_urls
+
+    def create_unsub_url(self):
+        message_url = MessageRedirectUrl.objects \
+            .create(message_id=self.message_instance_pk,
+                    type=2, )
+
+        return message_url.get_absolute_url()
 
     def get_template(self, ):
         template_body = self.template.get_template()
 
-        urls_pk = re.findall(r'<a\s+(?:[^>]*?\s+)?href="#URL_([0-9]{6})#"', template_body, )
-        for url_pk in urls_pk:
-            url = EmailUrlTemplate.objects.get(pk=url_pk, )
-            message_url = MessageRedirectUrl.objects\
-                .create(delivery_id=self.delivery_pk, href_id=url.pk, )
-
+        for key, url in self.dict_urls.iteritems():
             template_body = template_body\
-                .replace('#URL_{url_pk}'.format(url_pk=url_pk, ),
+                .replace(key,
                          'http://{redirect_host}{redirect_url}'.format(
                              redirect_host=proj.settings.REDIRECT_HOST,
-                             redirect_url=message_url.get_absolute_url(), ),
+                             redirect_url=url, ),
                          )
 
         #TODO: Следующим этапом: ТЭГИ Unsub, img Open, Show online, Goggle tracking
 
         return template_body
-
-#    def create_unsub_url(self):
-#        url = cache.get('unsub_url_{}'.format(self.delivery_pk), False)
-
-#        if not url:
-#            url, create = Url.objects.get_or_create(
-#                delivery_id=self.delivery_pk,
-#                href='http://keksik.com.ua/delivery/unsubscribe/',
-#                type=2,
-#            )
-
-#            cache.set(
-#                key='unsub_url_{}'.format(self.delivery_pk),
-#                value=url,
-#                timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
-
-#        inst_unsub = modelMessageUrl.objects.create(
-#            delivery_id=self.delivery_pk,
-#            url_id=url.pk,
-#            message_id=self.message_pk,
-#            email=self.recipient,
-#        )
-
-#        return inst_unsub, inst_unsub.ready_url_str
 
 #    def create_open_tag(self):
 #        url = cache.get('open_url_{0}'.format(self.delivery_pk), False)
@@ -382,36 +373,6 @@ class Message(object):
 
         return ''.join(three)
 
-#    def replace_str_in_tmpl(
-#            self,
-#            tmpl,
-#            context={
-#                'url1': '<a href="http://keksik.com.ua/>www.keksik.com.ua</a>',
-#            },
-#    ):
-#        """ bbb('aaa {{aaa1}} ccc {{bbb2}} eee {{ccc3}} ggg', {'aaa1': '1aaa', 'bbb2': 'bb2b', 'ccc3': 'ccc333ccc', }) """
-
-#        three = re.split(tokenizer_replacement, tmpl)
-
-#        nodes = {}
-#        for pos, block in enumerate(three):
-#            if block.startswith('{{') and block.endswith('}}'):
-#                key = block.strip('{{}}')
-
-#                if key not in nodes:
-#                    nodes[key] = []
-#                nodes[key].append(pos)
-
-#        keys = nodes.keys()
-#        three = copy(three)
-
-#        for key, value in context.iteritems():
-#            if key in keys:
-#                for pos in nodes[key]:
-#                    three[pos] = value
-
-#        return ''.join(three)
-
     def get_did(self, ):
         """ did - Delivery id """
         return '{0:04d}-{1:02d}'.format(self.delivery_pk, self.delivery.type, )
@@ -431,7 +392,7 @@ class Message(object):
                 (u'Интернет магаизн Keksik', self.get_sender_email()), ),
             'to': [self.recipient.email, ],
             'headers': self.headers,
-            'subject': u'test - {}'.format(self.subject) if self.delivery.test_send else self.subject,
+            'subject': u'test - {}'.format(self.subject_str) if self.delivery.test_send else self.subject_str,
             'body': strip_tags(self.body_finished, ),
         }
 
@@ -501,14 +462,13 @@ class Message(object):
 
         return False
 
-    # @staticmethod
     def delete(self, ):
         self.message_instance.delete()
         return True
 
-    # @staticmethod
     def save(self, ):
         self.message_instance.subject_str = self.subject_str
         self.message_instance.template_body = self.template_body
+        self.message_instance.is_send = True
         self.message_instance.save()
         return True
