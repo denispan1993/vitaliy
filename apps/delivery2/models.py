@@ -270,8 +270,9 @@ class EmailTemplate(models.Model, ):
         urls = self.get_urls()
 
         for href in urls:
-            if not self.urls.filter(href=href, ).exists():
-                self.urls.create(href=href, )
+            if href not in reserved_tags:
+                if not self.urls.filter(href=href, ).exists():
+                    self.urls.create(href=href, )
 
         self.template.file.seek(0)
         html = self.template.file.read()
@@ -392,13 +393,13 @@ class MessageRedirectUrl(models.Model, ):
 
     message = models.ForeignKey(to='Message',
                                 verbose_name=_(u'Письмо', ),
-                                blank=False,
-                                null=False, )
+                                blank=True,
+                                null=True, )
 
     Type_Url = (
         (1, _(u'Url', ), ),
         (2, _(u'Unsub', ), ),
-        (3, _(u'Open', ), ),
+        (3, _(u'Show online', ),),
     )
     type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип URL'),
                                             choices=Type_Url,
@@ -442,7 +443,9 @@ class MessageRedirectUrl(models.Model, ):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'email:go', [base62.encode(self.pk), ]
+        return ('email:go',
+                (),
+                {'pk_in_base62': base62.encode(self.pk, ), }, )
 
     def __unicode__(self):
         return u'pk:%0.6d [href:%s]' % (self.pk, self.href, )

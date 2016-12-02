@@ -59,12 +59,31 @@ def get_mx_es(domain, ):
     #     print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
     return OrderedDict(sorted(mx_dict.items()))
 
+dict_timeouts = {
+    'mail.ru': 30,
+    'yandex.net': 30,
+    'rambler.ru': 30,
+    'google.com': 30,
+    'hotmail.com': 30,
+    'yahoodns.net': 30,
+}
+
 
 def allow_to_send(domain, ):
-    key = get_mx_es(domain=domain, ).items()[0][1]
+    smtp_host = get_mx_es(domain=domain, ).items()[0][1]
+
+    key = smtp_host.rsplit('.', 2, )[-2:]
+    key = '.'.join(key, )
+
     if cache.get(key='allow_to_send_{0}'.format(key, ), default=False, ):
         return False
 
-    cache.set(key='allow_to_send_{0}'.format(key, ), value=True, timeout=300, )
+    if key in dict_timeouts:
+        timeout = dict_timeouts[key]
+    else:
+        print('key : ', key, ' not found in dict_timeouts ', '--> smtp_host : ', smtp_host, )
+        timeout = 300
+
+    cache.set(key='allow_to_send_{0}'.format(key, ), value=True, timeout=timeout, )
 
     return True

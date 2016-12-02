@@ -68,7 +68,7 @@ def send_delivery(*args, **kwargs):
     if delivery.delivery_test and not delivery.test_send and not delivery.general_send:
 
         while True:
-            sleep(5)
+            sleep(4)
             start = time.time()
 
             #auth_emails = AuthEmail.objects.filter(

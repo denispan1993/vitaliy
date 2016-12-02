@@ -86,8 +86,9 @@ class Message(object):
 
         self.dict_urls = self.create_message_urls()
 
-        self.dict_urls['#UNSUB_URL#'] = self.create_unsub_url()
-#        self.inst_open_tag, self.dict_urls['open'] = self.create_open_tag()
+        self.dict_urls['#UNSUB_URL#'] = self.create_tag_url(tag_type=2, )
+        self.dict_urls['#OPEN_URL#'] = self.create_tag_url(tag_type=3, )
+        self.dict_urls['#SHOW_ONLINE_URL#'] = self.create_tag_url(tag_type=4, )
 
 #        self.body_raw = self.get_body_raw()
         self.template_body = self.get_template()
@@ -111,7 +112,7 @@ class Message(object):
             'X-Delivery-id': self.did,
             'X-Email-id': self.eid,
             'X-Message-id': self.mid,
-#            'List-Unsubscribe': self.dict_urls['unsub'],
+            'List-Unsubscribe': self.dict_urls['#UNSUB_URL#'],
         }
 
         self.message = self.create_msg()
@@ -261,10 +262,10 @@ class Message(object):
 
         return dict_urls
 
-    def create_unsub_url(self):
+    def create_tag_url(self, tag_type=1, ):
         message_url = MessageRedirectUrl.objects \
             .create(message_id=self.message_instance_pk,
-                    type=2, )
+                    type=tag_type, )
 
         return message_url.get_absolute_url()
 
@@ -280,6 +281,32 @@ class Message(object):
                          )
 
         #TODO: Следующим этапом: ТЭГИ Unsub, img Open, Show online, Goggle tracking
+
+        template_body = template_body \
+            .replace('</body>',
+                     '<img src="http://{REDIRECT_HOST}{redirect_url}"'
+                     ' width="0"'
+                     ' height="0"'
+                     ' border="0" />'
+                     '</body>'
+                     .format(
+                         REDIRECT_HOST=proj.settings.REDIRECT_HOST,
+                         redirect_url='/message/key/opened/', ),
+                     )
+
+        template_body = template_body \
+            .replace('</body>',
+                     '<img src="http://www.google-analytics.com/collect?v=1&'
+                     'tid={EMAIL_GA}&cid={{ email_hash }}&uid={{ user.pk }}&'
+                     't=event&ec=email&ea=open&el=recipient_id&cs=delivery&cm=email&cn={{ mail_obj.reason }}"'
+                     ' width="0"'
+                     ' height="0"'
+                     ' border="0" />'
+                     '</body>'
+                     .format(
+                         EMAIL_GA=proj.settings.EMAIL_GA,
+                         redirect_url='/message/key/opened/', ),
+                     )
 
         return template_body
 
