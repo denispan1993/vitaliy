@@ -38,6 +38,8 @@ TAG_REPLACE = {
     # '#GOOGLE_URL#':,
 }
 
+#reserved_tags = ('#UNSUB_URL#', '#OPEN_URL#', '#SHOW_ONLINE_URL#', )
+
 
 def upload_to(instance, filename, prefix=None, unique=True):
     """
@@ -255,8 +257,10 @@ class EmailTemplate(models.Model, ):
     def get_urls(self):
         self.template.file.seek(0)
         html = self.template.file.read()
-        url = re.findall(r'<a\s+(?:[^>]*?\s+)?href="([^"]*)"', html)
-        return set(url)
+        url = re.findall(
+            r'<a\s+(?:[^>]*?\s+)?href="(?!#URL_[0-9]{6}#|#UNSUB_URL#|#OPEN_URL#|#SHOW_ONLINE_URL#|#)([^"]*)"',
+            html, )
+        return set(url, )
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -270,9 +274,8 @@ class EmailTemplate(models.Model, ):
         urls = self.get_urls()
 
         for href in urls:
-            if href not in reserved_tags:
-                if not self.urls.filter(href=href, ).exists():
-                    self.urls.create(href=href, )
+            if not self.urls.filter(href=href, ).exists():
+                self.urls.create(href=href, )
 
         self.template.file.seek(0)
         html = self.template.file.read()
@@ -376,9 +379,12 @@ class EmailUrlTemplate(models.Model, ):
                                       null=True, )
 
     def __unicode__(self):
-        return u'pk:%0.6d [unsub] --> %s' % (
-            self.pk,
-            self.href, )
+        try:
+            return u'pk:%0.6d [href] --> %s' % (
+                self.pk,
+                self.href, )
+        except TypeError:
+            return u'pk is None'
 
     class Meta:
         db_table = 'Delivery2_EmailUrlTemplate'

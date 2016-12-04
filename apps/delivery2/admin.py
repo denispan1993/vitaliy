@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from .models import Delivery, Message, EmailSubject, EmailTemplate, EmailImageTemplate, EmailUrlTemplate
+from .models import Delivery, Message, EmailSubject, EmailTemplate, EmailImageTemplate, EmailUrlTemplate, MessageRedirectUrl
 
 __author__ = 'AlexStarov'
 
@@ -29,6 +29,13 @@ class DeliveryAdmin(admin.ModelAdmin, ):
     ordering = ['-created_at', ]
 
 
+class MessageRedirectUrlAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'message', 'type', 'href', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'message', 'href', ]
+
+    ordering = ['-created_at', ]
+
+
 class MessageAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'delivery', 'is_send', 'email', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'delivery', ]
@@ -51,17 +58,25 @@ class EmailImageInlineAdmin(admin.TabularInline, ):
         return False
 
 
+class EmailUrlTemplateAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'template', 'href', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'template', 'href', ]
+
+    ordering = ['-created_at', ]
+
+
 class EmailUrlInlineAdmin(admin.TabularInline, ):
+
     model = EmailUrlTemplate
     fields = ['href', ]
     readonly_fields = ('href', )
     extra = 1
 
-    def has_add_permission(self, request):
-        return False
+#    def has_add_permission(self, request):
+#        return False
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+#    def has_delete_permission(self, request, obj=None):
+#        return False
 
 
 class EmailTemplateAdmin(admin.ModelAdmin):
@@ -79,5 +94,7 @@ class EmailTemplateAdmin(admin.ModelAdmin):
     ordering = ['-created_at', ]
 
 admin.site.register(Delivery, DeliveryAdmin, )
+admin.site.register(MessageRedirectUrl, MessageRedirectUrlAdmin, )
 admin.site.register(Message, MessageAdmin, )
+admin.site.register(EmailUrlTemplate, EmailUrlTemplateAdmin, )
 admin.site.register(EmailTemplate, EmailTemplateAdmin, )

@@ -67,9 +67,9 @@ def send_delivery(*args, **kwargs):
 
     if delivery.delivery_test and not delivery.test_send and not delivery.general_send:
 
-        while True:
-            sleep(4)
-            start = time.time()
+#        while True:
+#            sleep(4)
+        start = time.time()
 
             #auth_emails = AuthEmail.objects.filter(
             #    test=True,
@@ -77,26 +77,31 @@ def send_delivery(*args, **kwargs):
             #    error550=False,
             #)
 
-            """ Берем все уже отправленные адреса (pk) из отправленных в этой рассылке """
-            spam_emails_delivered = modelMessage.objects.values_list('object_id', flat=True)\
-                .filter(
-                delivery_id=delivery_pk,
-                is_send=True,
-                content_type=ContentType.objects.get_for_model(SpamEmail), )
-            """ И убираем их из списка всех адресов, после чего берем один случайный pk """
-            spam_emails = SpamEmail.objects.values_list('pk', flat=True)\
-                .filter(
-                ~Q(id__in=spam_emails_delivered),
-                test=True,
-                bad_email=False,
-                error550=False, )\
-                .order_by('?')
+#            """ Берем все уже отправленные адреса (pk) из отправленных в этой рассылке """
+#            spam_emails_delivered = modelMessage.objects.values_list('object_id', flat=True)\
+#                .filter(
+#                delivery_id=delivery_pk,
+#                is_send=True,
+#                content_type=ContentType.objects.get_for_model(SpamEmail), )
+#            """ И убираем их из списка всех адресов, после чего берем один случайный pk """
+#            spam_emails = SpamEmail.objects.values_list('pk', flat=True)\
+#                .filter(
+#                ~Q(id__in=spam_emails_delivered),
+#                test=True,
+#                bad_email=False,
+#                error550=False, )\
+#                .order_by('?')
 
-            if len(spam_emails) == 0:
-                break
+#            if len(spam_emails) == 0:
+#                break
 
-            spam_email = spam_emails[0]
+#            spam_email = spam_emails[0]
 
+        spam_emails = (826, 827, 828, 1587, )  # alex.starov@gmail.com, starov.alex@gmail.com, subscribe.keksik@ukr.net
+
+        for spam_email in spam_emails:
+            sleep(5)
+            start = time.time()
             message = classMessage(
                 delivery=delivery,
                 recipient_class=str('{0}.{1}'.format(SpamEmail._meta.app_label, SpamEmail._meta.model_name)),
@@ -113,13 +118,41 @@ def send_delivery(*args, **kwargs):
                     else:
                         message.delete()
 
-            print(len(spam_emails_delivered), ' : ',
+            print(#len(spam_emails_delivered), ' : ',
                   len(spam_emails), ' : ',
                   spam_email, ' : ',
                   SpamEmail.objects.get(pk=spam_email, ).email, )
 
             print "Process time: {}".format(time.time() - start, )
 
+
+        spam_emails = (1, 4, 6, 7, 8, 9, 11,)
+
+        for spam_email in spam_emails:
+            sleep(5)
+            start = time.time()
+            message = classMessage(
+                delivery=delivery,
+                recipient_class=str('{0}.{1}'.format(AuthEmail._meta.app_label, AuthEmail._meta.model_name)),
+                recipient_pk=spam_email,
+            )
+
+            if message:
+                if not os.path.isfile(path('server.key', ), ):
+                    mail_account = MailAccount.objects.get(pk=4, )
+
+                if message.connect(sender=mail_account, ):
+                    if message.send():
+                        message.save()
+                    else:
+                        message.delete()
+
+            print(  # len(spam_emails_delivered), ' : ',
+                len(spam_emails), ' : ',
+                spam_email, ' : ',
+                AuthEmail.objects.get(pk=spam_email, ).email,)
+
+            print "Process time: {}".format(time.time() - start, )
 #            modelMessage.objects.create(
 #                delivery_id=delivery_pk,
 #                email=SpamEmail.objects.get(pk=spam_email),
@@ -287,7 +320,7 @@ def send_delivery(*args, **kwargs):
 
     delivery.started_at = None
     delivery.task_id = None
-    delivery.is_active = True
+    delivery.is_active = False
     delivery.save(skip_schedule=True, )
 
     return True, datetime.now(), '__name__: {0}'.format(str(__name__))

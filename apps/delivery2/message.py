@@ -44,10 +44,10 @@ class Message(object):
 
         email_model = get_model(*recipient_class.split('.'))
 
-        if allow_to_send(domain=email_model.objects.get(pk=recipient_pk, ).domain, ):
-            return super(Message, cls, ).__new__(cls, )
-        else:
-            return False
+#        if allow_to_send(domain=email_model.objects.get(pk=recipient_pk, ).domain, ):
+        return super(Message, cls, ).__new__(cls, )
+#        else:
+#            return False
 
     def __init__(self,
                  delivery=None,
@@ -273,6 +273,7 @@ class Message(object):
         template_body = self.template.get_template()
 
         for key, url in self.dict_urls.iteritems():
+            print('key: ', key, ' url: ', url)
             template_body = template_body\
                 .replace(key,
                          'http://{redirect_host}{redirect_url}'.format(

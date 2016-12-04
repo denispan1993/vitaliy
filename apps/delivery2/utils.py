@@ -66,6 +66,10 @@ dict_timeouts = {
     'google.com': 30,
     'hotmail.com': 30,
     'yahoodns.net': 30,
+    'ukr.net': 30,
+    'i.ua': 30,
+    'qip.ru': 30,
+    'port25.com': 30,
 }
 
 
