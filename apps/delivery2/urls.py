@@ -18,9 +18,11 @@ urlpatterns = [
     url(regex=r'^show_iframe/(?P<pk>[0-9]+)/$',
         view=views.IFrameTemplateView.as_view(),
         name='show_iframe', ),
+
     url(regex=r'^(?P<pk_in_base62>[a-zA-Z0-9]*)/go/$',
         view=views.GoView.as_view(),
         name='go'),
+
     url(regex=r'^(?P<key>[a-zA-Z0-9]{64})/show/$',
         view=views.ShowView.as_view(),
         name='show', ),

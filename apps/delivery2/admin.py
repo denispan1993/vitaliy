@@ -45,6 +45,13 @@ class MessageAdmin(admin.ModelAdmin, ):
     ordering = ['-created_at', ]
 
 
+class EmailImageTemplateAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'template', 'url', 'image', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'template', 'url', 'image', ]
+
+    ordering = ['-created_at', ]
+
+
 class EmailImageInlineAdmin(admin.TabularInline, ):
     model = EmailImageTemplate
     fields = ['url', 'image']
@@ -96,5 +103,6 @@ class EmailTemplateAdmin(admin.ModelAdmin):
 admin.site.register(Delivery, DeliveryAdmin, )
 admin.site.register(MessageRedirectUrl, MessageRedirectUrlAdmin, )
 admin.site.register(Message, MessageAdmin, )
+admin.site.register(EmailImageTemplate, EmailImageTemplateAdmin, )
 admin.site.register(EmailUrlTemplate, EmailUrlTemplateAdmin, )
 admin.site.register(EmailTemplate, EmailTemplateAdmin, )

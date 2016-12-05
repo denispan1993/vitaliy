@@ -258,7 +258,7 @@ class Message(object):
                         type=1,
                         href_id=url.pk, )
 
-            dict_urls['#URL_{}'.format(url_pk, )] = message_url.get_absolute_url()
+            dict_urls['#URL_{}#'.format(url_pk, )] = message_url.get_absolute_url()
 
         return dict_urls
 

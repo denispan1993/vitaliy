@@ -265,6 +265,7 @@ class EmailTemplate(models.Model, ):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         super(EmailTemplate, self).save(force_insert, force_update, using, update_fields)
+
         images = self.get_image_and_style_names()
 
         for url in images:
@@ -274,19 +275,37 @@ class EmailTemplate(models.Model, ):
         urls = self.get_urls()
 
         for href in urls:
+            if href[0] is '/':
+                href = 'http://{redirect_host}{href}'.format(
+                    redirect_host=proj.settings.REDIRECT_HOST,
+                    href=href, )
             if not self.urls.filter(href=href, ).exists():
                 self.urls.create(href=href, )
 
         self.template.file.seek(0)
         html = self.template.file.read()
 
+#        for url in images:
+#            image = EmailImageTemplate.objects\
+#                .get(template_id=self.id,
+#                     url=url, )
+##            html = html.replace(old=url,
+##                                new='#URL_{href_pk:06d}#'.format(href_pk=href_pk, ), )
+
         for href in urls:
+            if href[0] is '/':
+                href_new = 'http://{redirect_host}{href}'.format(
+                    redirect_host=proj.settings.REDIRECT_HOST,
+                    href=href, )
+            else:
+                href_new = href
+
             href_pk = EmailUrlTemplate.objects\
                 .values_list('id', flat=True)\
                 .get(template_id=self.id,
-                     href=href, )
-            html = html.replace(href,
-                                '#URL_{href_pk:06d}#'.format(href_pk=href_pk, ))
+                     href=href_new, )
+            html = html.replace('href="{href}"'.format(href=href,),
+                                'href="#URL_{href_pk:06d}#"'.format(href_pk=href_pk, ), )
 
         with open(self.template.path, 'w') as f:
             f.write(html, )
