@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
+from apps.utils.captcha.views import key_generator
 
 
 def set_path_photo(self, filename, ):
@@ -50,7 +54,6 @@ class Captcha_Images(models.Model, ):
 
 
 class Captcha_Key(models.Model, ):
-    from apps.utils.captcha.views import key_generator
     key = models.CharField(verbose_name=u'Капча код',
                            unique=True,
                            max_length=8,
@@ -64,7 +67,6 @@ class Captcha_Key(models.Model, ):
                                                   blank=False,
                                                   null=False, )
 
-    from datetime import datetime
     next_use = models.DateTimeField(default=datetime.now, )
 
     #Дата создания и дата обновления записи. Устанавливаются автоматически.
@@ -76,13 +78,12 @@ class Captcha_Key(models.Model, ):
         # self.save()
         # from django.db.models import F
         # View.view_count = F('view_count') + 1
-        from datetime import datetime, timedelta
-        from django.utils import timezone
         """
             TypeError: can't compare offset-naive and offset-aware datetimes
             Несовместимость реального времени и времени со сдвигом тайм-зоны
             Нельзя сравнивать реальное время и время со сдвигом.
         """
+        from datetime import datetime, timedelta
         if self.created_at + timedelta(days=1, ) < timezone.now():
             """ Если дата ключа просрочена. Ключ убиваем. """
             self.delete()

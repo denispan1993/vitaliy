@@ -1,12 +1,26 @@
 # -*- coding: utf-8 -*-
+import re
+import warnings
+import string
+import random
 from django.db import models
+from django.conf import settings
+from django.core import validators
+from django.core.mail import send_mail
+from django.core.exceptions import ImproperlyConfigured
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, AbstractUser, UserManager, PermissionsMixin, )
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
+from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
+
 
 __author__ = 'AlexStarov'
 
+
+def key_generator(size=16, chars=string.ascii_letters + string.digits, ):
+    return ''.join(random.choice(chars, ) for _ in range(size, ), )
 
 # Модифицируем поле email.
 # _meta это экземпляр django.db.models.options.Options, который хранит данные о модели.
@@ -111,8 +125,6 @@ class User(AbstractBaseUser, PermissionsMixin, ):
 
     Username, password and email are required. Other fields are optional.
     """
-    from django.core import validators
-    import re
     username = models.CharField(_('username'), max_length=32, unique=True,
                                 help_text=_('Required. 32 characters or fewer. Letters, numbers and '
                                             '@/./+/-/_ characters', ),
@@ -139,7 +151,6 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     is_active = models.BooleanField(_('active'), default=True,
                                     help_text=_('Designates whether this user should be treated as '
                                                 'active. Unselect this instead of deleting accounts.', ), )
-    from django.utils import timezone
     date_joined = models.DateTimeField(_('date joined', ), default=timezone.now, )
 
     objects = UserManager()
@@ -148,7 +159,6 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     REQUIRED_FIELDS = []
 
     def get_absolute_url(self):
-        from django.utils.http import urlquote
         return "/users/%s/" % urlquote(self.username, )
 
     def get_full_name(self):
@@ -168,7 +178,6 @@ class User(AbstractBaseUser, PermissionsMixin, ):
         """
         Sends an email to this User.
         """
-        from django.core.mail import send_mail
         send_mail(subject, message, from_email, [self.email], )
 
     def get_profile(self):
@@ -177,12 +186,9 @@ class User(AbstractBaseUser, PermissionsMixin, ):
         SiteProfileNotAvailable if this site does not allow profiles.
         """
         # from django.contrib.auth.models import SiteProfileNotAvailable
-        from django.core.exceptions import ImproperlyConfigured
-        import warnings
         warnings.warn("The use of AUTH_PROFILE_MODULE to define user profiles has been deprecated.",
                       DeprecationWarning, stacklevel=2, )
         if not hasattr(self, '_profile_cache'):
-            from django.conf import settings
             # if not getattr(settings, 'AUTH_PROFILE_MODULE', False):
             #     raise SiteProfileNotAvailable(
             #         'You need to set AUTH_PROFILE_MODULE in your project '
@@ -223,6 +229,12 @@ class Email(models.Model, ):
                              related_name='email_parent_user',
                              null=True,
                              blank=True, )
+    hash = models.CharField(verbose_name=u'Hash',
+                            unique=True,
+                            max_length=16,
+                            default=key_generator,
+                            blank=False,
+                            null=False, )
     # Тест e'mail
     test = models.BooleanField(
         verbose_name=_(u"Тест e'mail", ),

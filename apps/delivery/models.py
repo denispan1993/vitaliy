@@ -1,20 +1,25 @@
 # -*- coding: utf-8 -*-
 # /apps/delivery/models.py
 
-from django.db import models, IntegrityError
-from django.utils.translation import ugettext_lazy as _
+import string
+import random
 from datetime import datetime
+from django.db import models, IntegrityError
+from django.db.models import Q
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.template.loader import render_to_string
-from django.db.models import Q
 
 from compat.ImageWithThumbs import models as class_ImageWithThumb
-from apps.utils.captcha.views import key_generator
 from apps.cart.models import Order
 from apps.authModel.models import Email as authModel_Email
 
 __author__ = 'AlexStarov'
+
+
+def key_generator(size=16, chars=string.ascii_letters + string.digits, ):
+    return ''.join(random.choice(chars, ) for _ in range(size, ), )
 
 
 class MailServer(models.Model, ):
@@ -826,6 +831,13 @@ class SpamEmail(models.Model, ):
     email = models.EmailField(verbose_name=_(u'E-Mail', ),
                               blank=False,
                               null=False, )
+    hash = models.CharField(verbose_name=u'Hash',
+                            unique=True,
+                            max_length=16,
+                            default=key_generator,
+                            blank=False,
+                            null=False, )
+
     # Тест e'mail
     test = models.BooleanField(
         verbose_name=_(u"Тест e'mail", ),

@@ -2,21 +2,25 @@
 import os
 import re
 import socket
-import proj.settings
+from time import mktime
+from datetime import datetime
 from copy import copy
+from random import randrange, randint
 from django.core.mail import EmailMultiAlternatives
 # from django.core.mail.utils import DNS_NAME
 from django.core.cache import cache
+from django.db import IntegrityError
 from django.db.models.loading import get_model
 from django.utils.html import strip_tags
-from random import randrange, randint
-from time import mktime
-from datetime import datetime
 from email.utils import formataddr
 from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
+import proj.settings
+
 from .models import Delivery, Message as modelMessage, EmailUrlTemplate, MessageRedirectUrl
 from .utils import allow_to_send
+from apps.utils.captcha.views import key_generator
+
 
 __author__ = 'AlexStarov'
 
@@ -458,8 +462,18 @@ class Message(object):
             print('Exception(socket.error): ', e)
             return False
 
-    def get_sender_email(self):
-        return 'sender-email-{0}@{1}'.format(self.mid, proj.settings.SENDER_DOMAIN, )
+    def get_sender_email(self, ):
+        if not self.recipient.hash:
+
+            while True:
+                self.recipient.hash = key_generator(size=16, )
+                try:
+                    self.recipient.save()
+                    break
+                except IntegrityError:
+                    pass
+
+        return 'noreply-{0}@{1}'.format(self.mid, proj.settings.SENDER_DOMAIN, )
 
     def send(self, ):
         try:
