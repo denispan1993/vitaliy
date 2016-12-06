@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
+from datetime import datetime
+from string import ascii_lowercase, digits
+from django.db import connection, transaction, IntegrityError
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import Http404
+from django.views.generic.edit import FormView, CreateView, View, ProcessFormView
+
+from proj.settings import SERVER
+
+from apps.utils.captcha.utils import key_generator
+from apps.coupon.forms import CouponCreateEditForm, CouponGroupCreateEditForm
+from apps.coupon.models import Coupon, CouponGroup
+from apps.coupon.views import coupon_create
+
+__author__ = 'AlexStarov'
 
 
 @staff_member_required
@@ -19,16 +31,13 @@ def coupon_group_search(request,
                 except ValueError:
                     error_message = u'Некорректно введен номер группы купонов.'
                 else:
-                    from apps.coupon.models import CouponGroup
                     try:
                         coupon_group = CouponGroup.objects.get(pk=coupon_group_id, )
                     except CouponGroup.DoesNotExist:
                         error_message = u'Группы купонов с таким номером не существует.'
                     else:
                         coupon_group_id = '%06d' % coupon_group_id
-                        from django.shortcuts import redirect
                         return redirect(to='coupon_group_edit', id=coupon_group_id, )
-    from apps.coupon.models import CouponGroup
     coupon_groups = CouponGroup.objects.all()
     return render(request=request,
                   template_name=template_name,
@@ -48,11 +57,8 @@ def coupon_group_search(request,
 #        from modules.creative.models import Creative
 #        return Creative.objects.all()
 
-from django.views.generic.edit import FormView, CreateView, View, ProcessFormView
-
 
 class CouponGroupCreateEdit(FormView, ):
-    from apps.coupon.forms import CouponGroupCreateEditForm
     form_class = CouponGroupCreateEditForm
     template_name = u'coupon/coupon_group_edit.jinja2'
     success_url = u'/админ/купон/группа/редактор/добавить/'
@@ -63,28 +69,18 @@ class CouponGroupCreateEdit(FormView, ):
         # print form.cleaned_data
         # print form.cleaned_data.get('POST_NAME', None, )
         if form.cleaned_data.get('name', None, ):
-            from apps.coupon.models import CouponGroup
             self.coupon_group = CouponGroup.objects.create(**form.cleaned_data)
-            from apps.coupon.models import Coupon
             how_much_coupons = form.cleaned_data.get('how_much_coupons', 0, )
-            from datetime import datetime
             start_of_the_coupon = form.cleaned_data.get('start_of_the_coupon', datetime.now(), )
             # start_of_the_coupon = datetime.strptime(start_of_the_coupon, '%d.%m.%Y %H:%M:%S', )
             start_of_the_coupon = start_of_the_coupon.strftime('%Y-%m-%d %H:%M:%S')
             end_of_the_coupon = form.cleaned_data.get('end_of_the_coupon', datetime.now(), )
             # end_of_the_coupon = datetime.strptime(end_of_the_coupon, '%d.%m.%Y %H:%M:%S', )
             end_of_the_coupon = end_of_the_coupon.strftime('%Y-%m-%d %H:%M:%S')
-            from apps.utils.captcha.views import key_generator
-            from string import ascii_lowercase, digits
-            from django.db import connection
-            from random import randint
-            from django.db import IntegrityError
             cursor = connection.cursor()
-            from django.db import transaction
             name = form.cleaned_data.get('name', None, )
             number_of_possible_uses = form.cleaned_data.get('number_of_possible_uses', 0, )
             percentage_discount = form.cleaned_data.get('percentage_discount', 0, )
-            from proj.settings import SERVER
             if SERVER:
                 ins = '''insert into Coupon (name, coupon_group_id, `key`, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
                          values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', NOW(), NOW())'''
@@ -164,14 +160,12 @@ class CouponGroupCreateEdit(FormView, ):
             else:
                 context['disable'] = True
                 context['coupon_group_pk'] = pk_int
-                from apps.coupon.models import CouponGroup
                 try:
                     coupon_group = CouponGroup.objects.get(pk=pk_int, )
                 except CouponGroup.DoesNotExist:
                     pass
                 else:
                     context['coupon_group'] = coupon_group
-                    from apps.coupon.models import Coupon
                     try:
                         coupons = Coupon.objects.filter(coupon_group=coupon_group, )
                     except Coupon.DoesNotExist:
@@ -192,12 +186,10 @@ class CouponGroupCreateEdit(FormView, ):
         if get_POST_NAME in list_POST_NAME:
             return super(CouponGroupCreateEdit, self, ).post(self, request, *args, **kwargs)
         else:
-            from django.http import Http404
             raise Http404
 
 
 class CouponCreateEdit(FormView, ):
-    from apps.coupon.forms import CouponCreateEditForm
     form_class = CouponCreateEditForm
     template_name = u'coupon/coupon_edit.jinja2'
     success_url = u'/админ/купон/редактор/добавить/'
@@ -219,7 +211,6 @@ class CouponCreateEdit(FormView, ):
             else:
                 context['disable'] = True
                 context['coupon_pk'] = pk_int
-                from apps.coupon.models import Coupon
                 try:
                     coupon = Coupon.objects.get(pk=pk_int, )
                 except Coupon.DoesNotExist:
@@ -235,7 +226,6 @@ def coupon_group_edit(request,
                       template_name=u'coupon/coupon_group_edit.jinja2', ):
     error_message = u''
     coupon_group = None
-    from apps.coupon.models import CouponGroup
     if coupon_group_id:
         print coupon_group_id
         try:
@@ -268,7 +258,6 @@ def coupon_group_edit(request,
                 percentage_discount = int(percentage_discount, )
             except ValueError:
                 error_message = u'Некорректный номер комментария.'
-            from datetime import datetime
             start_of_the_coupon = request.POST.get(u'start_of_the_coupon', None, )
             start_of_the_coupon = datetime.strptime(start_of_the_coupon, '%d/%m/%Y %H:%M:%S', )
             end_of_the_coupon = request.POST.get(u'end_of_the_coupon', None, )
@@ -279,7 +268,6 @@ def coupon_group_edit(request,
                                                       percentage_discount=percentage_discount,
                                                       start_of_the_coupon=start_of_the_coupon,
                                                       end_of_the_coupon=end_of_the_coupon, )
-            from apps.coupon.views import coupon_create
             for n in range(how_much_coupons):
                 coupon_create(name=name,
                               coupon_group=coupon_group,

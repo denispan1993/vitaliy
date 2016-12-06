@@ -8,7 +8,7 @@ from django.utils.timezone import now
 
 from string import ascii_lowercase, digits
 
-from apps.utils.captcha.views import key_generator
+from apps.utils.captcha.utils import key_generator
 from apps.cart.models import Cart, Order
 
 __author__ = 'AlexStarov'

@@ -60,16 +60,18 @@ def get_mx_es(domain, ):
     return OrderedDict(sorted(mx_dict.items()))
 
 dict_timeouts = {
-    'mail.ru': 30,
-    'yandex.net': 30,
-    'rambler.ru': 30,
-    'google.com': 30,
-    'hotmail.com': 30,
-    'yahoodns.net': 30,
-    'ukr.net': 30,
-    'i.ua': 30,
-    'qip.ru': 30,
-    'port25.com': 30,
+    'mail.ru': 10,
+    'yandex.ru': 10,
+    'yandex.net': 10,
+    'rambler.ru': 10,
+    'google.com': 10,
+    'hotmail.com': 10,
+    'yahoodns.net': 10,
+    'ukr.net': 10,
+    'i.ua': 10,
+    'qip.ru': 10,
+    'port25.com': 10,
+    'mk.ua': 10,
 }
 
 
@@ -86,7 +88,7 @@ def allow_to_send(domain, ):
         timeout = dict_timeouts[key]
     else:
         print('key : ', key, ' not found in dict_timeouts ', '--> smtp_host : ', smtp_host, )
-        timeout = 300
+        timeout = 60
 
     cache.set(key='allow_to_send_{0}'.format(key, ), value=True, timeout=timeout, )
 

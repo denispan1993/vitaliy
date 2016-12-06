@@ -15,11 +15,12 @@ from compat.ImageWithThumbs import models as class_ImageWithThumb
 from apps.cart.models import Order
 from apps.authModel.models import Email as authModel_Email
 
+from apps.utils.captcha.utils import key_generator
 __author__ = 'AlexStarov'
 
 
-def key_generator(size=16, chars=string.ascii_letters + string.digits, ):
-    return ''.join(random.choice(chars, ) for _ in range(size, ), )
+def key(size=16, ):
+    return key_generator(size=size, )
 
 
 class MailServer(models.Model, ):
@@ -696,7 +697,7 @@ class EmailForDelivery(models.Model, ):
                            blank=False,
                            null=False,
                            # unique=True, )
-                           default=key_generator, )
+                           default=key, )
     email = models.ForeignKey(to=authModel_Email,
                               verbose_name=_(u'E-Mail', ),
                               blank=True,
@@ -728,7 +729,7 @@ class EmailForDelivery(models.Model, ):
     def save(self, *args, **kwargs):
         if not self.pk:
             while True:
-                key = key_generator()
+                key = key()
                 try:
                     EmailForDelivery.objects.get(key=key, )
                 except EmailForDelivery.DoesNotExist:
@@ -832,9 +833,9 @@ class SpamEmail(models.Model, ):
                               blank=False,
                               null=False, )
     hash = models.CharField(verbose_name=u'Hash',
-                            unique=True,
+                            unique=False,
                             max_length=16,
-                            default=key_generator,
+                            default=key,
                             blank=False,
                             null=False, )
 
@@ -997,7 +998,7 @@ class MessageUrl(models.Model, ):
                            max_length=64,
                            blank=False,
                            null=False,
-                           default=key_generator, )
+                           default=key, )
 
     content_type = models.ForeignKey(ContentType,
                                      # related_name='email_instance',
@@ -1027,7 +1028,7 @@ class MessageUrl(models.Model, ):
     def save(self, *args, **kwargs):
         if not self.key or len(self.key) < 64:
             while True:
-                self.key = key_generator(size=64, )
+                self.key = key(size=64, )
                 try:
                     MessageUrl.objects.get(key=self.key, )
                 except MessageUrl.DoesNotExist:

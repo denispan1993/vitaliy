@@ -21,7 +21,6 @@ from django.db.models import Q
 
 import proj.settings
 from compat.ImageWithThumbs import models as class_ImageWithThumb
-from apps.utils.captcha.views import key_generator
 from apps.cart.models import Order
 from apps.authModel.models import Email as authModel_Email
 from apps.delivery.models import SpamEmail as delivery_Email
@@ -424,7 +423,8 @@ class MessageRedirectUrl(models.Model, ):
     Type_Url = (
         (1, _(u'Url', ), ),
         (2, _(u'Unsub', ), ),
-        (3, _(u'Show online', ),),
+        (3, _(u'Open', ),),
+        (4, _(u'Show online', ),),
     )
     type = models.PositiveSmallIntegerField(verbose_name=_(u'Тип URL'),
                                             choices=Type_Url,

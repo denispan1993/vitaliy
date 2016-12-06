@@ -1,6 +1,5 @@
 # coding=utf-8
 
-import string
 import random
 from datetime import datetime
 from django.db import connection, transaction, IntegrityError
@@ -8,7 +7,8 @@ from django.http import HttpResponse
 
 from proj.settings import SERVER
 
-from apps.utils.captcha.models import Captcha_Images, Captcha_Key
+from .models import Captcha_Images, Captcha_Key
+from .utils import key_generator
 from django.conf import settings
 #from jinja2 import Environment, FileSystemLoader
 #template_dirs = getattr(settings, 'TEMPLATE_DIRS', )
@@ -76,10 +76,6 @@ def captcha_image_show(request, filename=None, ):
     captcha_image = Captcha_Image(filename, )
     captcha_image.draw(response, )
     return response
-
-
-def key_generator(size=8, chars=string.ascii_letters + string.digits, ):
-    return ''.join(random.choice(chars, ) for _ in range(size, ), )
 
 
 def Captcha(request=None, ):

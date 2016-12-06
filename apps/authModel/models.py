@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
 import warnings
-import string
-import random
 from django.db import models
 from django.conf import settings
 from django.core import validators
@@ -15,12 +13,10 @@ from django.utils import timezone
 from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 
+from apps.utils.captcha.utils import key_generator
 
 __author__ = 'AlexStarov'
 
-
-def key_generator(size=16, chars=string.ascii_letters + string.digits, ):
-    return ''.join(random.choice(chars, ) for _ in range(size, ), )
 
 # Модифицируем поле email.
 # _meta это экземпляр django.db.models.options.Options, который хранит данные о модели.
@@ -230,7 +226,7 @@ class Email(models.Model, ):
                              null=True,
                              blank=True, )
     hash = models.CharField(verbose_name=u'Hash',
-                            unique=True,
+                            unique=False,
                             max_length=16,
                             default=key_generator,
                             blank=False,

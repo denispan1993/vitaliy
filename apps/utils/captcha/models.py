@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from apps.utils.captcha.views import key_generator
+from .utils import key_generator
 
 
 def set_path_photo(self, filename, ):
