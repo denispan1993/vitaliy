@@ -19,7 +19,7 @@ from apps.utils.captcha.utils import key_generator
 __author__ = 'AlexStarov'
 
 
-def key(size=16, ):
+def hash_key(size=16, ):
     return key_generator(size=size, )
 
 
@@ -697,7 +697,7 @@ class EmailForDelivery(models.Model, ):
                            blank=False,
                            null=False,
                            # unique=True, )
-                           default=key, )
+                           default=hash_key, )
     email = models.ForeignKey(to=authModel_Email,
                               verbose_name=_(u'E-Mail', ),
                               blank=True,
@@ -835,7 +835,7 @@ class SpamEmail(models.Model, ):
     hash = models.CharField(verbose_name=u'Hash',
                             unique=False,
                             max_length=16,
-                            default=key,
+                            default=hash_key,
                             blank=False,
                             null=False, )
 
@@ -998,7 +998,7 @@ class MessageUrl(models.Model, ):
                            max_length=64,
                            blank=False,
                            null=False,
-                           default=key, )
+                           default=hash_key, )
 
     content_type = models.ForeignKey(ContentType,
                                      # related_name='email_instance',
