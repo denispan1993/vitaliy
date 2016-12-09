@@ -552,7 +552,7 @@ INSTALLED_APPS += (
     'easy_thumbnails',
     'apps.account',
     'apps.authModel',
-    'apps.1cbitrix',
+    'apps.bitrix',
 )
 AUTHENTICATION_BACKENDS += (
     'django.contrib.auth.backends.ModelBackend',

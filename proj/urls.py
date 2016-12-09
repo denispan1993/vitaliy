@@ -238,6 +238,14 @@ urlpatterns += patterns('',
                                          namespace='email', ),
                             ),
                         )
+#Bitrix
+urlpatterns += patterns('',
+                        url(regex=r'^bitrix/',
+                            view=include(arg='apps.bitrix.urls',
+                                         namespace='bitrix', ),
+                            ),
+                        )
+
 #!!!===================== Static media ======================
 from os.path import abspath, dirname, join, isfile
 PROJECT_PATH = abspath(dirname(__name__, ), )
