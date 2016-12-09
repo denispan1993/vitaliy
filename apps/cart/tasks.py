@@ -28,11 +28,23 @@ def delivery_order(*args, **kwargs):
     html_content = render_to_string('email_order_content.jinja2',
                                     {'order': order, })
 
+#    backend = smtp.EmailBackend(
+#        host='192.168.1.95',
+#        port=465,
+#        username='delivery@keksik.com.ua',
+#        password='warning123',
+#        use_tls=False,
+#        fail_silently=False,
+#        use_ssl=True,
+#        timeout=30,
+#        ssl_keyfile=None,
+#        ssl_certfile=None,
+#        **kwargs)
     backend = smtp.EmailBackend(
-        host='192.168.1.95',
+        host='smtp.yandex.ru',
         port=465,
-        username='delivery@keksik.com.ua',
-        password='warning123',
+        username='site@keksik.com.ua',
+        password='1q2w3e4r',
         use_tls=False,
         fail_silently=False,
         use_ssl=True,
