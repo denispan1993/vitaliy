@@ -82,7 +82,7 @@ def delivery_order(*args, **kwargs):
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
         body=strip_tags(html_content, ),
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'zakaz@keksik.com.ua')),
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((order.FIO, order.email)), ],
         connection=backend, )
 
