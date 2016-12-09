@@ -31,8 +31,8 @@ def delivery_order(*args, **kwargs):
     backend = smtp.EmailBackend(
         host='192.168.1.95',
         port=465,
-        username='delivery@keksik.mk.ua',
-        password='dfvgbh',
+        username='delivery@keksik.com.ua',
+        password='warning123',
         use_tls=False,
         fail_silently=False,
         use_ssl=True,
@@ -70,7 +70,7 @@ def delivery_order(*args, **kwargs):
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
         body=strip_tags(html_content, ),
-        from_email=email.utils.formataddr((u'Интернет магаизн Keksik', u'site@keksik.com.ua')),
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'zakaz@keksik.com.ua')),
         to=[email.utils.formataddr((order.FIO, order.email)), ],
         connection=backend, )
 
