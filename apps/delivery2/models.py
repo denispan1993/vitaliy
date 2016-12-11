@@ -6,7 +6,7 @@ import hashlib
 import re
 from random import randint
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from celery.result import AsyncResult
 from celery.utils import uuid
 
@@ -15,15 +15,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_unicode
 from django.utils.baseconv import base62
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-from django.template.loader import render_to_string
-from django.db.models import Q
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 import proj.settings
-from compat.ImageWithThumbs import models as class_ImageWithThumb
-from apps.cart.models import Order
-from apps.authModel.models import Email as authModel_Email
-from apps.delivery.models import SpamEmail as delivery_Email
 
 __author__ = 'AlexStarov'
 
@@ -133,12 +127,16 @@ class Delivery(models.Model, ):
     def schedule_run(self, ):
         from .tasks import send_delivery
 
-        if self.task_id:
+        if self.task_id and not self.is_active:
             AsyncResult(self.task_id).revoke()
+            self.task_id = None
+            self.started_at = None
+            self.save(skip_schedule=True, )
+
         self.task_id = None
         started_at = self.started_at
         self.started_at = None
-        task = send_delivery.apply_async(queue='celery',
+        task = send_delivery.apply_async(queue='delivery',
                                          kwargs={'delivery_pk': self.pk},
                                          task_id='celery-task-id-{0}'.format(uuid(), ),
                                          eta=started_at)

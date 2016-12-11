@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
 import base64
+from celery.utils import uuid
 from datetime import datetime, date
 from django.views.generic import View
 from django.http import QueryDict, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+
+from .tasks import process_bitrix_catalog
 
 __author__ = 'AlexStarov'
 
@@ -43,18 +46,25 @@ class ExchangeView(View, ):
 
         data = request.GET.copy()
 
-        request_type = data.get('type', False, )
-
-        if request_type == 'catalog':
+        if data.get('type', False, ) == 'catalog':
             mode = data.get('mode', False, )
 
             if mode == 'checkauth':
                 return HttpResponse('success\nsessionid\n{key}'.format(key=request.session.session_key), )
 
             elif mode == 'init':
-
                 return HttpResponse('zip=no\nfile_limit=16777216', )
+
             elif mode == 'import':
+                filename = data.get('filename', False, )
+                if filename == 'import.xml':
+                    pass
+                elif filename == 'offers.xml':
+                    task = process_bitrix_catalog\
+                        .apply_async(
+                            queue='celery',
+                            task_id='celery-task-id-{0}'.format(uuid(), ), )
+
                 return HttpResponse('success', )
 
         return HttpResponse('', )
