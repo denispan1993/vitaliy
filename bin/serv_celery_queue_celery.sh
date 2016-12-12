@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd /www/projs/keksik_com_ua/
+
 /www/envs/keksik_com_ua/bin/celery worker --app=proj \
 --concurrency=1 \
 --autoreload \

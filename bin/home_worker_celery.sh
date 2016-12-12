@@ -1,8 +1,8 @@
 #!/bin/sh
 
-cd ..
+cd /home/alexstarov/PycharmProjects/Shop/
 
-./manage_ubuntuhome.py celery worker --app=proj \
+/home/alexstarov/PycharmProjects/Env/bin/celery worker --app=proj \
 --concurrency=1 \
 --autoreload \
 --queues=celery \
