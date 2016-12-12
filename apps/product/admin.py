@@ -248,7 +248,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     search_fields = ['title', 'name', ]
     form = ProductAdminForm
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['category', 'is_active', 'disclose_product',
+        (None,               {'classes': ['wide'], 'fields': ['category', 'id_1c', 'is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',
                                                               'title', 'name', 'description',  # 'manufacturer',
                                                               'recommended',
@@ -263,7 +263,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
         (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]
-#    readonly_fields = u'url'
+    readonly_fields = 'id_1c'
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
     filter_horizontal = ('category', 'recommended', 'action', )
