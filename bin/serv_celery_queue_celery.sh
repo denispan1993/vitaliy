@@ -1,8 +1,6 @@
 #!/bin/sh
 
-cd ..
-
-./manage-serv.py celery worker --app=proj \
+/www/envs/keksik_com_ua/bin/python celery worker --app=proj \
 --concurrency=1 \
 --autoreload \
 --queues=celery \
