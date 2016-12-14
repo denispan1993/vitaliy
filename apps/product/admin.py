@@ -263,7 +263,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
         (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]
-    readonly_fields = 'id_1c'
+    readonly_fields = ('id_1c', )
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
     filter_horizontal = ('category', 'recommended', 'action', )
