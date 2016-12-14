@@ -9,7 +9,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 
 from validate_email import validate_email
-import celery
 
 from proj.settings import SERVER
 from apps.product.models import Country
@@ -231,10 +230,9 @@ def show_order(request,
                         """ Удаляем старую корзину """
                         cart.delete()
 
-                        delivery = delivery_order.apply_async(
+                        delivery_order.apply_async(
                             queue='delivery_send',
                             kwargs={'order_pk': order.pk, },
-                            task_id='celery-task-id-{0}'.format(celery.utils.uuid(), ),
                         )
                         request.session[u'order_last'] = order.pk
                         return redirect(to=u'/корзина/заказ/принят/', )

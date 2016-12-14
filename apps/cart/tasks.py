@@ -63,7 +63,7 @@ def delivery_order(*args, **kwargs):
     msg.attach_alternative(content=html_content,
                            mimetype="text/html", )
 
-    msg.content_subtype = "html"
+    # msg.content_subtype = "html"
     i = 0
     while True:
         result = msg.send(fail_silently=False, )
