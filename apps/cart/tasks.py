@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from proj.celery import celery_app
+from time import sleep
+import smtplib
+import email
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail.backends import smtp
 from django.utils.html import strip_tags
-from time import sleep
-
-import email
+from proj.celery import celery_app
 
 from .models import Order
 
@@ -66,7 +66,12 @@ def delivery_order(*args, **kwargs):
     # msg.content_subtype = "html"
     i = 0
     while True:
-        result = msg.send(fail_silently=False, )
+
+        try:
+            result = msg.send(fail_silently=False, )
+        except smtplib.SMTPDataError as e:
+            result = False
+            print e
 
         if (isinstance(result, int) and result == 1) or i > 100:
             i = 0
@@ -74,7 +79,7 @@ def delivery_order(*args, **kwargs):
 
         print('cart.tasks.delivery_order.admin(i): ', i, ' result: ', result, )
         i += 1
-        sleep(5)
+        sleep(15)
 
     """ Отправка благодарности клиенту. """
     html_content = render_to_string('email_successful_content.jinja2',
@@ -89,15 +94,21 @@ def delivery_order(*args, **kwargs):
     msg.attach_alternative(content=html_content,
                            mimetype="text/html", )
 
+    i = 0
     while True:
-        result = msg.send(fail_silently=False, )
+
+        try:
+            result = msg.send(fail_silently=False, )
+        except smtplib.SMTPDataError as e:
+            result = False
+            print e
 
         if (isinstance(result, int) and result == 1) or i > 100:
             break
 
         print('cart.tasks.delivery_order.user(i): ', i, ' result: ', result, )
         i += 1
-        sleep(5)
+        sleep(15)
 
     return True
 

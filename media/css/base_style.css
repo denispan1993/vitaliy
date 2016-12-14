@@ -1,6 +1,11 @@
 *{padding:0;margin:0;}
 html,body{height:100%;}
 ul li{list-style:none outside none;}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
 header#header{
     height:auto;
     min-height:50px;
