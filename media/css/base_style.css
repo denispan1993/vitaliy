@@ -193,6 +193,7 @@ div#feedback-panel{
     body nav{
         display:block !important;
         position:absolute;
+        right:28px;
     }
     body ul.navigation{
         display:block !important;
