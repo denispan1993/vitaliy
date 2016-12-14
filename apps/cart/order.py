@@ -123,12 +123,11 @@ def ordering_step_two(request,
                         email_error = u'Ваш E-Mail адрес не существует.'
                     # else:
                     #     is_validate = True
-                    print 'email_error: ', email_error, ' email: ', email
+                    # print 'email_error: ', email_error, ' email: ', email
                     if not email_error:
                         request.session[u'email'] = email
                         """ Взять или создать корзину пользователя """
                         """ Создать теоретически это не нормально """
-                        from apps.cart.views import get_cart_or_create
                         cart, create = get_cart_or_create(request, )
                         if create:
                             return redirect(to=u'/заказ/вы-где-то-оступились/', )
@@ -156,7 +155,6 @@ def ordering_step_two(request,
                             if 'order_pk_last' in locals() or 'order_pk_last' in globals():
                                 if order_pk == order_pk_last:
                                     del order_pk
-                        from apps.cart.models import Order
                         if ('order_pk' in locals() or 'order_pk' in globals()) and order_pk and type(order_pk) == int:
                             try:
                                 if request.user.is_authenticated() and request.user.is_active:
