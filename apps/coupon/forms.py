@@ -22,7 +22,7 @@ class CouponGroupCreateEditForm(forms.ModelForm, ):
         for field in self.fields:
             self.fields[field].required = False
 
-    class Meta():
+    class Meta:
         model = CouponGroup
         fields = '__all__'
 
@@ -32,6 +32,6 @@ class CouponCreateEditForm(forms.ModelForm, ):
     def __init__(self, *args, **kwargs):
         super(CouponCreateEditForm, self).__init__(*args, **kwargs)
 
-    class Meta():
+    class Meta:
         model = Coupon
         fields = '__all__'

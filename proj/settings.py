@@ -378,6 +378,7 @@ INSTALLED_APPS = (
     'apps.utils.mediafile',
     'apps.handlers',
     'apps.adminSite',
+    'apps.sms_ussd',
     'apps.discount',
     'apps.coupon',
     'apps.callback',
