@@ -15,7 +15,7 @@ def get_value_variable(variable_name, variable_type, ):
     try:
         variable_set = Setting.objects.get(variable_name=variable_name, )
 
-        if variable_type is 'img':
+        if variable_type == 'img':
             """ Получаем запись непосредственно на запись в базе данных на нашу картинку """
 
             value = eval('variable_set.%s.all()[0]' % variable_type,
@@ -34,6 +34,7 @@ def get_value_variable(variable_name, variable_type, ):
                         {'variable_set': variable_set, }, )
 
     except Setting.DoesNotExist:
+
         if variable_type is 'img':
             return None
         else:
