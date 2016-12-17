@@ -66,7 +66,7 @@ def get_products(products_list):
 
     for product in products_list:
         product_list = list(product)
-        itemid=product_list[1].text
+        itemid = product_list[1].text
         print(itemid, len(itemid))
 
         try:

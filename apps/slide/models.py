@@ -109,8 +109,9 @@ class Slide(models.Model):
 
             try:
                 return self.content_type.get_object_for_this_type(id=self.object_id).get_absolute_url()
-            except (ObjectDoesNotExist, AttributeError) as e:
-                print('models.slide.get_absolute_url(): ', e, )
+            except (ObjectDoesNotExist, AttributeError):  # as e:
+                pass
+                # print('models.slide.get_absolute_url(): ', e, )
 
         if self.url and not self.content_type_id and not self.object_id:
             return self.url

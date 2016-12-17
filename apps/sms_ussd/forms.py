@@ -18,7 +18,7 @@ class SendSMSCreateForm(forms.ModelForm, ):
         help_text=_(u'Номер телефона', ),
     )
 
-    def clean_phone(self):
+    def clean(self):
         cleaned_data = super(SendSMSCreateForm, self).clean()
         phone = cleaned_data.get('phone', None, )
 
@@ -56,7 +56,6 @@ class SendSMSCreateForm(forms.ModelForm, ):
             )
 
         cleaned_data['phone'] = int(phone[2:])
-        print cleaned_data
         return cleaned_data
 
     class Meta:
