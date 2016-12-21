@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from .models import SMS
+from .models import SMS, Template
 
 __author__ = 'AlexStarov'
 
 
-class SendSMSAdmin(admin.ModelAdmin, ):
+class SMSAdmin(admin.ModelAdmin, ):
     pass
 
-admin.site.register(SMS, SendSMSAdmin, )
+admin.site.register(SMS, SMSAdmin, )
+
+
+class TemplateAdmin(admin.ModelAdmin, ):
+    pass
+
+admin.site.register(Template, TemplateAdmin, )

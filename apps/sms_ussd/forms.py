@@ -55,13 +55,13 @@ class SendSMSCreateForm(forms.ModelForm, ):
             code = int(phone[:2])
 
             if code in code_provider.keys():
-                cleaned_data['code'] = code
+                cleaned_data['to_code'] = code
             else:
                 raise forms.ValidationError(
                     "Код оператора не принадлежит не одному мобильному оператору"
                 )
 
-            cleaned_data['phone'] = int(phone[2:])
+            cleaned_data['to_phone'] = int(phone[2:])
         return cleaned_data
 
     class Meta:

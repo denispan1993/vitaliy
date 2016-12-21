@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from celery.utils import uuid
@@ -47,17 +48,29 @@ class SMS(models.Model, ):
                                   null=False,
                                   blank=True, )
 
-    code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
-                                            verbose_name=_(u'Код провайдера', ),
-                                            null=True,
-                                            blank=True, )
-    phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
-                                        null=True,
-                                        blank=True, )
+    from_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
+                                                 verbose_name=_(u'Код провайдера', ),
+                                                 null=True,
+                                                 blank=True, )
+    from_phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
+                                             null=True,
+                                             blank=True, )
+
+    to_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
+                                               verbose_name=_(u'Код провайдера', ),
+                                               null=True,
+                                               blank=True, )
+    to_phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
+                                           null=True,
+                                           blank=True, )
 
     message = models.TextField(verbose_name=_(u'Сообщение', ),
                                null=True,
                                blank=True, )
+
+    received_at = models.DateTimeField(verbose_name=_(u'Дата и время получения SMS', ),
+                                       blank=True,
+                                       null=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -99,5 +112,50 @@ class SMS(models.Model, ):
     class Meta:
         db_table = 'SMS_USSD__SMS'
         ordering = ['-created_at', ]
-        verbose_name = u'SendSMS'
-        verbose_name_plural = u'SendSMS'
+        verbose_name = u'SMS'
+        verbose_name_plural = u'SMS'
+
+
+class Template(models.Model, ):
+
+    name = models.CharField(max_length=64,
+                            unique=True,
+                            verbose_name=_(u'Название', ),
+                            blank=True,
+                            null=True,
+                            default=datetime.now, )
+
+    is_system = models.BooleanField(verbose_name=_(u'Системный', ),
+                                    default=False,
+                                    null=False,
+                                    blank=True, )
+
+    template = models.TextField(verbose_name=_(u'Шаблон', ),
+                                blank=True,
+                                null=True, )
+
+    chance = models.DecimalField(verbose_name=_(u'Вероятность', ),
+                                 max_digits=4,
+                                 decimal_places=2,
+                                 blank=False,
+                                 null=False,
+                                 default=1, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def __unicode__(self):
+        return u'%s ==> %s' % (self.name, self.is_system,)
+
+    class Meta:
+        db_table = 'SMS_USSD__Template'
+        ordering = ['-created_at', ]
+        verbose_name = u'Template'
+        verbose_name_plural = u'Template'
