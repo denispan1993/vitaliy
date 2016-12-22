@@ -34,7 +34,29 @@ CELERY_ROUTES = {
         },
 }
 
-#CELERY_IMPORTS = ('tasks', )
+CELERY_IMPORTS = ('apps.bitrix.tasks',
+                  'apps.cart.tasks.delivery_order'
+  . apps.delivery.tasks.get_mail_imap
+  . apps.delivery.tasks.processing_delivery
+  . apps.delivery.tasks.processing_delivery_real
+  . apps.delivery.tasks.processing_delivery_test
+  . apps.delivery.tasks.processing_delivery_through_socks
+  . apps.delivery.tasks.socks_server_test
+  . apps.delivery.tasks.test
+  . apps.delivery2.tasks.send_delivery
+  . apps.discount.tasks.processing_action
+  . apps.socks.tasks.socks_server_get_from_internet
+  . apps.socks.tasks.socks_server_test
+  . celery.backend_cleanup
+  . celery.chain
+  . celery.chord
+  . celery.chord_unlock
+  . celery.chunks
+  . celery.group
+  . celery.map
+  . celery.starmap
+  . proj.celery.debug_task
+', )
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
