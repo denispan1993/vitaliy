@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 from proj.celery import celery_app
-from datetime import datetime, timedelta
+from datetime import datetime
 from celery.utils.log import get_task_logger
-import time
-
-
-from time import sleep
-
-from django.db.models import Q
 
 from .models import SMS
 
