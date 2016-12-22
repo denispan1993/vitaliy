@@ -34,7 +34,7 @@ CELERY_ROUTES = {
         },
 }
 
-CELERY_IMPORTS = ('tasks', )
+#CELERY_IMPORTS = ('tasks', )
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
