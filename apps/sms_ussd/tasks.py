@@ -61,7 +61,7 @@ def send_sms(*args, **kwargs):
             response = manager.command('dongle show devices')
             print('response.data: ', response.data)
 
-            response = manager.command('dongle ussd dongle0 *923#')
+            response = manager.command('dongle ussd Vodafone1 *161#')
             print('response.data: ', response.data)
 
             manager.logoff()
