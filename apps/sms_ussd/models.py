@@ -75,6 +75,9 @@ class SMS(models.Model, ):
     message = models.TextField(verbose_name=_(u'Сообщение', ),
                                null=True,
                                blank=True, )
+#    >> > print aaa.message.encode('cp1252', 'replace')
+#    МТС Україна за змі�?т SMS не відповідає
+#    123456789 123456789 123456789 1
 
     received_at = models.DateTimeField(verbose_name=_(u'Дата и время получения SMS', ),
                                        blank=True,

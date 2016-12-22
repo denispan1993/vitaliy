@@ -34,6 +34,8 @@ CELERY_ROUTES = {
         },
 }
 
+CELERY_IMPORTS = ('tasks', )
+
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_TASK_RESULT_EXPIRES = 3600
