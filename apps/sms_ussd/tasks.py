@@ -109,7 +109,7 @@ def send_received_sms(*args, **kwargs):
                   'Message:\n{message}'\
             .format(
                 direction=sms.direction,
-                from_phone_char=sms.from_from_phone_char,
+                from_phone_char=sms.from_phone_char,
                 to_phone_char=sms.to_phone_char,
                 received_at=sms.received_at,
                 sended_at=sms.sended_at,
