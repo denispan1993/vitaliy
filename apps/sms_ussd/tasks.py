@@ -140,7 +140,7 @@ def send_received_sms(*args, **kwargs):
                 **connection_params)
 
             if proj.settings.SEND_SMS_MAIL_ACCOUNT['username']\
-                    and proj.settings.SEND_SMS_MAIL_ACCOUNT['[password']:
+                    and proj.settings.SEND_SMS_MAIL_ACCOUNT['password']:
                 connection.login(
                     proj.settings.SEND_SMS_MAIL_ACCOUNT['username'],
                     proj.settings.SEND_SMS_MAIL_ACCOUNT['password'],
