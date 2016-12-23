@@ -104,27 +104,39 @@ def send_received_sms(*args, **kwargs):
         return False
 
     for sms in smses:
+        message = 'Direction: {direction}\nFrom: {from_phone_char}\nTo: {to_phone_char}\n'\
+                  'DateTime Received: {received_at}\nDateTime Sended: {sended_at}\n' \
+                  'Message:\n{message}'\
+            .format(
+                direction=sms.direction,
+                from_phone_char=sms.from_from_phone_char,
+                to_phone_char=sms.to_phone_char,
+                received_at=sms.received_at,
+                sended_at=sms.sended_at,
+                message=sms.message.encode('cp1252', 'replace'),
+            )
+
         message_kwargs = {
             'from_email': formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
             'to': [formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
             #'headers': self.headers,
             'subject': u'SMS от: {from_phone_char} | к: {to_phone_char} | дата и время: {received_at}'\
-                .format(from_phone_char = sms.from_phone_char,
-                        to_phone_char=sms.to_phone_char,
-                        received_at=sms.received_at,
+                .format(
+                    from_phone_char=sms.from_phone_char,
+                    to_phone_char=sms.to_phone_char,
+                    received_at=sms.received_at,
                 ),
-            'body': sms.message.encode('cp1252', 'replace'),
+            'body': message,
         }
 
         message = EmailMultiAlternatives(**message_kwargs)
 
-        connection_class = SMTP_SSL
         connection_params = {'local_hostname': 'mail-proxy.keksik.mk.ua', }
 
         mail_account = MailAccount.objects.get(pk=4, )
 
         try:
-            connection = connection_class(
+            connection = SMTP_SSL(
                 host=mail_account.server.server_smtp,
                 port=mail_account.server.port_smtp,
                 **connection_params)
@@ -145,7 +157,7 @@ def send_received_sms(*args, **kwargs):
             connection.sendmail(
                 from_addr=formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
                 to_addrs=[formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
-                msg=message.as_string(), )
+                msg=message.message(), )
             connection.quit()
 
         except SMTPSenderRefused as e:
