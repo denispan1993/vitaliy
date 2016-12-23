@@ -105,7 +105,7 @@ def send_received_sms(*args, **kwargs):
 
     for sms in smses:
         message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
-                  'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
+                  u'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
             .format(
                 direction=SMS.DIRECTION[sms.direction-1][1],
                 from_phone_char=sms.from_phone_char,
@@ -115,10 +115,10 @@ def send_received_sms(*args, **kwargs):
             )
 
         message_kwargs = {
-            'from_email': formataddr((u'Телефонная станция Keksik', 'site@keksik.com.ua', ), ),
+            'from_email': formataddr((u'Телефонная станция Asterisk Keksik', 'site@keksik.com.ua', ), ),
             'to': [formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
             #'headers': self.headers,
-            'subject': u'{direction} SMS от аббонента: {from_phone_char} | для аббоненту: {to_phone_char} | дата и время получения: {received_at}'\
+            'subject': u'Направение SMS: {direction} | от аббонента: {from_phone_char} | к аббоненту: {to_phone_char} | дата и время получения сообщения: {received_at}'\
                 .format(
                     direction=SMS.DIRECTION[sms.direction-1][1],
                     from_phone_char=sms.from_phone_char,
