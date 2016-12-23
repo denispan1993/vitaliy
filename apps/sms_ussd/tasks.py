@@ -131,18 +131,20 @@ def send_received_sms(*args, **kwargs):
 
         message = EmailMultiAlternatives(**message_kwargs)
 
-        connection_params = {'local_hostname': 'mail-proxy.keksik.mk.ua', }
-
-        mail_account = MailAccount.objects.get(pk=4, )
+        connection_params = {'local_hostname': 'mail-proxy.keksik.com.ua', }
 
         try:
             connection = SMTP_SSL(
-                host=mail_account.server.server_smtp,
-                port=mail_account.server.port_smtp,
+                host=proj.settings.SEND_SMS_MAIL_ACCOUNT['server_smtp'],
+                port=proj.settings.SEND_SMS_MAIL_ACCOUNT['port_smtp'],
                 **connection_params)
 
-            if mail_account.username and mail_account.password:
-                connection.login(mail_account.username, mail_account.password, )
+            if proj.settings.SEND_SMS_MAIL_ACCOUNT['username']\
+                    and proj.settings.SEND_SMS_MAIL_ACCOUNT['[password']:
+                connection.login(
+                    proj.settings.SEND_SMS_MAIL_ACCOUNT['username'],
+                    proj.settings.SEND_SMS_MAIL_ACCOUNT['password'],
+                )
                 connection.ehlo()
 
         except (SMTPException, SMTPServerDisconnected) as e:
