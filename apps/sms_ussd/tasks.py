@@ -160,11 +160,11 @@ def send_received_sms(*args, **kwargs):
 
         try:
             print('162: ', message.message())
-
+            print('163: ', message.message().as_string())
             connection.sendmail(
                 from_addr=formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
                 to_addrs=[formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
-                msg=message.message(), )
+                msg=message.message().as_string(), )
             connection.quit()
 
         except SMTPSenderRefused as e:
