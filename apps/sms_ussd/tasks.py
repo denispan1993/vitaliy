@@ -115,6 +115,7 @@ def send_received_sms(*args, **kwargs):
                 send_at=sms.send_at,
                 message=sms.message.encode('cp1252', 'replace'),
             )
+        print('118', message)
 
         message_kwargs = {
             'from_email': formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
@@ -128,8 +129,9 @@ def send_received_sms(*args, **kwargs):
                 ),
             'body': message,
         }
-
+        print('132', message_kwargs)
         message = EmailMultiAlternatives(**message_kwargs)
+        print('134', message)
 
         connection_params = {'local_hostname': 'mail-proxy.keksik.com.ua', }
 
@@ -147,6 +149,7 @@ def send_received_sms(*args, **kwargs):
                 )
                 connection.ehlo()
 
+            print('152', connection)
         except (SMTPException, SMTPServerDisconnected) as e:
             print('Exception(SMTPException, SMTPServerDisconnected): ', e)
             return False
@@ -156,6 +159,8 @@ def send_received_sms(*args, **kwargs):
             return False
 
         try:
+            print('162: ', message.message())
+
             connection.sendmail(
                 from_addr=formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
                 to_addrs=[formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
@@ -169,7 +174,7 @@ def send_received_sms(*args, **kwargs):
             print('SMTPDataError: ', e, ' messages: ', e.message, ' smtp_code: ', e.smtp_code, 'smtp_error: ', e.smtp_error, ' args: ', e.args)
 
         except Exception as e:
-            print('Exception: ', e)
+            print('Exception1: ', e)
 
         sms.task_id = None
         sms.is_send = True
