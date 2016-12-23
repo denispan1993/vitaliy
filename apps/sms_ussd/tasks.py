@@ -104,35 +104,31 @@ def send_received_sms(*args, **kwargs):
         return False
 
     for sms in smses:
-        message = 'Direction: {direction}\nFrom: {from_phone_char}\nTo: {to_phone_char}\n'\
-                  'DateTime Received: {received_at}\nDateTime Sended: {send_at}\n' \
-                  'Message:\n{message}'\
+        message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
+                  'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
             .format(
                 direction=SMS.DIRECTION[sms.direction-1][1],
                 from_phone_char=sms.from_phone_char,
                 to_phone_char=sms.to_phone_char,
                 received_at=sms.received_at,
-                send_at=sms.send_at,
                 message=sms.message.encode('cp1252', 'replace'),
             )
-        print('118', message)
 
         message_kwargs = {
-            'from_email': formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
+            'from_email': formataddr((u'Телефонная станция Keksik', 'site@keksik.com.ua', ), ),
             'to': [formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
             #'headers': self.headers,
-            'subject': u'SMS от: {from_phone_char} | к: {to_phone_char} | дата и время: {received_at}'\
+            'subject': u'{direction} SMS от аббонента: {from_phone_char} | для аббоненту: {to_phone_char} | дата и время получения: {received_at}'\
                 .format(
+                    direction=SMS.DIRECTION[sms.direction-1][1],
                     from_phone_char=sms.from_phone_char,
                     to_phone_char=sms.to_phone_char,
                     received_at=sms.received_at,
                 ),
             'body': message,
         }
-        print('132', message_kwargs)
         message = EmailMultiAlternatives(**message_kwargs)
-        print('134', message)
-        print('135', message.message())
+
         connection_params = {'local_hostname': 'mail-proxy.keksik.com.ua', }
 
         try:
@@ -149,7 +145,6 @@ def send_received_sms(*args, **kwargs):
                 )
                 connection.ehlo()
 
-            print('152', connection)
         except (SMTPException, SMTPServerDisconnected) as e:
             print('Exception(SMTPException, SMTPServerDisconnected): ', e)
             return False
@@ -159,8 +154,6 @@ def send_received_sms(*args, **kwargs):
             return False
 
         try:
-            print('162: ', message.message())
-            print('163: ', message.message().as_string())
             connection.sendmail(
                 from_addr=formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
                 to_addrs=[formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
