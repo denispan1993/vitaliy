@@ -105,9 +105,8 @@ def send_received_sms(*args, **kwargs):
 
     for sms in smses:
         message_kwargs = {
-            'from_email': formataddr(
-                (u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
-            'to': [formataddr(u'Менеджер магазина Keksik', 'site@keksik.com.ua', ) , ],
+            'from_email': formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
+            'to': [formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
             #'headers': self.headers,
             'subject': u'SMS от: {from_phone_char} | к: {to_phone_char} | дата и время: {received_at}'\
                 .format(from_phone_char = sms.from_phone_char,
@@ -144,8 +143,8 @@ def send_received_sms(*args, **kwargs):
 
         try:
             connection.sendmail(
-                from_addr=formataddr(u'Asterisk Keksik', 'site@keksik.com.ua', ),
-                to_addrs=[formataddr(u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ],
+                from_addr=formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
+                to_addrs=[formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
                 msg=message.as_string(), )
             connection.quit()
 
