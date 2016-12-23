@@ -10,10 +10,11 @@ from django.contrib.contenttypes.models import ContentType
 
 from validate_email import validate_email
 
-from proj.settings import SERVER
+import proj.settings
 from apps.product.models import Country
 from .models import Product, DeliveryCompany, Cart, Order
 from .tasks import delivery_order
+from apps.sms_ussd.tasks import send_template_sms
 
 __author__ = 'AlexStarov'
 
@@ -132,7 +133,7 @@ def show_order(request,
                 email_error = u'Вы забыли указать Ваш E-Mail.'
             else:
                 is_valid = True
-                if SERVER:
+                if proj.settings.SERVER:
                     is_valid = validate_email(email, check_mx=True, )
                     if not is_valid:
                         # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
@@ -233,6 +234,14 @@ def show_order(request,
                         delivery_order.apply_async(
                             queue='delivery_send',
                             kwargs={'order_pk': order.pk, },
+                        )
+                        send_template_sms.apply_async(
+                            queue='delivery_send',
+                            kwargs={
+                                'sms_to_phone_char': order.phone,
+                                'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_ORDER_NUMBER'],
+                                'sms_order_number': order.pk,
+                            },
                         )
                         request.session[u'order_last'] = order.pk
                         return redirect(to=u'/корзина/заказ/принят/', )

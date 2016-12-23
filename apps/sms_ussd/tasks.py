@@ -180,24 +180,24 @@ def send_received_sms(*args, **kwargs):
 @celery_app.task(name='celery_task_send_template_sms')
 def send_template_sms(*args, **kwargs):
 
-    sms_to_phone_char = kwargs.pop('sms_to_phone_char', False, )
-    print('sms_to_phone_char: ', sms_to_phone_char)
-    if not sms_to_phone_char:
+    to_phone_char = kwargs.pop('sms_to_phone_char', False, )
+    print('sms_to_phone_char: ', to_phone_char)
+    if not to_phone_char:
         return False
 
-    sms_template_name = kwargs.pop('sms_template_name', False, )
+    template_name = kwargs.pop('sms_template_name', False, )
     try:
-        print('sms_template_name: ', sms_template_name)
-        sms_teplate = Template.objects.get(name=sms_template_name, )
+        print('template_name: ', template_name)
+        teplate = Template.objects.get(name=template_name, )
     except Template.DoesNotExist:
         return False
 
-    sms_template_dict = {}
+    template_dict = {}
     for key, value in kwargs.iteritems():
         if key.startswith('sms_'):
-            sms_template_dict.update([key, value])
+            template_dict.update([key.lstrip('sms_'), value])
 
-    message = sms_teplate.template.format(**sms_template_dict)
+    message = teplate.template.format(**template_dict)
     print message
 
     manager = asterisk.manager.Manager()
@@ -231,6 +231,14 @@ def send_template_sms(*args, **kwargs):
             print('response.data: ', response.data)
 
             response = manager.command('dongle show device statistics')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle sms {device} {to_phone_char} {message}'
+                                       .format(
+                                            device='Vodafone2',
+                                            to_phone_char=to_phone_char,
+                                            message=message,
+                                        ))
             print('response.data: ', response.data)
 
             manager.logoff()
