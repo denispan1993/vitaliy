@@ -137,7 +137,8 @@ class SMS(models.Model, ):
         return ('admin_page:sms_ussd_send_sms', (), {}, )
 
     def __unicode__(self):
-        return u'%s:%s' % (self.user, self.sessionid, )
+        return u'%s:%s is_send: %s: sended_at: %s, received_at: %s' %\
+               (self.user, self.sessionid, self.is_send, self.send_at, self.received_at)
 
     class Meta:
         db_table = 'SMS_USSD__SMS'

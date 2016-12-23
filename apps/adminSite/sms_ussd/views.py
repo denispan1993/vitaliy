@@ -31,6 +31,7 @@ class SendSMSCreateView(CreateView, ):
         """
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        print('form_class: ', form_class, 'form: ', form)
 
         if form.is_valid():
             return self.form_valid(form, kwargs={'request': request, }, )
