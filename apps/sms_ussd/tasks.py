@@ -81,7 +81,7 @@ def send_sms(*args, **kwargs):
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
 
 
-@celery_app.task(name='celery_task_send_sms')
+@celery_app.task(name='celery_task_send_received_sms')
 def send_received_sms(*args, **kwargs):
 
     try:
