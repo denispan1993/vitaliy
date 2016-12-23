@@ -108,7 +108,7 @@ def send_received_sms(*args, **kwargs):
                   'DateTime Received: {received_at}\nDateTime Sended: {send_at}\n' \
                   'Message:\n{message}'\
             .format(
-                direction=sms.direction,
+                direction=SMS.DIRECTION[sms.direction-1][1],
                 from_phone_char=sms.from_phone_char,
                 to_phone_char=sms.to_phone_char,
                 received_at=sms.received_at,
@@ -132,7 +132,7 @@ def send_received_sms(*args, **kwargs):
         print('132', message_kwargs)
         message = EmailMultiAlternatives(**message_kwargs)
         print('134', message)
-
+        print('135', message.message())
         connection_params = {'local_hostname': 'mail-proxy.keksik.com.ua', }
 
         try:
