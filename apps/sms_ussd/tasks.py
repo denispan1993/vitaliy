@@ -99,7 +99,7 @@ def send_sms(*args, **kwargs):
 def send_received_sms(*args, **kwargs):
 
     try:
-        smses = SMS.objects.get(direction=1, is_send=False, )
+        smses = SMS.objects.filter(direction=1, is_send=False, )
     except SMS.DoesNotExist:
         return False
 
@@ -144,8 +144,7 @@ def send_received_sms(*args, **kwargs):
 
         try:
             connection.sendmail(
-                from_addr=formataddr(
-                    (u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
+                from_addr=formataddr(u'Asterisk Keksik', 'site@keksik.com.ua', ),
                 to_addrs=[formataddr(u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ],
                 msg=message.as_string(), )
             connection.quit()
