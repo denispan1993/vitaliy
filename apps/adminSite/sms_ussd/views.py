@@ -44,6 +44,7 @@ class SendSMSCreateView(CreateView, ):
         """
         self.object = form.save(commit=False, )
 
+        print('self.pk: ', self.object.pk, 'object.save()')
         self.object.direction = 2  # Outgouing
 
         self.object.user_id = kwargs['kwargs']['request'].user.pk

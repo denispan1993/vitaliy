@@ -31,7 +31,7 @@ def send_sms(*args, **kwargs):
     sms_pk = kwargs.get('sms_pk')
 
     try:
-        print 'sms_pk: ', sms_pk
+        print('sms_pk: ', sms_pk)
         sms = SMS.objects.get(pk=sms_pk, is_send=False, )
     except SMS.DoesNotExist:
         return False

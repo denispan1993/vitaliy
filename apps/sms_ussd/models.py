@@ -115,12 +115,17 @@ class SMS(models.Model, ):
                                     task_id='send_sms_celery-task-id-{0}'.format(uuid(), ), )
         self.task_id = task.id
 
+        print('tasl.id: ', task.id)
         self.save(skip_super_save=True, )
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None, *args, **kwargs):
 
+        print('skip_super_save: False, ', kwargs.get('skip_super_save', False, ))
         skip_super_save = kwargs.pop('skip_super_save', False, )
+
+        print('skip_super_save: False, ', skip_super_save)
+        print('self.pk ', self.pk)
 
         super(SMS, self).save(force_insert, force_update, using, update_fields, *args, **kwargs)
 
