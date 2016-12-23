@@ -115,17 +115,12 @@ class SMS(models.Model, ):
                                     task_id='send_sms_celery-task-id-{0}'.format(uuid(), ), )
         self.task_id = task.id
 
-        print('tasl.id: ', task.id)
         self.save(skip_super_save=True, )
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None, *args, **kwargs):
 
-        print('skip_super_save: False, ', kwargs.get('skip_super_save', False, ))
         skip_super_save = kwargs.pop('skip_super_save', False, )
-
-        print('skip_super_save: False, ', skip_super_save)
-        print('self.pk ', self.pk)
 
         super(SMS, self).save(force_insert, force_update, using, update_fields, *args, **kwargs)
 
@@ -137,8 +132,8 @@ class SMS(models.Model, ):
         return ('admin_page:sms_ussd_send_sms', (), {}, )
 
     def __unicode__(self):
-        return u'%s:%s is_send: %s: sended_at: %s, received_at: %s' %\
-               (self.user, self.sessionid, self.is_send, self.send_at, self.received_at)
+        return u'%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
+               (self.user, self.sessionid, self.direction, self.is_send, self.send_at, self.received_at)
 
     class Meta:
         db_table = 'SMS_USSD__SMS'

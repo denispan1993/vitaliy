@@ -10,8 +10,10 @@ from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderR
 
 import asterisk.manager
 
+import proj.settings
+
 from apps.delivery.models import MailAccount
-from .models import SMS
+from .models import SMS, Template
 
 __author__ = 'AlexStarov'
 
@@ -41,8 +43,8 @@ def send_sms(*args, **kwargs):
     try:
         # connect to the manager
         try:
-            manager.connect('192.168.1.99')
-            manager.login('web', 'mysecret123321')
+            manager.connect(proj.settings.ASTERISK_HOST)
+            manager.login(*proj.settings.ASTERISK_AUTH)
 
             # get a status report
             response = manager.status()
@@ -51,10 +53,22 @@ def send_sms(*args, **kwargs):
             response = manager.command('core show channels concise')
             print('response.data: ', response.data)
 
+            response = manager.command('dongle show version')
+            print('response.data: ', response.data)
+
             response = manager.command('dongle show devices')
             print('response.data: ', response.data)
 
             response = manager.command('dongle ussd Vodafone1 *161#')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show device settings')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show device state')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show device statistics')
             print('response.data: ', response.data)
 
             manager.logoff()
@@ -149,5 +163,85 @@ def send_received_sms(*args, **kwargs):
         sms.is_send = True
         sms.send_at = timezone.now()
         sms.save(skip_super_save=True, )
+
+    return True, timezone.now(), '__name__: {0}'.format(str(__name__))
+
+
+@celery_app.task(name='celery_task_send_template_sms')
+def send_template_sms(*args, **kwargs):
+
+    sms_to_phone_char = kwargs.pop('sms_to_phone_char', False, )
+    print('sms_to_phone_char: ', sms_to_phone_char)
+    if not sms_to_phone_char:
+        return False
+
+    sms_template_name = kwargs.pop('sms_template_name', False, )
+    try:
+        print('sms_template_name: ', sms_template_name)
+        sms_teplate = Template.objects.get(name=sms_template_name, )
+    except Template.DoesNotExist:
+        return False
+
+    sms_template_dict = {}
+    for key, value in kwargs.iteritems():
+        if key.startswith('sms_'):
+            sms_template_dict.update([key, value])
+
+    message = sms_teplate.template.format(**sms_template_dict)
+    print message
+
+    manager = asterisk.manager.Manager()
+
+    try:
+        # connect to the manager
+        try:
+            manager.connect(proj.settings.ASTERISK_HOST)
+            manager.login(*proj.settings.ASTERISK_AUTH)
+
+            # get a status report
+            response = manager.status()
+            print('response: ', response)
+
+            response = manager.command('core show channels concise')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show version')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show devices')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle ussd Vodafone1 *161#')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show device settings')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show device state')
+            print('response.data: ', response.data)
+
+            response = manager.command('dongle show device statistics')
+            print('response.data: ', response.data)
+
+            manager.logoff()
+
+        except asterisk.manager.ManagerSocketException as e:
+            print "Error connecting to the manager: %s" % e
+        except asterisk.manager.ManagerAuthException as e:
+            print "Error logging in to the manager: %s" % e
+        except asterisk.manager.ManagerException as e:
+            print "Error: %s" % e
+
+    finally:
+        # remember to clean up
+        try:
+            manager.close()
+        except Exception as e:
+            print e
+
+    sms.task_id = None
+    sms.is_send = True
+    sms.send_at = timezone.now()
+    sms.save(skip_super_save=True, )
 
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))

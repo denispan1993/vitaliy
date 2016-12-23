@@ -7,6 +7,7 @@ try:
 except ImportError:
     from django.core.urlresolvers import reverse, reverse_lazy
 
+from django.utils import timezone
 from django.http import HttpResponseRedirect
 
 from apps.sms_ussd.forms import SendSMSCreateForm
@@ -31,7 +32,6 @@ class SendSMSCreateView(CreateView, ):
         """
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        print('form_class: ', form_class, 'form: ', form)
 
         if form.is_valid():
             return self.form_valid(form, kwargs={'request': request, }, )
@@ -45,7 +45,7 @@ class SendSMSCreateView(CreateView, ):
         """
         self.object = form.save(commit=False, )
 
-        print('self.pk: ', self.object.pk, 'object.save()')
+        self.object.received_at = timezone.now()
         self.object.direction = 2  # Outgouing
 
         self.object.user_id = kwargs['kwargs']['request'].user.pk
