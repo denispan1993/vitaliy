@@ -105,14 +105,14 @@ def send_received_sms(*args, **kwargs):
 
     for sms in smses:
         message = 'Direction: {direction}\nFrom: {from_phone_char}\nTo: {to_phone_char}\n'\
-                  'DateTime Received: {received_at}\nDateTime Sended: {sended_at}\n' \
+                  'DateTime Received: {received_at}\nDateTime Sended: {send_at}\n' \
                   'Message:\n{message}'\
             .format(
                 direction=sms.direction,
                 from_phone_char=sms.from_phone_char,
                 to_phone_char=sms.to_phone_char,
                 received_at=sms.received_at,
-                sended_at=sms.sended_at,
+                send_at=sms.send_at,
                 message=sms.message.encode('cp1252', 'replace'),
             )
 
