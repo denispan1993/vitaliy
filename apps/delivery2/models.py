@@ -133,16 +133,14 @@ class Delivery(models.Model, ):
             self.started_at = None
             self.save(skip_schedule=True, )
 
-        self.task_id = None
-        started_at = self.started_at
-        self.started_at = None
         task = send_delivery.apply_async(queue='delivery',
                                          kwargs={'delivery_pk': self.pk},
                                          task_id='celery-task-id-{0}'.format(uuid(), ),
-                                         eta=started_at)
-        self.task_id = task.id
-        print('Start Delivery at: ', started_at, self.started_at)
+                                         eta=self.started_at)
 
+        self.task_id = None
+        self.started_at = None
+        self.task_id = task.id
         self.save(skip_schedule=True, )
 
     def save(self, *args, **kwargs):

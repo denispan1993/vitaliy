@@ -25,10 +25,11 @@ Pillow==3.4.1
 PyJWT==1.4.0
 python-memcached==1.57
 python-openid==2.2.5
-python-social-auth==0.2.13
+python-social-auth==0.2.21
 pytils==0.3
+pyst2==0.5.0
 requests==2.10.0
-requests-oauthlib==0.5.0
+requests-oauthlib==0.7.0
 six==1.10.0
 sqlparse==0.1.19
 uWSGI==2.0.13.1

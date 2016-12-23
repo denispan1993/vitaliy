@@ -11,6 +11,11 @@ __author__ = 'AlexStarov'
 
 class SMS(models.Model, ):
 
+    DIRECTION = (
+        (1, 'Incoming', ),
+        (2, 'Outgoing', ),
+    )
+
     CODE_PROVIDER = (
         (39, '039 ==> Киевстар (Golden Telecom)', ),
         (50, '050 ==> Vodafone', ),
@@ -28,6 +33,11 @@ class SMS(models.Model, ):
         (98, '098 ==> Киевстар', ),
         (99, '099 ==> Vodafone', ),
     )
+
+    direction = models.PositiveSmallIntegerField(choices=DIRECTION,
+                                                 verbose_name=_(u'Направление', ),
+                                                 null=True,
+                                                 blank=True, )
 
     user = models.ForeignKey(to=proj.settings.AUTH_USER_MODEL,
                              verbose_name=_(u'Пользователь', ),
@@ -79,6 +89,10 @@ class SMS(models.Model, ):
 #    МТС Україна за змі�?т SMS не відповідає
 #    123456789 123456789 123456789 1
 
+    send_at = models.DateTimeField(verbose_name=_(u'Дата и время отправки SMS', ),
+                                   blank=True,
+                                   null=True, )
+
     received_at = models.DateTimeField(verbose_name=_(u'Дата и время получения SMS', ),
                                        blank=True,
                                        null=True, )
@@ -106,12 +120,12 @@ class SMS(models.Model, ):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None, *args, **kwargs):
 
-        if not kwargs.pop('skip_super_save', False):
-            self.schedule_run()
-
-        kwargs.pop('skip_super_save', None)
+        skip_super_save = kwargs.pop('skip_super_save', False, )
 
         super(SMS, self).save(force_insert, force_update, using, update_fields, *args, **kwargs)
+
+        if not skip_super_save:
+            self.schedule_run()
 
     @models.permalink
     def get_absolute_url(self, ):

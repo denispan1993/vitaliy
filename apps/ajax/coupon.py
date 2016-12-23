@@ -7,8 +7,7 @@ except ImportError:
     # import json
 from django.http import HttpResponse
 
-from django.utils.timezone import now, localtime
-from datetime import datetime
+from django.utils.timezone import now
 
 from apps.cart.views import get_cart_or_create
 from apps.coupon.models import Coupon
