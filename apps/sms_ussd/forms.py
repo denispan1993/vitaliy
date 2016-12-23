@@ -52,16 +52,21 @@ class SendSMSCreateForm(forms.ModelForm, ):
                     "В номере телефона присутствуют недопустимые символы"
                 )
 
-            code = int(phone[:2])
+            phone_code = int(phone[:2])
 
-            if code in code_provider.keys():
-                cleaned_data['to_code'] = code
+            if phone_code in code_provider.keys():
+                cleaned_data['to_code'] = phone_code
             else:
                 raise forms.ValidationError(
                     "Код оператора не принадлежит не одному мобильному оператору"
                 )
 
             cleaned_data['to_phone'] = int(phone[2:])
+            cleaned_data['phone'] = '0{phone_code}{phone_number}'\
+                .format(
+                    phone_code=phone_code,
+                    phone_number=int(phone[2:]),
+                )
         return cleaned_data
 
     class Meta:

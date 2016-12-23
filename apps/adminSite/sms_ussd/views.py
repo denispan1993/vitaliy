@@ -51,6 +51,7 @@ class SendSMSCreateView(CreateView, ):
         self.object.user_id = kwargs['kwargs']['request'].user.pk
         self.object.sessionid = kwargs['kwargs']['request'].session.session_key
 
+        self.object.to_phone_char = form.cleaned_data['phone']
         self.object.to_code = form.cleaned_data['to_code']
         self.object.to_phone = form.cleaned_data['to_phone']
         self.object.message = form.cleaned_data['message']
