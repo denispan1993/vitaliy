@@ -34,6 +34,11 @@ class SMS(models.Model, ):
         (99, '099 ==> Vodafone', ),
     )
 
+    template = models.ForeignKey(to='Template',
+                                 verbose_name=_(u'Template', ),
+                                 null=True,
+                                 blank=True, )
+
     direction = models.PositiveSmallIntegerField(choices=DIRECTION,
                                                  verbose_name=_(u'Направление', ),
                                                  null=True,

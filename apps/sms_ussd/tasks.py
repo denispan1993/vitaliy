@@ -250,7 +250,8 @@ def send_template_sms(*args, **kwargs):
                                             device='Vodafone2',
                                             to_phone_char=to_phone_char,
                                             message=message,
-                                        ))
+                                        ),
+            )
             print('response.data: ', response.data)
 
             manager.logoff()
@@ -269,9 +270,14 @@ def send_template_sms(*args, **kwargs):
         except Exception as e:
             print e
 
-    sms.task_id = None
-    sms.is_send = True
-    sms.send_at = timezone.now()
+    sms = SMS(template=teplate,
+              direction=2,
+              task_id=None,
+              is_send=True,
+              to_phone_char=to_phone_char,
+              message=message,
+              send_at=timezone.now(),
+              )
     sms.save(skip_super_save=True, )
 
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
