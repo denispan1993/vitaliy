@@ -104,6 +104,13 @@ def send_received_sms(*args, **kwargs):
         return False
 
     for sms in smses:
+
+        try:
+            message = sms.message.encode('cp1252', 'replace')
+        except UnicodeDecodeError as e:
+            print e
+            message = sms.message
+
         message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
                   u'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
             .format(
@@ -111,7 +118,7 @@ def send_received_sms(*args, **kwargs):
                 from_phone_char=sms.from_phone_char,
                 to_phone_char=sms.to_phone_char,
                 received_at=sms.received_at,
-                message=sms.message.encode('cp1252', 'replace'),
+                message=message,
             )
 
         message_kwargs = {
