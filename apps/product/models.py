@@ -674,7 +674,6 @@ class ItemID(models.Model):
     ItemID = models.CharField(verbose_name=u'ItemID', max_length=32, blank=True, null=True, )
     # slug = models.SlugField(verbose_name=u'Slug')
     # letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
-    # Абсолютный путь к логотипу производителя
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
