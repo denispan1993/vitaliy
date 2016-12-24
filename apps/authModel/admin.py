@@ -136,5 +136,4 @@ class PhoneAdmin(admin.ModelAdmin, ):
     list_display_links = ('pk', 'user', 'phone', )
     search_fields = ['phone', 'int_code', 'int_phone', ]
 
-admin.site.register(Email, EmailAdmin, )
 admin.site.register(Phone, PhoneAdmin, )
