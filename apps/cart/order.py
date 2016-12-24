@@ -302,15 +302,29 @@ def result_ordering(request, ):
                     task_id='celery-task-id-delivery_order-{0}'.format(celery.utils.uuid(), ),
                 )
 
-                send_template_sms.apply_async(
-                    queue='delivery_send',
-                    kwargs={
-                        'sms_to_phone_char': order.phone,
-                        'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_ORDER_NUMBER'],
-                        'sms_order_number': order.pk,
-                    },
-                    task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
-                )
+                phone = order.phone \
+                    .lstrip('+') \
+                    .replace('(', '') \
+                    .replace(')', '') \
+                    .replace(' ', '') \
+                    .replace('-', '') \
+                    .replace('.', '') \
+                    .replace(',', '') \
+                    .lstrip('380') \
+                    .lstrip('38') \
+                    .lstrip('80') \
+                    .lstrip('0')
+
+                if len(phone, ) == 9:
+                    send_template_sms.apply_async(
+                        queue='delivery_send',
+                        kwargs={
+                            'sms_to_phone_char': '+380%s' % phone,
+                            'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_ORDER_NUMBER'],
+                            'sms_order_number': order.pk,
+                        },
+                        task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
+                    )
 
                 request.session[u'order_pk_last'] = order.pk
 
