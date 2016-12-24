@@ -7,20 +7,22 @@ __author__ = 'AlexStarov'
 
 def increase_send_sms():
 
+    key = 'date_send_sms_{0}'.format(timezone.now().strftime('%Y_%m_%d'), ),
+    print('key: ', key)
     value = cache.get(
-        key='date_send_sms_{0}'.format(timezone.now().strftime('%Y_%m_%d'), ),
+        key=key,
         default=False, )
 
     if not value:
         value = 1
         cache.set(
-            key='date_send_sms_{0}'.format(timezone.now().strftime('%Y_%m_%d'), ),
+            key=key,
             value=value,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
     else:
         value += 1
         cache.set(
-            key='date_send_sms_{0}'.format(timezone.now().strftime('%Y_%m_%d'), ),
+            key=key,
             value=value,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
