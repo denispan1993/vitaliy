@@ -200,9 +200,14 @@ def send_template_sms(*args, **kwargs):
         return False
 
     template_dict = {}
+    print '203', template_dict
     for key, value in kwargs.iteritems():
+        print '205', key, value
         if key.startswith('sms_'):
-            template_dict.update([key.lstrip('sms_'), value])
+            print '207', "key.lstrip('sms_')", key.lstrip('sms_')
+            print '208', template_dict
+            template_dict.update({key.lstrip('sms_'): value})
+            print '210', template_dict
 
     message = teplate.template.format(**template_dict)
     print message
