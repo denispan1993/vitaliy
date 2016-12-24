@@ -104,6 +104,7 @@ def send_received_sms(*args, **kwargs):
     except SMS.DoesNotExist:
         return False
 
+    print len(smses)
     for sms in smses:
 
         #try:
@@ -113,6 +114,8 @@ def send_received_sms(*args, **kwargs):
         #    message = sms.message
 
         # message = base64.b64decode(sms.message_b64).decode('utf8')
+        print(sms.pk, sms.message_b64)
+
         message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
                   u'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
             .format(
@@ -120,7 +123,7 @@ def send_received_sms(*args, **kwargs):
                 from_phone_char=sms.from_phone_char,
                 to_phone_char=sms.to_phone_char,
                 received_at=sms.received_at,
-                message=base64.b64decode(sms.message_b64).decode('utf8'),
+                message='' if not sms.message_b64 else base64.b64decode(sms.message_b64).decode('utf8'),
             )
 
         message_kwargs = {
