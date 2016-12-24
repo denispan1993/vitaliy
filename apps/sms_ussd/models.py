@@ -90,6 +90,10 @@ class SMS(models.Model, ):
     message = models.TextField(verbose_name=_(u'Сообщение', ),
                                null=True,
                                blank=True, )
+
+    message_b64 = models.TextField(verbose_name=_(u'Сообщение base64', ),
+                                   null=True,
+                                   blank=True, )
 #    >> > print aaa.message.encode('cp1252', 'replace')
 #    МТС Україна за змі�?т SMS не відповідає
 #    123456789 123456789 123456789 1
