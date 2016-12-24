@@ -290,6 +290,12 @@ class Phone(models.Model, ):
                              verbose_name=_(u'Номер телефона'),
                              blank=False,
                              null=False, )
+    int_code = models.PositiveSmallIntegerField(verbose_name=_(u'Код  телефона'),
+                                                blank=True,
+                                                null=True, )
+    int_phone = models.PositiveIntegerField(verbose_name=_(u'Номер телефона'),
+                                            blank=True,
+                                            null=True, )
     primary = models.BooleanField(verbose_name=_(u'Основной', ), default=False, )
     """
         SMS рассылки
@@ -304,4 +310,4 @@ class Phone(models.Model, ):
         db_table = u'PhoneUserModel'
         ordering = [u'-created_at', ]
         verbose_name = u'Телефон пользователя'
-        verbose_name_plural = u"Телнфоны пользователей"
+        verbose_name_plural = u"Телефоны пользователей"

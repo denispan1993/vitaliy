@@ -129,4 +129,12 @@ class EmailAdmin(admin.ModelAdmin, ):
     search_fields = ['email', ]
 
 admin.site.register(Email, EmailAdmin, )
-admin.site.register(Phone, )
+
+
+class PhoneAdmin(admin.ModelAdmin, ):
+    list_display = ('pk', 'user', 'phone', 'int_code', 'int_phone', 'primary', 'sms_notification', 'created_at', 'updated_at', )
+    list_display_links = ('pk', 'user', 'phone', )
+    search_fields = ['phone', 'int_code', 'int_phone', ]
+
+admin.site.register(Email, EmailAdmin, )
+admin.site.register(Phone, PhoneAdmin, )

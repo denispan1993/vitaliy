@@ -64,7 +64,7 @@ class SMS(models.Model, ):
                                   blank=True, )
 
     from_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Откуда)', ),
-                                       max_length=16,
+                                       max_length=64,
                                        null=True,
                                        blank=True, )
     from_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
@@ -76,7 +76,7 @@ class SMS(models.Model, ):
                                              blank=True, )
 
     to_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Куда)', ),
-                                     max_length=16,
+                                     max_length=64,
                                      null=True,
                                      blank=True, )
     to_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,

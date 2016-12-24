@@ -13,8 +13,8 @@ import asterisk.manager
 
 import proj.settings
 
-from apps.delivery.models import MailAccount
 from .models import SMS, Template
+from .utils import increase_send_sms
 
 __author__ = 'AlexStarov'
 
@@ -93,6 +93,8 @@ def send_sms(*args, **kwargs):
     sms.send_at = timezone.now()
     sms.save(skip_super_save=True, )
 
+    print('increase_send_sms(): ', increase_send_sms())
+
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
 
 
@@ -113,8 +115,7 @@ def send_received_sms(*args, **kwargs):
         #    print e
         #    message = sms.message
 
-        # message = base64.b64decode(sms.message_b64).decode('utf8')
-        print(sms.pk, sms.message_b64)
+        sms.message = base64.b64decode(sms.message_b64).decode('utf8')
 
         message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
                   u'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
@@ -123,7 +124,7 @@ def send_received_sms(*args, **kwargs):
                 from_phone_char=sms.from_phone_char,
                 to_phone_char=sms.to_phone_char,
                 received_at=sms.received_at,
-                message='' if not sms.message_b64 else base64.b64decode(sms.message_b64).decode('utf8'),
+                message=sms.message,
             )
 
         message_kwargs = {
@@ -284,5 +285,7 @@ def send_template_sms(*args, **kwargs):
               send_at=timezone.now(),
               )
     sms.save(skip_super_save=True, )
+
+    print('increase_send_sms(): ', increase_send_sms())
 
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
