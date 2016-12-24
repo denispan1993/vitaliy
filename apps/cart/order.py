@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from django.core.mail import get_connection, EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
+#from django.core.mail import get_connection, EmailMultiAlternatives
+#from django.template.loader import render_to_string
+#from django.utils.html import strip_tags
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
+from django.forms import EmailField
+from django.core.exceptions import ValidationError
 import celery
 
-from proj.settings import SERVER
+import proj.settings
 from apps.product.models import Country
 from .tasks import delivery_order
 from .models import Order, Product, DeliveryCompany
 from .views import get_cart_or_create
+from apps.sms_ussd.tasks import send_template_sms
 
 __author__ = 'AlexStarov'
 
@@ -107,87 +110,85 @@ def ordering_step_two(request,
         if POST_NAME == 'ordering_step_one':
             """ Здесь как-то нужно проверить email """
             if email:
-                email = email.strip()
-                if SERVER or not SERVER:
+                email = email.lower().strip(' ').replace(' ', '', )
+                # if SERVER or not SERVER:
                     # if validate_email(email, check_mx=True, ):
                     #    """ Если проверка на существование сервера прошла...
                     #        То делаем полную проверку адреса на существование... """
                     #    is_validate = validate_email(email, verify=True, )
                     # if not is_validate:
-                    """ Делаем повторную проверку на просто валидацию E-Mail адреса """
-                    from django.forms import EmailField
-                    from django.core.exceptions import ValidationError
-                    try:
-                        EmailField().clean(email, )
-                    except ValidationError:
-                        email_error = u'Ваш E-Mail адрес не существует.'
-                    # else:
-                    #     is_validate = True
-                    # print 'email_error: ', email_error, ' email: ', email
-                    if not email_error:
-                        request.session[u'email'] = email
-                        """ Взять или создать корзину пользователя """
-                        """ Создать теоретически это не нормально """
-                        cart, create = get_cart_or_create(request, )
-                        if create:
-                            return redirect(to=u'/заказ/вы-где-то-оступились/', )
-                        if request.user.is_authenticated() and request.user.is_active:
-                            user_id = request.session.get(u'_auth_user_id', None, )
-                        sessionid = request.COOKIES.get(u'sessionid', None, )
-                        request.session[u'cart_pk'] = cart.pk
-                        order_pk = request.session.get(u'order_pk', False, )
-                        order_pk_last = request.session.get(u'order_pk_last', False, )
-                        if order_pk:
-                            try:
-                                order_pk = int(order_pk, )
-                            except ValueError:
-                                del order_pk
-                        else:
+                """ Делаем повторную проверку на просто валидацию E-Mail адреса """
+                try:
+                    EmailField().clean(email, )
+                except ValidationError:
+                    email_error = u'Ваш E-Mail адрес не существует.'
+                # else:
+                #     is_validate = True
+                # print 'email_error: ', email_error, ' email: ', email
+                if not email_error:
+                    request.session[u'email'] = email
+                    """ Взять или создать корзину пользователя """
+                    """ Создать теоретически это не нормально """
+                    cart, create = get_cart_or_create(request, )
+                    if create:
+                        return redirect(to=u'/заказ/вы-где-то-оступились/', )
+                    if request.user.is_authenticated() and request.user.is_active:
+                        user_id = request.session.get(u'_auth_user_id', None, )
+                    sessionid = request.COOKIES.get(u'sessionid', None, )
+                    request.session[u'cart_pk'] = cart.pk
+                    order_pk = request.session.get(u'order_pk', False, )
+                    order_pk_last = request.session.get(u'order_pk_last', False, )
+                    if order_pk:
+                        try:
+                            order_pk = int(order_pk, )
+                        except ValueError:
                             del order_pk
-                        if order_pk_last:
-                            try:
-                                order_pk_last = int(order_pk_last, )
-                            except ValueError:
-                                del order_pk_last
-                        else:
+                    else:
+                        del order_pk
+                    if order_pk_last:
+                        try:
+                            order_pk_last = int(order_pk_last, )
+                        except ValueError:
                             del order_pk_last
-                        if 'order_pk' in locals() or 'order_pk' in globals():
-                            if 'order_pk_last' in locals() or 'order_pk_last' in globals():
-                                if order_pk == order_pk_last:
-                                    del order_pk
-                        if ('order_pk' in locals() or 'order_pk' in globals()) and order_pk and type(order_pk) == int:
-                            try:
-                                if request.user.is_authenticated() and request.user.is_active:
-                                    order = Order.objects.get(pk=order_pk,
-                                                              sessionid=sessionid,
-                                                              user_id=user_id,
-                                                              FIO=FIO,
-                                                              email=email,
-                                                              phone=phone,
-                                                              country_id=select_country, )
-                                else:
-                                    order = Order.objects.get(pk=order_pk,
-                                                              sessionid=sessionid,
-                                                              FIO=FIO,
-                                                              email=email,
-                                                              phone=phone,
-                                                              country_id=select_country, )
-                            except Order.DoesNotExist:
-                                pass
-                        if 'order' not in locals() and 'order' not in globals():
-                            order = Order()
-                            order.sessionid = sessionid
+                    else:
+                        del order_pk_last
+                    if 'order_pk' in locals() or 'order_pk' in globals():
+                        if 'order_pk_last' in locals() or 'order_pk_last' in globals():
+                            if order_pk == order_pk_last:
+                                del order_pk
+                    if ('order_pk' in locals() or 'order_pk' in globals()) and order_pk and type(order_pk) == int:
+                        try:
                             if request.user.is_authenticated() and request.user.is_active:
-                                order.user_id = user_id
-                            order.FIO = FIO
-                            order.email = email
-                            order.phone = phone
-                            order.country_id = select_country
-                            order.save()
-                        request.session[u'order_pk'] = order.pk
-                    # else:
-                    #     # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
-                    #     email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
+                                order = Order.objects.get(pk=order_pk,
+                                                          sessionid=sessionid,
+                                                          user_id=user_id,
+                                                          FIO=FIO,
+                                                          email=email,
+                                                          phone=phone,
+                                                          country_id=select_country, )
+                            else:
+                                order = Order.objects.get(pk=order_pk,
+                                                          sessionid=sessionid,
+                                                          FIO=FIO,
+                                                          email=email,
+                                                          phone=phone,
+                                                          country_id=select_country, )
+                        except Order.DoesNotExist:
+                            pass
+                    if 'order' not in locals() and 'order' not in globals():
+                        order = Order()
+                        order.sessionid = sessionid
+                        if request.user.is_authenticated() and request.user.is_active:
+                            order.user_id = user_id
+                        order.FIO = FIO
+                        order.email = email
+                        order.phone = phone
+                        order.country_id = select_country
+                        order.save()
+                    request.session[u'order_pk'] = order.pk
+                # else:
+                #     # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
+                #     email_error = u'Проверьте пожалуйста указанный Вами e-mail.'
 
             else:
                 email_error = u'Вы забыли указать Ваш E-Mail.'
@@ -295,10 +296,20 @@ def result_ordering(request, ):
                 """ Удаляем старую корзину """
                 cart.delete()
 
-                delivery = delivery_order.apply_async(
+                delivery_order.apply_async(
                     queue='delivery_send',
                     kwargs={'order_pk': order.pk, },
-                    task_id='celery-task-id-{0}'.format(celery.utils.uuid(), ),
+                    task_id='celery-task-id-delivery_order-{0}'.format(celery.utils.uuid(), ),
+                )
+
+                send_template_sms.apply_async(
+                    queue='delivery_send',
+                    kwargs={
+                        'sms_to_phone_char': order.phone,
+                        'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_ORDER_NUMBER'],
+                        'sms_order_number': order.pk,
+                    },
+                    task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
                 )
 
                 request.session[u'order_pk_last'] = order.pk
@@ -322,7 +333,6 @@ def order_success(request,
         except ValueError:
             order_pk = None
         else:
-            from apps.cart.models import Order
             try:
                 order = Order.objects.get(pk=order_pk, )
             except Order.DoesNotExist:
@@ -339,44 +349,3 @@ def order_unsuccessful(request,
     return render(request=request,
                   template_name=template_name,
                   content_type='text/html', )
-
-
-def aaa():
-    """ Отправка заказа мэнеджеру """
-    subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
-    html_content = render_to_string('email_order_content.jinja2',
-                                    {'order': order, })
-    text_content = strip_tags(html_content, )
-    from_email = u'site@keksik.com.ua'
-    #                to_email = u'mamager@keksik.com.ua'
-    #                from proj.settings import SERVER
-    #                if SERVER:
-    #                    to_email = u'manager@keksik.com.ua'
-    #                else:
-    #                    to_email = u'alex.starov@keksik.com.ua'
-
-    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                             fail_silently=False, )
-    msg = EmailMultiAlternatives(subject=subject,
-                                 body=text_content,
-                                 from_email=from_email,
-                                 to=['zakaz@keksik.com.ua', ],
-                                 connection=backend, )
-    msg.attach_alternative(content=html_content,
-                           mimetype="text/html", )
-    msg.send(fail_silently=False, )
-    """ Отправка благодарности клиенту. """
-    subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
-    html_content = render_to_string('email_successful_content.jinja2',
-                                    {'order': order, }, )
-    text_content = strip_tags(html_content, )
-    from_email = u'site@keksik.com.ua'
-    to_email = email
-    msg = EmailMultiAlternatives(subject=subject,
-                                 body=text_content,
-                                 from_email=from_email,
-                                 to=[to_email, ],
-                                 connection=backend, )
-    msg.attach_alternative(content=html_content,
-                           mimetype="text/html", )
-    msg.send(fail_silently=False, )

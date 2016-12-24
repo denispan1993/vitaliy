@@ -356,3 +356,43 @@ def get_cart_or_create(request, user_object=False, created=True, ):
         return cart
 
     return cart, created
+
+def aaa():
+    """ Отправка заказа мэнеджеру """
+    subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
+    html_content = render_to_string('email_order_content.jinja2',
+                                    {'order': order, })
+    text_content = strip_tags(html_content, )
+    from_email = u'site@keksik.com.ua'
+    #                to_email = u'mamager@keksik.com.ua'
+    #                from proj.settings import SERVER
+    #                if SERVER:
+    #                    to_email = u'manager@keksik.com.ua'
+    #                else:
+    #                    to_email = u'alex.starov@keksik.com.ua'
+
+    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
+                             fail_silently=False, )
+    msg = EmailMultiAlternatives(subject=subject,
+                                 body=text_content,
+                                 from_email=from_email,
+                                 to=['zakaz@keksik.com.ua', ],
+                                 connection=backend, )
+    msg.attach_alternative(content=html_content,
+                           mimetype="text/html", )
+    msg.send(fail_silently=False, )
+    """ Отправка благодарности клиенту. """
+    subject = u'Заказ № %d. Интернет магазин Кексик.' % order.pk
+    html_content = render_to_string('email_successful_content.jinja2',
+                                    {'order': order, }, )
+    text_content = strip_tags(html_content, )
+    from_email = u'site@keksik.com.ua'
+    to_email = email
+    msg = EmailMultiAlternatives(subject=subject,
+                                 body=text_content,
+                                 from_email=from_email,
+                                 to=[to_email, ],
+                                 connection=backend, )
+    msg.attach_alternative(content=html_content,
+                           mimetype="text/html", )
+    msg.send(fail_silently=False, )

@@ -9,10 +9,10 @@ from django.http import HttpResponse
 
 from django.utils.timezone import now
 
-from apps.cart.views import get_cart_or_create
+from apps.cart.utils import get_cart_or_create
 from apps.coupon.models import Coupon
 
-__author__ = 'Alex Starov'
+__author__ = 'AlexStarov'
 
 
 def coupon_test(request, ):
