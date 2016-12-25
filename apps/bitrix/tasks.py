@@ -70,23 +70,23 @@ def get_products(products_list):
         print(itemid, len(itemid))
 
         try:
-            itemid = ItemID.objects.using('real').get(ItemID=product_list[1].text, )
+            itemid = ItemID.objects.get(ItemID=product_list[1].text.replace(' ', '',), )  # using('real').
             product = itemid.parent
             product.id_1c = product_list[0].text
             product.save()
 
             success += 1
-            print(success, ': ', u'Артикул:-->"', product_list[1].text, '"<--:Found', )
+            print(success, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Found', )
 
         except ItemID.DoesNotExist:
             unsuccess += 1
-            unsuccess_itemid += '%s<br /> \n' % product_list[1].text
-            print(unsuccess, ': ', u'Артикул:-->"', product_list[1].text, '"<--:Not Found', )
+            unsuccess_itemid += '%s<br /> \n' % product_list[1].text.replace(' ', '',)
+            print(unsuccess, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Not Found', )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
-            double_itemid += '%s<br /> \n' % product_list[1].text
-            print(double, ': ', u'Артикул:-->"', product_list[1].text, '"<--:Double', )
+            double_itemid += '%s<br /> \n' % product_list[1].text.replace(' ', '',)
+            print(double, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Double', )
 
     print('success: ', success)
     print('unsuccess: ', unsuccess)
