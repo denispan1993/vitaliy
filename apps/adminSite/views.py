@@ -7,7 +7,7 @@ __author__ = 'AlexStarov'
 
 @staff_member_required
 def admin_panel(request,
-                template_name=u'admin_panel.jinja2', ):
+                template_name=u'admin_panel.html', ):
     return render(request=request,
                   template_name=template_name,
                   content_type='text/html', )

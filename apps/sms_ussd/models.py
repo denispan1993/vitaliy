@@ -194,3 +194,111 @@ class Template(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'Template'
         verbose_name_plural = u'Template'
+
+
+class USSD(models.Model, ):
+
+    FROM_DEVICE = (
+        (1, 'Vodafone1 +380(66)467-12-90', ),
+    )
+
+    DIRECTION = (
+        (1, 'Send', ),
+        (2, 'Receive', ),
+    )
+
+    direction = models.PositiveSmallIntegerField(choices=DIRECTION,
+                                                 verbose_name=_(u'Направление', ),
+                                                 null=True,
+                                                 blank=True, )
+
+    from_device = models.PositiveSmallIntegerField(choices=FROM_DEVICE,
+                                                   verbose_name=_(u'С какого номера телефона', ),
+                                                   null=True,
+                                                   blank=True, )
+
+    user = models.ForeignKey(to=proj.settings.AUTH_USER_MODEL,
+                             verbose_name=_(u'Пользователь', ),
+                             null=True,
+                             blank=True, )
+    sessionid = models.CharField(verbose_name=_(u'SessionID', ),
+                                 max_length=32,
+                                 null=True,
+                                 blank=True, )
+
+    task_id = models.CharField(verbose_name=_(u'task.id'),
+                               max_length=255,
+                               blank=True,
+                               null=True, )
+
+    code = models.CharField(verbose_name=_(u'USSD Code', ),
+                            max_length=32,
+                            null=True,
+                            blank=True, )
+
+    message = models.TextField(verbose_name=_(u'Сообщение', ),
+                               null=True,
+                               blank=True, )
+
+    message_b64 = models.TextField(verbose_name=_(u'Сообщение base64', ),
+                                   null=True,
+                                   blank=True, )
+
+    is_send = models.BooleanField(verbose_name=_(u'Отправлено', ),
+                                  default=False,
+                                  null=False,
+                                  blank=True, )
+
+    send_at = models.DateTimeField(verbose_name=_(u'Дата и время отправки USSD', ),
+                                   blank=True,
+                                   null=True, )
+
+    received_at = models.DateTimeField(verbose_name=_(u'Дата и время получения USSD', ),
+                                       blank=True,
+                                       null=True, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    def schedule_run(self, ):
+        from .tasks import send_sms
+
+        task = send_sms.apply_async(queue='delivery_send',
+                                    kwargs={'sms_pk': self.pk},
+                                    task_id='send_ussd_celery-task-id-{0}'.format(uuid(), ), )
+        self.task_id = task.id
+
+        self.save(skip_super_save=True, )
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None, *args, **kwargs):
+
+        skip_super_save = kwargs.pop('skip_super_save', False, )
+
+        super(USSD, self).save(force_insert, force_update, using, update_fields, *args, **kwargs)
+
+        if not skip_super_save:
+            self.schedule_run()
+
+    @models.permalink
+    def get_absolute_url(self, ):
+        return ('admin_page:sms_ussd_send_ussd', (), {}, )
+
+    def __unicode__(self):
+        return u'%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
+               (self.user, self.sessionid, self.direction, self.is_send, self.send_at, self.received_at)
+
+    class Meta:
+        db_table = 'SMS_USSD__USSD'
+        ordering = ['-created_at', ]
+        verbose_name = u'USSD'
+        verbose_name_plural = u'USSD'
+
+

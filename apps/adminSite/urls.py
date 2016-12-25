@@ -2,15 +2,16 @@
 from django.conf.urls import patterns, url
 from apps.utils.decorators import manager_required
 from .coupon.views import CouponGroupCreateEdit, CouponCreateEdit
-from .sms_ussd.views import SendSMSCreateView
+from .sms_ussd.views import SMS_USSDPanelView, SendSMSCreateView, SendUSSDCreateView
 
 __author__ = 'AlexStarov'
 
-#Admin panel
+
+# Admin panel
 urlpatterns = patterns('apps.adminSite',
                        url(regex=ur'^$',
                            view='views.admin_panel',
-                           kwargs={'template_name': u'admin_panel.jinja2', },
+                           kwargs={'template_name': u'admin_panel.html', },
                            name='index', ),
                        )
 
@@ -95,7 +96,17 @@ urlpatterns += patterns('apps.adminSite.delivery.views',
 
 # """ Админ панель SMS USSD. """
 urlpatterns += patterns('',
+                        url(regex=ur'^sms_ussd/$',
+                            view=SMS_USSDPanelView.as_view(),
+                            name='sms_ussd_panel', ),
+                        )
+urlpatterns += patterns('',
                         url(regex=ur'^sms_ussd/send_sms/$',
                             view=SendSMSCreateView.as_view(),
                             name='sms_ussd_send_sms', ),
+                        )
+urlpatterns += patterns('',
+                        url(regex=ur'^sms_ussd/send_ussd/$',
+                            view=SendUSSDCreateView.as_view(),
+                            name='sms_ussd_send_ussd', ),
                         )

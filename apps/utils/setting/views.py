@@ -5,20 +5,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 @staff_member_required
-def admin_panel(request,
-                template_name=u'admin_panel.jinja2.html', ):
-    from django.shortcuts import render_to_response
-    from django.template import RequestContext
-    response = render_to_response(template_name=template_name,
-                                  dictionary={# 'error_message': error_message,
-                                              # 'orders': orders, },  # 'html_text': html_text, },
-                                  },
-                                  context_instance=RequestContext(request, ),
-                                  content_type='text/html', )
-    return response
-
-
-@staff_member_required
 def order_search(request,
                  template_name=u'order/order_search.jinja2.html', ):
     if request.method == 'POST':
