@@ -247,6 +247,24 @@ class USSD(models.Model, ):
         (2, 'Receive', ),
     )
 
+    CODE_PROVIDER = (
+        (39, '039 ==> Киевстар (Golden Telecom)',),
+        (50, '050 ==> Vodafone',),
+        (63, '063 ==> Life:)',),
+        (66, '066 ==> Vodafone',),
+        (67, '067 ==> Киевстар',),
+        (68, '068 ==> Киевстар (Beeline)',),
+        (91, '091 ==> Utel',),
+        (92, '092 ==> PEOPLEnet',),
+        (93, '093 ==> Life:)',),
+        (94, '094 ==> Интертелеком',),
+        (95, '095 ==> Vodafone',),
+        (96, '096 ==> Киевстар',),
+        (97, '097 ==> Киевстар',),
+        (98, '098 ==> Киевстар',),
+        (99, '099 ==> Vodafone',),
+    )
+
     direction = models.PositiveSmallIntegerField(choices=DIRECTION,
                                                  verbose_name=_(u'Направление', ),
                                                  null=True,
@@ -353,5 +371,3 @@ class USSD(models.Model, ):
         ordering = ['-created_at', ]
         verbose_name = u'USSD'
         verbose_name_plural = u'USSD'
-
-
