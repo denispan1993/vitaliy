@@ -37,6 +37,10 @@ class SIM(models.Model, ):
                                       blank=True,
                                       null=True, )
 
+    def __unicode__(self):
+        return u'%s|provider: %s ==> %s|IMSI:%s: | created_at:%s|updated_at:%s' %\
+               (self.name, self.provider, self.phone, self.imsi, self.created_at, self.updated_at, )
+
     class Meta:
         db_table = 'SMS_USSD__SIM'
         ordering = ['-created_at', ]
