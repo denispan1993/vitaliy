@@ -34,7 +34,7 @@ def send_sms(*args, **kwargs):
     sms_pk = kwargs.get('sms_pk')
 
     try:
-        print('sms_pk: ', sms_pk)
+        # print('sms_pk: ', sms_pk)
         sms = SMS.objects.get(pk=sms_pk, is_send=False, )
     except SMS.DoesNotExist:
         return False
@@ -51,38 +51,43 @@ def send_sms(*args, **kwargs):
             response = manager.status()
             print('response: ', response)
 
-            response = manager.command('core show channels concise')
-            print('response.data: ', response.data)
+            #response = manager.command('core show channels concise')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show version')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show version')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show devices')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show devices')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle ussd Vodafone1 *161#')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle ussd Vodafone1 *161#')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show device settings')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show device settings')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show device state')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show device state')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show device statistics')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show device statistics')
+            #print('response.data: ', response.data)
 
-            response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
-                                       .format(
-                                            device='Vodafone1',
-                                            to_phone_char='+380{code}{phone}'
-                                                .format(
-                                                    code=sms.to_code,
-                                                    phone=sms.to_phone,
-                                                ),
-                                            message=sms.message,
-                                        ),
-            )
+            messages = sms.message.split('||')
+            for message in messages:
+                response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
+                                           .format(
+                                                device='Vodafone1',
+                                                to_phone_char='+380{code}{phone}'
+                                                    .format(
+                                                        code=sms.to_code,
+                                                        phone=sms.to_phone,
+                                                    ),
+                                                message=message,
+                                            ),
+                                           )
+                print('response.data: ', response.data)
+
+                increase_send_sms()
 
             manager.logoff()
 
@@ -104,8 +109,6 @@ def send_sms(*args, **kwargs):
     sms.is_send = True
     sms.send_at = timezone.now()
     sms.save(skip_super_save=True, )
-
-    print('increase_send_sms(): ', increase_send_sms())
 
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
 
@@ -194,6 +197,7 @@ def send_received_sms(*args, **kwargs):
         except Exception as e:
             print('Exception1: ', e)
 
+        sms.sim_id = 255016140761290
         sms.task_id = None
         sms.is_send = True
         sms.send_at = timezone.now()
@@ -206,29 +210,31 @@ def send_received_sms(*args, **kwargs):
 def send_template_sms(*args, **kwargs):
 
     to_phone_char = kwargs.pop('sms_to_phone_char', False, )
-    print('sms_to_phone_char: ', to_phone_char)
     if not to_phone_char:
         return False
 
     template_name = kwargs.pop('sms_template_name', False, )
     try:
-        print('template_name: ', template_name)
         teplate = Template.objects.get(name=template_name, )
     except Template.DoesNotExist:
         return False
 
     template_dict = {}
-    print '203', template_dict
-    for key, value in kwargs.iteritems():
-        print '205', key, value
-        if key.startswith('sms_'):
-            print '207', "key.lstrip('sms_')", key.lstrip('sms_')
-            print '208', template_dict
-            template_dict.update({key.lstrip('sms_'): value})
-            print '210', template_dict
 
-    message = teplate.template.format(**template_dict)
-    print message
+    for key, value in kwargs.iteritems():
+
+        if key.startswith('sms_'):
+
+            template_dict.update({key.lstrip('sms_'): value})
+
+    sms = SMS(template=teplate,
+              direction=2,
+              task_id=None,
+              sim_id=255016140761290,
+              is_send=True,
+              to_phone_char=to_phone_char,
+              send_at=timezone.now(),
+              )
 
     manager = asterisk.manager.Manager()
 
@@ -242,35 +248,44 @@ def send_template_sms(*args, **kwargs):
             response = manager.status()
             print('response: ', response)
 
-            response = manager.command('core show channels concise')
-            print('response.data: ', response.data)
+            #response = manager.command('core show channels concise')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show version')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show version')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show devices')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show devices')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle ussd Vodafone1 *161#')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle ussd Vodafone1 *161#')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show device settings')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show device settings')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show device state')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show device state')
+            #print('response.data: ', response.data)
 
-            response = manager.command('dongle show device statistics')
-            print('response.data: ', response.data)
+            #response = manager.command('dongle show device statistics')
+            #print('response.data: ', response.data)
 
-            response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
-                                       .format(
-                                            device='Vodafone1',
-                                            to_phone_char=to_phone_char,
-                                            message=message,
-                                        ),
-            )
-            print('response.data: ', response.data)
+            message = teplate.template.format(**template_dict)
+            messages = message.split('||')
+
+            last_loop = len(messages, )
+            for i, message in enumerate(messages):
+                response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
+                                           .format(
+                                                device='Vodafone1',
+                                                to_phone_char=to_phone_char,
+                                                message=message,
+                                            ),
+                                           )
+                print('response.data: ', response.data)
+
+                sms.message += message if i == last_loop else '%s||' % message
+
+                increase_send_sms()
 
             manager.logoff()
 
@@ -288,16 +303,6 @@ def send_template_sms(*args, **kwargs):
         except Exception as e:
             print e
 
-    sms = SMS(template=teplate,
-              direction=2,
-              task_id=None,
-              is_send=True,
-              to_phone_char=to_phone_char,
-              message=message,
-              send_at=timezone.now(),
-              )
     sms.save(skip_super_save=True, )
-
-    print('increase_send_sms(): ', increase_send_sms())
 
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))

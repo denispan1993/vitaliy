@@ -319,7 +319,7 @@ def result_ordering(request, ):
                     send_template_sms.apply_async(
                         queue='delivery_send',
                         kwargs={
-                            'sms_to_phone_char': '+380%s' % phone,
+                            'sms_to_phone_char': '+380%s' % phone[:9],
                             'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_ORDER_NUMBER'],
                             'sms_order_number': order.pk,
                         },
