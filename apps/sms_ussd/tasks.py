@@ -72,6 +72,18 @@ def send_sms(*args, **kwargs):
             response = manager.command('dongle show device statistics')
             print('response.data: ', response.data)
 
+            response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
+                                       .format(
+                                            device='Vodafone1',
+                                            to_phone_char='+380{code}{phone}'
+                                                .format(
+                                                    code=sms.to_code,
+                                                    phone=sms.to_phone,
+                                                ),
+                                            message=sms.message,
+                                        ),
+            )
+
             manager.logoff()
 
         except asterisk.manager.ManagerSocketException as e:
@@ -253,7 +265,7 @@ def send_template_sms(*args, **kwargs):
 
             response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
                                        .format(
-                                            device='Vodafone2',
+                                            device='Vodafone1',
                                             to_phone_char=to_phone_char,
                                             message=message,
                                         ),

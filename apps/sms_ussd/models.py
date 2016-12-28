@@ -242,13 +242,9 @@ class Template(models.Model, ):
 
 class USSD(models.Model, ):
 
-    FROM_DEVICE = (
-        (1, 'Vodafone1 +380(66)467-12-90', ),
-    )
-
     DIRECTION = (
-        (1, 'Send', ),
-        (2, 'Receive', ),
+        (1, 'Receive', ),
+        (2, 'Send',),
     )
 
     CODE_PROVIDER = (
