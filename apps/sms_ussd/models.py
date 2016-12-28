@@ -8,30 +8,65 @@ import proj.settings
 
 __author__ = 'AlexStarov'
 
+CODE_PROVIDER = (
+    (39, '039 ==> Киевстар (Golden Telecom)',),
+    (50, '050 ==> Vodafone',),
+    (63, '063 ==> Life:)',),
+    (66, '066 ==> Vodafone',),
+    (67, '067 ==> Киевстар',),
+    (68, '068 ==> Киевстар (Beeline)',),
+    (91, '091 ==> Utel',),
+    (92, '092 ==> PEOPLEnet',),
+    (93, '093 ==> Life:)',),
+    (94, '094 ==> Интертелеком',),
+    (95, '095 ==> Vodafone',),
+    (96, '096 ==> Киевстар',),
+    (97, '097 ==> Киевстар',),
+    (98, '098 ==> Киевстар',),
+    (99, '099 ==> Vodafone',),
+)
+
+
+class SIM(models.Model, ):
+    name = models.CharField(verbose_name=_(u'Имя устройства', ),
+                            max_length=16,
+                            null=True,
+                            blank=True, )
+    phone = models.CharField(verbose_name=_(u'Номер телефона', ),
+                             max_length=14,
+                             null=True,
+                             blank=True, )
+    provider = models.CharField(verbose_name=_(u'Провайдер', ),
+                                max_length=14,
+                                null=True,
+                                blank=True, )
+    imsi = models.CharField(verbose_name=_(u'IMSI', ),
+                            max_length=15,
+                            null=True,
+                            blank=True, )
+
+    #Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    class Meta:
+        db_table = 'SMS_USSD__SIM'
+        ordering = ['-created_at', ]
+        verbose_name = u'SIM'
+        verbose_name_plural = u'SIM'
+
 
 class SMS(models.Model, ):
 
     DIRECTION = (
         (1, 'Incoming', ),
         (2, 'Outgoing', ),
-    )
-
-    CODE_PROVIDER = (
-        (39, '039 ==> Киевстар (Golden Telecom)', ),
-        (50, '050 ==> Vodafone', ),
-        (63, '063 ==> Life:)', ),
-        (66, '066 ==> Vodafone', ),
-        (67, '067 ==> Киевстар', ),
-        (68, '068 ==> Киевстар (Beeline)', ),
-        (91, '091 ==> Utel', ),
-        (92, '092 ==> PEOPLEnet', ),
-        (93, '093 ==> Life:)', ),
-        (94, '094 ==> Интертелеком', ),
-        (95, '095 ==> Vodafone', ),
-        (96, '096 ==> Киевстар', ),
-        (97, '097 ==> Киевстар', ),
-        (98, '098 ==> Киевстар', ),
-        (99, '099 ==> Vodafone', ),
     )
 
     template = models.ForeignKey(to='Template',
@@ -62,6 +97,11 @@ class SMS(models.Model, ):
                                   default=False,
                                   null=False,
                                   blank=True, )
+
+    sim = models.ForeignKey(to=SIM,
+                            verbose_name=_(u'SIM', ),
+                            null=True,
+                            blank=True, )
 
     from_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Откуда)', ),
                                        max_length=64,
@@ -212,11 +252,6 @@ class USSD(models.Model, ):
                                                  null=True,
                                                  blank=True, )
 
-    from_device = models.PositiveSmallIntegerField(choices=FROM_DEVICE,
-                                                   verbose_name=_(u'С какого номера телефона', ),
-                                                   null=True,
-                                                   blank=True, )
-
     user = models.ForeignKey(to=proj.settings.AUTH_USER_MODEL,
                              verbose_name=_(u'Пользователь', ),
                              null=True,
@@ -230,6 +265,24 @@ class USSD(models.Model, ):
                                max_length=255,
                                blank=True,
                                null=True, )
+
+    sim = models.ForeignKey(to=SIM,
+                            verbose_name=_(u'SIM', ),
+                            null=True,
+                            blank=True, )
+
+    phone_char = models.CharField(verbose_name=_(u'Номер телефона (Куда)', ),
+                                  max_length=64,
+                                  null=True,
+                                  blank=True, )
+
+    phone_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
+                                                  verbose_name=_(u'Код провайдера', ),
+                                                  null=True,
+                                                  blank=True, )
+    phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
+                                        null=True,
+                                        blank=True, )
 
     code = models.CharField(verbose_name=_(u'USSD Code', ),
                             max_length=32,
