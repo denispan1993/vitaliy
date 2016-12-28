@@ -6,8 +6,8 @@ __author__ = 'AlexStarov'
 
 
 class SIMAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'name', 'phone', 'provider', 'imsi', ]
-    list_display_links = ['pk', 'name', 'phone', 'provider', 'imsi', ]
+    list_display = ['imsi', 'name', 'phone', 'provider', ]
+    list_display_links = ['imsi', 'name', 'phone', 'provider', ]
 
 admin.site.register(SIM, SIMAdmin, )
 

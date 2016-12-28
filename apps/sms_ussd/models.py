@@ -40,10 +40,10 @@ class SIM(models.Model, ):
                                 max_length=14,
                                 null=True,
                                 blank=True, )
-    imsi = models.CharField(verbose_name=_(u'IMSI', ),
-                            max_length=15,
-                            null=True,
-                            blank=True, )
+    imsi = models.BigIntegerField(verbose_name=_(u'IMSI', ),
+                                  unique=True,
+                                  null=False,
+                                  blank=False, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
