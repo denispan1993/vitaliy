@@ -8,24 +8,6 @@ import proj.settings
 
 __author__ = 'AlexStarov'
 
-CODE_PROVIDER = (
-    (39, '039 ==> Киевстар (Golden Telecom)',),
-    (50, '050 ==> Vodafone',),
-    (63, '063 ==> Life:)',),
-    (66, '066 ==> Vodafone',),
-    (67, '067 ==> Киевстар',),
-    (68, '068 ==> Киевстар (Beeline)',),
-    (91, '091 ==> Utel',),
-    (92, '092 ==> PEOPLEnet',),
-    (93, '093 ==> Life:)',),
-    (94, '094 ==> Интертелеком',),
-    (95, '095 ==> Vodafone',),
-    (96, '096 ==> Киевстар',),
-    (97, '097 ==> Киевстар',),
-    (98, '098 ==> Киевстар',),
-    (99, '099 ==> Vodafone',),
-)
-
 
 class SIM(models.Model, ):
     name = models.CharField(verbose_name=_(u'Имя устройства', ),
@@ -67,6 +49,24 @@ class SMS(models.Model, ):
     DIRECTION = (
         (1, 'Incoming', ),
         (2, 'Outgoing', ),
+    )
+
+    CODE_PROVIDER = (
+        (39, '039 ==> Киевстар (Golden Telecom)',),
+        (50, '050 ==> Vodafone',),
+        (63, '063 ==> Life:)',),
+        (66, '066 ==> Vodafone',),
+        (67, '067 ==> Киевстар',),
+        (68, '068 ==> Киевстар (Beeline)',),
+        (91, '091 ==> Utel',),
+        (92, '092 ==> PEOPLEnet',),
+        (93, '093 ==> Life:)',),
+        (94, '094 ==> Интертелеком',),
+        (95, '095 ==> Vodafone',),
+        (96, '096 ==> Киевстар',),
+        (97, '097 ==> Киевстар',),
+        (98, '098 ==> Киевстар',),
+        (99, '099 ==> Vodafone',),
     )
 
     template = models.ForeignKey(to='Template',
