@@ -272,7 +272,7 @@ def send_template_sms(*args, **kwargs):
             message = teplate.template.format(**template_dict)
             messages = message.split('||')
 
-            last_loop = len(messages, )
+            last_loop = len(messages, ) - 1
             for i, message in enumerate(messages):
                 response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
                                            .format(
@@ -283,7 +283,14 @@ def send_template_sms(*args, **kwargs):
                                            )
                 print('response.data: ', response.data)
 
-                sms.message += message if i == last_loop else '%s||' % message
+                if i == 0 and last_loop == 0:
+                    sms.message = message
+                elif i == 0 and last_loop > 0:
+                    sms.message = u'%s||' % message
+                elif i == last_loop:
+                    sms.message += message
+                else:
+                    sms.message += u'%s||' % message
 
                 increase_send_sms()
 
