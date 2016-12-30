@@ -35,12 +35,13 @@
                {% for i in int_range|get_range %}
                    {% set url = '0' + url %}
                    {% if i == int_range - 1 %}
-                       <a href="/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a>
+                       {# <a href="/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a> #}
+                       <a href="{{ url('admin_page:order_edit', order_id='%04d' % order.pk) }}">Заказ №: {{ url }}</a>
                    {% endif %}
                {% endfor %}
            {% endif %}</p>
 
-        <form method="POST" action="/админ/заказ/отправка/">
+        <form method="POST" action="{{ url('admin_page:order_edit', order_id='%04d' % order.pk) }}">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="order_dispatch" />
             <input type="hidden" name="order_pk" value="{{ order.pk }}" />
