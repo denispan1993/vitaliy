@@ -274,18 +274,14 @@ class Product(models.Model):
         from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
         price = product.get_price(request, price=None, calc_or_show='show', currency=currency, )  # price=self.price,
-        """
-            Расчитываем цену товара.
-        """
+        """ Расчитываем цену товара. """
         from decimal import Decimal
         price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
         if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
             if product.is_availability == 2:  # Если товар доступен под заказ?
-                """
-                    Если товар доступен под заказ?
-                    Показываем 50% стоимости.
-                """
-                price = price/2            # Берём 50% от стоимости
+                """ Если товар доступен под заказ?
+                    Показываем 50% стоимости. """
+                price = price/2  # Берём 50% от стоимости
         return u'%5.2f'.replace(',', '.', ) % price  # .replace(',', '.', ).strip()
 
     def summ_quantity(self, quantity=1, ):

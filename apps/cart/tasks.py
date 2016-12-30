@@ -277,9 +277,11 @@ def recompile_order(*args, **kwargs):
                     print u'SessionID.user: ', sessionID.user
                     print u'Email.user: ', email.user
 
-    phone = order.phone\
+    phone = r'%s' % order.phone
+    phone = phone\
         .replace(' ', '', ).replace('(', '', ).replace(')', '', )\
         .replace('-', '', ).replace('.', '', ).replace(',', '', )\
+        .replace('/', '', ).replace('|', '', ).replace('\\', '', )\
         .lstrip('+380').lstrip('380').lstrip('38').lstrip('80').lstrip('0')
     print 'phone: ', phone
 
@@ -294,9 +296,9 @@ def recompile_order(*args, **kwargs):
             phone='{phone_code}{phone}'\
                 .format(
                     phone_code=str(int_phone_code, ),
-                    phone=str(int_phone, ),
+                    phone='{int_phone:07d}'.format(int_phone=int_phone, ),
                 ),
-        )
+            )
     except Phone.DoesNotExist:
         phone_not_found = True
     except Phone.MultipleObjectsReturned:
@@ -304,7 +306,7 @@ def recompile_order(*args, **kwargs):
             phone='{phone_code}{phone}'
                 .format(
                     phone_code=str(int_phone_code, ),
-                    phone=str(int_phone, ),
+                    phone='{int_phone:07d}'.format(int_phone=int_phone, ),
                 ),
         )
 

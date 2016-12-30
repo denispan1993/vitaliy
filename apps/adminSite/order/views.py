@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+import celery
+import math
 from datetime import datetime, timedelta
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
+import proj.settings
 
 from apps.cart.models import Order
+from apps.sms_ussd.tasks import send_template_sms
 
 __author__ = 'AlexStarov'
 
@@ -113,12 +117,14 @@ def order_edit(request,
                         .lstrip('380').lstrip('38').lstrip('80').lstrip('0')
 
                     if len(phone, ) == 9:
+                        # ToDo: Не учел процент банка
+                        # math.ceil - округление до ближайшего большего числа
                         send_template_sms.apply_async(
                             queue='delivery_send',
                             kwargs={
                                 'sms_to_phone_char': '+380%s' % phone[:9],
-                                'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_ORDER_NUMBER'],
-                                'sms_order_number': order.pk,
+                                'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_AMOUNT'],
+                                'sms_order_sum': math.ceil(order.order_sum(calc_or_show='calc', ), ),
                             },
                             task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
                         )
