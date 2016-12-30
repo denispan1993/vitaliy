@@ -59,9 +59,7 @@ body{
                 {% for order in orders %}
                 <tr>
                     <td>
-                        {% for i in int_range|get_range %}
-                            <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">{{ '%06d' % order.pk }}</a>
-                        {% endfor %}
+                        <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">{{ '%06d' % order.pk }}</a>
                     </td>
                     <td>
                         {% if order.user %}
