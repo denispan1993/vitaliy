@@ -295,7 +295,7 @@ def send_template_sms(*args, **kwargs):
 
                 increase_send_sms()
 
-                time.sleep(5)
+                time.sleep(15)
 
             manager.logoff()
 
