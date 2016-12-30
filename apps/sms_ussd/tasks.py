@@ -2,6 +2,7 @@
 import os
 import socket
 import base64
+import time
 from proj.celery import celery_app
 from django.utils import timezone
 from email.utils import formataddr
@@ -293,6 +294,8 @@ def send_template_sms(*args, **kwargs):
                     sms.message += u'%s||' % message
 
                 increase_send_sms()
+
+                time.sleep(5)
 
             manager.logoff()
 

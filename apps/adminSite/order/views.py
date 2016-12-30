@@ -54,15 +54,15 @@ def order_edit_product_add(request,
                 order = Order.objects.get(pk=order_id, )
             except Order.DoesNotExist:
                 ''' В базе отсутсвует заказ с таким номером '''
-                return redirect(to='order_search', )
+                return redirect(to='admin_page:order_search', )
 
         except ValueError:
             ''' Некорректно введен номер заказа '''
-            return redirect(to='order_search', )
+            return redirect(to='admin_page:order_search', )
 
     else:
         ''' Отсутсвует номер заказа '''
-        return redirect(to='order_search', )
+        return redirect(to='admin_page:order_search', )
 
     return render(request=request,
                   template_name=template_name,
@@ -80,7 +80,7 @@ def order_edit(request,
 
     if not order_id:
         ''' Отсутсвует номер заказа '''
-        return redirect(to='order_search', )
+        return redirect(to='admin_page:order_search', )
     else:
 
         try:
@@ -90,11 +90,11 @@ def order_edit(request,
                 order = Order.objects.get(pk=order_id, )
             except Order.DoesNotExist:
                 ''' В базе отсутсвует заказ с таким номером '''
-                return redirect(to='order_search', )
+                return redirect(to='admin_page:order_search', )
 
         except ValueError:
             ''' Некорректно введен номер заказа '''
-            return redirect(to='order_search', )
+            return redirect(to='admin_page:order_search', )
 
     print request.method
     print request.POST.get(u'POST_NAME', False, )
@@ -135,11 +135,11 @@ def order_edit(request,
                             task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
                         )
 
-                        return redirect(to='order_search', )
+                        return redirect(to='admin_page:order_search', )
 
             except ValueError:
                 ''' Некорректно введен номер заказа '''
-                return redirect(to='order_search', )
+                return redirect(to='admin_page:order_search', )
 
     return render(request=request,
                   template_name=template_name,
