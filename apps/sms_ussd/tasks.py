@@ -242,39 +242,20 @@ def send_template_sms(*args, **kwargs):
     try:
         # connect to the manager
         try:
-            manager.connect(proj.settings.ASTERISK_HOST)
-            manager.login(*proj.settings.ASTERISK_AUTH)
-
-            # get a status report
-            response = manager.status()
-            print('response: ', response)
-
-            #response = manager.command('core show channels concise')
-            #print('response.data: ', response.data)
-
-            #response = manager.command('dongle show version')
-            #print('response.data: ', response.data)
-
-            #response = manager.command('dongle show devices')
-            #print('response.data: ', response.data)
-
-            #response = manager.command('dongle ussd Vodafone1 *161#')
-            #print('response.data: ', response.data)
-
-            #response = manager.command('dongle show device settings')
-            #print('response.data: ', response.data)
-
-            #response = manager.command('dongle show device state')
-            #print('response.data: ', response.data)
-
-            #response = manager.command('dongle show device statistics')
-            #print('response.data: ', response.data)
 
             message = teplate.template.format(**template_dict)
             messages = message.split('||')
 
             last_loop = len(messages, ) - 1
             for i, message in enumerate(messages):
+                manager.connect(proj.settings.ASTERISK_HOST)
+                manager.login(*proj.settings.ASTERISK_AUTH)
+
+                # get a status report
+                response = manager.status()
+                print('response: ', response)
+
+                time.sleep(5)
                 response = manager.command(u'dongle sms {device} {to_phone_char} {message}'
                                            .format(
                                                 device='Vodafone1',
@@ -295,9 +276,11 @@ def send_template_sms(*args, **kwargs):
 
                 increase_send_sms()
 
-                time.sleep(20)
+                time.sleep(15)
 
-            manager.logoff()
+                manager.logoff()
+
+                time.sleep(5)
 
         except asterisk.manager.ManagerSocketException as e:
             print "Error connecting to the manager: %s" % e
