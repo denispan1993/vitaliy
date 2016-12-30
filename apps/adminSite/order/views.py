@@ -76,6 +76,8 @@ def order_edit(request,
                order_id,
                template_name=u'order/order_edit.jinja2', ):
 
+    print order_id
+
     if not order_id:
         ''' Отсутсвует номер заказа '''
         return redirect(to='order_search', )
@@ -83,7 +85,7 @@ def order_edit(request,
 
         try:
             order_id = int(order_id, )
-
+            print order_id
             try:
                 order = Order.objects.get(pk=order_id, )
             except Order.DoesNotExist:
@@ -94,6 +96,8 @@ def order_edit(request,
             ''' Некорректно введен номер заказа '''
             return redirect(to='order_search', )
 
+    print request.method
+    print request.POST.get(u'POST_NAME', False, )
     if request.method == 'POST' and request.POST.get(u'POST_NAME', False, ) == 'order_dispatch':
 
         order_pk = request.POST.get(u'order_pk', None, )
@@ -110,6 +114,8 @@ def order_edit(request,
                     #    task_id='celery-task-id-delivery_order-{0}'.format(celery.utils.uuid(), ),
                     #)
 
+                    print order
+                    print order.phone
                     phone = order.phone \
                         .lstrip('+') \
                         .replace('(', '').replace(')', '').replace(' ', '') \
@@ -128,6 +134,8 @@ def order_edit(request,
                             },
                             task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
                         )
+
+                        return redirect(to='order_search', )
 
             except ValueError:
                 ''' Некорректно введен номер заказа '''
