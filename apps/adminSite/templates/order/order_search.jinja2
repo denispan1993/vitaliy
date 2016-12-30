@@ -65,8 +65,9 @@ body{
                             {% for i in int_range|get_range %}
                                 {% set url = '0' + url %}
                                 {% if i == int_range - 1 %}
+                                    {% set order_id = '%06d' % order.pk %}
                                     {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
-                                    <a href="{{ url('admin_page:order_edit', order_id='%04d' % order.pk) }}">{{ order.pk }}</a>
+                                    <a href="{{ url('admin_page:order_edit', order_id=order_id) }}">{{ order.pk }}</a>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
