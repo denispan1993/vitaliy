@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-#from django.core.mail import get_connection, EmailMultiAlternatives
-#from django.template.loader import render_to_string
-#from django.utils.html import strip_tags
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from django.forms import EmailField
@@ -11,7 +8,7 @@ import celery
 
 import proj.settings
 from apps.product.models import Country
-from .tasks import delivery_order
+from .tasks import delivery_order, recompile_order
 from .models import Order, Product, DeliveryCompany
 from .views import get_cart_or_create
 from apps.sms_ussd.tasks import send_template_sms
@@ -327,6 +324,12 @@ def result_ordering(request, ):
                     )
 
                 request.session[u'order_pk_last'] = order.pk
+
+                recompile_order.apply_async(
+                    queue='celery',
+                    kwargs={'order_pk': order.pk, },
+                    task_id='celery-task-id-recompile_order-{0}'.format(celery.utils.uuid(), ),
+                )
 
                 return redirect(to=u'/заказ/оформление-прошло-успешно/', )
         else:

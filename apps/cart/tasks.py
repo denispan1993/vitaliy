@@ -118,7 +118,14 @@ def delivery_order(*args, **kwargs):
 
 
 @celery_app.task(name='celery_task_recompile_order')
-def recompile_order(order, ):
+def recompile_order(*args, **kwargs):
+
+    order_pk = int(kwargs.get('order_pk'))
+
+    try:
+        order = Order.objects.get(pk=order_pk)
+    except Order.DoesNotExist:
+        return False
 
     if order.recompile:
         return order
@@ -271,17 +278,9 @@ def recompile_order(order, ):
                     print u'Email.user: ', email.user
 
     phone = order.phone\
-        .replace(' ', '', )\
-        .replace('(', '', )\
-        .replace(')', '', )\
-        .replace('-', '', )\
-        .replace('.', '', )\
-        .replace(',', '', )\
-        .lstrip('+380')\
-        .lstrip('380')\
-        .lstrip('38')\
-        .lstrip('80')\
-        .lstrip('0')
+        .replace(' ', '', ).replace('(', '', ).replace(')', '', )\
+        .replace('-', '', ).replace('.', '', ).replace(',', '', )\
+        .lstrip('+380').lstrip('380').lstrip('38').lstrip('80').lstrip('0')
     print 'phone: ', phone
 
     try:
