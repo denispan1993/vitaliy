@@ -33,10 +33,10 @@
            {% set int_range = 6 - url|length %}
            {% if int_range > 0 %}
                {% for i in int_range|get_range %}
-                   {% set url = '0' + url %}
+                   {# set url = '0' + url #}
                    {% if i == int_range - 1 %}
                        {# <a href="/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a> #}
-                       <a href="{{ url('admin_page:order_edit', order_id='%04d' % order.pk) }}">Заказ №: {{ url }}</a>
+                       <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Заказ №: {{ url }}</a>
                    {% endif %}
                {% endfor %}
            {% endif %}</p>
