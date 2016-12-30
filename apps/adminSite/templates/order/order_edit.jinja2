@@ -40,8 +40,8 @@
                {% endfor %}
            {% endif %}</p>
 
-        <form method="POST" action="/админ/заказ/отправка/">{{ csrf_input }}
-{#             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"> #}
+        <form method="POST" action="/админ/заказ/отправка/">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="order_dispatch" />
             <input type="hidden" name="order_pk" value="{{ order.pk }}" />
             <table id="table_carts" cols="6" summary="Корзина заказчика № {{ order.pk }}">
