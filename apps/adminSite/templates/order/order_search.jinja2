@@ -59,20 +59,9 @@ body{
                 {% for order in orders %}
                 <tr>
                     <td>
-                        {% set url = order.pk|int_to_string %}
-                        {% set int_range = 6 - url|length %}
-                        {% if int_range > 0 %}
-                            {% for i in int_range|get_range %}
-                                {# set url = '0' + url #}
-                                {% if i == int_range - 1 %}
-                                    {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
-                                    <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">{{ order.pk }}</a>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        {# <a href="{1{ url('order_edit',id=order.pk) }}">{{ order.pk }}</a> #}
-                        {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
-                        {# <a href="{1{ url('order_edit', order.pk) }}">{{ order.pk }}</a> #}
+                        {% for i in int_range|get_range %}
+                            <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">{{ '%06d' % order.pk }}</a>
+                        {% endfor %}
                     </td>
                     <td>
                         {% if order.user %}

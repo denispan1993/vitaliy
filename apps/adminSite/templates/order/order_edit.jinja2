@@ -29,17 +29,11 @@
         <p>Жду реквизиты: {{ order.checkbox1|true_false }}</p>
         <p>Жду звонка: {{ order.checkbox2|true_false }}</p>
 
-        <p>{% set url = order.pk|int_to_string %}
-           {% set int_range = 6 - url|length %}
-           {% if int_range > 0 %}
-               {% for i in int_range|get_range %}
-                   {# set url = '0' + url #}
-                   {% if i == int_range - 1 %}
-                       {# <a href="/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a> #}
-                       <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Заказ №: {{ url }}</a>
-                   {% endif %}
-               {% endfor %}
-           {% endif %}</p>
+        <p>
+           {% for i in int_range|get_range %}
+               <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Заказ №: {{ '%06d' % order.pk }}</a>
+           {% endfor %}
+        </p>
 
         {% set order_id = '%06d' % order.pk %}
         <form method="POST" action="{{ url('admin_page:order_edit', order_id=order_id) }}">
