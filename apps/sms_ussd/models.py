@@ -13,7 +13,9 @@ class SIM(models.Model, ):
     name = models.CharField(verbose_name=_(u'Имя устройства', ),
                             max_length=16,
                             null=True,
-                            blank=True, )
+                            blank=True,
+                            unique=True, )
+
     phone = models.CharField(verbose_name=_(u'Номер телефона', ),
                              max_length=14,
                              null=True,
@@ -22,10 +24,9 @@ class SIM(models.Model, ):
                                 max_length=14,
                                 null=True,
                                 blank=True, )
-    imsi = models.IntegerField(verbose_name=_(u'IMSI', ),
-                               unique=True,
-                               null=False,
-                               blank=False, )
+    imsi = models.BigIntegerField(verbose_name=_(u'IMSI', ),
+                                  null=False,
+                                  blank=False, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -134,6 +135,9 @@ class SMS(models.Model, ):
     message = models.TextField(verbose_name=_(u'Сообщение', ),
                                null=True,
                                blank=True, )
+#    >> > print aaa.message.encode('cp1252', 'replace')
+#    МТС Україна за змі�?т SMS не відповідає
+#    123456789 123456789 123456789 1
 
     message_b64 = models.TextField(verbose_name=_(u'Сообщение base64', ),
                                    null=True,
@@ -142,9 +146,6 @@ class SMS(models.Model, ):
     message_pdu = models.TextField(verbose_name=_(u'Сообщение pdu', ),
                                    null=True,
                                    blank=True, )
-#    >> > print aaa.message.encode('cp1252', 'replace')
-#    МТС Україна за змі�?т SMS не відповідає
-#    123456789 123456789 123456789 1
 
     send_at = models.DateTimeField(verbose_name=_(u'Дата и время отправки SMS', ),
                                    blank=True,
