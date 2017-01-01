@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from celery.utils import uuid
 
 import proj.settings
+from compat.bigint_path.bigint import BigIntegerField, BigForeignKey
 
 __author__ = 'AlexStarov'
 
@@ -24,9 +25,11 @@ class SIM(models.Model, ):
                                 max_length=14,
                                 null=True,
                                 blank=True, )
-    imsi = models.BigIntegerField(verbose_name=_(u'IMSI', ),
-                                  null=False,
-                                  blank=False, )
+    imsi = BigIntegerField(verbose_name=_(u'IMSI', ),
+                           unique=True,
+                           primary_key=True,
+                           null=False,
+                           blank=False, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -103,10 +106,10 @@ class SMS(models.Model, ):
                                   null=False,
                                   blank=True, )
 
-    sim = models.ForeignKey(to=SIM,
-                            verbose_name=_(u'SIM', ),
-                            null=True,
-                            blank=True, )
+    sim = BigForeignKey(to=SIM,
+                        verbose_name=_(u'SIM', ),
+                        null=True,
+                        blank=True, )
 
     from_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Откуда)', ),
                                        max_length=64,
@@ -289,10 +292,10 @@ class USSD(models.Model, ):
                                blank=True,
                                null=True, )
 
-    sim = models.ForeignKey(to=SIM,
-                            verbose_name=_(u'SIM', ),
-                            null=True,
-                            blank=True, )
+    sim = BigForeignKey(to=SIM,
+                        verbose_name=_(u'SIM', ),
+                        null=True,
+                        blank=True, )
 
     phone_char = models.CharField(verbose_name=_(u'Номер телефона (Куда)', ),
                                   max_length=64,
