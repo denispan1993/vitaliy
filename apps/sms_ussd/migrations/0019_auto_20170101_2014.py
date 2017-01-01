@@ -13,6 +13,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
+            model_name='sms',
+            name='sim',
+        ),
+        migrations.RemoveField(
+            model_name='ussd',
+            name='sim',
+        ),
+        migrations.RemoveField(
             model_name='sim',
             name='id',
         ),
@@ -20,15 +28,5 @@ class Migration(migrations.Migration):
             model_name='sim',
             name='imsi',
             field=compat.bigint_path.bigint.BigIntegerField(unique=True, serialize=False, verbose_name='IMSI', primary_key=True),
-        ),
-        migrations.AlterField(
-            model_name='sms',
-            name='sim',
-            field=compat.bigint_path.bigint.BigForeignKey(verbose_name='SIM', blank=True, to='sms_ussd.SIM', null=True),
-        ),
-        migrations.AlterField(
-            model_name='ussd',
-            name='sim',
-            field=compat.bigint_path.bigint.BigForeignKey(verbose_name='SIM', blank=True, to='sms_ussd.SIM', null=True),
         ),
     ]
