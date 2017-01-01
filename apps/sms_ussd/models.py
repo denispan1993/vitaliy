@@ -255,24 +255,6 @@ class USSD(models.Model, ):
         (2, 'Send',),
     )
 
-    CODE_PROVIDER = (
-        (39, '039 ==> Киевстар (Golden Telecom)',),
-        (50, '050 ==> Vodafone',),
-        (63, '063 ==> Life:)',),
-        (66, '066 ==> Vodafone',),
-        (67, '067 ==> Киевстар',),
-        (68, '068 ==> Киевстар (Beeline)',),
-        (91, '091 ==> Utel',),
-        (92, '092 ==> PEOPLEnet',),
-        (93, '093 ==> Life:)',),
-        (94, '094 ==> Интертелеком',),
-        (95, '095 ==> Vodafone',),
-        (96, '096 ==> Киевстар',),
-        (97, '097 ==> Киевстар',),
-        (98, '098 ==> Киевстар',),
-        (99, '099 ==> Vodafone',),
-    )
-
     direction = models.PositiveSmallIntegerField(choices=DIRECTION,
                                                  verbose_name=_(u'Направление', ),
                                                  null=True,
@@ -296,19 +278,6 @@ class USSD(models.Model, ):
                         verbose_name=_(u'SIM', ),
                         null=True,
                         blank=True, )
-
-    phone_char = models.CharField(verbose_name=_(u'Номер телефона (Куда)', ),
-                                  max_length=64,
-                                  null=True,
-                                  blank=True, )
-
-    phone_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
-                                                  verbose_name=_(u'Код провайдера', ),
-                                                  null=True,
-                                                  blank=True, )
-    phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
-                                        null=True,
-                                        blank=True, )
 
     code = models.CharField(verbose_name=_(u'USSD Code', ),
                             max_length=32,
