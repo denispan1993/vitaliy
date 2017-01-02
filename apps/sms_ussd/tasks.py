@@ -60,11 +60,12 @@ def send_sms(*args, **kwargs):
                         phone=sms.to_phone,
                     ),
                 text=sms.message,
-            )
+            ).to_pdu()
 
             sms_list.validity = timedelta(days=14)
 
-            for sms in sms_list.to_pdu():
+            last_loop = len(sms_list) - 1
+            for i, sms in enumerate(sms_list):
                 response = manager.command(u'dongle pdu {device} {pdu}'
                                            .format(
                                                 device='Vodafone1',
@@ -74,7 +75,8 @@ def send_sms(*args, **kwargs):
                 print('response.data: ', response.data)
 
                 increase_send_sms()
-                time.sleep(15)
+                if i != last_loop:
+                    time.sleep(60)
 
             manager.logoff()
 
@@ -226,17 +228,17 @@ def send_template_sms(*args, **kwargs):
 
     message = teplate.template.format(**template_dict)
 
-    sms = SMS(template=teplate,
-              direction=2,
-              task_id=None,
-              sim_id=255016140761290,
-              is_send=True,
-              message=message,
-              to_phone_char=phone,
-              to_code=int_code,
-              to_phone=int_phone,
-              send_at=timezone.now(),
-              )
+    sms_inst = SMS(template=teplate,
+                   direction=2,
+                   task_id=None,
+                   sim_id=255016140761290,
+                   is_send=True,
+                   message=message,
+                   to_phone_char=phone,
+                   to_code=int_code,
+                   to_phone=int_phone,
+                   send_at=timezone.now(),
+                   )
 
     manager = asterisk.manager.Manager()
 
@@ -254,15 +256,16 @@ def send_template_sms(*args, **kwargs):
             sms_list = SmsSubmit(
                 number='+380{code}{phone}'
                     .format(
-                        code=sms.to_code,
-                        phone=sms.to_phone,
+                        code=sms_inst.to_code,
+                        phone=sms_inst.to_phone,
                     ),
-                text=message,
-            )
+                text=sms_inst.message,
+            ).to_pdu()
 
             sms_list.validity = timedelta(days=14)
 
-            for sms in sms_list.to_pdu():
+            last_loop = len(sms_list) - 1
+            for i, sms in enumerate(sms_list):
                 response = manager.command(u'dongle pdu {device} {pdu}'
                     .format(
                         device='Vodafone1',
@@ -272,7 +275,8 @@ def send_template_sms(*args, **kwargs):
                 print('response.data: ', response.data)
 
                 increase_send_sms()
-                time.sleep(15)
+                if i != last_loop:
+                    time.sleep(60)
 
             manager.logoff()
 
@@ -290,6 +294,6 @@ def send_template_sms(*args, **kwargs):
         except Exception as e:
             print e
 
-    sms.save(skip_super_save=True, )
+    sms_inst.save(skip_super_save=True, )
 
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
