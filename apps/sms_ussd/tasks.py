@@ -260,9 +260,10 @@ def send_template_sms(*args, **kwargs):
                         phone=sms_inst.to_phone,
                     ),
                 text=sms_inst.message,
-            ).to_pdu()
+            )
 
             sms_list.validity = timedelta(days=14)
+            sms_list = sms_list.to_pdu()
 
             last_loop = len(sms_list) - 1
             for i, sms in enumerate(sms_list):
