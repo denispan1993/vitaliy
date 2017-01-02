@@ -60,9 +60,10 @@ def send_sms(*args, **kwargs):
                         phone=sms.to_phone,
                     ),
                 text=sms.message,
-            ).to_pdu()
+            )
 
             sms_list.validity = timedelta(days=14)
+            sms_list = sms_list.to_pdu()
 
             last_loop = len(sms_list) - 1
             for i, sms in enumerate(sms_list):
