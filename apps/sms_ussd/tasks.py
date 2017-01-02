@@ -196,8 +196,18 @@ def send_received_sms(*args, **kwargs):
 @celery_app.task(name='celery_task_send_template_sms')
 def send_template_sms(*args, **kwargs):
 
-    to_phone_char = kwargs.pop('sms_to_phone_char', False, )
-    if not to_phone_char:
+    phone = kwargs.pop('sms_to_phone_char', False, )
+    if not phone:
+        return False
+
+    phone = phone.replace(' ', '').strip('+') \
+        .replace('(', '').replace(')', '').replace('-', '') \
+        .lstrip('380').lstrip('38').lstrip('80').lstrip('0')
+
+    try:
+        int_phone = int(phone[2:])
+        int_code = int(phone[:2])
+    except ValueError:
         return False
 
     template_name = kwargs.pop('sms_template_name', False, )
@@ -219,7 +229,9 @@ def send_template_sms(*args, **kwargs):
               task_id=None,
               sim_id=255016140761290,
               is_send=True,
-              to_phone_char=to_phone_char,
+              to_phone_char=phone,
+              code=int_code,
+              phone=int_phone,
               send_at=timezone.now(),
               )
 
