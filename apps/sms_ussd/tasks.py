@@ -233,8 +233,8 @@ def send_template_sms(*args, **kwargs):
               is_send=True,
               message=message,
               to_phone_char=phone,
-              code=int_code,
-              phone=int_phone,
+              to_code=int_code,
+              to_phone=int_phone,
               send_at=timezone.now(),
               )
 
