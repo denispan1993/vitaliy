@@ -224,11 +224,14 @@ def send_template_sms(*args, **kwargs):
 
             template_dict.update({key.lstrip('sms_'): value})
 
+    message = teplate.template.format(**template_dict)
+
     sms = SMS(template=teplate,
               direction=2,
               task_id=None,
               sim_id=255016140761290,
               is_send=True,
+              message=message,
               to_phone_char=phone,
               code=int_code,
               phone=int_phone,
@@ -240,8 +243,6 @@ def send_template_sms(*args, **kwargs):
     try:
         # connect to the manager
         try:
-
-            message = teplate.template.format(**template_dict)
 
             manager.connect(proj.settings.ASTERISK_HOST)
             manager.login(*proj.settings.ASTERISK_AUTH)
