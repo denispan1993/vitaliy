@@ -58,7 +58,7 @@ def delivery_order(*args, **kwargs):
         **kwargs)
 
     msg = EmailMultiAlternatives(
-        subject=u'Заказ № %d. Кексик.' % order.pk,
+        subject=u'Заказ № %d. Кексик.' % order.number,
         body=strip_tags(html_content, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((u'Email zakaz@ Интернет магазин Keksik', u'zakaz@keksik.com.ua')), ],
@@ -89,7 +89,7 @@ def delivery_order(*args, **kwargs):
     html_content = render_to_string('email_successful_content.jinja2',
                                     {'order': order, })
     msg = EmailMultiAlternatives(
-        subject=u'Заказ № %d. Интернет магазин Кексик.' % order.pk,
+        subject=u'Заказ № %d. Интернет магазин Кексик.' % order.number,
         body=strip_tags(html_content, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((order.FIO, order.email)), ],

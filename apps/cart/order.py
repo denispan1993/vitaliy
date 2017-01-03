@@ -299,18 +299,9 @@ def result_ordering(request, ):
                     task_id='celery-task-id-delivery_order-{0}'.format(celery.utils.uuid(), ),
                 )
 
-                phone = order.phone \
-                    .lstrip('+') \
-                    .replace('(', '') \
-                    .replace(')', '') \
-                    .replace(' ', '') \
-                    .replace('-', '') \
-                    .replace('.', '') \
-                    .replace(',', '') \
-                    .lstrip('380') \
-                    .lstrip('38') \
-                    .lstrip('80') \
-                    .lstrip('0')
+                phone = order.phone.lstrip('+').replace('(', '').replace(')', '')\
+                    .replace(' ', '').replace('-', '').replace('.', '').replace(',', '') \
+                    .lstrip('380').lstrip('38').lstrip('80').lstrip('0')
 
                 if len(phone, ) == 9:
                     send_template_sms.apply_async(
@@ -318,7 +309,7 @@ def result_ordering(request, ):
                         kwargs={
                             'sms_to_phone_char': '+380%s' % phone[:9],
                             'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_ORDER_NUMBER'],
-                            'sms_order_number': order.pk,
+                            'sms_order_number': order.number,
                         },
                         task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
                     )
