@@ -77,7 +77,7 @@ class Cart(models.Model):
 
 
 def get_order_number():
-    latest_order = Order.objects.latest('id')
+    latest_order = Order.objects.values_list('number', flat=True).latest('id')
     latest_order_str = str(latest_order, )
     current_year = date.today().strftime(format='%y')
     if current_year == latest_order_str[:2]:
