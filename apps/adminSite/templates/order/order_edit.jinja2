@@ -32,9 +32,11 @@
         <p>
            <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Заказ №: {{ '%06d' % order.pk }}</a>
         </p>
+        <p>
+           <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Заказ №: {{ order.number }}</a>
+        </p>
 
-        {% set order_id = '%06d' % order.pk %}
-        <form method="POST" action="{{ url('admin_page:order_edit', order_id=order_id) }}">
+        <form method="POST" action="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="order_dispatch" />
             <input type="hidden" name="order_pk" value="{{ order.pk }}" />

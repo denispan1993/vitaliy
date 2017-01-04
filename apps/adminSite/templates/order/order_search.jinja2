@@ -23,7 +23,7 @@ body{
 }
 #flex-container {
     {# border: 1px solid #000; #}
-    height:200px;
+    height:100px;
     {# width:200px; #}
     display:flex;
     {# vertical-align:middle; #}
@@ -60,6 +60,9 @@ body{
                 <tr>
                     <td>
                         <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">{{ '%06d' % order.pk }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">{{ order.number }}</a>
                     </td>
                     <td>
                         {% if order.user %}

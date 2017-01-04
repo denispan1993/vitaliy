@@ -1,5 +1,6 @@
 # coding=utf-8
 # /apps/cart/models.py
+from datetime import date
 from django.db import models, OperationalError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
@@ -75,10 +76,27 @@ class Cart(models.Model):
         verbose_name_plural = u'Корзины'
 
 
+def get_order_number():
+    latest_order = Order.objects.values_list('number', flat=True).latest('id')
+    latest_order_str = str(latest_order, )
+    current_year = date.today().strftime(format='%y')
+    if current_year == latest_order_str[:2]:
+        latest_order += 1
+        return latest_order
+    else:
+        return int('%s0001' % current_year)
+
+
 class Order(models.Model):
     """
     Заказ
     """
+
+    number = models.PositiveIntegerField(verbose_name=_(u'Номер заказа', ),
+                                         null=False,
+                                         blank=False,
+                                         default=get_order_number, )
+
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
                              null=True,
@@ -103,7 +121,7 @@ class Order(models.Model):
                                 verbose_name=u'Страна',
                                 null=True,
                                 blank=True, )
-    '''Если страна Украина '''
+    ''' Если страна Украина '''
     region = models.CharField(verbose_name=u'Область',
                               max_length=64,
                               null=True,

@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from celery.utils import uuid
 
 import proj.settings
+from compat.bigint_path.bigint import BigIntegerField, BigForeignKey
 
 __author__ = 'AlexStarov'
 
@@ -13,7 +14,9 @@ class SIM(models.Model, ):
     name = models.CharField(verbose_name=_(u'Имя устройства', ),
                             max_length=16,
                             null=True,
-                            blank=True, )
+                            blank=True,
+                            unique=True, )
+
     phone = models.CharField(verbose_name=_(u'Номер телефона', ),
                              max_length=14,
                              null=True,
@@ -22,10 +25,11 @@ class SIM(models.Model, ):
                                 max_length=14,
                                 null=True,
                                 blank=True, )
-    imsi = models.IntegerField(verbose_name=_(u'IMSI', ),
-                               unique=True,
-                               null=False,
-                               blank=False, )
+    imsi = BigIntegerField(verbose_name=_(u'IMSI', ),
+                           unique=True,
+                           primary_key=True,
+                           null=False,
+                           blank=False, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
@@ -102,10 +106,10 @@ class SMS(models.Model, ):
                                   null=False,
                                   blank=True, )
 
-    sim = models.ForeignKey(to=SIM,
-                            verbose_name=_(u'SIM', ),
-                            null=True,
-                            blank=True, )
+    sim = BigForeignKey(to=SIM,
+                        verbose_name=_(u'SIM', ),
+                        null=True,
+                        blank=True, )
 
     from_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Откуда)', ),
                                        max_length=64,
@@ -134,13 +138,17 @@ class SMS(models.Model, ):
     message = models.TextField(verbose_name=_(u'Сообщение', ),
                                null=True,
                                blank=True, )
+#    >> > print aaa.message.encode('cp1252', 'replace')
+#    МТС Україна за змі�?т SMS не відповідає
+#    123456789 123456789 123456789 1
 
     message_b64 = models.TextField(verbose_name=_(u'Сообщение base64', ),
                                    null=True,
                                    blank=True, )
-#    >> > print aaa.message.encode('cp1252', 'replace')
-#    МТС Україна за змі�?т SMS не відповідає
-#    123456789 123456789 123456789 1
+
+    message_pdu = models.TextField(verbose_name=_(u'Сообщение pdu', ),
+                                   null=True,
+                                   blank=True, )
 
     send_at = models.DateTimeField(verbose_name=_(u'Дата и время отправки SMS', ),
                                    blank=True,
@@ -247,24 +255,6 @@ class USSD(models.Model, ):
         (2, 'Send',),
     )
 
-    CODE_PROVIDER = (
-        (39, '039 ==> Киевстар (Golden Telecom)',),
-        (50, '050 ==> Vodafone',),
-        (63, '063 ==> Life:)',),
-        (66, '066 ==> Vodafone',),
-        (67, '067 ==> Киевстар',),
-        (68, '068 ==> Киевстар (Beeline)',),
-        (91, '091 ==> Utel',),
-        (92, '092 ==> PEOPLEnet',),
-        (93, '093 ==> Life:)',),
-        (94, '094 ==> Интертелеком',),
-        (95, '095 ==> Vodafone',),
-        (96, '096 ==> Киевстар',),
-        (97, '097 ==> Киевстар',),
-        (98, '098 ==> Киевстар',),
-        (99, '099 ==> Vodafone',),
-    )
-
     direction = models.PositiveSmallIntegerField(choices=DIRECTION,
                                                  verbose_name=_(u'Направление', ),
                                                  null=True,
@@ -284,23 +274,10 @@ class USSD(models.Model, ):
                                blank=True,
                                null=True, )
 
-    sim = models.ForeignKey(to=SIM,
-                            verbose_name=_(u'SIM', ),
-                            null=True,
-                            blank=True, )
-
-    phone_char = models.CharField(verbose_name=_(u'Номер телефона (Куда)', ),
-                                  max_length=64,
-                                  null=True,
-                                  blank=True, )
-
-    phone_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
-                                                  verbose_name=_(u'Код провайдера', ),
-                                                  null=True,
-                                                  blank=True, )
-    phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
-                                        null=True,
-                                        blank=True, )
+    sim = BigForeignKey(to=SIM,
+                        verbose_name=_(u'SIM', ),
+                        null=True,
+                        blank=True, )
 
     code = models.CharField(verbose_name=_(u'USSD Code', ),
                             max_length=32,
