@@ -535,5 +535,13 @@ function animate_cart(obj){
 });</script>
 {% endif %}
 {% endblock %}
+{% if user.is_staff %}
+<p id="debug"></p>
+<script>
+var debug_string = 'Debug string: ';
+debug_string += 'window.innerWidth: '+window.innerWidth+'px window.innerHeight: '+window.innerHeight+'px documentElement.clientWidth: '+document.documentElement.clientWidth+'px documentElement.clientHeight: '+document.documentElement.clientHeight+'px';
+document.getElementById('debug').innerHTML=debug_string;
+</script>
+{% endif %}
 </body>
 </html>
