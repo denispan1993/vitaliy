@@ -1,0 +1,34 @@
+<script>
+function open_window_add_product(){
+{% set url = order.pk|int_to_string %}
+{% set int_range = 6 - url|length %}
+{% if int_range > 0 %}
+    {% for i in int_range|get_range %}
+        {% set url = '0' + url %}
+        {% if i == int_range - 1 %}
+            {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
+var newWin = window.open('/админ/заказ/редактор/товар/добавить/{{ url }}/', 'example', 'width=500,height=400');
+        {% endif %}
+    {% endfor %}
+{% endif %}
+newWin.focus();
+}
+{#
+newWin.onload = function() {
+
+  // создать div в документе нового окна
+  var div = newWin.document.createElement('div');
+  div.innerHTML = 'Добро пожаловать!'
+  div.style.fontSize = '30px'
+
+
+  var body = newWin.document.body;
+
+  // вставить первым элементом в новое body
+  body.insertBefore(div, body.firstChild);
+#}
+</script>
+            {# <input style="float:left;list-style-type:none;line-height:22px;margin-right:5px;"
+                   onclick="open_window_add_product();"
+                   type="button"
+                   value="Добавить товар в заказ."> #}

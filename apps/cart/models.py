@@ -1,13 +1,17 @@
 # coding=utf-8
 # /apps/cart/models.py
+from decimal import Decimal
 from datetime import date
 from django.db import models, OperationalError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 from proj import settings
 
+from apps.product import models as models_product
 from apps.product.models import Country, Product as real_Product
+from apps.product.views import get_product
 
 __author__ = 'AlexStarov'
 
@@ -164,10 +168,16 @@ class Order(models.Model):
                                     null=False,
                                     blank=False,
                                     default=False, )
+
+    custom_order_sum = models.PositiveIntegerField(verbose_name=_(u'Сумма заказа в ручную', ),
+                                                   null=True,
+                                                   blank=True, )
+
     recompile = models.BooleanField(verbose_name=u'Разбор Заказа',
                                     null=False,
                                     blank=False,
                                     default=False, )
+
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -225,7 +235,6 @@ class Order(models.Model):
 
     def order_sum(self, calc_or_show='show', currency=980, ):
         all_products_sum = 0
-        # from decimal import Decimal
         for product in self.products:
             all_products_sum += float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )  # .replace('.', ',', )
         return all_products_sum
@@ -244,7 +253,6 @@ class Product(models.Model):
     """
     Продукты для заказа
     """
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType,
                                      related_name='cart_or_order',
                                      verbose_name=u'Корзина',
@@ -254,7 +262,6 @@ class Product(models.Model):
 
     key = GenericForeignKey('content_type', 'object_id', )
 
-    from apps.product import models as models_product
     product = models.ForeignKey(models_product.Product,
                                 verbose_name=u'Продукт',
                                 null=False,
@@ -262,12 +269,17 @@ class Product(models.Model):
     quantity = models.PositiveSmallIntegerField(verbose_name=u'Количество продуктов',
                                                 null=False,
                                                 blank=False, )
+    custom_price = models.BooleanField(verbose_name=_(u'Цена установленная в ручную', ),
+                                       null=False,
+                                       blank=False,
+                                       default=False, )
     price = models.DecimalField(verbose_name=u'Цена в зависимости от количества',
                                 max_digits=8,
                                 decimal_places=2,
                                 default=0,
                                 blank=False,
                                 null=False, )
+
     percentage_of_prepaid = models.PositiveSmallIntegerField(verbose_name=u'Процент предоплаты.',
                                                              blank=False,
                                                              null=False,
@@ -289,11 +301,9 @@ class Product(models.Model):
     def sum_of_quantity(self, request=None, calc_or_show='show', currency=980, ):
         """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта
         """
-        from apps.product.views import get_product
         product = get_product(product_pk=self.product_id, product_url=None, )
         price = product.get_price(request, price=None, calc_or_show='show', currency=currency, )  # price=self.price,
         """ Расчитываем цену товара. """
-        from decimal import Decimal
         price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
         if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
             if product.is_availability == 2:  # Если товар доступен под заказ?

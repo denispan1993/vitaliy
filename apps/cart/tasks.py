@@ -13,7 +13,6 @@ from pytils.translit import slugify
 
 from apps.account.models import Session_ID
 from apps.authModel.models import User, Email, Phone
-from .models import Order
 
 __author__ = 'AlexStarov'
 
@@ -23,6 +22,7 @@ def delivery_order(*args, **kwargs):
 
     order_pk = int(kwargs.get('order_pk'))
 
+    from .models import Order
     try:
         order = Order.objects.get(pk=order_pk)
     except Order.DoesNotExist:

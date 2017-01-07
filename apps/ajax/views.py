@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from apps.product.views import add_to_cart
 from django.http import HttpResponse
+from django.db.models import Q
+
+from apps.product.models import Product, ItemID
+from apps.product.views import add_to_cart
 
 try:
     from django.utils.simplejson import dumps
@@ -178,79 +181,99 @@ def product_to_cart(request, ):
         return HttpResponse(status=400, )
 
 
-
-
 def order_change(request, ):
-    if request.is_ajax():
-        if request.method == 'POST':
-            # request_cookie = request.session.get(u'cookie', None, )
-            # if request_cookie:
-                product_pk = request.POST.get(u'product_pk', None, )
+    from apps.cart.models import Order, Product
+    from apps.product.models import Product as real_Product
+
+    if request.is_ajax() and request.method == 'POST':
+        # request_cookie = request.session.get(u'cookie', None, )
+        # if request_cookie:
+        product_pk = request.POST.get(u'product_pk', None, )
+        try:
+            product_pk = int(product_pk, )
+
+            action = request.POST.get(u'action', None, )
+            if action == 'change_in_the_quantity'\
+                    or action == 'change_delete':
+                product = Product.objects.get(pk=product_pk, )
+                quantity = 0
+                if action is 'change_in_the_quantity':
+                    quantity = request.POST.get(u'quantity', None, )
                 try:
-                    product_pk = int(product_pk, )
+                    quantity = int(quantity, )
+
+                    price = 0
+                    if action == 'change_in_the_quantity':
+                        product.update_quantity(quantity=quantity, )
+                        price = product.update_price_per_piece()
+                    elif action == 'change_delete':
+                        product.delete()
+                    response = {'product_pk': product_pk,
+                                'product_price': float(price, ),
+                                'action': action,
+                                'result': 'Ok', }
+
                 except ValueError:
                     return HttpResponse(status=400, )
-                else:
-                    action = request.POST.get(u'action', None, )
-                    if action == 'change_in_the_quantity'\
-                            or action == 'change_delete':
-                        from apps.cart.models import Product
-                        product = Product.objects.get(pk=product_pk, )
-                        quantity = 0
-                        if action is 'change_in_the_quantity':
-                            quantity = request.POST.get(u'quantity', None, )
+
+            elif action == 'change_add':
+                order = request.POST.get(u'order_pk', None, )
+                try:
+                    order = int(order, )
+                    try:
+                        order = Order.objects.get(pk=order, )
+
                         try:
-                            quantity = int(quantity, )
-                        except ValueError:
+                            product = real_Product.objects.get(pk=product_pk, )
+                            order, product_in_cart = order.product_add(obj_product=product, )
+
+                        except real_Product.DoesNotExist:
                             return HttpResponse(status=400, )
-                        else:
-                            price = 0
-                            if action == 'change_in_the_quantity':
-                                product.update_quantity(quantity=quantity, )
-                                price = product.update_price_per_piece()
-                            elif action == 'change_delete':
-                                product.delete()
-                            response = {'product_pk': product_pk,
-                                        'product_price': float(price, ),
-                                        'action': action,
-                                        'result': 'Ok', }
-                    elif action == 'change_add':
-                        order = request.POST.get(u'order_pk', None, )
-                        try:
-                            order = int(order, )
-                        except ValueError:
-                            return HttpResponse(status=400, )
-                        else:
-                            from apps.cart.models import Order
-                            try:
-                                order = Order.objects.get(pk=order, )
-                            except Order.DoesNotExist:
-                                return HttpResponse(status=400, )
-                            else:
-                                from apps.product.models import Product
-                                try:
-                                    product = Product.objects.get(pk=product_pk, )
-                                except Product.DoesNotExist:
-                                    return HttpResponse(status=400, )
-                                else:
-                                    order, product_in_cart = order.product_add(obj_product=product, )
-                        response = {'product_pk': product_in_cart.pk,
-                                    'product_price': float(product_in_cart.price, ),
-                                    'order_pk': order.pk,
-                                    'action': action,
-                                    'result': 'Ok', }
-                    else:
+
+                    except Order.DoesNotExist:
                         return HttpResponse(status=400, )
-                    data = dumps(response, )
-                    mimetype = 'application/javascript'
-                    return HttpResponse(data, mimetype, )
-            # else:
-            #     print '6'
-            #     return HttpResponse(status=400, )
-        elif request.method == 'GET':
+
+                except ValueError:
+                    return HttpResponse(status=400, )
+
+                response = {'product_pk': product_in_cart.pk,
+                            'product_price': float(product_in_cart.price, ),
+                            'order_pk': order.pk,
+                            'action': action,
+                            'result': 'Ok', }
+
+            elif action == 'change_custom_price':
+                custom_price = request.POST.get(u'custom_price', False, )
+                print type(custom_price), custom_price
+
+                if custom_price and isinstance(custom_price, unicode):
+                    print(type(custom_price), 'Ok', custom_price)
+
+                try:
+                    product = Product.objects.get(pk=product_pk, )
+                except Product.DoesNotExist:
+                    return HttpResponse(status=400, )
+
+                response = {'action': action,
+                            'product_pk': product.pk,
+                            'custom_price': custom_price,
+                            'result': 'Ok', }
+
+            else:
+                return HttpResponse(status=400, )
+            data = dumps(response, )
+            mimetype = 'application/javascript'
+            return HttpResponse(data, mimetype, )
+
+        except ValueError:
             return HttpResponse(status=400, )
-        else:
-            return HttpResponse(status=400, )
+    # else:
+    #     print '6'
+    #     return HttpResponse(status=400, )
+    # elif request.method == 'GET':
+    #     return HttpResponse(status=400, )
+    # else:
+    #     return HttpResponse(status=400, )
     else:
         return HttpResponse(status=400, )
 
@@ -260,33 +283,28 @@ def order_add_search(request, ):
     if request.is_ajax():
         if request.method == 'POST':
             search_string = request.POST.get(u'QueryString', None, )
-            # print request.POST
             if search_string:
                 # len_search_string = len(search_string, )
                 """ Поиск товара по полученной строке """
-                from django.db.models import Q
-                q = Q(name__contains=search_string)# | Q(name__contains=search_string)
-                # print search_string
-                from apps.product.models import Product
+                q = Q(name__icontains=search_string)# | Q(name__contains=search_string)
                 try:
                     products = Product.objects.filter(q, )
                 except Product.DoesNotExist:
                     products = None
                 else:
-                    from apps.product.models import ItemID
                     try:
                         ItemsID = ItemID.objects.filter(Q(ItemID__icontains=search_string, ), )
                     except ItemID.DoesNotExist:
                         ItemsID = None
                     else:
                         for item in ItemsID:
-                            from apps.product.models import Product
                             try:
                                 product = Product.objects.filter(ItemID=item, )
+                                products = product | products
+
                             except Product.DoesNotExist:
                                 pass
-                            else:
-                                products = product | products
+
                     if products:
                         results = []
                         for product in products:

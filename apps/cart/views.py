@@ -12,7 +12,6 @@ from validate_email import validate_email
 
 import proj.settings
 from apps.product.models import Country
-from .models import Product, DeliveryCompany, Cart, Order
 from .tasks import delivery_order
 from apps.sms_ussd.tasks import send_template_sms
 
@@ -63,6 +62,7 @@ def show_cart(request,
 
 
 def recalc_cart(request, ):
+    from .models import Product
     if request.method == 'POST' and request.POST.get('POST_NAME', None, ) == 'recalc_cart':
 
         """ Взять корзину """
@@ -103,6 +103,9 @@ def recalc_cart(request, ):
 def show_order(request,
                template_name=u'show_order.jinja2', ):
     email = request.POST.get(u'email', False, )
+
+    from .models import Order, Product, DeliveryCompany
+
     if email:
         email = email.strip()
     email_error = False
@@ -295,6 +298,8 @@ def show_order(request,
 def show_order_success(request,
                        template_name=u'show_order_success.jinja2', ):
 
+    from .models import Order
+
     order_pk = request.session.get(u'order_last', None, )
     order = None
 
@@ -330,6 +335,9 @@ def show_order_unsuccess(request,
 
 
 def get_cart_or_create(request, user_object=False, created=True, ):
+
+    from .models import Cart
+
     sessionid = request.COOKIES.get(u'sessionid', None, )
 
     if not user_object:

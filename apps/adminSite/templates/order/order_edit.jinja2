@@ -3,9 +3,9 @@
 <head>
 <title>Страница редактирования заказа.</title>
 <meta charset="utf-8">
-<script src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
-<script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="{{ MEDIA_URL }}js/jquery/jquery.js" type="application/javascript"></script>
+<script src="{{ MEDIA_URL }}js/jquery/jquery-ui/jquery-ui-1.10.4.js" type="application/javascript"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="application/css" media="all" />
 {# <script src="{{ MEDIA_URL }}js/jquery/jquery-1.10.2.js"></script> #}
 </head>
 <body>
@@ -27,10 +27,10 @@
         {% endif %}
         <p>Комментарий к заказу: {{ order.comment }}</p>
         <p>Жду реквизиты: {{ order.checkbox1|true_false }}</p>
-        <p>Жду звонка: {{ order.checkbox2|true_false }}</p>
+        <p{% if order.checkbox2 %} style="font-size:25px;font-weight:bold;color:red;" {% endif %}>Жду звонка: {{ order.checkbox2|true_false }}</p>
 
         <p>
-           <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Заказ №: {{ '%06d' % order.pk }}</a>
+           <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Порядковый номер заказа №: {{ '%06d' % order.pk }}</a>
         </p>
         <p>
            <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Заказ №: {{ order.number }}</a>
@@ -40,8 +40,8 @@
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="POST_NAME" value="order_dispatch" />
             <input type="hidden" name="order_pk" value="{{ order.pk }}" />
-            <table id="table_carts" cols="6" summary="Корзина заказчика № {{ order.pk }}">
-                <caption style="font-size:20px;">Корзина заказчика № {{ order.pk }}</caption>
+            <table id="table_carts" summary="Корзина заказчика № {{ order.pk }}">
+                <caption style="font-size:20px;">Заказ № {{ order.number }}</caption>
                 <thead>
                     <tr>
                         <th scope="col">Артикул</td>
@@ -50,14 +50,14 @@
                         {# <th scope="col">Размер</th> #}
                         {# <th scope="col" class="center"><p>Цена за штуку</p></td> #}
                         <th scope="col" style="text-align:center;">Цена</th>
-                        <th scope="col" style="width:86px;text-align:center;">Кол-во</th>
+                        <th scope="col" style="width:100px;text-align:center;">Кол-во</th>
                         <th scope="col" style="text-align:center;">Сумма</th>
                         <th scope="col" style="text-align:center;">Под заказ</th>
                         <th scope="col" style="text-align:center;">Удаление</th>
                     </tr>
                 </thead>
 {# {% include 'order/include/utils.script' %} #}
-<script>
+<script type="application/javascript">
 function CheckNumber(String){
 	var Letters = ".,1234567890";
 	var i;
@@ -76,7 +76,7 @@ product_summ_of_quantity_array[0]=0;
 function ReCalcSumm(change){
     var summ=0;
 	$.each(product_summ_of_quantity_array,function(i){
-        var val=parseFloat(product_summ_of_quantity_array[i])
+        var val=parseFloat(product_summ_of_quantity_array[i]);
         if(0<=val&&val<=999999){
             summ+=val;
         }
@@ -92,8 +92,9 @@ function ReCalcSumm(change){
                     {# {% set products=user_cart_.products %} #}
                     {% for product in order.products|sort(attribute='created_at') %}
                     {% set real_product=product.product %}
-{# {1% include 'order/include/calc.script' %} #}
-<script>
+
+<script type="application/javascript">
+
 var price_qty_array_{{ product.pk }} = new Array();
 var price_array_{{ product.pk }} = new Array();
 price_qty_array_{{ product.pk }}[0]=1;
@@ -120,15 +121,9 @@ price_qty_array_{{ product.pk }}[1]=999;
 price_array_{{ product.pk }}[1]={{ real_product.get_price(request, price=None, calc_or_show='calc') }};
 	{# {% endif %} #}
 function Calculate_{{ product.pk }}(operation){
-{# 	//var price=0.00;
-	//var total=0.00;
-	var Qut=$("#quantity_{{ product.pk }}").val(); #}
-    var Qut=document.getElementById("quantity_{{ product.pk }}").value
-{# //$("#quantity_order").val(Qut); #}
+    var Qut=document.getElementById("quantity_{{ product.pk }}").value;
 	$("#errorMsg").html('');
 	if(CheckNumber(Qut)){
-		//calculate();
-		//alert('aaa'+Qut+'bbb');
 		$("#errorMsg").html('Количество вводится цифрами!!!.');
 		return false;
 	}
@@ -136,14 +131,14 @@ function Calculate_{{ product.pk }}(operation){
 	if(operation=='+'){
         Qut+={{ real_product.quantity_of_complete }};
         ajax_action='change_in_the_quantity';
-    };
+    }
 	if(operation=='-'){
         Qut-={{ real_product.quantity_of_complete }};
         ajax_action='change_in_the_quantity';
-    };
+    }
 	if(operation=='0'){
         ajax_action='change_delete';
-    };
+    }
     {# Минимальное количество едениц товара, которое можно положить в корзину #}
 	var minimal_quantity={{ real_product.minimal_quantity }};
     {# Количество едениц данного товара которые состовляют один полный комплект #}
@@ -196,33 +191,56 @@ function Calculate_{{ product.pk }}(operation){
 	ReCalcSumm(true);
     return true;
 }
+</script>
+<script type="application/javascript">
 function onChange_{{ product.pk }}(){
 	window.setInterval("Calculate_{{ product.pk }}('|')",500);
 	//setTimeout(calculate(value),1500);
 	return true;
 }
 </script>
+<script type="application/javascript">
+function Change_Custom_Price_{{ product.pk }}(){
+    var is_checked = document.getElementById("readonly_price_product_in_request_{{ product.pk }}").checked;
+    $.post("/ajax/order/change/", {
+            csrfmiddlewaretoken:'{{ csrf_token }}',
+            action:"change_custom_price",
+            product_pk:{{ product.pk }},
+            custom_price:is_checked
+        },
+		"json");
+    var price = document.getElementById("price_product_in_request_{{ product.pk }}")
+    price.readOnly = !is_checked;
+    console.log(price, is_checked);
+}
+</script>
+
                         <tr id="tr_id_{{ product.pk }}">
                             <td>
-                                <a href="http://keksik.com.ua/admin/product/product/{{ real_product.id }}/">
+                                <input type="hidden"
+                                       name="product_in_request_{{ product.pk }}"
+                                       value="{{ product.pk }}"/>
+                                <a href="/admin/product/product/{{ real_product.id }}/">
                                     {{ real_product.get_ItemID }}
                                 </a>
                             </td>
                             <td>
-                                <input type="hidden"
-                                       name="product_in_request_{{ product.pk }}"
-                                       value="{{ product.pk }}"/>
                                 <a href="{{ real_product.get_absolute_url() }}">
                                     {{ real_product.title }}
                                 </a>
                             </td>
                             <td>
-                                <input type="hidden"
-                                       name="product_in_request_{{ product.pk }}"
-                                       value="{{ product.pk }}"/>
-                                <a href="{{ real_product.get_absolute_url() }}">
-                                    {{ real_product.title }}
-                                </a>
+                                <input id="readonly_price_product_in_request_{{ product.pk }}"
+                                       name="readonly_price_product_in_request_{{ product.pk }}"
+                                       type="checkbox"
+                                       onChange="javascript:Change_Custom_Price_{{ product.pk }}();"
+                                       style="text-align:center;"{% if product.custom_price %}checked{% endif %} />
+                                <input id="price_product_in_request_{{ product.pk }}"
+                                       name="price_product_in_request_{{ product.pk }}"
+                                       type="number"
+                                       style="text-align:center;width:50px;-webkit-appearance:none;-moz-appearance:textfield;margin:0;"
+                                       {% if not product.custom_price %}readonly {% endif %}step=0.01
+                                       value={{ real_product.get_price(request, price=None, calc_or_show='calc') }} />
                             </td>
                             <td style="padding:0px;">
                                 <li style="float:left;list-style-type:none;line-height:22px;">
@@ -233,11 +251,11 @@ function onChange_{{ product.pk }}(){
                                 </li>
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <input id="quantity_{{ product.pk }}"
-                                           style="border:1px solid #CCCCCC;text-align:center;width:40px;padding:2px;"
+                                           style="text-align:center;width:40px;padding:2px;-webkit-appearance:none;-moz-appearance:textfield;margin:0;""
                                            name="quantity_{{ product.pk }}"
                                            value="{{ product.quantity }}"
         								   onKeyUp="javascript:onChange_{{ product.pk }}();"
-                                           type="text">
+                                           type="number">
                                 </li>
                                 <li style="float:left;list-style-type:none;line-height:22px;">
                                     <a href="javascript:void(0);">
@@ -246,11 +264,8 @@ function onChange_{{ product.pk }}(){
                                     </a>
                                 </li>
                             </td>
-                            {# {% set product_summ_of_quantity = product.sum_of_quantity %}
-                            {% set real_product_price_of_quantity = real_product.price_of_quantity %}
-                            {% set summ_of_quantity =  product_summ_of_quantity/real_product_price_of_quantity %} {{ summ_of_quantity }} #}
                             <td><p id="summ_of_quantity_{{ product.pk }}">{{ product.sum_of_quantity(request) }} {{ get_currency(request) }}</p></td>
-<script>
+<script type="application/javascript">
 product_summ_of_quantity_array[{{ product.pk }}]={{ product.sum_of_quantity(request) }};{# |replace(",", ".") #} {# |trim_whitespace #}
 </script>
                              <td style="text-align:center;">
@@ -263,8 +278,6 @@ product_summ_of_quantity_array[{{ product.pk }}]={{ product.sum_of_quantity(requ
                             <td style="text-align:center;">
                                 <input id="delete1_{{ product.pk }}"
                                        name="delete_{{ product.pk }}"
-                                       {# checked="" #}
-                                       {# onchange="javascript:delete_on_off('delete1_{{ product.pk }}','delete2_{{ product.pk }}')" #}
                                        type="checkbox">
                                 <input id="delete1_{{ product.pk }}"
                                        name="delete_{{ product.pk }}"
@@ -274,27 +287,6 @@ product_summ_of_quantity_array[{{ product.pk }}]={{ product.sum_of_quantity(requ
                             </td>
                         </tr>
                     {% endfor %}
-{# <script>
-function reselect_minus(IdString1, IdString2){
-    var value = document.getElementById(IdString1).value
-    if (value > 1 && value <= 999 ){
-        document.getElementById(IdString1).value--;
-        document.getElementById(IdString2).value--;
-        ReCalcSumm();}
-    return false;}
-function reselect_plus(IdString1, IdString2){
-    var value = document.getElementById(IdString1).value
-    if (value >= 1 && value < 999 ){
-        document.getElementById(IdString1).value++;
-        document.getElementById(IdString2).value++;
-        ReCalcSumm();}
-    return false;} #}
-{# <script>
-function delete_on_off(IdString1, IdString2){
-    var checked = document.getElementById(IdString1).checked
-    document.getElementById(IdString2).checked = checked;
-    return false;}
-</script> #}
                 </tbody>
                 <tfoot>
                     <tr>
@@ -306,40 +298,6 @@ function delete_on_off(IdString1, IdString2){
                     </tr>
                 </tfoot>
             </table>
-<script>
-function open_window_add_product(){
-{% set url = order.pk|int_to_string %}
-{% set int_range = 6 - url|length %}
-{% if int_range > 0 %}
-    {% for i in int_range|get_range %}
-        {% set url = '0' + url %}
-        {% if i == int_range - 1 %}
-            {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
-var newWin = window.open('/админ/заказ/редактор/товар/добавить/{{ url }}/', 'example', 'width=500,height=400');
-        {% endif %}
-    {% endfor %}
-{% endif %}
-newWin.focus();
-}
-{#
-newWin.onload = function() {
-
-  // создать div в документе нового окна
-  var div = newWin.document.createElement('div');
-  div.innerHTML = 'Добро пожаловать!'
-  div.style.fontSize = '30px'
-
-
-  var body = newWin.document.body;
-
-  // вставить первым элементом в новое body
-  body.insertBefore(div, body.firstChild);
-#}
-</script>
-            <input style="float:left;list-style-type:none;line-height:22px;margin-right:5px;"
-                   onclick="open_window_add_product();"
-                   type="button"
-                   value="Добавить товар в заказ.">
             <input style="float:left;list-style-type:none;line-height:22px;margin-right:5px;"
                    type="button"
                    value="Перечитать заказ с сервера.">
@@ -347,157 +305,84 @@ newWin.onload = function() {
                    type="submit"
                    value="Отправить заказ покупателю.">
         </form>
-        <div>
-            <label for="query">Строка поиска и добавления товара</label>
+        <div style="display:block;left:600px;position:fixed;top:0;margin-top:12px;">
+            <label for="query" style="display:block;">Строка поиска и добавления товара</label>
             <input type="text" name="query-string" id="query">
 <style>
 ul.ui-autocomplete li.ui-menu-item a.ui-corner-all span{
 font-weight:bold;
 }
 </style>
-<script>
-    try{
-        $(document).ready(
-                $('#query').autocomplete({
-                    source:function(request, response){
-                        $.ajax({
-                            type:'POST',
-                            dataType:'json',
-                            url:'/ajax/order/add/search/',
-                            data:{
-                                csrfmiddlewaretoken:'{{ csrf_token }}',
-                                QueryString:request.term // поисковая фраза
-                            },
-                            success:function(data, textStatus, jqXHR){
-                                var SearchString = document.getElementById('query').value;
-                                Lower_SearchString = SearchString.toLowerCase();
-                                var len_SearchString = SearchString.length;
-                                response(
-                                        $.map(
-                                                data.results,
-                                                    function(item){
-                                                        item_name = item.name;
-                                                        index_item_name = item_name.toLowerCase().indexOf(Lower_SearchString);
-                                                        name = item_name.substring(0, index_item_name) + '<span>' + SearchString + '</span>' + item_name.substring(index_item_name + len_SearchString);
-                                                        return{
-                                                            pk:item.pk,
-                                                            label:item.itemid + ' | ' + name,
-                                                            title:item.title
-                                                        }
-                                                    }
-                                        )
-                                )
-                            }
-                        });
+<script type="application/javascript">
+try{
+    $(document).ready(
+        $('#query').autocomplete({
+            source:function(request, response){
+                $.ajax({
+                    type:'POST',
+                    dataType:'json',
+                    url:'/ajax/order/add/search/',
+                    data:{
+                        csrfmiddlewaretoken:'{{ csrf_token }}',
+                        QueryString:request.term // поисковая фраза
                     },
-                    select:function(event, ui){
-                        $.ajax({
-                            type:'POST',
-                            dataType:'json',
-                            url:'/ajax/order/change/',
-                            data:{
-                                csrfmiddlewaretoken:'{{ csrf_token }}',
-                                action:'change_add',
-                                order_pk:{{ order.pk }},
-                                product_pk:ui.item.pk
-                            },
-                            success:function(data, textStatus, jqXHR){
-                                if(data.result='Ok'){
-                                    location.reload();
-                                    return false;
-                                }
-                            }
-                        });
-                    },
-                    minLength:2 // начинать поиск с трех символов
-                }).data("ui-autocomplete")._renderItem = function(ul, item){
-                    return $("<li></li>")
-                        .data("ui-autocomplete-item", item)
-                        .append("<a>" + item.label + "</a>")
-                        .appendTo(ul);
-        }
-        );
-        {#                     // source:'/ajax/order/add/search/',
-
-                            success:function(data, textStatus, jqXHR){
-                                    response(
-                                            $.map(data.suggestions, function(item){
+                    success:function(data, textStatus, jqXHR){
+                        var SearchString = document.getElementById('query').value;
+                        Lower_SearchString = SearchString.toLowerCase();
+                        var len_SearchString = SearchString.length;
+                        response(
+                                $.map(
+                                        data.results,
+                                            function(item){
+                                                item_name = item.name;
+                                                index_item_name = item_name.toLowerCase().indexOf(Lower_SearchString);
+                                                name = item_name.substring(0, index_item_name) + '<span>' + SearchString + '</span>' + item_name.substring(index_item_name + len_SearchString);
                                                 return{
                                                     pk:item.pk,
-                                                    label:item.name,
+                                                    label:item.itemid + ' | ' + name,
                                                     title:item.title
                                                 }
-                                            })
-                                    )
-                            },
-                            dataType:'json'
-                        })
+                                            }
+                                )
+                        )
+                    }
+                });
+            },
+            select:function(event, ui){
+                $.ajax({
+                    type:'POST',
+                    dataType:'json',
+                    url:'/ajax/order/change/',
+                    data:{
+                        csrfmiddlewaretoken:'{{ csrf_token }}',
+                        action:'change_add',
+                        order_pk:{{ order.pk }},
+                        product_pk:ui.item.pk
                     },
-                    select:function(event, ui){
-                        $.post({
-                            url:'/ajax/order/change/',
-                            data:{
-                                csrfmiddlewaretoken:'{{ csrf_token }}',
-                                action:'change_add',
-                                product_pk:ui.item.pk
-                            },
-                            success:function(data, textStatus, jqXHR){
-                            },
-                            dataType: 'json'
-                        });
-                        location.reload();
-                        return false;
-                    },
-
-
-                    maxHeight:400, // Максимальная высота списка подсказок, в пикселях
-                    width:300, // Ширина списка
-                    minChars:2, // Минимальная длина запроса для срабатывания автозаполнения
-                    deferRequestBy:300 // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов,
-                    // пока пользователь печатает. Я обычно ставлю 300.
-                })
-        ) #}
-    }
-    catch(e){alert(e)}
-
-    {# serviceUrl: 'service/autocomplete.ashx', // Страница для обработки запросов автозаполнения #}
-    {#     minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
-    delimiter: /(,|;)\s*/, // Разделитель для нескольких запросов, символ или регулярное выражение
-    maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
-    width: 300, // Ширина списка
-    zIndex: 9999, // z-index списка
-    deferRequestBy: 0, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
-    params: { country: 'Yes'}, // Дополнительные параметры
-    onSelect: function(data, value){ }, // Callback функция, срабатывающая на выбор одного из предложенных вариантов,
-    lookup: ['January', 'February', 'March'] // Список вариантов для локального автозаполнения
-}));
+                    success:function(data, textStatus, jqXHR){
+                        if(data.result='Ok'){
+                            location.reload();
+                            return false;
+                        }
+                    }
+                });
+            },
+            minLength:2 // начинать поиск с трех символов
+        }).data("ui-autocomplete")._renderItem = function(ul, item){
+            return $("<li></li>")
+                .data("ui-autocomplete-item", item)
+                .append("<a>" + item.label + "</a>")
+                .appendTo(ul);
+        }
+    );
+}
 catch(e){alert(e)}
-    #}
+
 </script>
         </div>
     </div>
-<script>
+<script type="application/javascript">
 $(document).ready(ReCalcSumm(true));
 </script>
 </body>
 </html>
-{#
-        <form method="POST" action="/корзина/заказ/">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
-            <input type="hidden" name="POST_NAME" value="order_cart"/>
-            {1% for product in user_cart_.products %}
-                <input id="quantity2_{{ product.pk }}"
-                       name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
-                       type="hidden"/>
-                <input id="delete2_{{ product.pk }}"
-                       name="delete_{{ product.pk }}"
-#}
-                       {# checked="" #}
-{#
-                       type="hidden"/>
-            {1% endfor %}
-            <input id="order_cart_input"
-                   type="submit"
-                   value="Оформить заказ"/>
-        </form>
- #}

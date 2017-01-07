@@ -14,7 +14,6 @@ from django.contrib.auth import get_user_model
 
 from proj.settings import SERVER, CACHE_TIMEOUT
 
-from apps.cart import models as models_cart
 from apps.cart.views import get_cart_or_create
 from .models import Category, Product, Viewed
 
@@ -203,6 +202,7 @@ def add_to_cart(request,
         product = get_product(int_product_pk, product_url, )
     """ Взятие корзины, или создание если её нету """
     product_cart, created = get_cart_or_create(request, created=True, )
+    from apps.cart import models as models_cart
     try:
         """ Присутсвие конкретного продукта в корзине """
         product_in_cart = product_cart.cart.get(product=product, )
