@@ -242,25 +242,74 @@ def order_change(request, ):
                             'action': action,
                             'result': 'Ok', }
 
-            elif action == 'change_custom_price':
-                custom_price = request.POST.get(u'custom_price', False, )
-                print type(custom_price), custom_price
+            elif action == 'change_is_custom_price':
+                is_custom_price = request.POST.get(u'is_custom_price', False, )
+                print type(is_custom_price), is_custom_price
 
-                if custom_price and isinstance(custom_price, unicode):
-                    print(type(custom_price), 'Ok', custom_price)
+                if is_custom_price\
+                        and isinstance(is_custom_price, unicode)\
+                        and is_custom_price in ('true', 'false', ):
+
+                    print(type(is_custom_price), 'Ok', is_custom_price)
+
+                    if is_custom_price == 'true':
+                        is_custom_price = True
+                    elif is_custom_price == 'false':
+                        is_custom_price = False
+                    else:
+                        return HttpResponse(status=400, )
+                else:
+                    return HttpResponse(status=400, )
 
                 try:
                     product = Product.objects.get(pk=product_pk, )
                 except Product.DoesNotExist:
                     return HttpResponse(status=400, )
 
+                product.is_custom_price = is_custom_price
+                product.save()
+
                 response = {'action': action,
                             'product_pk': product.pk,
+                            'is_custom_price': is_custom_price,
+                            'result': 'Ok', }
+
+            elif action == 'change_custom_price':
+                custom_price = request.POST.get(u'custom_price', False, )
+                print type(custom_price), custom_price, float(custom_price)
+
+                if custom_price and isinstance(custom_price, unicode):
+                    try:
+                        custom_price = float(custom_price, )
+                    except Exception as e:
+                        print 'Exception(e): ', e
+                        return HttpResponse(status=400, )
+
+                    custom_price = float(format(custom_price, '.2f', ), )
+
+                    print(type(custom_price), 'Ok', custom_price)
+
+                else:
+                    return HttpResponse(status=400, )
+
+                try:
+                    product = Product.objects.get(pk=product_pk, )
+                except Product.DoesNotExist:
+                    return HttpResponse(status=400, )
+
+                product.price = custom_price
+                product.save()
+                print product.price
+
+                response = {'action': action,
+                            'product_pk': product.pk,
+                            'price_of_quantity': str(product.product.price_of_quantity),
                             'custom_price': custom_price,
                             'result': 'Ok', }
 
             else:
                 return HttpResponse(status=400, )
+
             data = dumps(response, )
             mimetype = 'application/javascript'
             return HttpResponse(data, mimetype, )

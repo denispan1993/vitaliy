@@ -229,7 +229,7 @@ class Order(models.Model):
         else:
             if not quantity:
                 quantity = obj_product.quantity_of_complete
-            product_in_cart.summ_quantity(quantity, )  # quantity += exist_cart_option.quantity
+            product_in_cart.sum_quantity(quantity, )  # quantity += exist_cart_option.quantity
             product_in_cart.update_price_per_piece()
         return self, product_in_cart
 
@@ -250,9 +250,7 @@ class Order(models.Model):
 
 
 class Product(models.Model):
-    """
-    Продукты для заказа
-    """
+    """ Продукты для заказа """
     content_type = models.ForeignKey(ContentType,
                                      related_name='cart_or_order',
                                      verbose_name=u'Корзина',
@@ -269,10 +267,10 @@ class Product(models.Model):
     quantity = models.PositiveSmallIntegerField(verbose_name=u'Количество продуктов',
                                                 null=False,
                                                 blank=False, )
-    custom_price = models.BooleanField(verbose_name=_(u'Цена установленная в ручную', ),
-                                       null=False,
-                                       blank=False,
-                                       default=False, )
+    is_custom_price = models.BooleanField(verbose_name=_(u'Цена установленная в ручную', ),
+                                          null=False,
+                                          blank=False,
+                                          default=False, )
     price = models.DecimalField(verbose_name=u'Цена в зависимости от количества',
                                 max_digits=8,
                                 decimal_places=2,
@@ -294,28 +292,33 @@ class Product(models.Model):
                                                            u'Если товар не досутпен то поле будет False. '
                                                            u'Если товар в наличии по полной стоимости, '
                                                            u'то поле будет Null', )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
     def sum_of_quantity(self, request=None, calc_or_show='show', currency=980, ):
-        """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта
-        """
+        """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта """
+
         product = get_product(product_pk=self.product_id, product_url=None, )
-        price = product.get_price(request, price=None, calc_or_show='show', currency=currency, )  # price=self.price,
-        """ Расчитываем цену товара. """
+
+        if self.is_custom_price:
+            price = self.price
+        else:
+            price = product.get_price(request, price=None, calc_or_show='show', currency=currency, )  # price=self.price,
+
+        """ Расчитываем цену товара """
         price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
         if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
             if product.is_availability == 2:  # Если товар доступен под заказ?
                 """ Если товар доступен под заказ?
                     Показываем 50% стоимости. """
                 price = price/2  # Берём 50% от стоимости
-        return u'%5.2f'.replace(',', '.', ) % price  # .replace(',', '.', ).strip()
+        return u'%5.2f'.replace(',', '.', ).replace(' ', '', ) % price  # .replace(',', '.', ).strip()
 
-    def summ_quantity(self, quantity=1, ):
+    def sum_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,
-         производит сложение прошлого добавления товара с нынешним.
-        """
+            производит сложение прошлого добавления товара с нынешним. """
         value = self.quantity + int(quantity)
         if value > 999:
             value = 999
@@ -326,7 +329,7 @@ class Product(models.Model):
 
     def update_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,
-         производит ИЗМЕНЕНИЕ КОЛИЧЕСТВА ТОВАРА. """
+            производит ИЗМЕНЕНИЕ КОЛИЧЕСТВА ТОВАРА. """
         quantity = int(quantity)
         if quantity > 999:
             quantity = 999
@@ -335,35 +338,32 @@ class Product(models.Model):
         self.quantity = quantity
         while True:
             try:
-                """
-                    Пытаемся записать до тех пор пока база не примет нашу запись.
-                """
+                """ Пытаемся записать до тех пор пока база не примет нашу запись. """
                 self.save()
             except OperationalError as inst:
-                """
-                    Иначе печатаем ИЗВЕСТНУЮ ошибку
-                """
+                """ Иначе печатаем ИЗВЕСТНУЮ ошибку """
                 print 'Type Error: ', type(inst, )
                 print 'Error: ', inst
             except Exception as inst:
                 print 'Type Error: ', type(inst, )
                 print 'Error: ', inst
-                """
-                    Иначе печатаем НЕ ИЗВЕСТНУЮ ошибку
-                """
+                """ Иначе печатаем НЕ ИЗВЕСТНУЮ ошибку """
             else:
                 break
 
     def update_price_per_piece(self, ):
         """ Здесь будет расчёт цены со скидкой в зависимости от количества. """
+
+        if not self.is_custom_price:
+            self.price = self.product.price
+
         if self.product.is_availability == 1:  # """ Если "Товар на складе" ТО:"""
             """ Производим расчёт цены по стандартной схеме """
-            self.price = self.product.price
             self.percentage_of_prepaid = 100  # 100% стоимости товра
             self.available_to_order = None  # Товар в наличии на складе - поэтому это поле для нас не нужно
         elif self.product.is_availability == 2:  # """ Если "Товар доступен под заказ" ТО: """
             """ Считаем цену 50% от стоимости """
-            self.price = self.product.price/2
+            self.price = self.price / 2
             self.percentage_of_prepaid = 50  # 50% стоимости товра
             self.available_to_order = True  # Товар доступен под заказ - поэтому это поле ставим в True
         self.save()
@@ -423,7 +423,7 @@ class DeliveryCompany(models.Model, ):
                                    null=True,
                                    blank=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 

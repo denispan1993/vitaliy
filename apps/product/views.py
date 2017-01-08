@@ -247,7 +247,7 @@ def add_to_cart(request,
     else:
         if not quantity:
             quantity = product.quantity_of_complete
-        product_in_cart.summ_quantity(quantity, )  # quantity += exist_cart_option.quantity
+        product_in_cart.sum_quantity(quantity, )  # quantity += exist_cart_option.quantity
         product_in_cart.update_price_per_piece()
     # finally:
         # product_in_cart.update_price_per_piece()

@@ -316,6 +316,7 @@ class Product(models.Model):
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
+
     #Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'Заголовок продукта',
                                   max_length=190,
@@ -570,23 +571,21 @@ class Product(models.Model):
             if current_currency_pk == 1 and product_currency_pk != 1:
                 ''' Приводим к гривне:
                     1. цену делим на количество гривен
-                    2. умножаем на курс
-                '''
+                    2. умножаем на курс '''
                 price = price/product_currency*product_exchange_rate
-                # Округляем до целого значения
+                ''' Округляем до целого значения '''
                 price = round(price, )
             elif current_currency_pk == 2 and product_currency_pk != 2:
                 ''' Сначала приводим к гривне '''
                 intermediate_price = price/product_currency*product_exchange_rate
                 ''' Приводим к 2-ой валюте сайта (Рублю) '''
                 price = intermediate_price*current_currency/current_exchange_rate
-                # Округляем до целого значения
+                ''' Округляем до целого значения '''
                 price = round(price, )
             elif current_currency_pk != 1 and product_currency_pk == 1:
                 ''' Приводим к нужной валюте:
                     1. умножаем на количество гривен
-                    2. делим на курс
-                '''
+                    2. делим на курс '''
                 price = price*current_currency/current_exchange_rate
             elif current_currency_pk != 1 and product_currency_pk != 1:
                 ''' Сначала приводим к гривне '''
