@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
 
 __author__ = 'AlexStarov'
 
@@ -19,10 +20,12 @@ urlpatterns = patterns('apps.cart.order',
                            name='result_ordering_ru', ),
                        url(regex=ur'^оформление-прошло-успешно/$',
                            view='order_success',
-                           kwargs={'template_name': u'order/success.jinja2', },
-                           name='order_success_ru', ),
+                           kwargs={'template_name': 'order/successful.jinja2', },
+                           name='successful_ru', ),
                        url(regex=ur'^вы-где-то-оступились/$',
-                           view='order_unsuccessful',
-                           kwargs={'template_name': u'order/unsuccessful.jinja2', },
-                           name='order_unsuccessful_ru', ),
+                           view=TemplateView.as_view(template_name='order/unsuccessful.jinja2'),
+                           name='unsuccessful_ru', ),
+                       url(regex=ur'^процесс-обработки-заказа-уже-запущен/$',
+                           view=TemplateView.as_view(template_name='order/processing.jinja2'),
+                           name='already_processing_ru', ),
                        )

@@ -233,3 +233,16 @@ div#main_right div.rightSlider div.rightSliderItems a#product_box_img{
     -moz-border-right-colors:none;
     -moz-border-top-colors:none; */
 }
+div#main_center div#show_order form#form_order table tbody tr td input#phone{
+    float:left;
+    width:254px;
+}
+div#main_center div#show_order form#form_order table tbody tr td select#select_country{
+    float:left;
+    width:254px;
+}
+div#main_center div#show_order form#form_order table tbody tr td input#warehouse_number{
+    width:30px;
+    -webkit-appearance:textfield;
+    -moz-appearance:textfield;
+}

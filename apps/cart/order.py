@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from django.forms import EmailField
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 import celery
+import random
+import time
 
 import proj.settings
 from apps.product.models import Country
 from .tasks import delivery_order, recompile_order
 from .models import Order, Product, DeliveryCompany
-from .views import get_cart_or_create
+# from .views import get_cart_or_create
 from apps.sms_ussd.tasks import send_template_sms
 
 __author__ = 'AlexStarov'
@@ -222,6 +226,25 @@ def result_ordering(request, ):
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'ordering_step_two':
+            sessionid = request.COOKIES.get(u'sessionid', None, )
+            key = cache.get(key='order_%s' % sessionid, )
+            print('key1: ', key)
+            if not key:
+                time.sleep(random.randrange(start=0, stop=250))
+
+                key = cache.get(key='order_%s' % sessionid, )
+                print('key2: ', key)
+                if not key:
+                    cache.set(
+                        key='order_%s' % sessionid,
+                        value=True,
+                        timeout=10,
+                    )
+                else:
+                    return redirect(to='cart:already_processing_ru', permanent=True, )
+            else:
+                return redirect(to='cart:already_processing_ru', permanent=True, )
+
             FIO = request.session.get(u'FIO', None, )
             email = request.session.get(u'email', None, )
             phone = request.session.get(u'phone', None, )
@@ -229,13 +252,13 @@ def result_ordering(request, ):
             order_pk = request.session.get(u'order_pk', None, )
             try:
                 order_pk = int(order_pk, )
+                try:
+                    order = Order.objects.get(pk=order_pk, )
+                except Order.DoesNotExist:
+                    return redirect(to='cart:unsuccessful_ru', permanent=True, )
             except ValueError:
-                return redirect(to=u'/заказ/вы-где-то-оступились/', )
+                return redirect(to='cart:unsuccessful_ru', permanent=True, )
 
-            try:
-                order = Order.objects.get(pk=order_pk, )
-            except Order.DoesNotExist:
-                return redirect(to=u'/заказ/вы-где-то-оступились/', )
             if select_country == 1:
                 """ Страна Украина """
                 region = request.POST.get(u'region', None, )
@@ -277,7 +300,7 @@ def result_ordering(request, ):
             order.save()
             cart, create = get_cart_or_create(request, )
             if create:
-                return redirect(to=u'/заказ/вы-где-то-оступились/', )
+                return redirect(to='cart:unsuccessful_ru', permanent=True, )
             try:
                 """ Выборка всех продуктов из корзины """
                 all_products = cart.cart.all()
@@ -322,19 +345,19 @@ def result_ordering(request, ):
                     task_id='celery-task-id-recompile_order-{0}'.format(celery.utils.uuid(), ),
                 )
 
-                return redirect(to=u'/заказ/оформление-прошло-успешно/', )
+                return redirect(to='cart:successful_ru', permanent=True, )
         else:
-            return redirect(to=u'/заказ/вы-где-то-оступились/', )
+            return redirect(to='cart:unsuccessful_ru', permanent=True, )
     else:
-        return redirect(to=u'/заказ/вы-где-то-оступились/', )
+        return redirect(to='cart:unsuccessful_ru', permanent=True, )
 
 
 def order_success(request,
-                  template_name=u'order/success.jinja2', ):
+                  template_name=u'order/successful.jinja2', ):
     order_pk = request.session.get(u'order_pk_last', None, )
     order = None
     if order_pk is None:
-        return redirect(to='cart:order_unsuccessful_ru', )
+        return redirect(to='cart:unsuccessful_ru', )
     else:
         try:
             order_pk = int(order_pk, )
@@ -352,8 +375,33 @@ def order_success(request,
                   content_type='text/html', )
 
 
-def order_unsuccessful(request,
-                       template_name=u'show_order_unsuccess.jinja2', ):
-    return render(request=request,
-                  template_name=template_name,
-                  content_type='text/html', )
+def get_cart_or_create(request, user_object=False, created=True, ):
+
+    from .models import Cart
+
+    sessionid = request.COOKIES.get(u'sessionid', None, )
+
+    if not user_object:
+        if request.user.is_authenticated() and request.user.is_active:
+            user_id_ = request.session.get(u'_auth_user_id', None, )
+
+            try:
+                user_id_ = int(user_id_, )
+                user_object = get_user_model().objects.get(pk=user_id_, )
+            except ValueError:
+                user_object = None
+        else:
+            user_object = None
+
+    if created:
+        cart, created = Cart.objects.get_or_create(user=user_object,
+                                                   sessionid=sessionid, )
+    else:
+        try:
+            cart = Cart.objects.get(user=user_object,
+                                    sessionid=sessionid, )
+        except Cart.DoesNotExist:
+            cart = None
+        return cart
+
+    return cart, created

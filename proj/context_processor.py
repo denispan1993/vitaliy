@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.core.urlresolvers import resolve, Resolver404
 from django.contrib.auth import get_user_model
-from apps.cart.views import get_cart_or_create
-from apps.product.views import get_product, show_product, get_or_create_Viewed
-from apps.static.models import Static
+from django.core.urlresolvers import resolve, Resolver404
+
+from apps.cart.save.views import get_cart_or_create
 from apps.product.models import Category, Currency
+from apps.product.views import get_product, show_product, get_or_create_Viewed
 from apps.slide.models import Slide
+from apps.static.models import Static
 
 __author__ = 'AlexStarov'
 

@@ -69,7 +69,7 @@ urlpatterns += patterns('apps.comment',
     Раздел:
         Корзины.
 """
-urlpatterns += patterns('apps.cart.views',
+urlpatterns += patterns('apps.cart.save.views',
                         url(ur'^корзина/$', 'show_cart',
                             {'template_name': u'show_cart.jinja2', },
                             name='show_cart', ),
@@ -85,13 +85,13 @@ urlpatterns += patterns('',
                                          namespace='cart', ),
                             ),
                         )
-urlpatterns += patterns('apps.cart.views',
-                        url(ur'^корзина/заказ/принят/$', 'show_order_success',
-                            {'template_name': u'show_order_success.jinja2', },
-                            name='show_order_success', ),
-                        url(ur'^корзина/заказ/непринят/$', 'show_order_unsuccess',
-                            {'template_name': u'show_order_unsuccess.jinja2', },
-                            name='show_order_unsuccess', ),
+urlpatterns += patterns('apps.cart.save.views',
+                        #                        url(ur'^корзина/заказ/принят/$', 'show_order_success',
+#                            {'template_name': u'order/success.jinja2', },
+#                            name='show_order_success', ),
+#                        url(ur'^корзина/заказ/непринят/$', 'show_order_unsuccess',
+#                            {'template_name': u'order/unsuccess.jinja2', },
+#                            name='show_order_unsuccess', ),
                         url(ur'^корзина/order/$', 'show_order',
                             {'template_name': u'show_order.jinja2', },
                             name='show_order', ),
@@ -112,12 +112,6 @@ urlpatterns += patterns('apps.currency.views',
                             name='currency_change', ),
                         )
 
-urlpatterns += patterns('',
-                        url(regex=ur'^заказ/',
-                            view=include(arg='apps.cart.urls',
-                                         namespace='cart', ),
-                            ),
-                        )
 
 urlpatterns += patterns('',
                         url(regex=ur'^оплата/',

@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 # /apps/product/views.py
 from datetime import datetime
-from django.template import RequestContext
-from django.template.loader import get_template, render_to_string
-from apps.utils.datetime2rfc import datetime2rfc
-from django.shortcuts import render_to_response, render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+
+from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.mail import get_connection, EmailMultiAlternatives
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, redirect
+from django.template.loader import get_template, render_to_string
 from django.utils.html import strip_tags
-from django.contrib.auth import get_user_model
 
+from apps.cart.save.views import get_cart_or_create
+from apps.utils.datetime2rfc import datetime2rfc
 from proj.settings import SERVER, CACHE_TIMEOUT
-
-from apps.cart.views import get_cart_or_create
 from .models import Category, Product, Viewed
 
 __author__ = 'AlexStarov'

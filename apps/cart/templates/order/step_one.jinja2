@@ -112,8 +112,7 @@ document.getElementById('email').onchange=function(){
                             <label for="phone">Номер мобильного телефона</label>
                         </td>
                         <td colspan="2">
-                            <input style="float:left;width:240px;"
-                                   type="tel" name="phone" id="phone" required
+                            <input type="tel" name="phone" id="phone" required
                                    {% if phone %}
                                    value="{{ phone }}"
                                    {% endif %}>
@@ -126,8 +125,7 @@ document.getElementById('email').onchange=function(){
                         <td colspan="2">
                             <select name="select_country"
                                     id="select_country"
-                                    required=""
-                                    style="float:left;width:246px;">
+                                    required >
                                 {# {% if not select_country or select_country == '1000' %}
                                     <option value="1000"
                                             selected=""

@@ -1,0 +1,22 @@
+{% extends 'root.jinja2' %}
+{% block title %}Ваш заказ принят!!!{% endblock %}
+{% block content_center %}
+<script>
+var yaParams = {
+    order_id: "{{ order_pk }}",
+    order_price: {{ order.order_sum(calc_or_show='show') }},
+    currency: "грн",
+    exchange_rate: 1 };
+</script>
+<br>
+<strong>Ваш заказ принят!!!</strong>
+<br>
+Пожалуйста, через несколько минут проверьте Ваш ящик электронной почты и мобильный телефон.
+<br>
+Мы выслали сообщения с номером заказа в нашем магазине по указанным Вами реквизитам.
+<br>
+После обработки Вашего заказа, наш менеджер вышлет уточненный заказ и реквизиты для оплаты на <strong>указанный Вами E-Mail и номер мобильно телефона.</strong>.
+<br>
+<strong><sub>Спасибо за покупку!</sub></strong>
+<br>
+{% endblock %}
