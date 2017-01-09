@@ -226,19 +226,17 @@ def result_ordering(request, ):
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'ordering_step_two':
+
             sessionid = request.COOKIES.get(u'sessionid', None, )
-            key = cache.get(key='order_%s' % sessionid, )
-            print('key1: ', key)
-            if not key:
+
+            if not cache.get(key='order_%s' % sessionid, ):
                 time.sleep(random.randrange(start=0, stop=250))
 
-                key = cache.get(key='order_%s' % sessionid, )
-                print('key2: ', key)
-                if not key:
+                if not cache.get(key='order_%s' % sessionid, ):
                     cache.set(
                         key='order_%s' % sessionid,
                         value=True,
-                        timeout=10,
+                        timeout=15,
                     )
                 else:
                     return redirect(to='cart:already_processing_ru', permanent=True, )
@@ -254,8 +252,10 @@ def result_ordering(request, ):
                 order_pk = int(order_pk, )
                 try:
                     order = Order.objects.get(pk=order_pk, )
+
                 except Order.DoesNotExist:
                     return redirect(to='cart:unsuccessful_ru', permanent=True, )
+
             except ValueError:
                 return redirect(to='cart:unsuccessful_ru', permanent=True, )
 
@@ -354,6 +354,7 @@ def result_ordering(request, ):
 
 def order_success(request,
                   template_name=u'order/successful.jinja2', ):
+
     order_pk = request.session.get(u'order_pk_last', None, )
     order = None
     if order_pk is None:
@@ -361,13 +362,13 @@ def order_success(request,
     else:
         try:
             order_pk = int(order_pk, )
-        except ValueError:
-            order_pk = None
-        else:
             try:
                 order = Order.objects.get(pk=order_pk, )
             except Order.DoesNotExist:
-                pass
+                order_pk = None; order = None
+        except ValueError:
+            order_pk = None; order = None
+
     return render(request=request,
                   template_name=template_name,
                   context={'order_pk': order_pk,
@@ -388,6 +389,7 @@ def get_cart_or_create(request, user_object=False, created=True, ):
             try:
                 user_id_ = int(user_id_, )
                 user_object = get_user_model().objects.get(pk=user_id_, )
+
             except ValueError:
                 user_object = None
         else:
