@@ -69,16 +69,16 @@ urlpatterns += patterns('apps.comment',
     Раздел:
         Корзины.
 """
-#urlpatterns += patterns('apps.cart.views',
-#                        url(ur'^корзина/$', 'show_cart',
-#                            {'template_name': u'show_cart.jinja2', },
-#                            name='show_cart', ),
-#                        url(ur'^корзина/пересчитать/$', 'recalc_cart',
-#                            name='recalc_cart', ),
-#                        url(ur'^корзина/заказ/$', 'show_order',
-#                            {'template_name': u'show_order.jinja2', },
-#                            name='show_order', ),
-#                        )
+urlpatterns += patterns('apps.cart.views',
+                        url(ur'^корзина/$', 'show_cart',
+                            {'template_name': u'show_cart.jinja2', },
+                            name='show_cart', ),
+                        url(ur'^корзина/пересчитать/$', 'recalc_cart',
+                            name='recalc_cart', ),
+                        url(ur'^корзина/заказ/$', 'show_order',
+                            {'template_name': u'show_order.jinja2', },
+                            name='show_order', ),
+                        )
 urlpatterns += patterns('',
                         url(regex=ur'^заказ/',
                             view=include(arg='apps.cart.urls',
