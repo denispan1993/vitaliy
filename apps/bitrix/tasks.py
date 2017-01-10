@@ -71,6 +71,10 @@ def get_products(products_list):
             itemid = product_list[1].text
         elif product_list[2].tag == u'Артикул':
             itemid = product_list[2].text
+        elif product_list[3].tag == u'Артикул':
+            itemid = product_list[3].text
+        else:
+            continue
 
         print(itemid, len(itemid))
 
