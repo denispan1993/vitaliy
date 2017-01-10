@@ -13,7 +13,7 @@ import time
 import proj.settings
 from apps.product.models import Country
 from .tasks import delivery_order, recompile_order
-from .models import Order, Product, DeliveryCompany
+#from .models import Order, Product, DeliveryCompany
 # from .views import get_cart_or_create
 from apps.sms_ussd.tasks import send_template_sms
 
@@ -22,6 +22,7 @@ __author__ = 'AlexStarov'
 
 def ordering_step_one(request,
                       template_name=u'order/step_one.jinja2', ):
+    from .models import Product
     try:
         country_list = Country.objects.all()
     except Country.DoesNotExist:
@@ -75,6 +76,9 @@ def ordering_step_one(request,
 
 def ordering_step_two(request,
                       template_name=u'order/step_two_ua.jinja2', ):
+
+    from .models import Order, DeliveryCompany
+
     FIO = request.POST.get(u'FIO', False, )
     if FIO:
         request.session[u'FIO'] = FIO.strip()
@@ -223,6 +227,9 @@ def ordering_step_two(request,
 
 
 def result_ordering(request, ):
+
+    from .models import Order, Product
+
     if request.method == 'POST':
         POST_NAME = request.POST.get(u'POST_NAME', None, )
         if POST_NAME == 'ordering_step_two':
@@ -355,10 +362,14 @@ def result_ordering(request, ):
 def order_success(request,
                   template_name=u'order/successful.jinja2', ):
 
+    from .models import Order
+
     order_pk = request.session.get(u'order_pk_last', None, )
     order = None
+
     if order_pk is None:
         return redirect(to='cart:unsuccessful_ru', )
+
     else:
         try:
             order_pk = int(order_pk, )
