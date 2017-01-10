@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import get_template, render_to_string
 from django.utils.html import strip_tags
 
-from apps.cart.save.views import get_cart_or_create
+from apps.cart.order import get_cart_or_create
 from apps.utils.datetime2rfc import datetime2rfc
 from proj.settings import SERVER, CACHE_TIMEOUT
 from .models import Category, Product, Viewed
