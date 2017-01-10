@@ -1,0 +1,146 @@
+{% extends 'root.jinja2' %}
+{% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
+{% block content_center %}
+    <div id="show_order" style="color:Black;text-align:left;">
+    {% if user_cart_ %}
+        {{ block_cart(request, place_of_use='order', cart=user_cart_, coupon=coupon_)|safe }}
+        {% if user_cart_.sum_money_of_all_products < 200 %}
+            <div id="buttons"
+                 style="margin:15px;">
+                <a href="/корзина/" title="Редактировать корзину">&gt;&gt;&nbsp;Редактировать корзину</a>
+            </div>
+        {% else %}
+            <form method="POST" action="../" id="form_order" name="form_order">{% csrf_token %}
+                <input type="hidden" name="POST_NAME" value="order"/>
+                <style>
+                    div#show_order form#form_order table tr td#first_column{
+                        text-align:right;
+                    }
+                </style>
+                <table>
+                    <tr>
+                        <td id="first_column">
+                            <label for="email">E-Mail</label>
+                        </td>
+                        <td>
+                            <input style="float:left;width:240px;"
+                                   type="email" name="email" id="email" required
+                                   {% if email %}
+                                       value="{{ email }}"
+                                   {% endif %}
+                                   title="На этот E-Mail адрес будет выслан обработанный нашим менеджером заказ&#013Пожалуйста, не забудьте проверить свой электронный почтовый ящик.">
+                            {% if email_error %}
+                                <p class="red">{{ email_error }}</p>
+                            {% endif %}
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td id="first_column">
+                            <label for="FIO">ФИО</label>
+                        </td>
+                        <td>
+                            <input style="float:left;width:240px;"
+                                   type="text" name="FIO" id="FIO" required
+                                   {% if FIO %}
+                                       value="{{ FIO }}"
+                                   {% endif %}
+                                   title="Эти данные будут использоваться для оформления посылки в почтовой службе">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td id="first_column">
+                            <label for="phone">Номер мобильного телефона</label>
+                        </td>
+                        <td>
+                            <input style="float:left;width:240px;"
+                                   type="tel" name="phone" id="phone" required>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td id="first_column">
+                            <label for="select_country">Страна</label>
+                        </td>
+                        <td>
+                            <select name="select_country"
+                                    id="select_country"
+                                    required=""
+                                    style="float:left;width:246px;"
+                                    onKeyDown="javascript:window.setTimeout('sel_country();', 0);"
+                                    onChange="javascript:sel_country();">
+                                {% if not select_country or select_country == '1000' %}
+                                    <option value="1000"
+                                            selected=""
+                                            disabled="disabled">Страна
+                                    </option>
+                                {% endif %}
+                                {% for country_select in country_list %}
+                                    {% if select_country == country_select and select_country != 1000 %}
+                                        <option value="{{ country_select.pk }}"
+                                                selected="">
+                                            <strong>{{ country_select.name_ru }}</strong>
+                                        </option>
+                                    {% else %}
+                                        <option value="{{ country_select.pk }}">{{ country_select.name_ru }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+<script type="text/javascript">
+{% if not select_country or select_country == '1000' %}
+{% set ajax_select_country = 1 %}
+{% else %}
+{% set ajax_select_country = select_country %}
+{% endif %}
+$(document).ready(sel_country({{ ajax_select_country }}));
+function sel_country(select_country){
+{# // если select_country - ложное значение(undefined, 0, false...) - подставить следующее значение #}
+	var country_pk= select_country || document.forms["form_order"].select_country.selectedIndex;
+	var request_dict = {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+		country_pk: country_pk };
+	jQuery.post("/ajax/country/",
+		request_dict,
+		function(data, textStatus, jqXHR) {
+				jQuery('#dynamic_div').html(data.html);
+		},
+		"json");
+}
+</script>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="dynamic_div">
+                </div>
+                <br>
+                <label for="comment">Комментарий к заказу</label>
+                <textarea cols="50" rows="5" name="comment" id="comment"
+                    {% if comment %}
+                        value="{{ comment }}"
+                    {% endif %}></textarea>
+                <br>
+                <br>
+                <label for="choise1">Я сознательно сделал свой выбор и жду SMS с реквизитами для оплаты</label>
+                <input type="checkbox" name="choice1" id="choice1" checked>
+                <br>
+                <br>
+                <label for="choise2">Перезвоните мне для уточнения заказа</label>
+                <input type="checkbox" name="choice2" id="choice2">
+                <br>
+                <br>
+                <p>Нажимая кнопку отправить заказ я подтверждаю, что с <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> товара интернет-магазина Кексик, я ознакомлен</p>
+                <input type="submit"
+                       name="inputsubmit"
+                       value="Отправить заказ">
+            </form>
+        {% endif %}
+    {% else %}
+        <p>Ваша корзина пуста<br>
+            <a href="/" title="Вернуться к покупкам">Продолжить покупки >></a>
+        </p>
+    {% endif %}
+    </div>
+{% endblock %}
