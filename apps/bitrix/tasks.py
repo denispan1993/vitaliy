@@ -66,7 +66,12 @@ def get_products(products_list):
 
     for product in products_list:
         product_list = list(product)
-        itemid = product_list[1].text
+
+        if product_list[1].tag == u'Артикул':
+            itemid = product_list[1].text
+        elif product_list[2].tag == u'Артикул':
+            itemid = product_list[2].text
+
         print(itemid, len(itemid))
 
         try:
@@ -122,7 +127,6 @@ def get_products(products_list):
         result = msg.send(fail_silently=False, )
 
         if (isinstance(result, int) and result == 1) or i > 100:
-            i = 0
             break
 
         print('bitrix.tasks.process_bitrx_catalog.unsuccess(i): ', i, ' result: ', result,)
@@ -145,7 +149,6 @@ def get_products(products_list):
         result = msg.send(fail_silently=False, )
 
         if (isinstance(result, int) and result == 1) or i > 100:
-            i = 0
             break
 
         print('bitrix.tasks.process_bitrx_catalog.double(i): ', i, ' result: ', result,)

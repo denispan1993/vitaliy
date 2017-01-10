@@ -509,8 +509,8 @@ function animate_cart(obj){
 <script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
     var d = new Date();
     $.post("/ajax/timezone/client/",{
-            offset:d.getTimezoneOffset(),
-            csrfmiddlewaretoken:'{{ csrf_token }}'
+            csrfmiddlewaretoken:'{{ csrf_token }}',
+            offset:d.getTimezoneOffset()
         }
     );
 });</script>
@@ -519,9 +519,9 @@ function animate_cart(obj){
 <script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
     var browserWindow = $(window);
     $.post("/ajax/resolution/",{
+            csrfmiddlewaretoken:'{{ csrf_token }}',
             width:browserWindow.width(),
-            height:browserWindow.height(),
-            csrfmiddlewaretoken:'{{ csrf_token }}'
+            height:browserWindow.height()
         }
     );
 });</script>
