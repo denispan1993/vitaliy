@@ -210,8 +210,8 @@ class EmailTemplate(models.Model, ):
     """ template будующей рассылки """
     delivery = models.ForeignKey(to=Delivery,
                                  related_name='templates',
-                                 blank=False,
-                                 null=False, )
+                                 null=True,
+                                 blank=True, )
 
     name = models.CharField(max_length=64,
                             unique=True,
