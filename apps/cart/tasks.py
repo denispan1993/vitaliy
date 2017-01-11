@@ -122,6 +122,7 @@ def recompile_order(*args, **kwargs):
 
     order_pk = int(kwargs.get('order_pk'))
 
+    from .models import Order
     try:
         order = Order.objects.get(pk=order_pk)
     except Order.DoesNotExist:
@@ -130,91 +131,7 @@ def recompile_order(*args, **kwargs):
     if order.recompile:
         return order
 
-    if '.' in order.FIO:
-        FIO = order.FIO.split('.')
-        FIO_temp = FIO
-        if FIO[0][-1] == '.' and FIO[0][-3] == '.' \
-                or 'Діденко'.decode('utf-8') in FIO[0] \
-                or 'Коба'.decode('utf-8') in FIO[0] \
-                or 'Слободянюк'.decode('utf-8') in FIO[0] \
-                or 'Корягина'.decode('utf-8') in FIO[0] \
-                or 'Дуянова'.decode('utf-8') in FIO[0] \
-                or 'Тарасова'.decode('utf-8') in FIO[0] \
-                or 'Пашпадурова'.decode('utf-8') in FIO[0] \
-                or 'Розкошинская'.decode('utf-8') in FIO[0]:
-            FIO = FIO[0].split()
-            FIO[2] = FIO_temp[1]
-        elif FIO[0][-1].isupper() and FIO[0][-2].isupper():
-            FIO[0] = FIO_temp[:-2]
-            FIO[1] = FIO_temp[-2]
-            FIO[2] = FIO_temp[-1]
-    else:
-        FIO = order.FIO.split(' ')
-
-    if len(FIO) == 3:
-        last_name, first_name, patronymic = FIO
-    elif len(FIO) == 2:
-        last_name, first_name = FIO
-        patronymic = u'Отчество'
-    elif len(FIO) == 1:
-        last_name = FIO
-        first_name = u'Имя'
-        patronymic = u'Отчество'
-    else:
-        last_name = u'Фамилия'
-        first_name = u'Имя'
-        patronymic = u'Отчество'
-
-    if last_name:
-        print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
-        if type(last_name, ) == list:
-            last_name
-            last_name[0]
-            last_name[0].encode('utf-8')
-            last_name[0].encode('UTF8')
-            unicode(last_name[0], )
-            last_name = unicode(last_name[0], )  # .encode('UTF8', ),
-            # temp = ''
-            # for x in last_name:
-            #    temp += x.encode('UTF8', )
-            # last_name = temp
-        print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
-        last_name = last_name.lstrip('.')
-        if len(last_name, ) > 30:
-            print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
-            last_name = last_name[:30]
-
-    if first_name:
-        print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
-        if type(first_name, ) == list:
-            first_name = unicode(first_name, ).encode('utf-8')
-        print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
-        first_name = first_name.lstrip('.')
-        if len(first_name, ) > 30:
-            print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
-            first_name = first_name[:30]
-
-    if patronymic:
-        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
-        if type(patronymic, ) == list:
-            patronymic = unicode(patronymic, ).encode('utf-8')
-        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
-        patronymic = patronymic.lstrip('.')
-        if len(patronymic, ) > 32:
-            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
-            patronymic = patronymic[:32]
-        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
-
-    username = ''.join(['%s' % slugify(k).capitalize() for k in last_name, first_name, patronymic], )
-    print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
-
-    if type(username, ) == list:
-        username = str(username, )
-    print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
-
-    if len(username, ) > 32:
-        print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
-        username = username[:32]
+    username, first_name, last_name, patronymic = processing_username(order=order, )
 
     print 'UserName: ', username
     sessionID = order.sessionid
@@ -243,6 +160,7 @@ def recompile_order(*args, **kwargs):
         else:
             email = user.email_parent_user.all()[0]
             print 'E-Mail 2.3: ', email.email
+
     if type(email, ) != Email:
         try:
             email = Email.objects.get(email=email, )
@@ -373,6 +291,87 @@ def recompile_order(*args, **kwargs):
     order.save()
 
     return order
+
+
+def processing_username(order, ):
+    if '.' in order.FIO:
+        FIO = order.FIO.split('.')
+        FIO_temp = FIO
+        if FIO[0][-1] == '.' and FIO[0][-3] == '.' \
+                or 'Діденко'.decode('utf-8') in FIO[0] \
+                or 'Коба'.decode('utf-8') in FIO[0] \
+                or 'Слободянюк'.decode('utf-8') in FIO[0] \
+                or 'Корягина'.decode('utf-8') in FIO[0] \
+                or 'Дуянова'.decode('utf-8') in FIO[0] \
+                or 'Тарасова'.decode('utf-8') in FIO[0] \
+                or 'Пашпадурова'.decode('utf-8') in FIO[0] \
+                or 'Розкошинская'.decode('utf-8') in FIO[0]:
+            FIO = FIO[0].split()
+            FIO[2] = FIO_temp[1]
+        elif FIO[0][-1].isupper() and FIO[0][-2].isupper():
+            FIO[0] = FIO_temp[:-2]
+            FIO[1] = FIO_temp[-2]
+            FIO[2] = FIO_temp[-1]
+    else:
+        FIO = order.FIO.split(' ')
+
+    if len(FIO) == 3:
+        last_name, first_name, patronymic = FIO
+    elif len(FIO) == 2:
+        last_name, first_name = FIO
+        patronymic = u'Отчество'
+    elif len(FIO) == 1:
+        last_name = FIO
+        first_name = u'Имя'
+        patronymic = u'Отчество'
+    else:
+        last_name = u'Фамилия'
+        first_name = u'Имя'
+        patronymic = u'Отчество'
+
+    if last_name:
+        print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+        if type(last_name, ) == list:
+            last_name = unicode(last_name[0], )  # .encode('UTF8', ),
+        print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+        last_name = last_name.lstrip('.')
+        if len(last_name, ) > 30:
+            print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+            last_name = last_name[:30]
+
+    if first_name:
+        print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+        if type(first_name, ) == list:
+            first_name = unicode(first_name, ).encode('utf-8')
+        print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+        first_name = first_name.lstrip('.')
+        if len(first_name, ) > 30:
+            print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+            first_name = first_name[:30]
+
+    if patronymic:
+        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+        if type(patronymic, ) == list:
+            patronymic = unicode(patronymic, ).encode('utf-8')
+        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+        patronymic = patronymic.lstrip('.')
+        if len(patronymic, ) > 32:
+            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+            patronymic = patronymic[:32]
+        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+
+    username = ''.join(['%s' % slugify(k).capitalize() for k in last_name, first_name, patronymic], )
+    print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
+
+    if type(username, ) == list:
+        username = str(username, )
+    print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
+
+    if len(username, ) > 32:
+        print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
+        username = username[:32]
+
+    return username, first_name, last_name, patronymic
 
 
 def aaa():
