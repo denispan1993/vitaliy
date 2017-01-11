@@ -33,9 +33,9 @@ def order_search(request,
                 except ValueError:
                     error_message = u'Некорректно введен номер заказа.'
 
-    #filter_datetime = datetime.now() - timedelta(days=15, )
-    #orders = Order.objects.filter(created_at__gte=filter_datetime, )
-    orders = Order.objects.all()
+    filter_datetime = datetime.now() - timedelta(days=15, )
+    orders = Order.objects.filter(created_at__gte=filter_datetime, )
+    #orders = Order.objects.all()
     return render(request=request,
                   template_name=template_name,
                   context={'error_message': error_message,
