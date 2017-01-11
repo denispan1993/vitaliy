@@ -174,16 +174,18 @@ class Order(models.Model):
                                      blank=True,
                                      default=False, )
 
-    sent_out_sum = models.PositiveIntegerField(verbose_name=_(u'Отосланная сумма заказа', ),
-                                               null=True,
-                                               blank=True, )
+    sent_out_sum = models.DecimalField(verbose_name=_(u'Отосланная сумма заказа', ),
+                                       max_digits=8,
+                                       decimal_places=2,
+                                       null=True,
+                                       blank=True, )
 
     recompile = models.BooleanField(verbose_name=u'Разбор Заказа',
                                     null=False,
                                     blank=False,
                                     default=False, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 

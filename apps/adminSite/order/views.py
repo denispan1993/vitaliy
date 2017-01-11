@@ -103,6 +103,12 @@ def order_edit(request,
                 order_pk = int(order_pk, )
 
                 if order_pk == order_id:
+
+                    """ Расчитываем сумму заказа """
+                    # * 1.01 --> добавляем 1 % банка
+                    # math.ceil - округление до ближайшего большего числа
+                    order.sent_out_sum = int(math.ceil(order.order_sum(calc_or_show='show', )*1.01, ), )
+
                     ''' Отправка e-mail письма и SMS с суммой и реквизитами на оплату '''
 
                     #delivery_order.apply_async(
@@ -117,16 +123,13 @@ def order_edit(request,
                         .replace('-', '').replace('.', '').replace(',', '') \
                         .lstrip('380').lstrip('38').lstrip('80').lstrip('0')
 
-                    order.sent_out_sum = math.ceil(order.order_sum(calc_or_show='calc', )*1.01, )
                     if len(phone, ) == 9:
-                        # ToDo: Не учел процент банка
-                        # math.ceil - округление до ближайшего большего числа
                         send_template_sms.apply_async(
                             queue='delivery_send',
                             kwargs={
                                 'sms_to_phone_char': '+380%s' % phone[:9],
                                 'sms_template_name': proj.settings.SMS_TEMPLATE_NAME['SEND_AMOUNT'],
-                                'sms_order_sum': order.sent_out_sum,
+                                'sms_order_sum': int(order.sent_out_sum, ),
                             },
                             task_id='celery-task-id-send_template_sms-{0}'.format(celery.utils.uuid(), ),
                         )
