@@ -83,8 +83,8 @@ function ReCalcSum(change) {
     });
     if(change==true){$("#all_sum_of_quantity").html(sum.toFixed(2)+' {{ get_currency(request) }}');}
 
-    sum = sum * 1.01;
-    if(change==true){$("#all_sum_of_quantity_with_bank_percent").html(Math.ceil(sum)+' {{ get_currency(request) }}');}
+    sum = Math.ceil(Math.ceil(sum) * 1.01);
+    if(change==true){$("#all_sum_of_quantity_with_bank_percent").html(sum+' {{ get_currency(request) }}');}
 {#
     // if(parseInt(summ)<={{ 100|convert_currency(request) }}){$("#order_cart_input").prop("disabled",true);}
     // else{$("#order_cart_input").prop("disabled",false);}

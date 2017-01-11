@@ -77,7 +77,7 @@ def send_sms(*args, **kwargs):
 
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(60)
+                    time.sleep(10)
 
             manager.logoff()
 
@@ -278,7 +278,7 @@ def send_template_sms(*args, **kwargs):
 
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(60)
+                    time.sleep(10)
 
             manager.logoff()
 

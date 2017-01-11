@@ -107,7 +107,13 @@ def order_edit(request,
                     """ Расчитываем сумму заказа """
                     # * 1.01 --> добавляем 1 % банка
                     # math.ceil - округление до ближайшего большего числа
-                    order.sent_out_sum = int(math.ceil(order.order_sum(calc_or_show='show', )*1.01, ), )
+                    order.sent_out_sum = int(
+                        math.ceil(
+                            math.ceil(
+                                order.order_sum(calc_or_show='show', ),
+                            ) * 1.01,
+                        ),
+                    )
 
                     ''' Отправка e-mail письма и SMS с суммой и реквизитами на оплату '''
 
@@ -139,6 +145,9 @@ def order_edit(request,
             except ValueError:
                 ''' Некорректно введен номер заказа '''
                 return redirect(to='admin_page:order_search', )
+
+    """ Записываем сумму которую мы отослали заказчику """
+    order.save()
 
     return render(request=request,
                   template_name=template_name,
