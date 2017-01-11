@@ -169,9 +169,13 @@ class Order(models.Model):
                                     blank=False,
                                     default=False, )
 
-    custom_order_sum = models.PositiveIntegerField(verbose_name=_(u'Сумма заказа в ручную', ),
-                                                   null=True,
-                                                   blank=True, )
+    custom_sum = models.BooleanField(verbose_name=_(u'Сумма заказа введена а ручную', ),
+                                     null=True,
+                                     blank=True, )
+
+    sent_out_sum = models.PositiveIntegerField(verbose_name=_(u'Отосланная сумма заказа', ),
+                                               null=True,
+                                               blank=True, )
 
     recompile = models.BooleanField(verbose_name=u'Разбор Заказа',
                                     null=False,
@@ -309,12 +313,12 @@ class Product(models.Model):
 
         """ Расчитываем цену товара """
         price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
-        if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
+        if calc_or_show == 'calc':  # Если нас просят не просто показать, а посчитать цену товара?
             if product.is_availability == 2:  # Если товар доступен под заказ?
                 """ Если товар доступен под заказ?
                     Показываем 50% стоимости. """
-                price = price/2  # Берём 50% от стоимости
-        return u'%5.2f'.replace(',', '.', ).replace(' ', '', ) % price  # .replace(',', '.', ).strip()
+                price /= 2  # Берём 50% от стоимости
+        return u'%5.2f'.replace(',', '.', ).replace(' ', '', ) % price
 
     def sum_quantity(self, quantity=1, ):
         """ Вызывается если дополнительные свойства карточьки продукта уже есть,

@@ -235,9 +235,11 @@ def result_ordering(request, ):
         if POST_NAME == 'ordering_step_two':
 
             sessionid = request.COOKIES.get(u'sessionid', None, )
-
+            print(POST_NAME, sessionid)
             if not cache.get(key='order_%s' % sessionid, ):
-                time.sleep(random.randrange(start=0, stop=250))
+                rand = random.uniform(start=0, stop=1.5)
+                print(rand)
+                time.sleep(rand)
 
                 if not cache.get(key='order_%s' % sessionid, ):
                     cache.set(
