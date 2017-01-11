@@ -170,8 +170,9 @@ class Order(models.Model):
                                     default=False, )
 
     custom_sum = models.BooleanField(verbose_name=_(u'Сумма заказа введена а ручную', ),
-                                     null=True,
-                                     blank=True, )
+                                     null=False,
+                                     blank=True,
+                                     default=False, )
 
     sent_out_sum = models.PositiveIntegerField(verbose_name=_(u'Отосланная сумма заказа', ),
                                                null=True,
