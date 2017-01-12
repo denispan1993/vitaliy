@@ -237,7 +237,7 @@ def result_ordering(request, ):
             sessionid = request.COOKIES.get(u'sessionid', None, )
             print(POST_NAME, sessionid)
             if not cache.get(key='order_%s' % sessionid, ):
-                rand = random.uniform(start=0, stop=1.5)
+                rand = random.uniform(0, 1.5)
                 print(rand)
                 time.sleep(rand)
 
