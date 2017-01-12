@@ -1,9 +1,9 @@
 # coding=utf-8
-__author__ = 'Админ'
-
 from django.contrib import admin
 
-from apps.cart.models import Cart
+from .models import Cart, Order, Product, DeliveryCompany, Template
+
+__author__ = 'AlexStarov'
 
 
 class CartAdmin(admin.ModelAdmin, ):
@@ -35,8 +35,6 @@ admin.site.register(Cart, CartAdmin, )
 #    class Media:
 #        js = ('/media/js/admin/ruslug-urlify.js', )
 
-from apps.cart.models import Order
-
 
 class OrderAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'user', 'sessionid', 'email', 'phone', 'created_at', 'updated_at', ]
@@ -44,17 +42,19 @@ class OrderAdmin(admin.ModelAdmin, ):
     search_fields = ('sessionid', 'email', 'phone', )
 admin.site.register(Order, OrderAdmin, )
 
-from apps.cart.models import Product
-
 
 class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'object_id', 'product', 'quantity', 'price', 'created_at', 'updated_at', ]
     list_display_links = ['pk', 'object_id', 'product', 'quantity', 'price', ]
 admin.site.register(Product, ProductAdmin, )
 
-from apps.cart.models import DeliveryCompany
-
 
 class DeliveryCompanyAdmin(admin.ModelAdmin, ):
     pass
 admin.site.register(DeliveryCompany, DeliveryCompanyAdmin, )
+
+
+class TemplateAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'name', 'is_system', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'name', 'is_system', 'created_at', 'updated_at', ]
+admin.site.register(Template, TemplateAdmin, )
