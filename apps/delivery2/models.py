@@ -220,11 +220,6 @@ class EmailTemplate(models.Model, ):
                             null=True,
                             default=datetime.now, )
 
-    is_system = models.BooleanField(verbose_name=_(u'Системный', ),
-                                    default=False,
-                                    null=False,
-                                    blank=True, )
-
     template = models.FileField(upload_to=upload_to,
                                 verbose_name=_(u'Шаблон', ),
                                 blank=True,

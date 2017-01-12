@@ -442,3 +442,37 @@ class DeliveryCompany(models.Model, ):
         ordering = [u'-created_at']
         verbose_name = u'Компании доставщики'
         verbose_name_plural = u'Компания доставщик'
+
+
+class Template(models.Model, ):
+
+    name = models.CharField(max_length=64,
+                            unique=True,
+                            verbose_name=_(u'Название', ),
+                            blank=True,
+                            null=True, )
+
+    is_system = models.BooleanField(verbose_name=_(u'Системный', ),
+                                    default=False,
+                                    null=False,
+                                    blank=True, )
+
+    template = models.TextField(verbose_name=_(u'Шаблон', ),
+                                blank=True,
+                                null=True, )
+
+    # Дата создания и дата обновления. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_(u'Дата создания', ),
+                                      blank=True,
+                                      null=True, )
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name=_(u'Дата обновления', ),
+                                      blank=True,
+                                      null=True, )
+
+    class Meta:
+        db_table = 'Cart_Template'
+        ordering = ['-created_at', ]
+        verbose_name = _(u'Template письма', )
+        verbose_name_plural = _(u'Templates писем', )
