@@ -2,6 +2,7 @@
 *.pid
 *.log
 *.pot
+*.*~
 *.py
 *.pyc
 .idea
