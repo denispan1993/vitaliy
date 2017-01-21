@@ -2,7 +2,7 @@
 *.pid
 *.log
 *.pot
-*.py
+*.py~
 *.pyc
 .idea
 local_*.*
