@@ -53,7 +53,7 @@ def send_sms(*args, **kwargs):
             response = manager.status()
             print('response: ', response)
 
-            number='+380{code}{phone}'\
+            number='+380{code}{phone}'
                 .format(
                     code=sms_inst.to_code,
                     phone=sms_inst.to_phone,
@@ -256,7 +256,7 @@ def send_template_sms(*args, **kwargs):
             response = manager.status()
             print('response: ', response)
 
-            number='+380{code}{phone}'\
+            number='+380{code}{phone}'
                 .format(
                     code=sms_inst.to_code,
                     phone=sms_inst.to_phone,

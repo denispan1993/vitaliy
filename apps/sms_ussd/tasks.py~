@@ -37,7 +37,7 @@ def send_sms(*args, **kwargs):
     sms_pk = kwargs.get('sms_pk')
 
     try:
-        sms_inst = SMS.objects.get(pk=sms_pk, is_send=False, )
+        sms = SMS.objects.get(pk=sms_pk, is_send=False, )
     except SMS.DoesNotExist:
         return False
 
@@ -53,24 +53,24 @@ def send_sms(*args, **kwargs):
             response = manager.status()
             print('response: ', response)
 
-            number='+380{code}{phone}'\
-                .format(
-                    code=sms_inst.to_code,
-                    phone=sms_inst.to_phone,
-                ),
+            sms_list = SmsSubmit(
+                number='+380{code}{phone}'
+                    .format(
+                        code=sms.to_code,
+                        phone=sms.to_phone,
+                    ),
+                text=sms.message,
+            )
 
-            sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
-
-            sms_to_pdu.request_status = True
-            sms_to_pdu.validity = timedelta(days=4)
-            sms_list = sms_to_pdu.to_pdu()
+            sms_list.validity = timedelta(days=14)
+            sms_list = sms_list.to_pdu()
 
             last_loop = len(sms_list) - 1
-            for i, pdu_sms in enumerate(sms_list):
+            for i, sms in enumerate(sms_list):
                 response = manager.command(u'dongle pdu {device} {pdu}'
                                            .format(
                                                 device='Vodafone1',
-                                                pdu=pdu_sms.pdu,
+                                                pdu=sms.pdu,
                                             ),
                                            )
                 print('response.data: ', response.data)
@@ -95,10 +95,10 @@ def send_sms(*args, **kwargs):
         except Exception as e:
             print e
 
-    sms_inst.task_id = None
-    sms_inst.is_send = True
-    sms_inst.send_at = timezone.now()
-    sms_inst.save(skip_super_save=True, )
+    sms.task_id = None
+    sms.is_send = True
+    sms.send_at = timezone.now()
+    sms.save(skip_super_save=True, )
 
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
 
@@ -122,15 +122,6 @@ def send_received_sms(*args, **kwargs):
 
         sms.message = base64.b64decode(sms.message_b64).decode('utf8')
 
-        subject = u'Направение SMS: {direction} | от аббонента: {from_phone_char} | к аббоненту: {to_phone_char} '\
-                  u'| дата и время получения сообщения: {received_at}'\
-                .format(
-                    direction=SMS.DIRECTION[sms.direction-1][1],
-                    from_phone_char=sms.from_phone_char,
-                    to_phone_char=sms.to_phone_char,
-                    received_at=sms.received_at,
-                ),
-
         message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
                   u'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
             .format(
@@ -145,7 +136,13 @@ def send_received_sms(*args, **kwargs):
             'from_email': formataddr((u'Телефонная станция Asterisk Keksik', 'site@keksik.com.ua', ), ),
             'to': [formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
             #'headers': self.headers,
-            'subject': subject,
+            'subject': u'Направение SMS: {direction} | от аббонента: {from_phone_char} | к аббоненту: {to_phone_char} | дата и время получения сообщения: {received_at}'\
+                .format(
+                    direction=SMS.DIRECTION[sms.direction-1][1],
+                    from_phone_char=sms.from_phone_char,
+                    to_phone_char=sms.to_phone_char,
+                    received_at=sms.received_at,
+                ),
             'body': message,
         }
         message = EmailMultiAlternatives(**message_kwargs)
@@ -249,6 +246,7 @@ def send_template_sms(*args, **kwargs):
     try:
         # connect to the manager
         try:
+
             manager.connect(proj.settings.ASTERISK_HOST)
             manager.login(*proj.settings.ASTERISK_AUTH)
 
@@ -256,26 +254,26 @@ def send_template_sms(*args, **kwargs):
             response = manager.status()
             print('response: ', response)
 
-            number='+380{code}{phone}'
-                .format(
-                    code=sms_inst.to_code,
-                    phone=sms_inst.to_phone,
-                ),
+            sms_list = SmsSubmit(
+                number='+380{code}{phone}'
+                    .format(
+                        code=sms_inst.to_code,
+                        phone=sms_inst.to_phone,
+                    ),
+                text=sms_inst.message,
+            )
 
-            sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
-
-            sms_to_pdu.request_status = True
-            sms_to_pdu.validity = timedelta(days=4)
-            sms_list = sms_to_pdu.to_pdu()
+            sms_list.validity = timedelta(days=14)
+            sms_list = sms_list.to_pdu()
 
             last_loop = len(sms_list) - 1
-            for i, pdu_sms in enumerate(sms_list):
+            for i, sms in enumerate(sms_list):
                 response = manager.command(u'dongle pdu {device} {pdu}'
-                                           .format(
-                                                device='Vodafone1',
-                                                pdu=pdu_sms.pdu,
-                                            ),
-                                           )
+                    .format(
+                        device='Vodafone1',
+                        pdu=sms.pdu,
+                    ),
+                )
                 print('response.data: ', response.data)
 
                 increase_send_sms()
