@@ -3,7 +3,6 @@
 *.log
 *.pot
 *.*~
-*.py
 *.pyc
 .idea
 local_*.*
