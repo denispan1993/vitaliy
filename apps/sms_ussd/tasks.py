@@ -61,7 +61,7 @@ def send_sms(*args, **kwargs):
 
             sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
 
-            sms_to_pdu.request_status = True
+            sms_to_pdu.request_status = False
             sms_to_pdu.validity = timedelta(days=4)
             sms_list = sms_to_pdu.to_pdu()
 
@@ -264,7 +264,7 @@ def send_template_sms(*args, **kwargs):
 
             sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
 
-            sms_to_pdu.request_status = True
+            sms_to_pdu.request_status = False
             sms_to_pdu.validity = timedelta(days=4)
             sms_list = sms_to_pdu.to_pdu()
 
