@@ -52,7 +52,7 @@ def send_sms(*args, **kwargs):
             # get a status report
             response = manager.status()
             print('response: ', response)
-
+            # Success
             number = '+380{code}{phone}'\
                 .format(
                     code=sms_inst.to_code,
@@ -74,10 +74,10 @@ def send_sms(*args, **kwargs):
                                             ),
                                            )
                 print('response.data: ', response.data)
-
+                # [Vodafone1] SMS queued for send with id 0x7f98c8004420\n--END COMMAND--\r\n
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(10)
+                    time.sleep(5)
 
             manager.logoff()
 
@@ -280,7 +280,7 @@ def send_template_sms(*args, **kwargs):
 
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(10)
+                    time.sleep(5)
 
             manager.logoff()
 
