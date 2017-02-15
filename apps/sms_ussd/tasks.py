@@ -77,7 +77,7 @@ def send_sms(*args, **kwargs):
                 # [Vodafone1] SMS queued for send with id 0x7f98c8004420\n--END COMMAND--\r\n
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(5)
+                    time.sleep(2)
 
             manager.logoff()
 
@@ -280,7 +280,7 @@ def send_template_sms(*args, **kwargs):
 
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(5)
+                    time.sleep(2)
 
             manager.logoff()
 
