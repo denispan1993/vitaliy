@@ -107,7 +107,7 @@ def get_products(products_list):
         host='smtp.yandex.ru',
         port=465,
         username='site@keksik.com.ua',
-        password='1q2w3e4r',
+        password='1q2w3e4r!!!@@@',
         use_tls=False,
         fail_silently=False,
         use_ssl=True,

@@ -48,7 +48,7 @@ def delivery_order(*args, **kwargs):
         host='smtp.yandex.ru',
         port=465,
         username='site@keksik.com.ua',
-        password='1q2w3e4r',
+        password='1q2w3e4r!!!@@@',
         use_tls=False,
         fail_silently=False,
         use_ssl=True,
