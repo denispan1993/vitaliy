@@ -81,7 +81,32 @@ try{
 {# <script src="/media/js/jquery/inview/inview.js"></script> #}
 {% endblock %}
 {% block header %}
-{% if user.is_anonymous %}
+{% if user.is_authenticated and user.is_staff %}
+<style>
+#header a#category_menu {
+    display: block;
+    height: 18px;
+    left: 0;
+    padding: 11px;
+    position: absolute;
+    top: 0;
+    width: 28px;
+}
+#header a#category_menu::before, #header a#category_menu::after {
+    background: #fff none repeat scroll 0 0;
+    content: "";
+    display: block;
+    height: 2px;
+}
+#header a#category_menu span {
+    background: #fff none repeat scroll 0 0;
+    display: block;
+    height: 2px;
+    margin: 6px 0;
+}
+</style>
+<a href="#menu" id="category_menu"><span></span></a>
+{# {1% if not user.is_anonymous %} #}
     <div id="auth" class="auth-panel" style="top:-26px;">
         <a class="auth-tab" href="javascript:void(0);" onclick="return false;">Auth tab</a>
         <a href="/accounts/signin/">Вход</a>&nbsp;|&nbsp;
@@ -142,7 +167,7 @@ try{
         <b><a href="/корзина/">Перейти в корзину</a></b>{# </noindex> #}{# googleon:all #}
     </div>
 </div>
-{% if user.is_authenticated and user.is_staff %}
+{# {1% if user.is_authenticated and user.is_staff %} #}
 {# <section id="contentArea" class="centerLayout">
 
     <span class="menuTrigger" id="hamburger-one">
@@ -230,13 +255,15 @@ try{
     border-radius: 1px;
 }
 </style> #}
-{% endif %}
+{# {1% endif %} #}
 <div id="static_menu-wrapper">
     <div id="static_menu">
         <ul>
+            {% djcache 600 'static_menu' %}
             {% for static_page in static_pages_ %}
                 <li><a href="{{ static_page.get_absolute_url() }}">{{ static_page.title }}</a></li>
             {% endfor %}
+            {% enddjcache %}
         </ul>
     </div>
 </div>
@@ -262,6 +289,7 @@ try{
 <div id="wowslider-container1">
     <div class="ws_images">
         <ul>
+            {% djcache 600 'slides_original' %}
             {% for slide in slides_ %}
                 <li>
                     <a href="{{ slide.get_absolute_url() }}" target="{% if slide.opening_method == 1 %}_blank{% elif slide.opening_method == 2 %}_self{% endif %}">
@@ -272,21 +300,24 @@ try{
                     </a>{{ slide.text }}
                 </li>
             {% endfor %}
+            {% enddjcache %}
         </ul>
     </div>
     <div class="ws_bullets">
         <div>
+            {% djcache 600 'slides_mini' %}
             {% for slide in slides_ %}
                 <a href="#" {% if slide.title %}title="{{ slide.title }}"{% endif %}>
                     <img src="{{ slide.slide.url_240x96 }}"
                          {% if slide.alt %}alt="{{ slide.alt }}"{% else %}alt="{{ slide.title }}"{% endif %}>&#10022;</a>{# {{ slide.order}} #}{# &#8987; - песочніе часі &#9885; - звездочка #}
             {% endfor %}
+            {% enddjcache %}
         </div>
     </div>
     <div class="ws_shadow"></div>
-    <script src="{{ MEDIA_URL }}js/jquery/topSlider/slider.js"></script>
-    <script src="{{ MEDIA_URL }}js/jquery/topSlider/script.js"></script>
-    <script src="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js"></script>
+    <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.js"></script>
+    <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/script.js"></script>
+    <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js"></script>
 </div>
 {# <!-- End WOWSlider.com BODY section --> #}
 {% endif %}
@@ -300,7 +331,7 @@ try{
                 <a id="new_items" href="/">Новинки</a>
             </li>
 {#                 {% for cat in categories_basement_|sort(attribute='serial_number') recursive %} #}
-            {% djcache 600 'categories' %}
+            {% djcache 600 'menu_categories_orignal' %}
             {% for cat in categories_basement_ recursive %}
 {#                 {% set children = cat.children.all()|sort(attribute='serial_number') %} #}
                 {% set children = cat.children.serial_number() %}

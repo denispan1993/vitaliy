@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import re
 from django.template import (Node, TemplateSyntaxError, VariableDoesNotExist, )
 
 from django.core.cache import InvalidCacheBackendError, cache, caches
 from django.core.cache.utils import make_template_fragment_key
+
+from jinja2 import nodes
+from jinja2.ext import Extension
+from django_jinja.library import filter
 
 try:
     from django.utils.encoding import force_text
@@ -15,10 +18,6 @@ except ImportError:
 
 from proj.settings import SERVER
 
-# from __future__ import unicode_literals
-#from django.template import (
-#    Library, Node, TemplateSyntaxError, VariableDoesNotExist,
-#)
 __author__ = 'AlexStarov'
 
 
@@ -61,8 +60,6 @@ class CacheNode(Node):
             value = self.nodelist.render(context)
             fragment_cache.set(cache_key, value, expire_time)
         return value.decode('utf-8', )
-
-from django_jinja.library import filter
 
 
 @filter(name='django_cache', )
@@ -107,10 +104,6 @@ def do_cache(parser, token):
         [parser.compile_filter(t) for t in tokens[3:]],
         cache_name,
     )
-
-
-from jinja2 import nodes
-from jinja2.ext import Extension
 
 
 class DjangoJinjaCacheExtension(Extension):

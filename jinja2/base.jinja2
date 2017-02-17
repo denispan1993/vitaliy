@@ -52,370 +52,239 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 </head>
 <body>
 {% if user.is_authenticated and user.is_staff %}
-<!--    Made by Erik Terwan    -->
-<!--   24th of November 2015   -->
-<!--    All rights reserved    -->
-<nav role="navigation">
-  <div id="menuToggle">
-    <!--
-    A fake / hidden checkbox is used as click reciever,
-    so you can use the :checked selector on it.
-    -->
-    <input type="checkbox" />
+<!-- Include jQuery.mmenu .css files -->
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/mmenu/all.css">
 
-    <!--
-    Some spans to act as a hamburger.
+<!-- Include jQuery and the jQuery.mmenu .js files -->
+<script src="{{ MEDIA_URL }}js/jquery/mmenu/all.min.js"></script>
 
-    They are acting like a real hamburger,
-    not that McDonalds stuff.
-    -->
-    <span></span>
-    <span></span>
-    <span></span>
-
-    <!--
-    Too bad the menu has to be inside of the button
-    but hey, it's pure CSS magic.
-    -->
-    <ul id="menu">
-        <li><a class="nav-menu" href="/">Главная</a></li>
-        {% for static_page in static_pages_ %}
-            <li><a class="nav-menu" href="{{ static_page.get_absolute_url() }}">{{ static_page.title }}</a></li>
+<!-- Fire the plugin onDocumentReady -->
+<script>
+    jQuery(document).ready(function( $ ) {
+        $("nav#menu").mmenu({
+            // options
+        }, {
+            // configuration
+            offCanvas: {
+                pageNodetype: "section",
+                pageSelector: "#body"
+            }
+        })
+    })
+</script>
+<nav id="menu" class="mm-menu mm-offcanvas">
+    <ul>
+        {% for cat in categories_basement_ recursive %}
+            {% set children = cat.children.serial_number() %}
+            <li>
+                <a href="{{ cat.get_absolute_url() }}">{{ cat.title }}</a>
+                {% if children %}
+                    <ul class="submenu sub_level">{{ loop(children) }}</ul>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
-  </div>
 </nav>
-<style>
-a.nav-menu{
-  text-decoration: none;
-   color: #232323;
-
-  transition: color 0.3s ease;
-}
-a.nav-menu:hover{
-    /*color: tomato;*/
-    color:#0000ff;
-}
-#menuToggle{
-  display:block;
-  position:relative;
-
-  z-index: 1;
-
-  -webkit-user-select: none;
-  user-select: none;
-}
-#menuToggle input{
-  display: block;
-  width:50px;
-  height:45px;
-  position:absolute;
-  top:0px;
-  right:8px;
-
-  cursor: pointer;
-
-  opacity: 0; /* hide this */
-  z-index: 2; /* and place it over the hamburger */
-
-  -webkit-touch-callout: none;
-}
-
-/*
- * Just a quick hamburger
- */
-#menuToggle span{
-  display: block;
-  width: 33px;
-  height: 4px;
-    right:16px;
-    top:12px;
-  margin-bottom: 5px;
-  position: relative;
-
-  background:#0000ff;
-  /*background:#cdcdcd;*/
-  border-radius: 3px;
-
-  z-index: 1;
-
-  transform-origin: 4px 0px;
-
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              opacity 0.55s ease;
-}
-#menuToggle span:first-child{
-  transform-origin: 0% 0%;
-}
-#menuToggle span:nth-last-child(2){
-  transform-origin: 0% 100%;
-}
-
-/*
- * Transform all the slices of hamburger
- * into a crossmark.
- */
-#menuToggle input:checked ~ span{
-  opacity: 1;
-  transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
-}
-
-/*
- * But let's hide the middle one.
- */
-#menuToggle input:checked ~ span:nth-last-child(3){
-  opacity: 0;
-  transform: rotate(0deg) scale(0.2, 0.2);
-}
-
-/*
- * Ohyeah and the last one should go the other direction
- */
-#menuToggle input:checked ~ span:nth-last-child(2){
-  opacity: 1;
-  transform: rotate(-45deg) translate(0, -1px);
-}
-
-/*
- * Make this absolute positioned
- * at the top left of the screen
- */
-#menu{
-    position: absolute;
-    width:200px;
-    margin:-100px -167px 0;
-    padding-top:125px;
-
-    background:#ededed;
-    list-style-type:none;
-    -webkit-font-smoothing:antialiased;
-    /* to stop flickering of text in safari */
-
-    transform-origin: 0% 0%;
-    transform: translateX(100%);
-
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-}
-
-ul#menu li#nav-menu{
-    z-index:1;
-}
-#menu li{
-    padding:10px 10px;
-    font-size:22px;
-    border-top:solid 1px black;
-    border-bottom:solid 1px black;
-}
-
-/*
- * And let's fade it in from the left
- */
-#menuToggle input:checked ~ ul{
-    transform:scale(1.0, 1.0);
-    opacity:1;
-}
-</style>
 {% endif %}
 
 <section id="body" style='background:url("{{ MEDIA_URL }}img/background2.jpg") repeat fixed center top transparent;'>
-<header id="header">
-{% block header %}
-{% endblock %}
-</header>
-<section id="main" class="clearFloat">
-{% block content %}
-{% block content_center %}
-{% endblock %}
-{% endblock %}
-</section>
-<div id="feedback-panel" style="left:-425px;height:445px;">
-    <a class="feedback-tab" href="http://www.keksik.com.ua/"></a>
-    <div id="feedback-banner_h1" class="feedback_banner-h1">У Вас есть замечания или пожелания по работе сайта, напишите нам.</div>
-    <div class="feedback_banner-form-row">
-        <div id="feedback_banner_content" class="feedback_banner-form">
-            <div id="feedback_name_line" class="feedback_line">
-                <input type="text"
-                       maxlength="64"
-                       value=""
-                       id="feedback_name"
-                       placeholder="Ваше Имя"
-                       class="feedback_banner-charbox">
-            </div>
-            <div id="feedback_email_line" class="feedback_line">
-                <input type="text"
-                       maxlength="32"
-                       value=""
-                       id="feedback_email"
-                       placeholder="Ваш E-Mail адресс"
-                       class="feedback_banner-charbox">
-            </div>
-            <div id="feedback_phone_line" class="feedback_line">
-                <input type="text"
-                       maxlength="32"
-                       value=""
-                       id="feedback_phone"
-                       placeholder="Ваш номер телефона"
-                       class="feedback_banner-charbox">
-            </div>
-            <div id="feedback_comment_line" class="feedback_line">
-                <input type="text"
-                       maxlength="4096"
-                       value=""
-                       id="feedback_comment"
-                       placeholder="Ваше сообщение"
-                       class="feedback_banner-textbox">
-            </div>
-            <div id="feedback_comment_line" class="feedback_line">
-                <button id="submit_send" class="feedback_submit-button">Оставить отзыв!</button>
-<script>
-document.getElementById('submit_send').onclick=function(){
-    var name = document.getElementById('feedback_name').value;
-    var email = document.getElementById('feedback_email').value;
-    var phone = document.getElementById('feedback_phone').value;
-    var comment = document.getElementById('feedback_comment').value;
-    jQuery.post("/ajax/feedback/feed/send/",{
-                csrfmiddlewaretoken:'{{ csrf_token }}',
-                sessionid:'{{ request.session.session_key }}',
-                userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
-                name:name,
-                email:email,
-                phone:phone,
-                comment:comment
-        },
-		function(data, textStatus, jqXHR){
-            if(data.result=='Bad'){
-                document.getElementById('feedback-panel').style.display="none";
-                alert('Ваши данные не принял сервер по причине: '+data.error);
-            }else{
-                document.getElementById('feedback-panel').style.display="none";
-                alert('Мы рассмотрим Ваше замечание/пожелание, в ближайшее время и свяжемся с Вами !!!');
-		}
-        },
-		"json");
-};
-</script>
-            </div>
-        </div>
-    </div>
-</div>
-{# <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css"> #}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/callback/style.css">
-<div id="clb_div" class="callback_banner-wrapper">
-    <div id="clb_div_ban" class="callback_banner callback_closed">
-        <div id="clb_exit"
-             class="callback_banner-exit"
-                onClick="MouseClick_Close();"></div>
-        <div class="callback_banner-body">
-            <div id="clb_banner_h1" class="callback_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
-            <div class="callback_banner-form-row-1">
-                <div id="clb_banner_content" class="callback_banner-form">
-                    <div class="callback_banner-arrow"></div>
-                    <div id="clb_name_line" class="callback_line">
-                        <input type="text" maxlength="64" value="" id="clb_name" placeholder="Enter your Name" class="callback_input-charbox">
-                    </div>
-                    <div id="clb_email_line" class="callback_line">
-                        <input type="text" maxlength="32" value="" id="clb_email" placeholder="Enter your E-Mail" class="callback_input-charbox">
-                    </div>
-                    <div id="clb_phone_line" class="callback_line">
-                        <input type="text" maxlength="32" value="" id="clb_phone" placeholder="Enter your phone number" class="callback_input-charbox">
-                        <button id="clb_send" class="callback_submit-button">Call me!</button>
-<script>
-document.getElementById('clb_send').onclick=function(){
-    var name = document.getElementById('clb_name').value;
-    var email = document.getElementById('clb_email').value;
-    var phone = document.getElementById('clb_phone').value;
-    $.post("/ajax/callback/call/send/",{
-                csrfmiddlewaretoken:'{{ csrf_token }}',
-                sessionid:'{{ request.session.session_key }}',
-                userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
-                name:name,
-                email:email,
-                phone:phone
-        },
-		function(data, textStatus, jqXHR){
-            document.getElementById('clb_banner_bg').style.display="none";
-            document.getElementById('clb_div_ban').classList.add('callback_closed');
-            document.getElementById('header').classList.remove('callback_blur');
-            document.getElementById('main').classList.remove('callback_blur');
-            document.getElementById('footer').classList.remove('callback_blur');
-            if(data.result=='Bad'){
-                alert('Ваши данные не принял сервер по причине:'+data.error);
-            }else{
-                alert('Наш менеджер свяжется с Вами в ближайшее время');
-		}
-        },
-		"json");
-};
-</script>
-                    </div>
+    <header id="header">
+        {% block header %}
+        {% endblock %}
+    </header>
+    <section id="main" class="clearFloat">
+        {% block content %}
+            {% block content_center %}
+            {% endblock %}
+        {% endblock %}
+    </section>
+    <div id="feedback-panel" style="left:-425px;height:445px;">
+        <a class="feedback-tab" href="http://www.keksik.com.ua/"></a>
+        <div id="feedback-banner_h1" class="feedback_banner-h1">У Вас есть замечания или пожелания по работе сайта, напишите нам.</div>
+        <div class="feedback_banner-form-row">
+            <div id="feedback_banner_content" class="feedback_banner-form">
+                <div id="feedback_name_line" class="feedback_line">
+                    <input type="text"
+                           maxlength="64"
+                           value=""
+                           id="feedback_name"
+                           placeholder="Ваше Имя"
+                           class="feedback_banner-charbox">
+                </div>
+                <div id="feedback_email_line" class="feedback_line">
+                    <input type="text"
+                           maxlength="32"
+                           value=""
+                           id="feedback_email"
+                           placeholder="Ваш E-Mail адресс"
+                           class="feedback_banner-charbox">
+                </div>
+                <div id="feedback_phone_line" class="feedback_line">
+                    <input type="text"
+                           maxlength="32"
+                           value=""
+                           id="feedback_phone"
+                           placeholder="Ваш номер телефона"
+                           class="feedback_banner-charbox">
+                </div>
+                <div id="feedback_comment_line" class="feedback_line">
+                    <input type="text"
+                           maxlength="4096"
+                           value=""
+                           id="feedback_comment"
+                           placeholder="Ваше сообщение"
+                           class="feedback_banner-textbox">
+                </div>
+                <div id="feedback_comment_line" class="feedback_line">
+                    <button id="submit_send" class="feedback_submit-button">Оставить отзыв!</button>
+    <script>
+    document.getElementById('submit_send').onclick=function(){
+        var name = document.getElementById('feedback_name').value;
+        var email = document.getElementById('feedback_email').value;
+        var phone = document.getElementById('feedback_phone').value;
+        var comment = document.getElementById('feedback_comment').value;
+        jQuery.post("/ajax/feedback/feed/send/",{
+                    csrfmiddlewaretoken:'{{ csrf_token }}',
+                    sessionid:'{{ request.session.session_key }}',
+                    userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
+                    name:name,
+                    email:email,
+                    phone:phone,
+                    comment:comment
+            },
+            function(data, textStatus, jqXHR){
+                if(data.result=='Bad'){
+                    document.getElementById('feedback-panel').style.display="none";
+                    alert('Ваши данные не принял сервер по причине: '+data.error);
+                }else{
+                    document.getElementById('feedback-panel').style.display="none";
+                    alert('Мы рассмотрим Ваше замечание/пожелание, в ближайшее время и свяжемся с Вами !!!');
+            }
+            },
+            "json");
+    };
+    </script>
                 </div>
             </div>
         </div>
     </div>
-    <div id="clb_banner_bg"
-         class="callback_banner_bg"
-         onclick="MouseClick_Close()"></div>
-</div>
-<div id="clb-phone_div"
-     class="clb-phone clb-green {# clb-show  #}clb-static"
-     onmouseover="MouseOver();"
-     onmouseout="MouseOut();"
-     onclick="MouseClick();"
-     title="Заказать обратный звонок с сайта">
-    <div class="clb-ph-circle"></div>
-    <div class="clb-ph-circle-fill"></div>
-    <div class="clb-ph-img-circle"></div>
-</div>
-<script>
-    {# document.getElementById('clb-phone_div').onMouseEnter=function(){
-    alert('Enter'); #}
-function MouseOver(){
-    document.getElementById('clb-phone_div').classList.add('clb-hover');
-    document.getElementById('clb-phone_div').classList.remove('clb-static');
-}
-    {# document.getElementById('clb-phone_div').onMouseOver=function(){
-    alert('Over'); #}
-function MouseOut() {
-    document.getElementById('clb-phone_div').classList.remove('clb-hover');
-    document.getElementById('clb-phone_div').classList.add('clb-static');
-}
-function MouseClick(){
-    document.getElementById('clb_banner_bg').style.display="block";
-    document.getElementById('clb_div_ban').classList.remove('callback_closed');
-    document.getElementById('header').classList.add('callback_blur');
-    document.getElementById('main').classList.add('callback_blur');
-    document.getElementById('footer').classList.add('callback_blur');
-}
-function MouseClick_Close(){
-    document.getElementById('clb_banner_bg').style.display="none";
-    document.getElementById('clb_div_ban').classList.add('callback_closed');
-    document.getElementById('header').classList.remove('callback_blur');
-    document.getElementById('main').classList.remove('callback_blur');
-    document.getElementById('footer').classList.remove('callback_blur');
-}
-var callback=false;
-function CallBack_Enable(){
-    document.getElementById('clb-phone_div').classList.add('clb-show');
-    //alert('40sec');
-}
-</script>
-{# {% if request.session.reclame %} #}{# Реклама #}
-{# <div id="rcl_div" class="reclama_banner-wrapper">
-    <div id="rcl_div_ban" class="reclama_banner reclama_closed">
-        <div id="rcl_exit" class="rcl_banner-exit"
-             onClick="MouseClick_Close();"></div>
-        <div class="rcl_banner-body">
-            <div id="rcl_banner_h1" class="rcl_banner-h1">Магазин "Кексик" теперь по настоящему - угол Птемкинской и напротив церкви.</div>
+    {# <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css"> #}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/callback/style.css">
+    <div id="clb_div" class="callback_banner-wrapper">
+        <div id="clb_div_ban" class="callback_banner callback_closed">
+            <div id="clb_exit"
+                 class="callback_banner-exit"
+                    onClick="MouseClick_Close();"></div>
+            <div class="callback_banner-body">
+                <div id="clb_banner_h1" class="callback_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
+                <div class="callback_banner-form-row-1">
+                    <div id="clb_banner_content" class="callback_banner-form">
+                        <div class="callback_banner-arrow"></div>
+                        <div id="clb_name_line" class="callback_line">
+                            <input type="text" maxlength="64" value="" id="clb_name" placeholder="Enter your Name" class="callback_input-charbox">
+                        </div>
+                        <div id="clb_email_line" class="callback_line">
+                            <input type="text" maxlength="32" value="" id="clb_email" placeholder="Enter your E-Mail" class="callback_input-charbox">
+                        </div>
+                        <div id="clb_phone_line" class="callback_line">
+                            <input type="text" maxlength="32" value="" id="clb_phone" placeholder="Enter your phone number" class="callback_input-charbox">
+                            <button id="clb_send" class="callback_submit-button">Call me!</button>
+    <script>
+    document.getElementById('clb_send').onclick=function(){
+        var name = document.getElementById('clb_name').value;
+        var email = document.getElementById('clb_email').value;
+        var phone = document.getElementById('clb_phone').value;
+        $.post("/ajax/callback/call/send/",{
+                    csrfmiddlewaretoken:'{{ csrf_token }}',
+                    sessionid:'{{ request.session.session_key }}',
+                    userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
+                    name:name,
+                    email:email,
+                    phone:phone
+            },
+            function(data, textStatus, jqXHR){
+                document.getElementById('clb_banner_bg').style.display="none";
+                document.getElementById('clb_div_ban').classList.add('callback_closed');
+                document.getElementById('header').classList.remove('callback_blur');
+                document.getElementById('main').classList.remove('callback_blur');
+                document.getElementById('footer').classList.remove('callback_blur');
+                if(data.result=='Bad'){
+                    alert('Ваши данные не принял сервер по причине:'+data.error);
+                }else{
+                    alert('Наш менеджер свяжется с Вами в ближайшее время');
+            }
+            },
+            "json");
+    };
+    </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div id="clb_banner_bg"
+             class="callback_banner_bg"
+             onclick="MouseClick_Close()"></div>
     </div>
-    <div id="rcl_banner_bg" class="rcl_banner_bg"
-         onclick="MouseClick_Close()"></div>
-</div>{1
+    <div id="clb-phone_div"
+         class="clb-phone clb-green {# clb-show  #}clb-static"
+         onmouseover="MouseOver();"
+         onmouseout="MouseOut();"
+         onclick="MouseClick();"
+         title="Заказать обратный звонок с сайта">
+        <div class="clb-ph-circle"></div>
+        <div class="clb-ph-circle-fill"></div>
+        <div class="clb-ph-img-circle"></div>
+    </div>
+    <script>
+        {# document.getElementById('clb-phone_div').onMouseEnter=function(){
+        alert('Enter'); #}
+    function MouseOver(){
+        document.getElementById('clb-phone_div').classList.add('clb-hover');
+        document.getElementById('clb-phone_div').classList.remove('clb-static');
+    }
+        {# document.getElementById('clb-phone_div').onMouseOver=function(){
+        alert('Over'); #}
+    function MouseOut() {
+        document.getElementById('clb-phone_div').classList.remove('clb-hover');
+        document.getElementById('clb-phone_div').classList.add('clb-static');
+    }
+    function MouseClick(){
+        document.getElementById('clb_banner_bg').style.display="block";
+        document.getElementById('clb_div_ban').classList.remove('callback_closed');
+        document.getElementById('header').classList.add('callback_blur');
+        document.getElementById('main').classList.add('callback_blur');
+        document.getElementById('footer').classList.add('callback_blur');
+    }
+    function MouseClick_Close(){
+        document.getElementById('clb_banner_bg').style.display="none";
+        document.getElementById('clb_div_ban').classList.add('callback_closed');
+        document.getElementById('header').classList.remove('callback_blur');
+        document.getElementById('main').classList.remove('callback_blur');
+        document.getElementById('footer').classList.remove('callback_blur');
+    }
+    var callback=false;
+    function CallBack_Enable(){
+        document.getElementById('clb-phone_div').classList.add('clb-show');
+        //alert('40sec');
+    }
+    </script>
+    {# {% if request.session.reclame %} #}{# Реклама #}
+    {# <div id="rcl_div" class="reclama_banner-wrapper">
+        <div id="rcl_div_ban" class="reclama_banner reclama_closed">
+            <div id="rcl_exit" class="rcl_banner-exit"
+                 onClick="MouseClick_Close();"></div>
+            <div class="rcl_banner-body">
+                <div id="rcl_banner_h1" class="rcl_banner-h1">Магазин "Кексик" теперь по настоящему - угол Птемкинской и напротив церкви.</div>
+            </div>
+        </div>
+        <div id="rcl_banner_bg" class="rcl_banner_bg"
+             onclick="MouseClick_Close()"></div>
+    </div>{1
 
-% endif %} #}
-<p id="to-top" style="display:none;"><a href="#top"><span><span></span></span>{# Вверх #}</a>
+    % endif %} #}
+<p id="to-top" style="display:none;">
+    <a href="#top"><span><span></span></span>{# Вверх #}</a>
 </p>
 <script>
 $(function(){
@@ -535,7 +404,7 @@ function animate_cart(obj){
 });</script>
 {% endif %}
 {% endblock %}
-{% if user.is_staff %}
+{# {1% if user.is_staff %}
 <p id="debug"></p>
 <script>
 var debug_string = 'Debug string: ';
@@ -543,6 +412,6 @@ window.onresize = function(event) {
     debug_string += 'window.innerWidth: ' + window.innerWidth + 'px window.innerHeight: ' + window.innerHeight + 'px documentElement.clientWidth: ' + document.documentElement.clientWidth + 'px documentElement.clientHeight: ' + document.documentElement.clientHeight + 'px';
     document.getElementById('debug').innerHTML = debug_string;
 };</script>
-{% endif %}
+{1% endif %} #}
 </body>
 </html>
