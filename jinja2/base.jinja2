@@ -72,7 +72,7 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
         })
     })
 </script>
-<nav id="menu" class="mm-menu mm-offcanvas">
+<nav id="menu">
     <ul>
         {% for cat in categories_basement_ recursive %}
             {% set children = cat.children.serial_number() %}
@@ -87,7 +87,7 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 </nav>
 {% endif %}
 
-<section id="body" style='background:url("{{ MEDIA_URL }}img/background2.jpg") repeat fixed center top transparent;'>
+<section id="body" style='background:url("{{ MEDIA_URL }}img/background2_4.jpg") repeat fixed center top transparent;'>
     <header id="header">
         {% block header %}
         {% endblock %}
@@ -99,7 +99,7 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
         {% endblock %}
     </section>
     <div id="feedback-panel" style="left:-425px;height:445px;">
-        <a class="feedback-tab" href="http://www.keksik.com.ua/"></a>
+        <a class="feedback-tab" href="http://keksik.com.ua/"></a>
         <div id="feedback-banner_h1" class="feedback_banner-h1">У Вас есть замечания или пожелания по работе сайта, напишите нам.</div>
         <div class="feedback_banner-form-row">
             <div id="feedback_banner_content" class="feedback_banner-form">
