@@ -2,9 +2,6 @@
 {% block title %}{% if current_category is defined %}{% if current_category.meta_title %}{{ current_category.meta_title|capfirst }}{% else %}{{ current_category.title|capfirst }}{% endif %}{% else %}Магазин Кексик{% endif %}{% endblock %}
 {% block description %}{% if current_category is defined %}{% if current_category.meta_description %}{{ current_category.meta_description }}{% else %}{{ current_category.description }}{% endif %}{% else %}Страница категории - Магазин Кексик{% endif %}{% endblock %}
 {% block keywords %}{% if current_category is defined %}{% if current_category.meta_keywords %}{{ current_category.meta_keywords }}{% else %}{{ current_category.item_description }}{% endif %}{% else %}кондитерские товары,ингредиенты,инструменты{% endif %}{% endblock %}
-{% block category_header_css %}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/categories_products_style.css" />
-{% endblock %}
 {% block content_center %}
     {% if current_category is defined %}
         <div id="header_category">

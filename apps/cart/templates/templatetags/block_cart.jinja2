@@ -1,17 +1,16 @@
 {% if cart %}
     <form method="POST" action="{{ form1_action }}">{% csrf_token %}
         <input type="hidden" name="POST_NAME" value="recalc_cart"/>
-        <table id="table_carts" cols="6" summary="Ваша корзина">
-            <caption style="font-size:20px;">Ваша корзина</caption>
+        <table id="table_cart" cols="6" summary="Ваша корзина">
+            <caption>Ваша корзина</caption>
             <thead>
                 <tr>
-                    <th scope="col" style="border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Наименование</th>
-                    <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Цена</th>
-                    <th scope="col" style="width:73px;text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Кол-во</th>
-                    <th scope="col" style="width:110px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Итого</th>
-                    <th scope="col" style="width:110px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Сумма предоплаты</th>
-                    {# <th scope="col" style="text-align:center;">Под заказ</th> #}
-                    <th scope="col" style="text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Удаление</th>
+                    <th scope="col" id="cart_col_name">Наименование</th>
+                    <th scope="col" id="cart_col_price">Цена</th>
+                    <th scope="col" id="cart_col_quantity">Кол-во</th>
+                    <th scope="col" id="cart_col_total">Итого</th>
+                    <th scope="col" id="cart_col_prepaid_sum">Сумма предоплаты</th>
+                    <th scope="col" id="cart_col_delete">Удаление</th>
                     <th></th>
                 </tr>
             </thead>
@@ -92,7 +91,6 @@ function Calculate_{{ product.pk }}(operation){
 }
 function onChange_{{ product.pk }}(){
 	window.setInterval("Calculate_{{ product.pk }}('|')",5000);
-	//setTimeout(calculate(value),1500);
 	return true;
 }
 </script>
@@ -103,35 +101,34 @@ function onChange_{{ product.pk }}(){
                                    type="hidden">
                             <a href="{{ real_product.get_absolute_url() }}"{% if real_product.check_product_availability()[0] != 1 %} class="lime"{% endif %}>{{ real_product.title }}</a>
                         </td>
-                        <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
-                        <td style="padding:0px;">
-                            <li style="float:left;list-style-type:none;line-height:22px;">
+                        <td class="cart_product_col_price"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
+                        <td class="cart_product_col_quantity">
+                            <li>
                                 <a href="javascript:void(0)">
                                     <img src="/media/img/minus.gif"
                                         onClick="Calculate_{{ product.pk }}('-')">
                                 </a>
                             </li>
-                            <li style="float:left;list-style-type:none;line-height:22px;">
+                            <li>
                                 <input id="quantity1_{{ product.pk }}"
-                                       style="border:1px solid #CCCCCC;text-align:center;width:25px;padding:2px;"
                                        name="quantity_{{ product.pk }}" value="{{ product.quantity }}"
                                        onKeyUp="onChange_{{ product.pk }}();"
                                        type="text">
                             </li>
-                            <li style="float:left;list-style-type:none;line-height:22px;">
+                            <li>
                                 <a href="javascript:void(0)">
                                     <img src="/media/img/plus.gif"
                                         onClick="Calculate_{{ product.pk }}('+')">
                                 </a>
                             </li>
                         </td>
-                        <td style="width:110px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_in_order_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
-                        <td style="width:110px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_for_pay_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
+                        <td class="cart_product_col_sum_of_quantity"><p id="sum_of_quantity_in_order_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
+                        <td class="cart_product_col_sum_of_quantity"><p id="sum_of_quantity_for_pay_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
 <script>
 product_sum_of_quantity_in_order_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='show') }};
 product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='calc') }};
 </script>
-                        <td style="text-align:center;">
+                        <td class="cart_product_col_delete">
                             <input id="delete1_{{ product.pk }}"
                                    name="delete_{{ product.pk }}"
                                    title="Для удаления товара, нажмите кнопку перечитать корзину."
@@ -141,46 +138,22 @@ product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quanti
                     </tr>
                 {% endfor %}
             </tbody>
-<style>
-div#show_cart form p{
-margin-bottom:10px;
-}
-tr#tr_minimal_sum_order{
-height:34px;
-}
-.blink1{
--webkit-animation:blink1 3s linear infinite;
-animation:blink1 3s linear infinite;
-}
-@-webkit-keyframes blink1{
-{# Нужно изменить цвета #}
-0%{color:rgba(255, 16, 16, 1);}
-50%{color:rgba(255, 32, 32, 0);}
-100%{color:rgba(255, 64, 64, 1);}
-}
-@keyframes blink1{
-0%{color:rgba(255, 16, 16, 1);}
-50%{color:rgba(255, 32, 32, 0);}
-100%{color:rgba(255, 64, 64, 1);}
-}
-</style>
             <tfoot>
                 {% if coupon %}<tr>
                     <th colspan="3"
                         style="text-align:right;">Купон с дисконтом {{ coupon.percentage_discount }}% - скидка:</th>
                     <th colspan="1"
                         id="all_sum_discount_in_order"
-                        style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
-                    <th colspan="1" style="border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                        style="text-align:center;color:Red;font-size:1.05em;border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
+                    <th colspan="1" style="border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
                     <th colspan="1"></th>
                 </tr>{% endif %}
                 <tr>
                     <th colspan="3"
-                        style="text-align:right;">{% if coupon %}Сумма заказа c учетом скидки:{% else %}Сумма заказа:{% endif %}</th>
+                        id="label_prepaid_sum">{% if coupon %}Сумма заказа c учетом скидки:{% else %}Сумма заказа:{% endif %}</th>
                     <th colspan="1"
-                        id="all_sum_of_quantity_in_order"
-                        style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
-                    <th colspan="1" style="border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                        id="all_sum_of_quantity_in_order"></th>
+                    <th colspan="1" style="border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
                     <th colspan="1"></th>
                 </tr>
                 <tr>
@@ -188,12 +161,12 @@ animation:blink1 3s linear infinite;
                         style="text-align:right;">{% if coupon %}Сумма предоплаты с учетом скидки:{% else %}Сумма предоплаты:{% endif %}</th>
                     <th colspan="1"
                         id="all_sum_of_quantity_for_pay"
-                        style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                        style="text-align:center;color:Red;font-size:1.05em;border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
                     <th colspan="1"></th>
                 </tr>
-                <tr id="tr_minimal_sum_order">
+                <tr id="minimal_sum_order">
                     <th colspan="4">
-                        <p class="blink1" id="minimal_sum_order">Минимальная сумма заказа {{ 100|convert_currency(request) }} {{ get_currency(request) }}</p>
+                        <p class="blink">Минимальная сумма заказа {{ 100|convert_currency(request) }} {{ get_currency(request) }}</p>
                     </th>
                 </tr>
             </tfoot>
@@ -230,7 +203,7 @@ function ReCalcSum(change){
 {# Делаем кнопку НЕ активной и убираем мигание на кнопке заказа #}
         $("#order_cart_input").prop("disabled",true).removeClass("blink1");
 {# Показываем надпись "Минимальная сумма заказа" #}
-        minimal_sum_order.style.display='block';}
+        minimal_sum_order.style.display='table-row';}
     else{
 {# Делаем кнопку активной и добавляем мигание на кнопке заказа #}
         $("#order_cart_input").prop("disabled",false).addClass("blink1");
@@ -241,7 +214,7 @@ function ReCalcSum(change){
 $(document).ready(ReCalcSum(true));
 </script>
         </table>
-        <input style="float:left;list-style-type:none;line-height:24px;margin-right:5px;"
+        <input id="recalc"
                type="submit"
                value="Пересчитать корзину"/>
     </form>
@@ -260,7 +233,7 @@ $(document).ready(ReCalcSum(true));
                    type="hidden">
         {% endfor %}
         <input class="blink1"
-               style="float:left;list-style-type:none;line-height:24px;margin-right:5px;font-weight:bold;"
+               style="float:left;list-style-type:none;line-height:2em;margin-right:0.5em;font-weight:bold;"
                id="order_cart_input"
                type="submit"
                value="Оформить заказ">

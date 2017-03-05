@@ -5,7 +5,17 @@ from django.views.generic import TemplateView
 __author__ = 'AlexStarov'
 
 
-urlpatterns = patterns('apps.cart.order',
+urlpatterns = patterns('apps.cart.cart',
+                       url(regex=ur'^$',
+                           view='show_cart',
+                           kwargs={'template_name': u'show_cart.jinja2', },
+                           name='show_cart', ),
+                       url(regex=ur'^пересчитать/$',
+                           view='recalc_cart',
+                           name='recalc_cart', ),
+                       )
+
+urlpatterns += patterns('apps.cart.order',
                        url(regex=ur'^первый-шаг/$',
                            view='ordering_step_one',
                            kwargs={'template_name': u'order/step_one.jinja2', },

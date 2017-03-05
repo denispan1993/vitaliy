@@ -1,13 +1,12 @@
-<table id="table_carts" cols="6" summary="Ваша корзина">
-    <caption style="font-size:20px;">Ваша корзина</caption>
+<table id="table_order" cols="6" summary="Ваша корзина">
+    <caption>Ваша корзина</caption>
     <thead>
         <tr>
-            <th scope="col" style="border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Наименование</th>
-            <th scope="col" style="width:95px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Цена</th>
-            <th scope="col" style="width:73px;text-align:center;border-width:0px 0px 1px 0px;border-color:Black;border-style:solid;">Кол-во</th>
-            <th scope="col" style="width:110px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Итого</th>
-            <th scope="col" style="width:110px;text-align:center;border-width:0px 1px 1px 1px;border-color:Black;border-style:solid;">Сумма предоплаты</th>
-            {# <th scope="col" style="text-align:center;">Под заказ</th> #}
+            <th scope="col" id="order_col_name">Наименование</th>
+            <th scope="col" id="order_col_price">Цена</th>
+            <th scope="col" id="order_col_quantity">Кол-во</th>
+            <th scope="col" id="order_col_total">Итого</th>
+            <th scope="col" id="order_col_prepaid_sum">Сумма предоплаты</th>
             <th></th>
         </tr>
     </thead>
@@ -35,12 +34,12 @@ function CheckNumber(String){
                 <td>
                     <p{% if real_product.check_product_availability()[0] != 1 %} class="lime"{% endif %}>{{ real_product.title }}</p>
                 </td>
-                <td style="width:95px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
-                <td style="padding:0px;">
+                <td class="order_product_col_price"><p id="product_price_{{ product.pk }}">{{ real_product.get_price(request, None, 'show') }} {{ get_currency(request) }}</p></td>
+                <td class="order_product_col_quantity">
                     <p>{{ product.quantity }}</p>
                 </td>
-                <td style="width:110px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_in_order_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
-                <td style="width:110px;text-align:center;border-width:0px 1px;border-color:Black;border-style:solid;"><p id="sum_of_quantity_for_pay_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
+                <td class="order_product_col_sum_of_quantity"><p id="sum_of_quantity_in_order_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='show') }} {{ get_currency(request) }}</p></td>
+                <td class="order_product_col_sum_of_quantity"><p id="sum_of_quantity_for_pay_{{ product.pk }}">{{ product.sum_of_quantity(request, calc_or_show='calc') }} {{ get_currency(request) }}</p></td>
 <script>
 product_sum_of_quantity_in_order_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='show') }};
 product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quantity(request, calc_or_show='calc') }};
