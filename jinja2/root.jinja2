@@ -126,11 +126,11 @@ try{
 
             <span class="light">Валюта:</span>
 
-            <script>
+            {# <script>
                 function CurrencyChange(){
                     document.CurrencyChange.submit();
                 }
-            </script>
+            </script> #}
             <select onchange="document.CurrencyChange.submit();"
                     name="currency">
                 {% for currency in currency_ %}
