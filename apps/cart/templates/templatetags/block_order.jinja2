@@ -51,11 +51,11 @@ product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quanti
     <tfoot>
         {% if coupon %}<tr>
             <th colspan="3"
-                style="text-align:right;">Купон с дисконтом {{ coupon.percentage_discount }}% - скидка:</th>
+                id="label_coupon_percantage">Купон с дисконтом {{ coupon.percentage_discount }}% - скидка:</th>
             <th colspan="1"
-                id="all_sum_discount_in_order"
-                style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
-            <th colspan="1" style="border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                id="all_sum_discount_in_order"></th>
+            <th colspan="1"
+                id="after_all_sum_discount_in_order"></th>
             <th colspan="1"></th>
         </tr>{% endif %}
         <tr>

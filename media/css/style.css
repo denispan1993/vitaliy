@@ -595,8 +595,8 @@ div.product_block_bottom div.product_block_price div.add_to_cart{
     text-align: center;
     text-decoration: none;
 }
-div.cloudzoom-zoom{
-    z-index:100;
+div.cloudzoom-zoom {
+    z-index: 100;
 }
 
 div#show_cart form table#table_cart caption,
@@ -605,34 +605,34 @@ div#show_order table#table_order caption {
     line-height: 1.2em;
 }
 div#show_cart form table#table_cart thead tr th#cart_col_name,
-div#show_order table#table_order thead tr th#order_col_name{
-    border-width:0 0 0.1em 0;
-    border-color:Black;
-    border-style:solid;
+div#show_order table#table_order thead tr th#order_col_name {
+    border-width: 0 0 0.1em 0;
+    border-color: Black;
+    border-style: solid;
 }
 div#show_cart form table#table_cart thead tr th#cart_col_price,
-div#show_order table#table_order thead tr th#order_col_price{
-    width:95px;
-    text-align:center;
-    border-width:0 1px 1px 1px;
-    border-color:Black;
-    border-style:solid;
+div#show_order table#table_order thead tr th#order_col_price {
+    width: 95px;
+    text-align: center;
+    border-width: 0 1px 1px 1px;
+    border-color: Black;
+    border-style: solid;
 }
 div#show_cart form table#table_cart thead tr th#cart_col_quantity,
-div#show_order table#table_order thead tr th#order_col_quantity{
-    width:73px;
-    text-align:center;
-    border-width:0 0 1px 0;
-    border-color:Black;
-    border-style:solid;
+div#show_order table#table_order thead tr th#order_col_quantity {
+    width: 73px;
+    text-align: center;
+    border-width: 0 0 1px 0;
+    border-color: Black;
+    border-style: solid;
 }
 div#show_cart form table#table_cart thead tr th#cart_col_total,
-div#show_order table#table_order thead tr th#order_col_total{
-    width:110px;
-    text-align:center;
-    border-width:0 1px 1px 1px;
-    border-color:Black;
-    border-style:solid;
+div#show_order table#table_order thead tr th#order_col_total {
+    width: 110px;
+    text-align: center;
+    border-width: 0 1px 1px 1px;
+    border-color: Black;
+    border-style: solid;
 }
 div#show_cart form table#table_cart thead tr th#cart_col_prepaid_sum,
 div#show_order table#table_order thead tr th#order_col_prepaid_sum {
@@ -642,7 +642,7 @@ div#show_order table#table_order thead tr th#order_col_prepaid_sum {
     border-color: Black;
     border-style: solid;
 }
-div#show_cart form table#table_cart thead tr th#cart_col_delete{
+div#show_cart form table#table_cart thead tr th#cart_col_delete {
     text-align: center;
     border-width: 0 0 1px 0;
     border-color: Black;
@@ -659,7 +659,8 @@ div#show_order table#table_order tbody tr td.order_product_col_price {
 
 div#show_cart form table#table_cart tbody tr td.cart_product_col_quantity,
 div#show_order table#table_order tbody tr td.order_product_col_quantity {
-    padding:0;
+    padding: 0;
+    text-align: center;
 }
 div#show_cart table#table_cart tbody tr td.cart_product_col_quantity li {
     float: left;
@@ -686,7 +687,42 @@ div#show_cart form table#table_cart tbody tr td.cart_product_col_delete {
 div#show_cart form table#table_cart tfoot tr th#label_prepaid_sum {
     text-align: right;
 }
+div#show_cart form table#table_cart tfoot tr th#label_coupon_percantage,
+div#show_order form table#table_order tfoot tr th#label_coupon_percantage {
+    text-align: right;
+}
+div#show_cart form table#table_cart tfoot tr th#all_sum_discount_in_cart,
+div#show_order form table#table_order tfoot tr th#all_sum_discount_in_order {
+    text-align: center;
+    color: Red;
+    font-size: 1.05em;
+    border-width: 0 0.1em;
+    border-color: Black;
+    border-style: solid;
+}
+div#show_cart form table#table_cart tfoot tr th#after_all_sum_discount_in_cart,
+div#show_oredr form table#table_oredr tfoot tr th#after_all_sum_discount_in_order {
+    border-width: 0 0.1em;
+    border-color: Black;
+    border-style: solid;
+}
 div#show_cart form table#table_cart tfoot tr th#all_sum_of_quantity_in_order {
+    text-align: center;
+    color: Red;
+    font-size: 1.05em;
+    border-width: 0 0.1em;
+    border-color: Black;
+    border-style: solid;
+}
+div#show_cart form table#table_cart tfoot tr th#after_all_sum_of_quantity_in_order {
+    border-width: 0 0.1em;
+    border-color: Black;
+    border-style: solid;
+}
+div#show_cart form table#table_cart tfoot tr th#label_sum_of_quantity_for_pay_with_coupon_percantage {
+    text-align: right;
+}
+div#show_cart form table#table_cart tfoot tr th#all_sum_of_quantity_for_pay {
     text-align: center;
     color: Red;
     font-size: 1.05em;
@@ -703,16 +739,28 @@ div#show_cart form table#table_cart tfoot tr#minimal_sum_order th p.blink {
     -webkit-animation:blink 3s linear infinite;
     animation:blink 3s linear infinite;
 }
-@-webkit-keyframes blink{
-/*{# Нужно изменить цвета #}*/
-0%{color:rgba(255, 16, 16, 1);}
-50%{color:rgba(255, 32, 32, 0);}
-100%{color:rgba(255, 64, 64, 1);}
+@-webkit-keyframes blink {
+    /*{# Нужно изменить цвета #}*/
+    0% {
+        color: rgba(255, 16, 16, 1);
+    }
+    50% {
+        color: rgba(255, 32, 32, 0);
+    }
+    100% {
+        color: rgba(255, 64, 64, 1);
+    }
 }
-@keyframes blink{
-0%{color:rgba(255, 16, 16, 1);}
-50%{color:rgba(255, 32, 32, 0);}
-100%{color:rgba(255, 64, 64, 1);}
+@keyframes blink {
+    0% {
+        color: rgba(255, 16, 16, 1);
+    }
+    50% {
+        color: rgba(255, 32, 32, 0);
+    }
+    100% {
+        color: rgba(255, 64, 64, 1);
+    }
 }
 
 div#show_cart form input#recalc {

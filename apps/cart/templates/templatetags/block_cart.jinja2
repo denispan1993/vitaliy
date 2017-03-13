@@ -141,11 +141,11 @@ product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quanti
             <tfoot>
                 {% if coupon %}<tr>
                     <th colspan="3"
-                        style="text-align:right;">Купон с дисконтом {{ coupon.percentage_discount }}% - скидка:</th>
+                        id="label_coupon_percantage">Купон с дисконтом {{ coupon.percentage_discount }}% - скидка:</th>
                     <th colspan="1"
-                        id="all_sum_discount_in_order"
-                        style="text-align:center;color:Red;font-size:1.05em;border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
-                    <th colspan="1" style="border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
+                        id="all_sum_discount_in_cart"></th>
+                    <th colspan="1"
+                        id="after_all_sum_discount_in_cart"></th>
                     <th colspan="1"></th>
                 </tr>{% endif %}
                 <tr>
@@ -153,15 +153,15 @@ product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quanti
                         id="label_prepaid_sum">{% if coupon %}Сумма заказа c учетом скидки:{% else %}Сумма заказа:{% endif %}</th>
                     <th colspan="1"
                         id="all_sum_of_quantity_in_order"></th>
-                    <th colspan="1" style="border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
+                    <th colspan="1"
+                        id="after_all_sum_of_quantity_in_order"></th>
                     <th colspan="1"></th>
                 </tr>
                 <tr>
                     <th colspan="4"
-                        style="text-align:right;">{% if coupon %}Сумма предоплаты с учетом скидки:{% else %}Сумма предоплаты:{% endif %}</th>
+                        id="label_sum_of_quantity_for_pay_with_coupon_percantage">{% if coupon %}Сумма предоплаты с учетом скидки:{% else %}Сумма предоплаты:{% endif %}</th>
                     <th colspan="1"
-                        id="all_sum_of_quantity_for_pay"
-                        style="text-align:center;color:Red;font-size:1.05em;border-width:0 0.1em;border-color:Black;border-style:solid;"></th>
+                        id="all_sum_of_quantity_for_pay"></th>
                     <th colspan="1"></th>
                 </tr>
                 <tr id="minimal_sum_order">
