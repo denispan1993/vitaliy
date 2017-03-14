@@ -677,22 +677,38 @@ div#show_cart form table#table_cart tbody tr td.cart_product_col_sum_of_quantity
 div#show_order table#table_order tbody tr td.order_product_col_sum_of_quantity {
     width: 110px;
     text-align: center;
-    border-width: 0px 1px;
+    border-width: 0 1px;
     border-color: Black;
     border-style: solid;
 }
 div#show_cart form table#table_cart tbody tr td.cart_product_col_delete {
     text-align: center;
 }
-div#show_cart form table#table_cart tfoot tr th#label_prepaid_sum {
+div#show_cart form table#table_cart tfoot tr th#label_prepaid_sum,
+div#show_order table#table_order tfoot tr th#label_prepaid_sum {
     text-align: right;
 }
+div#show_cart form table#table_cart tfoot tr th#all_sum_of_quantity_in_cart,
+div#show_order table#table_order tfoot tr th#all_sum_of_quantity_in_order {
+    text-align: center;
+    color: Red;
+    font-size: 1.05em;
+    border-width: 0.1em;
+    border-color: red;
+    border-style: solid;
+}
+div#show_cart form table#table_cart tfoot tr th#after_all_sum_of_quantity_in_cart,
+div#show_order table#table_order tfoot tr th#after_all_sum_of_quantity_in_order {
+    border-width: 0 0.1em 0 0.1em;
+    border-color: black;
+    border-style: solid;
+}
 div#show_cart form table#table_cart tfoot tr th#label_coupon_percantage,
-div#show_order form table#table_order tfoot tr th#label_coupon_percantage {
+div#show_order table#table_order tfoot tr th#label_coupon_percantage {
     text-align: right;
 }
 div#show_cart form table#table_cart tfoot tr th#all_sum_discount_in_cart,
-div#show_order form table#table_order tfoot tr th#all_sum_discount_in_order {
+div#show_order table#table_order tfoot tr th#all_sum_discount_in_order {
     text-align: center;
     color: Red;
     font-size: 1.05em;
@@ -701,32 +717,21 @@ div#show_order form table#table_order tfoot tr th#all_sum_discount_in_order {
     border-style: solid;
 }
 div#show_cart form table#table_cart tfoot tr th#after_all_sum_discount_in_cart,
-div#show_oredr form table#table_oredr tfoot tr th#after_all_sum_discount_in_order {
-    border-width: 0 0.1em;
+div#show_order table#table_oredr tfoot tr th#after_all_sum_discount_in_order {
+    border-width: 0.1em 0.1em 0 0;
     border-color: Black;
     border-style: solid;
 }
-div#show_cart form table#table_cart tfoot tr th#all_sum_of_quantity_in_order {
-    text-align: center;
-    color: Red;
-    font-size: 1.05em;
-    border-width: 0 0.1em;
-    border-color: Black;
-    border-style: solid;
-}
-div#show_cart form table#table_cart tfoot tr th#after_all_sum_of_quantity_in_order {
-    border-width: 0 0.1em;
-    border-color: Black;
-    border-style: solid;
-}
-div#show_cart form table#table_cart tfoot tr th#label_sum_of_quantity_for_pay_with_coupon_percantage {
+div#show_cart form table#table_cart tfoot tr th#label_sum_of_quantity_for_pay_with_coupon_percantage,
+div#show_order table#table_order tfoot tr th#label_sum_of_quantity_for_pay_with_coupon_percantage {
     text-align: right;
 }
-div#show_cart form table#table_cart tfoot tr th#all_sum_of_quantity_for_pay {
+div#show_cart form table#table_cart tfoot tr th#all_sum_of_quantity_for_pay,
+div#show_order table#table_order tfoot tr th#all_sum_of_quantity_for_pay {
     text-align: center;
     color: Red;
     font-size: 1.05em;
-    border-width: 0 0.1em;
+    border-width: 0.1em;
     border-color: Black;
     border-style: solid;
 }
@@ -734,10 +739,11 @@ div#show_cart form table#table_cart tfoot tr th#all_sum_of_quantity_for_pay {
 div#show_cart form table#table_cart tfoot tr#minimal_sum_order th{
     height:34px;
 }
-div#show_cart form table#table_cart tfoot tr#minimal_sum_order th p.blink {
+div#show_cart form table#table_cart tfoot tr#minimal_sum_order th p.blink,
+div#show_cart form input.blink#order_cart_input {
     margin-bottom: 10px;
-    -webkit-animation:blink 3s linear infinite;
-    animation:blink 3s linear infinite;
+    -webkit-animation:blink 0.7s linear infinite;
+    animation:blink 0.7s linear infinite;
 }
 @-webkit-keyframes blink {
     /*{# Нужно изменить цвета #}*/
@@ -767,6 +773,19 @@ div#show_cart form input#recalc {
     float: left;
     list-style-type: none;
     line-height: 24px;
+    margin-right: 5px;
+}
+div#show_cart form input#order_cart_input {
+    float: left;
+    list-style-type: none;
+    line-height: 2em;
+    margin-right: 0.5em;
+    font-weight: bold;
+}
+div#show_cart form a#return_to_shopping {
+    float: left;
+    list-style-type: none;
+    line-height: 32px;
     margin-right: 5px;
 }
 

@@ -60,19 +60,18 @@ product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quanti
         </tr>{% endif %}
         <tr>
             <th colspan="3"
-                style="text-align:right;">Сумма заказа:</th>
+                id="label_prepaid_sum">Сумма заказа:</th>
             <th colspan="1"
-                id="all_sum_of_quantity_in_order"
-                style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
-            <th colspan="1" style="border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                id="all_sum_of_quantity_in_order"></th>
+            <th colspan="1"
+                id="after_all_sum_of_quantity_in_cart"></th>
             <th colspan="1"></th>
         </tr>
         <tr>
             <th colspan="4"
-                style="text-align:right;">Сумма предоплаты:</th>
+                id="label_sum_of_quantity_for_pay_with_coupon_percantage">Сумма предоплаты:</th>
             <th colspan="1"
-                id="all_sum_of_quantity_for_pay"
-                style="text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;"></th>
+                id="all_sum_of_quantity_for_pay"></th>
             <th colspan="1"></th>
         </tr>
     </tfoot>
