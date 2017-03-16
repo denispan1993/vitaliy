@@ -307,7 +307,7 @@ class Product(models.Model):
     def sum_of_quantity(self, request=None, calc_or_show='show', currency=980, ):
         """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта """
 
-        product = get_product(product_pk=self.product_id, product_url=None, )
+        product = get_product(pk=self.product_id, )
 
         if self.is_custom_price:
             price = self.price

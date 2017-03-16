@@ -145,8 +145,14 @@ class Category(MPTTModel):
         else:
             return None
 
+    # def get_absolute_url(self, ):
+    #     return u'/%s/к%.6d/' % (self.url.lower(), self.id, )
+
+    @models.permalink
     def get_absolute_url(self, ):
-        return u'/%s/к%.6d/' % (self.url.lower(), self.id, )
+        return ('show_category', (),
+                {'category_url': self.url.lower() if self.url else u'категория',
+                 'id': '{0:06d}'.format(self.id, ), }, )
 
     def save(self, *args, **kwargs):
         super(Category, self, ).save(*args, **kwargs)
@@ -622,7 +628,7 @@ class Product(models.Model):
 #        self.create_ItemID
 
 #    @models.permalink
-    def get_absolute_url(self, ):
+##    def get_absolute_url(self, ):
 #        return ('show_product', (),
 #                {'product_url': self.url,
 #                 'id': self.pk, }, )
@@ -630,7 +636,13 @@ class Product(models.Model):
 #            return u'/%s/п%.6d/' % (self.url.lower(), self.id, )
 #        else:
 #            return None
-        return u'/%s/п%.6d/' % (self.url.lower() if self.url else u'продукт', self.id, )
+##        return u'/%s/п%.6d/' % (self.url.lower() if self.url else u'продукт', self.id, )
+
+    @models.permalink
+    def get_absolute_url(self, ):
+        return ('show_product', (),
+                {'product_url': self.url.lower() if self.url else u'продукт',
+                 'id': '{0:06d}'.format(self.id, ), }, )
 
     def cache_key(self, ):
         return u'%s-%.6d' % (self.url.lower(), self.id, )

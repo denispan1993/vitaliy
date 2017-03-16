@@ -640,7 +640,7 @@ TEMPLATES = [
             "app_dirname": "templates",
             "match_regex": r"^(?!admin/).*",  # this is additive to match_extension
             "context_processors": TCP + (
-                "proj.context_processor.context",
+                "proj.processor.context_processor.context",
             ),
             "extensions": DEFAULT_EXTENSIONS + [
                 # Your extensions here...
@@ -663,9 +663,6 @@ TEMPLATES = [
             ],
             # "match_extension": ".html",
             "context_processors": TCP,
-            # "context_processors": TCP + (
-            #     "proj.django_context_processor.context",
-            # ),
         }
     },
 ]

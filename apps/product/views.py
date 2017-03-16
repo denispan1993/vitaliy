@@ -120,7 +120,7 @@ def show_product(request,
         else:
             raise Http404
     else:
-        product = get_product(product_pk=id, product_url=product_url, )
+        product = get_product(pk=id, )
 
         product.get_or_create_ItemID()
         viewed = get_or_create_Viewed(request=request, product=product, )
@@ -164,31 +164,44 @@ def show_product(request,
     return response
 
 
-def get_product(product_pk, product_url=None, ):
-    if type(product_pk, ) is unicode:
+def get_category(pk, ):
+    if type(pk, ) is unicode:
         try:
-            product_pk = int(product_pk, )
+            pk = int(pk, )
         except ValueError:
             raise Http404
-    product_cache_key = 'product-%d' % product_pk
-    product = cache.get(product_cache_key, )
-    if not product:
-        # fetch the product or return a missing page error
-#            product = get_object_or_404(Product, pk=product_pk, slug=product_url, )
+
+    cache_key = 'cat-%06d' % pk
+    cat = cache.get(cache_key, )
+
+    if not cat:
         try:
-            #if product_url:
-            """ Задумываюсь о необходимости проверки URL """
-            """ Уже не задумываюсь """
-            #    print 'Product_pk: ', product_pk, ' product_url: ', product_url
-            #    product = Product.objects.get(pk=product_pk, url=product_url, )
-            #else:
-            #    product = Product.objects.get(pk=product_pk, )
-            product = Product.objects.get(pk=product_pk, )
+            cat = Category.objects.get(pk=pk, )
+        except Category.DoesNotExist:
+            raise Http404
+        else:
+            cache.set(cache_key, cat, CACHE_TIMEOUT, )
+    return cat
+
+
+def get_product(pk, ):
+    if type(pk, ) is unicode:
+        try:
+            pk = int(pk, )
+        except ValueError:
+            raise Http404
+
+    cache_key = 'prod-%06d' % pk
+    prod = cache.get(cache_key, )
+
+    if not prod:
+        try:
+            prod = Product.objects.get(pk=pk, )
         except Product.DoesNotExist:
             raise Http404
         else:
-            cache.set(product_cache_key, product, CACHE_TIMEOUT, )
-    return product
+            cache.set(cache_key, prod, CACHE_TIMEOUT, )
+    return prod
 
 
 def add_to_cart(request,
@@ -259,12 +272,11 @@ def add_to_cart(request,
 
 def get_or_create_Viewed(request,
                          product=None,
-                         int_product_pk=None,
-                         product_url=None,
+                         product_pk=None,
                          user_obj=None,
                          sessionid=None, ):
-    if not product and int_product_pk and product_url:
-        product = get_product(int_product_pk, product_url, )
+    if not product and product_pk:
+        product = get_product(product_pk, )
 
     if request.user.is_authenticated() and request.user.is_active:
         if not user_obj:
