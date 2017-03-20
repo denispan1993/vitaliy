@@ -171,7 +171,7 @@ def context(request):
                 return_dict.update({'canonical': get_category(pk=kwargs[u'id'], ).get_absolute_url(), })
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
-    if kwargs.get('key'):
+    if 'kwargs' in locals() and kwargs.get('key'):
         return_dict.update({'viewed': get_or_create_Viewed(request, product_pk=kwargs[u'id'], user_obj=user_object, sessionid=sessionid, ), })
     else:
         return_dict.update({'viewed': None, })
