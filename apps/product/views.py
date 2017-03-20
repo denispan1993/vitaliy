@@ -207,11 +207,10 @@ def get_product(pk, ):
 def add_to_cart(request,
                 product=None,
                 int_product_pk=None,
-                product_url=None,
                 quantity=None,
                 available_to_order=None, ):
     if not product:
-        product = get_product(int_product_pk, product_url, )
+        product = get_product(int_product_pk, )
     """ Взятие корзины, или создание если её нету """
     product_cart, created = get_cart_or_create(request, created=True, )
     from apps.cart import models as models_cart
