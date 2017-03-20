@@ -97,7 +97,6 @@ def show_product(request,
                         add_to_cart(request=request,
                                     product=product,
                                     int_product_pk=product_pk,
-                                    product_url=product_url,
                                     quantity=quantity,
                                     available_to_order=available_to_order, )
 #                        if request.
