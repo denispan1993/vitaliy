@@ -1,11 +1,11 @@
 # coding=utf-8
-__author__ = 'Alex Starov'
-
 from django.contrib.sitemaps import Sitemap
+
+__author__ = 'AlexStarov'
 
 
 class CategoryViewSitemap(Sitemap, ):
-    protocol = 'http'
+    protocol = 'https'
     priority = 0.7
     changefreq = 'monthly'
 
@@ -21,7 +21,7 @@ class CategoryViewSitemap(Sitemap, ):
 
 
 class ProductViewSitemap(Sitemap, ):
-    protocol = 'http'
+    protocol = 'https'
     priority = 0.5
     changefreq = 'weekly'
 
@@ -37,7 +37,7 @@ class ProductViewSitemap(Sitemap, ):
 
 
 class StaticViewSitemap(Sitemap, ):
-    protocol = 'http'
+    protocol = 'https'
     priority = 0.9
     changefreq = 'weekly'
 
