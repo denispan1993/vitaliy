@@ -77,7 +77,7 @@ def send_sms(*args, **kwargs):
                 # [Vodafone1] SMS queued for send with id 0x7f98c8004420\n--END COMMAND--\r\n
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(2)
+                    time.sleep(1.5)
 
             manager.logoff()
 
@@ -124,12 +124,12 @@ def send_received_sms(*args, **kwargs):
 
         subject = u'Направение SMS: {direction} | от аббонента: {from_phone_char} | к аббоненту: {to_phone_char} '\
                   u'| дата и время получения сообщения: {received_at}'\
-                .format(
-                    direction=SMS.DIRECTION[sms.direction-1][1],
-                    from_phone_char=sms.from_phone_char,
-                    to_phone_char=sms.to_phone_char,
-                    received_at=sms.received_at,
-                ),
+            .format(
+                direction=SMS.DIRECTION[sms.direction-1][1],
+                from_phone_char=sms.from_phone_char,
+                to_phone_char=sms.to_phone_char,
+                received_at=sms.received_at,
+            )
 
         message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
                   u'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
@@ -144,7 +144,6 @@ def send_received_sms(*args, **kwargs):
         message_kwargs = {
             'from_email': formataddr((u'Телефонная станция Asterisk Keksik', 'site@keksik.com.ua', ), ),
             'to': [formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
-            #'headers': self.headers,
             'subject': subject,
             'body': message,
         }
@@ -280,7 +279,7 @@ def send_template_sms(*args, **kwargs):
 
                 increase_send_sms()
                 if i != last_loop:
-                    time.sleep(2)
+                    time.sleep(1.5)
 
             manager.logoff()
 
