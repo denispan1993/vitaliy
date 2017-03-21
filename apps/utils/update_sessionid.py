@@ -1,5 +1,5 @@
-# coding=utf-8
-__author__ = 'user'
+# -*- coding: utf-8 -*-
+__author__ = 'AlexStarov'
 
 
 def update_sessionid(request, sessionid_old, sessionid_now, ):

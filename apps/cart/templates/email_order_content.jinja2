@@ -1,4 +1,4 @@
-
+{% load tz %}
 {# {1% if order.user %}<p>User: {{ order.user }}</p>{% endif %}
 {% if order.sessionid %}<p>SessionId: {{ order.sessionid }}</p>{% endif %} #}
 <p>ФИО: {{ order.FIO }}</p>
@@ -17,8 +17,8 @@
 <p>Жду реквизиты: {{ order.checkbox1|true_false }}</p>
 <p>Жду звонка: <span style="color:{% if order.checkbox2 %}Red{% else %}Blue{% endif %}">{{ order.checkbox2|true_false }}</span></p>
 <p>Комментарий к заказу: {{ order.comment }}</p>
-<p>Дата и время созания заказа: {{ order.created_at|date("d-M-Y H:i:s") }}</p>
-<p>Дата и время обновления заказа: {{ order.updated_at|date("d-M-Y H:i:s") }}</p>
+<p>Дата и время созания заказа: {{ order.created_at|localtime|date("d-M-Y H:i:s") }}</p>
+<p>Дата и время обновления заказа: {{ order.updated_at|localtime|date("d-M-Y H:i:s") }}</p>
 
 {# <p>{1% set url = order.pk|int_to_string %}
    {% set int_range = 6 - url|length %}

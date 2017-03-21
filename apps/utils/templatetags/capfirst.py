@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django_jinja.library import filter
+
+__author__ = 'AlexStarov'
 
 
 @filter(name='capfirst', )

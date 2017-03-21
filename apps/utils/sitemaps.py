@@ -1,5 +1,8 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from django.contrib.sitemaps import Sitemap
+
+from apps.product.models import Category, Product
+from apps.static.models import Static
 
 __author__ = 'AlexStarov'
 
@@ -10,7 +13,6 @@ class CategoryViewSitemap(Sitemap, ):
     changefreq = 'monthly'
 
     def items(self, ):
-        from apps.product.models import Category
         return Category.objects.all()
 
     def location(self, obj, ):
@@ -26,7 +28,6 @@ class ProductViewSitemap(Sitemap, ):
     changefreq = 'weekly'
 
     def items(self, ):
-        from apps.product.models import Product
         return Product.objects.all()
 
     def location(self, obj, ):
@@ -42,7 +43,6 @@ class StaticViewSitemap(Sitemap, ):
     changefreq = 'weekly'
 
     def items(self, ):
-        from apps.static.models import Static
         return Static.objects.all()
 
     def location(self, obj, ):

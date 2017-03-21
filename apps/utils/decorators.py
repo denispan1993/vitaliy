@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
-
 from django.contrib.auth.decorators import user_passes_test
+
+__author__ = 'AlexStarov'
 
 
 def member_required(view):
