@@ -441,9 +441,7 @@ language:'ru'
                 </div>
             {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}
-                <p class="price_total">
-                    <span id="cart_quant">{{ quantity_ }}</span>&nbsp;{{ product.unit_of_measurement }}&nbsp;×&nbsp;<span id="one_piece_price">{# {{ price_per_piece|replace(",", ".") }} #}</span>&nbsp;{{ get_currency(request) }}&nbsp;=&nbsp;<span id="current_price">{# {{ sum_of_quantity|replace(",", ".") }} #}</span>&nbsp;{{ get_currency(request) }}
-                </p>
+                <p class="price_total"><span id="cart_quant">{{ quantity_ }}</span>&nbsp;{{ product.unit_of_measurement }}&nbsp;×&nbsp;<span id="one_piece_price">{# {{ price_per_piece|replace(",", ".") }} #}</span>&nbsp;{{ get_currency(request) }}&nbsp;=&nbsp;<span id="current_price">{# {{ sum_of_quantity|replace(",", ".") }} #}</span>&nbsp;{{ get_currency(request) }}</p>
             {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}
 {% include 'product/include/calc.script' %}
