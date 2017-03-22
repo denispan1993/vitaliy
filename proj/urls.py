@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# from django.conf.urls import patterns, include, url
-try:
-    from django.conf.urls import patterns, include, url
-    # from django.conf.urls.i18n import i18n_patterns
-except ImportError:  # django < 1.4
-    from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
+
+from django.contrib.sitemaps import views as sitemaps_views
+from django.views.decorators.cache import cache_page
+
+from apps.utils.sitemaps import CategoryViewSitemap, ProductViewSitemap, StaticViewSitemap
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -304,9 +304,6 @@ urlpatterns += patterns('apps.static.views',
 #        url(r'^sitemap.xml', include('static_sitemaps.urls')),
 #)
 
-from apps.utils.sitemaps import CategoryViewSitemap, ProductViewSitemap, StaticViewSitemap
-
-
 sitemaps = {
     'Category': CategoryViewSitemap,
     'Product': ProductViewSitemap,
@@ -337,9 +334,6 @@ sitemaps = {
 #                        url(r'^sitemap-(?P<section>.+)\.xml$',
 #                            sitemap, {'sitemaps': sitemaps}, ), )
 
-from django.contrib.sitemaps import views as sitemaps_views
-from django.views.decorators.cache import cache_page
-
 urlpatterns += patterns('',
                         url(r'^sitemap\.xml$',
                             cache_page(7200)(sitemaps_views.index),
@@ -348,5 +342,12 @@ urlpatterns += patterns('',
                             cache_page(7200)(sitemaps_views.sitemap),
                             {'sitemaps': sitemaps}, name='sitemaps'),
                         )
+
+urlpatterns += patterns('',
+                        url(regex=r'^yandex/',
+                            view=include(arg='apps.yandex.urls',
+                                         namespace='yandex'), ),
+                        )
+
 
 #handler404 = 'apps.handlers.views.handler404'
