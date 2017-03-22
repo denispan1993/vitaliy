@@ -1110,15 +1110,15 @@ class Currency(models.Model):
                                 null=True, blank=True, default=1, )
     name_ru = models.CharField(verbose_name=u'Название валюты Russian',
                                max_length=16, blank=False, null=False, )
-    currency_code_number = models.PositiveSmallIntegerField(verbose_name=_(u'Код валюты числовой', ),
-                                                            blank=False,
-                                                            null=False,
-                                                            default=0, )
-#    currency_code_ISO_char = models.CharField(verbose_name=_(u'Код валюты буквенный', ),
-#                                              max_length=3,
-#                                              blank=False,
-#                                              null=False,
-#                                              default='UAH', )
+    currency_code_ISO_number = models.PositiveSmallIntegerField(verbose_name=_(u'Код валюты числовой', ),
+                                                                blank=False,
+                                                                null=False,
+                                                                default=0, )
+    currency_code_ISO_char = models.CharField(verbose_name=_(u'Код валюты буквенный', ),
+                                              max_length=3,
+                                              blank=False,
+                                              null=False,
+                                              default='UAH', )
     currency_code_char = models.CharField(verbose_name=_(u'Код валюты код', ),
                                           max_length=1,
                                           blank=False,
