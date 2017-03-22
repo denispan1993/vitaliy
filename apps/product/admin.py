@@ -359,6 +359,9 @@ class CurrenceAdmin(admin.ModelAdmin, ):
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['country', 'name_ru', 'name_truncated',
                                                               'name_en', 'currency', 'exchange_rate', ], }, ),
+        ('Currency', {'classes': ['collapse'], 'fields': ['currency_code_number',
+                                                          'currency_code_char',
+                                                                                           'meta_keywords', ], },),
     ]
 
 admin.site.register(Currency, CurrenceAdmin, )
