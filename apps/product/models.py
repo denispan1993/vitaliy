@@ -1114,11 +1114,11 @@ class Currency(models.Model):
                                                             blank=False,
                                                             null=False,
                                                             default=0, )
-    currency_code_ISO_char = models.CharField(verbose_name=_(u'Код валюты буквенный', ),
-                                              max_length=3,
-                                              blank=False,
-                                              null=False,
-                                              default='UAH', )
+#    currency_code_ISO_char = models.CharField(verbose_name=_(u'Код валюты буквенный', ),
+#                                              max_length=3,
+#                                              blank=False,
+#                                              null=False,
+#                                              default='UAH', )
     currency_code_char = models.CharField(verbose_name=_(u'Код валюты код', ),
                                           max_length=1,
                                           blank=False,
