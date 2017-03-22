@@ -1,49 +1,40 @@
-# coding=utf-8
-__author__ = 'Sergey'
-
-#from django_jinja.library import Library
+# -*- coding: utf-8 -*-
 from django_jinja.library import global_function # import library
-from django.template.loader import render_to_string
 
-#register = Library()
+from apps.product.models import Currency
+
+__author__ = 'AlexStarov'
 
 
-#@register.global_function()
-#@library.global_function()
 @global_function()
 def get_currency(request, ):
+
     current_currency = request.session.get(u'currency_pk', )
-    return_str = u'грн.'
+
     if current_currency:
-        from apps.product.models import Currency
+
         try:
-            current_currency = int(current_currency, )
-        except ValueError:
-            current_currency = 1
-        try:
-            current_currency = Currency.objects.get(pk=current_currency, )
+            return Currency.objects\
+                .values_list('name_truncated', flat=True)\
+                .get(pk=current_currency, )
         except Currency.DoesNotExist:
             pass
-        else:
-            return_str = current_currency.name_truncated
-    return return_str
+
+    return u'грн.'
 
 
-#@register.global_function()
-#def convert_currency(request, ):
-#    current_currency = request.session.get(u'currency_pk', )
-#    return_str = u'грн.'
-#    if current_currency:
-#        from apps.product.models import Currency
-#        try:
-#            current_currency = int(current_currency, )
-#        except ValueError:
-#            current_currency = 1
-#        try:
-#            current_currency = Currency.objects.get(pk=current_currency, )
-#        except Currency.DoesNotExist:
-#            pass
-#        else:
-#            return_str = current_currency.name_truncated
-#    return return_str
+@global_function()
+def get_currency_ISO(request, ):
 
+    current_currency = request.session.get(u'currency_pk', )
+
+    if current_currency:
+
+        try:
+            return Currency.objects\
+                .values_list('currency_code_ISO_char', flat=True)\
+                .get(pk=current_currency, )
+        except Currency.DoesNotExist:
+            pass
+
+    return 'UAH'
