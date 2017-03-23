@@ -316,7 +316,7 @@ document.write(VK.Share.button({
                         {% if count_photos > 3 %}
                             <div class="thumbelina-but horiz left">˂</div>
                         {% endif %}
-                        <div id="parent">
+                        {# <div id="parent"> #}
                             <ul class="thumbelina"{% if count_photos > 3 %} style="left:-180px;"{% else %} style="position:relative;"{% endif %}>
                                 {% for photo in photos %}
                                     <li>
@@ -329,7 +329,7 @@ document.write(VK.Share.button({
                                 {% endfor %}
                             </ul>
                             <div id="helper"></div>
-                        </div>
+                        {# </div> #}
                         {% if count_photos > 3 %}
                             <div class="thumbelina-but horiz right">˃</div>
                         {% endif %}
