@@ -298,13 +298,10 @@ document.write(VK.Share.button({
                     <div class="image-wrap">
                         <a href='{{ main_photo.photo.url }}'{# large image #} title='{{ main_photo.title }}'>
                             <img class='cloudzoom' id='zoom1' src='{{ main_photo.photo.url_345x370 }}'{# small image #}
-                                 data-cloudzoom='zoomPosition:3,zoomSizeMode:"image",autoInside:550'{# zoomImage:'{{ main_photo.photo.url }}', #}{# large image #}{# ,zoomOffsetX:15,zoomOffsetY:25, maxMagnification:4 #}
+                                 data-cloudzoom="zoomPosition:3,zoomSizeMode:'image',autoInside:550"{# ,zoomImage:'{{ main_photo.photo.url }}'" #}{# large image #}{# ,zoomOffsetX:15,zoomOffsetY:25, maxMagnification:4 #}
                                  alt='{{ main_photo.title }}' itemprop='image'/>
                         </a>
                     </div>
-                <script src="/media/js/jquery/cloudzoom/czoom.js"></script>
-                {# <!-- Call quick start function. --> #}
-                <script>CloudZoom.quickStart();</script>
                 {% else %}
 					<a title="{{ product.item_description }}"
 					   id="a_productMainImg"
@@ -317,15 +314,6 @@ document.write(VK.Share.button({
                     <div id="slider">
                         {% set count_photos = photos|length %}
                         {% if count_photos > 3 %}
-                            <script>{# // Initialize the sliders. #}
-                            $(function(){
-                                $('#slider').Thumbelina({
-                                    $bwdBut:$('#slider .left'),
-                                    $fwdBut:$('#slider .right')
-                                });
-                            })
-                            </script>
-                            <script src="/media/js/jquery/thumbelina/thumbelina.js"></script>
                             <div class="thumbelina-but horiz left">˂</div>
                         {% endif %}
                         <div id="parent">
@@ -353,9 +341,7 @@ document.write(VK.Share.button({
 			<h1>
 				<a itemprop="name"
                    href="{{ product.get_absolute_url() }}"
-                   title="{{ product.title|capfirst }}">
-					{{ product.name|capfirst }}
-				</a>
+                   title="{{ product.title|capfirst }}">{{ product.name|capfirst }}</a>
 			</h1>
 			<h3>Артикул товара:&nbsp;<span itemprop="productID">{{ product.get_ItemID }}</span></h3>
             {% set manufacturer = product.get_manufacturer %}
@@ -554,7 +540,7 @@ $(document).ready(onChange())
                     </div>
                 </div>
             </div>
-			<script type="text/javascript">Waitlist.setDetailsPopupParent(null, 'waitlist_details_' + '1276645')</script>
+			<script>Waitlist.setDetailsPopupParent(null, 'waitlist_details_' + '1276645')</script>
             <div name="waitlist_details">
                 <div class="detail-waitlist-button">
 <style>
@@ -722,12 +708,12 @@ box-shadow:-4px -5px 4px #000000;
 <div class="tabs">
     <ul id="multi-tabs" style="list-style:none;margin-top:5px;margin-left:0px;padding-left:0px;position:relative;border-bottom:3px solid #329a1c;height:25px;">
         <li class="tab"
-            onclick="javascript:tab_click(this);"
+            onclick="tab_click(this);"
             id="li-recomendations">
             <a class="a-tab">Рекомендуемые ({{ length_products_recommended }})</a>
         </li>
         <li class="tab"
-            onclick="javascript:tab_click(this);"
+            onclick="tab_click(this);"
             id="li-comments">
             <a class="a-tab">Комментарии{% if comments %} ({{ length_comments }}){% endif %}</a>
         </li>
@@ -829,7 +815,7 @@ padding:0;
                             <p class="review-comment">{{ comment.comment }}</p>
                             <input type="button"
                                    value="Ответить на комментарий"
-                                   onclick="javascript:open_window_comment_add('{{ product.get_absolute_url() }}', '{{ comment.get_absolute_url() }}');">
+                                   onclick="open_window_comment_add('{{ product.get_absolute_url() }}', '{{ comment.get_absolute_url() }}');">
                         </div>
                     </li>
                 {% endfor %}
@@ -864,11 +850,27 @@ newWin.onload = function() {
 </script>
                     <input type="button"
                        value="Оставить комментарий-отзыв на товар, задать вопрос о товаре."
-                       onclick="javascript:open_window_comment_add('{{ product.get_absolute_url() }}', null);">
+                       onclick="open_window_comment_add('{{ product.get_absolute_url() }}', null);">
 </div>
 </div>
 {# {% endif %} #}
 </div>
+{% if main_photo %}
+<script src="/media/js/jquery/cloudzoom/czoom.js"></script>
+{# <!-- Call quick start function. --> #}
+<script>CloudZoom.quickStart();</script>
+{% if photos %}
+<script src="/media/js/jquery/thumbelina/thumbelina.js"></script>
+<script>{# // Initialize the sliders. #}
+$(function(){
+    $('#slider').Thumbelina({
+        $bwdBut:$('#slider .left'),
+        $fwdBut:$('#slider .right')
+    });
+})
+</script>
+{% endif %}
+{% endif %}
 {% endblock %}
 {# {1% block content_right %}
     <p>Очень правая колонка</p>
