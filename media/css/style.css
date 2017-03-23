@@ -364,7 +364,7 @@ div#product_box div#product_box_top div#product_box_left{
 }
 div#product_box div#product_box_top div#product_box_left div#social_links{
     width:100%;
-    display:ruby;
+    display:inline-flex;
     position:relative;
 }
 div#social_links a.social_link {
