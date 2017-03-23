@@ -547,13 +547,14 @@ class Product(models.Model):
         elif not request and currency:
 
             try:
-                currency = Currency.objects.get(currency_code_number=currency, )
+                currency = Currency.objects.get(currency_code_ISO_number=currency, )
                 currency_pk = currency.pk
                 current_currency_object = currency
             except Currency.DoesNotExist:
                 pass
 
-        if 'current_currency_object' not in locals() or 'current_currency_object' not in globals():
+        if 'current_currency_object' not in locals()\
+                or 'current_currency_object' not in globals():
 
             try:
                 current_currency_object = Currency.objects.get(pk=currency_pk, )
@@ -566,7 +567,8 @@ class Product(models.Model):
             else:
                 price = self.price
 
-        if 'current_currency_object' in locals() or 'current_currency_object' in globals():
+        if 'current_currency_object' in locals()\
+                or 'current_currency_object' in globals():
             current_currency_pk = current_currency_object.pk
             current_currency = current_currency_object.currency
             current_exchange_rate = current_currency_object.exchange_rate
