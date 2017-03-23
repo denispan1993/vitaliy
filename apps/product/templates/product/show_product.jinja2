@@ -228,7 +228,7 @@ h2.waitlist-title {
 	</div>
 	<div id="product_box_top" class="clearFloat">
         <div id="product_box_left">
-            <div id="social_links" style="display:inline-flex;margin-top:5px;">
+            <div id="social_links">
 <script>
 var Share = {
     vkontakte: function(purl, ptitle, pimg, text) {
@@ -295,16 +295,16 @@ document.write(VK.Share.button({
 			<div id="product_box_left_top">
                 {% set main_photo = product.main_photo %}
 				{% if main_photo %}
-                    <div class="image-wrap" style="height:372px;line-height:370px;">
+                    <div class="image-wrap">
                         <a href='{{ main_photo.photo.url }}'{# large image #} title='{{ main_photo.title }}'>
-                            <img class='cloudzoom' style='vertical-align:middle;' id='zoom1' src='{{ main_photo.photo.url_345x370 }}'{# small image #}
+                            <img class='cloudzoom' id='zoom1' src='{{ main_photo.photo.url_345x370 }}'{# small image #}
                                  data-cloudzoom='zoomPosition:3,zoomSizeMode:"image",autoInside:550'{# zoomImage:'{{ main_photo.photo.url }}', #}{# large image #}{# ,zoomOffsetX:15,zoomOffsetY:25, maxMagnification:4 #}
                                  alt='{{ main_photo.title }}' itemprop='image'/>
                         </a>
                     </div>
-                <script src="/media/js/jquery/cloudzoom/czoom.js"></script>{#
-        		<!-- Call quick start function. -->
-                #}<script>CloudZoom.quickStart();</script>
+                <script src="/media/js/jquery/cloudzoom/czoom.js"></script>
+                {# <!-- Call quick start function. --> #}
+                <script>CloudZoom.quickStart();</script>
                 {% else %}
 					<a title="{{ product.item_description }}"
 					   id="a_productMainImg"
@@ -331,7 +331,7 @@ document.write(VK.Share.button({
                         <div id="parent">
                             <ul class="thumbelina"{% if count_photos > 3 %} style="left:-180px;"{% else %} style="position:relative;"{% endif %}>
                                 {% for photo in photos %}
-                                    <li style="display:inline-block;">
+                                    <li>
                                         <img class="cloudzoom-gallery cloudzoom-gallery-active"
                                              {% if loop.index > 1 %}style="margin-left:4px;"{% endif %}
                                              src="{{ photo.photo.url_90x95 }}" {# icon image #}
