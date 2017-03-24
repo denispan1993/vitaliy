@@ -6,7 +6,7 @@ from django.utils.importlib import import_module
 from datetime import datetime
 
 from lxml import etree
-
+# https://github.com/fmarchenko/django-shop-yml
 __author__ = 'AlexStarov'
 
 YML_CONFIG = {'name': u'Название магазина',
