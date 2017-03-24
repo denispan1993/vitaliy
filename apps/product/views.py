@@ -103,7 +103,7 @@ def show_product(request,
 #                        try:
 #                            cart = Cart.objects.get(sessionid=, )
                     if action == u'makeanorder':
-                        return redirect(to='show_cart', )
+                        return redirect(to='cart:show_cart', )
                     try:
                         current_category = Category.objects.get(pk=int(current_category, ), )
                     except Category.DoesNotExist:

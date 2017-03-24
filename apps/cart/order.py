@@ -43,7 +43,7 @@ def ordering_step_one(request,
                 products_in_cart = product_cart.cart.all()
             except Product.DoesNotExist:
                 """ Странно!!! В корзине нету продуктов!!! """
-                return redirect(to='show_cart', )
+                return redirect(to='cart:show_cart', )
             else:
                 for product_in_cart in products_in_cart:
                     """ Нужно проверить, есть ли вообще такой продукт в корзине? """
@@ -315,7 +315,7 @@ def result_ordering(request, ):
                 all_products = cart.cart.all()
             except Product.DoesNotExist:
                 """ Странно!!! В корзине нету продуктов!!! """
-                return redirect(to='show_cart', )
+                return redirect(to='cart:show_cart', )
             else:
                 """ Берем указатель на model заказ """
                 ContentType_Order = ContentType.objects.get_for_model(Order, )
