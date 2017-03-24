@@ -1,6 +1,4 @@
-{# <!-- Rating@Mail.ru counter --> #}
-<script>
-var _tmr = _tmr || [];
+{# <!-- Rating@Mail.ru counter --> #}<script>var _tmr = _tmr || [];
 _tmr.push({id: "2535504", type: "pageView", start: (new Date()).getTime()});
 (function (d, w) {
    var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true;

@@ -1,7 +1,6 @@
-{# <!-- I.UA counter --> #}<a href="http://www.i.ua/" target="_blank" onclick="this.href='http://i.ua/r.php?180980';" title="Rated by I.UA">
+{# <!-- I.UA counter --> #}<a href="https://www.i.ua/" target="_blank" onclick="this.href='https://i.ua/r.php?180980';" title="Rated by I.UA">
 <script><!--
-iS='<img src="'+(window.location.protocol=='https:'?'https':'http')+
-'://r.i.ua/s?u180980&p130&n'+Math.random();
+iS='<img src="'https://r.i.ua/s?u180980&p130&n'+Math.random();
 iD=document;if(!iD.cookie)iD.cookie="b=b; path=/";if(iD.cookie)iS+='&c1';
 iS+='&d'+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)
 +"&w"+screen.width+'&h'+screen.height;
