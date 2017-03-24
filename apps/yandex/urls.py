@@ -10,5 +10,5 @@ urlpatterns = patterns('',
                        url(regex=r'^shop.yml$',
                            view=GenerateShopYMLView.as_view(),
                            # kwargs={'template_name': u'show_cart.jinja2', },
-                           name='show_cart', ),
+                           name='show_yml', ),
                        )
