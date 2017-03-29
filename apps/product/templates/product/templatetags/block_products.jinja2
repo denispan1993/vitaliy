@@ -23,3 +23,31 @@
         {% endif %}
     {% endfor %}
 </div>
+<script>
+function lazy_load() {
+
+    // Картинка-заместитель
+    var lazy_replacer='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    var container=document.getElementById('products_block');
+    if (container) {
+        var im=container.getElementsByClassName('product_block_img');
+        // Сохранить адрес исходной картинки и заменить его на прозрачный GIF
+        for (var i=0; i<im.length; i++) {
+            var el=im[i];
+            if (el.style.backgroundImage) {
+                alert(el.style.backgroundImage.substring(4, el.style.backgroundImage.length-1));
+                el.setAttribute('src-lazy',el.style.backgroundImage);
+                el.lazy=el.src;
+                el.src=lazy_replacer;
+            }
+        }
+    }
+
+    // Установить обработчики событий окна
+    //window.onscroll = lazy_load_proc;
+    //window.onresize = lazy_load_proc;
+    // Сразу же показать картинки в видимой области
+    //lazy_load_proc();
+}
+lazy_load();
+</script>
