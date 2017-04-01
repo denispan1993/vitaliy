@@ -9,6 +9,7 @@
                     trackLinks:true,
                     accurateTrackBounce:true,
                     trackHash:true,
+                    ecommerce:"dataLayer",
                     params:window.yaParams||{ }});
         } catch(e) { }
     });
