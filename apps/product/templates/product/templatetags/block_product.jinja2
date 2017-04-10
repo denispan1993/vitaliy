@@ -9,7 +9,7 @@
        href="{{ block.get_absolute_url() }}"
        title="{{ block.name }}">{{ block.title }}</a>
     <a class="product_block_img"
-       style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}');"
+       style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}{{ MEDIA_URL }}img/NoPhoto_210x160.jpg{% endif %}');"
        href="{{ block.get_absolute_url() }}"
        title="{{ block.title }}">
         {% if block.in_action %}
@@ -22,7 +22,7 @@
             <input class="add_to_cart button_buy"
                    type="image"
                    onclick="product_to_cart(this, {{ block.pk }}, false);return false;"
-                   src="/media/img/add_cart.png"
+                   src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить товар в корзину"
                    alt="Добавить товар в корзину">
         {% elif block.is_availability == 2 %}
@@ -31,7 +31,7 @@
             <input class="add_to_cart button_buy"
                    type="image"
                    onclick="product_to_cart(this, {{ block.pk }}, true);return false;"
-                   src="/media/img/add_cart.png"
+                   src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить в корзину 50% стоимости товара"
                    alt="Добавить товар в корзину">
         {% elif block.is_availability == 3 %}
@@ -47,11 +47,11 @@
     </div>
 {% else %}
     <a class="product_block_title fancybox"
-       href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}"
+       href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}{{ MEDIA_URL }}img/NoPhoto_210x160.jpg{% endif %}"
        title="{{ block.name }}">{{ block.title }}</a>
     <a class="product_block_img fancybox"
-       style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/empty_210x160.jpg{% endif %}');"
-       href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}/media/img/NoPhoto_210x160.jpg{% endif %}"
+       style="background-image:url('{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}{{ MEDIA_URL }}img/empty_210x160.jpg{% endif %}');"
+       href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}{{ MEDIA_URL }}img/NoPhoto_210x160.jpg{% endif %}"
        title="{{ block.title }}">
         {% if block.in_action %}
             <img style="position:absolute;right:0;" src="{{ MEDIA_URL }}img/action.png">
@@ -63,7 +63,7 @@
             <input class="add_to_cart button_buy"
                    type="image"
                    onclick="product_to_cart(this, {{ block.pk }}, false);return false;"
-                   src="/media/img/add_cart.png"
+                   src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить товар в корзину"
                    alt="Добавить товар в корзину">
         {% elif block.is_availability == 2 %}
@@ -72,7 +72,7 @@
             <input class="add_to_cart button_buy"
                    type="image"
                    onclick="product_to_cart(this, {{ block.pk }}, true);return false;"
-                   src="/media/img/add_cart.png"
+                   src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить в корзину 50% стоимости товара"
                    alt="Добавить товар в корзину">
         {% else %}

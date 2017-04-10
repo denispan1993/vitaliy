@@ -235,10 +235,10 @@ def result_ordering(request, ):
         if POST_NAME == 'ordering_step_two':
 
             sessionid = request.COOKIES.get(u'sessionid', None, )
-            print(POST_NAME, sessionid)
+            # print(POST_NAME, sessionid)
             if not cache.get(key='order_%s' % sessionid, ):
-                rand = random.uniform(0, 1.5)
-                print(rand)
+                rand = random.uniform(0, 1)
+                # print(rand)
                 time.sleep(rand)
 
                 if not cache.get(key='order_%s' % sessionid, ):
@@ -252,9 +252,9 @@ def result_ordering(request, ):
             else:
                 return redirect(to='cart:already_processing_ru', permanent=True, )
 
-            FIO = request.session.get(u'FIO', None, )
-            email = request.session.get(u'email', None, )
-            phone = request.session.get(u'phone', None, )
+            # FIO = request.session.get(u'FIO', None, )
+            # email = request.session.get(u'email', None, )
+            # phone = request.session.get(u'phone', None, )
             select_country = request.session.get(u'select_country', None, )
             order_pk = request.session.get(u'order_pk', None, )
             try:
@@ -290,12 +290,9 @@ def result_ordering(request, ):
                 # except DeliveryCompany.DoesNotExist:
                 #     delivery_company = None
                 order.delivery_company_id = delivery_company
-                warehouse_number = request.POST.get(u'warehouse_number', None, )
-                order.warehouse_number = warehouse_number
-                choice1 = request.POST.get(u'choice1', True, )
-                order.checkbox1 = choice1
-                choice2 = request.POST.get(u'choice2', False, )
-                order.checkbox2 = choice2
+                order.warehouse_number = request.POST.get(u'warehouse_number', None, )
+                order.checkbox1 = request.POST.get(u'choice1', True, )
+                order.checkbox2 = request.POST.get(u'choice2', False, )
             else:
                 """ для любого другого Государства """
                 address = request.POST.get(u'address', None, )
@@ -304,8 +301,8 @@ def result_ordering(request, ):
                 postcode = request.POST.get(u'postcode', None, )
                 order.postcode = postcode
                 request.session[u'postcode'] = postcode
-            comment = request.POST.get(u'comment', None, )
-            order.comment = comment
+
+            order.comment = request.POST.get(u'comment', None, )
             order.save()
             cart, create = get_cart_or_create(request, )
             if create:

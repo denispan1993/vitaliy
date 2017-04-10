@@ -10,7 +10,7 @@
 <link rel="canonical" href="https://keksik.com.ua{{ canonical }}"/>
 {% endif %}
 <meta name="viewport" content="width=device-width, initial-scale=1">{# <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> #}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css?ver=0.14"/>
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css?ver=0.15"/>
 {% block root_header_css %}{% endblock %}
 {% block root_page_header_css %}{% endblock %}
 {% block header_css %}{% endblock %}
@@ -78,7 +78,7 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
         {% for cat in categories_basement_ recursive %}
             {% set children = cat.children.serial_number() %}
             <li>
-                <a href="{{ cat.get_absolute_url() }}">{{ cat.title }}</a>
+                <a href="{{ cat.get_absolute_url() }}" style="display:none;">{{ cat.title }}</a>
                 {% if children %}
                     <ul class="submenu sub_level">{{ loop(children) }}</ul>
                 {% endif %}
@@ -352,7 +352,9 @@ if($(window).width()<481){
 }}
 
 jQuery(window).load(function(){
-    jQuery(window).on('resize', addClass_closed())
+    jQuery(window).on('resize', addClass_closed());
+    jQuery("nav#menu>div.mm-panels").show();
+    jQuery("ul.mm-listview>li>a").each(function(){jQuery(this).show()})
 });
 
 function animate_cart(obj){

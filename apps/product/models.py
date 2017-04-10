@@ -83,9 +83,6 @@ class Category(MPTTModel):
                                                blank=False,
                                                null=False,
                                                help_text=u'Размер шрифта категории в пикселях,', )
-#    disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
-#                                           null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
-#                                                                 u' со страницы категории, то ставим в True.', )
 #    from compat.ruslug.models import RuSlugField
 #    from apps.product.fields import ModelSlugField
 
