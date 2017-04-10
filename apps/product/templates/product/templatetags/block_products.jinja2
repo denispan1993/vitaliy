@@ -102,7 +102,7 @@ function lazy_load_proc() {
                 // Если картинка попала в видимую область, то показать ее.
                 // Плюс берется запас в 100 пикселов для более плавной подгрузки
                 if (coord.y>(dy-my_height) && coord.y<(dy+my_height)) {
-                    alert(coord.y);
+//                    alert(coord.y);
                     // Прописать адрес исходной картинки и убрать атрибут lazy
                     el.style.backgroundImage=el.lazy;
                     el.lazy='';
