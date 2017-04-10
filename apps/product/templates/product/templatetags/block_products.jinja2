@@ -24,10 +24,22 @@
     {% endfor %}
 </div>
 <script>
-function lazy_load() {
+// Вспомогательная функция для определения координат элемента
+function lazy_get_position(element) {
+    var offsetLeft=0;
+    var offsetTop=0;
+    do {
+        offsetLeft+=element.offsetLeft;
+        offsetTop+=element.offsetTop;
+    }
+    while (element=element.offsetParent);
+    return {x:offsetLeft, y:offsetTop};
+}
 
+
+function lazy_load() {
     // Картинка-заместитель
-    var lazy_replacer='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+//    var lazy_replacer='url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)';
     var container=document.getElementById('products_block');
     if (container) {
         var im=container.getElementsByClassName('product_block_img');
@@ -35,19 +47,73 @@ function lazy_load() {
         for (var i=0; i<im.length; i++) {
             var el=im[i];
             if (el.style.backgroundImage) {
-                alert(el.style.backgroundImage.substring(4, el.style.backgroundImage.length-1));
-                el.setAttribute('src-lazy',el.style.backgroundImage);
-                el.lazy=el.src;
-                el.src=lazy_replacer;
-            }
+//                alert(el.style.backgroundImage);
+//                alert(el.style.backgroundImage.substring(4, el.style.backgroundImage.length-1));
+                el.setAttribute('lazy',el.style.backgroundImage);
+                el.lazy=el.style.backgroundImage;
+//                el.src=lazy_replacer;
+                el.style.backgroundImage='url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)';
+             }
         }
     }
 
     // Установить обработчики событий окна
-    //window.onscroll = lazy_load_proc;
-    //window.onresize = lazy_load_proc;
+    window.onscroll = lazy_load_proc;
+    window.onresize = lazy_load_proc;
     // Сразу же показать картинки в видимой области
-    //lazy_load_proc();
+    lazy_load_proc();
 }
-lazy_load();
+
+function lazy_load_proc() {
+    var doc = document.documentElement;
+    var body = document.body;
+
+    // Получить размеры видимой области страницы (кроссбраузерно)
+    if (typeof(window.innerWidth) == 'number') {
+        my_width = window.innerWidth;
+        my_height = window.innerHeight;
+    }
+    else if (doc && (doc.clientWidth || doc.clientHeight)) {
+        my_width = doc.clientWidth;
+        my_height = doc.clientHeight;
+    }
+    else if (body && (body.clientWidth || body.clientHeight)) {
+        my_width = body.clientWidth;
+        my_height = body.clientHeight;
+    }
+
+    // Получить смещение страницы относительно ее верха
+    if (doc.scrollTop) { dy=doc.scrollTop; } else { dy=body.scrollTop; }
+
+    // Обработка всех картинок в контейнере
+    var container=document.getElementById('products_block');
+    if (container) {
+        var im=container.getElementsByClassName('product_block_img');
+        for (var i=0; i<im.length; i++) {
+//                alert(el.style.backgroundImage.substring(4, el.style.backgroundImage.length-1));
+            var el=im[i];
+//            alert(el.style.backgroundImage);
+//            alert(el.getAttribute('lazy'));
+            // Если атрибут lazy есть, то обработать картинку
+            if (el.lazy) {
+//                alert(el.lazy);
+                // Получить координаты картинки от верха страницы
+                var coord=lazy_get_position(el);
+                // Если картинка попала в видимую область, то показать ее.
+                // Плюс берется запас в 100 пикселов для более плавной подгрузки
+                if (coord.y>(dy-my_height) && coord.y<(dy+my_height)) {
+                    alert(coord.y);
+                    // Прописать адрес исходной картинки и убрать атрибут lazy
+                    el.style.backgroundImage=el.lazy;
+                    el.lazy='';
+                    el.removeAttribute('lazy');
+                }
+            }
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", lazy_load);
+
+
 </script>
