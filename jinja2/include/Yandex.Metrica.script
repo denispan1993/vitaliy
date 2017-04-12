@@ -1,4 +1,8 @@
 <script>
+jQuery(document).on('yacounter21943054inited', function () {
+    console.log('счетчик yaCounter21943054 можно использовать');
+});
+
 (function (d, w, c) {
     (w[c] = w[c] || []).push(function() {
         try {
@@ -9,6 +13,7 @@
                     trackLinks:true,
                     accurateTrackBounce:true,
                     trackHash:true,
+                    triggerEvent:true,
                     ecommerce:"dataLayer",
                     params:window.yaParams||{ }});
         } catch(e) { }

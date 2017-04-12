@@ -5,18 +5,19 @@
 var yaParams = {
     order_id: "{{ order_pk }}",
     order_price: {{ order.order_sum(calc_or_show='show') }},
-    currency: "грн",
+    currency: "UAH",
     exchange_rate: 1 };
+yaCounter21943054.reachGoal('ORDER_SUCCESSFUL', yaParams);
 </script>
-<br>
+<br />
 <strong>Ваш заказ принят!!!</strong>
-<br>
+<br />
 Пожалуйста, через несколько минут проверьте Ваш ящик электронной почты и мобильный телефон.
-<br>
+<br />
 Мы выслали сообщения с номером заказа в нашем магазине по указанным Вами реквизитам.
-<br>
+<br />
 После обработки Вашего заказа, наш менеджер вышлет уточненный заказ и реквизиты для оплаты на <strong>указанный Вами E-Mail и номер мобильно телефона.</strong>.
-<br>
+<br />
 <strong><sub>Спасибо за покупку!</sub></strong>
-<br>
+<br /><br />
 {% endblock %}

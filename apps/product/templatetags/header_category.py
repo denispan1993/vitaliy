@@ -21,6 +21,7 @@ def header_category(current_category, ):
 
 # register.tag('templatetags_header_category/header_category.jinja2.html', header_category, )
 
+
 @global_function()
 def header_category2(current_category, product=None, ):
 
