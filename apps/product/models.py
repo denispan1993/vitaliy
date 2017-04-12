@@ -528,6 +528,26 @@ class Product(models.Model):
         else:
             return None
 
+    def get_category_hierarchy(self, request=None, ):
+        current_category = request.session.get(u'current_category', None, )
+
+        if current_category:
+            try:
+                current_category = Category.objects.get(pk=current_category, )
+
+                s = current_category.title
+
+                while current_category.parent:
+                    current_category = current_category.parent
+                    s = u'{0}/{1}'.format(current_category.title, s)
+
+                return s
+
+            except Category.DoesNotExist:
+                pass
+
+        return None
+
     def get_price(self, request=None, price=None, calc_or_show='show', currency=None, ):
         currency_pk = 1
         from apps.product.models import Currency

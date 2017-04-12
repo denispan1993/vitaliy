@@ -223,6 +223,22 @@ h2.waitlist-title {
 </div>
 {% endif %}
 <div id="product_box" itemscope itemtype="http://schema.org/Product">
+<script>
+window.dataLayer.push({
+    "ecommerce": {
+        "currencyCode": "UAH",
+        "detail" : {
+            "products" : [
+                    {"id": "{{ product.get_ItemID }}",
+                     "name": "{{ product.name|capfirst }}",
+                     "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
+                     "category": "{{ product.get_category_hierarchy(request=request) }}",
+                     "position": {{ product.serial_number }}
+                }
+            ]
+        }
+    }
+});</script>
 	<div id="product_box_header" class="clearFloat">
 		{{ header_category2(current_category, product)|safe }}
 	</div>
@@ -291,7 +307,7 @@ document.write(VK.Share.button({
 }));
 -->
 </script> #}
-                </div>
+            </div>
 			<div id="product_box_left_top">
                 {% set main_photo = product.main_photo %}
 				{% if main_photo %}
@@ -362,14 +378,14 @@ document.write(VK.Share.button({
                 <p id="product_box_right_price">Обычная цена:&nbsp;<span class="{% if product.is_availability == 1 %}Red{% elif product.is_availability == 2 %}DimGray{% else %}Gray{% endif %}" style="text-decoration:line-through;">{{ product.get_price(request, product.price)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}{% if product.price_of_quantity != 1 %} за {{ product.price_of_quantity }} {{ product.unit_of_measurement }}{% endif %}</span></p>
                 <div id="product_box_time_action_price">
 <style>
-.flip-clock-divider{
-    height:40px;
+.flip-clock-divider {
+    height: 40px;
 }
-.flip-clock-divider .flip-clock-label{
-    right:-48px;
+.flip-clock-divider .flip-clock-label {
+    right: -48px;
 }
-.flip-clock-divider.minutes .flip-clock-label{
-    right:-48px;
+.flip-clock-divider.minutes .flip-clock-label {
+    right: -48px;
 }
 .flip-clock-divider.seconds .flip-clock-label{
     right:-51px;
@@ -480,9 +496,7 @@ margin:0;
                     <br><br>
 					<input type="submit" value="Добавить в корзину" style="margin-top:2px;">
 				</form>
-<script>
-$(document).ready(onChange())
-</script>
+<script>$(document).ready(onChange())</script>
 				<form method="POST" action="." style="display:inline;margin-top:2px;margin-left:5px;">
 					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order">
 					<input type="hidden" name="product_pk" value="{{ product.pk }}">
