@@ -240,6 +240,7 @@ window.dataLayer.push({
                     {"id": "{{ product.get_ItemID }}",
                      "name": "{{ product.name|capfirst }}",
                      "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
+                     "quantity": {{ product.quantity_of_complete }},
                      "category": "{{ product.get_category_hierarchy(request=request) }}",
                      "position": {{ product.serial_number }}
                 }
@@ -670,7 +671,7 @@ a{
 				<p>Товар:&nbsp;<strong>недоступен</strong></p>
 			{% endif %}
 
-<script>
+{# <script>
 window.dataLayer = window.dataLayer || [];
 </script>
 <script>
@@ -679,12 +680,17 @@ window.dataLayer.push ({
         	"currencyCode": "UAH",
 		"detail": {
 			"products": [{
-				"id": '111',}]
+				"id": '{{ product.get_ItemID }}',
+                "name": '{{ product.name|capfirst }}',
+                "category": '{{ product.get_category_hierarchy(request) }}',
+                "position": {{ product.index }},
+                "price":
+            }]
 			}
 		}
 });
-{# https://yandex.ru/support/metrika/data/e-commerce.xml#params_options_starred #}
 </script>
+https://yandex.ru/support/metrika/data/e-commerce.xml#params_options_starred #}
 
             <div id="product_box_bottom"
 {#                     class="clearFloat" #}
