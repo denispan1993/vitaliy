@@ -270,10 +270,10 @@ var Share = {
 //        url += '&st.comments=' + encodeURIComponent(text);
     odnoklassniki: function(purl, ptitle, pimg, text) {
         url  = 'https://connect.ok.ru/offer';
-        url += '?url='         + encodeURIComponent(purl);
+        url += '?url=https://keksik.com.ua/' + encodeURIComponent(purl);
         url += '&title='       + encodeURIComponent(ptitle);
         url += '&description=' + encodeURIComponent(text);
-        url += '&imageUrl='    + encodeURIComponent(pimg);
+        url += '&imageUrl=https://keksik.com.ua/' + encodeURIComponent(pimg);
         Share.popup(url);
 
 //https://connect.ok.ru/dk?cmd=WidgetSharePreview
