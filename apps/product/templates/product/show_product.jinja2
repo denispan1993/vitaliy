@@ -2,6 +2,14 @@
 {% block title %}{% if product.meta_title %}{{ product.meta_title|capfirst }}{% else %}{{ product.title|capfirst }}{% endif %}{% endblock %}
 {% block description %}{{ product.meta_description }}{% endblock %}
 {% block keywords %}{{ product.meta_keywords }}{% endblock %}
+{% block header_meta_tags %}
+<meta property="og:url"           content="{{ request.get_full_path() }}" />
+<meta property="og:secure_url"    content="{{ request.get_full_path() }}" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="{{ product.title|capfirst }}" />
+<meta property="og:description"   content="{{ product.meta_description }}" />
+<meta property="og:image"         content="{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}{{ MEDIA }}media/img/NoPhoto_345x370.jpg{% endif %}" />
+{% endblock %}
 {% block product_header_css %}
 {# <link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css"> #}
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/easypaginate/easypaginate.css" media="all">
@@ -256,11 +264,23 @@ var Share = {
         url += '&noparse=true';
         Share.popup(url);
     },
-    odnoklassniki: function(purl, text) {
-        url  = 'http://www.ok.ru/dk?st.cmd=addShare&st.s=1';
-        url += '&st._surl='    + encodeURIComponent(purl);
-        url += '&st.comments=' + encodeURIComponent(text);
+//    odnoklassniki: function(purl, text) {
+//        url  = 'http://www.ok.ru/dk?st.cmd=addShare&st.s=1';
+//        url += '&st._surl='    + encodeURIComponent(purl);
+//        url += '&st.comments=' + encodeURIComponent(text);
+    odnoklassniki: function(purl, ptitle, pimg, text) {
+        url  = 'https://connect.ok.ru/offer';
+        url += '?url='         + encodeURIComponent(purl);
+        url += '&title='       + encodeURIComponent(ptitle);
+        url += '&description=' + encodeURIComponent(text);
+        url += '&imageUrl='    + encodeURIComponent(pimg);
         Share.popup(url);
+
+//https://connect.ok.ru/dk?cmd=WidgetSharePreview
+//&st.cmd=WidgetSharePreview
+//&st.imageUrl=%3CIMAGE_URL%3E
+//&st.description=%3CDESCRIPTION%3E
+//&st.shareUrl=https://keksik.com.ua&st.title=%3CTITLE%3E
     },
     facebook: function(purl, ptitle, pimg, text) {
         url  = 'http://www.facebook.com/sharer.php?s=100';
@@ -292,7 +312,8 @@ var Share = {
 };
 </script>
 <a id="social_button_VK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.vkontakte('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
-<a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('http://keksik.com.ua{{ request.get_full_path() }}','{{ product.meta_description|capfirst  }}')"></a>
+{# <a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('http://keksik.com.ua{{ request.get_full_path() }}','{{ product.meta_description|capfirst  }}')"></a> #}
+<a id="social_button_OK" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.odnoklassniki('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
 <a id="social_button_FB" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.facebook('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
 <a id="social_button_TW" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.twitter('{{ request.get_full_path() }}','{{ product.title|capfirst }}')"></a>
 <a id="social_button_MR" class="social_link" title="Поделится с друзьями ссылкой на товар {{ product.title|capfirst }}" onclick="Share.mailru('{{ request.get_full_path() }}','{{ product.title|capfirst }}','{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}/media/img/NoPhoto_345x370.jpg{% endif %}','{{ product.meta_description }}')"></a>
