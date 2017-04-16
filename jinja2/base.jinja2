@@ -4,6 +4,7 @@
 {% block block_title %}<title>{% block title %}{% endblock %}</title>{% endblock %}
 {% block block_description %}<meta name="description" content="{% block description %}{% endblock %}">{% endblock %}
 {% block block_keywords %}<meta name="keywords" content="{% block keywords %}{% endblock %}">{% endblock %}{# <base href="http://keksik.com.ua/" target="_blank"> - загрузить страницу в новой вкладке броузера #}{# <base href="http://keksik.com.ua/" target="_self"> #}
+{% block header_meta_tags %}{% endblock %}
 <link rel="icon"{#  type="image/png" #} href="{{ MEDIA_URL }}img/favicon.png"/>
 <meta charset="UTF-8">
 {% if canonical is defined %}
