@@ -3,12 +3,12 @@
 {% block description %}{{ product.meta_description }}{% endblock %}
 {% block keywords %}{{ product.meta_keywords }}{% endblock %}
 {% block header_meta_tags %}
-<meta property="og:url"           content="{{ request.get_full_path() }}" />
+<meta property="og:url"           content="https://keksik.com.ua{{ request.get_full_path() }}" />
 <meta property="og:secure_url"    content="{{ request.get_full_path() }}" />
 <meta property="og:type"          content="website" />
 <meta property="og:title"         content="{{ product.title|capfirst }}" />
 <meta property="og:description"   content="{{ product.meta_description }}" />
-<meta property="og:image"         content="{% if product.main_photo %}{{ product.main_photo.photo.url }}{% else %}{{ MEDIA }}media/img/NoPhoto_345x370.jpg{% endif %}" />
+<meta property="og:image"         content="{% if product.main_photo %}https://keksik.com.ua/{{ product.main_photo.photo.url }}{% else %}https://keksik.com.ua/media/img/NoPhoto_345x370.jpg{% endif %}" />
 {% endblock %}
 {% block product_header_css %}
 {# <link rel="stylesheet" href="{{ MEDIA_URL }}css/category_style.css"> #}
