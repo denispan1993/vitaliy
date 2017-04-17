@@ -240,14 +240,35 @@ window.dataLayer.push({
                     {"id": "{{ product.get_ItemID }}",
                      "name": "{{ product.name|capfirst }}",
                      "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
-                     "quantity": {{ product.quantity_of_complete }},
+                {#   "quantity": {{ product.quantity_of_complete }}, #}
                      "category": "{{ product.get_category_hierarchy(request=request) }}",
                      "position": {{ product.serial_number }}
                 }
             ]
         }
     }
-});</script>
+});
+function addtocard_submit({# type, quantity #}form) {
+    window.dataLayer.push({
+        "ecommerce": {
+            "currencyCode": "UAH",
+            "add" : {
+                "products" : [
+                        {"id": "{{ product.get_ItemID }}",
+                    {#   "name": type + "_" + "{{ product.name|capfirst }}", #}
+                         "name": "{{ product.name|capfirst }}",
+                         "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
+                    {#   "quantity": quantity, #}
+                         "category": "{{ product.get_category_hierarchy(request=request) }}",
+                         "position": {{ product.serial_number }}
+                    }
+                ]
+            }
+        }
+    });
+    form.submit();
+}
+</script>
 	<div id="product_box_header" class="clearFloat">
 		{{ header_category2(current_category, product)|safe }}
 	</div>
@@ -469,7 +490,7 @@ language:'ru'
             {% endif %}
             {% if product.is_availability == 1 or product.is_availability == 2 %}
 {% include 'product/include/calc.script' %}
-				<form method="POST" action="." >
+				<form method="POST" action="." onsubmit="addtocard_submit(this);">
 					<ul class="quantity">
 						<li>Количество:</li>
 						<li>
@@ -515,11 +536,11 @@ margin:0;
 					<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
  					{# <br class="clearFloat"> #}
-                    <br><br>
-					<input type="submit" value="Добавить в корзину" style="margin-top:2px;">
+                    <br /><br />
+					<input type="submit" value="Добавить в корзину" style="margin-top:2px;" />
 				</form>
 <script>$(document).ready(onChange())</script>
-				<form method="POST" action="." style="display:inline;margin-top:2px;margin-left:5px;">
+				<form method="POST" action="." style="display:inline;margin-top:2px;margin-left:5px;" onsubmit="addtocard_submit(this);">
 					<input type="hidden" name="quantity" value="{{ quantity_ }}" id="quantity_order">
 					<input type="hidden" name="product_pk" value="{{ product.pk }}">
 					<input type="hidden" name="product_url" value="{{ product.url }}">
