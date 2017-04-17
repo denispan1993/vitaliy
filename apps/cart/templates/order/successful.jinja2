@@ -8,6 +8,34 @@ var yaParams = {
     currency: "UAH",
     exchange_rate: 1 };
 yaCounter21943054.reachGoal('ORDER_SUCCESSFUL', yaParams);
+
+window.dataLayer = window.dataLayer || [];
+
+{% set products = order.order.all() %}
+window.dataLayer.push({
+    "ecommerce": {
+        "currencyCode": "UAH",
+        "purchase" : {
+            "actionField": {
+                "id" : "{{ order.number }}",
+                "goal_id" : "5889228",
+                "revenue": {{ order.order_sum(calc_or_show='show') }}
+            },
+            "products" : [
+                {% for product in products %}
+                    {
+                        "id": "{{ product.product.get_ItemID }}",
+                        "name": "{{ product.product.name|capfirst }}",
+                        "price": {{ product.product.get_price(request=request,currency=980)|replace(",", ".") }},
+                        "category": "{{ product.product.get_category_hierarchy(request=request) }}",
+                        "position": {{ product.product.serial_number }},
+                        "quantity": {{ product.quantity }}
+                    }{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }
+    }
+});
 </script>
 <br />
 <strong>Ваш заказ принят!!!</strong>
