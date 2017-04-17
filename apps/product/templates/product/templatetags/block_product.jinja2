@@ -3,6 +3,15 @@
 {% elif choice=='li' %}
 <li class="product_block">
 {% endif %}
+<script>
+var productArray = {
+    "id": "{{ product.get_ItemID }}",
+    "name": "{{ product.name|capfirst }}",
+    "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
+    "category": "{{ product.get_category_hierarchy(request=request) }}",
+    "position": {{ product.serial_number }}
+}
+</script>
 {% if block.disclose_product %}
     <a class="product_block_title"
        style="font-size:16px;"
@@ -21,7 +30,7 @@
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, false, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить товар в корзину"
                    alt="Добавить товар в корзину">
@@ -30,7 +39,7 @@
             <p>Доступен под заказ.</p>
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, true, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить в корзину 50% стоимости товара"
                    alt="Добавить товар в корзину">
@@ -62,7 +71,7 @@
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, false);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, false, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить товар в корзину"
                    alt="Добавить товар в корзину">
@@ -71,7 +80,7 @@
             <p>Доступен под заказ.</p>
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, true);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, true, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить в корзину 50% стоимости товара"
                    alt="Добавить товар в корзину">
