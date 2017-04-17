@@ -5,6 +5,12 @@
 {% block content_center %}
     <div id="show_order" style="color:Black;text-align:left;">
     {% if user_cart_ %}
+<script>
+var yaParams = {
+    currency: "UAH",
+    exchange_rate: 1 };
+yaCounter21943054.reachGoal('Ordering_second_step', yaParams);
+</script>
         {{ block_cart(request, place_of_use='order', cart=user_cart_, coupon=coupon_)|safe }}
         {% if user_cart_.sum_money_of_all_products < 200 %}
             <div id="buttons"

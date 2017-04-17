@@ -15,6 +15,11 @@
         {% else %}
             <form method="POST" action="{{ form_action_next }}" id="form_order" name="form_order" onSubmit="return Submit_Form();">
 <script>
+var yaParams = {
+    currency: "UAH",
+    exchange_rate: 1 };
+yaCounter21943054.reachGoal('Ordering_first_step', yaParams);
+
 var submit_disable=false;
 function Submit_Form(){
     if(submit_disable){
