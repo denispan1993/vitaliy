@@ -23,21 +23,21 @@ window.dataLayer = window.dataLayer || [];
 </script>
 <script>
 function product_to_cart(data, product_pk, available_to_order, productArray) {
-    $.post("/ajax/product_to_cart/",
+    jQuery.post("/ajax/product_to_cart/",
             {
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 product_pk: product_pk,
                 available_to_order: available_to_order
             },
             function (data, textStatus, jqXHR) {
-                $('#dynamic_div_showcart').html(data.html);
+                jQuery('#dynamic_div_showcart').html(data.html);
             },
             "json");
     window.dataLayer.push({
         "ecommerce": {
             "currencyCode": "UAH",
             "add" : {
-                "products" : [ productArray ]
+                "products" : productArray
             }
         }
     });

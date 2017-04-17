@@ -5,13 +5,13 @@
 {% endif %}
 {% if block.disclose_product %}
 <script>
-var productArray = {
+var productArray = new Array[{
     "id": "{{ block.get_ItemID }}",
     "name": "{{ block.name|capfirst }}",
     "price": {{ block.get_price(request=request,currency=980)|replace(",", ".") }},
     "category": "{{ block.get_category_hierarchy(request=request) }}",
     "position": {{ block.serial_number }}
-}
+}]
 </script>
     <a class="product_block_title"
        style="font-size:16px;"
@@ -56,13 +56,13 @@ var productArray = {
     </div>
 {% else %}
 <script>
-var productArray = {
+var productArray = new Array[{
     "id": "{{ block.get_ItemID }}",
     "name": "{{ block.name|capfirst }}",
     "price": {{ block.get_price(request=request,currency=980)|replace(",", ".") }},
     "category": "{{ block.get_category_hierarchy(request=request) }}",
     "position": {{ block.serial_number }}
-}
+}]
 </script>
     <a class="product_block_title fancybox"
        href="{% if block.main_photo %}{{ block.main_photo.photo.url_210x160 }}{% else %}{{ MEDIA_URL }}img/NoPhoto_210x160.jpg{% endif %}"
