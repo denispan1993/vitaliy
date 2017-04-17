@@ -5,11 +5,11 @@
 {% endif %}
 <script>
 var productArray = {
-    "id": "{{ product.get_ItemID }}",
-    "name": "{{ product.name|capfirst }}",
-    "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
-    "category": "{{ product.get_category_hierarchy(request=request) }}",
-    "position": {{ product.serial_number }}
+    "id": "{{ block.get_ItemID }}",
+    "name": "{{ block.name|capfirst }}",
+    "price": {{ block.get_price(request=request,currency=980)|replace(",", ".") }},
+    "category": "{{ block.get_category_hierarchy(request=request) }}",
+    "position": {{ block.serial_number }}
 }
 </script>
 {% if block.disclose_product %}
