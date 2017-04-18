@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
 
-from .views import  ExchangeView
+from .views import ExchangeView
 
 __author__ = 'AlexStarov'
 
