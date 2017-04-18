@@ -71,12 +71,10 @@ def get_products(products_list):
     for product in products_list:
         product_list = list(product)
 
-        if product_list[1].tag == u'Артикул':
-            itemid = product_list[1].text
-        elif product_list[2].tag == u'Артикул':
-            itemid = product_list[2].text
-        elif product_list[3].tag == u'Артикул':
-            itemid = product_list[3].text
+        for n in range(4):
+            if product_list[n].tag == u'Артикул':
+                itemid = product_list[n].text
+                break
         else:
             print('line 81: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
