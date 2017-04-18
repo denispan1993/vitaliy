@@ -78,20 +78,19 @@ def get_products(products_list):
         elif product_list[3].tag == u'Артикул':
             itemid = product_list[3].text
         else:
-            print('fix !!! --> product_list[0].tag:  ', product_list[0].tag)
-            print('fix !!! --> product_list[0].text: ', product_list[0].text)
+            print('line 81: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
 
         print(itemid, len(itemid))
 
         try:
-            itemid = ItemID.objects.get(ItemID=product_list[1].text.replace(' ', '',), )  # using('real').
+            itemid = ItemID.objects.get(ItemID=itemid.text.replace(' ', '',), )  # using('real').
             product = itemid.parent
 
             #if product.id_1c:
 
             #    if product.id_1c != product_list[0].text:
-            #        print('fix !!! --> product.id_1c: ', product.id_1c,
+            #        print('line 93: fix !!! --> product.id_1c: ', product.id_1c,
             #              ' --> product_list[0].text: ', product_list[0].text)
 
             #else:
@@ -99,17 +98,17 @@ def get_products(products_list):
             product.save()
 
             success += 1
-            print(success, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Found', )
+            print(success, ': ', u'Артикул:-->"', itemid.text.replace(' ', '',), '"<--:Found', )
 
         except ItemID.DoesNotExist:
             unsuccess += 1
-            unsuccess_itemid += '%s<br /> \n' % product_list[1].text.replace(' ', '',)
-            print(unsuccess, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Not Found', )
+            unsuccess_itemid += '%s<br /> \n' % itemid.text.replace(' ', '',)
+            print(unsuccess, ': ', u'Артикул:-->"', itemid.text.replace(' ', '',), '"<--:Not Found', )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
-            double_itemid += '%s<br /> \n' % product_list[1].text.replace(' ', '',)
-            print(double, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Double', )
+            double_itemid += '%s<br /> \n' % itemid.text.replace(' ', '',)
+            print(double, ': ', u'Артикул:-->"', itemid.text.replace(' ', '',), '"<--:Double', )
 
     print('success: ', success)
     print('unsuccess: ', unsuccess)

@@ -211,7 +211,12 @@ class Product(models.Model):
                              max_length=36,
                              blank=True,
                              null=True,
-                             help_text=u'', )
+                             help_text=u'Код 1С', )
+    barcode = models.CharField(verbose_name=_(u'1C Штрихкод', ),
+                               max_length=36,
+                               blank=True,
+                               null=True,
+                               help_text=u'Штрихкод', )
 
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы товар был пасивный, убираем галочку.')
