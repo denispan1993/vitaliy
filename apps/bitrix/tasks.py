@@ -53,7 +53,8 @@ def process_bitrix_catalog(*args, **kwargs):
                             and elems_product_level[3].tag == u'Владелец'\
                             and elems_product_level[4].tag == u'Товары':
                         print('elems_product_level[0].tag: ', elems_product_level[0].tag)
-                        get_products(list(elems_product_level[3], ), )
+                        print('elems_product_level[4].tag: ', elems_product_level[4].tag)
+                        get_products(list(elems_product_level[4], ), )
 
     print "Process time: {}".format(time.time() - start, )
 
@@ -77,6 +78,8 @@ def get_products(products_list):
         elif product_list[3].tag == u'Артикул':
             itemid = product_list[3].text
         else:
+            print('fix !!! --> product_list[0].tag:  ', product_list[0].tag)
+            print('fix !!! --> product_list[0].text: ', product_list[0].text)
             continue
 
         print(itemid, len(itemid))
@@ -84,8 +87,16 @@ def get_products(products_list):
         try:
             itemid = ItemID.objects.get(ItemID=product_list[1].text.replace(' ', '',), )  # using('real').
             product = itemid.parent
-            product.id_1c = product_list[0].text
-            product.save()
+
+            if product.id_1c:
+
+                if product.id_1c != product_list[0].text:
+                    print('fix !!! --> product.id_1c: ', product.id_1c,
+                          ' --> product_list[0].text: ', product_list[0].text)
+
+            else:
+                product.id_1c = product_list[0].text
+                product.save()
 
             success += 1
             print(success, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Found', )
