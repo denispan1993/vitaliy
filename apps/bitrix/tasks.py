@@ -34,15 +34,15 @@ def process_bitrix_catalog(*args, **kwargs):
 
     for name in os.listdir(path, ):
         path_and_filename = os.path.join(path, name)
-        print('path_and_filename: ', path_and_filename)
+
         if os.path.isfile(path_and_filename, )\
                 and name.split('.')[0] == 'import'\
                 and name.split('.')[1] == '{hour:02d}'.format(hour=datetime.now().hour, )\
                 and name.split('.')[-1] == 'xml':
-            print('os.path.isfile(path_and_filename, ): ', os.path.isfile(path_and_filename, ))
+
             root = ET.parse(source=path_and_filename, ).getroot()
             for elem_first_level in root:
-
+                print('elem_first_level.tag: ', elem_first_level.tag)
                 if elem_first_level.tag == u'Каталог':
                     print('elem_first_level.tag: ', elem_first_level.tag)
                     elems_product_level = list(elem_first_level, )
@@ -50,7 +50,8 @@ def process_bitrix_catalog(*args, **kwargs):
                     if elems_product_level[0].tag == u'Ид' \
                             and elems_product_level[1].tag == u'ИдКлассификатора' \
                             and elems_product_level[2].tag == u'Наименование' \
-                            and elems_product_level[3].tag == u'Товары':
+                            and elems_product_level[3].tag == u'Владелец'\
+                            and elems_product_level[4].tag == u'Товары':
                         print('elems_product_level[0].tag: ', elems_product_level[0].tag)
                         get_products(list(elems_product_level[3], ), )
 
