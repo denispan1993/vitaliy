@@ -88,15 +88,15 @@ def get_products(products_list):
             itemid = ItemID.objects.get(ItemID=product_list[1].text.replace(' ', '',), )  # using('real').
             product = itemid.parent
 
-            if product.id_1c:
+            #if product.id_1c:
 
-                if product.id_1c != product_list[0].text:
-                    print('fix !!! --> product.id_1c: ', product.id_1c,
-                          ' --> product_list[0].text: ', product_list[0].text)
+            #    if product.id_1c != product_list[0].text:
+            #        print('fix !!! --> product.id_1c: ', product.id_1c,
+            #              ' --> product_list[0].text: ', product_list[0].text)
 
-            else:
-                product.id_1c = product_list[0].text
-                product.save()
+            #else:
+            product.id_1c = product_list[0].text
+            product.save()
 
             success += 1
             print(success, ': ', u'Артикул:-->"', product_list[1].text.replace(' ', '',), '"<--:Found', )
