@@ -72,7 +72,7 @@ def get_products(products_list):
         itemid.delete()
 
         for n in xrange(5):
-
+1
             try:
                 if product_list[n].tag == u'Штрихкод':
                     barcode = product_list[n].text.replace(' ', '', )
