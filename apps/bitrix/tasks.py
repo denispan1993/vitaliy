@@ -292,10 +292,10 @@ def process_of_proposal(offers_list):
                 product.save()
 
             if quantity_of_stock > 0 and product.is_availability != 1:
-                there_is_in_1c += '{}<br />'.format(product.ItemID.all()[0].ItemID)
+                there_is_in_1c += u'{}<br />'.format(product.ItemID.all()[0].ItemID)
 
             if quantity_of_stock == 0 and product.is_availability == 1:
-                there_is_in_site += '{}<br />'.format(product.ItemID.all()[0].ItemID)
+                there_is_in_site += u'{}<br />'.format(product.ItemID.all()[0].ItemID)
 
             success += 1
             # print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
