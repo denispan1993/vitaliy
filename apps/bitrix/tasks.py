@@ -10,7 +10,7 @@ from django.core.mail import EmailMultiAlternatives
 from celery.utils.log import get_task_logger
 from proj.celery import celery_app
 
-from apps.product.models import ItemID
+from apps.product.models import Product, ItemID
 
 
 __author__ = 'AlexStarov'
@@ -20,8 +20,6 @@ logger = get_task_logger(__name__)
 
 @celery_app.task()
 def process_bitrix_catalog(*args, **kwargs):
-
-    #delivery_pk = kwargs.get('delivery_pk')
 
     start = time.time()
     path = 'storage/{app}/{year}/{month:02d}/{day:02d}/' \
@@ -64,26 +62,37 @@ def process_bitrix_catalog(*args, **kwargs):
 def get_products(products_list):
     success = 0
     unsuccess = 0
-    unsuccess_itemid = ''
+    unsuccess_itemid_html = ''
     double = 0
-    double_itemid = ''
+    double_itemid_html = ''
 
     for product in products_list:
         product_list = list(product)
 
-        for n in range(4):
-            if product_list[n].tag == u'Артикул':
-                itemid = product_list[n].text
+        itemid.delete()
+
+        for n in xrange(5):
+
+            try:
+                if product_list[n].tag == u'Штрихкод':
+                    barcode = product_list[n].text.replace(' ', '', )
+                if product_list[n].tag == u'Артикул':
+                    itemid = product_list[n].text.replace(' ', '', )
+                    break
+            except IndexError:
                 break
         else:
-            print('line 81: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            print('line 85: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            continue
+
+        if 'itemid' not in locals():
+            print('line 89: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
 
         print(itemid, len(itemid))
 
         try:
-            itemid = ItemID.objects.get(ItemID=itemid.text.replace(' ', '',), )  # using('real').
-            product = itemid.parent
+            product = ItemID.objects.get(ItemID=itemid, ).parent  # using('real').
 
             #if product.id_1c:
 
@@ -92,27 +101,21 @@ def get_products(products_list):
             #              ' --> product_list[0].text: ', product_list[0].text)
 
             #else:
-            product.id_1c = product_list[0].text
+            product.id_1c = product_list[0].text.replace(' ', '', )
             product.save()
 
             success += 1
-            print(success, ': ', u'Артикул:-->"', itemid.text.replace(' ', '',), '"<--:Found', )
+            print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
 
         except ItemID.DoesNotExist:
             unsuccess += 1
-            unsuccess_itemid += '%s<br /> \n' % itemid.text.replace(' ', '',)
-            print(unsuccess, ': ', u'Артикул:-->"', itemid.text.replace(' ', '',), '"<--:Not Found', )
+            unsuccess_itemid_html += '%s<br /> \n' % itemid
+            print(unsuccess, ': ', u'Артикул:-->"', itemid, '"<--:Not Found', )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
-            double_itemid += '%s<br /> \n' % itemid.text.replace(' ', '',)
-            print(double, ': ', u'Артикул:-->"', itemid.text.replace(' ', '',), '"<--:Double', )
-
-    print('success: ', success)
-    print('unsuccess: ', unsuccess)
-    print(unsuccess_itemid)
-    print('double: ', double)
-    print(double_itemid)
+            double_itemid_html += '%s<br /> \n' % itemid
+            print(double, ': ', u'Артикул:-->"', itemid, '"<--:Double', )
 
     backend = smtp.EmailBackend(
         host='smtp.yandex.ru',
@@ -128,12 +131,12 @@ def get_products(products_list):
 
     msg = EmailMultiAlternatives(
         subject=u'Список Артикулов которые есть в 1С и которых нету на сайте.',
-        body=strip_tags(unsuccess_itemid, ),
+        body=strip_tags(unsuccess_itemid_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
 
-    msg.attach_alternative(content=u'unsuccess: {0}<br> {1}'.format(unsuccess, unsuccess_itemid, ),
+    msg.attach_alternative(content=u'unsuccess: {0}<br> {1}'.format(unsuccess, unsuccess_itemid_html, ),
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
@@ -150,12 +153,12 @@ def get_products(products_list):
 
     msg = EmailMultiAlternatives(
         subject=u'Список Артикулов которые есть в 1С и которых несколько штук на сайте.',
-        body=strip_tags(double_itemid, ),
+        body=strip_tags(double_itemid_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
 
-    msg.attach_alternative(content=u'double: {0}<br /> {1}'.format(double, double_itemid, ),
+    msg.attach_alternative(content=u'double: {0}<br /> {1}'.format(double, double_itemid_html, ),
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
@@ -169,3 +172,43 @@ def get_products(products_list):
         print('bitrix.tasks.process_bitrx_catalog.double(i): ', i, ' result: ', result,)
         i += 1
         time.sleep(5)
+
+    not_found_on_1c = 0
+    not_found_on_1c_html = ''
+
+    try:
+        products = Product.objects.filter(id_1c__isnull=True, )
+
+        for product in products:
+            not_found_on_1c += 1
+            not_found_on_1c_html += '{0}<br />'.format(product.ItemID.ItemID)
+
+    except Product.DoesNotExist:
+        pass
+
+    msg = EmailMultiAlternatives(
+        subject=u'Список Артикулов которые есть на сайте но нету в 1С.',
+        body=strip_tags(not_found_on_1c_html, ),
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+        connection=backend, )
+
+    msg.attach_alternative(content=u'not_found_on_1c: {0}<br /> {1}'.format(not_found_on_1c, not_found_on_1c_html, ),
+                           mimetype="text/html", )
+
+    msg.content_subtype = "html"
+    i = 0
+    while True:
+        result = msg.send(fail_silently=False, )
+
+        if (isinstance(result, int) and result == 1) or i > 100:
+            break
+
+        print('bitrix.tasks.process_bitrx_catalog.not_found_on_1c(i): ', i, ' result: ', result,)
+        i += 1
+        time.sleep(5)
+
+    print('success: ', success)
+    print('unsuccess: ', unsuccess)
+    print('double: ', double)
+    print('not_found_on_1c: ', not_found_on_1c)
