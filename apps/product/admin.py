@@ -248,7 +248,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     search_fields = ['title', 'name', ]
     form = ProductAdminForm
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['category', 'id_1c', 'is_active', 'disclose_product',
+        (None,               {'classes': ['wide'], 'fields': ['category', 'id_1c', 'barcode', 'is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',
                                                               'title', 'name', 'description',  # 'manufacturer',
                                                               'recommended',
