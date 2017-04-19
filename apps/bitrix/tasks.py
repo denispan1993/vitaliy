@@ -106,11 +106,11 @@ def get_products(products_list):
             except IndexError:
                 break
         else:
-            print('line 87: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            print('line 109: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
 
         if 'itemid' not in locals():
-            print('line 91: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            print('line 113: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
 
         #print(itemid, len(itemid))
@@ -121,7 +121,7 @@ def get_products(products_list):
             if product.id_1c:
 
                 if product.id_1c != product_list[0].text:
-                    print('line 102: fix !!! --> product.id_1c: ', product.id_1c,
+                    print('line 124: fix !!! --> product.id_1c: ', product.id_1c,
                           ' --> product_list[0].text: ', product_list[0].text)
                 else:
                     if 'barcode' in locals():
@@ -137,12 +137,12 @@ def get_products(products_list):
 
         except ItemID.DoesNotExist:
             unsuccess += 1
-            unsuccess_itemid_html += '%s<br /> \n' % itemid
+            unsuccess_itemid_html += u'{}<br />\n'.format(itemid)
             #print(unsuccess, ': ', u'Артикул:-->"', itemid, '"<--:Not Found', )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
-            double_itemid_html += '%s<br /> \n' % itemid
+            double_itemid_html += u'{}<br />\n'.format(itemid)
             #print(double, ': ', u'Артикул:-->"', itemid, '"<--:Double', )
 
     backend = smtp.EmailBackend(
@@ -164,7 +164,7 @@ def get_products(products_list):
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
 
-    msg.attach_alternative(content=u'unsuccess: {0}<br> {1}'.format(unsuccess, unsuccess_itemid_html, ),
+    msg.attach_alternative(content=u'unsuccess: {0}<br>\n{1}'.format(unsuccess, unsuccess_itemid_html, ),
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
@@ -186,7 +186,7 @@ def get_products(products_list):
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
 
-    msg.attach_alternative(content=u'double: {0}<br /> {1}'.format(double, double_itemid_html, ),
+    msg.attach_alternative(content=u'double: {0}<br />\n{1}'.format(double, double_itemid_html, ),
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
@@ -207,7 +207,7 @@ def get_products(products_list):
             .values_list('ItemID__ItemID', flat=True)
 
         not_found_on_1c = len(products_ItemID)
-        not_found_on_1c_html = '<br />'.join(products_ItemID)
+        not_found_on_1c_html = u'<br />\n'.join(products_ItemID)
 
     except Product.DoesNotExist:
         pass
@@ -219,7 +219,7 @@ def get_products(products_list):
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
 
-    msg.attach_alternative(content=u'not_found_on_1c: {0}<br /> {1}'.format(not_found_on_1c, not_found_on_1c_html, ),
+    msg.attach_alternative(content=u'not_found_on_1c: {0}<br />\n{1}'.format(not_found_on_1c, not_found_on_1c_html, ),
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
@@ -243,8 +243,10 @@ def get_products(products_list):
 def process_of_proposal(offers_list):
 
     success = 0
-    there_is_in_1c = ''
-    there_is_in_site = ''
+    there_is_in_1c = 0
+    there_is_in_1c_html = ''
+    there_is_in_site = 0
+    there_is_in_site_html = ''
 
     for offer in offers_list:
         offer_list = list(offer)
@@ -268,7 +270,7 @@ def process_of_proposal(offers_list):
             n += 1
 
         if 'id_1c' not in locals():
-            print('line 267: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+            print('line 273: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
                   ' offer_list[0].text: ', offer_list[0].text)
             continue
 
@@ -277,11 +279,11 @@ def process_of_proposal(offers_list):
                 quantity_of_stock = int(quantity_of_stock)
 
             except ValueError:
-                print('line 276: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+                print('line 282: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
                       ' offer_list[0].text: ', offer_list[0].text)
                 continue
         else:
-            print('line 280: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+            print('line 286: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
                   ' offer_list[0].text: ', offer_list[0].text)
 
         try:
@@ -292,10 +294,12 @@ def process_of_proposal(offers_list):
                 product.save()
 
             if quantity_of_stock > 0 and product.is_availability != 1:
-                there_is_in_1c += u'{}<br />'.format(product.ItemID.all()[0].ItemID)
+                there_is_in_1c += 1
+                there_is_in_1c_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
             if quantity_of_stock == 0 and product.is_availability == 1:
-                there_is_in_site += u'{}<br />'.format(product.ItemID.all()[0].ItemID)
+                there_is_in_site += 1
+                there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
             success += 1
             # print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
@@ -322,7 +326,7 @@ def process_of_proposal(offers_list):
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
 
-    msg.attach_alternative(content=u'{0}'.format(there_is_in_1c, ),
+    msg.attach_alternative(content=u'{0}<br />\n{1}'.format(there_is_in_1c, there_is_in_1c_html),
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
@@ -344,7 +348,7 @@ def process_of_proposal(offers_list):
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
 
-    msg.attach_alternative(content=u'{0}'.format(there_is_in_site, ),
+    msg.attach_alternative(content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html),
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
