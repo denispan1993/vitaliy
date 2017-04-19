@@ -40,9 +40,9 @@ def process_bitrix_catalog(*args, **kwargs):
 
             root = ET.parse(source=path_and_filename, ).getroot()
             for elem_first_level in root:
-                print('elem_first_level.tag: ', elem_first_level.tag)
+
                 if elem_first_level.tag == u'Каталог':
-                    print('elem_first_level.tag: ', elem_first_level.tag)
+
                     elems_product_level = list(elem_first_level, )
 
                     if elems_product_level[0].tag == u'Ид' \
@@ -50,8 +50,7 @@ def process_bitrix_catalog(*args, **kwargs):
                             and elems_product_level[2].tag == u'Наименование' \
                             and elems_product_level[3].tag == u'Владелец'\
                             and elems_product_level[4].tag == u'Товары':
-                        print('elems_product_level[0].tag: ', elems_product_level[0].tag)
-                        print('elems_product_level[4].tag: ', elems_product_level[4].tag)
+
                         get_products(list(elems_product_level[4], ), )
 
     print "Process time: {}".format(time.time() - start, )
@@ -90,7 +89,7 @@ def get_products(products_list):
             print('line 89: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
 
-        print(itemid, len(itemid))
+        #print(itemid, len(itemid))
 
         try:
             product = ItemID.objects.get(ItemID=itemid, ).parent  # using('real').
@@ -106,17 +105,17 @@ def get_products(products_list):
             product.save()
 
             success += 1
-            print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
+            #print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
 
         except ItemID.DoesNotExist:
             unsuccess += 1
             unsuccess_itemid_html += '%s<br /> \n' % itemid
-            print(unsuccess, ': ', u'Артикул:-->"', itemid, '"<--:Not Found', )
+            #print(unsuccess, ': ', u'Артикул:-->"', itemid, '"<--:Not Found', )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
             double_itemid_html += '%s<br /> \n' % itemid
-            print(double, ': ', u'Артикул:-->"', itemid, '"<--:Double', )
+            #print(double, ': ', u'Артикул:-->"', itemid, '"<--:Double', )
 
     backend = smtp.EmailBackend(
         host='smtp.yandex.ru',
