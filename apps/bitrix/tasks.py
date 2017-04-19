@@ -182,7 +182,7 @@ def get_products(products_list):
 
         for product in products:
             not_found_on_1c += 1
-            not_found_on_1c_html += '{0}<br />'.format(product.ItemID.ItemID)
+            not_found_on_1c_html += '{0}<br />'.format(product.ItemID[0].ItemID)
 
     except Product.DoesNotExist:
         pass
