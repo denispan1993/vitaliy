@@ -245,7 +245,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'serial_number', 'is_active', 'url', 'title', 'name', ]
     list_display_links = ['pk', 'serial_number', 'url', 'title', 'name', ]
     list_filter = ('title', 'name', )
-    search_fields = ['barcode', 'title', 'name', ]
+    search_fields = ['barcode', 'title', 'name', 'ItemID__ItemID', ]
     form = ProductAdminForm
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['category', 'id_1c', 'barcode', 'is_active', 'disclose_product',
