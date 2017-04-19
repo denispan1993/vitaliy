@@ -23,9 +23,9 @@ def process_bitrix_catalog(*args, **kwargs):
 
     start = time.time()
 
-    year = date.today().year,
-    month = date.today().month,
-    day = date.today().day,
+    year = date.today().year
+    month = date.today().month
+    day = date.today().day
     hour = datetime.now().hour
 
     path = 'storage/{app}/{year}/{month:02d}/{day:02d}/' \
