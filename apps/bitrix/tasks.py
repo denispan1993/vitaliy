@@ -70,7 +70,7 @@ def get_products(products_list):
         product_list = list(product)
 
         if 'itemid' in locals():
-            itemid.delete()
+            del(itemid)
 
         for n in xrange(5):
 
