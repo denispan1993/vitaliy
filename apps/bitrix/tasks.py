@@ -174,15 +174,13 @@ def get_products(products_list):
         i += 1
         time.sleep(5)
 
-    not_found_on_1c = 0
-    not_found_on_1c_html = ''
-
     try:
-        products = Product.objects.filter(id_1c__isnull=True, )
+        products_ItemID = Product.objects\
+            .filter(id_1c__isnull=True, )\
+            .values_list('ItemID__ItemID', flat=True)
 
-        for product in products:
-            not_found_on_1c += 1
-            not_found_on_1c_html += '{0}<br />'.format(product.ItemID[0].ItemID)
+        not_found_on_1c = len(products_ItemID)
+        not_found_on_1c_html = '<br />'.join(products_ItemID)
 
     except Product.DoesNotExist:
         pass
