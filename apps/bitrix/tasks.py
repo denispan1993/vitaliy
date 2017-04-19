@@ -321,7 +321,7 @@ def process_of_proposal(offers_list):
 
     msg = EmailMultiAlternatives(
         subject=u'Список Артикулов продукты которые есть в 1С и отсутствуют на сайте.',
-        body=strip_tags(there_is_in_1c, ),
+        body=strip_tags(there_is_in_1c_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
@@ -343,7 +343,7 @@ def process_of_proposal(offers_list):
 
     msg = EmailMultiAlternatives(
         subject=u'Список Артикулов продукты которые есть на сайте но отсутствуют в 1С.',
-        body=strip_tags(there_is_in_site, ),
+        body=strip_tags(there_is_in_site_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
         connection=backend, )
