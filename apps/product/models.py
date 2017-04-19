@@ -278,6 +278,10 @@ class Product(models.Model):
                                           default=1,
                                           blank=False,
                                           null=False, )
+    quantity_in_stock = models.IntegerField(verbose_name=_(u'Количество на складе'),
+                                            blank=False,
+                                            null=False,
+                                            default=0, )
     """
         Акции
     """

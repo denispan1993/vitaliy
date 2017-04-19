@@ -22,12 +22,18 @@ logger = get_task_logger(__name__)
 def process_bitrix_catalog(*args, **kwargs):
 
     start = time.time()
+
+    year = date.today().year,
+    month = date.today().month,
+    day = date.today().day,
+    hour = datetime.now().hour
+
     path = 'storage/{app}/{year}/{month:02d}/{day:02d}/' \
         .format(
             app='bitrix',
-            year=date.today().year,
-            month=date.today().month,
-            day=date.today().day,
+            year=year,
+            month=month,
+            day=day,
         )
 
     for name in os.listdir(path, ):
@@ -35,7 +41,7 @@ def process_bitrix_catalog(*args, **kwargs):
 
         if os.path.isfile(path_and_filename, )\
                 and name.split('.')[0] == 'import'\
-                and name.split('.')[1] == '{hour:02d}'.format(hour=datetime.now().hour, )\
+                and name.split('.')[1] == '{hour:02d}'.format(hour=hour, )\
                 and name.split('.')[-1] == 'xml':
 
             root = ET.parse(source=path_and_filename, ).getroot()
@@ -52,6 +58,22 @@ def process_bitrix_catalog(*args, **kwargs):
                             and elems_product_level[4].tag == u'Товары':
 
                         get_products(list(elems_product_level[4], ), )
+
+    for name in os.listdir(path, ):
+        path_and_filename = os.path.join(path, name)
+
+        if os.path.isfile(path_and_filename, )\
+                and name.split('.')[0] == 'offers'\
+                and name.split('.')[1] == '{hour:02d}'.format(hour=hour, )\
+                and name.split('.')[-1] == 'xml':
+
+            root = ET.parse(source=path_and_filename, ).getroot()
+            level1 = list(root[0])
+            for elem_second_level in level1:
+
+                if elem_second_level.tag == u'Предложения':
+
+                    process_of_proposal(offers_list=list(elem_second_level, ), )
 
     print "Process time: {}".format(time.time() - start, )
 
@@ -70,6 +92,8 @@ def get_products(products_list):
 
         if 'itemid' in locals():
             del(itemid)
+        if 'barcode' in locals():
+            del(barcode)
 
         for n in xrange(5):
 
@@ -82,11 +106,11 @@ def get_products(products_list):
             except IndexError:
                 break
         else:
-            print('line 85: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            print('line 87: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
 
         if 'itemid' not in locals():
-            print('line 89: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            print('line 91: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
             continue
 
         #print(itemid, len(itemid))
@@ -94,14 +118,18 @@ def get_products(products_list):
         try:
             product = ItemID.objects.get(ItemID=itemid, ).parent  # using('real').
 
-            #if product.id_1c:
+            if product.id_1c:
 
-            #    if product.id_1c != product_list[0].text:
-            #        print('line 93: fix !!! --> product.id_1c: ', product.id_1c,
-            #              ' --> product_list[0].text: ', product_list[0].text)
+                if product.id_1c != product_list[0].text:
+                    print('line 102: fix !!! --> product.id_1c: ', product.id_1c,
+                          ' --> product_list[0].text: ', product_list[0].text)
+                else:
+                    if 'barcode' in locals():
+                        product.barcode = barcode
 
-            #else:
-            product.id_1c = product_list[0].text.replace(' ', '', )
+            else:
+                product.id_1c = product_list[0].text.replace(' ', '', )
+
             product.save()
 
             success += 1
@@ -210,3 +238,123 @@ def get_products(products_list):
     print('unsuccess: ', unsuccess)
     print('double: ', double)
     print('not_found_on_1c: ', not_found_on_1c)
+
+
+def process_of_proposal(offers_list):
+
+    success = 0
+    there_is_in_1c = ''
+    there_is_in_site = ''
+
+    for offer in offers_list:
+        offer_list = list(offer)
+
+        if 'id_1c' in locals():
+            del(id_1c)
+
+        n = 0
+        while True:
+
+            try:
+                if offer_list[n].tag == u'Ид':
+                    id_1c = offer_list[n].text.replace(' ', '', )
+
+                if offer_list[n].tag == u'Количество':
+                    quantity_of_stock = offer_list[n].text.replace(' ', '', )
+
+            except IndexError:
+                break
+
+            n += 1
+
+        if 'id_1c' not in locals():
+            print('line 267: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+                  ' offer_list[0].text: ', offer_list[0].text)
+            continue
+
+        if 'quantity_of_stock' in locals():
+            try:
+                quantity_of_stock = int(quantity_of_stock)
+
+            except ValueError:
+                print('line 276: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+                      ' offer_list[0].text: ', offer_list[0].text)
+                continue
+        else:
+            print('line 280: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+                  ' offer_list[0].text: ', offer_list[0].text)
+
+        try:
+            product = Product.objects.get(id_1c=id_1c, )
+
+            if quantity_of_stock > 0 and product.is_availability == 1:
+                product.quantity_of_stock = quantity_of_stock
+                product.save()
+
+            if quantity_of_stock > 0 and product.is_availability != 1:
+                there_is_in_1c += '{}<br />'.format(product.ItemID.all()[0].ItemID)
+
+            if quantity_of_stock == 0 and product.is_availability == 1:
+                there_is_in_site += '{}<br />'.format(product.ItemID.all()[0].ItemID)
+
+            success += 1
+            # print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
+
+        except Product.DoesNotExist:
+            pass
+
+    backend = smtp.EmailBackend(
+        host='smtp.yandex.ru',
+        port=465,
+        username='site@keksik.com.ua',
+        password='1q2w3e4r!!!@@@',
+        use_tls=False,
+        fail_silently=False,
+        use_ssl=True,
+        timeout=30,
+        ssl_keyfile=None,
+        ssl_certfile=None, )
+
+    msg = EmailMultiAlternatives(
+        subject=u'Список Артикулов продукты которые есть в 1С и отсутствуют на сайте.',
+        body=strip_tags(there_is_in_1c, ),
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+        connection=backend, )
+
+    msg.attach_alternative(content=u'{0}'.format(there_is_in_1c, ),
+                           mimetype="text/html", )
+
+    msg.content_subtype = "html"
+    i = 0
+    while True:
+        result = msg.send(fail_silently=False, )
+
+        if (isinstance(result, int) and result == 1) or i > 100:
+            break
+
+        print('bitrix.tasks.process_bitrx_catalog.there_is_in_1c(i): ', i, ' result: ', result,)
+        i += 1
+        time.sleep(5)
+
+    msg = EmailMultiAlternatives(
+        subject=u'Список Артикулов продукты которые есть на сайте но отсутствуют в 1С.',
+        body=strip_tags(there_is_in_site, ),
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+        connection=backend, )
+
+    msg.attach_alternative(content=u'{0}'.format(there_is_in_site, ),
+                           mimetype="text/html", )
+
+    msg.content_subtype = "html"
+    i = 0
+    while True:
+        result = msg.send(fail_silently=False, )
+
+        if (isinstance(result, int) and result == 1) or i > 100:
+            break
+
+        print('bitrix.tasks.process_bitrx_catalog.there_is_in_site(i): ', i, ' result: ', result,)
+        i += 1
+        time.sleep(5)
