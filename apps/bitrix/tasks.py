@@ -69,7 +69,8 @@ def get_products(products_list):
     for product in products_list:
         product_list = list(product)
 
-        itemid.delete()
+        if 'itemid' in locals():
+            itemid.delete()
 
         for n in xrange(5):
 
