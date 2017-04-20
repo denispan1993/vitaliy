@@ -46,16 +46,16 @@ class GenerateShopYMLView(View):
         mod = import_module(class_module)
         clazz = getattr(mod, class_name)
         categories_tag = etree.SubElement(shop, 'categories')
-        for category in clazz.objects.all():
+        for category in clazz.objects.all().values('id', 'parent_id', 'title', ).order_by('id'):
             if not category.parent:
                 etree.SubElement(categories_tag,
                                  'category',
-                                 id=str(category.id)).text = category.title  # .get_name()
+                                 id=str(category['id'])).text = category['title']  # .get_name()
             else:
                 etree.SubElement(categories_tag,
                                  'category',
-                                 id=str(category.id),
-                                 parentId=str(category.parent_id)).text = category.title  # .get_name()
+                                 id=str(category['id']),
+                                 parentId=str(category['parent_id'])).text = category['title']  # .get_name()
 
     def set_products(self, shop):
         offers = etree.SubElement(shop, 'offers')
