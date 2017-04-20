@@ -47,7 +47,7 @@ class GenerateShopYMLView(View):
         clazz = getattr(mod, class_name)
         categories_tag = etree.SubElement(shop, 'categories')
         for category in clazz.objects.all().values('id', 'parent_id', 'title', ).order_by('id'):
-            if not category.parent:
+            if not category['parent_id']:
                 etree.SubElement(categories_tag,
                                  'category',
                                  id=str(category['id'])).text = category['title']  # .get_name()
