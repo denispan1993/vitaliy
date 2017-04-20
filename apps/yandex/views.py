@@ -7,17 +7,11 @@ from datetime import datetime
 
 from lxml import etree
 
+from proj.settings import YML_CONFIG
 from apps.product.models import Product
 
 # https://github.com/fmarchenko/django-shop-yml
 __author__ = 'AlexStarov'
-
-YML_CONFIG = {'name': u'Интернет магазин Кексик',
-              'company': u'Название компании',
-              'url': 'https://keksik.com.ua',
-              'currencies': ({'id': "UAH", 'rate': "1"}, ),
-              'category_model': 'apps.product.models.Category',
-              'local_delivery_cost': u'Бесплатно в Москве', }
 
 
 class GenerateShopYMLView(View):
@@ -37,11 +31,11 @@ class GenerateShopYMLView(View):
 
         self.set_categories(shop)
 
-        etree.SubElement(shop, 'local_delivery_cost').text = YML_CONFIG['local_delivery_cost']
+        # etree.SubElement(shop, 'local_delivery_cost').text = YML_CONFIG['local_delivery_cost']
 
-        self.set_products(shop)
+        # self.set_products(shop)
 
-        print etree.tostring(root)
+        # print etree.tostring(root)
 
         return HttpResponse(etree.tostring(root), content_type='text/xml')
 
@@ -53,7 +47,15 @@ class GenerateShopYMLView(View):
         clazz = getattr(mod, class_name)
         categories_tag = etree.SubElement(shop, 'categories')
         for category in clazz.objects.all():
-            etree.SubElement(categories_tag, 'category', id=str(category.id)).text = category.title  # .get_name()
+            if not category.parent:
+                etree.SubElement(categories_tag,
+                                 'category',
+                                 id=str(category.id)).text = category.title  # .get_name()
+            else:
+                etree.SubElement(categories_tag,
+                                 'category',
+                                 id=str(category.id),
+                                 parentId=str(category.parent_id)).text = category.title  # .get_name()
 
     def set_products(self, shop):
         offers = etree.SubElement(shop, 'offers')
