@@ -6,13 +6,16 @@ from django.utils.importlib import import_module
 from datetime import datetime
 
 from lxml import etree
+
+from apps.product.models import Product
+
 # https://github.com/fmarchenko/django-shop-yml
 __author__ = 'AlexStarov'
 
-YML_CONFIG = {'name': u'Название магазина',
+YML_CONFIG = {'name': u'Интернет магазин Кексик',
               'company': u'Название компании',
-              'url': 'http://example.com',
-              'currencies': ({'id': "RUR", 'rate': "1"}, ),
+              'url': 'https://keksik.com.ua',
+              'currencies': ({'id': "UAH", 'rate': "1"}, ),
               'category_model': 'apps.product.models.Category',
               'local_delivery_cost': u'Бесплатно в Москве', }
 
@@ -32,7 +35,15 @@ class GenerateShopYMLView(View):
         for currency in YML_CONFIG['currencies']:
             etree.SubElement(currencies, 'currency', rate=currency['rate'], id=currency['id'])
 
-        return HttpResponse('Hello, World!')
+        self.set_categories(shop)
+
+        etree.SubElement(shop, 'local_delivery_cost').text = YML_CONFIG['local_delivery_cost']
+
+        self.set_products(shop)
+
+        print etree.tostring(root)
+
+        return HttpResponse(etree.tostring(root), content_type='text/xml')
 
     def set_categories(self, shop):
         class_path = YML_CONFIG['category_model']
@@ -42,4 +53,24 @@ class GenerateShopYMLView(View):
         clazz = getattr(mod, class_name)
         categories_tag = etree.SubElement(shop, 'categories')
         for category in clazz.objects.all():
-            etree.SubElement(categories_tag, 'category', id=str(category.id)).text = category.get_name()
+            etree.SubElement(categories_tag, 'category', id=str(category.id)).text = category.title  # .get_name()
+
+    def set_products(self, shop):
+        offers = etree.SubElement(shop, 'offers')
+        i = 0
+        for product in Product.objects.filter(is_active=True):
+            offer = etree.SubElement(offers, 'offer', id=str(product.id), available="true")
+            etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
+            etree.SubElement(offer, 'price').text = str(product.get_price())
+            # etree.SubElement(offer, 'currencyId').text = product.get_currency()
+            try:
+                etree.SubElement(offer, 'categoryId').text = str(product.category.all()[0].id)
+            except IndexError:
+                pass
+                # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
+            etree.SubElement(offer, 'delivery').text = "true"
+            etree.SubElement(offer, 'name').text = product.title
+            #etree.SubElement(offer, 'name').text = product.get_name()
+            i += 1
+
+            #self.bar.update(i)
