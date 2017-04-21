@@ -4,6 +4,7 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.core.cache import cache
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -580,13 +581,18 @@ class Product(models.Model):
             except Currency.DoesNotExist:
                 pass
 
-        if 'current_currency_object' not in locals()\
-                or 'current_currency_object' not in globals():
+        if 'current_currency_object' not in locals():
 
-            try:
-                current_currency_object = Currency.objects.get(pk=currency_pk, )
-            except Currency.DoesNotExist:
-                pass
+            current_currency_object = cache.get(key='currency_pk_{0}'.format(currency_pk, ), )
+            if not current_currency_object:
+                try:
+                    current_currency_object = Currency.objects.get(pk=currency_pk, )
+                    cache.set(
+                        key='currency_pk_{0}'.format(currency_pk, ),
+                        value=current_currency_object,
+                        timeout=3600, )  # 60 sec * 60 min
+                except Currency.DoesNotExist:
+                    pass
 
         if not price:
             if self.in_action:
@@ -594,8 +600,7 @@ class Product(models.Model):
             else:
                 price = self.price
 
-        if 'current_currency_object' in locals()\
-                or 'current_currency_object' in globals():
+        if 'current_currency_object' in locals():
             current_currency_pk = current_currency_object.pk
             current_currency = current_currency_object.currency
             current_exchange_rate = current_currency_object.exchange_rate
