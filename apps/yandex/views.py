@@ -69,15 +69,16 @@ class GenerateShopYMLView(View):
             offer = etree.SubElement(offers, 'offer', id=str(product.id), available="true")
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
             etree.SubElement(offer, 'price').text = str(product.get_price())
-            # etree.SubElement(offer, 'currencyId').text = product.get_currency()
+            etree.SubElement(offer, 'currencyId').text = 'UAH'
             try:
                 etree.SubElement(offer, 'categoryId').text =\
                     str(product.category.all().values_list('id', flat=True)[0])
             except IndexError:
                 pass
                 # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
-            etree.SubElement(offer, 'delivery').text = "true"
+            etree.SubElement(offer, 'delivery').text = 'true'
             etree.SubElement(offer, 'name').text = product.name
+            etree.SubElement(offer, 'description').text = product.description
             #etree.SubElement(offer, 'name').text = product.get_name()
             i += 1
 
