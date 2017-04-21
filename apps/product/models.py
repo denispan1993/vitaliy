@@ -574,12 +574,21 @@ class Product(models.Model):
 
         elif not request and currency:
 
-            try:
-                currency = Currency.objects.get(currency_code_ISO_number=currency, )
+            currency = cache.get(key='currency_{0}'.format(currency, ), )
+            if not currency:
+                try:
+                    currency = Currency.objects.get(currency_code_ISO_number=currency, )
+                    cache.set(
+                        key='currency_{0}'.format(currency.currency_code_ISO_number, ),
+                        value=currency,
+                        timeout=3600, )  # 60 sec * 60 min
+                    currency_pk = currency.pk
+                    current_currency_object = currency
+                except Currency.DoesNotExist:
+                    pass
+            else:
                 currency_pk = currency.pk
                 current_currency_object = currency
-            except Currency.DoesNotExist:
-                pass
 
         if 'current_currency_object' not in locals():
 
