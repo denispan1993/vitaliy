@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.views.generic.base import View
 from django.utils.importlib import import_module
+from django.utils.html import strip_tags
 from django.db.models import Prefetch
 
 from datetime import datetime
@@ -78,7 +79,7 @@ class GenerateShopYMLView(View):
                 # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
             etree.SubElement(offer, 'delivery').text = 'true'
             etree.SubElement(offer, 'name').text = product.name
-            etree.SubElement(offer, 'description').text = product.description
+            etree.SubElement(offer, 'description').text = strip_tags(product.description)
             #etree.SubElement(offer, 'name').text = product.get_name()
             i += 1
 
