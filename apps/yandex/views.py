@@ -44,6 +44,9 @@ class GenerateShopYMLView(View):
         self.set_products(shop)
         print(" self.set_products(shop) --- %s seconds ---" % (time.time() - start_time), len(db.connection.queries))
 
+        for conn in db.connection.queries:
+            print('time: ', conn['time'], 'sql: ', conn['sql'], )
+
         # print etree.tostring(root)
 
         return HttpResponse(etree.tostring(root), content_type='text/xml')
