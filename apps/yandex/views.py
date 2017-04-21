@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.generic.base import View
 from django.utils.importlib import import_module
 from django.utils.html import strip_tags
+from django import db
 from django.db.models import Prefetch
 
 from datetime import datetime
@@ -32,14 +33,16 @@ class GenerateShopYMLView(View):
         for currency in YML_CONFIG['currencies']:
             etree.SubElement(currencies, 'currency', rate=currency['rate'], id=currency['id'])
 
+        db.reset_queries()
         start_time = time.time()
         self.set_categories(shop)
-        print(" self.set_categories(shop) --- %s seconds ---" % (time.time() - start_time))
+        print(" self.set_categories(shop) --- %s seconds ---" % (time.time() - start_time), len(db.connection.queries))
         # etree.SubElement(shop, 'local_delivery_cost').text = YML_CONFIG['local_delivery_cost']
 
+        db.reset_queries()
         start_time = time.time()
         self.set_products(shop)
-        print(" self.set_products(shop) --- %s seconds ---" % (time.time() - start_time))
+        print(" self.set_products(shop) --- %s seconds ---" % (time.time() - start_time), len(db.connection.queries))
 
         # print etree.tostring(root)
 
