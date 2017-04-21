@@ -590,7 +590,8 @@ class Product(models.Model):
                 currency_pk = currency.pk
                 current_currency_object = currency
 
-        if 'current_currency_object' not in locals():
+        if 'current_currency_object' not in locals()\
+                and (self.currency_id != 1 or currency_pk != 1):
 
             current_currency_object = cache.get(key='currency_pk_{0}'.format(currency_pk, ), )
             if not current_currency_object:
