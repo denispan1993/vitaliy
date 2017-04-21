@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.views.generic.base import View
 from django.utils.importlib import import_module
+from django.db.models import Prefetch
 
 from datetime import datetime
 import time
@@ -64,7 +65,7 @@ class GenerateShopYMLView(View):
     def set_products(self, shop):
         offers = etree.SubElement(shop, 'offers')
         i = 0
-        for product in Product.objects.select_related('category').published().order_by('id'):
+        for product in Product.objects.published().prefetch_related(Prefetch('category')).order_by('id'):
             offer = etree.SubElement(offers, 'offer', id=str(product['id']), available="true")
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
             #etree.SubElement(offer, 'price').text = str(product.get_price())
