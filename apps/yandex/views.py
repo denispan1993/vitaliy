@@ -66,7 +66,7 @@ class GenerateShopYMLView(View):
         offers = etree.SubElement(shop, 'offers')
         i = 0
         for product in Product.objects.published().prefetch_related(Prefetch('category')).order_by('id'):
-            offer = etree.SubElement(offers, 'offer', id=str(product['id']), available="true")
+            offer = etree.SubElement(offers, 'offer', id=str(product.id), available="true")
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
             #etree.SubElement(offer, 'price').text = str(product.get_price())
             # etree.SubElement(offer, 'currencyId').text = product.get_currency()
@@ -77,7 +77,7 @@ class GenerateShopYMLView(View):
                 pass
                 # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
             etree.SubElement(offer, 'delivery').text = "true"
-            etree.SubElement(offer, 'name').text = product['name']
+            etree.SubElement(offer, 'name').text = product.name
             #etree.SubElement(offer, 'name').text = product.get_name()
             i += 1
 
