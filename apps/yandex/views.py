@@ -79,7 +79,9 @@ class GenerateShopYMLView(View):
                 # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
             etree.SubElement(offer, 'delivery').text = 'true'
             etree.SubElement(offer, 'name').text = product.name
-            etree.SubElement(offer, 'description').text = strip_tags(product.description)
+            etree.SubElement(offer, 'description').text = strip_tags(product.description)\
+                .replace('&nbsp;', ' ',)\
+                .replace('  ', ' ', )
             #etree.SubElement(offer, 'name').text = product.get_name()
             i += 1
 
