@@ -233,7 +233,12 @@ class Product(models.Model):
     is_featured = models.BooleanField(verbose_name=_(u'Ожидается'), default=False, blank=False, null=False,
                                       help_text=u'Если мы знаем, что продукт будет доступен на складе через некоторое'
                                                 u' время, ставим данное поле в True.', )
-    category = models.ManyToManyField(Category, related_name=u'products', verbose_name=_(u'Категории'), blank=False,
+    category = models.ManyToManyField(Category,
+                                      related_name=u'products',
+                                      verbose_name=_(u'Категории'),
+                                      # through='ProductToCategory',
+                                      # through_fields=('product', 'category', ),
+                                      blank=False,
                                       null=False, )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
                                                      # visibility=True,
@@ -574,12 +579,15 @@ class Product(models.Model):
 
         elif not request and currency:
 
-            currency = cache.get(key='currency_{0}'.format(currency, ), )
+            key = 'currency_{0}'.format(currency, )
+            print 'key: ', key
+            currency = cache.get(key=key, )
             if not currency:
                 try:
                     currency = Currency.objects.get(currency_code_ISO_number=currency, )
+                    print 'not key: ', currency.currency_code_ISO_number
                     cache.set(
-                        key='currency_{0}'.format(currency.currency_code_ISO_number, ),
+                        key=key,
                         value=currency,
                         timeout=3600, )  # 60 sec * 60 min
                     currency_pk = currency.pk
@@ -718,6 +726,16 @@ class Product(models.Model):
         ordering = ['-created_at', ]
         verbose_name = u'Продукт'
         verbose_name_plural = u'Продукты'
+
+
+class ProductToCategory(models.Model):
+    product = models.ForeignKey(Product, related_name='membership')
+    category = models.ForeignKey(Category, related_name='membership')
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+
+    class Meta:
+        db_table = 'Product_category'
 
 
 class ItemID(models.Model):
