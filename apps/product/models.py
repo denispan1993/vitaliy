@@ -728,14 +728,14 @@ class Product(models.Model):
         verbose_name_plural = u'Продукты'
 
 
-class ProductToCategory(models.Model):
-    product = models.ForeignKey(Product, related_name='membership')
-    category = models.ForeignKey(Category, related_name='membership')
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+#class ProductToCategory(models.Model):
+#    product = models.ForeignKey(Product, related_name='membership')
+#    category = models.ForeignKey(Category, related_name='membership')
+#    created_at = models.DateTimeField(auto_now_add=True, )
+#    updated_at = models.DateTimeField(auto_now=True, )
 
-    class Meta:
-        db_table = 'Product_category'
+#    class Meta:
+#        db_table = 'Product_category'
 
 
 class ItemID(models.Model):
