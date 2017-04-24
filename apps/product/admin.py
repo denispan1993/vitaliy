@@ -10,10 +10,11 @@ from suit.widgets import AutosizedTextarea
 
 from mptt.admin import MPTTModelAdmin
 
-from .models import Category, Product, Photo, ItemID, IntermediateModelManufacturer,\
-    Information, Additional_Information, Discount, Unit_of_Measurement,\
-    Country, View, Viewed, InformationForPrice, Currency, City, Region,\
-    AdditionalInformationForPrice, ExtendedPrice, InformationForPrice
+from .models import Category, Product, ProductToCategory, Photo, ItemID,\
+    IntermediateModelManufacturer, Information, Additional_Information,\
+    Discount, Unit_of_Measurement, Country, View, Viewed, InformationForPrice,\
+    Currency, City, Region, AdditionalInformationForPrice, ExtendedPrice,\
+    InformationForPrice
 
 admin.site.register(Photo, admin.ModelAdmin, )
 
@@ -27,6 +28,7 @@ class genericStackedPhotoInLine(GenericStackedInline, ):
     extra = 1
 
 
+@admin.register(Category)
 class CategoryAdmin(MPTTModelAdmin, ):
     #MPTT
     mptt_indent_field = 'parent'
@@ -72,14 +74,14 @@ class CategoryAdmin(MPTTModelAdmin, ):
               '/media/js/admin/tinymce/tinymce_init.js', )
 
 
-class ItemIDAdmin(admin.ModelAdmin, ):
-    model = ItemID
+#class ItemIDAdmin(admin.ModelAdmin, ):
+#    model = ItemID
 
-    def save_model(*args, **kwargs):
-        bbb = ItemID.bbb
+#    def save_model(*args, **kwargs):
+#        bbb = ItemID.bbb
         # pass
 
-admin.site.register(ItemID, ItemIDAdmin, )
+#admin.site.register(ItemID, ItemIDAdmin, )
 
 
 class genericStackedItemIDInLine(GenericStackedInline, ):
@@ -87,8 +89,8 @@ class genericStackedItemIDInLine(GenericStackedInline, ):
     extra = 1
     max_num = 1
 
-    def save_model(*args, **kwargs):
-        bbb = ItemID.bbb
+    # def save_model(*args, **kwargs):
+    #    bbb = ItemID.bbb
         # pass
 
 
@@ -98,9 +100,10 @@ class genericStacked_IntermediateModelManufacturer_InLine(GenericStackedInline, 
     max_num = 1
 
 
+@admin.register(Manufacturer)
 class ManufacturerAdmin(admin.ModelAdmin, ):
     model = Manufacturer
-admin.site.register(Manufacturer, ManufacturerAdmin, )
+#admin.site.register(Manufacturer, ManufacturerAdmin, )
 
 
 class genericPhotoInLineforInformation(GenericStackedInline, ):
@@ -241,6 +244,12 @@ class ProductAdminForm(forms.ModelForm):
                    }
 
 
+class ProductToCategoryInlineAdmin(admin.TabularInline):
+    model = ProductToCategory
+    extra = 3
+
+
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'serial_number', 'is_active', 'url', 'title', 'name', ]
     list_display_links = ['pk', 'serial_number', 'url', 'title', 'name', ]
@@ -248,7 +257,8 @@ class ProductAdmin(admin.ModelAdmin, ):
     search_fields = ['barcode', 'title', 'name', 'ItemID__ItemID', ]
     form = ProductAdminForm
     fieldsets = [
-        (None,               {'classes': ['wide'], 'fields': ['category', 'id_1c', 'barcode', 'is_active', 'disclose_product',
+        #(None,               {'classes': ['wide'], 'fields': ['category', 'id_1c', 'barcode', 'is_active', 'disclose_product',
+        (None,               {'classes': ['wide'], 'fields': ['id_1c', 'barcode', 'is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',
                                                               'title', 'name', 'description',  # 'manufacturer',
                                                               'recommended',
@@ -266,8 +276,10 @@ class ProductAdmin(admin.ModelAdmin, ):
     readonly_fields = ('id_1c', )
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
+#    filter_horizontal = ('recommended', 'action', )
     filter_horizontal = ('category', 'recommended', 'action', )
     inlines = [
+        ProductToCategoryInlineAdmin,
         genericStackedItemIDInLine,
         genericStacked_IntermediateModelManufacturer_InLine,
         Tabular_Discount_InLine,
@@ -297,6 +309,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         js = ('/media/js/admin/ruslug-urlify.js', )
 
 
+@admin.register(Country)
 class CountryAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name_ru', 'name_en', 'phone_code', 'url', ]
     list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
@@ -310,10 +323,10 @@ class CountryAdmin(admin.ModelAdmin, ):
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
+#admin.site.register(Country, CountryAdmin, )
 
-admin.site.register(Country, CountryAdmin, )
 
-
+@admin.register(Region)
 class RegionAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name_ru', 'name_en', 'url', ]
     list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
@@ -329,10 +342,10 @@ class RegionAdmin(admin.ModelAdmin, ):
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
+#admin.site.register(Region, RegionAdmin, )
 
-admin.site.register(Region, RegionAdmin, )
 
-
+@admin.register(City)
 class CityAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name_ru', 'name_en', 'phone_code', 'url', ]
     list_display_links = ['pk', 'name_ru', 'name_en', 'url', ]
@@ -349,10 +362,10 @@ class CityAdmin(admin.ModelAdmin, ):
 
     class Media:
         js = ('/media/js/admin/ruslug-urlify.js', )
+#admin.site.register(City, CityAdmin, )
 
-admin.site.register(City, CityAdmin, )
 
-
+@admin.register(Currency)
 class CurrenceAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'country', 'name_ru', 'name_truncated', 'name_en', ]
     list_display_links = ['pk', 'name_ru', 'name_truncated', 'name_en', ]
@@ -364,10 +377,9 @@ class CurrenceAdmin(admin.ModelAdmin, ):
                                                           'currency_code_char', ], }, ),
     ]
 
-admin.site.register(Currency, CurrenceAdmin, )
+#admin.site.register(Currency, CurrenceAdmin, )
 
-admin.site.register(Category, CategoryAdmin, )
-admin.site.register(Product, ProductAdmin, )
+#admin.site.register(Category, CategoryAdmin, )
 #admin.site.register(Additional_Information, NestedAdditional_Information_Admin, )
 admin.site.register(Information, admin.ModelAdmin, )
 admin.site.register(Unit_of_Measurement, admin.ModelAdmin, )
@@ -379,6 +391,7 @@ admin.site.register(Viewed, admin.ModelAdmin, )
 #admin.site.register(ExtendedPrice, admin.ModelAdmin, )
 
 
+@admin.register(InformationForPrice)
 class InformationForPriceAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'information', ]
     list_display_links = ['pk', 'information', ]
@@ -386,4 +399,4 @@ class InformationForPriceAdmin(admin.ModelAdmin, ):
         (None,               {'classes': ['wide'], 'fields': ['product', 'information', ], }, ),
     ]
     readonly_fields = ('product', )
-admin.site.register(InformationForPrice, InformationForPriceAdmin, )
+#admin.site.register(InformationForPrice, InformationForPriceAdmin, )

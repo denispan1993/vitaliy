@@ -236,8 +236,8 @@ class Product(models.Model):
     category = models.ManyToManyField(Category,
                                       related_name=u'products',
                                       verbose_name=_(u'Категории'),
-                                      # through='ProductToCategory',
-                                      # through_fields=('product', 'category', ),
+                                      through='ProductToCategory',
+                                      through_fields=('product', 'category', ),
                                       blank=False,
                                       null=False, )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
@@ -728,14 +728,15 @@ class Product(models.Model):
         verbose_name_plural = u'Продукты'
 
 
-#class ProductToCategory(models.Model):
-#    product = models.ForeignKey(Product, related_name='membership')
-#    category = models.ForeignKey(Category, related_name='membership')
-#    created_at = models.DateTimeField(auto_now_add=True, )
-#    updated_at = models.DateTimeField(auto_now=True, )
+class ProductToCategory(models.Model):
+    product = models.ForeignKey(Product, )
+    category = models.ForeignKey(Category, )
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
 
-#    class Meta:
-#        db_table = 'Product_category'
+    class Meta:
+        unique_together = ('product', 'category', )
+        db_table = 'ProductToCategory'
 
 
 class ItemID(models.Model):
