@@ -72,11 +72,7 @@ class GenerateShopYMLView(View):
     def set_products(self, shop):
         offers = etree.SubElement(shop, 'offers')
         i = 0
-        for product in Product.objects\
-                .published()\
-                .only('id', 'is_availability', 'url', 'price', 'currencyId', 'name', 'description')\
-                .prefetch_related(Prefetch('category'))\
-                .order_by('id')[:1000]:
+        for product in Product.objects.published().only('id', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description').prefetch_related('producttocategory_set').order_by('id')[:1000]:
 
             if product.is_availability == 1:
                 available = 'true'
@@ -93,7 +89,7 @@ class GenerateShopYMLView(View):
 
             try:
                 etree.SubElement(offer, 'categoryId').text =\
-                    str(product.category.all().values_list('id', flat=True)[0])
+                    str(product.category.all().only('id').values_list('id', flat=True)[0])
             except IndexError:
                 pass
                 # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
