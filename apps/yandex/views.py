@@ -72,11 +72,25 @@ class GenerateShopYMLView(View):
     def set_products(self, shop):
         offers = etree.SubElement(shop, 'offers')
         i = 0
-        for product in Product.objects.published().prefetch_related(Prefetch('category')).order_by('id'):
-            offer = etree.SubElement(offers, 'offer', id=str(product.id), available="true")
+        for product in Product.objects\
+                .published()\
+                .only('id', 'is_availability', 'url', 'price', 'currencyId', 'name', 'description')\
+                .prefetch_related(Prefetch('category'))\
+                .order_by('id')[:1000]:
+
+            if product.is_availability == 1:
+                available = 'true'
+            elif product.is_availability in [2, 3]:
+                available = 'false'
+            else:
+                continue
+
+            offer = etree.SubElement(offers, 'offer', id=str(product.id), available=available)
+
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
             etree.SubElement(offer, 'price').text = str(product.get_price())
             etree.SubElement(offer, 'currencyId').text = 'UAH'
+
             try:
                 etree.SubElement(offer, 'categoryId').text =\
                     str(product.category.all().values_list('id', flat=True)[0])
@@ -87,6 +101,15 @@ class GenerateShopYMLView(View):
             etree.SubElement(offer, 'name').text = product.name
             etree.SubElement(offer, 'description').text = strip_tags(product.description)\
                 .replace('&nbsp;', ' ',)\
+                .replace('           ', ' ', )\
+                .replace('          ', ' ', )\
+                .replace('         ', ' ', )\
+                .replace('        ', ' ', )\
+                .replace('       ', ' ', )\
+                .replace('      ', ' ', )\
+                .replace('     ', ' ', )\
+                .replace('    ', ' ', )\
+                .replace('   ', ' ', )\
                 .replace('  ', ' ', )
             #etree.SubElement(offer, 'name').text = product.get_name()
             i += 1
