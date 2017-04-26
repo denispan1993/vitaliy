@@ -71,8 +71,8 @@ class GenerateShopYMLView(View):
 
     def set_products(self, shop):
         offers = etree.SubElement(shop, 'offers')
-        i = 0
-        for product in Product.objects.published().only('id', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description').prefetch_related('producttocategory_set').order_by('id')[:1000]:
+        i = 0  # .only('id', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description')
+        for product in Product.objects.published().prefetch_related('producttocategory_set').order_by('id')[:1000]:
 
             if product.is_availability == 1:
                 available = 'true'
@@ -88,8 +88,10 @@ class GenerateShopYMLView(View):
             etree.SubElement(offer, 'currencyId').text = 'UAH'
 
             try:
+                #print product._meta.get_all_field_names()
                 etree.SubElement(offer, 'categoryId').text =\
-                    str(product.category.all().only('id').values_list('id', flat=True)[0])
+                    str(product.producttocategory_set.all()[0].id)
+                    # str(product.category.all().only('id').values_list('id', flat=True)[0])
             except IndexError:
                 pass
                 # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
