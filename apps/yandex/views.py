@@ -71,8 +71,8 @@ class GenerateShopYMLView(View):
 
     def set_products(self, shop):
         offers = etree.SubElement(shop, 'offers')
-        i = 0  # .only('id', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description')
-        for product in Product.objects.published().prefetch_related('producttocategory_set').order_by('id')[:1000]:
+        i = 0
+        for product in Product.objects.published().only('id', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description').prefetch_related('producttocategory_set').order_by('id'):
 
             if product.is_availability == 1:
                 available = 'true'
