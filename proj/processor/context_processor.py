@@ -69,22 +69,8 @@ def context(request):
         except Category.DoesNotExist:
             pass
 
-    """ Категории НЕ верхнего уровня """
-    categories_not_basement = cache.get(key='categories_not_basement', )
-
-    if not categories_not_basement:
-        try:
-            categories_not_basement = Category.objects.not_basement()
-            cache.set(
-                key='categories_not_basement',
-                value=categories_not_basement,
-                timeout=3600, )  # 60 sec * 60 min
-        except Category.DoesNotExist:
-            pass
-
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
-        # from django.contrib.auth.models import User
         UserModel = get_user_model()
         try:
             user_id_ = int(user_id_, )
