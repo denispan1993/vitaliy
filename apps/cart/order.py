@@ -248,9 +248,9 @@ def result_ordering(request, ):
                         timeout=15,
                     )
                 else:
-                    return redirect(to='cart:already_processing_ru', permanent=True, )
+                    return redirect(to='order:already_processing_ru', permanent=True, )
             else:
-                return redirect(to='cart:already_processing_ru', permanent=True, )
+                return redirect(to='order:already_processing_ru', permanent=True, )
 
             # FIO = request.session.get(u'FIO', None, )
             # email = request.session.get(u'email', None, )
@@ -263,10 +263,10 @@ def result_ordering(request, ):
                     order = Order.objects.get(pk=order_pk, )
 
                 except Order.DoesNotExist:
-                    return redirect(to='cart:unsuccessful_ru', permanent=True, )
+                    return redirect(to='order:unsuccessful_ru', permanent=True, )
 
             except ValueError:
-                return redirect(to='cart:unsuccessful_ru', permanent=True, )
+                return redirect(to='order:unsuccessful_ru', permanent=True, )
 
             if select_country == 1:
                 """ Страна Украина """
@@ -306,7 +306,7 @@ def result_ordering(request, ):
             order.save()
             cart, create = get_cart_or_create(request, )
             if create:
-                return redirect(to='cart:unsuccessful_ru', permanent=True, )
+                return redirect(to='order:unsuccessful_ru', permanent=True, )
             try:
                 """ Выборка всех продуктов из корзины """
                 all_products = cart.cart.all()
@@ -351,11 +351,11 @@ def result_ordering(request, ):
                     task_id='celery-task-id-recompile_order-{0}'.format(celery.utils.uuid(), ),
                 )
 
-                return redirect(to='cart:successful_ru', permanent=True, )
+                return redirect(to='order:successful_ru', permanent=True, )
         else:
-            return redirect(to='cart:unsuccessful_ru', permanent=True, )
+            return redirect(to='order:unsuccessful_ru', permanent=True, )
     else:
-        return redirect(to='cart:unsuccessful_ru', permanent=True, )
+        return redirect(to='order:unsuccessful_ru', permanent=True, )
 
 
 def order_success(request,
@@ -367,7 +367,7 @@ def order_success(request,
     order = None
 
     if order_pk is None:
-        return redirect(to='cart:unsuccessful_ru', )
+        return redirect(to='order:unsuccessful_ru', )
 
     else:
         try:
