@@ -195,7 +195,6 @@ def context(request):
                         'current_currency_': current_currency,
                         'slides_': slides,
                         'categories_basement_': categories_basement,
-                        'categories_not_basement_': categories_not_basement,
                         'user_cart_': user_cart,
                         'coupon_': coupon, })
     return return_dict
