@@ -4,14 +4,18 @@ from django.views.generic.base import View
 from django.utils.importlib import import_module
 from django.utils.html import strip_tags
 from django import db
-from django.db.models import Prefetch
+#from django.db.models import Prefetch
 
 from datetime import datetime
 import time
 
 from lxml import etree
 
-from proj.settings import YML_CONFIG
+try:
+    from proj.settings import YML_CONFIG
+except ImportError:
+    YML_CONFIG = None
+
 from apps.product.models import Product
 
 # https://github.com/fmarchenko/django-shop-yml

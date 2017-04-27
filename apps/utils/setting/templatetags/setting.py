@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django_jinja.library import global_function
+from django.core.cache import cache
 
 from apps.utils.setting.models import Setting
 
@@ -13,7 +14,13 @@ def get_value_variable(variable_name, variable_type, ):
     value = 'None'
     variable_type = variable_type.lower()
     try:
-        variable_set = Setting.objects.get(variable_name=variable_name, )
+        variable_set = cache.get(key='variable_set_%s' % variable_name, )
+        if not variable_set:
+            variable_set = Setting.objects.get(variable_name=variable_name, )
+            cache.set(
+                key='variable_set_%s' % variable_name,
+                value=variable_set,
+                timeout=3600, )  # 60 sec * 60 min
 
         if variable_type == 'img':
             """ Получаем запись непосредственно на запись в базе данных на нашу картинку """

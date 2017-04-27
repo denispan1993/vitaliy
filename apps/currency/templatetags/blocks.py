@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django_jinja.library import global_function # import library
+from django.core.cache import cache
 
 from apps.product.models import Currency
 
@@ -12,13 +13,14 @@ def get_currency(request, ):
     current_currency = request.session.get(u'currency_pk', )
 
     if current_currency:
-
-        try:
-            return Currency.objects\
-                .values_list('name_truncated', flat=True)\
-                .get(pk=current_currency, )
-        except Currency.DoesNotExist:
-            pass
+        currency_all = cache.get(key='currency_all', )
+        return currency_all.filter(pk=current_currency)[0].name_truncated
+        #try:
+        #    return Currency.objects\
+        #        .values_list('name_truncated', flat=True)\
+        #        .get(pk=current_currency, )
+        #except Currency.DoesNotExist:
+        #    pass
 
     return u'грн.'
 

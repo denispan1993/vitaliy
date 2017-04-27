@@ -31,7 +31,7 @@ class Category(MPTTModel):
         verbose_name=_(u'Вышестоящая категория', ),
         null=True,
         blank=True,
-        related_name=u'children', )
+        related_name='children', )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                                      # visibility=True,
                                                      default=1,
@@ -202,7 +202,7 @@ class Category(MPTTModel):
     class Meta:
         db_table = 'Category'
 #        ordering = ['serial_number', '-created_at', ]
-        ordering = ['-created_at', ]
+        ordering = ['-title', ]
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
 
@@ -624,8 +624,18 @@ class Product(models.Model):
             current_exchange_rate = current_currency_object.exchange_rate
 
             product_currency_pk = self.currency_id
-            product_currency = self.currency.currency
-            product_exchange_rate = self.currency.exchange_rate
+
+            product_currency_obj = cache.get(key='currency_pk_{0}'.format(product_currency_pk, ), )
+            if not product_currency_obj:
+                product_currency_obj = self.currency
+                cache.set(
+                    key='currency_pk_{0}'.format(self.currency_id, ),
+                    value=product_currency_obj,
+                    timeout=3600, )  # 60 sec * 60 min
+
+            product_currency = product_currency_obj.currency
+
+            product_exchange_rate = product_currency_obj.exchange_rate
             if current_currency_pk == 1 and product_currency_pk != 1:
                 ''' Приводим к гривне:
                     1. цену делим на количество гривен

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import resolve, Resolver404
+from django.core.cache import cache
 
 from apps.cart.order import get_cart_or_create
 from apps.product.models import Category, Currency
@@ -20,39 +21,56 @@ def context(request):
     except Static.DoesNotExist:
         static_pages = None
 
-    try:
-        currency = Currency.objects.all()
-    except Currency.DoesNotExist:
-        currency = None
+    currency = cache.get(key='currency_all', )
+
+    if not currency:
+
+        try:
+            currency = Currency.objects.all()
+            cache.set(
+                key='currency_all',
+                value=currency,
+                timeout=3600, )  # 60 sec * 60 min
+        except Currency.DoesNotExist:
+            currency = None
 
     """ Проверяем session на наличие currency pk """
     currency_pk = request.session.get(u'currency_pk', None, )
-    if currency_pk:
-        try:
-            currency_pk = int(currency_pk, )
-        except ValueError:
-            request.session[u'currency_pk'] = 1
-            current_currency = currency.get(pk=1, )
-        else:
-            try:
-                current_currency = currency.get(pk=currency_pk, )
-            except Currency.DoesNotExist:
-                current_currency = currency.get(pk=1, )
-            else:
-                request.session[u'currency_pk'] = currency_pk
-    else:
+    try:
+        current_currency = currency.filter(pk=currency_pk, )[0]
+        request.session[u'currency_pk'] = currency_pk
+    except (Currency.DoesNotExist, ValueError):
+        current_currency = currency.filter(pk=1, )[0]
         request.session[u'currency_pk'] = 1
-        current_currency = currency.get(pk=1, )
 
-    try:
-        slides = Slide.manager.visible()
-    except Slide.DoesNotExist:
-        slides = None
+    """ Слайды """
+    slides = cache.get(key='slides_visible', )
 
-    try:
-        categories_basement = Category.objects.basement()
-    except Category.DoesNotExist:
-        categories_basement = None
+    if not slides:
+        try:
+            slides = Slide.manager.visible()
+            cache.set(
+                key='slides_visible',
+                value=slides,
+                timeout=3600, )  # 60 sec * 60 min
+
+        except Slide.DoesNotExist:
+            slides = None
+
+    """ Категории верхнего уровня """
+    categories_basement = cache.get(key='categories_basement', )
+
+    if not categories_basement:
+        try:
+            categories_basement = Category.objects\
+                .basement()\
+                .select_related('parent', 'parent__parent', 'parent__parent__parent', 'parent__parent__parent__parent', )
+            cache.set(
+                key='categories_basement',
+                value=categories_basement,
+                timeout=3600, )  # 60 sec * 60 min
+        except Category.DoesNotExist:
+            categories_basement = None
 
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
@@ -60,10 +78,10 @@ def context(request):
         UserModel = get_user_model()
         try:
             user_id_ = int(user_id_, )
+            user_object = UserModel.objects.get(pk=user_id_, )
         except ValueError:
             user_object = None
-        else:
-            user_object = UserModel.objects.get(pk=user_id_, )
+
     else:
         user_object = None
 
