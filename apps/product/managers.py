@@ -36,6 +36,9 @@ class ManagerCategory(models.Manager):
     def basement(self, *args, **kwargs):
         return self.serial_number(*args, **kwargs).filter(parent__isnull=True, )
 
+    def not_basement(self, *args, **kwargs):
+        return self.serial_number(*args, **kwargs).filter(parent__isnull=False, )
+
 
 class ManagerProduct(models.Manager):
 

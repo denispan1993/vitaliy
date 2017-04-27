@@ -76,8 +76,9 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 </script>
 <nav id="menu">
     <ul>
-        {% for cat in categories_basement_ recursive %}
-            {% set children = cat.children.serial_number() %}
+         {% for cat in categories_basement_ recursive %}
+            {# {% set children = cat.children.serial_number() %} #}
+            {% set children = queryset_filter(cat, categories_not_basement_) %}
             <li>
                 <a href="{{ cat.get_absolute_url() }}" style="display:none;">{{ cat.title }}</a>
                 {% if children %}

@@ -38,7 +38,6 @@ def context(request):
     currency_pk = request.session.get(u'currency_pk', None, )
     try:
         current_currency = currency.filter(pk=currency_pk, )[0]
-        request.session[u'currency_pk'] = currency_pk
     except (Currency.DoesNotExist, ValueError, IndexError):
         current_currency = currency.filter(pk=1, )[0]
         request.session[u'currency_pk'] = 1
@@ -62,15 +61,26 @@ def context(request):
 
     if not categories_basement:
         try:
-            categories_basement = Category.objects\
-                .basement()\
-                .select_related('parent', 'parent__parent', 'parent__parent__parent', 'parent__parent__parent__parent', )
+            categories_basement = Category.objects.basement()
             cache.set(
                 key='categories_basement',
                 value=categories_basement,
                 timeout=3600, )  # 60 sec * 60 min
         except Category.DoesNotExist:
             categories_basement = None
+
+    """ Категории НЕ верхнего уровня """
+    categories_not_basement = cache.get(key='categories_not_basement', )
+
+    if not categories_not_basement:
+        try:
+            categories_not_basement = Category.objects.not_basement()
+            cache.set(
+                key='categories_not_basement',
+                value=categories_not_basement,
+                timeout=3600, )  # 60 sec * 60 min
+        except Category.DoesNotExist:
+            categories_not_basement = None
 
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
@@ -199,6 +209,7 @@ def context(request):
                         'current_currency_': current_currency,
                         'slides_': slides,
                         'categories_basement_': categories_basement,
+                        'categories_not_basement_': categories_not_basement,
                         'user_cart_': user_cart,
                         'coupon_': coupon, })
     return return_dict

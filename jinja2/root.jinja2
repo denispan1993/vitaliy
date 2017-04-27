@@ -334,7 +334,8 @@ try{
             {% djcache 600 'menu_categories_orignal' %}
             {% for cat in categories_basement_ recursive %}
 {#                 {% set children = cat.children.all()|sort(attribute='serial_number') %} #}
-                {% set children = cat.children.serial_number() %}
+{#                 {% set children = cat.children.serial_number() %} #}
+                {% set children = queryset_filter(cat, categories_not_basement_) %}
                 <li{# {% if children %} attribute="children_true"{% endif %} #}>
                     <a {% if cat.shown_colored or cat.shown_bold or cat.shown_italic %}class="{% if cat.shown_colored %}colored {% endif %}{% if cat.shown_bold %}bold {% endif %}{% if cat.shown_italic %}italic{% endif %}" {% endif %}
                        href="{{ cat.get_absolute_url() }}"
