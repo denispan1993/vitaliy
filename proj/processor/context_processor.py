@@ -39,7 +39,7 @@ def context(request):
     try:
         current_currency = currency.filter(pk=currency_pk, )[0]
         request.session[u'currency_pk'] = currency_pk
-    except (Currency.DoesNotExist, ValueError):
+    except (Currency.DoesNotExist, ValueError, IndexError):
         current_currency = currency.filter(pk=1, )[0]
         request.session[u'currency_pk'] = 1
 
