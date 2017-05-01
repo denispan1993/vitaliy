@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import resolve, Resolver404
 from django.core.cache import cache
+from django.forms.models import model_to_dict
 
 from apps.cart.order import get_cart_or_create
 from apps.product.models import Category, Currency
@@ -34,12 +35,27 @@ def context(request):
         except Currency.DoesNotExist:
             currency = None
 
+    currency_dict = cache.get(key='currency_dict_all', )
+
+    if not currency_dict and currency:
+
+        currency_dict = {}
+        for currency_inst in currency:
+            currency_dict.update({currency_inst.id: model_to_dict(currency_inst)})
+
+        cache.set(
+            key='currency_dict_all',
+            value=currency_dict,
+            timeout=3600, )  # 60 sec * 60 min
+
     """ Проверяем session на наличие currency pk """
     currency_pk = request.session.get(u'currency_pk', None, )
     try:
-        current_currency = currency.filter(pk=currency_pk, )[0]
+        current_currency = currency.get(pk=currency_pk, )
+        current_currency_dict = currency_dict.get(int(currency_pk), None, )
     except (Currency.DoesNotExist, ValueError, IndexError):
-        current_currency = currency.filter(pk=1, )[0]
+        current_currency = currency.get(pk=1, )
+        current_currency_dict = currency_dict.get(1, None, )
         request.session[u'currency_pk'] = 1
 
     """ Слайды """
@@ -192,7 +208,9 @@ def context(request):
 
     return_dict.update({'static_pages_': static_pages,
                         'currency_': currency,
+                        'currency_dict_': currency_dict,
                         'current_currency_': current_currency,
+                        'current_currency_dict_': current_currency_dict,
                         'slides_': slides,
                         'categories_basement_': categories_basement,
                         'user_cart_': user_cart,

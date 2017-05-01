@@ -133,15 +133,14 @@ try{
             </script> #}
             <select onchange="document.CurrencyChange.submit();"
                     name="currency">
-                {% for currency in currency_ %}
-                    {% if currency.pk == request.session.currency_pk %}
+                {% for key in currency_dict_ %}
+                    <!-- {{ currency_dict_[key] }} -->
+                    {% if currency_dict_[key]['id'] == request.session.currency_pk %}
                         <option id="selected"
-                                value="{{ currency.pk }}"
-                                selected>
-                            {# <b> #}{{ currency.name_ru|capfirst }}{# </b> #}
-                        </option>
+                                value="{{ currency_dict_[key]['id'] }}"
+                                selected>{{ currency_dict_[key]['name_ru']|capfirst }}</option>
                     {% else %}
-                        <option value="{{ currency.pk }}">{{ currency.name_ru|capfirst }}</option>
+                        <option value="{{ currency_dict_[key]['id'] }}">{{ currency_dict_[key]['name_ru']|capfirst }}</option>
                     {% endif %}
                 {% endfor %}
             </select>

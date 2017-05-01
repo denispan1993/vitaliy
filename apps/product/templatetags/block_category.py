@@ -1,8 +1,8 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from django_jinja.library import global_function
 from django.template.loader import render_to_string
 
-__author__ = 'Sergey'
+__author__ = 'AlexStarov'
 
 
 @global_function()
