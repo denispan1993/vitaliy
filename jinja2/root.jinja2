@@ -134,7 +134,6 @@ try{
             <select onchange="document.CurrencyChange.submit();"
                     name="currency">
                 {% for key in currency_dict_ %}
-                    <!-- {{ currency_dict_[key] }} -->
                     {% if currency_dict_[key]['id'] == request.session.currency_pk %}
                         <option id="selected"
                                 value="{{ currency_dict_[key]['id'] }}"
