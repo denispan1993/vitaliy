@@ -352,7 +352,7 @@ function deferred_start_slide(script) {
             };
 
     s.type = "text/javascript";
-    s.defer = true;
+    s.async = true;
     s.src = script;
 
     if (w.opera == "[object Opera]") {
@@ -369,8 +369,8 @@ function load_javascripts_for_slider_onresize() {
         run_once_done = true;
 
         deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.js");
-        deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js");
         deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/script.js");
+        deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js");
     }
 }
 
