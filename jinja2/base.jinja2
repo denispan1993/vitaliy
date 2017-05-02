@@ -291,11 +291,11 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 <script>
 $(function(){
     $(window).scroll(function(){
-        if($(this).scrollTop()>200){
+        if($(this).scrollTop()>300){
             $('p#to-top').fadeIn();
             if(callback==false){
                 callback=true;
-                setTimeout(CallBack_Enable, 60000)
+                setTimeout(CallBack_Enable, 65000)
             }
         }else{
             $('p#to-top').fadeOut();
@@ -303,8 +303,8 @@ $(function(){
     });
     $('p#to-top a').click(function(){
         $('body,html').animate({
-            scrollTop:0
-        }, 2000);
+            scrollTop:15
+        }, 2500);
         return false;
     });
 });
@@ -361,9 +361,21 @@ function deferred_start_slide(script) {
     }
 }
 
-window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.js");
-window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/script.js");
-window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js");
+var run_once_done = false;
+
+function load_javascripts_for_slider_onresize() {
+
+    if (run_once_done == false && window.innerWidth > 479){
+        run_once_done = true;
+
+        window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.js");
+        window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/script.js");
+        window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js");
+    }
+}
+
+window.addEventListener("resize", load_javascripts_for_slider_onresize);
+
 </script>
 {# <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.js"></script>
 <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/script.js"></script>
@@ -434,14 +446,23 @@ function animate_cart(obj){
 });</script>
 {% endif %}
 {% endblock %}
-{# {1% if user.is_staff %}
+{% if user.is_staff %}
 <p id="debug"></p>
 <script>
-var debug_string = 'Debug string: ';
-window.onresize = function(event) {
-    debug_string += 'window.innerWidth: ' + window.innerWidth + 'px window.innerHeight: ' + window.innerHeight + 'px documentElement.clientWidth: ' + document.documentElement.clientWidth + 'px documentElement.clientHeight: ' + document.documentElement.clientHeight + 'px';
+var debug_string = '';
+
+function onresize(event) {
+
+    {# alert('run_once_done: ' + run_once_done + ' window.innerWidth: ' + window.innerWidth); #}
+    console.log('run_once_done: ' + run_once_done + ' window.innerWidth: ' + window.innerWidth);
+
+    debug_string = 'Debug string: window.innerWidth: ' + window.innerWidth + 'px window.innerHeight: ' + window.innerHeight + 'px documentElement.clientWidth: ' + document.documentElement.clientWidth + 'px documentElement.clientHeight: ' + document.documentElement.clientHeight + 'px';
     document.getElementById('debug').innerHTML = debug_string;
-};</script>
-{1% endif %} #}
+}
+window.addEventListener("resize", onresize);
+{# window.onresize = onresize #}
+
+</script>
+{% endif %}
 </body>
 </html>
