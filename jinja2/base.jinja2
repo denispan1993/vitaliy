@@ -356,18 +356,18 @@ function deferred_start_slide(script) {
     s.src = script;
 
     if (w.opera == "[object Opera]") {
-        setTimeout(document.addEventListener("DOMContentLoaded", f, false), 500);
+        document.addEventListener("DOMContentLoaded", f, false);
     } else {
-        setTimeout(f(), 500);
+        f();
     }
 }
 
 var run_once_done = false;
 
 function load_javascripts_for_slider_onresize() {
-    alert('aaa');
     if (run_once_done == false && window.innerWidth > 479){
         run_once_done = true;
+    alert('aaa');
 
         window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.js");
         window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/script.js");
