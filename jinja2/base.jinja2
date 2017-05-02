@@ -342,6 +342,32 @@ $(function(){
 </footer>
 {% block after_footer %}
 {% endblock %}
+<script>
+function deferred_start_slide(script) {
+    var n = document.getElementsByTagName("script")[0],
+        s = document.createElement("script"),
+        f = function () {
+            n.parentNode.insertBefore(s, n);
+            };
+
+    s.type = "text/javascript";
+    s.defer = true;
+    s.src = script;
+
+    if (w.opera == "[object Opera]") {
+        setTimeout(document.addEventListener("DOMContentLoaded", f, false), 500);
+    } else {
+        setTimeout(f(), 500);
+    }
+}
+
+window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.js");
+window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/script.js");
+window.onliad = deferred_start_slide(script="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js");
+</script>
+{# <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.js"></script>
+<script defer src="{{ MEDIA_URL }}js/jquery/topSlider/script.js"></script>
+<script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js"></script> #}
 </section>
 {# <script> #}{# // Shorthand for $( document ).ready() #}{# $(function(){ #}{# jQuery(window).load(function(){cachedScript("{{ MEDIA_URL }}js/animate_cart.js")})</script> #}{# <script src="{{ MEDIA_URL }}js/animate_cart.js"></script> #}
 <script>
