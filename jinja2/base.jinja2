@@ -447,23 +447,23 @@ function animate_cart(obj){
 });</script>
 {% endif %}
 {% endblock %}
-{% if user.is_staff %}
+{# {% if user.is_staff %}
 <p id="debug"></p>
 <script>
 var debug_string = '';
 
 function onresize(event) {
 
-    {# alert('run_once_done: ' + run_once_done + ' window.innerWidth: ' + window.innerWidth); #}
+    alert('run_once_done: ' + run_once_done + ' window.innerWidth: ' + window.innerWidth);
     console.log('run_once_done: ' + run_once_done + ' window.innerWidth: ' + window.innerWidth);
 
     debug_string = 'Debug string: window.innerWidth: ' + window.innerWidth + 'px window.innerHeight: ' + window.innerHeight + 'px documentElement.clientWidth: ' + document.documentElement.clientWidth + 'px documentElement.clientHeight: ' + document.documentElement.clientHeight + 'px';
     document.getElementById('debug').innerHTML = debug_string;
 }
-window.addEventListener("resize", onresize);
+window.addEventListener("resize", onresize); #}
 {# window.onresize = onresize #}
-
+{#
 </script>
-{% endif %}
+{% endif %} #}
 </body>
 </html>
