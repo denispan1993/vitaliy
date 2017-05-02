@@ -343,6 +343,7 @@ $(function(){
 {% block after_footer %}
 {% endblock %}
 <script>
+
 function deferred_start_slide(script) {
     var n = document.getElementsByTagName("script")[0],
         s = document.createElement("script"),
@@ -362,9 +363,10 @@ function deferred_start_slide(script) {
 }
 
 var run_once_done = false;
+alert('bbb');
 
 function load_javascripts_for_slider_onresize() {
-
+    alert('aaa');
     if (run_once_done == false && window.innerWidth > 479){
         run_once_done = true;
 
