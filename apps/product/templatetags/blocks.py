@@ -72,22 +72,22 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
 @global_function()
 def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
 
-    margin_bottom = '10px'
-    if last_loop:
-        margin_bottom = '0px'
+#    margin_bottom = '10px'
+#    if last_loop:
+#        margin_bottom = '0px'
 
-    margin_left = '10px'
-    if cycle == 1:
-        margin_left = '0px'
+#    margin_left = '10px'
+#    if cycle == 1:
+#        margin_left = '0px'
 
     key = '%s_block_' % ('prod' if category_or_product == 'product' else 'cat', )
 
-    key += '%d_%s_%s_%s_%s' % (
+    key += '%d_%s_%s' % (  # '%d_%s_%s_%s_%s' % (
         block.pk,
         request.session.get(u'currency_pk', ),
         choice,
-        margin_bottom,
-        margin_left,
+#        margin_bottom,
+#        margin_left,
     )
 
     if SERVER:
@@ -109,8 +109,8 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
                                                    'request': request,
                                                    'MEDIA_URL': MEDIA_URL,
                                                    'choice': choice,
-                                                   'margin_bottom': margin_bottom,
-                                                   'margin_left': margin_left, }, )
-
+                                                   # 'margin_bottom': margin_bottom,
+                                                   # 'margin_left': margin_left, }, )
+                                                   }, )
         cache.set(key=key, value=this_one_block, timeout=900, )
         return this_one_block

@@ -253,7 +253,7 @@ div.category_block{
     border:1px solid #EEEEEE;
     float:left;
     height:285px;
-    margin:0;
+    margin:5px;
     padding:7px;
     position:relative;
     width:214px;
@@ -310,16 +310,16 @@ a.category_block_excerpt{
     position:relative;
     width:214px;
 }*/
-div.product_block,li.product_block{
+div.product_block, li.product_block{
     background:none repeat scroll 0 0 #FFFFFF;
     border:1px solid #EEEEEE;
     float:left;
     height:300px;
 /*    margin:0 0 10px 10px;*/
+    margin:5px;
     padding:7px;
     position:relative;
     width:214px;
-    margin:5px;
 }
 div.product_block_excerpt{
     height: 30px;
