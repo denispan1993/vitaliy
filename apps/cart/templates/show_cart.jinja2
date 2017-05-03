@@ -14,30 +14,23 @@ var google_remarketing_only = false;
 <noscript><div style="display:inline;">
 <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/956428395/?label=3GxSCPWDqVkQ6-CHyAM&amp;guid=ON&amp;script=0"/>
 </div></noscript>{# Google Conversion #}
-    <div id="show_cart" style="color:Black;text-align:left;">
+    <div id="show_cart">
         {{ block_cart(request, place_of_use='cart', cart=user_cart_, coupon=coupon_)|safe }}
     </div>
 {% if user.is_authenticated and user.is_staff %}
-    <div id="coupon"
-            style="display:block;margin-bottom:0;float:left;text-align:left;">
-        <div id="havecoupon"
-                style="font-size:20px;font-weight:bold;text-align:left;">
+    <div id="coupon">
+        <div id="havecoupon">
             <a href=""
-               title="У Вас есть скидочный купон?"
-                    style="text-decoration:none">У Вас есть купон на скидку в магазине Кексик?</a>
+               title="У Вас есть скидочный купон?">У Вас есть купон на скидку в магазине Кексик?</a>
         </div>
         <div id="msg-coupon">
         </div>
         <div id="form-coupon">
-            <label for="input-coupon"
-                    style="display:inline-block;font-weight:700;margin-bottom:5px;max-width:100%;">Введите код Вашего купона:</label>
+            <label for="input-coupon">Введите код Вашего купона:</label>
             <div id="form-control-coupon">
-                <input id="input-coupon"
-                       type="text"
-                        style="display:inline-block;margin-bottom:0;margin-right:5px;vertical-align:middle;width:135px;">
+                <input id="input-coupon" type="text">
                 <button type="submit"
-                        id="form-control-coupon-button"
-                        style="background-color:#61279e;background-image:none;border-color:#61279e;color:#ffffff !important;text-shadow:none;font-size:16px;font-weight:600;padding:6px 20px;">Проверить купон</button>
+                        id="form-control-coupon-button">Применить купон</button>
                 <div id="result-html"></div>
 <script>
 document.getElementById('form-control-coupon-button').onclick = function() {

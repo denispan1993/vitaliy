@@ -607,7 +607,10 @@ div.product_block_bottom div.product_block_price div.add_to_cart{
 div.cloudzoom-zoom {
     z-index: 100;
 }
-
+div#main_center div#show_cart {
+    color: Black;
+    text-align: left;
+}
 div#show_cart form table#table_cart caption,
 div#show_order table#table_order caption {
     font-size: 1.5em;
@@ -797,7 +800,43 @@ div#show_cart form a#return_to_shopping {
     line-height: 32px;
     margin-right: 5px;
 }
-
+div#main_center div#coupon {
+    display: block;
+    float: left;
+    margin-bottom: 0;
+    text-align: left;
+}
+div#main_center div#coupon div#havecoupon {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+}
+div#main_center div#coupon div#havecoupon a {
+    text-decoration: none;
+}
+div#main_center div#coupon div#form-coupon label#input-coupon {
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 5px;
+    max-width: 100%;
+}
+div#main_center div#coupon div#form-coupon div#form-control-coupon input#input-coupon {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 135px;
+}
+div#main_center div#coupon div#form-coupon div#form-control-coupon button#form-control-coupon-button {
+    background-color: #61279e;
+    background-image: none;
+    border-color: #61279e;
+    color: #ffffff !important;
+    text-shadow: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 6px 20px;
+}
 /*================================= begin --> root_style.css ===============================================*/
 div#footer a{
     border:0;
