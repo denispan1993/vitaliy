@@ -74,7 +74,7 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
         })
     })
 </script>
-<nav id="menu">
+<nav id="menu" style="display:none;">
     <ul>
         {% djcache 600 'menu_categories_slider' %}
         {% for cat in categories_basement_ recursive %}
