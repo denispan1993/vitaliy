@@ -76,7 +76,8 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
 </script>
 <nav id="menu">
     <ul>
-         {% for cat in categories_basement_ recursive %}
+        {% djcache 600 'menu_categories_slider' %}
+        {% for cat in categories_basement_ recursive %}
             {% set children = cat.children.serial_number() %}
             <li>
                 <a href="{{ cat.get_absolute_url() }}" style="display:none;">{{ cat.title }}</a>
@@ -85,6 +86,7 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
                 {% endif %}
             </li>
         {% endfor %}
+        {% enddjcache %}
     </ul>
 </nav>
 {% endif %}
