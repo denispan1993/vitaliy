@@ -200,15 +200,15 @@ function ReCalcSum(change) {
     }
     var minimal_sum_order = document.getElementById('minimal_sum_order');
     if (parseInt(sum_in_order) <={{ 100|convert_currency(request) }}) {
-        {# Делаем кнопку НЕ активной и убираем мигание на кнопке заказа #}
+        // Делаем кнопку НЕ активной и убираем мигание на кнопке заказа
         $("#order_cart_input").prop("disabled", true).removeClass("blink");
-        {# Показываем надпись "Минимальная сумма заказа" #}
+        // Показываем надпись "Минимальная сумма заказа"
         minimal_sum_order.style.display = 'table-row';
     }
     else {
-        {# Делаем кнопку активной и добавляем мигание на кнопке заказа #}
+        // Делаем кнопку активной и добавляем мигание на кнопке заказа
         $("#order_cart_input").prop("disabled", false).addClass("blink");
-        {# Убираем надпись "Минимальная сумма заказа" #}
+        // Убираем надпись "Минимальная сумма заказа"
         minimal_sum_order.style.display = 'none';
     }
 }
