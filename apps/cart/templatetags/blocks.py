@@ -1,14 +1,12 @@
-# coding=utf-8
-__author__ = 'Sergey'
+# -*- coding: utf-8 -*-
 
-#from django_jinja.library import Library
 from django_jinja.library import global_function
 from django.template.loader import render_to_string
+from django.middleware.csrf import get_token
 
-#register = Library()
+__author__ = 'AlexStarov'
 
 
-#@register.global_function()
 @global_function()
 def block_cart(request, cart, coupon, place_of_use='cart', ):
     # request_csrf_token = request.META.get(u"CSRF_COOKIE", None, )
@@ -23,7 +21,6 @@ def block_cart(request, cart, coupon, place_of_use='cart', ):
         form2_action = u'/заказ/первый-шаг/'
         # else:
         #     form2_action = u'/корзина/заказ/'
-        from django.middleware.csrf import get_token
         request_csrf_token = get_token(request, )
     elif place_of_use == 'order':
         template_name = u'templatetags/block_order.jinja2'

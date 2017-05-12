@@ -96,7 +96,7 @@ function ReCalcSum(){
     sum_in_order = sum_in_order - sum_discount_coupon;
     sum_for_pay = sum_for_pay - sum_for_pay / 100 * {{ coupon.percentage_discount }};
     if(typeof(sum_discount_coupon) != "undefined"){
-        $("#all_sum_discount_in_order").html('-'+sum_discount_coupon.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
+        $("#all_sum_discount_in_order").html('-' + sum_discount_coupon.toFixed(2) + ' <span class="Black">{{ get_currency(request) }}</span>');
     }{% endif %}
     $("#all_sum_of_quantity_in_order").html(sum_in_order.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
     $("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');

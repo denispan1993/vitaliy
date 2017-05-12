@@ -189,7 +189,6 @@ class CouponGroupCreateEdit(FormView, ):
             raise Http404
 
 
-@staff_member_required
 class CouponCreateEdit(FormView, ):
     form_class = CouponCreateEditForm
     template_name = u'coupon/coupon_edit.jinja2'
