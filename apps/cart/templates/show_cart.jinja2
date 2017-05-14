@@ -17,7 +17,7 @@ var google_remarketing_only = false;
     <div id="show_cart">
         {{ block_cart(request, place_of_use='cart', cart=user_cart_, coupon=coupon_)|safe }}
     </div>
-{% if user.is_authenticated and user.is_staff %}
+{# {1% if user.is_authenticated and user.is_staff %} #}
     <div id="coupon">
         <div id="havecoupon">
             <a href=""
@@ -76,5 +76,5 @@ document.getElementById('form-control-coupon-button').onclick = function() {
             </div>
         </div>
     </div>
-{% endif %}
+{# {1% endif %} #}
 {% endblock %}

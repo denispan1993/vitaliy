@@ -196,27 +196,26 @@ class CouponCreateEdit(FormView, ):
 
     def get_context_data(self, **kwargs):
         context = super(CouponCreateEdit, self).get_context_data(**kwargs)
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
         context['form'] = form
         pk = self.kwargs.get('coupon_id', None, )
+
         context['disable'] = False
         context['coupons'] = False
         context['coupon_pk'] = False
-        if pk:
-            try:
-                pk_int = int(pk, )
-            except ValueError:
-                pass
-            else:
-                context['disable'] = True
-                context['coupon_pk'] = pk_int
-                try:
-                    coupon = Coupon.objects.get(pk=pk_int, )
-                except Coupon.DoesNotExist:
-                    pass
-                else:
-                    context['coupon'] = coupon
+
+        try:
+            coupon = Coupon.objects.get(pk=pk, )
+            context['coupon'] = coupon
+            context['disable'] = True
+            context['coupon_pk'] = pk
+
+        except Coupon.DoesNotExist:
+            pass
+
         return context
 
 

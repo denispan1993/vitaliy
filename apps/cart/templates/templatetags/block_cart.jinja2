@@ -171,44 +171,46 @@ product_sum_of_quantity_for_pay_array[{{ product.pk }}]={{ product.sum_of_quanti
                 </tr>
             </tfoot>
 <script>
-function ReCalcSum(change){
-    var sum_in_order=0;
-	$.each(product_sum_of_quantity_in_order_array,function(i){
-        var val=parseFloat(product_sum_of_quantity_in_order_array[i]);
-        if(0<=val&&val<=999999){
-            sum_in_order+=val;
+function ReCalcSum(change) {
+    var sum_in_order = 0;
+    $.each(product_sum_of_quantity_in_order_array, function (i) {
+        var val = parseFloat(product_sum_of_quantity_in_order_array[i]);
+        if (0 <= val && val <= 999999) {
+            sum_in_order += val;
         }
     });
-    var sum_for_pay=0;
-	$.each(product_sum_of_quantity_for_pay_array,function(i){
-        var val=parseFloat(product_sum_of_quantity_for_pay_array[i]);
-        if(0<=val&&val<=999999){
-            sum_for_pay+=val;
+    var sum_for_pay = 0;
+    $.each(product_sum_of_quantity_for_pay_array, function (i) {
+        var val = parseFloat(product_sum_of_quantity_for_pay_array[i]);
+        if (0 <= val && val <= 999999) {
+            sum_for_pay += val;
         }
     });
-    if(percentage_discount_coupon!=0){
+    if (percentage_discount_coupon != 0) {
         var sum_discount_coupon = sum_in_order / 100 * percentage_discount_coupon;
         sum_in_order = sum_in_order - sum_discount_coupon;
-        sum_for_pay = sum_for_pay - sum_for_pay/100*percentage_discount_coupon;
+        sum_for_pay = sum_for_pay - sum_for_pay / 100 * percentage_discount_coupon;
     }
-    if(change==true){
-        if(typeof(sum_discount_coupon) != "undefined"){
-            $("#all_sum_discount_in_order").html('-'+sum_discount_coupon.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
+    if (change == true) {
+        if (typeof(sum_discount_coupon) != "undefined") {
+            $("#all_sum_discount_in_cart").html('-' + sum_discount_coupon.toFixed(2) + ' <span class="Black">{{ get_currency(request) }}</span>');
         }
-        $("#all_sum_of_quantity_in_cart").html(sum_in_order.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
-        $("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2)+' <span class="Black">{{ get_currency(request) }}</span>');
+        $("#all_sum_of_quantity_in_cart").html(sum_in_order.toFixed(2) + ' <span class="Black">{{ get_currency(request) }}</span>');
+        $("#all_sum_of_quantity_for_pay").html(sum_for_pay.toFixed(2) + ' <span class="Black">{{ get_currency(request) }}</span>');
     }
-    var minimal_sum_order=document.getElementById('minimal_sum_order');
-    if(parseInt(sum_in_order)<={{ 100|convert_currency(request) }}){
-{# Делаем кнопку НЕ активной и убираем мигание на кнопке заказа #}
-        $("#order_cart_input").prop("disabled",true).removeClass("blink");
-{# Показываем надпись "Минимальная сумма заказа" #}
-        minimal_sum_order.style.display='table-row';}
-    else{
-{# Делаем кнопку активной и добавляем мигание на кнопке заказа #}
-        $("#order_cart_input").prop("disabled",false).addClass("blink");
-{# Убираем надпись "Минимальная сумма заказа" #}
-        minimal_sum_order.style.display='none';}
+    var minimal_sum_order = document.getElementById('minimal_sum_order');
+    if (parseInt(sum_in_order) <={{ 100|convert_currency(request) }}) {
+        // Делаем кнопку НЕ активной и убираем мигание на кнопке заказа
+        $("#order_cart_input").prop("disabled", true).removeClass("blink");
+        // Показываем надпись "Минимальная сумма заказа"
+        minimal_sum_order.style.display = 'table-row';
+    }
+    else {
+        // Делаем кнопку активной и добавляем мигание на кнопке заказа
+        $("#order_cart_input").prop("disabled", false).addClass("blink");
+        // Убираем надпись "Минимальная сумма заказа"
+        minimal_sum_order.style.display = 'none';
+    }
 }
 
 $(document).ready(ReCalcSum(true));

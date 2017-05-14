@@ -106,16 +106,16 @@
                     <label for="coupon_child_cart"
                             class="col-md-4 control-label">Корзины использующие:</label>
                     {{ form.child_cart.errors }}
-                    {% for cart in coupon.child_cart.all() %}
-                        <div class="col-md-6">
-                            <input type="text"
-                                   name="coupon_child_cart"
-                                   id="coupon_child_cart"
-                                   class="form-control"
-                                   value="{% if coupon %}{{ cart }}{% elif form is defined %}{{ form.child_cart.value() }}{% endif %}"
-                                   {% if disable %}disabled{% endif %}>
-                        </div>
-                    {% endfor %}
+                    <div class="col-md-6">
+                        {% for cart in coupon.child_cart.all() %}
+                                <input type="text"
+                                       name="coupon_child_cart"
+                                       id="coupon_child_cart"
+                                       class="form-control"
+                                       value="{% if coupon %}{{ cart }}{% elif form is defined %}{{ form.child_cart.value() }}{% endif %}"
+                                       {% if disable %}disabled{% endif %}>
+                        {% endfor %}
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="coupon_child_order"
