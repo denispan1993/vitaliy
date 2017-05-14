@@ -89,11 +89,16 @@ def delivery_order(*args, **kwargs):
         sleep(15)
 
     """ Отправка благодарности клиенту. """
+    print('order.email: ', order.email,
+          ' bool: ', order.email is 'alex.starov@keksik.com.ua',
+          ' email: ', 'alex.starov@keksik.com.ua')
+
     if order.email is 'alex.starov@keksik.com.ua':
 
-        # proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER']
+        template_name = kwargs.pop('email_template_name',
+                                   proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER'], )
 
-        template_name = kwargs.pop('email_template_name', False, )
+        print('template_name', template_name, )
 
         try:
             template = EmailTemplate.objects.get(name=template_name, )

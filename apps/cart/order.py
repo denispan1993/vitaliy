@@ -324,7 +324,8 @@ def result_ordering(request, ):
 
                 delivery_order.apply_async(
                     queue='delivery_send',
-                    kwargs={'order_pk': order.pk, },
+                    kwargs={'order_pk': order.pk,
+                            'email_template_name': proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER'], },
                     task_id='celery-task-id-delivery_order-{0}'.format(celery.utils.uuid(), ),
                 )
 
