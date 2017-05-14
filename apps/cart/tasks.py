@@ -11,6 +11,9 @@ from proj.celery import celery_app
 from django.utils import timezone
 from pytils.translit import slugify
 
+import proj.settings
+
+from apps.delivery2.models import EmailTemplate
 from apps.account.models import Session_ID
 from apps.authModel.models import User, Email, Phone
 
@@ -86,8 +89,26 @@ def delivery_order(*args, **kwargs):
         sleep(15)
 
     """ Отправка благодарности клиенту. """
-    html_content = render_to_string('email_successful_content.jinja2',
-                                    {'order': order, })
+    if order.email is 'alex.starov@keksik.com.ua':
+
+        # proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER']
+
+        template_name = kwargs.pop('email_template_name', False, )
+
+        try:
+            template = EmailTemplate.objects.get(name=template_name, )
+            html_content = template.get_template()
+
+        except EmailTemplate.DoesNotExist:
+            html_content = render_to_string('email_successful_content.jinja2',
+                                            {'order': order, })
+
+    else:
+
+        html_content = render_to_string('email_successful_content.jinja2',
+                                        {'order': order, })
+
+
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.number,
         body=strip_tags(html_content, ),

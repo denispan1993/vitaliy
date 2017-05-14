@@ -217,7 +217,7 @@ def send_template_sms(*args, **kwargs):
 
     template_name = kwargs.pop('sms_template_name', False, )
     try:
-        teplate = Template.objects.get(name=template_name, )
+        template = Template.objects.get(name=template_name, )
     except Template.DoesNotExist:
         return False
 
@@ -229,9 +229,9 @@ def send_template_sms(*args, **kwargs):
 
             template_dict.update({key.lstrip('sms_'): value})
 
-    message = teplate.template.format(**template_dict)
+    message = template.template.format(**template_dict)
 
-    sms_inst = SMS(template=teplate,
+    sms_inst = SMS(template=template,
                    direction=2,
                    task_id=None,
                    sim_id=255016140761290,
