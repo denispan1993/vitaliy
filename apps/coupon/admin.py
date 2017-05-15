@@ -2,6 +2,8 @@
 
 from django import forms
 from django.contrib import admin
+from django.db.models import Q
+from datetime import timedelta
 
 from .models import CouponGroup, Coupon
 from apps.cart.models import Cart, Order
@@ -22,8 +24,16 @@ class FilterModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
-        self.fields['child_cart'].queryset = Cart.objects.all()
-        self.fields['child_order'].queryset = Order.objects.all()
+        coupon = kwargs.get('instance')
+        print(coupon.start_of_the_coupon, timedelta(31 * 24 * 60 * 60), coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60))
+        print(coupon.end_of_the_coupon, timedelta(31 * 24 * 60 * 60), coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60))
+        q = Q(created_at__gte=coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60),
+              created_at__lte=coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60),) |\
+            Q(updated_at__gte=coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60),
+              updated_at__lte=coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60), )
+
+        self.fields['child_cart'].queryset = Cart.objects.filter(q)
+        self.fields['child_order'].queryset = Order.objects.all(q)
         for key, value in kwargs.items():
             print('key: ', key, ' value: ', value, )
 
