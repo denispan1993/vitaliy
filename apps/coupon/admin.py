@@ -25,7 +25,9 @@ class FilterModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
         coupon = kwargs.get('instance')
-        print(coupon.start_of_the_coupon, timedelta(31 * 24 * 60 * 60), coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60))
+        print(coupon.start_of_the_coupon, )
+        print(timedelta(31 * 24 * 60 * 60), )
+        print(coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60), )
         print(coupon.end_of_the_coupon, timedelta(31 * 24 * 60 * 60), coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60))
         q = Q(created_at__gte=coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60),
               created_at__lte=coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60),) |\
