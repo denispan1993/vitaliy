@@ -184,7 +184,7 @@ def ordering_step_two(request,
     #                                                          email=email,
     #                                                          phone=phone,
     #                                                          country_id=select_country, )
-                            q = q, Q(user_id=user_id, )
+                            q = q & Q(user_id=user_id, )
     #                            else:
     #                                order = Order.objects.get(pk=order_pk,
     #                                                          sessionid=sessionid,
