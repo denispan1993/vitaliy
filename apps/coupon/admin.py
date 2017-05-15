@@ -26,13 +26,13 @@ class FilterModelForm(forms.ModelForm):
         forms.ModelForm.__init__(self, *args, **kwargs)
         coupon = kwargs.get('instance')
         print(coupon.start_of_the_coupon, )
-        print(timedelta(31 * 24 * 60 * 60), )
-        print(coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60), )
-        print(coupon.end_of_the_coupon, timedelta(31 * 24 * 60 * 60), coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60))
-        q = Q(created_at__gte=coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60),
-              created_at__lte=coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60),) |\
-            Q(updated_at__gte=coupon.start_of_the_coupon - timedelta(31 * 24 * 60 * 60),
-              updated_at__lte=coupon.end_of_the_coupon + timedelta(31 * 24 * 60 * 60), )
+        print(timedelta(days=31), )
+        print(coupon.start_of_the_coupon - timedelta(days=31), )
+        print(coupon.end_of_the_coupon, timedelta(days=31), coupon.end_of_the_coupon + timedelta(days=31))
+        q = Q(created_at__gte=coupon.start_of_the_coupon - timedelta(days=31),
+              created_at__lte=coupon.end_of_the_coupon + timedelta(days=31),) |\
+            Q(updated_at__gte=coupon.start_of_the_coupon - timedelta(days=31),
+              updated_at__lte=coupon.end_of_the_coupon + timedelta(days=31), )
 
         self.fields['child_cart'].queryset = Cart.objects.filter(q)
         self.fields['child_order'].queryset = Order.objects.all(q)
