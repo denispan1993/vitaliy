@@ -35,7 +35,7 @@ class FilterModelForm(forms.ModelForm):
               updated_at__lte=coupon.end_of_the_coupon + timedelta(days=31), )
 
         self.fields['child_cart'].queryset = Cart.objects.filter(q)
-        self.fields['child_order'].queryset = Order.objects.all(q)
+        self.fields['child_order'].queryset = Order.objects.filter(q)
         for key, value in kwargs.items():
             print('key: ', key, ' value: ', value, )
 
