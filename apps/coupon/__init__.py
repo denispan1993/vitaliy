@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Alex Starov'
 
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.utils import timezone
+
 from apps.coupon.models import CouponGroup
+
+__author__ = 'AlexStarov'
 
 
 def my_pre_save(sender, instance, raw, using, update_fields, *args, **kwargs):
-    from django.utils.timezone import now
     if not instance.created_at:
-        instance.created_at = now()
-    instance.updated_at = now()
+        instance.created_at = timezone.now()
+    instance.updated_at = timezone.now()
     if instance.pk is None:
         print 'Created == False'
     else:

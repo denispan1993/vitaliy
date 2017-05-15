@@ -104,7 +104,12 @@ def delivery_order(*args, **kwargs):
         try:
             template = EmailTemplate.objects.get(name=template_name, )
             html_content = template.get_template()
-
+            from django.template import Context, Template
+            t = Template(html_content)
+            c = Context({'order_number': order.number,
+                         'order_sum': order.order_sum(calc_or_show='calc'), })
+            t.render(c)
+            html_content = t
         except EmailTemplate.DoesNotExist:
             html_content = render_to_string('email_successful_content.jinja2',
                                             {'order': order, })

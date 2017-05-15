@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 # /apps/cart/models.py
 from decimal import Decimal
 from datetime import date
@@ -12,6 +12,7 @@ from proj import settings
 from apps.product import models as models_product
 from apps.product.models import Country, Product as real_Product
 from apps.product.views import get_product
+from apps.coupon.models import Coupon
 
 __author__ = 'AlexStarov'
 
@@ -71,7 +72,7 @@ class Cart(models.Model):
             return '00'
 
     def __unicode__(self):
-        return u'Корзина пользователя:%s, session:%s' % (self.user, self.sessionid, )  # self.session.session_key, )
+        return u'%s|session:%s' % (self.user, self.sessionid, )  # self.session.session_key, )
 
     class Meta:
         db_table = u'Cart'
@@ -195,6 +196,11 @@ class Order(models.Model):
         content_type_field='content_type',
         object_id_field='object_id', )
 
+    coupon = GenericRelation(
+        to=Coupon,
+        content_type_field='content_type',
+        object_id_field='object_id', )
+
     @property
     def name(self, ):
         return u'Заказ № %d' % self.pk
@@ -241,13 +247,15 @@ class Order(models.Model):
         return self, product_in_cart
 
     def order_sum(self, calc_or_show='show', currency=980, ):
-        all_products_sum = 0
-        for product in self.products:
-            all_products_sum += float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )  # .replace('.', ',', )
-        return all_products_sum
+        # all_products_sum = 0
+        return sum(float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )
+                   for product in self.products)
+        #for product in self.products:
+        #    all_products_sum += float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )  # .replace('.', ',', )
+        # return all_products_sum
 
     def __unicode__(self):
-        return u'Заказ пользователя:%s, SessionID:%s' % (self.user, self.sessionid, )
+        return u'%s|SessionID:%s' % (self.user, self.sessionid, )
 
     class Meta:
         db_table = u'Order'

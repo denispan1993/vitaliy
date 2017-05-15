@@ -1,20 +1,27 @@
-# coding=utf-8
-__author__ = 'Alex Starov'
+# -*- coding: utf-8 -*-
 
 from django.contrib import admin
 
-from apps.coupon.models import CouponGroup, Coupon
+from .models import CouponGroup, Coupon
+#from apps.cart.models import Cart, Order
+
+__author__ = 'AlexStarov'
 
 
+@admin.register(CouponGroup)
 class CouponGroupAdmin(admin.ModelAdmin, ):
     pass
-admin.site.register(CouponGroup, CouponGroupAdmin, )
+#admin.site.register(CouponGroup, CouponGroupAdmin, )
 
 
+@admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
     list_display_links = ['pk', 'name', 'coupon_group', 'key', ]
-admin.site.register(Coupon, CouponAdmin, )
+
+    filter_horizontal = ('child_cart', 'child_order', )
+
+#admin.site.register(Coupon, CouponAdmin, )
 #    fieldsets = [
 #        (None,               {'classes': ['wide'], 'fields': ['parent', 'is_active', 'disclose_product', 'url',
 #                                                              'title', 'name', 'description', ], }),
