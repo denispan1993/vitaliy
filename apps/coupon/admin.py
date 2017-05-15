@@ -29,10 +29,10 @@ class FilterModelForm(forms.ModelForm):
         #print(timedelta(days=31), )
         #print(coupon.start_of_the_coupon - timedelta(days=31), )
         #print(coupon.end_of_the_coupon, timedelta(days=31), coupon.end_of_the_coupon + timedelta(days=31))
-        q = Q(created_at__gte=coupon.start_of_the_coupon - timedelta(days=31),
-              created_at__lte=coupon.end_of_the_coupon + timedelta(days=31),) |\
-            Q(updated_at__gte=coupon.start_of_the_coupon - timedelta(days=31),
-              updated_at__lte=coupon.end_of_the_coupon + timedelta(days=31), )
+        q = Q(created_at__gte=coupon.start_of_the_coupon - timedelta(days=15),
+              created_at__lte=coupon.end_of_the_coupon + timedelta(days=15),) |\
+            Q(updated_at__gte=coupon.start_of_the_coupon - timedelta(days=15),
+              updated_at__lte=coupon.end_of_the_coupon + timedelta(days=15), )
 
         self.fields['child_cart'].queryset = Cart.objects.filter(q).order_by('updated_at', )
         #self.fields['child_cart'].queryset = Cart.objects.all().order_by('updated_at', )
