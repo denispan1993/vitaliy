@@ -24,6 +24,8 @@ class FilterModelForm(forms.ModelForm):
         forms.ModelForm.__init__(self, *args, **kwargs)
         self.fields['child_cart'].queryset = Cart.objects.all()
         self.fields['child_order'].queryset = Order.objects.all()
+        for key, value in kwargs.items():
+            print('key: ', key, ' value: ', value, )
 
 
 @admin.register(Coupon)
