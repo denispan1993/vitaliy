@@ -18,6 +18,7 @@ class CouponGroupAdmin(admin.ModelAdmin, ):
 class FilterModelForm(forms.ModelForm):
     class Meta:
         model = Coupon
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
