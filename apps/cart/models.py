@@ -195,13 +195,6 @@ class Order(models.Model):
         content_type_field='content_type',
         object_id_field='object_id', )
 
-    # from apps.coupon.models import Coupon
-
-    #coupon = GenericRelation(
-    #    to=Coupon,
-    #    content_type_field='content_type',
-    #    object_id_field='object_id', )
-
     @property
     def name(self, ):
         return u'Заказ № %d' % self.pk

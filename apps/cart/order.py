@@ -6,6 +6,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
 import celery
 import random
 import time
@@ -132,17 +133,19 @@ def ordering_step_two(request,
                 # print 'email_error: ', email_error, ' email: ', email
                 if not email_error:
                     request.session[u'email'] = email
+
                     """ Взять или создать корзину пользователя """
                     """ Создать теоретически это не нормально """
                     cart, create = get_cart_or_create(request, )
                     if create:
                         return redirect(to=u'/заказ/вы-где-то-оступились/', )
+
                     if request.user.is_authenticated() and request.user.is_active:
                         user_id = request.session.get(u'_auth_user_id', None, )
                     sessionid = request.COOKIES.get(u'sessionid', None, )
                     request.session[u'cart_pk'] = cart.pk
+
                     order_pk = request.session.get(u'order_pk', False, )
-                    order_pk_last = request.session.get(u'order_pk_last', False, )
                     if order_pk:
                         try:
                             order_pk = int(order_pk, )
@@ -150,6 +153,8 @@ def ordering_step_two(request,
                             del order_pk
                     else:
                         del order_pk
+
+                    order_pk_last = request.session.get(u'order_pk_last', False, )
                     if order_pk_last:
                         try:
                             order_pk_last = int(order_pk_last, )
@@ -157,30 +162,43 @@ def ordering_step_two(request,
                             del order_pk_last
                     else:
                         del order_pk_last
-                    if 'order_pk' in locals() or 'order_pk' in globals():
-                        if 'order_pk_last' in locals() or 'order_pk_last' in globals():
-                            if order_pk == order_pk_last:
-                                del order_pk
-                    if ('order_pk' in locals() or 'order_pk' in globals()) and order_pk and type(order_pk) == int:
-                        try:
-                            if request.user.is_authenticated() and request.user.is_active:
-                                order = Order.objects.get(pk=order_pk,
-                                                          sessionid=sessionid,
-                                                          user_id=user_id,
-                                                          FIO=FIO,
-                                                          email=email,
-                                                          phone=phone,
-                                                          country_id=select_country, )
-                            else:
-                                order = Order.objects.get(pk=order_pk,
-                                                          sessionid=sessionid,
-                                                          FIO=FIO,
-                                                          email=email,
-                                                          phone=phone,
-                                                          country_id=select_country, )
-                        except Order.DoesNotExist:
-                            pass
-                    if 'order' not in locals() and 'order' not in globals():
+
+                    if 'order_pk' in locals()\
+                            and 'order_pk_last' in locals()\
+                            and order_pk == order_pk_last:
+                        del order_pk
+
+#                    if 'order_pk' in locals() and order_pk and type(order_pk) == int:
+#                        try:
+                    q = Q(pk=order_pk,
+                          sessionid=sessionid,
+                          FIO=FIO,
+                          email=email,
+                          phone=phone,
+                          country_id=select_country, )
+                    if request.user.is_authenticated() and request.user.is_active:
+#                                order = Order.objects.get(pk=order_pk,
+#                                                          sessionid=sessionid,
+#                                                          user_id=user_id,
+#                                                          FIO=FIO,
+#                                                          email=email,
+#                                                          phone=phone,
+#                                                          country_id=select_country, )
+                        q += Q(user_id=user_id, )
+#                            else:
+#                                order = Order.objects.get(pk=order_pk,
+#                                                          sessionid=sessionid,
+#                                                          FIO=FIO,
+#                                                          email=email,
+#                                                          phone=phone,
+#                                                          country_id=select_country, )
+                    try:
+                        order = Order.objects.get(q)
+
+                    except Order.DoesNotExist:
+                        pass
+
+                    if 'order' not in locals():
                         order = Order()
                         order.sessionid = sessionid
                         if request.user.is_authenticated() and request.user.is_active:
@@ -237,18 +255,19 @@ def result_ordering(request, ):
             sessionid = request.COOKIES.get(u'sessionid', None, )
             # print(POST_NAME, sessionid)
             if not cache.get(key='order_%s' % sessionid, ):
-                rand = random.uniform(0, 1)
-                # print(rand)
-                time.sleep(rand)
+
+                """ Берем случайное значение паузы от 0 до одной секунды для того,
+                    что-бы пользователи которые жмут по два раза не успели уйти со страницы. """
+                time.sleep(random.uniform(0, 1))
 
                 if not cache.get(key='order_%s' % sessionid, ):
                     cache.set(
                         key='order_%s' % sessionid,
                         value=True,
-                        timeout=15,
-                    )
+                        timeout=15, )
                 else:
                     return redirect(to='order:already_processing_ru', permanent=True, )
+
             else:
                 return redirect(to='order:already_processing_ru', permanent=True, )
 
@@ -319,9 +338,21 @@ def result_ordering(request, ):
                 """ Перемещение всех продуктов из корзины в заказ """
                 """ Просто меняем 2-а поля назначения у всех продуктов в этой корзине """
                 all_products.update(content_type=ContentType_Order, object_id=order.pk, )
+
+                """ Переносим ссылающийся купон с "корзины" на "заказ" """
+                coupons = cart.Cart_child.all()
+                if len(coupons) == 1:
+                    """ Удаляем ссылку на "корзину" """
+                    coupons[0].child_cart.delete(cart, )
+                    """ Добавляем ссылку на "заказ" """
+                    coupons[0].child_order.add(order, )
+
                 """ Удаляем старую корзину """
                 cart.delete()
 
+                """ Отправляем менеджеру заказ с описанием
+                    а пользователя благодарное письмо номером заказа и предварительной суммой
+                    и просьбой подождать звонка менеджера для уточнения заказа """
                 delivery_order.apply_async(
                     queue='delivery_send',
                     kwargs={'order_pk': order.pk,
