@@ -12,7 +12,6 @@ from proj import settings
 from apps.product import models as models_product
 from apps.product.models import Country, Product as real_Product
 from apps.product.views import get_product
-from apps.coupon.models import Coupon
 
 __author__ = 'AlexStarov'
 
@@ -195,6 +194,8 @@ class Order(models.Model):
         to='Product',
         content_type_field='content_type',
         object_id_field='object_id', )
+
+    from apps.coupon.models import Coupon
 
     coupon = GenericRelation(
         to=Coupon,
