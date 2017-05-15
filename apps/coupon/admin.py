@@ -25,18 +25,21 @@ class FilterModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
         coupon = kwargs.get('instance')
-        print(coupon.start_of_the_coupon, )
-        print(timedelta(days=31), )
-        print(coupon.start_of_the_coupon - timedelta(days=31), )
-        print(coupon.end_of_the_coupon, timedelta(days=31), coupon.end_of_the_coupon + timedelta(days=31))
+        #print(coupon.start_of_the_coupon, )
+        #print(timedelta(days=31), )
+        #print(coupon.start_of_the_coupon - timedelta(days=31), )
+        #print(coupon.end_of_the_coupon, timedelta(days=31), coupon.end_of_the_coupon + timedelta(days=31))
         q = Q(created_at__gte=coupon.start_of_the_coupon - timedelta(days=31),
               created_at__lte=coupon.end_of_the_coupon + timedelta(days=31),) |\
             Q(updated_at__gte=coupon.start_of_the_coupon - timedelta(days=31),
               updated_at__lte=coupon.end_of_the_coupon + timedelta(days=31), )
 
-        self.fields['child_cart'].queryset = Cart.objects.filter(q).order_by('updated_at', )
+        # self.fields['child_cart'].queryset = Cart.objects.filter(q).order_by('updated_at', )
+        self.fields['child_cart'].queryset = Cart.objects.all().order_by('updated_at', )
         # print(len(self.fields['child_cart'], ), self.fields['child_cart'].first().created_at, self.fields['child_cart'].last().created_at, )
-        self.fields['child_order'].queryset = Order.objects.filter(q).order_by('updated_at', )
+
+        #self.fields['child_order'].queryset = Order.objects.filter(q).order_by('updated_at', )
+        self.fields['child_order'].queryset = Order.objects.all().order_by('updated_at', )
         # print(len(self.fields['child_order'], ), self.fields['child_order'].first().created_at, self.fields['child_order'].last().created_at, )
         for key, value in kwargs.items():
             print('key: ', key, ' value: ', value, )
