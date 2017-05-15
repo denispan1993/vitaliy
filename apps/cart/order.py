@@ -342,7 +342,7 @@ def result_ordering(request, ):
                 coupons = cart.Cart_child.all()
                 if len(coupons) == 1:
                     """ Удаляем ссылку на "корзину" """
-                    coupons[0].child_cart.delete(cart, )
+                    coupons[0].child_cart.remove(cart, )
                     """ Добавляем ссылку на "заказ" """
                     coupons[0].child_order.add(order, )
 
