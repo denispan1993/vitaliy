@@ -168,46 +168,45 @@ def ordering_step_two(request,
                             and order_pk == order_pk_last:
                         del order_pk
 
-#                    if 'order_pk' in locals() and order_pk and type(order_pk) == int:
+                    if 'order_pk' in locals() and order_pk and type(order_pk) == int:
 #                        try:
-                    q = Q(pk=order_pk,
-                          sessionid=sessionid,
-                          FIO=FIO,
-                          email=email,
-                          phone=phone,
-                          country_id=select_country, )
-                    if request.user.is_authenticated() and request.user.is_active:
-#                                order = Order.objects.get(pk=order_pk,
-#                                                          sessionid=sessionid,
-#                                                          user_id=user_id,
-#                                                          FIO=FIO,
-#                                                          email=email,
-#                                                          phone=phone,
-#                                                          country_id=select_country, )
-                        q += Q(user_id=user_id, )
-#                            else:
-#                                order = Order.objects.get(pk=order_pk,
-#                                                          sessionid=sessionid,
-#                                                          FIO=FIO,
-#                                                          email=email,
-#                                                          phone=phone,
-#                                                          country_id=select_country, )
-                    try:
-                        order = Order.objects.get(q)
+                        q = Q(pk=order_pk,
+                              sessionid=sessionid,
+                              FIO=FIO,
+                              email=email,
+                              phone=phone,
+                              country_id=select_country, )
+                        if request.user.is_authenticated() and request.user.is_active:
+    #                                order = Order.objects.get(pk=order_pk,
+    #                                                          sessionid=sessionid,
+    #                                                          user_id=user_id,
+    #                                                          FIO=FIO,
+    #                                                          email=email,
+    #                                                          phone=phone,
+    #                                                          country_id=select_country, )
+                            q += Q(user_id=user_id, )
+    #                            else:
+    #                                order = Order.objects.get(pk=order_pk,
+    #                                                          sessionid=sessionid,
+    #                                                          FIO=FIO,
+    #                                                          email=email,
+    #                                                          phone=phone,
+    #                                                          country_id=select_country, )
+                        try:
+                            order = Order.objects.get(q)
 
-                    except Order.DoesNotExist:
-                        pass
+                        except Order.DoesNotExist:
+                            pass
 
                     if 'order' not in locals():
-                        order = Order()
-                        order.sessionid = sessionid
+                        order = Order(sessionid=sessionid, FIO=FIO, email=email,
+                                      phone=phone, country_id=select_country, )
+
                         if request.user.is_authenticated() and request.user.is_active:
                             order.user_id = user_id
-                        order.FIO = FIO
-                        order.email = email
-                        order.phone = phone
-                        order.country_id = select_country
+
                         order.save()
+
                     request.session[u'order_pk'] = order.pk
                 # else:
                 #     # email_error = u'Сервер указанный в Вашем E-Mail - ОТСУТСВУЕТ !!!'
