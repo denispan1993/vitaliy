@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from django import forms
 from django.contrib import admin
 
 from .models import CouponGroup, Coupon
-#from apps.cart.models import Cart, Order
+from apps.cart.models import Cart, Order
 
 __author__ = 'AlexStarov'
 
@@ -14,8 +15,19 @@ class CouponGroupAdmin(admin.ModelAdmin, ):
 #admin.site.register(CouponGroup, CouponGroupAdmin, )
 
 
+class FilterModelForm(forms.ModelForm):
+    class Meta:
+        model = Coupon
+
+    def __init__(self, *args, **kwargs):
+        forms.ModelForm.__init__(self, *args, **kwargs)
+        self.fields['child_cart'].queryset = Cart.objects.all()
+        self.fields['order_cart'].queryset = Order.objects.all()
+
+
 @admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin, ):
+    form = FilterModelForm
     list_display = ['pk', 'name', 'coupon_group', 'key', 'number_of_possible_uses', 'number_of_uses', ]
     list_display_links = ['pk', 'name', 'coupon_group', 'key', ]
 
