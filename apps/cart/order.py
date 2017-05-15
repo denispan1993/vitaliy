@@ -345,6 +345,7 @@ def result_ordering(request, ):
                     coupons[0].child_cart.remove(cart, )
                     """ Добавляем ссылку на "заказ" """
                     coupons[0].child_order.add(order, )
+                    print('Coupon_key: ', coupons[0].key)
 
                 """ Удаляем старую корзину """
                 cart.delete()
