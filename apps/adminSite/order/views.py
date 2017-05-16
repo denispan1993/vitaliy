@@ -27,14 +27,14 @@ def order_search(request,
 
                     try:
                         Order.objects.get(pk=order_id, )
-                        return redirect(to='order_edit', id='%06d' % order_id, )
+                        return redirect(to='admin_page:order_edit', order_id='%06d' % order_id, )
                     except Order.DoesNotExist:
                         error_message = u'Заказа с таким номером не существует.'
                 except ValueError:
                     error_message = u'Некорректно введен номер заказа.'
 
-    filter_datetime = datetime.now() - timedelta(days=15, )
-    orders = Order.objects.filter(created_at__gte=filter_datetime, )
+    #filter_datetime = datetime.now() - timedelta(days=15, )
+    orders = Order.objects.filter(created_at__gte=datetime.now() - timedelta(days=15, ), )
     #orders = Order.objects.all()
     return render(request=request,
                   template_name=template_name,

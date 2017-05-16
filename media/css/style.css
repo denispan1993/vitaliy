@@ -960,7 +960,7 @@ div#div_logo a#logo{
 section#main{
     /* width:960px; */
     height:100%;
-    margin:15px 0px 15px 0px;
+    margin:15px 0 0 0;
     position:relative;
     z-index:100;
     text-align:center;

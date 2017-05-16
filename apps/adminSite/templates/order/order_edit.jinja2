@@ -29,6 +29,16 @@
         <p>Жду реквизиты: {{ order.checkbox1|true_false }}</p>
         <p{% if order.checkbox2 %} style="font-size:25px;font-weight:bold;color:red;" {% endif %}>Жду звонка: {{ order.checkbox2|true_false }}</p>
 
+        {% with coupons = order.Order_child.all() %}
+            {% if coupons != [] %}
+                {% for coupon in coupons %}
+                    <p>Купон: {{ coupon.key }}</p>
+                    <p>Скидка: <span style="color:red;font-weight:900;">{{ coupon.percentage_discount }}%</span></p>
+                    <p>Начало действия: {{ coupon.start_of_the_coupon }}</p>
+                    <p>Окончание действия: {{ coupon.end_of_the_coupon }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <p>
            <a href="{{ url('admin_page:order_edit', order_id='%06d' % order.pk) }}">Порядковый номер заказа №: {{ '%06d' % order.pk }}</a>
         </p>
@@ -81,10 +91,28 @@ function ReCalcSum(change) {
             sum+=val;
         }
     });
+
     if(change==true){$("#all_sum_of_quantity").html(sum.toFixed(2)+' {{ get_currency(request) }}');}
 
+    // По умолчанию купон имеет цену 100% --> тоесть без скидки
+    var coupon_percentage_discount = 1;
+    {% with coupons = order.Order_child.all() %}
+        {% if coupons != [] %}
+            {% for coupon in coupons %}
+                // Расчитываем процент скидки в разрезе:
+                // если это скидка 5% -- то цифра должна быть 0.95
+                var coupon_percentage_discount = (100 - {{ coupon.percentage_discount }}) / 100;
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    sum = Math.ceil(Math.ceil(sum) * coupon_percentage_discount);
+    if(change==true){$("#all_sum_of_quantity_with_coupon").html(sum.toFixed(2)+' {{ get_currency(request) }}');}
+
+    // Сумма с учетом процента банка 1%
     sum = Math.ceil(Math.ceil(sum) * 1.01);
     if(change==true){$("#all_sum_of_quantity_with_bank_percent").html(sum+' {{ get_currency(request) }}');}
+
 {#
     // if(parseInt(summ)<={{ 100|convert_currency(request) }}){$("#order_cart_input").prop("disabled",true);}
     // else{$("#order_cart_input").prop("disabled",false);}
@@ -356,6 +384,19 @@ product_summ_of_quantity_array[{{ product.pk }}]={{ product.sum_of_quantity(requ
                             id="all_sum_of_quantity"
                             style="text-align:left;color:Red;font-size:18px;"></th>
                     </tr>
+                    {% with coupons = order.Order_child.all() %}
+                        {% if coupons != [] %}
+                            {% for coupon in coupons %}
+                                <tr>
+                                    <th colspan="5"
+                                        style="text-align:right;">Сумма с учетом <span style="color:Red;font-size:18px;">{{ coupon.percentage_discount }}%</span> скидки купона:</th>
+                                    <th colspan="3"
+                                        id="all_sum_of_quantity_with_coupon"
+                                        style="text-align:left;color:Red;font-size:18px;"></th>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <tr>
                         <th colspan="3"></th>
                         <th colspan="5"
