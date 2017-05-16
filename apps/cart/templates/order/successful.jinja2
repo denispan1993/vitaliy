@@ -1,6 +1,7 @@
 {% extends 'root.jinja2' %}
 {% block title %}Ваш заказ принят!!!{% endblock %}
 {% block content_center %}
+{% if order %}
 <script>
 var yaParams = {
     order_id: "{{ order_pk }}",
@@ -37,6 +38,7 @@ window.dataLayer.push({
     }
 });
 </script>
+{% endif %}
 <br />
 <strong>Ваш заказ принят!!!</strong>
 <br />

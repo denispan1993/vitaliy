@@ -66,7 +66,7 @@ def coupon_test(request, ):
         else:
             response.update({'help_text': u'Номер купона не задан', }, )
 
-        return HttpResponse(data=dumps(response, ),
-                            mimetype='application/javascript', )
+        return HttpResponse(content=dumps(response, ),
+                            content_type='application/javascript', )
 
     return HttpResponse(status=400, )
