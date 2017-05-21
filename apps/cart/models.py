@@ -4,7 +4,7 @@ from decimal import Decimal
 from datetime import date
 from django.db import models, OperationalError
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey, ForeignObjectRel
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from proj import settings
@@ -181,7 +181,7 @@ class Order(models.Model):
                                     blank=False,
                                     default=False, )
 
-    custom_sum = models.BooleanField(verbose_name=_(u'Сумма заказа введена а ручную', ),
+    custom_sum = models.BooleanField(verbose_name=_(u'Сумма заказа введена в ручную', ),
                                      null=False,
                                      blank=True,
                                      default=False, )
