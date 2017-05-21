@@ -99,7 +99,7 @@ def delivery_order(*args, **kwargs):
         template_name = kwargs.pop('email_template_name',
                                    proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER'], )
 
-        print('template_name', template_name, )
+        print('template_name: ', template_name, )
 
         try:
             template = EmailTemplate.objects.get(name=template_name, )
@@ -118,6 +118,7 @@ def delivery_order(*args, **kwargs):
         html_content = render_to_string('email_successful_content.jinja2',
                                         {'order': order, })
 
+    print('html_content: ', html_content)
 
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.number,

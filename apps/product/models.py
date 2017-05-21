@@ -580,12 +580,12 @@ class Product(models.Model):
         elif not request and currency:
 
             key = 'currency_{0}'.format(currency, )
-            print 'key: ', key
+            print('(get_price) key: ', key, )
             currency = cache.get(key=key, )
             if not currency:
                 try:
                     currency = Currency.objects.get(currency_code_ISO_number=currency, )
-                    print 'not key: ', currency.currency_code_ISO_number
+                    print('(get_price) not key for code_ISO_number: ', currency.currency_code_ISO_number, )
                     cache.set(
                         key=key,
                         value=currency,
