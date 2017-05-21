@@ -11,7 +11,7 @@ var yaParams = {
     exchange_rate: 1 };
 yaCounter21943054.reachGoal('Ordering_second_step', yaParams);
 </script>
-        {{ block_cart(request, place_of_use='order', cart=user_cart_, coupon=coupon_)|safe }}
+        {{ block(request, place_of_use='order', order=user_cart_)|safe }}
         {% if user_cart_.sum_money_of_all_products < 200 %}
             <div id="buttons"
                  style="margin:15px;">

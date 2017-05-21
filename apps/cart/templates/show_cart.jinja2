@@ -15,9 +15,8 @@ var google_remarketing_only = false;
 <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/956428395/?label=3GxSCPWDqVkQ6-CHyAM&amp;guid=ON&amp;script=0"/>
 </div></noscript>{# Google Conversion #}
     <div id="show_cart">
-        {{ block_cart(request, place_of_use='cart', cart=user_cart_, coupon=coupon_)|safe }}
+        {{ block(request, place_of_use='cart', cart=user_cart_)|safe }}
     </div>
-{# {1% if user.is_authenticated and user.is_staff %} #}
     <div id="coupon">
         <div id="havecoupon">
             <a href=""
@@ -55,7 +54,7 @@ document.getElementById('form-control-coupon-button').onclick = function() {
                 tr.appendChild(th);
 
                 th = document.createElement('th');
-                th.id='all_sum_discount_in_order';
+                th.id='all_sum_discount_in_cart';
                 th.style='text-align:center;color:Red;font-size:18px;border-width:0px 1px;border-color:Black;border-style:solid;';
                 tr.appendChild(th);
 

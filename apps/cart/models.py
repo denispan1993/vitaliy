@@ -41,6 +41,18 @@ class Cart(models.Model):
         object_id_field='object_id', )
 
     @property
+    def coupon(self, ):
+
+        """ Берем все купоны привязанные к этой корзине и берем первый из них
+            Но должен быть вообще только один """
+        try:
+            coupon = self.Cart_child.all()[0]
+            print coupon
+            return coupon
+        except IndexError:
+            return None
+
+    @property
     def products(self, ):
         return self.cart.all()
 
@@ -253,9 +265,12 @@ class Order(models.Model):
 
         """ Берем все купоны привязанные к этому заказу и берем первый из них
             Но должен быть вообще только один """
-        coupon = self.Order_child.all()[0]
-        print coupon
-        return coupon
+        try:
+            coupon = self.Order_child.all()[0]
+            print coupon
+            return coupon
+        except IndexError:
+            return None
 
     @property
     def coupon_sum(self, ):
