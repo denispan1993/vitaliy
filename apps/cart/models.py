@@ -4,7 +4,7 @@ from decimal import Decimal
 from datetime import date
 from django.db import models, OperationalError
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey, ForeignObjectRel
 from django.contrib.contenttypes.models import ContentType
 
 from proj import settings
@@ -241,12 +241,32 @@ class Order(models.Model):
         return self, product_in_cart
 
     def order_sum(self, calc_or_show='show', currency=980, ):
-        # all_products_sum = 0
         return sum(float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )
                    for product in self.products)
-        #for product in self.products:
-        #    all_products_sum += float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )  # .replace('.', ',', )
-        # return all_products_sum
+
+    @property
+    def sum(self, ):
+        return self.order_sum()
+
+    @property
+    def coupon(self, ):
+
+        """ Берем все купоны привязанные к этому заказу и берем первый из них
+            Но должен быть вообще только один """
+        coupon = self.Order_child.all()[0]
+        print coupon
+        return coupon
+
+    @property
+    def coupon_sum(self, ):
+
+        """ Берем все купоны привязанные к этому заказу и берем первый из них
+            Но должен быть вообще только один """
+        coupon = self.coupon
+        print coupon
+
+        return sum(float(product.sum_of_quantity(calc_or_show='show', currency=980, ), )
+                   for product in self.products) * (100 - self.coupon.percentage_discount) / 100
 
     def __unicode__(self):
         return u'%s|SessionID:%s' % (self.user, self.sessionid, )
@@ -307,13 +327,15 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True, )
 
     def sum_of_quantity(self, request=None, calc_or_show='show', currency=980, ):
-        """ Возвращаем значение суммы количества * на цену товара в текущей валюте сайта """
+        ''' Возвращаем значение суммы количества * на цену товара в текущей валюте сайта '''
 
         product = get_product(pk=self.product_id, )
 
+        ''' Если цена продукта установленна в ручную '''
         if self.is_custom_price:
             price = self.price
         else:
+            ''' Иначе берем цену самого товара '''
             price = product.get_price(request, price=None, calc_or_show='show', currency=currency, )  # price=self.price,
 
         """ Расчитываем цену товара """

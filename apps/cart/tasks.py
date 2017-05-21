@@ -106,8 +106,7 @@ def delivery_order(*args, **kwargs):
             html_content = template.get_template()
             from django.template import Context, Template
             t = Template(html_content)
-            c = Context({'order_number': order.number,
-                         'order_sum': order.order_sum(calc_or_show='calc'), })
+            c = Context({'order': order, })
             t.render(c)
             html_content = t
         except EmailTemplate.DoesNotExist:
