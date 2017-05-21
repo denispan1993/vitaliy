@@ -365,7 +365,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'suit',
     'suit_ckeditor',
-#    'filebrowser',
+    # 'filebrowser',
     'django.contrib.admin',
     # 'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.admindocs',
@@ -374,6 +374,7 @@ INSTALLED_APPS = (
     'mptt',
     'django_mptt_admin',
     'django_jinja',
+    'django_extensions',
     'djcelery',
     'kombu.transport.django',
     #'django_mailbox',
