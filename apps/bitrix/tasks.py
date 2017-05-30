@@ -201,9 +201,13 @@ def get_products(products_list):
         i += 1
         time.sleep(5)
 
+    '''
+        Выбираем товары которые можно сравнивать с 1С (compare_with_1c=True)
+        НО у которых нету связки с 1С (id_1c__isnull=True)
+    '''
     try:
         products_ItemID = Product.objects\
-            .filter(id_1c__isnull=True, )\
+            .filter(id_1c__isnull=True, compare_with_1c=True, )\
             .values_list('ItemID__ItemID', flat=True)
 
         not_found_on_1c = len(products_ItemID)
@@ -270,7 +274,7 @@ def process_of_proposal(offers_list):
             n += 1
 
         if 'id_1c' not in locals():
-            print('line 273: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+            print('line 277: fix 1!!! --> offer_list[0].tag:  ', offer_list[0].tag,
                   ' offer_list[0].text: ', offer_list[0].text)
             continue
 
@@ -279,16 +283,20 @@ def process_of_proposal(offers_list):
                 quantity_of_stock = int(quantity_of_stock)
 
             except ValueError:
-                print('line 282: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+                print('line 286: fix 2!!! --> offer_list[0].tag:  ', offer_list[0].tag,
                       ' offer_list[0].text: ', offer_list[0].text)
                 continue
         else:
-            print('line 286: fix !!! --> offer_list[0].tag:  ', offer_list[0].tag,
+            print('line 290: fix 3!!! --> offer_list[0].tag:  ', offer_list[0].tag,
                   ' offer_list[0].text: ', offer_list[0].text)
 
         try:
             product = Product.objects.get(id_1c=id_1c, )
 
+            '''
+                Если в 1С единиц товара больше чем 0 и в базе сайта он "в наличии"
+                то просто записывеем количество товара в базу сайта
+            '''
             if quantity_of_stock > 0 and product.is_availability == 1:
                 product.quantity_of_stock = quantity_of_stock
                 product.save()
@@ -306,6 +314,11 @@ def process_of_proposal(offers_list):
 
         except Product.DoesNotExist:
             pass
+
+        except Product.MultipleObjectsReturned:
+            products = Product.objects.filter(id_1c=id_1c, )
+            for product in products:
+                print('line 321: fix 4!!! -->: ', product, product.ItemID.all()[0].ItemID, product.title, )
 
     backend = smtp.EmailBackend(
         host='smtp.yandex.ru',
