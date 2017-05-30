@@ -208,16 +208,21 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
-    id_1c = models.CharField(verbose_name=_(u'1C Ид', ),
-                             max_length=36,
-                             blank=True,
-                             null=True,
-                             help_text=u'Код 1С', )
+    id_1c = models.CharField(
+        verbose_name=_(u'1C Ид', ),
+        max_length=36,
+        db_index=True,
+        blank=True,
+        null=True,
+        help_text=u'Код 1С', )
     barcode = models.CharField(verbose_name=_(u'1C Штрихкод', ),
                                max_length=36,
                                blank=True,
                                null=True,
                                help_text=u'Штрихкод', )
+    compare_with_1c = models.BooleanField(verbose_name=_(u'Сравнивать с 1C', ),
+                                          default=True,
+                                          help_text=u'Если стоит галочка, то этот товар сравнивается по параметрам с 1С', )
 
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.'), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы товар был пасивный, убираем галочку.')
@@ -240,18 +245,31 @@ class Product(models.Model):
                                       through_fields=('product', 'category', ),
                                       blank=False,
                                       null=False, )
-    serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки'),
-                                                     # visibility=True,
-                                                     default=1,
-                                                     blank=True,
-                                                     null=True, )
+    serial_number = models.PositiveSmallIntegerField(
+        verbose_name=_(u'Порядок сортировки'),
+        # visibility=True,
+        db_index=True,
+        default=1,
+        blank=True,
+        null=True, )
     url = ModelSlugField(
         verbose_name=u'URL адрес продукта',
         max_length=255,
         null=True,
         blank=True, )
-    title = models.CharField(verbose_name=u'Заголовок продукта', max_length=255, null=False, blank=False, )
-    name = models.CharField(verbose_name=u'Наименование продукта', max_length=255, null=True, blank=True, )
+    title = models.CharField(
+        verbose_name=u'Заголовок продукта',
+        max_length=255,
+        db_index=True,
+        null=False,
+        blank=False, )
+    name = models.CharField(
+        verbose_name=u'Наименование продукта',
+        max_length=255,
+        db_index=True,
+        null=True,
+        blank=True, )
+
     # Описание продукта
     item_description = models.CharField(verbose_name=u'Краткое описание продукта',
                                         max_length=128, )  # null=True, blank=True, )
@@ -332,8 +350,8 @@ class Product(models.Model):
     datetime_pub = models.DateTimeField(verbose_name=u'Дата публикации', null=True, blank=True, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
+    updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
     #Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'Заголовок продукта',
@@ -755,12 +773,17 @@ class ItemID(models.Model):
     object_id = models.PositiveIntegerField(db_index=True, )
     parent = GenericForeignKey('content_type', 'object_id', )
 
-    ItemID = models.CharField(verbose_name=u'ItemID', max_length=32, blank=True, null=True, )
+    ItemID = models.CharField(
+        verbose_name=u'ItemID',
+        max_length=32,
+        db_index=True,
+        blank=True,
+        null=True, )
     # slug = models.SlugField(verbose_name=u'Slug')
     # letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
     #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
+    updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
 #    def save(self, *args, **kwargs): # force_insert=False, force_update=False, using=None, update_fields=None):
 #        """ В базе в теории в одну еденицу времени есть только один экземпляр ItemID """
@@ -803,13 +826,11 @@ class ItemID(models.Model):
 class IntermediateModelManufacturer(models.Model):
     """ Промежуточная модель 'производитель' """
     """ Ссылка на главную запись """
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Manufacturer',
                                      null=False, blank=False, default=1, )
     object_id = models.PositiveIntegerField(db_index=True,
                                             null=False, blank=False, default=1, )
-    from django.contrib.contenttypes import generic
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
+    parent = GenericForeignKey('content_type', 'object_id', )
     # Собственно сам ключ на производителя
     key = models.ForeignKey('Manufacturer',
                             verbose_name=u'Производитель',
@@ -1229,20 +1250,18 @@ class View(models.Model):
         Сколько раз просмотрели товар или категорию.
     """
     """ Ссылка на главную запись """
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_View',
                                      null=False, blank=False, default=1, )
     object_id = models.PositiveIntegerField(db_index=True,
                                             null=False, blank=False, default=1, )
-    from django.contrib.contenttypes import generic
-    parent = generic.GenericForeignKey('content_type', 'object_id', )
+    parent = GenericForeignKey('content_type', 'object_id', )
 
     # Количества просмотров
     view_count = models.PositiveIntegerField(verbose_name=u'Просмотров', default=1, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
+    updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
     def __unicode__(self):
         return '[%.5d]: %d' % (self.id, self.view_count, )
@@ -1259,7 +1278,6 @@ class Viewed(models.Model):
         Какие товары посмотрел пользователь.
     """
     """ Ссылка на главную запись """
-    from django.contrib.contenttypes.models import ContentType
     content_type = models.ForeignKey(ContentType, related_name='related_Viewed',
                                      null=False, blank=False, default=1, )
     object_id = models.PositiveIntegerField(db_index=True,
@@ -1280,8 +1298,8 @@ class Viewed(models.Model):
                                        default=datetime.now, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'Дата добавления', )
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=u'Дата последнего изменения', )
+    created_at = models.DateTimeField(db_index=True, auto_now_add=True, verbose_name=u'Дата добавления', )
+    updated_at = models.DateTimeField(db_index=True, auto_now=True, verbose_name=u'Дата последнего изменения', )
 
     def __unicode__(self):
         try:

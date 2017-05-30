@@ -28,6 +28,23 @@ class genericStackedPhotoInLine(GenericStackedInline, ):
     extra = 1
 
 
+class CategoryAdminForm(forms.ModelForm):
+
+    class Meta:
+        models = Category
+        widgets = {# 'name': widgets.TextInput(attrs={'size': 63, }, ),
+                   # 'title': widgets.TextInput(attrs={'size': 63, }, ),
+                   #'name': AutosizedTextarea(attrs={'class': 'input-xxlarge', }, ),  # 'class': 'input-xlarge', 'style': 'with:500px;',
+                   'title': AutosizedTextarea(attrs={'class': 'input-xxlarge', }, ),
+                   # You can also specify html attributes
+                   # 'description': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}),
+                   # 'item_description': CKEditorWidget(editor_options={'startupFocus': False, }, ),
+                   'item_description': CKEditorWidget(editor_options={'startupFocus': False, }, ),
+                   'description': CKEditorWidget(editor_options={'startupFocus': False, }, ),
+                   'bottom_description': CKEditorWidget(editor_options={'startupFocus': False, }, ),
+                   }
+
+
 @admin.register(Category)
 class CategoryAdmin(MPTTModelAdmin, ):
     #MPTT
@@ -39,6 +56,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
     list_display_links = ('pk', 'serial_number', 'url', 'title', )
     list_filter = ('title', )
     search_fields = ['title', ]
+    form = CategoryAdminForm
     fieldsets = [
         (None,   {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
                                                   'shown_colored', 'font_color',
@@ -69,29 +87,15 @@ class CategoryAdmin(MPTTModelAdmin, ):
         obj.save()
 
     class Media:
-        js = ('/media/js/admin/ruslug-urlify.js',
-              'https://cdn.tinymce.com/4/tinymce.min.js',
-              '/media/js/admin/tinymce/tinymce_init.js', )
-
-
-#class ItemIDAdmin(admin.ModelAdmin, ):
-#    model = ItemID
-
-#    def save_model(*args, **kwargs):
-#        bbb = ItemID.bbb
-        # pass
-
-#admin.site.register(ItemID, ItemIDAdmin, )
+        js = ('/media/js/admin/ruslug-urlify.js', )
+#              'https://cdn.tinymce.com/4/tinymce.min.js',
+#              '/media/js/admin/tinymce/tinymce_init.js', )
 
 
 class genericStackedItemIDInLine(GenericStackedInline, ):
     model = ItemID
     extra = 1
     max_num = 1
-
-    # def save_model(*args, **kwargs):
-    #    bbb = ItemID.bbb
-        # pass
 
 
 class genericStacked_IntermediateModelManufacturer_InLine(GenericStackedInline, ):
@@ -103,7 +107,6 @@ class genericStacked_IntermediateModelManufacturer_InLine(GenericStackedInline, 
 @admin.register(Manufacturer)
 class ManufacturerAdmin(admin.ModelAdmin, ):
     model = Manufacturer
-#admin.site.register(Manufacturer, ManufacturerAdmin, )
 
 
 class genericPhotoInLineforInformation(GenericStackedInline, ):
@@ -257,8 +260,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     search_fields = ['barcode', 'title', 'name', 'ItemID__ItemID', ]
     form = ProductAdminForm
     fieldsets = [
-        #(None,               {'classes': ['wide'], 'fields': ['category', 'id_1c', 'barcode', 'is_active', 'disclose_product',
-        (None,               {'classes': ['wide'], 'fields': ['id_1c', 'barcode', 'is_active', 'disclose_product',
+        (None,               {'classes': ['wide'], 'fields': ['is_active', 'disclose_product',
                                                               'in_main_page', 'serial_number', 'url',
                                                               'title', 'name', 'description',  # 'manufacturer',
                                                               'recommended',
@@ -270,13 +272,13 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),
+        (u'1C', {'classes': ['collapse'], 'fields': ['id_1c', 'barcode', ], }, ),
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
         (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]
     readonly_fields = ('id_1c', )
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
-#    filter_horizontal = ('recommended', 'action', )
     filter_horizontal = ('category', 'recommended', 'action', )
     inlines = [
         ProductToCategoryInlineAdmin,
