@@ -272,7 +272,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Информация о товаре для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                            'meta_description',
                                                                                            'meta_keywords', ], }, ),
-        (u'1C', {'classes': ['collapse'], 'fields': ['id_1c', 'barcode', ], }, ),
+        (u'1C', {'classes': ['collapse'], 'fields': ['id_1c', 'barcode', 'compare_with_1c', ], }, ),
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
         (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]

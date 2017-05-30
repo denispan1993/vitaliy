@@ -14,7 +14,6 @@ __author__ = 'AlexStarov'
 @admin.register(CouponGroup)
 class CouponGroupAdmin(admin.ModelAdmin, ):
     pass
-#admin.site.register(CouponGroup, CouponGroupAdmin, )
 
 
 class FilterModelForm(forms.ModelForm):
@@ -41,8 +40,8 @@ class FilterModelForm(forms.ModelForm):
         self.fields['child_order'].queryset = Order.objects.filter(q).order_by('updated_at', )
         #self.fields['child_order'].queryset = Order.objects.all().order_by('updated_at', )
         # print(len(self.fields['child_order'], ), self.fields['child_order'].first().created_at, self.fields['child_order'].last().created_at, )
-        for key, value in kwargs.items():
-            print('key: ', key, ' value: ', value, )
+        # for key, value in kwargs.items():
+        #     print('key: ', key, ' value: ', value, )
 
 
 @admin.register(Coupon)
