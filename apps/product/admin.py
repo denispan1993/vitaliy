@@ -249,8 +249,13 @@ class ProductAdminForm(forms.ModelForm):
 
 class ProductToCategoryInlineAdmin(admin.TabularInline):
     model = ProductToCategory
-    ordering = ('category__title', )
+    ordering = ['category__title', ]
     extra = 3
+
+#    def get_queryset(self, request, ):
+#        # queryset = super(ProductToCategoryInlineAdmin, self).get_queryset(request)
+#        queryset = ProductToCategory.objects.all().order_by('category__title')
+#        return queryset
 
 
 @admin.register(Product)

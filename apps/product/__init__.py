@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.db.models.signals import post_save, m2m_changed
-from django.dispatch import receiver
-from apps.product.models import InformationForPrice, AdditionalInformationForPrice, ItemID
 
 __author__ = 'AlexStarov'
+
+default_app_config = '.apps.ProductConfig'
 
 
 #@receiver(post_save, sender=Product, )
@@ -11,6 +10,7 @@ def post_save_Product(instance, **kwargs):
     # print(instance.__class__.__name__)
     # from apps.product.models import Product
     #aaa = instance.bbb
+    from .models import ItemID
     ''' Пытаемся взять все записи из ItemID которые ссылаются на этот Product '''
     ItemsID = instance.ItemID.all()
     ''' Если этих записей нету, то создаём новую запись '''
@@ -73,24 +73,3 @@ def modification_ItemID(instance, **kwargs):
 #    #from django.db.models import get_model
     #model = get_model(instance._meta.app_label, instance.__class__.__name__, )
     #print(model)
-
-
-@receiver(m2m_changed, sender=AdditionalInformationForPrice.information.through, )
-def m2m_changed_information(sender, instance, action, reverse, model, pk_set, using, signal, **kwargs):
-    # print(action)
-    if action == 'post_add' and reverse is False:
-        # print(sender)
-        # print(instance)
-        # print(reverse)
-        # print(model)
-        # print(pk_set)
-        for pk in pk_set:
-            # print(pk)
-            information = InformationForPrice.objects.get(pk=pk, )
-            # print(information)
-            information.product = instance.product
-            information.save()
-        # print(using)
-        # print(signal)
-        # for key, value in kwargs.iteritems():
-            # print('Key: %s - Value: %s', (key, value, ), )
