@@ -249,6 +249,7 @@ class ProductAdminForm(forms.ModelForm):
 
 class ProductToCategoryInlineAdmin(admin.TabularInline):
     model = ProductToCategory
+    ordering = ('title', )
     extra = 3
 
 
