@@ -257,7 +257,7 @@ class ProductAdmin(admin.ModelAdmin, ):
     list_display = ['pk', 'serial_number', 'is_active', 'url', 'title', 'name', ]
     list_display_links = ['pk', 'serial_number', 'url', 'title', 'name', ]
     list_filter = ('title', 'name', )
-    search_fields = ['barcode', 'title', 'name', 'ItemID__ItemID', ]
+    search_fields = ['id_1c', 'barcode', 'title', 'name', 'ItemID__ItemID', ]
     form = ProductAdminForm
     fieldsets = [
         (None,               {'classes': ['wide'], 'fields': ['is_active', 'disclose_product',
@@ -276,7 +276,7 @@ class ProductAdmin(admin.ModelAdmin, ):
         (u'Дополнительные функции', {'classes': ['collapse'], 'fields': ['template', 'visibility', ], }, ),
         (u'Ссылка на пользователя создателя', {'classes': ['collapse'], 'fields': ['user_obj', ], }, ),
     ]
-    readonly_fields = ('id_1c', )
+#    readonly_fields = ('id_1c', )
 #    form = patch_admin_form(ProductAdminForm, )
     prepopulated_fields = {u'url': (u'title', ), }
     filter_horizontal = ('category', 'recommended', 'action', )
