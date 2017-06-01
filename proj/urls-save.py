@@ -17,58 +17,58 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls, ), ),
 )
 
-#from apps.root.views import root_page
-#from apps.product.views import show_category, show_product
-#from apps.cart.views import show_cart
-#from apps.ajax.views import resolution, cookie
+#from applications.root.views import root_page
+#from applications.product.views import show_category, show_product
+#from applications.cart.views import show_cart
+#from applications.ajax.views import resolution, cookie
 
-urlpatterns += patterns('apps',
+urlpatterns += patterns('applications',
                         # Examples:
     # url(r'^$', 'proj.views.home', name='home'),
     url(r'^$', 'root.views.root_page',
         {'template_name': u'index.jinja2.html', },
         name='root_page', ),
-    # url(r'^proj/', include('proj.foo.urls')),
+                        # url(r'^proj/', include('proj.foo.urls')),
     url(ur'^категории/$', 'product.views.show_basement_category',
         {'template_name': u'category/show_basement_category.jinja2.html', },
         name='show_basement_category', ),
-    url(ur'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$', 'product.views.show_category',
+                        url(ur'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$', 'product.views.show_category',
         {'template_name': u'category/show_category.jinja2.html', },
         name='show_category', ),
-    url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$', 'product.views.show_product',
+                        url(ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$', 'product.views.show_product',
         {'template_name': u'product/show_product.jinja2.html', },
         name='show_product', ),
-    url(ur'^корзина/$', '...apps.cart.save.views.show_cart',
+                        url(ur'^корзина/$', '...applications.cart.save.views.show_cart',
         {'template_name': u'show_cart.jinja2.html', },
         name='show_cart', ),
-    url(ur'^корзина/пересчитать/$', '...apps.cart.save.views.recalc_cart',
+                        url(ur'^корзина/пересчитать/$', '...applications.cart.save.views.recalc_cart',
         name='recalc_cart', ),
-    url(ur'^корзина/заказ/$', '...apps.cart.save.views.show_order',
+                        url(ur'^корзина/заказ/$', '...applications.cart.save.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-    url(ur'^корзина/заказ/принят/$', '...apps.cart.save.views.show_order_success',
+                        url(ur'^корзина/заказ/принят/$', '...applications.cart.save.views.show_order_success',
         {'template_name': u'show_order_success.jinja2.html', },
         name='show_order_success', ),
-    url(ur'^корзина/order/$', '...apps.cart.save.views.show_order',
+                        url(ur'^корзина/order/$', '...applications.cart.save.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-    url(r'^cart/$', '...apps.cart.save.views.show_cart',
+                        url(r'^cart/$', '...applications.cart.save.views.show_cart',
         {'template_name': u'show_cart.jinja2.html', },
         name='show_cart', ),
-    url(ur'^cart/заказ/$', '...apps.cart.save.views.show_order',
+                        url(ur'^cart/заказ/$', '...applications.cart.save.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-    url(r'^cart/order/$', '...apps.cart.save.views.show_order',
+                        url(r'^cart/order/$', '...applications.cart.save.views.show_order',
         {'template_name': u'show_order.jinja2.html', },
         name='show_order', ),
-    url(r'^Currency/Change/$', 'currency.views.currency_change',
+                        url(r'^Currency/Change/$', 'currency.views.currency_change',
         name='currency_change', ),
-    url(ur'^Валюта/Изменение/$', 'currency.views.currency_change',
+                        url(ur'^Валюта/Изменение/$', 'currency.views.currency_change',
         name='currency_change', ),
 
-)
+                        )
 #Search
-urlpatterns += patterns('apps.search.views',
+urlpatterns += patterns('applications.search.views',
                         url(ur'^поиск/$', 'search_page',
                             {'query': None,
                              'template_name': u'category/show_category.jinja2.html', },
@@ -85,7 +85,7 @@ urlpatterns += patterns('apps.search.views',
                             name='show_search', ),
                         )
 #Ajax
-urlpatterns += patterns('apps.ajax.views',
+urlpatterns += patterns('applications.ajax.views',
                         url(r'^ajax/resolution/$', 'resolution',
                             name='ajax_resolution', ),
                         url(r'^ajax/cookie/$', 'cookie',
@@ -134,7 +134,7 @@ if DEBUG:
 #                            url(r'^', include('debug_toolbar_htmltidy.urls')),
 #                            )
 #!!!===================== Django Social Auth ======================
-urlpatterns += patterns('apps.root.views',
+urlpatterns += patterns('applications.root.views',
                         url(r'social/index/$', 'root_page',
                             {'template_name': u'social_index.jinja2.html', },
                             name='social_index_page', ),
@@ -152,7 +152,7 @@ urlpatterns += patterns('',
                             ),
                         )
 #!!!===================== Статические страницы ======================================
-urlpatterns += patterns('apps.static.views',
+urlpatterns += patterns('applications.static.views',
                         url(ur'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$',
                             'show_static_page',
                             {'template_name': u'static_page.jinja2.html', },
@@ -169,7 +169,7 @@ urlpatterns += patterns('apps.static.views',
 #        url(r'^sitemap.xml', include('static_sitemaps.urls')),
 #)
 
-from apps.utils.sitemaps import CategoryViewSitemap, ProductViewSitemap, StaticViewSitemap
+from applications.utils.sitemaps import CategoryViewSitemap, ProductViewSitemap, StaticViewSitemap
 
 
 sitemaps = {
@@ -178,7 +178,7 @@ sitemaps = {
     'Static': StaticViewSitemap,
 }
 
-#from apps.product.models import Category
+#from applications.product.models import Category
 
 
 #info_dict_Category = {

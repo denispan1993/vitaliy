@@ -28,18 +28,18 @@ CELERY_QUEUES = (
 )
 
 CELERY_ROUTES = {
-        'apps.socks.tasks.socks_server_get_from_internet': {
+        'applications.socks.tasks.socks_server_get_from_internet': {
             'queue': 'socks_server_get',
             'routing_key': 'socks_server_get',
         },
 }
 
-CELERY_IMPORTS = ('apps.bitrix.tasks',
-                  'apps.cart.tasks',
-                  'apps.delivery.tasks',
-                  'apps.delivery2.tasks',
-                  'apps.discount.tasks',
-                  'apps.socks.tasks',
+CELERY_IMPORTS = ('applications.bitrix.tasks',
+                  'applications.cart.tasks',
+                  'applications.delivery.tasks',
+                  'applications.delivery2.tasks',
+                  'applications.discount.tasks',
+                  'applications.socks.tasks',
                   'celery',
                   'proj.celery',
                   )
@@ -200,7 +200,10 @@ USE_TZ = True
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'ru-ru'
 
-#SITE_ID = 1
+#The ID, as an integer, of the current site in the django_site database table.
+# This is used so that application data can hook into specific sites
+# and a single database can manage content for multiple sites.
+SITE_ID = 1
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
@@ -287,14 +290,6 @@ TCP = (
     'django.contrib.messages.context_processors.messages',
 )
 
-TCP += (
-    'django.core.context_processors.request',
-)
-
-TCP += (
-    'django.core.context_processors.csrf',
-)
-
 MIDDLEWARE_CLASSES = (
     'proj.processor.request_Middleware.Process_Request_Middleware',
     'django.middleware.common.CommonMiddleware',
@@ -355,7 +350,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    # 'django.contrib.sites',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
@@ -383,34 +378,34 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     # 'coffin',
-    'apps.root',
-    'apps.product.apps.ProductConfig',
-    'apps.ajax',
-    'apps.cart.apps.CartConfig',
-    'apps.comment',
-    'apps.opinion',
-    'apps.currency',
-    # 'apps.extended_price',
-    'apps.slide',
-    'apps.static',
-    'apps.mycalendar',
-    'apps.search',
-    'apps.utils',
-    'apps.utils.setting',
-    'apps.utils.captcha',
-    'apps.utils.mediafile',
-    'apps.handlers',
-    'apps.adminSite',
-    'apps.sms_ussd',
-    'apps.discount',
-    'apps.coupon',
-    'apps.callback',
-    'apps.feedback',
-    'apps.delivery',
-    'apps.delivery2',
-    'apps.socks',
+    'applications.root',
+    'applications.product.apps.ProductConfig',
+    'applications.ajax',
+    'applications.cart.apps.CartConfig',
+    'applications.comment',
+    'applications.opinion',
+    'applications.currency',
+    # 'applications.extended_price',
+    'applications.slide',
+    'applications.static',
+    'applications.mycalendar',
+    'applications.search',
+    'applications.utils',
+    'applications.utils.setting',
+    'applications.utils.captcha',
+    'applications.utils.mediafile',
+    'applications.handlers',
+    'applications.adminSite',
+    'applications.sms_ussd',
+    'applications.discount.apps.DiscountConfig',
+    'applications.coupon',
+    'applications.callback',
+    'applications.feedback',
+    'applications.delivery',
+    'applications.delivery2',
+    'applications.socks',
     'paypal.standard.ipn',
-    'apps.payment',
+    'applications.payment',
     # 'static_sitemaps',
 )
 
@@ -574,9 +569,9 @@ INSTALLED_APPS += (
     'userena',
     'guardian',
     'easy_thumbnails',
-    'apps.account.apps.AccountConfig',
-    'apps.authModel',
-    'apps.bitrix',
+    'applications.account.apps.AccountConfig',
+    'applications.authModel',
+    'applications.bitrix',
 )
 AUTHENTICATION_BACKENDS += (
     'django.contrib.auth.backends.ModelBackend',
@@ -657,7 +652,7 @@ TEMPLATES = [
             ),
             "extensions": DEFAULT_EXTENSIONS + [
                 # Your extensions here...
-                "apps.utils.templatetags.cache.DjangoJinjaCacheExtension"
+                "applications.utils.templatetags.cache.DjangoJinjaCacheExtension"
             ]
         }
     },

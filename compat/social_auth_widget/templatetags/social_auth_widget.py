@@ -1,10 +1,9 @@
 # from django import template
-from django_jinja.library import Library
+from django_jinja import library
 from django.conf import settings
 
-register = Library()
 
-@register.global_function()
+@library.global_function()
 def social_auth_widget():
     context ={'providers': settings.SOCIAL_AUTH_PROVIDERS, }
     from django.template.loader import render_to_string

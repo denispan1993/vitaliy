@@ -3,8 +3,8 @@ import time
 from django.core.urlresolvers import resolve, Resolver404
 from django.shortcuts import redirect, HttpResponsePermanentRedirect
 from logging import getLogger
-from apps.product.models import Product, Category
-from apps.product.views import show_product
+from applications.product.models import Product, Category
+from applications.product.views import show_product
 
 __author__ = 'AlexStarov'
 
@@ -34,8 +34,8 @@ class Process_Request_Middleware(object):
                 except Exception as e:
                     logging.error(u'Error resolve(full_path, ): Exception = {0}'.format(e))
 
-                if "{{ no such element: apps.slide.models.Slide object['url'] }}" in full_path:
-                    print("{{ no such element: apps.slide.models.Slide object['url'] }}")
+                if "{{ no such element: applications.slide.models.Slide object['url'] }}" in full_path:
+                    print("{{ no such element: applications.slide.models.Slide object['url'] }}")
 
                     try:
                         value = unicode(full_path.split('{{')[0])
@@ -61,7 +61,7 @@ class Process_Request_Middleware(object):
                             logging.error(u'Error redirect to new_path: {0}'.format(e))
 
                     except Exception as e:
-                        logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
+                        logging.error(u'Error: applications.slide.models.Slide: full_path = {0}'.format(e))
 
                 elif full_path[-4:] == 'None':  # full_path.endswith('None'):
 
@@ -90,7 +90,7 @@ class Process_Request_Middleware(object):
                             logging.error(u'Error redirect to new_path: {0}'.format(e))
 
                     except Exception as e:
-                        logging.error(u'Error: apps.slide.models.Slide: full_path = {0}'.format(e))
+                        logging.error(u'Error: applications.slide.models.Slide: full_path = {0}'.format(e))
 
                 elif not full_path.endswith('/'):
                     try:

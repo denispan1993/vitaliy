@@ -123,7 +123,7 @@ LOGGING = {
             'handlers': ['celery', ],
             'level': 'DEBUG',
         },
-        'apps.discount.tasks.processing_action': {
+        'applications.discount.tasks.processing_action': {
             'handlers': ['celery', ],
             'level': 'DEBUG',
         },

@@ -4,11 +4,11 @@ from django.core.urlresolvers import resolve, Resolver404
 from django.core.cache import cache
 from django.forms.models import model_to_dict
 
-from apps.cart.order import get_cart_or_create
-from apps.product.models import Category, Currency
-from apps.product.views import show_category, show_product, get_product, get_category, get_or_create_Viewed
-from apps.slide.models import Slide
-from apps.static.models import Static
+from applications.cart.order import get_cart_or_create
+from applications.product.models import Category, Currency
+from applications.product.views import show_category, show_product, get_product, get_category, get_or_create_Viewed
+from applications.slide.models import Slide
+from applications.static.models import Static
 
 __author__ = 'AlexStarov'
 
@@ -119,7 +119,7 @@ def context(request):
     # #viewed_count = viewed.count()
     # product = None
     # product_pk = None
-    # from apps.product.models import Product
+    # from applications.product.models import Product
     # try:
     #     product_count = Product.objects.count()
     # except Product.DoesNotExist:

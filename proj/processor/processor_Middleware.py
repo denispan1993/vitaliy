@@ -19,7 +19,7 @@ class Process_SessionIDMiddleware(object):
             Проверим,
             а может пользователь у нас все же когда то был.
         """
-        from apps.account.models import Session_ID
+        from applications.account.models import Session_ID
         try:
             session_ID = Session_ID.objects.get(sessionid=sessionid, )
         except Session_ID.DoesNotExist:
@@ -83,7 +83,7 @@ class Process_SessionIDMiddleware(object):
             # request.session['session'] = sessionid
             # print 'set session in COOKIES'
             response.set_cookie(key='session', value=sessionid, )
-            from apps.utils.update_sessionid import update_sessionid
+            from applications.utils.update_sessionid import update_sessionid
             update_sessionid(request, sessionid_old=session, sessionid_now=sessionid, )
 
         return response
