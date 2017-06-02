@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^captcha/', include('applications.utils.captcha.urls', ), ),
     url(regex=r'^redirect/',
         view=include(arg='applications.delivery2.urls',
-                     namespace='delivery'), ),
+                     namespace='delivery_old'), ),
 ]
 
 urlpatterns += [url(regex=r'^$',

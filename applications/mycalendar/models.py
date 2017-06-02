@@ -167,9 +167,9 @@ class Event(models.Model):
                                        null=False,
                                        default=1, )
     location_date = models.ManyToManyField(to=LocationDate,
-                                      verbose_name=_(u'Город и время проведения'),
-                                      blank=False,
-                                      null=False, )
+                                           verbose_name=_(u'Город и время проведения'),
+                                           blank=False,
+                                           null=False, )
     duration_days = models.PositiveSmallIntegerField(verbose_name=_(u'Продолжительность в днях', ),
                                                      blank=True,
                                                      null=True, )
