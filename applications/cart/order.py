@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+#from distutils.util import strtobool
 import celery
 import random
 import time
@@ -308,9 +309,12 @@ def result_ordering(request, ):
                 # except DeliveryCompany.DoesNotExist:
                 #     delivery_company = None
                 order.delivery_company_id = delivery_company
+                print(order.delivery_company_id)
                 order.warehouse_number = request.POST.get(u'warehouse_number', None, )
-                order.checkbox1 = request.POST.get(u'choice1', True, )
-                order.checkbox2 = request.POST.get(u'choice2', False, )
+                order.checkbox1 = bool(request.POST.get(u'choice1', True, ), )
+                print(bool(order.checkbox1))
+                order.checkbox2 = bool(request.POST.get(u'choice2', False, ), )
+                print(bool(order.checkbox2))
             else:
                 """ для любого другого Государства """
                 address = request.POST.get(u'address', None, )

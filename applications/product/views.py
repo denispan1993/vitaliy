@@ -212,14 +212,18 @@ def add_to_cart(request,
         product = get_product(int_product_pk, )
     """ Взятие корзины, или создание если её нету """
     product_cart, created = get_cart_or_create(request, created=True, )
-    from apps.cart import models as models_cart
+    from applications.cart import models as models_cart
     try:
         """ Присутсвие конкретного продукта в корзине """
         product_in_cart = product_cart.cart.get(product=product, )
     except models_cart.Product.DoesNotExist:
+
         """ Занесение продукта в корзину если его нету """
         if not quantity:
             quantity = product.minimal_quantity
+
+        available_to_order = bool(available_to_order)
+
         if available_to_order is None:
             available_to_order = product.is_availability == 2
         if available_to_order is True:
@@ -228,8 +232,9 @@ def add_to_cart(request,
         else:
             price = product.price
             percentage_of_prepaid = 100
+
         """ Временная хрень.
-         Так как потом возможно нужно будет перейти на количество с дробной частью.
+            Так как потом возможно нужно будет перейти на количество с дробной частью.
         """
         try:
             quantity = int(quantity, )
@@ -245,12 +250,20 @@ def add_to_cart(request,
             except ValueError:
                 quantity = 1
 
+        print('key=', product_cart,
+            'product=', product,
+            'price=', price,
+            'available_to_order=', available_to_order,
+            'available_to_order=', bool(available_to_order),
+            'percentage_of_prepaid=', percentage_of_prepaid,
+            'quantity=', quantity, )
+
         product_in_cart = models_cart.Product.objects.create(
             key=product_cart,
             product=product,
             price=price,
             # True - Товар доступен под заказ.
-            available_to_order=available_to_order,
+            available_to_order=bool(available_to_order),
             # 50% - предоплата.
             percentage_of_prepaid=percentage_of_prepaid,
             quantity=quantity, )

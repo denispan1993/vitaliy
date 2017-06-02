@@ -15,7 +15,7 @@ django-userena==2.0.1
 django-extensions==1.7.9
 bpython==0.16
 dnspython==1.15.0
-easy-thumbnails==2.3
+easy-thumbnails==2.4.1
 flower==0.9.1
 html2text==2016.4.2
 Jinja2==2.9.6

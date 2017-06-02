@@ -442,7 +442,6 @@ class Product(models.Model):
         return self.recommended.filter(is_availability=1, ).order_by('?')
 
     def get_or_create_ItemID(self, itemid=None):
-        from . import ItemID
         try:
             if itemid:
                 return ItemID.objects.get(
