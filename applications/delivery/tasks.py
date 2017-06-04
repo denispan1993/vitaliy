@@ -114,14 +114,14 @@ def processing_delivery_test(*args, **kwargs):
             i += 1
             print('i: ', i, ' --> ', email.email)
             message = Message(test=True, delivery=delivery, recipient=email, )
-            print message.send_mail()
+            print('delivery/tasks.py: ', message.send_mail(), )
 
         emails = Email.objects.filter(test=True)
         for email in emails:
             i += 1
             print('i: ', i, ' --> ', email.email)
             message = Message(test=True, delivery=delivery, recipient=email, )
-            print message.send_mail()
+            print('delivery/tasks.py: ', message.send_mail(), )
 
 #        if os.path.isfile(path('server.key', ), ):
 #            recipient = get_email(delivery=delivery, email_class=SpamEmail, pk=4991, )  # gserg@mail333.com

@@ -75,7 +75,7 @@ def process_bitrix_catalog(*args, **kwargs):
 
                     process_of_proposal(offers_list=list(elem_second_level, ), )
 
-    print "Process time: {}".format(time.time() - start, )
+    print('Process time: {}'.format(time.time() - start, ), )
 
     return True, datetime.now(), '__name__: {0}'.format(str(__name__))
 

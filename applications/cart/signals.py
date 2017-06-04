@@ -8,9 +8,9 @@ def my_pre_save(sender, instance, raw, using, update_fields, *args, **kwargs):
         instance.created_at = timezone.now()
     instance.updated_at = timezone.now()
     if instance.pk is None:
-        print 'Created == False'
+        print('Created == False', )
     else:
-        print 'Instance.pk: ', instance.pk, 'Created == True'
+        print('Instance.pk: ', instance.pk, 'Created == True', )
     # print kwargs['created']
     # print kwargs['instance']
 

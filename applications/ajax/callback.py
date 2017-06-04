@@ -17,25 +17,25 @@ def callback_data_send(request, ):
             # request_cookie = request.session.get(u'cookie', None, )
             # if request_cookie:
             sessionid = request.POST.get(u'sessionid', None, )
-            print 'CallBack:'
-            print 'sessionid: ', sessionid
+            print('CallBack:', )
+            print('sessionid: ', sessionid, )
             userid = request.POST.get(u'userid', False, )
-            print 'userid: ', userid
-            print 'userid type: ', type(userid, )
+            print('userid: ', userid, )
+            print('userid type: ', type(userid, ), )
             if userid == 'None':
                 userid = False
             name = request.POST.get(u'name', None, )
-            print 'name: ', name.encode('utf8', )
+            print('name: ', name.encode('utf8', ), )
             email = request.POST.get(u'email', None, )
-            print 'email: ', email
+            print('email: ', email, )
             phone = request.POST.get(u'phone', None, )
-            print 'phone: ', phone
+            print('phone: ', phone, )
             from applications.callback.models import CallBack
             try:
                 if userid:
                     """ Error: invalid literal for int() with base 10: 'None' """
                     """ Ошибка вылазила из за того, что я пытался подсунуть вместо int() в user_id - None """
-                    print userid
+                    print(userid, )
                     callback = CallBack.objects.create(sessionid=sessionid,
                                                        user_id=userid,
                                                        name=name,
@@ -47,15 +47,15 @@ def callback_data_send(request, ):
                                                        email=email,
                                                        phone=phone, )
             except Exception as e:
-                print 'Exception: ', e
-                print 'Exception message: ', e.message
+                print('Exception: ', e, )
+                print('Exception message: ', e.message, )
                 response = {'result': 'Bad',
                             'error': e.message, }
                 data = dumps(response, )
                 mimetype = 'application/javascript'
                 return HttpResponse(data, mimetype, )
             else:
-                print callback
+                print(callback, )
                 """ Отправка заказа обратного звонка """
                 subject = u'Заказ обратного звонка от пользователя: %s на номер: %s. Интернет магазин Кексик.' % (name, phone, )
                 from django.template.loader import render_to_string

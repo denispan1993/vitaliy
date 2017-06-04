@@ -15,7 +15,7 @@ def root_page(request, template_name=u'index.jinja2', ):
                 try:
                     email = EmailForDelivery.objects.get(key=key, )
                 except EmailForDelivery.DoesNotExist:
-                    print 'Error: E-Mail not found for key: ', key
+                    print('Error: E-Mail not found for key: ', key, )
                 else:
                     sessionid = request.COOKIES.get(u'sessionid', False, )
                     if not sessionid:

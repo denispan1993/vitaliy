@@ -47,7 +47,7 @@ class Cart(models.Model):
             Но должен быть вообще только один """
         try:
             coupon = self.Cart_child.all()[0]
-            print coupon
+            print('Print coupon 321123:', coupon)
             return coupon
         except IndexError:
             return None
@@ -267,7 +267,7 @@ class Order(models.Model):
             Но должен быть вообще только один """
         try:
             coupon = self.Order_child.all()[0]
-            print coupon
+            print('print coupon: cart/models.py:', coupon, )
             return coupon
         except IndexError:
             return None
@@ -278,7 +278,7 @@ class Order(models.Model):
         """ Берем все купоны привязанные к этому заказу и берем первый из них
             Но должен быть вообще только один """
         coupon = self.coupon
-        print coupon
+        print('print coupon: cart/models.py: coupon_sum: ', coupon)
 
         return sum(float(product.sum_of_quantity(calc_or_show='show', currency=980, ), )
                    for product in self.products) * (100 - self.coupon.percentage_discount) / 100
@@ -388,11 +388,11 @@ class Product(models.Model):
                 self.save()
             except OperationalError as inst:
                 """ Иначе печатаем ИЗВЕСТНУЮ ошибку """
-                print 'Type Error: ', type(inst, )
-                print 'Error: ', inst
+                print('Type Error: ', type(inst, ), )
+                print('Error: ', inst, )
             except Exception as inst:
-                print 'Type Error: ', type(inst, )
-                print 'Error: ', inst
+                print('Type Error: ', type(inst, ), )
+                print('Error: ', inst, )
                 """ Иначе печатаем НЕ ИЗВЕСТНУЮ ошибку """
             else:
                 break

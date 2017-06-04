@@ -13,87 +13,87 @@ __author__ = 'AlexStarov'
 
 
 # Admin panel
-urlpatterns = [url(regex=ur'^$',
+urlpatterns = [url(regex=r'^$',
                    view=admin_panel,
                    kwargs={'template_name': u'admin_panel.html', },
                    name='index', ), ]
 
 # """ Админ панель Комментариев. """
-urlpatterns += [url(regex=ur'^комментарий/поиск/$',
+urlpatterns += [url(regex=r'^комментарий/поиск/$',
                     view=comment_search,
                     kwargs={'template_name': u'comment/comment_search.jinja2', },
                     name='comment_search', ),
-                url(regex=ur'^комментарий/редактор/(?P<id>\d{6})/$',
+                url(regex=r'^комментарий/редактор/(?P<id>\d{6})/$',
                     view=comment_edit,
                     kwargs={'template_name': u'comment/comment_edit.jinja2', },
                     name='comment_edit', ), ]
 
 # """ Админ панель Заказов. """
-urlpatterns += [url(regex=ur'^заказ/поиск/$',
+urlpatterns += [url(regex=r'^заказ/поиск/$',
                     view=order_search,
                     kwargs={'template_name': u'order/order_search.jinja2', },
                     name='order_search', ),
-                url(regex=ur'^заказ/редактор/(?P<order_id>\d{6})/$',
+                url(regex=r'^заказ/редактор/(?P<order_id>\d{6})/$',
                     view=order_edit,
                     kwargs={'template_name': u'order/order_edit.jinja2', },
                     name='order_edit', ),
-                url(regex=ur'^заказ/редактор/товар/добавить/(?P<order_id>\d{6})/$',
+                url(regex=r'^заказ/редактор/товар/добавить/(?P<order_id>\d{6})/$',
                     view=order_edit_product_add,
                     kwargs={'template_name': u'order/order_edit_product_add.jinja2', },
                     name='order_edit_product_add', ), ]
 
 # """ Админ панель Купонов. """
-urlpatterns += [url(regex=ur'^купон/группа/поиск/$',
+urlpatterns += [url(regex=r'^купон/группа/поиск/$',
                     view=coupon_group_search,
                     kwargs={'template_name': u'coupon/group_index.jinja2', },
                     name='search', ),
-                url(regex=ur'^купон/группа/редактор/добавить/$',
+                url(regex=r'^купон/группа/редактор/добавить/$',
                     view=manager_required(CouponGroupCreateEdit.as_view(), ),
                     name='coupon_group_add', ),
-                url(regex=ur'^купон/группа/редактор/(?P<coupon_group_id>\d{6})/$',
+                url(regex=r'^купон/группа/редактор/(?P<coupon_group_id>\d{6})/$',
                     view=manager_required(CouponGroupCreateEdit.as_view(), ),
                     name='coupon_group_edit', ), ]
-urlpatterns += [url(regex=ur'^купон/редактор/добавить/$',
+urlpatterns += [url(regex=r'^купон/редактор/добавить/$',
                     view=manager_required(CouponCreateEdit.as_view(), ),
                     name='coupon_add', ),
-                url(regex=ur'^купон/редактор/(?P<coupon_id>\d{6})/$',
+                url(regex=r'^купон/редактор/(?P<coupon_id>\d{6})/$',
                     view=manager_required(CouponCreateEdit.as_view(), ),
                     name='coupon_edit', ), ]
 
 # """ Админ панель Рассылок. """
-urlpatterns += [url(regex=ur'^рассылка/панель/список/$',
+urlpatterns += [url(regex=r'^рассылка/панель/список/$',
                     view=index,
                     kwargs={'template_name': u'delivery/index.jinja2', },
                     name='delivery_index', ),
-                url(regex=ur'^рассылка/панель/редактор/(?P<delivery_id>\d{6})/$',
+                url(regex=r'^рассылка/панель/редактор/(?P<delivery_id>\d{6})/$',
                     view=add_edit,
                     kwargs={'template_name': u'delivery/add_edit.jinja2', },
                     name='edit', ),
-                url(regex=ur'^рассылка/панель/редактор/рассылка/добавить/$',
+                url(regex=r'^рассылка/панель/редактор/рассылка/добавить/$',
                     view=add_edit,
                     kwargs={'delivery_id': None,
                             'template_name': u'delivery/add_edit.jinja2', },
                     name='add', ),
-                url(regex=ur'^рассылка/запуск/тестовая/(?P<delivery_id>\d{6})/$',
+                url(regex=r'^рассылка/запуск/тестовая/(?P<delivery_id>\d{6})/$',
                     view=start_delivery,
                     kwargs={'delivery_type': 'test', },
                     name='start_delivery_test', ),
-                url(regex=ur'^рассылка/запуск/главная/(?P<delivery_id>\d{6})/$',
+                url(regex=r'^рассылка/запуск/главная/(?P<delivery_id>\d{6})/$',
                     view=start_delivery,
                     kwargs={'delivery_type': 'general', },
                     name='start_delivery_general', ),
-                url(regex=ur'^рассылка/исключить/email/$',
+                url(regex=r'^рассылка/исключить/email/$',
                     view=exclude_email_from_delivery,
                     kwargs={'template_name': None, },
                     name='exclude_email_from_delivery', ), ]
 
 # """ Админ панель SMS USSD. """
-urlpatterns += [url(regex=ur'^sms_ussd/$',
+urlpatterns += [url(regex=r'^sms_ussd/$',
                     view=SMS_USSDPanelView.as_view(),
                     name='sms_ussd_panel', ), ]
-urlpatterns += [url(regex=ur'^sms_ussd/send_sms/$',
+urlpatterns += [url(regex=r'^sms_ussd/send_sms/$',
                     view=SendSMSCreateView.as_view(),
                     name='sms_ussd_send_sms', ), ]
-urlpatterns += [url(regex=ur'^sms_ussd/send_ussd/$',
+urlpatterns += [url(regex=r'^sms_ussd/send_ussd/$',
                     view=SendUSSDCreateView.as_view(),
                     name='sms_ussd_send_ussd', ), ]

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from django_jinja.builtins import DEFAULT_EXTENSIONS
-
-from kombu import Queue, Exchange
+import warnings
 import os
+
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+from kombu import Queue, Exchange
 
 __author__ = 'AlexStarov'
 
@@ -675,18 +676,22 @@ TEMPLATES = [
     },
 ]
 
-
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
 
 try:
-    from keksik import *
+    from .keksik import *
 except ImportError:
     pass
 
 try:
-    from chipdip import *
+    from .chipdip import *
 except ImportError:
     pass
+
+warnings.filterwarnings(
+    'error', r"DateTimeField .* received a naive datetime",
+    RuntimeWarning, r'django\.db\.models\.fields',
+)

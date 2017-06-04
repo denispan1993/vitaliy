@@ -82,18 +82,18 @@ def send_sms(*args, **kwargs):
             manager.logoff()
 
         except asterisk.manager.ManagerSocketException as e:
-            print "Error connecting to the manager: %s" % e
+            print("Error connecting to the manager: %s" % e, )
         except asterisk.manager.ManagerAuthException as e:
-            print "Error logging in to the manager: %s" % e
+            print("Error logging in to the manager: %s" % e, )
         except asterisk.manager.ManagerException as e:
-            print "Error: %s" % e
+            print("Error: %s" % e, )
 
     finally:
         # remember to clean up
         try:
             manager.close()
         except Exception as e:
-            print e
+            print('sms_ussd/task.py: e: ', e)
 
     sms_inst.task_id = None
     sms_inst.is_send = True
@@ -111,7 +111,7 @@ def send_received_sms(*args, **kwargs):
     except SMS.DoesNotExist:
         return False
 
-    print len(smses)
+    print(len(smses), )
     for sms in smses:
 
         #try:
@@ -284,18 +284,18 @@ def send_template_sms(*args, **kwargs):
             manager.logoff()
 
         except asterisk.manager.ManagerSocketException as e:
-            print "Error connecting to the manager: %s" % e
+            print("Error connecting to the manager: %s" % e, )
         except asterisk.manager.ManagerAuthException as e:
-            print "Error logging in to the manager: %s" % e
+            print("Error logging in to the manager: %s" % e, )
         except asterisk.manager.ManagerException as e:
-            print "Error: %s" % e
+            print("Error: %s" % e, )
 
     finally:
         # remember to clean up
         try:
             manager.close()
         except Exception as e:
-            print e
+            print('sms_ussd/tasks.py: e: ', e, )
 
     sms_inst.save(skip_super_save=True, )
 

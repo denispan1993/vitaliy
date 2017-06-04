@@ -6,7 +6,8 @@ http://django.es
 """
 from PIL import Image
 from django.core.files.base import ContentFile
-import cStringIO
+from io import StringIO as cStringIO
+#import cStringIO
 
 
 def generate_thumb(img, thumb_size, format='JPEG', ):

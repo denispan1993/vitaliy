@@ -7,7 +7,7 @@ from .views import order_change, order_add_search, order_add
 from .order import order_email_test
 from .callback import callback_data_send
 from .feedback import feedback_data_send
-from timezone import client_timezone
+from .timezone import client_timezone
 from .geoip import resolve_client_geolocation
 
 __author__ = 'AlexStarov'

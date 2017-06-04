@@ -134,7 +134,7 @@ def context(request):
     #             pass
 
     if not request.method == 'GET':
-        print 'request.method', request.method
+        print('context_processor.py: 137: ', 'request.method', request.method, )
     else:
         if user_object:
             full_path = request.path
@@ -151,34 +151,34 @@ def context(request):
                 # print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
                 # print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
                 # print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
-                print 'resolve:'
+                print('context_processor.py: 153: ', 'resolve:', )
                 view, args, kwargs = resolve(full_path, )
 
             except UnicodeDecodeError:
-                print 'Error: '
-                print full_path.encode('utf8', )
+                print('context_processor.py: 158: ', 'Error: ', )
+                print('context_processor.py: 159: ', full_path.encode('utf8', ), )
 
             except Resolver404:
                 try:
-                    print 'request.get_full_path(): ', request.get_full_path()
+                    print('context_processor.py: 163: ', 'request.get_full_path(): ', request.get_full_path(), )
                 except:
                     pass
 
                 try:
-                    print 'Error: Resolver404 - cp1252 [2]', full_path.split('/')[2].encode('cp1252', )
-                    print 'Error: Resolver404 - cp1252', full_path.encode('cp1252', )
+                    print('context_processor.py: 168: ', 'Error: Resolver404 - cp1252 [2]', full_path.split('/')[2].encode('cp1252', ), )
+                    print('context_processor.py: 169: ', 'Error: Resolver404 - cp1252', full_path.encode('cp1252', ), )
                 except:
                     pass
 
                 try:
-                    print 'Error: Resolver404 - utf8 - cp1252', full_path.encode('utf8').encode('cp1252', )
+                    print('context_processor.py: 174: ', 'Error: Resolver404 - utf8 - cp1252', full_path.encode('utf8').encode('cp1252', ), )
                 except:
                     pass
 
                 try:
-                    print 'Error: Resolver404 - utf8', full_path.encode('utf8', )
+                    print('context_processor.py: 179: ', 'Error: Resolver404 - utf8', full_path.encode('utf8', ), )
                 except:
-                    print 'Error: Resolver404 - utf8', 'print value: Error'
+                    print('context_processor.py: 181: ', 'Error: Resolver404 - utf8', 'print value: Error', )
 
             # else:
             #     try:
@@ -192,12 +192,12 @@ def context(request):
     #            print 'Not print Not error: UniceodeEncodeError'
 
             if 'view' in locals() and view == show_product:
-                print kwargs[u'id'], kwargs[u'product_url'].encode('utf8')
+                print('context_processor.py: 195: ', kwargs[u'id'], kwargs[u'product_url'].encode('utf8'), )
                 """ Убираем НАХРЕН проверку именования товара product_url """
                 # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
                 return_dict.update({'canonical': get_product(pk=kwargs[u'id'], ).get_absolute_url(), })
             elif 'view' in locals() and view == show_category:
-                print kwargs[u'id'], kwargs[u'category_url'].encode('utf8')
+                print('context_processor.py: 200: ', kwargs[u'id'], kwargs[u'category_url'].encode('utf8'), )
                 return_dict.update({'canonical': get_category(pk=kwargs[u'id'], ).get_absolute_url(), })
 
     sessionid = request.COOKIES.get(u'sessionid', None, )

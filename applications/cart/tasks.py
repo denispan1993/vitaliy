@@ -78,7 +78,7 @@ def delivery_order(*args, **kwargs):
             result = msg.send(fail_silently=False, )
         except smtplib.SMTPDataError as e:
             result = False
-            print e
+            print('print e: cart/task.py: ', e, )
 
         if (isinstance(result, int) and result == 1) or i > 100:
             i = 0
@@ -137,7 +137,7 @@ def delivery_order(*args, **kwargs):
             result = msg.send(fail_silently=False, )
         except smtplib.SMTPDataError as e:
             result = False
-            print e
+            print('print e cart/task.py: 123', e, )
 
         if (isinstance(result, int) and result == 1) or i > 100:
             break
@@ -165,9 +165,9 @@ def recompile_order(*args, **kwargs):
 
     username, first_name, last_name, patronymic = processing_username(order=order, )
 
-    print 'UserName: ', username
+    print('UserName123: ', username, )
     sessionID = order.sessionid
-    print sessionID
+    print('sessionID321: ', sessionID, )
 
     try:
         sessionID = Session_ID.objects.get(sessionid=sessionID, )
@@ -179,53 +179,53 @@ def recompile_order(*args, **kwargs):
     if 'user' not in (locals(), globals()):
         if order.email:
             email = order.email.replace(' ', '', )
-            print 'E-Mail1: ', email
+            print('E-Mail1: 123', email, )
         else:
             email = None
     else:
         # email = user.email_parent_user.get()
         # print 'E-Mail 2.1: ', email
         email = user.email_parent_user.all()
-        print 'E-Mail 2.2: ', email
+        print('E-Mail 2.2: 324', email, )
         if not email:  # == []:
             user.delete()
         else:
             email = user.email_parent_user.all()[0]
-            print 'E-Mail 2.3: ', email.email
+            print('E-Mail 2.3: 2432', email.email, )
 
     if type(email, ) != Email:
         try:
             email = Email.objects.get(email=email, )
         except Email.DoesNotExist:
             email_not_found = True
-        except MySQLdb.Warning, e:
-            print e.args
-            print e.message
+        except MySQLdb.Warning as e:
+            print('cart/tasks.py: ', e.args, )
+            print('cart/tasks.py: 654', e.message, )
             e_message = e.message.split(' ')[2]
-            print e_message
+            print('cart/tasks.py: 468', e_message, )
             if e_message == 'DOUBLE':
                 try:
                     emails = Email.objects.filter(email=email, )
                 except:
                     pass
-                print emails
-                print len(emails, )
+                print('cart/tasks.py: 098: ', emails, )
+                print('cart/tasks.py: 23122: ', len(emails, ), )
                 emails[0].delete()
                 try:
                     email = Email.objects.get(email=email, )
                 except:
                     pass
-            print e.__doc__
+            print('cart/tasks.py: 745: ', e.__doc__, )
         else:
             if type(sessionID) != Session_ID:
                 user = email.user
             else:
                 if email.user == sessionID.user:
-                    print u'Ok', u' - ', u'SessionID.user == Email.user'
+                    print(u'Ok', u' - ', u'SessionID.user == Email.user')
                 else:
-                    print u'Хреново, Email и SessionID пренадлежат разным пользователям.'
-                    print u'SessionID.user: ', sessionID.user
-                    print u'Email.user: ', email.user
+                    print(u'Хреново, Email и SessionID пренадлежат разным пользователям.', )
+                    print(u'SessionID.user: ', sessionID.user, )
+                    print(u'Email.user: ', email.user, )
 
     phone = r'%s' % order.phone
     phone = phone\
@@ -233,7 +233,7 @@ def recompile_order(*args, **kwargs):
         .replace('-', '', ).replace('.', '', ).replace(',', '', )\
         .replace('/', '', ).replace('|', '', ).replace('\\', '', )\
         .lstrip('+380').lstrip('380').lstrip('38').lstrip('80').lstrip('0')
-    print 'phone: ', phone
+    print('phone: ', phone, )
 
     try:
         int_phone_code = int(phone[:2])
@@ -260,7 +260,7 @@ def recompile_order(*args, **kwargs):
                 ),
         )
 
-        print len(phones, )
+        print(len(phones, ), )
         if len(phones, ) > 1:
             phones[0].delete()
             phone = phones[1]
@@ -269,14 +269,14 @@ def recompile_order(*args, **kwargs):
             user = phone.user
         else:
             if ('user' in locals() or 'user' in globals()) and user == phone.user:
-                print u'Phone.user == User'
+                print(u'Phone.user == User', )
             else:
-                print u'Номер телефона зарегистрирован за другим пользователем'
+                print(u'Номер телефона зарегистрирован за другим пользователем', )
                 if type(sessionID) == Session_ID:
-                    print u'SessionID.user: ', sessionID.user
+                    print(u'SessionID.user: ', sessionID.user, )
                 if type(email) == Email:
-                    print u'Email.user: ', email.user
-                print u'Phone.user: ', phone.user
+                    print(u'Email.user: ', email.user, )
+                print(u'Phone.user: ', phone.user, )
 
     if 'user' not in locals() and 'user' not in globals():
         try:
@@ -295,9 +295,9 @@ def recompile_order(*args, **kwargs):
         sessionID.save()
 
     if isinstance(email, unicode) or not email:  # type(email, ) == 'unicode':
-        print 'email type: ', type(email, ), 'email: ', email
+        print('email type: ', type(email, ), 'email: ', email, )
     else:
-        print 'email type: ', type(email, ), 'email: ', email.email
+        print('email type: ', type(email, ), 'email: ', email.email, )
 
     if email is not None:
         if type(email) != Email:
@@ -362,45 +362,45 @@ def processing_username(order, ):
         patronymic = u'Отчество'
 
     if last_name:
-        print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+        print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
         if type(last_name, ) == list:
             last_name = unicode(last_name[0], )  # .encode('UTF8', ),
-        print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+        print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
         last_name = last_name.lstrip('.')
         if len(last_name, ) > 30:
-            print 'Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name)
+            print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
             last_name = last_name[:30]
 
     if first_name:
-        print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+        print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
         if type(first_name, ) == list:
             first_name = unicode(first_name, ).encode('utf-8')
-        print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+        print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
         first_name = first_name.lstrip('.')
         if len(first_name, ) > 30:
-            print 'Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name)
+            print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
             first_name = first_name[:30]
 
     if patronymic:
-        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+        print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
         if type(patronymic, ) == list:
             patronymic = unicode(patronymic, ).encode('utf-8')
-        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+        print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
         patronymic = patronymic.lstrip('.')
         if len(patronymic, ) > 32:
-            print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+            print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
             patronymic = patronymic[:32]
-        print 'Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, )
+        print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
 
-    username = ''.join(['%s' % slugify(k).capitalize() for k in last_name, first_name, patronymic], )
-    print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
+    username = ''.join(['%s' % slugify(k).capitalize() for k in (last_name, first_name, patronymic)], )
+    print('Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username), )
 
     if type(username, ) == list:
         username = str(username, )
-    print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
+    print('Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username), )
 
     if len(username, ) > 32:
-        print 'Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username)
+        print('Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username), )
         username = username[:32]
 
     return username, first_name, last_name, patronymic
@@ -415,9 +415,9 @@ def aaa():
 
     result = gateway.send_messages([("380952886976", "Номер Вашего заказа %d\nВаш магазин Кексик." % order.pk)])
     if result.is_success:
-        print result.inbox, result.outbox
+        print(result.inbox, result.outbox, )
 
     # Receive messages
     result = gateway.receive_messages()
     if result.is_sucess:
-        print result.inbox, result.outbox
+        print(result.inbox, result.outbox, )

@@ -41,7 +41,7 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
     if attachment:
         key += '__attachment_%s' % attachment
 
-    m = hashlib.md5(key)
+    m = hashlib.md5(key.encode(), )
 
     md5_key = '%s_blocks_%s' % (
         'prod' if category_or_product == 'product' else 'cat',

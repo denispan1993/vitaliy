@@ -31,7 +31,7 @@ class Process_SessionIDMiddleware(object):
                 try:
                     s.save()
                 except OperationalError:
-                    print 'S.save() Error: "OperationalError: database is locked" '
+                    print('S.save() Error: "OperationalError: database is locked" ', )
                 else:
                     s_save = True
             session_ID = s.session_key

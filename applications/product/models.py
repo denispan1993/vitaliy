@@ -241,8 +241,7 @@ class Product(models.Model):
                                       verbose_name=_(u'Категории'),
                                       through='ProductToCategory',
                                       through_fields=('product', 'category', ),
-                                      blank=False,
-                                      null=False, )
+                                      blank=False, )
     serial_number = models.PositiveSmallIntegerField(
         verbose_name=_(u'Порядок сортировки'),
         # visibility=True,
@@ -1357,7 +1356,6 @@ class ExtendedPrice(models.Model):
         blank=False, )
     information = models.ManyToManyField(InformationForPrice,
                                          verbose_name=_(u'Информация', ),
-                                         null=False,
                                          blank=False, )
     regular_price = models.DecimalField(verbose_name=_(u'Старая цена', ),
                                         max_digits=10,
@@ -1399,7 +1397,6 @@ class AdditionalInformationForPrice(models.Model):
     information = models.ManyToManyField(InformationForPrice,
                                          # through='AdditionalInformationAndInformationForPrice',
                                          verbose_name=_(u'Информация для прайса', ),
-                                         null=False,
                                          blank=False, )
     # price = models.ManyToManyField(ExtendedPrice,
     #                                verbose_name=_(u'Прайс', ),

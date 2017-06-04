@@ -342,14 +342,14 @@ def hernya():
                     if action.auto_del:
                         action.deleted = True
                         action.save()
-        # from applications.product.models import Product
+        # from apps.product.models import Product
         # Product.objects.filter(is_availability=2, ).update(is_availability=5, )
         # Product.objects.filter(is_availability=3, ).update(is_availability=2, )
         # Product.objects.filter(is_availability=5, ).update(is_availability=3, )
 
     """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
      но при этом отсутвует хоть какая то акция """
-    from applications.product.models import Product
+    from apps.product.models import Product
     products = Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
     print 'Товары удаленные из акции по причине вывода их из акции: ', products
 

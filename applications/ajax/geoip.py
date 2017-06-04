@@ -37,13 +37,14 @@ def resolve_client_geolocation(request, ):
                     # city = d['ip-answer']['ip']['city']
                     city = e[0][2].text
                     region = e[0][3].text
-                    print 'e[0][2].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', ), ' Region: ', e[0][3].text.encode('utf-8', )
+                    print('e[0][2].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', ),
+                          ' Region: ', e[0][3].text.encode('utf-8', ), )
                 # except KeyError:
                 except IndexError:
                     # city = d['ip-answer']['ip']['message']
                     city = e[0][0].text
                     region = e[0][0].text
-                    print 'e[0][0].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', )
+                    print('e[0][0].text - ', 'r.url: ', r.url, ' City: ', city.encode('utf-8', ), )
 
                 request.session[u'ajax_geoip_city'] = city
                 request.session[u'ajax_geoip_region'] = region

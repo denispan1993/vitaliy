@@ -175,7 +175,7 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
     try:
         domain = email_string.split('@', )[1]
     except IndexError:
-        print 'Bad E-Mail: IndexError: ', email_string
+        print('Bad E-Mail: IndexError: ', email_string, )
         return False
 
     if resolver is None:
@@ -185,13 +185,13 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
     try:
         resolver.query(domain, 'mx', )
     except NXDOMAIN:
-        print 'Bad E-Mail: Domain: ', email_string
+        print('Bad E-Mail: Domain: ', email_string, )
         return False
     except NoNameservers:
-        print 'NoNameServers for Domain: ', email_string
+        print('NoNameServers for Domain: ', email_string, )
         return False
     except NoAnswer:
-        print 'NoAnswer for Domain: ', email_string
+        print('NoAnswer for Domain: ', email_string, )
         return False
     else:
         return True
@@ -594,7 +594,7 @@ def bbb(tmpl, context={}, ):
             for pos in nodes[key]:
                 three[pos] = value
 
-    print '!!!!!!!!!!', ''.join(three)
+    print('!!!!!!!!!!', ''.join(three), )
 
 
 def aaa():
@@ -716,9 +716,9 @@ def ccc():
 
 
     for n in range(0, 1000, 64):
-        print n
+        print('delivery/utils.py: 719: ', n, )
         site='http://hideme.ru/proxy-list/?start={}#list'.format(n)
-        print site
+        print('delivery/utils.py: 721: ', site, )
         site='http://hideme.ru/proxy-list/?start={}#list'.format(n)
         req = urllib2.Request(site, headers=hdr)
 
@@ -730,7 +730,7 @@ def ccc():
         content = content.split('</table>')[0]
         #print('split2: ', content)
         pars.feed(data=content)
-        print n
+        print('delivery/utils.py: 719: ', n, )
         sleep(1)
 
 
@@ -782,7 +782,7 @@ def vvv():
     )
 
     if 'The verify code invalid' not in r.content:
-        print data['Captcha']
+        print('delivery/utils.py: 785: ', data['Captcha'], )
 
     r = requests.post(
         url='http://gatherproxy.com/sockslist/plaintext',

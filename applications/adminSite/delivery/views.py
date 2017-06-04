@@ -60,9 +60,9 @@ def add_edit(request,
                     try:
                         test = int(test, )
                     except Exception as inst:
-                        print inst
-                        print type(inst, )
-                        print inst.args
+                        print('delivery/views.py: ', inst, )
+                        print('delivery/views.py: ', type(inst, ), )
+                        print('delivery/views.py: ', inst.args, )
                         test = True
                     else:
                         test = bool(test, )
@@ -258,11 +258,11 @@ def add_edit(request,
                     if image_tag_name:
                         image.tag_name = image_tag_name
                     image_file = request.FILES.get('image_%d' % i, False, )
-                    print image_file
+                    print('delivery/views.py: ', image_file, )
                     image.parent = delivery
                     if image_file:
                         image.image = image_file
-                        print '2'
+                        print('delivery/views.py: ', '2', )
                         image.save()
             return redirect(to='admin_delivery:index', )
 

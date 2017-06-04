@@ -12,7 +12,7 @@ from celery.utils import uuid
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import force_unicode
+#from django.utils.encoding import force_unicode
 from django.utils.baseconv import base62
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -24,8 +24,7 @@ __author__ = 'AlexStarov'
 EMAIL_UNSUBSCRIBE_LINK = 'http://{host}/email/unsubscribe?code={code}'
 
 TAG_REPLACE = {
-    '#UNSUBSCRIBE_URL#': EMAIL_UNSUBSCRIBE_LINK\
-        .format(host=proj.settings.SENDER_DOMAIN, code='{{ email_hash }}'),
+    '#UNSUBSCRIBE_URL#': EMAIL_UNSUBSCRIBE_LINK.format(host=proj.settings.SENDER_DOMAIN, code='{{ email_hash }}'),
     # '#SHOW_ONLINE_URL#':,
     # '#OPEN_URL#':,
     # '#GOOGLE_URL#':,
@@ -150,8 +149,8 @@ class Delivery(models.Model, ):
                 and not self.is_active\
                 and self.started_at\
                 and self.started_at.replace(tzinfo=None) > datetime.now():
-            print self.started_at.replace(tzinfo=None)
-            print datetime.now()
+            print(self.started_at.replace(tzinfo=None), )
+            print(datetime.now(), )
             self.schedule_run()
 
         super(Delivery, self).save(*args, **kwargs)
@@ -308,14 +307,14 @@ class EmailTemplate(models.Model, ):
     def get_template(self):
         self.template.file.seek(0)
         html = self.template.file.read()
-        html = force_unicode(html)
+        # html = force_unicode(html)
         for image in self.images.all():
             if image.image.name:
                 try:
                     html = html.replace(image.url,
                                         'http://{host}{url}'.format(host=proj.settings.IMAGE_STORE_HOST,
                                                                     url=image.image.url, ), )
-                except Exception, e:
+                except Exception as e:
                     pass
         # TODO: Доделать ТЭГИ
         #for tag in TAG_REPLACE:

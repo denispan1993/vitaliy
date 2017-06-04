@@ -110,7 +110,7 @@ class ExchangeView(View, ):
                 try:
                     os.stat(path, )
                 except Exception as e:
-                    print e
+                    print('bitrix/views.py: 113:', e, )
                     os.mkdir(path, )
 
             filename = '{filename}.{hour:02d}.{minute:02d}.{ext}'\

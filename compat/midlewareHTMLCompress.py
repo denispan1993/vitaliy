@@ -26,7 +26,7 @@ class SpacelessMiddleware(object, ):
             # print response.__class__.__name__
             if response.__class__.__name__ is not 'FileResponse':
                 response.content = re.sub(r'>\s+<', '><', force_text(response.content, ), )
-                response.content = re.sub(r'^\s+<', '<', response.content, )
+                response.content = re.sub(r'^\s+<', '<', response.content.decode('UTF-8', ), )
             else:
                 pass
                 # response.content = re.sub(r'>\s+<', '><', force_text(response.streaming_content, ), )

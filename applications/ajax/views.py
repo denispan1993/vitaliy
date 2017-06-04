@@ -154,8 +154,8 @@ def product_to_cart(request, ):
                     cart, product_in_cart = add_to_cart(request=request,
                                                         int_product_pk=product_pk,
                                                         available_to_order=available_to_order, )
-                    print cart
-                    print product_in_cart
+                    print('ajax/views.py: ', cart, )
+                    print('ajax/views.py: ', product_in_cart, )
                     html = '<b>Позиций:</b> %s' \
                            '<br>' \
                            '<b>На сумму:</b> %s грн. ' \
@@ -244,7 +244,7 @@ def order_change(request, ):
 
             elif action == 'change_is_custom_price':
                 is_custom_price = request.POST.get(u'is_custom_price', False, )
-                print type(is_custom_price), is_custom_price
+                print('ajax/views.py: ', type(is_custom_price), is_custom_price, )
 
                 if is_custom_price\
                         and isinstance(is_custom_price, unicode)\
@@ -276,13 +276,13 @@ def order_change(request, ):
 
             elif action == 'change_custom_price':
                 custom_price = request.POST.get(u'custom_price', False, )
-                print type(custom_price), custom_price, float(custom_price)
+                print('ajax/views.py: 279: ', type(custom_price), custom_price, float(custom_price), )
 
                 if custom_price and isinstance(custom_price, unicode):
                     try:
                         custom_price = float(custom_price, )
                     except Exception as e:
-                        print 'Exception(e): ', e
+                        print('ajax/views.py: ', 'Exception(e): ', e, )
                         return HttpResponse(status=400, )
 
                     custom_price = float(format(custom_price, '.2f', ), )
@@ -299,7 +299,7 @@ def order_change(request, ):
 
                 product.price = custom_price
                 product.save()
-                print product.price
+                print('ajax/views.py: 302: ', product.price, )
 
                 response = {'action': action,
                             'product_pk': product.pk,

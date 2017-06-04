@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
 from django.db import models
 from datetime import datetime
+
+__author__ = 'AlexStarov'
 
 
 class Manager(models.Manager):
 
     def location_date_time_gte_today(self):
         aaa = self.location_date_time.filter(date_start__gte=datetime.today(), )
-        print self
-        print aaa
+        print(self, )
+        print(aaa, )
         return aaa
 
     def published(self):

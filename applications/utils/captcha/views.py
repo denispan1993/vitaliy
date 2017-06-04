@@ -169,11 +169,11 @@ def Captcha_Key_Generates(what_return=None, ):
                     cursor.execute(insert, )
                     # Captcha_Key.objects.create(image=image, )
             except IntegrityError:
-                print 'IntegrityError', ' Key: ', key
+                print('IntegrityError', ' Key: ', key, )
                 unsuccess += 1
             except Exception as inst:
-                print type(inst, )
-                print inst
+                print('captcha/views.py: 175: ', type(inst, ), )
+                print('captcha/views.py: 175: ', inst, )
                 unsuccess += 1
             else:
                 success += 1

@@ -6,7 +6,7 @@ from .views import root
 __author__ = 'AlexStarov'
 
 
-urlpatterns = [url(regex=ur'^(?P<id>\d{6})/$',
+urlpatterns = [url(regex=r'^(?P<id>\d{6})/$',
                    view=root,
                    kwargs={'template_name': u'payment.jinja2', },
                    name='ordering_step_one_ru', ),

@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 
 from compat.ImageWithThumbs import models as ImageModels
-import managers
+from . import managers
 
 __author__ = 'AlexStarov'
 

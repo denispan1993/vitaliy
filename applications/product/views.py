@@ -184,7 +184,7 @@ def get_category(pk, ):
 
 
 def get_product(pk, ):
-    if type(pk, ) is unicode:
+    if isinstance(pk, str):
         try:
             pk = int(pk, )
         except ValueError:

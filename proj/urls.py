@@ -41,15 +41,15 @@ urlpatterns += [url(regex=r'^$',
                     view=root_page,
                     kwargs={'template_name': u'index.jinja2', },
                     name='root_page', ),
-                url(regex=ur'^категории/$',
+                url(regex=r'^категории/$',
                     view=show_basement_category,
                     kwargs={'template_name': u'category/show_basement_category.jinja2', },
                     name='show_basement_category', ),
-                url(regex=ur'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$',
+                url(regex=r'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$',
                     view=show_category,
                     kwargs={'template_name': u'category/show_category.jinja2', },
                     name='show_category', ),
-                url(regex=ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$',
+                url(regex=r'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$',
                     view=show_product,
                     kwargs={'template_name': u'product/show_product.jinja2', },
                     name='show_product', ),
@@ -59,16 +59,16 @@ urlpatterns += [url(regex=r'^$',
         Комментариев.
 """
 urlpatterns += [
-    url(regex=ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавить/$',
+    url(regex=r'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавить/$',
         view=comment_add,
         kwargs={'template_name': u'show_comment_add.jinja2',
                 'comment_id': None, },
         name='show_comment_add', ),
-    url(regex=ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/(?P<comment_id>\d{6})/добавить/$',
+    url(regex=r'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/(?P<comment_id>\d{6})/добавить/$',
         view=comment_add,
         kwargs={'template_name': u'show_comment_add.jinja2', },
         name='show_comment_add', ),
-    url(regex=ur'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавлен/успешно/$',
+    url(regex=r'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/комментарий/добавлен/успешно/$',
         view=comment_add_successfully,
         kwargs={'template_name': u'show_comment_add_successfully.jinja2', },
         name='comment_add_successfully', ), ]
@@ -84,12 +84,12 @@ urlpatterns += [
         Корзины.
 """
 
-urlpatterns += [url(regex=ur'^корзина/',
+urlpatterns += [url(regex=r'^корзина/',
                     view=include(arg='applications.cart.urls',
                                  namespace='cart', ),
                     ), ]
 
-urlpatterns += [url(regex=ur'^заказ/',
+urlpatterns += [url(regex=r'^заказ/',
                     view=include(arg='applications.cart.urls',
                                  namespace='order', ),
                     ), ]
@@ -98,12 +98,12 @@ urlpatterns += [url(regex=ur'^заказ/',
 urlpatterns += [url(regex=r'^Currency/Change/$',
                     view=currency_change,
                     name='currency_change', ),
-                url(regex=ur'^Валюта/Изменение/$',
+                url(regex=r'^Валюта/Изменение/$',
                     view=currency_change,
                     name='currency_change', ), ]
 
 
-urlpatterns += [url(regex=ur'^оплата/',
+urlpatterns += [url(regex=r'^оплата/',
                     view=include(arg='applications.payment.urls',
                                  namespace='payment', ),
                     ), ]
@@ -113,16 +113,16 @@ urlpatterns += [url(regex=ur'^оплата/',
 
 ''' Admin panel '''
 """ Админ панель Заказов. """
-urlpatterns += [url(regex=ur'^админ/',
+urlpatterns += [url(regex=r'^админ/',
                     view=include(arg='applications.adminSite.urls',
                                  namespace='admin_page', ), ), ]
 ''' Search '''
-urlpatterns += [url(regex=ur'^поиск/$',
+urlpatterns += [url(regex=r'^поиск/$',
                     view=search_page,
                     kwargs={'query': None,
                             'template_name': u'category/show_category.jinja2', },
                     name='show_search', ),
-                url(regex=ur'^поиск/(?P<query>\d+)$',
+                url(regex=r'^поиск/(?P<query>\d+)$',
                     view=search_page,
                     kwargs={'template_name': u'category/show_category.jinja2', },
                     name='show_search', ),
@@ -137,7 +137,7 @@ urlpatterns += [url(regex=ur'^поиск/$',
                     name='show_search', ), ]
 
 ''' Календарь'''
-urlpatterns += [url(regex=ur'^календарь/',
+urlpatterns += [url(regex=r'^календарь/',
                     view=include(arg='applications.mycalendar.urls',
                                  namespace='calendar', ),
                     ), ]
@@ -168,13 +168,13 @@ urlpatterns += [url(regex=r'^ajax/coupon/', view=include('applications.ajax.urls
 urlpatterns += [url(regex=r'^opinion/',
                     view=include(arg='applications.opinion.urls',
                                  namespace='opinion_en', ), ),
-                url(regex=ur'^отзыв/',
+                url(regex=r'^отзыв/',
                     view=include(arg='applications.opinion.urls',
                                  namespace='opinion_ru', ), ),
                 url(regex=r'^opinions/',
                     view=include(arg='applications.opinion.urls',
                                  namespace='opinions_en', ), ),
-                url(regex=ur'^отзывы/',
+                url(regex=r'^отзывы/',
                     view=include(arg='applications.opinion.urls',
                                  namespace='opinions_ru', ), ), ]
 ''' Delivery '''
@@ -231,7 +231,7 @@ urlpatterns += [url(regex='social/index/$', view=root_page,
 urlpatterns += [url(regex=r'^accounts/', view=include('userena.urls'), ),
                 url(regex=r'^messages/', view=include('userena.contrib.umessages.urls'), ), ]
 #!!!===================== Статические страницы ======================================
-urlpatterns += [url(regex=ur'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$',
+urlpatterns += [url(regex=r'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$',
                     view=show_static_page,
                     kwargs={'template_name': u'static_page.jinja2', },
                     name='show_static_page', ), ]

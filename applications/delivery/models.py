@@ -744,9 +744,9 @@ class EmailForDelivery(models.Model, ):
                     self.key = key
                     break
                 except IntegrityError:
-                    print 'IntegrityError Key: %s' % key
+                    print('IntegrityError Key: %s' % key, )
                 except Exception as e:
-                    print 'Exception type: %s, message: %s' % (type(e, ), e, )
+                    print('Exception type: %s, message: %s' % (type(e, ), e, ), )
         super(EmailForDelivery, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -1034,6 +1034,7 @@ class MessageUrl(models.Model, ):
                                       null=True, )
 
     def save(self, *args, **kwargs):
+
         if not self.key or len(self.key) < 64:
             while True:
                 self.key = key(size=64, )
@@ -1042,9 +1043,9 @@ class MessageUrl(models.Model, ):
                 except MessageUrl.DoesNotExist:
                     break
                 except IntegrityError:
-                    print 'IntegrityError Key: %s' % self.key
+                    print('IntegrityError Key: %s' % self.key, )
                 except Exception as e:
-                    print 'Exception type: %s, message: %s' % (type(e, ), e, )
+                    print('Exception type: %s, message: %s' % (type(e, ), e, ), )
 
         if not self.ready_url_str and self.url.type == 1:
             self.ready_url_str = render_to_string(
