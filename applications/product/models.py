@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -1271,9 +1272,7 @@ class View(models.Model):
 
 
 class Viewed(models.Model):
-    """
-        Какие товары посмотрел пользователь.
-    """
+    """ Какие товары посмотрел пользователь. """
     """ Ссылка на главную запись """
     content_type = models.ForeignKey(ContentType, related_name='related_Viewed',
                                      null=False, blank=False, default=1, )
@@ -1290,9 +1289,8 @@ class Viewed(models.Model):
     sessionid = models.CharField(verbose_name=u'SessionID', max_length=32, blank=True, null=True, )
     """ Когда смотрел """
     last_viewed = models.DateTimeField(verbose_name=u'Дата последнего просмотра',
-                                       blank=False,
-                                       null=False,
-                                       default=datetime.now, )
+                                       db_index=True, blank=False, null=False,
+                                       default=timezone.now, )
 
     #Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(db_index=True, auto_now_add=True, verbose_name=u'Дата добавления', )

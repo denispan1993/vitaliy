@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import warnings
+# import warnings
 import os
 
 from django_jinja.builtins import DEFAULT_EXTENSIONS
@@ -691,7 +691,7 @@ try:
 except ImportError:
     pass
 
-warnings.filterwarnings(
-    'error', r"DateTimeField .* received a naive datetime",
-    RuntimeWarning, r'django\.db\.models\.fields',
-)
+#warnings.filterwarnings(
+#    'error', r"DateTimeField .* received a naive datetime",
+#    RuntimeWarning, r'django\.db\.models\.fields',
+#)
