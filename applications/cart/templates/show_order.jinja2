@@ -1,10 +1,10 @@
 {% extends 'root.jinja2' %}
 {% block title %}Корзина{% if request.user %} пользователя - {{ request.user }}{% endif %}{% endblock %}
 {% block content_center %}
-    <div id="show_order" style="color:Black;text-align:left;">
+    <div id="show_order">
     {% if user_cart_ %}
         {{ block(request, place_of_use='order', order=user_cart_)|safe }}
-        {% if user_cart_.sum_money_of_all_products < 200 %}
+        {% if user_cart_.sum_money_of_all_products(request) < 100 %}
             <div id="buttons"
                  style="margin:15px;">
                 <a href="/корзина/" title="Редактировать корзину">&gt;&gt;&nbsp;Редактировать корзину</a>
@@ -12,11 +12,6 @@
         {% else %}
             <form method="POST" action="../" id="form_order" name="form_order">{% csrf_token %}
                 <input type="hidden" name="POST_NAME" value="order"/>
-                <style>
-                    div#show_order form#form_order table tr td#first_column{
-                        text-align:right;
-                    }
-                </style>
                 <table>
                     <tr>
                         <td id="first_column">

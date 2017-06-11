@@ -143,17 +143,6 @@ DATABASES = {
             'charset': 'utf8',
             'use_unicode': True, },
     },
-    'real_local': {
-        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'keksik_com_ua',  # Or path to database file if using sqlite3.
-        'USER': 'keksik_com_ua',  # Not used with sqlite3.
-        'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
-        'HOST': '127.0.0.1',  # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',  # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {
-            'charset': 'utf8',
-            'use_unicode': True, },
-    },
 }
 
 #from sys import platform
@@ -233,14 +222,15 @@ MEDIA_ROOT = path('media', )
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-#MEDIA_URL = '/media/'
-MEDIA_URL = 'https://cdn.keksik.com.ua/media/'
+MEDIA_URL = '/media/'
+#MEDIA_URL = 'https://cdn.keksik.com.ua/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = 'C:/PycharmProjects/Shop/static'
+#STATIC_ROOT = 'C:/PycharmProjects/Shop/static'
+STATIC_ROOT = '/home/alexstarov/PycharmProjects/Shop/media/'
 #STATIC_ROOT = 'C:/Python27/Lib/site-packages/django/contrib/admin/static'
 
 # URL prefix for static files.
@@ -649,7 +639,7 @@ TEMPLATES = [
             "app_dirname": "templates",
             "match_regex": r"^(?!admin/).*",  # this is additive to match_extension
             "context_processors": TCP + (
-                "proj.processor.context_processor.context",
+                'proj.processor.context_processor.context',
             ),
             "extensions": DEFAULT_EXTENSIONS + [
                 # Your extensions here...
@@ -671,7 +661,9 @@ TEMPLATES = [
                  ),
             ],
             # "match_extension": ".html",
-            "context_processors": TCP,
+            "context_processors": TCP + (
+                'django.template.context_processors.request',  # Make sure you have this line
+            ),
         }
     },
 ]

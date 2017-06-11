@@ -9,7 +9,7 @@ django-mptt==0.8.7
 django-mptt-admin==0.3.6
 django-kombu==0.9.4
 django-paypal==0.3.2
-django-suit==0.3a3
+django-suit==0.2.25
 django-suit-ckeditor==0.0.2
 django-userena==2.0.1
 django-extensions==1.7.9

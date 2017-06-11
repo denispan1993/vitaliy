@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 
 from django.contrib.sitemaps import views as sitemaps_views
 from django.views.decorators.cache import cache_page
@@ -17,7 +18,7 @@ from applications.ajax.views import resolution, cookie, sel_country, product_to_
 from applications.static.views import show_static_page
 from applications.utils.sitemaps import CategoryViewSitemap, ProductViewSitemap, StaticViewSitemap
 
-from .settings import DEBUG
+import proj.settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -204,13 +205,15 @@ if not isfile(path('server.key', ), ):
         urlpatterns += [url(regex=r'^media/(?P<path>.*)$', view=serve,
                             kwargs={'document_root': path('media', ),
                                     'show_indexes': True, }, ), ]
-    elif platform == 'linux2':
+    elif platform == 'linux':
         urlpatterns += [url(regex=r'^media/(?P<path>.*)$', view=serve,
                             kwargs={'document_root': path('media', ),
-                                    'show_indexes': True, }, ), ]
+                                    'show_indexes': True, }, ), ]# \
+                       # + static(proj.settings.MEDIA_URL, document_root=proj.settings.MEDIA_ROOT)
+
     # if sys.platform.startswith('freebsd'):
 
-if DEBUG:
+if proj.settings.DEBUG:
     from debug_toolbar import urls
     urlpatterns += [url(regex=r'^__debug__/', view=include(urls), ), ]
 #    import debug_toolbar_htmltidy

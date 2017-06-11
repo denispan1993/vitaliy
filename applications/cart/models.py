@@ -62,11 +62,9 @@ class Cart(models.Model):
 
     """ Расчитывает сумму всех товаров в корзине 'посчитанную' """
     def sum_money_of_all_products(self, request, ):
-        all_products = self.cart.all()
-        sum_money = 0
-        for product in all_products:
-            sum_money += float(product.sum_of_quantity(request=request, calc_or_show='calc', ), )
-        return sum_money
+        return sum(float(
+            product.sum_of_quantity(request=request, calc_or_show='calc', ), )
+                   for product in self.cart.all(), )
 
     """ Возвращает целое число суммы корзины """
     def sum_money_of_all_products_integral(self, request, ):

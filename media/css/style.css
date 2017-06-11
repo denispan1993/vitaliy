@@ -607,7 +607,7 @@ div.product_block_bottom div.product_block_price div.add_to_cart{
 div.cloudzoom-zoom {
     z-index: 100;
 }
-div#main_center div#show_cart {
+div#main_center div#show_cart, div#main_center div#show_order {
     color: Black;
     text-align: left;
 }
@@ -668,7 +668,6 @@ div#show_order table#table_order tbody tr td.order_product_col_price {
     border-color: Black;
     border-style: solid;
 }
-
 div#show_cart form table#table_cart tbody tr td.cart_product_col_quantity,
 div#show_order table#table_order tbody tr td.order_product_col_quantity {
     padding: 0;
@@ -779,6 +778,9 @@ div#show_cart form input.blink#order_cart_input {
     100% {
         color: rgba(255, 64, 64, 1);
     }
+}
+div#show_order form#form_order table tr td#first_column{
+    text-align:right;
 }
 
 div#show_cart form input#recalc {
