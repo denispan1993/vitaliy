@@ -7,7 +7,7 @@ from django.db.models.signals import pre_save
 
 class CartConfig(AppConfig, ):
     name = 'applications.cart'
-    verbose_name = "Rock ’n’ roll"
+    verbose_name = "Корзины и заказы"
 
     def ready(self):
         from applications.coupon.models import CouponGroup

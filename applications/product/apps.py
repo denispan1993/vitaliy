@@ -7,7 +7,7 @@ from django.db.models.signals import m2m_changed
 
 class ProductConfig(AppConfig, ):
     name = 'applications.product'
-    verbose_name = "Rock ’n’ roll"
+    verbose_name = "Продукты и категории"
 
     def ready(self):
         from .models import AdditionalInformationForPrice

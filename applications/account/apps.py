@@ -6,7 +6,7 @@ from django.apps import AppConfig
 
 class AccountConfig(AppConfig, ):
     name = 'applications.account'
-    verbose_name = "Rock ’n’ roll"
+    verbose_name = "Учетные записи"
 
     def ready(self):
         from django.db.models.signals import post_save
