@@ -1,4 +1,4 @@
-#!/home/alexstarov/PyCharmProjects/Env/bin/python
+#!./../../PyEnv/versions/3.6.1/envs/keksik/bin/python
 # -*- coding: utf-8 -*-
 import os
 import sys

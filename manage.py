@@ -1,4 +1,4 @@
-#!/www/PyEnv/versions/3.6.1/envs/keksik/bin/python
+#!./../../PyEnv/versions/3.6.1/envs/keksik/bin/python
 #1!/home/sergey/PycharmProjects/Env/bin/python
 #1!/home/user/PycharmProjects/Shop/VirtEnv/bin/python
 # coding=utf-8
