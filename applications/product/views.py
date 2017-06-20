@@ -164,11 +164,10 @@ def show_product(request,
 
 
 def get_category(pk, ):
-    if type(pk, ) is unicode:
-        try:
-            pk = int(pk, )
-        except ValueError:
-            raise Http404
+    try:
+        pk = int(pk, )
+    except (TypeError, ValueError, ):
+        raise Http404
 
     cache_key = 'cat-%06d' % pk
     cat = cache.get(cache_key, )

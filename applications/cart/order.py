@@ -296,25 +296,19 @@ def result_ordering(request, ):
                 order.settlement = settlement
                 request.session[u'settlement'] = settlement
                 delivery_company = request.POST.get(u'select_delivery_company', None, )
-                if delivery_company is None:
+                try:
+                    delivery_company = int(delivery_company, )
+                except (TypeError, ValueError, ):
                     delivery_company = 1
-                elif type(delivery_company) == unicode:
-                    try:
-                        delivery_company = int(delivery_company, )
-                    except (TypeError, ValueError, ):
-                        delivery_company = 1
                 # from apps.cart.models import DeliveryCompany
                 # try:
                 #     delivery_company = DeliveryCompany.objects.get(select_number=delivery_company, )
                 # except DeliveryCompany.DoesNotExist:
                 #     delivery_company = None
                 order.delivery_company_id = delivery_company
-                print(order.delivery_company_id)
                 order.warehouse_number = request.POST.get(u'warehouse_number', None, )
                 order.checkbox1 = bool(request.POST.get(u'choice1', True, ), )
-                print(bool(order.checkbox1))
                 order.checkbox2 = bool(request.POST.get(u'choice2', False, ), )
-                print(bool(order.checkbox2))
             else:
                 """ для любого другого Государства """
                 address = request.POST.get(u'address', None, )

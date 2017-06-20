@@ -192,12 +192,12 @@ def context(request):
     #            print 'Not print Not error: UniceodeEncodeError'
 
             if 'view' in locals() and view == show_product:
-                print('context_processor.py: 195: ', kwargs[u'id'], kwargs[u'product_url'].encode('utf8'), )
+                print('context_processor.py: 195: ', kwargs[u'id'], str(kwargs[u'product_url'].encode('utf8'), ), )
                 """ Убираем НАХРЕН проверку именования товара product_url """
                 # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
                 return_dict.update({'canonical': get_product(pk=kwargs[u'id'], ).get_absolute_url(), })
             elif 'view' in locals() and view == show_category:
-                print('context_processor.py: 200: ', kwargs[u'id'], kwargs[u'category_url'].encode('utf8'), )
+                print('context_processor.py: 200: ', kwargs[u'id'], str(kwargs[u'category_url'].encode('utf8'), ), )
                 return_dict.update({'canonical': get_category(pk=kwargs[u'id'], ).get_absolute_url(), })
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
