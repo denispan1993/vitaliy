@@ -39,19 +39,14 @@ function Submit_Form(){
 </script>
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <input type="hidden" name="POST_NAME" value="ordering_step_one">
-<style>
-div#show_order form#form_order table tr td#first_column{
-    text-align:right;
-}
-</style>
+
                 <table>
                     <tr>
                         <td id="first_column">
                             <label for="FIO">ФИО</label>
                         </td>
                         <td colspan="2">
-                            <input style="float:left;width:240px;"
-                                   type="text" name="FIO" id="FIO" required
+                            <input type="text" name="FIO" id="FIO" required
                                    {% if FIO %}
                                    value="{{ FIO }}"
                                    {% endif %}
@@ -63,8 +58,7 @@ div#show_order form#form_order table tr td#first_column{
                             <label for="email">E-Mail</label>
                         </td>
                         <td>
-                            <input style="float:left;width:240px;"
-                                   type="email" name="email" id="email" required
+                            <input type="email" name="email" id="email" required
                                    {% if email %}
                                    value="{{ email }}"
                                    {% endif %}
@@ -131,12 +125,6 @@ document.getElementById('email').onchange=function(){
                             <select name="select_country"
                                     id="select_country"
                                     required >
-                                {# {% if not select_country or select_country == '1000' %}
-                                    <option value="1000"
-                                            selected=""
-                                            disabled="disabled">Страна
-                                    </option>
-                                {% endif %} #}
                                 {% for country_select in country_list %}
                                     {% if select_country.pk == country_select.pk and select_country != 1000 %}
                                         <option value="{{ country_select.pk }}" selected=""><strong>{{ country_select.name_ru }}</strong>
@@ -154,16 +142,11 @@ document.getElementById('email').onchange=function(){
                     </tr>
                     <tr>
                         <td colspan="3">
-<style>
-.disabled_button{
-color:#c0c0c0;
-}
-</style>
                             <input type="submit"
                                    id="inputsubmit"
 {#                                    onclick="Alert_On_Click()" #}
                                    name="inputsubmit"
-                                   value="Продолжить оформление заказа">
+                                   value="Продолжить оформление заказа -->">
 {# <script> #}
     {# function Alert_On_Click(){ #}
     {# document.getElementById('inputsubmit').onclick=Click_On_Submit_Button(); #}
@@ -202,55 +185,6 @@ document.getElementById('form_order').onsubmit=Click_On_Submit_Button(); #}
     </div>
 {% endblock %}
 {% block after_footer %}
-<style>
-div.process_banner_closed{
-    display:none;
-    opacity:0;
-}
-div#process_banner-wrapper {
-    height:0;
-    overflow:visible;
-    position:fixed;
-    top:0;
-    width:100%;
-    z-index:2000000;
-}
-div#process_banner{
-    background-color:rgba(255, 255, 255, 0.80);
-    border-radius:16px;
-    height:205px;
-    margin:0 auto;
-    overflow:hidden;
-    position:relative;
-    top:100px;
-    transition:all 0.6s ease-out 0s;
-    width:700px;
-    z-index:200001;
-}
-div#process_banner-body{
-    height:100%;
-    margin:0 auto;
-    position:relative;
-    top:70px;
-    width:580px;
-}
-div#process_banner-h1{
-    font-size:24px;
-    height:auto;
-    letter-spacing:normal;
-    line-height:34px;
-    text-align:left;
-}
-div#process_banner_bg{
-    display:none;
-    background-color:rgba(0, 0, 0, 0.4);
-    height:100%;
-    position:fixed;
-    top:0;
-    width:100%;
-    z-index:10000;
-}
-</style>
 <div id="process_banner-wrapper">
     <div id="process_banner" class="process_banner_closed">
         <div id="process_banner-body">

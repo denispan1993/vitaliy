@@ -285,7 +285,7 @@ class Product(models.Model):
                                                decimal_places=2, default=1, blank=False, null=False, )
     weight = models.DecimalField(verbose_name=u'Вес', max_digits=8, decimal_places=2, default=0, blank=True,
                                  null=True, )
-    unit_of_measurement = models.ForeignKey('Unit_of_Measurement',
+    unit_of_measurement = models.ForeignKey('UnitofMeasurement',
                                             verbose_name=u'Единицы измерения',
                                             null=False,
                                             blank=False, )
@@ -304,9 +304,7 @@ class Product(models.Model):
                                             blank=False,
                                             null=False,
                                             default=0, )
-    """
-        Акции
-    """
+    """ Акции """
     from applications.discount.models import Action
     action = models.ManyToManyField(to=Action,
                                     verbose_name=u'Акции',
@@ -966,7 +964,7 @@ class Information(models.Model):
         verbose_name_plural = u'Информационные поля'
 
 
-class Unit_of_Measurement(models.Model):
+class UnitofMeasurement(models.Model):
     name = models.CharField(verbose_name=u'Единица измерения',
                             max_length=64,
                             default=u'шт.',
@@ -976,7 +974,7 @@ class Unit_of_Measurement(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.name, )
 
     class Meta:
@@ -1009,7 +1007,7 @@ class Discount(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Цены и скидки от количества:%s, количество:%d' % (self.product, self.quantity, )
 
     class Meta:

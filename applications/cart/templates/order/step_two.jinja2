@@ -22,12 +22,10 @@ yaCounter21943054.reachGoal('Ordering_second_step', yaParams);
             <form method="POST" action="{{ form_action_next }}" id="form_order" name="form_order">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
                 <input type="hidden" name="POST_NAME" value="ordering_step_two"/>
-<style>
-</style>
 <table>
 {% block order_content %}{% endblock %}
 <tr>
-    <td id="first_column">
+    <td class="first_column last_line">
         <label for="comment">Комментарий к заказу</label>
     </td>
     <td colspan="2">
@@ -37,12 +35,20 @@ yaCounter21943054.reachGoal('Ordering_second_step', yaParams);
             {% endif %}></textarea>
     </td>
 </tr>
+<tr>
+    <td colspan="3">
+        <p>Нажимая кнопку отправить заказ я подтверждаю, что с <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> товара интернет-магазина Кексик, я ознакомлен.</p>
+    </td>
+</tr>
+<tr>
+    <td colspan="3">
+        <input type="submit"
+               name="inputsubmit"
+               id="inputsubmit"
+               value="Закончить оформление заказа -->">
+    </td>
+</tr>
 </table>
-
-                <p>Нажимая кнопку отправить заказ я подтверждаю, что с <a href="/оплата-и-доставка/" title="Условия оплаты и доставки товара интернет магазина Кексик">условиями оплаты и доставки</a> товара интернет-магазина Кексик, я ознакомлен</p>
-                <input type="submit"
-                       name="inputsubmit"
-                       value="Закончить оформление заказа">
             </form>
         {% endif %}
     {% else %}

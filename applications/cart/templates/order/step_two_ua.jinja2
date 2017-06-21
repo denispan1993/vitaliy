@@ -1,7 +1,7 @@
 {% extends 'order/step_two.jinja2' %}
 {% block order_content %}
 <tr>
-    <td id="first_column">
+    <td class="first_column">
         <label for="region">Область</label>
     </td>
     <td colspan="2">
@@ -15,7 +15,7 @@
     </td>
 </tr>
 <tr>
-    <td id="first_column">
+    <td class="first_column">
         <label for="settlement">Город (населённый пункт)</label>
     </td>
     <td colspan="2">
@@ -29,20 +29,13 @@
     </td>
 </tr>
 <tr>
-    <td id="first_column">
+    <td class="first_column">
         <label for="select_delivery_company">Транспортная компания</label>
     </td>
     <td colspan="2">
         <select name="select_delivery_company"
                 id="select_delivery_company"
-                required=""
-                style="float:left;width:240px;">
-            {# {1% if not select_delivery_company or select_delivery_company == '1000' %}
-                <option value="1000"
-                    selected=""
-                    disabled="disabled">Транспортная компания
-                </option>
-            {% endif %} #}
+                required="">
             {% for delivery_company in delivery_companies_list %}
                 {% if select_delivery_company == delivery_company.select_number and select_delivery_company != 1000 %}
                     <option value="{{ delivery_company.select_number }}" selected=""><strong>{{ delivery_company.select_string_ru }}</strong></option>
@@ -56,7 +49,7 @@
     </td>
 <tr>
 <tr>
-    <td id="first_column">
+    <td class="first_column">
         <label for="warehouse_number">Номер склада транспортной компании</label>
     </td>
     <td colspan="2">
@@ -64,7 +57,7 @@
     </td>
 </tr>
 <tr>
-    <td id="first_column">
+    <td class="first_column">
         <label for="choise1">Я сознательно сделал свой выбор и жду SMS с реквизитами для оплаты</label>
     </td>
     <td colspan="2">
@@ -72,7 +65,7 @@
     </td>
 </tr>
 <tr>
-    <td id="first_column">
+    <td class="first_column">
         <label for="choise2">Перезвоните мне для уточнения заказа</label>
     </td>
     <td colspan="2">

@@ -12,7 +12,7 @@ from mptt.admin import MPTTModelAdmin
 
 from .models import Category, Product, ProductToCategory, Photo, ItemID,\
     IntermediateModelManufacturer, Information, Additional_Information,\
-    Discount, Unit_of_Measurement, Country, View, Viewed, InformationForPrice,\
+    Discount, UnitofMeasurement, Country, View, Viewed, InformationForPrice,\
     Currency, City, Region, AdditionalInformationForPrice, ExtendedPrice,\
     InformationForPrice
 
@@ -390,7 +390,7 @@ class CurrenceAdmin(admin.ModelAdmin, ):
 #admin.site.register(Category, CategoryAdmin, )
 #admin.site.register(Additional_Information, NestedAdditional_Information_Admin, )
 admin.site.register(Information, admin.ModelAdmin, )
-admin.site.register(Unit_of_Measurement, admin.ModelAdmin, )
+admin.site.register(UnitofMeasurement, admin.ModelAdmin, )
 admin.site.register(Discount, admin.ModelAdmin, )
 
 admin.site.register(View, admin.ModelAdmin, )

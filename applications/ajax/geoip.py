@@ -50,7 +50,7 @@ def resolve_client_geolocation(request, ):
 
             request.session[u'ajax_geoip_datetime'] = str(datetime.now(), )
 
-            return HttpResponse(data=dumps(response, ), mimetype='application/javascript', )
+            return HttpResponse(dumps(response, ), 'application/javascript', )
 
         elif request.method == 'GET':
             return HttpResponse(status=400, )
