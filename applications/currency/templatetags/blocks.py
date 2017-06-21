@@ -14,13 +14,15 @@ def get_currency(request, ):
 
     if current_currency:
         currency_all = cache.get(key='currency_all', )
-        return currency_all.filter(pk=current_currency)[0].name_truncated
-        #try:
-        #    return Currency.objects\
-        #        .values_list('name_truncated', flat=True)\
-        #        .get(pk=current_currency, )
-        #except Currency.DoesNotExist:
-        #    pass
+
+        if currency_all:
+            return currency_all.filter(pk=current_currency)[0].name_truncated
+
+        else:
+            try:
+                return Currency.objects.values_list('name_truncated', flat=True).get(pk=current_currency, )
+            except Currency.DoesNotExist:
+                pass
 
     return u'грн.'
 
