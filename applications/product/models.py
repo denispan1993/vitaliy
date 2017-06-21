@@ -177,16 +177,16 @@ class Category(MPTTModel):
 ##            print(u'test7')
 #            return
 
-    def __unicode__(self):
+    def __str__(self):
         """
         Проверка DocTest
         >>> category = Category.objects.create(title=u'Proverka123  -ф123')
         >>> category.item_description = u'Тоже проверка'
         >>> category.save()
-        >>> if type(category.__unicode__()) is unicode:
-        ...     print category.__unicode__() #.encode('utf-8')
+        >>> if type(category.__str__()) is unicode:
+        ...     print category.__str__() #.encode('utf-8')
         ... else:
-        ...     print type(category.__unicode__())
+        ...     print type(category.__str__())
         ...
         Категория: Proverka123  -ф123
         >>> print category.title
@@ -741,7 +741,7 @@ class Product(models.Model):
 #            super(Product, self, ).save(*args, **kwargs)
 #            return
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Продукт:%s' % self.title
 
     class Meta:
@@ -809,7 +809,7 @@ class ItemID(models.Model):
 #               old_ItemID.pk == self.pk:
 #                super(ItemID, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.ItemID
 
     class Meta:
@@ -835,7 +835,7 @@ class IntermediateModelManufacturer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         manufacturer = self.key
         country = manufacturer.country
         if manufacturer.name:
@@ -879,7 +879,7 @@ class Manufacturer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         if self.name:
             return u'%s (%s)' % (self.name, self.country.name_ru, )
         else:
@@ -901,7 +901,7 @@ class Manufacturer(models.Model):
 #    created_at = models.DateTimeField(auto_now_add=True, )
 #    updated_at = models.DateTimeField(auto_now=True, )
 #
-#    def __unicode__(self):
+#    def __str__(self):
 #        return self.name
 #
 #    class Meta:
@@ -930,7 +930,7 @@ class Additional_Information(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Дополнительная информация:%s' % (self.title, )
 
     class Meta:
@@ -954,7 +954,7 @@ class Information(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Информационные поля:%s' % (self.information, )
 
     class Meta:
@@ -1080,7 +1080,7 @@ class Photo(models.Model):
 #    def get_absolute_url(self, ):
 #        return '/news/rubric/%s/' % self.url
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Фотография:%s' % (self.title, )
 
     class Meta:
@@ -1107,11 +1107,11 @@ class Country(models.Model):
         max_length=255,
         null=True,
         blank=True, )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'[%d] - %s' % (self.id, self.name_ru, )
 
     class Meta:
@@ -1140,11 +1140,11 @@ class Region(models.Model):
         max_length=255,
         null=True,
         blank=True, )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'[%d] - %s' % (self.id, self.name_ru, )
 
     class Meta:
@@ -1177,11 +1177,11 @@ class City(models.Model):
         null=True,
         blank=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'[%d] - %s' % (self.id, self.name_ru, )
 
     class Meta:
@@ -1227,11 +1227,11 @@ class Currency(models.Model):
                                         max_digits=12, decimal_places=5,
                                         blank=False, null=False, default=1,
                                         help_text=u'Сколько дают за эту валюту в Гривнах', )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'[%d] - %s (%s)' % (self.pk, self.name_ru, self.name_en, )
 
     class Meta:
@@ -1255,11 +1255,11 @@ class View(models.Model):
     # Количества просмотров
     view_count = models.PositiveIntegerField(verbose_name=u'Просмотров', default=1, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
     updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return '[%.5d]: %d' % (self.id, self.view_count, )
 
     class Meta:
@@ -1290,11 +1290,11 @@ class Viewed(models.Model):
                                        db_index=True, blank=False, null=False,
                                        default=timezone.now, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(db_index=True, auto_now_add=True, verbose_name=u'Дата добавления', )
     updated_at = models.DateTimeField(db_index=True, auto_now=True, verbose_name=u'Дата последнего изменения', )
 
-    def __unicode__(self):
+    def __str__(self):
         try:
             pk = int(self.pk, )
         except TypeError:
@@ -1333,7 +1333,7 @@ class InformationForPrice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.information
 
     class Meta:
@@ -1366,11 +1366,11 @@ class ExtendedPrice(models.Model):
                                 blank=False,
                                 null=False, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.price, )
 
     class Meta:
@@ -1399,11 +1399,11 @@ class AdditionalInformationForPrice(models.Model):
     #                                null=False,
     #                                blank=False, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Дополнительная информация для прайса:%s' % (self.title, )
 
     # def save(self, *args, **kwargs):
