@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from celery.utils import uuid
 
 import proj.settings
-from compat.bigint_path.bigint import BigIntegerField, BigForeignKey
+#from compat.bigint_path.bigint import BigIntegerField, BigForeignKey
 
 __author__ = 'AlexStarov'
 
@@ -25,13 +25,13 @@ class SIM(models.Model, ):
                                 max_length=14,
                                 null=True,
                                 blank=True, )
-    imsi = BigIntegerField(verbose_name=_(u'IMSI', ),
-                           unique=True,
-                           primary_key=True,
-                           null=False,
-                           blank=False, )
+    imsi = models.BigIntegerField(verbose_name=_(u'IMSI', ),
+                                  unique=True,
+                                  primary_key=True,
+                                  null=False,
+                                  blank=False, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
@@ -106,10 +106,10 @@ class SMS(models.Model, ):
                                   null=False,
                                   blank=True, )
 
-    sim = BigForeignKey(to=SIM,
-                        verbose_name=_(u'SIM', ),
-                        null=True,
-                        blank=True, )
+    sim = models.ForeignKey(to=SIM,
+                            verbose_name=_(u'SIM', ),
+                            null=True,
+                            blank=True, )
 
     from_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Откуда)', ),
                                        max_length=64,
@@ -274,10 +274,10 @@ class USSD(models.Model, ):
                                blank=True,
                                null=True, )
 
-    sim = BigForeignKey(to=SIM,
-                        verbose_name=_(u'SIM', ),
-                        null=True,
-                        blank=True, )
+    sim = models.ForeignKey(to=SIM,
+                            verbose_name=_(u'SIM', ),
+                            null=True,
+                            blank=True, )
 
     code = models.CharField(verbose_name=_(u'USSD Code', ),
                             max_length=32,

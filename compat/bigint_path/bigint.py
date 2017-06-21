@@ -35,7 +35,7 @@ class BigIntegerField(fields.IntegerField):
         if value is None:
             return value
         try:
-            return long(value)
+            return int(value)
         except (TypeError, ValueError):
             raise exceptions.ValidationError(
                 _("This value must be a long integer."))
@@ -59,7 +59,7 @@ class BigAutoField(fields.AutoField):
         if value is None:
             return value
         try:
-            return long(value)
+            return int(value)
         except (TypeError, ValueError):
             raise exceptions.ValidationError(
                 _("This value must be a long integer."))
