@@ -41,7 +41,7 @@ class SIM(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s|provider: %s ==> %s|IMSI:%s: | created_at:%s|updated_at:%s' %\
                (self.name, self.provider, self.phone, self.imsi, self.created_at, self.updated_at, )
 
@@ -192,7 +192,7 @@ class SMS(models.Model, ):
     def get_absolute_url(self, ):
         return ('admin_page:sms_ussd_send_sms', (), {}, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
                (self.user, self.sessionid, self.direction, self.is_send, self.send_at, self.received_at)
 
@@ -238,7 +238,7 @@ class Template(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s ==> %s' % (self.name, self.is_system,)
 
     class Meta:
@@ -339,7 +339,7 @@ class USSD(models.Model, ):
     def get_absolute_url(self, ):
         return ('admin_page:sms_ussd_send_ussd', (), {}, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
                (self.user, self.sessionid, self.direction, self.is_send, self.send_at, self.received_at)
 
