@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from logging import getLogger
 from celery.utils.log import get_task_logger
 
-from apps.product.models import Category, Product
-from apps.discount.models import Action
+from applications.product.models import Category, Product
+from .models import Action
 
 __author__ = 'AlexStarov'
 
@@ -26,10 +26,10 @@ def processing_action():
     """ Выключаем продукты из "АКЦИИ" срок действия акции которой уже подощёл к концу """
     action_not_active = Action.objects.not_active()
     if action_not_active:
-        print 'Action - NOT ACTIVE:', action_not_active
+        print('Action - NOT ACTIVE:', action_not_active, )
         for action in action_not_active:
             products_of_action = action.product_in_action.all()
-            print 'All products:', products_of_action
+            print('All products:', products_of_action, )
             """
                 Если акция с авто окончанием,
                 то заканчиваем еЁ.
@@ -37,9 +37,9 @@ def processing_action():
             if action.auto_end:
                 products_of_action = action.product_in_action.in_action()
                 if len(products_of_action, ) > 0:
-                    print 'Product auto_end:', products_of_action
+                    print('Product auto_end:', products_of_action, )
                     for product in products_of_action:
-                        print 'Del product from Action: ', product
+                        print('Del product from Action: ', product, )
                         """
                             Помечает товар как не учавствующий в акции
                         """
@@ -56,10 +56,10 @@ def processing_action():
 
     action_active = Action.objects.active()
     if action_active:
-        print 'Action - ACTIVE:', action_active
+        print('Action - ACTIVE:', action_active, )
         for action in action_active:
             products_of_action = action.product_in_action.all()
-            print 'All products:', products_of_action
+            print('All products:', products_of_action, )
             """
                 Если акция с автостартом,
                 то мы еЁ стартуем.
@@ -69,7 +69,7 @@ def processing_action():
                     исключая продукты 'отсутсвующие на складе' """
                 products_of_action = action.product_in_action.exclude(is_availability=4, )
                 if len(products_of_action, ) > 0:
-                    print 'Product auto_start:', products_of_action
+                    print('Product auto_start:', products_of_action, )
                     for product in products_of_action:
                         """ Помечает товар как учавствующий в акции """
                         product.in_action = True
@@ -80,7 +80,7 @@ def processing_action():
                 """ Удаляем товары учавствующие в активной акции но при этом 'отсутсвующие на складе' """
                 products_remove_from_action = action.product_in_action.exclude(is_availability__lt=4, )
                 if len(products_remove_from_action, ) > 0:
-                    print 'Product auto_start remove:', products_remove_from_action
+                    print('Product auto_start remove:', products_remove_from_action, )
                     for product in products_remove_from_action:
                         """ Помечает товар как не учавствующий в акции """
                         product.in_action = False
@@ -92,11 +92,11 @@ def processing_action():
     """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
      но при этом отсутвует хоть какая то акция """
     products = Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
-    print 'Товары удаленные из акции по причине вывода их из акции: ', products
+    print('Товары удаленные из акции по причине вывода их из акции: ', products, )
 
     """ Убираем галочку 'участвует в акции' всем продуктам которые отсутсвуют на складе """
     products = Product.objects.filter(in_action=True, is_availability=4, ).update(in_action=False, )
-    print 'Товары удаленные из акции по причине отсутсвия на складе: ', products
+    print('Товары удаленные из акции по причине отсутсвия на складе: ', products, )
 
     """ Делаем активной акционную категорию, если есть хоть один акционный товар """
     all_actions_products = action_category.products.all()

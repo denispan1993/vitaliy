@@ -33,17 +33,17 @@ class Command(BaseCommand, ):
 
     def handle(self, *args, **options):
         cwd = os.getcwd()
-        print cwd
+        print(cwd, )
         cwd += '/applications/delivery/spam_txt_files'
-        print cwd
+        print(cwd, )
         dir = cwd
         bad_email = 0; good_email = 0; email_inserted = 0; email_exist_in_spam_list = 0; email_exist_in_emails = 0
 
         for name in os.listdir(dir):
             path_and_filename = os.path.join(dir, name)
             if os.path.isfile(path_and_filename, ):
-                print '==============================================================================================================================='
-                print path_and_filename
+                print('===============================================================================================================================', )
+                print(path_and_filename, )
                 f = open(name=path_and_filename, mode='r', buffering=True, )
                 while True:
                     line = f.readline()
@@ -56,21 +56,19 @@ class Command(BaseCommand, ):
                             validate_email(email, )
                         except ValidationError:
                             continue
-                    print line, email, ' bad_email: ', bad_email, ' good_email: ', good_email
-                    """
-                        Делаем повторную проверку на просто валидацию E-Mail адреса
-                    """
+                    print(line, email, ' bad_email: ', bad_email, ' good_email: ', good_email, )
+                    """ Делаем повторную проверку на просто валидацию E-Mail адреса """
                     try:
                         EmailField().clean(email, )
                     except ValidationError:
                         bad_email += 1
                         email_error = u'Ваш E-Mail адрес не существует.'
-                        print email_error
+                        print(email_error, )
                         continue
                     except DjangoUnicodeDecodeError:
                         bad_email += 1
                         email_error = u'Unicode Error.'
-                        print email_error
+                        print(email_error, )
                         continue
                     else:
                         email_domain = email.split('@')[1]
@@ -79,36 +77,36 @@ class Command(BaseCommand, ):
                                 or '.gi' in email_domain:
                             bad_email += 1
                             email_error = u'Ваш E-Mail адрес не существует.'
-                            print email_error
+                            print(email_error, )
                             continue
 
                         good_email += 1
                         try:
                             SpamEmail.objects.get(email=email, )
                             email_exist_in_spam_list += 1
-                            print 'email_exist_in_spam_list: ', email_exist_in_spam_list
+                            print('email_exist_in_spam_list: ', email_exist_in_spam_list, )
                             continue
                         except SpamEmail.DoesNotExist:
                             try:
                                 Email.objects.get(email=email, )
                                 email_exist_in_emails += 1
-                                print 'email_exist_in_emails: ', email_exist_in_emails
+                                print('email_exist_in_emails: ', email_exist_in_emails, )
                                 continue
                             except Email.DoesNotExist:
                                 SpamEmail.objects.create(email=email, )
                                 email_inserted += 1
-                                print 'email_inserted: ', email_inserted
+                                print('email_inserted: ', email_inserted, )
                         except SpamEmail.MultipleObjectsReturned:
                             exist_emails = SpamEmail.objects.filter(email=email, )
                             exist_emails[0].delete()
 
                 f.close()
             else:
-                print 'None'
+                print('None', )
                 # walk(path)
-        print 'email_inserted: ', email_inserted
-        print 'email_exist_in_emails: ', email_exist_in_emails
-        print 'email_exist_in_spam_list: ', email_exist_in_spam_list
+        print('email_inserted: ', email_inserted, )
+        print('email_exist_in_emails: ', email_exist_in_emails, )
+        print('email_exist_in_spam_list: ', email_exist_in_spam_list, )
 
 def hernya3():
         from applications.delivery.models import Delivery
@@ -119,7 +117,7 @@ def hernya3():
         else:
             from applications.delivery.models import EmailMiddleDelivery
             for delivery in deliveryes:
-                # print 'delivery', delivery
+                # print('delivery', delivery
                 try:
                     EmailMiddleDelivery.objects.\
                         get(delivery=delivery,
@@ -193,15 +191,15 @@ def hernya3():
                                                          connection=backend, )
                             msg.send(fail_silently=True, )
                         else:
-                            print 'i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
+                            print('i: ', i, 'Pk: ', real_email.pk, ' - ', real_email.email
                             from random import randrange
                             time1 = randrange(6, 12, )
                             time2 = randrange(6, 12, )
                             time += time1 + time2
-                            print 'Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
+                            print('Time1: ', time1, ' Time2: ', time2, ' Time all: ', time1+time2, ' average time: ', time/i
                             from time import sleep
                             sleep(time1, )
-                            print 'Next'
+                            print('Next'
                             sleep(time2, )
 
 
@@ -217,7 +215,7 @@ def hernya2():
 
                     aaa=EmailMiddleDelivery.objects.\
                         get(delivery=delivery, updated_at__lte=delivery.updated_at, )
-                    print aaa, delivery.updated_at
+                    print(aaa, delivery.updated_at
                 except:
                     email_middle_delivery = EmailMiddleDelivery()
                     email_middle_delivery.delivery = delivery
@@ -239,13 +237,13 @@ def hernya2():
                     msg.attach_alternative(content=delivery.html,
                                            mimetype="text/html", )
                     msg.content_subtype = "html"
-                    print real_email.email
+                    print(real_email.email
                         #try:
                         #    # msg.send(fail_silently=False, )
                         #except Exception as inst:
-                        #    print type(inst, )
-                        #    print inst.args
-                        #    print inst
+                        #    print(type(inst, )
+                        #    print(inst.args
+                        #    print(inst
                         # else:
                         #    email.send
                         #    email.save()
@@ -265,7 +263,7 @@ def hernya2():
 
 def hernya():
     from datetime import datetime
-    print datetime.now()
+    print(datetime.now()
     from applications.product.models import Category
     try:
         action_category = Category.objects.get(url=u'акции', )
@@ -274,11 +272,11 @@ def hernya():
     from applications.discount.models import Action
     action_active = Action.objects.active()
     if action_active:
-        print 'Action - ACTIVE:', action_active
+        print('Action - ACTIVE:', action_active
         for action in action_active:
             products_of_action = action.product_in_action.all()
-            print 'All products:', products_of_action
-            # print action
+            print('All products:', products_of_action
+            # print(action
             """
                 Если акция с автостартом,
                 то мы еЁ стартуем.
@@ -288,7 +286,7 @@ def hernya():
                     исключая продукты 'отсутсвующие на складе' """
                 products_of_action = action.product_in_action.exclude(is_availability=4, )
                 if len(products_of_action, ) > 0:
-                    print 'Product auto_start:', products_of_action
+                    print('Product auto_start:', products_of_action
                     for product in products_of_action:
                         """ Помечает товар как учавствующий в акции """
                         product.in_action = True
@@ -298,7 +296,7 @@ def hernya():
                 """ Удаляем товары учавствующие в активной акции но при этом 'отсутсвующие на складе' """
                 products_remove_from_action = action.product_in_action.exclude(is_availability__lt=4, )
                 if len(products_of_action, ) > 0:
-                    print 'Product auto_start:', products_of_action
+                    print('Product auto_start:', products_of_action, )
                     for product in products_remove_from_action:
                         """ Помечает товар как учавствующий в акции """
                         product.in_action = False
@@ -307,11 +305,11 @@ def hernya():
                         product.save()
     action_not_active = Action.objects.not_active()
     if action_not_active:
-        print 'Action - NOT ACTIVE:', action_not_active
+        print('Action - NOT ACTIVE:', action_not_active, )
         for action in action_not_active:
             products_of_action = action.product_in_action.all()
-            print 'All products:', products_of_action
-            # print action
+            print('All products:', products_of_action, )
+            # print(action
             """
                 Если акция с авто окончанием,
                 то заканчиваем еЁ.
@@ -319,9 +317,9 @@ def hernya():
             if action.auto_end:
                 products_of_action = action.product_in_action.in_action()
                 if len(products_of_action, ) > 0:
-                    print 'Product auto_end:', products_of_action
+                    print('Product auto_end:', products_of_action
                     for product in products_of_action:
-                        print 'Del product from Action: ', product
+                        print('Del product from Action: ', product
                         """
                             Помечает товар как не учавствующий в акции
                         """
@@ -349,13 +347,13 @@ def hernya():
 
     """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
      но при этом отсутвует хоть какая то акция """
-    from apps.product.models import Product
+    from applications.product.models import Product
     products = Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
-    print 'Товары удаленные из акции по причине вывода их из акции: ', products
+    print('Товары удаленные из акции по причине вывода их из акции: ', products, )
 
     """ Убираем галочку 'участвует в акции' всем продуктам которые отсутсвуют на складе """
     products = Product.objects.filter(in_action=True, is_availability=4, ).update(in_action=False, )
-    print 'Товары удаленные из акции по причине отсутсвия на складе: ', products
+    print('Товары удаленные из акции по причине отсутсвия на складе: ', products, )
 
     """ Делаем активной акционную категорию, если есть хоть один акционный товар """
     all_actions_products = action_category.products.all()

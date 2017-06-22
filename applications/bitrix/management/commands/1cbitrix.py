@@ -165,7 +165,7 @@ class Command(BaseCommand, ):
                         elems_level1 = list(elem_level1)
 
                         for elem_level2_Indx, elem_level2 in enumerate(elems_level1):
-                            print 'level2', elem_level2_Indx, elem_level2, elem_level2.tag, elem_level2.attrib, elem_level2.text
+                            print('level2', elem_level2_Indx, elem_level2, elem_level2.tag, elem_level2.attrib, elem_level2.text, )
 
                             if elem_level2.tag == u'Наименование' \
                                     and elem_level2.text == u'Каталог товаров' \
@@ -201,4 +201,4 @@ class Command(BaseCommand, ):
                                                         id_1c_cat = elem_level5.text
 
         if 'level10' in locals():
-            print 'level10'
+            print('level10', )

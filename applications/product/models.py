@@ -507,9 +507,9 @@ class Product(models.Model):
             return None
 
     # Увеличение количества просмотров
-    #@property
+    # @property
     def increase_View(self, ):
-        from apps.product.models import View
+        from applications.product.models import View
         try:
             View = View.objects.get(content_type=self.content_type,
                                     object_id=self.pk, )
