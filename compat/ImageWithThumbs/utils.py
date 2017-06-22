@@ -6,7 +6,8 @@ http://django.es
 from PIL import Image
 from django.core.files.base import ContentFile
 # from io import StringIO as cStringIO
-import cStringIO
+# import cStringIO
+from io import StringIO
 
 __author__ = 'AlexStarov'
 
@@ -54,7 +55,7 @@ def generate_thumb(img, thumb_size, format='JPEG', ):
         image2 = image
         image2.thumbnail(thumb_size, Image.ANTIALIAS)
 
-    io = cStringIO.StringIO()
+    io = StringIO()
     # PNG and GIF are the same, JPG is JPEG
     if format.upper() == 'JPG':
         format = 'JPEG'
