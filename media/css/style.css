@@ -1089,11 +1089,9 @@ div#main_center div#show_order form#form_order table tbody tr td input#phone {
     width: 240px;
 }
 div#main_center div#show_order form#form_order table tbody tr td select#select_country {
-    float: right;
     width: 254px;
 }
 div#main_center div#show_order form#form_order table tbody tr td select#select_delivery_company {
-    float: right;
     width: 215px;
 }
 div#main_center div#show_order form#form_order table tbody tr td input#inputsubmit {
