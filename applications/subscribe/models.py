@@ -12,7 +12,7 @@ class NewsLetter(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Корзина пользователя:%s, session:%s' % (self.user, self.sessionid, )  # self.session.session_key, )
 
     class Meta:

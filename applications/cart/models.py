@@ -80,7 +80,7 @@ class Cart(models.Model):
         else:
             return '00'
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s|session:%s' % (self.user, self.sessionid, )  # self.session.session_key, )
 
     class Meta:
@@ -281,7 +281,7 @@ class Order(models.Model):
         return sum(float(product.sum_of_quantity(calc_or_show='show', currency=980, ), )
                    for product in self.products) * (100 - self.coupon.percentage_discount) / 100
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s|SessionID:%s' % (self.user, self.sessionid, )
 
     class Meta:
@@ -434,7 +434,7 @@ class Product(models.Model):
                 product_cart.delete()
                 return True
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Продукт в корзине:%s, количество:%d, цена:%d' % (self.product, self.quantity, self.price, )
 
     class Meta:
@@ -471,7 +471,7 @@ class DeliveryCompany(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Компания доставщик:%s, номер по порядку:%s' % (self.name, self.order_number, )
 
     class Meta:

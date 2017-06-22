@@ -13,7 +13,7 @@ class AdditionalInformationAndInformationForPrice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Промежуточная модель: %s <---> %s' % (self.additionalinformation, self.information, )
 
     def save(self, *args, **kwargs):

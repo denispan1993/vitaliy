@@ -42,7 +42,7 @@ class Captcha_Images(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Картинка: %s' % self.image
 
     class Meta:
@@ -107,7 +107,7 @@ class Captcha_Key(models.Model, ):
 #                 'id': unicode(str(self.pk)), }, )
 #        return u'/%s/к%.6d/' % (self.url, self.id, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Ключ: %s' % self.key
 
     class Meta:

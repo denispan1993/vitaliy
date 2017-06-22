@@ -33,7 +33,7 @@ class UserProfileModel(UserenaLanguageBaseProfile):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Профайл: %s' % (self.user, )
 
     class Meta:
@@ -72,7 +72,7 @@ class Session_ID(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=False, null=False, )  #  default=datetime.now(), )
     updated_at = models.DateTimeField(auto_now=True, blank=False, null=False, )  # default=datetime.now(), )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Связка:%s, session:%s' % (self.user, self.sessionid, )
 
     class Meta:
@@ -180,7 +180,7 @@ class HttpRequest_META(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Информация о первом входе:%s, session:%s' % (self.user, self.sessionid, )
 
     class Meta:

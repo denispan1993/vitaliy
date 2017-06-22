@@ -85,7 +85,7 @@ class CouponGroup(models.Model, ):
         # return ('admin_coupon:coupon_group_edit',
         #         {'coupon_group_id': self.pk, }, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Группа купонов: № %6d - %s' % (self.pk, self.name, )
 
     class Meta:
@@ -187,7 +187,7 @@ class Coupon(models.Model, ):
 
 #    get_url = property(get_absolute_url)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Coupon: %6d - %s' % (self.pk, self.name, )
 
     def save(self, *args, **kwargs):

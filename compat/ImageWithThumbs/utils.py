@@ -1,13 +1,14 @@
-# coding=utf-8
-__author__ = 'Sergey'
+# -*- coding: utf-8 -*-
 """
 django-thumbs by Antonio Melé
 http://django.es
 """
 from PIL import Image
 from django.core.files.base import ContentFile
-from io import StringIO as cStringIO
-#import cStringIO
+# from io import StringIO as cStringIO
+import cStringIO
+
+__author__ = 'AlexStarov'
 
 
 def generate_thumb(img, thumb_size, format='JPEG', ):

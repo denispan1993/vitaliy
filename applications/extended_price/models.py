@@ -27,7 +27,7 @@ class Price_Additional_Information(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Дополнительная информация для прайса:%s' % (self.title, )
 
     class Meta:
@@ -57,7 +57,7 @@ class Price_Information(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Информационные поля для прайса:%s' % (self.information, )
 
     class Meta:
@@ -88,7 +88,7 @@ class Extended_Price(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.price, )
 
     class Meta:

@@ -36,7 +36,7 @@ class Action(models.Model, ):
 
     objects = managers.Manager_Action()
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Акция: %s' % (self.name, )
 
     class Meta:

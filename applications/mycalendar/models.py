@@ -42,7 +42,7 @@ class LeadingCourse(models.Model):
             return ('calendar:leading_course_ru', (),
                     {'leading_course_url': 'None', }, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Ведущий(ая) курсы:%s %s%s' % (self.surname, self.name, ' %s' % self.patronymic if self.patronymic else '')
 
     class Meta:
@@ -76,7 +76,7 @@ class CoordinatorCourse(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Координатор:%s %s%s' % (self.surname, self.name, ' %s' % self.patronymic if self.patronymic else '')
 
     class Meta:
@@ -106,7 +106,7 @@ class LocationDate(models.Model, ):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Место проведения:%s %s' % (self.city,
                                             self.date_start.strftime("%d-%m-%Y"), )
 
@@ -127,7 +127,7 @@ class Section(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Раздел мероприятия: %s' % self.section
 
     class Meta:
@@ -197,7 +197,7 @@ class Event(models.Model):
         except Event.DoesNotExist:
             return False
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Событие:%s' % (self.title, )  # self.session.session_key, )
 
     class Meta:

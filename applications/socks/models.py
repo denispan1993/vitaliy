@@ -135,7 +135,7 @@ class ProxyServer(models.Model, ):
             print('proxy_type == socks.PROXY_TYPE_SOCKS5: ', 'self.socks5_pos: ', self.socks5_pos)
         self.save()
 
-    def __unicode__(self):
+    def __str__(self):
         return u'№ %6d --> [%s:%s] http: %s | https: %s | socks4: %s | socks5: %s'\
                % (self.pk, self.host, self.port, self.http, self.https, self.socks4, self.socks5, )
 

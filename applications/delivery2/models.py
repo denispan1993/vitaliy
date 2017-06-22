@@ -155,7 +155,7 @@ class Delivery(models.Model, ):
 
         super(Delivery, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Рассылка: № %6d: %s' % (self.pk, self.name, )
 
     class Meta:
@@ -195,7 +195,7 @@ class EmailSubject(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Тема: № %6d: [%s]:%2.2f' % (self.pk, self.subject, self.chance )
 
     class Meta:
@@ -325,7 +325,7 @@ class EmailTemplate(models.Model, ):
         #    '<img src="http://{{ MAIN_DOMAIN }}{{ mail_obj.get_pixel_url }}" width="0" height="0" border="0" /></body>', )
         return html
 
-    def __unicode__(self):
+    def __str__(self):
         if self.pk:
             return u'Тело письма: № %6d: %2.2f' % (self.pk, self.chance, )
         else:
@@ -391,7 +391,7 @@ class EmailUrlTemplate(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         try:
             return u'pk:%0.6d [href] --> %s' % (
                 self.pk,
@@ -467,7 +467,7 @@ class MessageRedirectUrl(models.Model, ):
                 (),
                 {'pk_in_base62': base62.encode(self.pk, ), }, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'pk:%0.6d [href:%s]' % (self.pk, self.href, )
 
     class Meta:
@@ -526,7 +526,7 @@ class Message(models.Model):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'pk: %6d created_at: %s, updated_at: %s'\
                % (self.pk, self.created_at, self.updated_at, )
 

@@ -49,7 +49,7 @@ class Setting(models.Model):
         content_type_field='content_type',
         object_id_field='object_id', )
 
-    def __unicode__(self, ):
+    def __str__(self, ):
         return u'%s - %s' % (self.name, self.variable_name, )
 
     class Meta:

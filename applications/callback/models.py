@@ -41,7 +41,7 @@ class CallBack(models.Model):
                               blank=True,
                               null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Обратный звонок:%s, session:%s' % (self.user, self.sessionid, )  # self.session.session_key, )
 
     class Meta:

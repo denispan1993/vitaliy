@@ -118,7 +118,7 @@ class Slide(models.Model):
 
         return '/'
 
-    def __unicode__(self, ):
+    def __str__(self, ):
 #        text = u'Активный' if self.is_active else text = u'Пасивный'
 #        return u'Слайд: %s - %s %s' % (self.title, self.text, text, )
         if self.is_active:

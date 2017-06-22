@@ -140,16 +140,16 @@ class Comment(MPTTModel, ):
         else:
             return u'%d-/Имя/%s' % (self.pk, self.name, )
 
-    def __unicode__(self):
+    def __str__(self):
         # """
         # Проверка DocTest
         # >>> category = Category.objects.create(title=u'Proverka123  -ф123')
         # >>> category.item_description = u'Тоже проверка'
         # >>> category.save()
-        # >>> if type(category.__unicode__()) is unicode:
-        # ...     print category.__unicode__() #.encode('utf-8')
+        # >>> if type(category.__str__()) is unicode:
+        # ...     print category.__str__() #.encode('utf-8')
         # ... else:
-        # ...     print type(category.__unicode__())
+        # ...     print type(category.__str__())
         # ...
         # Категория: Proverka123  -ф123
         # >>> print category.title

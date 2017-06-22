@@ -91,7 +91,7 @@ class MediaFile(models.Model):
         self.img.field.sizes = ((self.height, self.width, ), )
         super(MediaFile, self).save(*args, **kwargs)  # Call the "real" save() method.
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Файл:%s' % (self.name, )
 
     class Meta:

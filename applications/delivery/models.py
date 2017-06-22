@@ -97,7 +97,7 @@ class MailServer(models.Model, ):
                                       null=True, )
                                       # default=datetime.now(), )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s:%d' % (self.server_smtp, self.port_smtp, )
 
     class Meta:
@@ -170,7 +170,7 @@ class MailAccount(models.Model, ):
     # def is_active(self):
     #     return self.server.is_active
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s --> %s:%d' % (self.email, self.server.server_smtp, self.server.port_smtp, )
 
     class Meta:
@@ -417,16 +417,16 @@ class Delivery(models.Model, ):
                 {'delivery_id': self.get_url_number, }, )
 #                {'delivery_id': '%06d' % self.pk, }, )
 
-    def __unicode__(self):
+    def __str__(self):
         # """
         # Проверка DocTest
         # >>> category = Category.objects.create(title=u'Proverka123  -ф123')
         # >>> category.item_description = u'Тоже проверка'
         # >>> category.save()
-        # >>> if type(category.__unicode__()) is unicode:
-        # ...     print category.__unicode__() #.encode('utf-8')
+        # >>> if type(category.__str__()) is unicode:
+        # ...     print category.__str__() #.encode('utf-8')
         # ... else:
-        # ...     print type(category.__unicode__())
+        # ...     print type(category.__str__())
         # ...
         # Категория: Proverka123  -ф123
         # >>> print category.title
@@ -475,7 +475,7 @@ class Subject(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Тема: № %6d --> [%s]:%2.2f' % (self.pk, self.subject, self.chance )
 
     class Meta:
@@ -521,7 +521,7 @@ class Body(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Тело письма: № %6d --> %s.... (%2.2f)' % (self.pk, self.html[0:50], self.chance)
 
     class Meta:
@@ -578,7 +578,7 @@ class Url(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         if self.type == 1:
             return u'pk:%0.6d [url%d] --> %s:%s' % (
                 self.pk,
@@ -644,7 +644,7 @@ class Email_Img(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Картинка для E-Mail: %s' % (self.name, )
 
     class Meta:
@@ -683,7 +683,7 @@ class EmailMiddleDelivery(models.Model, ):
                                       null=True, )
                                       # default=datetime.now(), )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Промежуток рассылки: № %6d - %s, Test: %s, Send: %s, created_at: %s, updated_at: %s'\
                % (self.pk, self.delivery.name, self.delivery_test_send, self.delivery_send,
                   self.created_at, self.updated_at, )
@@ -749,7 +749,7 @@ class EmailForDelivery(models.Model, ):
                     print('Exception type: %s, message: %s' % (type(e, ), e, ), )
         super(EmailForDelivery, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'E-Mail: %s pk: %6d created_at: %s, updated_at: %s'\
                % (self.now_email.email, self.pk, self.created_at, self.updated_at, )
 
@@ -874,7 +874,7 @@ class SpamEmail(models.Model, ):
                                       null=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return '%d: %s' % (self.pk, self.email, )
 
     @property
@@ -917,7 +917,7 @@ class SendEmailDelivery(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'E-Mail: %s pk: %6d created_at: %s, updated_at: %s'\
                % (self.email.email, self.pk, self.created_at, self.updated_at, )
 
@@ -977,7 +977,7 @@ class Message(models.Model):
                                       blank=True,
                                       null=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'pk: %6d created_at: %s, updated_at: %s'\
                % (self.pk, self.created_at, self.updated_at, )
 
@@ -1074,7 +1074,7 @@ class MessageUrl(models.Model, ):
 
         super(MessageUrl, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'pk: %0.6d --> [%s]' % (self.pk, self.email.email, )
 
     class Meta:
@@ -1119,7 +1119,7 @@ class RawEmail(models.Model, ):
                                       null=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'RawEmail: pk: %6d, Account: %s From: <%s>, To: <%s> | created_at: %s, updated_at: %s'\
                % (self.pk, self.account.email, self.from_header, self.to_header, self.created_at, self.updated_at, )
 
