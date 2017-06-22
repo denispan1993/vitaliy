@@ -56,7 +56,7 @@ def add_edit(request,
                 test = True
 
             else:
-                if isinstance(test, unicode, ):
+                if isinstance(test, str, ):
                     try:
                         test = int(test, )
                     except Exception as inst:
@@ -67,13 +67,13 @@ def add_edit(request,
                     else:
                         test = bool(test, )
                 else:
-                    print('Test: Not unicode', )
+                    print('Test: Not str', )
                     test = True
             send_test = request.POST.get(u'send_test', None, )
             if send_test == None:
                 send_test = True
             else:
-                if isinstance(send_test, unicode, ):
+                if isinstance(send_test, str, ):
                     try:
                         send_test = int(send_test, )
                     except Exception as inst:
@@ -86,7 +86,7 @@ def add_edit(request,
             if send_spam == None:
                 send_spam = True
             else:
-                if isinstance(send_spam, unicode, ):
+                if isinstance(send_spam, str, ):
                     try:
                         send_spam = int(send_spam, )
                     except Exception as inst:
@@ -99,7 +99,7 @@ def add_edit(request,
             if send_general == None:
                 send_general = True
             else:
-                if isinstance(send_general, unicode, ):
+                if isinstance(send_general, str, ):
                     try:
                         send_general = int(send_general, )
                     except Exception as inst:
@@ -167,7 +167,7 @@ def add_edit(request,
                             subject = Subject.objects.get(pk=subject_pk, )
 
                             subject_delete = request.POST.get('subject_delete_%d' % subject_id, False, )
-                            if isinstance(subject_delete, unicode) and subject_delete.lower() == u'on':
+                            if isinstance(subject_delete, str) and subject_delete.lower() == u'on':
                                 subject.delete()
                                 continue
 
@@ -195,7 +195,7 @@ def add_edit(request,
                             body = Body.objects.get(pk=body_pk, )
 
                             body_delete = request.POST.get('body_delete_%d' % body_id, False, )
-                            if isinstance(body_delete, unicode) and body_delete.lower() == u'on':
+                            if isinstance(body_delete, str) and body_delete.lower() == u'on':
                                 body.delete()
                                 continue
 
@@ -225,7 +225,7 @@ def add_edit(request,
                         url = Url(delivery=delivery)
 
                     url_delete = request.POST.get('url_delete_%d' % url_id, False, )
-                    if isinstance(url_delete, unicode) and url_delete.lower() == u'on':
+                    if isinstance(url_delete, str) and url_delete.lower() == u'on':
                         url.delete()
                         continue
 

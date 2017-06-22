@@ -247,7 +247,7 @@ def order_change(request, ):
                 print('ajax/views.py: ', type(is_custom_price), is_custom_price, )
 
                 if is_custom_price\
-                        and isinstance(is_custom_price, unicode)\
+                        and isinstance(is_custom_price, str)\
                         and is_custom_price in ('true', 'false', ):
 
                     print(type(is_custom_price), 'Ok', is_custom_price)
@@ -278,7 +278,7 @@ def order_change(request, ):
                 custom_price = request.POST.get(u'custom_price', False, )
                 print('ajax/views.py: 279: ', type(custom_price), custom_price, float(custom_price), )
 
-                if custom_price and isinstance(custom_price, unicode):
+                if custom_price and isinstance(custom_price, str):
                     try:
                         custom_price = float(custom_price, )
                     except Exception as e:

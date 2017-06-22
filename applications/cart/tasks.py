@@ -294,7 +294,7 @@ def recompile_order(*args, **kwargs):
         sessionID.user = user
         sessionID.save()
 
-    if isinstance(email, unicode) or not email:  # type(email, ) == 'unicode':
+    if isinstance(email, str) or not email:  # type(email, ) == 'unicode':
         print('email type: ', type(email, ), 'email: ', email, )
     else:
         print('email type: ', type(email, ), 'email: ', email.email, )
@@ -364,7 +364,7 @@ def processing_username(order, ):
     if last_name:
         print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
         if type(last_name, ) == list:
-            last_name = unicode(last_name[0], )  # .encode('UTF8', ),
+            last_name = last_name[0]  # .encode('UTF8', ),
         print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
         last_name = last_name.lstrip('.')
         if len(last_name, ) > 30:
@@ -374,7 +374,7 @@ def processing_username(order, ):
     if first_name:
         print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
         if type(first_name, ) == list:
-            first_name = unicode(first_name, ).encode('utf-8')
+            first_name = first_name
         print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
         first_name = first_name.lstrip('.')
         if len(first_name, ) > 30:
@@ -384,7 +384,7 @@ def processing_username(order, ):
     if patronymic:
         print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
         if type(patronymic, ) == list:
-            patronymic = unicode(patronymic, ).encode('utf-8')
+            patronymic = patronymic
         print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
         patronymic = patronymic.lstrip('.')
         if len(patronymic, ) > 32:

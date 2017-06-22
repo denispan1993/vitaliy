@@ -38,7 +38,7 @@ class Process_Request_Middleware(object):
                     print("{{ no such element: applications.slide.models.Slide object['url'] }}")
 
                     try:
-                        value = unicode(full_path.split('{{')[0])
+                        value = full_path.split('{{')[0]
                         view, args, kwargs = resolve(value, )
                         logging.debug(u"resolve(value, ) after split '{{': view = {0}, args = {1}, args = {2}".format(view, args, kwargs))
 
