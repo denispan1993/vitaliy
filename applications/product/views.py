@@ -313,7 +313,8 @@ def get_or_create_Viewed(request,
             viewed.delete()
         else:
             if not created and viewed is not []:
-                viewed.last_viewed = datetime.now()
+                from django.utils import timezone
+                viewed.last_viewed = timezone.now()
                 viewed.save()
     else:
         content_type = None
