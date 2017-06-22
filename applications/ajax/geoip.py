@@ -42,8 +42,8 @@ def resolve_client_geolocation(request, ):
                     city = e[0][0].text
                     region = e[0][0].text
 
-                print(string, '.text - ', 'r.url: ', r.url, ' City: ', str(city.encode('utf-8', ), ),
-                      ' Region: ', str(region.encode('utf-8', ), ), )
+                print(string, '.text - ', 'r.url: ', r.url, ' City: ', city,
+                      ' Region: ', region, )
 
                 request.session[u'ajax_geoip_city'] = city
                 request.session[u'ajax_geoip_region'] = region
