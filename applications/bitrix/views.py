@@ -23,7 +23,7 @@ class ExchangeView(View, ):
     def get(self, request, *args, **kwargs):
 
         auth_token_1c = request.META.get('HTTP_AUTHORIZATION', False)
-        auth_token_server = 'Basic ' + base64.b64encode('User123:password123')
+        auth_token_server = 'Basic ' + base64.b64encode('User123:password123'.encode('ascii'))
 
         if auth_token_1c == auth_token_server:
 
@@ -72,7 +72,7 @@ class ExchangeView(View, ):
     def post(self, request, *args, **kwargs):
 
         auth_token_1c = request.META.get('HTTP_AUTHORIZATION', False)
-        auth_token_server = 'Basic ' + base64.b64encode('User123:password123')
+        auth_token_server = 'Basic ' + base64.b64encode('User123:password123'.encode('ascii'))
 
         if auth_token_1c == auth_token_server:
 
