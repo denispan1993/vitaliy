@@ -97,8 +97,7 @@ class GenerateShopYMLView(View):
 
             try:
                 #print product._meta.get_all_field_names()
-                etree.SubElement(offer, 'categoryId').text =\
-                    str(product.producttocategory_set.all()[0].id)
+                etree.SubElement(offer, 'categoryId').text = product.producttocategory_set.all()[0].id
                     # str(product.category.all().only('id').values_list('id', flat=True)[0])
             except IndexError:
                 pass
@@ -118,6 +117,7 @@ class GenerateShopYMLView(View):
                 .replace('   ', ' ', )\
                 .replace('  ', ' ', )
             #etree.SubElement(offer, 'name').text = product.get_name()
+            etree.SubElement(offer, 'picture').text = product.main_photo()
             i += 1
 
             #self.bar.update(i)
