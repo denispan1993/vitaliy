@@ -119,7 +119,7 @@ class GenerateShopYMLView(View):
                 .replace('  ', ' ', )
             #etree.SubElement(offer, 'name').text = product.get_name()
             # etree.SubElement(offer, 'picture').text = product.main_photo.
-            print(product.main_photo.url, product.main_photo.path, )
+            print(product.main_photo.path, )
             i += 1
 
             #self.bar.update(i)
