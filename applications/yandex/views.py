@@ -118,31 +118,7 @@ class GenerateShopYMLView(View):
                 .replace('   ', ' ', )\
                 .replace('  ', ' ', )
             #etree.SubElement(offer, 'name').text = product.get_name()
-            # etree.SubElement(offer, 'picture').text = product.main_photo.
-            try:
-                print(product.main_photo.path, )
-            except AttributeError:
-                pass
-            try:
-                print(product.main_photo.image, )
-            except AttributeError:
-                pass
-            try:
-                print(product.main_photo.image.path, )
-            except AttributeError:
-                pass
-            try:
-                print(product.main_photo.image.url, )
-            except AttributeError:
-                pass
-            try:
-                print(product.main_photo.photo.path, )
-            except AttributeError:
-                pass
-            try:
-                print(product.main_photo.photo.url, )
-            except AttributeError:
-                pass
+            etree.SubElement(offer, 'picture').text = 'https://keksik.com.ua{}'.format(product.main_photo.photo.url, )
             i += 1
 
             #self.bar.update(i)
