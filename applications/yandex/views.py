@@ -98,7 +98,7 @@ class GenerateShopYMLView(View):
             try:
                 #print product._meta.get_all_field_names()
                 etree.SubElement(offer, 'categoryId').text = \
-                    str(product.producttocategory_set.all()[0].id, )
+                    str(product.producttocategory_set.all()[0].category_id, )
                     # str(product.category.all().only('id').values_list('id', flat=True)[0])
             except IndexError:
                 pass
