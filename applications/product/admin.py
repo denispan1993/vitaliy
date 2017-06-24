@@ -249,28 +249,10 @@ class ProductAdminForm(forms.ModelForm):
 
 class ProductToCategoryInlineAdmin(admin.TabularInline):
     model = ProductToCategory
-    fields = ['category', ]
-    # ordering = ['category__title', ]
     extra = 3
 
-    def get_queryset(self, request):
-        queryset = super(ProductToCategoryInlineAdmin, self).get_queryset(request)
-        print(queryset.query)
-        for q in queryset:
-            print('1: ', q.category_id)
-        queryset = ProductToCategory.objects.all()  # .order_by('-category__title')
-        print(queryset.query)
-        for q in queryset:
-            print('2: ', q.category_id)
-        return queryset
-
     def get_field_queryset(self, db, db_field, request):
-        print(db, db_field, request)
-        return super(ProductToCategoryInlineAdmin, self).get_field_queryset(db, db_field, request, )
-#    def get_queryset(self, request, ):
-#        # queryset = super(ProductToCategoryInlineAdmin, self).get_queryset(request)
-#        queryset = ProductToCategory.objects.all().order_by('category__title')
-#        return queryset
+        return Category.objects.all().order_by('title')
 
 
 @admin.register(Product)
