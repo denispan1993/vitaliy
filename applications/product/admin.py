@@ -252,7 +252,7 @@ class ProductToCategoryInlineAdmin(admin.TabularInline):
     extra = 3
 
     def get_field_queryset(self, db, db_field, request):
-        return Category.objects.all().order_by('title')
+        return Category.objects.all().only('id', 'title', ).order_by('title')
 
 
 @admin.register(Product)
