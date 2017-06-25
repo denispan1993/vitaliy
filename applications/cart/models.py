@@ -196,8 +196,8 @@ class Order(models.Model):
                                     default=False, )
 
     # Дата создания и дата обновления. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
+    updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
     # Вспомогательные поля
     order = GenericRelation(

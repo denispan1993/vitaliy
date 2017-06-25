@@ -117,10 +117,10 @@ body{
                         {{ order.comment }}
                     </td>
                     <td>
-                        {{ order.created_at|to_localtime|date("d-M-Y H:i") }}
+                        {{ order.created_at|date("d-M-Y H:i") }}
                     </td>
                     <td>
-                        {{ order.updated_at|to_localtime|date("d-M-Y H:i") }}
+                        {{ order.updated_at|date("d-M-Y H:i") }}
                     </td>
                 </tr>
                 {% endfor %}

@@ -88,7 +88,11 @@ class Category(MPTTModel):
 
     url = ModelSlugField()
     #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
-    title = models.CharField(verbose_name=u'Заголовок категории', max_length=255, null=False, blank=False, )
+    title = models.CharField(db_index=True,
+                             verbose_name=u'Заголовок категории',
+                             max_length=255,
+                             null=False,
+                             blank=False, )
 
     # Описание категории
     item_description = models.CharField(verbose_name=u'Краткое описание продукта',
@@ -97,8 +101,8 @@ class Category(MPTTModel):
     bottom_description = models.TextField(verbose_name=u'Нижнее описание категории', null=True, blank=True, )
 
     #Дата создания и дата обновления новости. Устанавливаются автоматически.
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+    created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
+    updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
     #Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'Заголовок категории', max_length=190, null=True, blank=True,
@@ -141,9 +145,6 @@ class Category(MPTTModel):
                 return None
         else:
             return None
-
-    # def get_absolute_url(self, ):
-    #     return u'/%s/к%.6d/' % (self.url.lower(), self.id, )
 
     @models.permalink
     def get_absolute_url(self, ):
@@ -228,7 +229,8 @@ class Product(models.Model):
     disclose_product = models.BooleanField(verbose_name=_(u'Открывать страницу товара'), default=True, blank=False,
                                            null=False, help_text=u'Если мы хотим чтобы пользователь входил в товар'
                                                                  u' из категории, то ставим галочку.')
-    in_main_page = models.BooleanField(verbose_name=_(u'На главной странице'), default=False, blank=False, null=False,
+    in_main_page = models.BooleanField(db_index=True,
+                                       verbose_name=_(u'На главной странице'), default=False, blank=False, null=False,
                                        help_text=u'Если мы хотим чтобы продукт показывался на главной странице ставим'
                                                  u' данное поле в True.')
     is_bestseller = models.BooleanField(verbose_name=_(u'Магазин рекомендует'), default=False, blank=False, null=False,
@@ -251,6 +253,7 @@ class Product(models.Model):
         blank=True,
         null=True, )
     url = ModelSlugField(
+        db_index=True,
         verbose_name=u'URL адрес продукта',
         max_length=255,
         null=True,
@@ -1200,7 +1203,8 @@ class Currency(models.Model):
                                 null=True, blank=True, default=1, )
     name_ru = models.CharField(verbose_name=u'Название валюты Russian',
                                max_length=16, blank=False, null=False, )
-    currency_code_ISO_number = models.PositiveSmallIntegerField(verbose_name=_(u'Код валюты числовой', ),
+    currency_code_ISO_number = models.PositiveSmallIntegerField(db_index=True,
+                                                                verbose_name=_(u'Код валюты числовой', ),
                                                                 blank=False,
                                                                 null=False,
                                                                 default=0, )
