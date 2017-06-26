@@ -349,7 +349,7 @@ class Product(models.Model):
             price = self.price
         else:
             ''' Иначе берем цену самого товара '''
-            price = product.get_price(request, price=None, calc_or_show='show', currency=currency, )  # price=self.price,
+            price = product.get_price(request, price=None, calc_or_show='show', currency_ISO_number=currency, )  # price=self.price,
 
         """ Расчитываем цену товара """
         price = self.quantity * (Decimal(price, ) / product.price_of_quantity)
