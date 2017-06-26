@@ -8,7 +8,7 @@
 var productArray = {
     "id": "{{ block.get_ItemID }}",
     "name": "{{ block.name|capfirst }}",
-    "price": {{ block.get_price(request=request,currency=980)|replace(",", ".") }},
+    "price": {{ block.get_price(request=request,currency_ISO_number=980)|replace(",", ".") }},
     "category": "{{ block.get_category_hierarchy(request=request) }}",
     "position": {{ block.serial_number }}
 }
@@ -59,7 +59,7 @@ var productArray = {
 var productArray = {
     "id": "{{ block.get_ItemID }}",
     "name": "{{ block.name|capfirst }}",
-    "price": {{ block.get_price(request=request,currency=980)|replace(",", ".") }},
+    "price": {{ block.get_price(request=request,currency_ISO_number=980)|replace(",", ".") }},
     "category": "{{ block.get_category_hierarchy(request=request) }}",
     "position": {{ block.serial_number }}
 }

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # /apps/product/views.py
 from datetime import datetime
+from django.utils import timezone
 
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
@@ -285,17 +286,21 @@ def get_or_create_Viewed(request,
                          product_pk=None,
                          user_obj=None,
                          sessionid=None, ):
+
+    if request.user.is_authenticated()\
+            and request.user.is_active\
+            and not user_obj:
+        user_id_ = request.session.get(u'_auth_user_id', None, )
+        user_obj = get_user_model().objects.get(pk=user_id_, )
+
+    if not sessionid:
+        sessionid = request.COOKIES.get(u'sessionid', None, )
+
     if not product and product_pk:
         product = get_product(product_pk, )
 
-    if request.user.is_authenticated() and request.user.is_active:
-        if not user_obj:
-            user_id_ = request.session.get(u'_auth_user_id', None, )
-            UserModel = get_user_model()
-            user_obj = UserModel.objects.get(pk=user_id_, )
-    else:
-        if not sessionid:
-            sessionid = request.COOKIES.get(u'sessionid', None, )
+    content_type = None
+    product_pk = None
 
     if product:
         content_type = product.content_type
@@ -313,25 +318,22 @@ def get_or_create_Viewed(request,
             viewed.delete()
         else:
             if not created and viewed is not []:
-                from django.utils import timezone
                 viewed.last_viewed = timezone.now()
                 viewed.save()
-    else:
-        content_type = None
-        product_pk = None
 
     try:
         viewed = Viewed.objects.filter(user_obj=user_obj,
                                        sessionid=sessionid, )\
             .order_by('-last_viewed', )\
             .exclude(content_type=content_type, object_id=product_pk, )
+
+        if len(viewed) > 9:
+            viewed[viewed.count() - 1].delete()  # .latest('last_viewed', )
+
+        return viewed
+
     except Viewed.DoesNotExist:
         return None
-    else:
-        if len(viewed) > 9:
-            obj_for_delete = viewed[viewed.count()-1]  # .latest('last_viewed', )
-            obj_for_delete.delete()
-        return viewed
 
 
 def send_error_manager(requset=None, product=None, error_id=None, ):

@@ -95,6 +95,8 @@ else{return $.ajax($.extend(options||{},{url:url}));}}</script>
     <header id="header">
         {% block header %}
         {% endblock %}
+        {% block wowslider_html %}
+        {% endblock %}
     </header>
     <section id="main" class="clearFloat">
         {% block content %}
@@ -428,8 +430,10 @@ window.addEventListener("resize", onresize); #}
 {#
 </script>
 {% endif %} #}
+{% block wowslider_js %}
 <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.js"></script>
 <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/script.js"></script>
 <script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js"></script>
+{% endblock %}
 </body>
 </html>

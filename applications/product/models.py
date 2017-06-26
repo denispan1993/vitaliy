@@ -33,6 +33,7 @@ class Category(MPTTModel):
         related_name='children', )
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                                      # visibility=True,
+                                                     db_index=True,
                                                      default=1,
                                                      blank=True,
                                                      null=True, )
@@ -582,7 +583,7 @@ class Product(models.Model):
 
         return ''
 
-    def get_price(self, request=None, price=None, calc_or_show='show', currency=None, ):
+    def get_price(self, request=None, price=None, calc_or_show='show', currency_ISO_number=None, ):
         currency_pk = 1
 
         if request:
@@ -594,14 +595,14 @@ class Product(models.Model):
                 except ValueError:
                     pass
 
-        elif not request and currency:
+        elif not request and currency_ISO_number:
 
-            key = 'currency_{0}'.format(currency, )
+            key = 'currency_{0}'.format(currency_ISO_number, )
             print('(get_price) key: ', key, )
             currency = cache.get(key=key, )
             if not currency:
                 try:
-                    currency = Currency.objects.get(currency_code_ISO_number=currency, )
+                    currency = Currency.objects.get(currency_code_ISO_number=currency_ISO_number, )
                     print('(get_price) not key for code_ISO_number: ', currency.currency_code_ISO_number, )
                     cache.set(
                         key=key,
@@ -622,6 +623,7 @@ class Product(models.Model):
             if not current_currency_object:
                 try:
                     current_currency_object = Currency.objects.get(pk=currency_pk, )
+                    print('(get_price) not key for code_currency_pk: ', current_currency_object.pk, )
                     cache.set(
                         key='currency_pk_{0}'.format(currency_pk, ),
                         value=current_currency_object,
@@ -1032,6 +1034,7 @@ class Photo(models.Model):
     object_id = models.PositiveIntegerField(db_index=True, )
     parent = GenericForeignKey('content_type', 'object_id', )
     serial_number = models.PositiveIntegerField(verbose_name=u'Порядковы номер фотографии',
+                                                db_index=True,
                                                 default=1,
                                                 null=False,
                                                 blank=False, )
@@ -1288,7 +1291,8 @@ class Viewed(models.Model):
         verbose_name=u'ID Пользователя',
         blank=True,
         null=True, )
-    sessionid = models.CharField(verbose_name=u'SessionID', max_length=32, blank=True, null=True, )
+    sessionid = models.CharField(verbose_name=u'SessionID',
+                                 db_index=True, max_length=32, blank=True, null=True, )
     """ Когда смотрел """
     last_viewed = models.DateTimeField(verbose_name=u'Дата последнего просмотра',
                                        db_index=True, blank=False, null=False,

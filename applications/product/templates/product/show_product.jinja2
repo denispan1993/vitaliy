@@ -36,6 +36,8 @@
 {% endblock %}
 {% block body_javascript %}
 {% endblock %}
+{% block wowslider_html %}
+{% endblock %}
 {% block content_center %}
 {% if user.is_authenticated and user.is_staff and product.is_availability == 3%}
 <div style="position: absolute; z-index: 1000; top: 27px; left: 361px;">
@@ -242,7 +244,7 @@ window.dataLayer.push({
             "products" : [
                     {"id": "{{ product.get_ItemID }}",
                      "name": "{{ product.name|capfirst }}",
-                     "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
+                     "price": {{ product.get_price(request=request,currency_ISO_number=980)|replace(",", ".") }},
                 {#   "quantity": {{ product.quantity_of_complete }}, #}
                      "category": "{{ product.get_category_hierarchy(request=request) }}",
                      "position": {{ product.serial_number }}
@@ -260,7 +262,7 @@ function addtocard_submit({# type, quantity #}form) {
                         {"id": "{{ product.get_ItemID }}",
                     {#   "name": type + "_" + "{{ product.name|capfirst }}", #}
                          "name": "{{ product.name|capfirst }}",
-                         "price": {{ product.get_price(request=request,currency=980)|replace(",", ".") }},
+                         "price": {{ product.get_price(request=request,currency_ISO_number=980)|replace(",", ".") }},
                     {#   "quantity": quantity, #}
                          "category": "{{ product.get_category_hierarchy(request=request) }}",
                          "position": {{ product.serial_number }}
@@ -956,4 +958,6 @@ $(function(){
     {{ viewed_ }}
 {% endblock %} #}
 {% block after_footer %}
+{% endblock %}
+{% block wowslider_js %}
 {% endblock %}

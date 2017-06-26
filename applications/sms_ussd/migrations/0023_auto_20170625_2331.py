@@ -12,10 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='sim',
-            name='id',
-        ),
         migrations.AlterField(
             model_name='sim',
             name='imsi',
