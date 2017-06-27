@@ -27,7 +27,7 @@ window.dataLayer.push({
                     {
                         "id": "{{ product.product.get_ItemID }}",
                         "name": "{{ product.product.name|capfirst }}",
-                        "price": {{ product.product.get_price(request=request,currency=980)|replace(",", ".") }},
+                        "price": {{ product.product.get_price(request=request,currency_ISO_number=980)|replace(",", ".") }},
                         "category": "{{ product.product.get_category_hierarchy(request=request) }}",
                         "position": {{ product.product.serial_number }},
                         "quantity": {{ product.quantity }}
