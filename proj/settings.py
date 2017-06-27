@@ -362,7 +362,7 @@ INSTALLED_APPS = (
     'django_jinja',
     'django_extensions',
     'djcelery',
-    'kombu.transport.django',
+    'kombu.transport',
     #'django_mailbox',
     #'bootstrap',
     #'bootstrap3',
@@ -397,6 +397,7 @@ INSTALLED_APPS = (
     'applications.socks',
     'paypal.standard.ipn',
     'applications.payment',
+    'applications.yml',
     # 'static_sitemaps',
 )
 

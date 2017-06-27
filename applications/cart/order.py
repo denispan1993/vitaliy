@@ -275,16 +275,16 @@ def result_ordering(request, ):
             # email = request.session.get(u'email', None, )
             # phone = request.session.get(u'phone', None, )
             select_country = request.session.get(u'select_country', None, )
-            order_pk = request.session.get(u'order_pk', None, )
+
             try:
-                order_pk = int(order_pk, )
+                order_pk = int(request.session.get(u'order_pk', None, ), )
                 try:
                     order = Order.objects.get(pk=order_pk, )
 
                 except Order.DoesNotExist:
                     return redirect(to='order:unsuccessful_ru', permanent=True, )
 
-            except ValueError:
+            except (TypeError, ValueError):
                 return redirect(to='order:unsuccessful_ru', permanent=True, )
 
             if select_country == 1:

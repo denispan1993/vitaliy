@@ -1,13 +1,13 @@
-celery==3.1.25
 Django==1.11.2
-django-celery==3.1.17
+celery==3.1.25
+django-celery==3.2.1
+django-kombu==0.9.4
 django-debug-toolbar==1.8
 django-debug-toolbar-template-timings==0.6.6
 django-guardian==1.4.8
 django-jinja==2.3.1
 django-mptt==0.8.7
 django-mptt-admin==0.3.6
-django-kombu==0.9.4
 django-paypal==0.3.2
 django-suit==0.2.25
 django-suit-ckeditor==0.0.2

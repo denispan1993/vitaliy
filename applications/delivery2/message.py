@@ -9,7 +9,12 @@ from random import randrange
 from django.core.mail import EmailMultiAlternatives
 # from django.core.mail.utils import DNS_NAME
 from django.core.cache import cache
-from django.db.models.loading import get_model
+try:
+    from django.db.models.loading import get_model
+except (ImportError, ModuleNotFoundError):
+    from django.apps import apps
+    get_model = apps.get_model
+
 from django.utils.html import strip_tags
 from email.utils import formataddr
 from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError

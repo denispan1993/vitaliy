@@ -23,7 +23,8 @@ class ExchangeView(View, ):
     def get(self, request, *args, **kwargs):
 
         auth_token_1c = request.META.get('HTTP_AUTHORIZATION', False)
-        auth_token_server = 'Basic ' + base64.b64encode('User123:password123'.encode('ascii'))
+        auth_token_server = 'Basic '\
+                            + base64.b64encode('User123:password123'.encode('ascii')).decode('ascii')
 
         if auth_token_1c == auth_token_server:
 
@@ -72,7 +73,8 @@ class ExchangeView(View, ):
     def post(self, request, *args, **kwargs):
 
         auth_token_1c = request.META.get('HTTP_AUTHORIZATION', False)
-        auth_token_server = 'Basic ' + base64.b64encode('User123:password123'.encode('ascii'))
+        auth_token_server = 'Basic '\
+                            + base64.b64encode('User123:password123'.encode('ascii')).decode('ascii')
 
         if auth_token_1c == auth_token_server:
 
@@ -97,9 +99,7 @@ class ExchangeView(View, ):
             path = 'storage/{app}/{year}/{month:02d}/{day:02d}/'\
                 .format(
                     app='bitrix',
-                    year=date.today().year,
-                    month=date.today().month,
-                    day=date.today().day,
+                    year=date.today().year, month=date.today().month, day=date.today().day,
                 )
 
             path_split = path.split('/', )

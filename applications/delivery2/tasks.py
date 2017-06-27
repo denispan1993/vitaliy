@@ -124,7 +124,7 @@ def send_delivery(*args, **kwargs):
                   spam_email, ' : ',
                   SpamEmail.objects.get(pk=spam_email, ).email, )
 
-            print "Process time: {}".format(time.time() - start, )
+            print("Process time: {}".format(time.time() - start, ), )
 
 
         # spam_emails = (1, 4, 6, 7, 8, 9, 11,)

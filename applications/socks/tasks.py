@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import urllib2
+# For Python 3.0 and later
+import urllib.request
+
 import time
 from proj.celery import celery_app
 
 import socket
 import sockschain as socks
 
-import utils
-import models
+import applications.utils as utils
+import applications.socks.models as models
 
 __author__ = 'AlexStarov'
 
@@ -28,9 +30,9 @@ def socks_server_get_from_internet():
 
     """ <--- Start ---> http://www.socks-proxy.net/ """
 
-    req = urllib2.Request('http://www.socks-proxy.net/', headers=hdr)
+    req = urllib.request.Request('http://www.socks-proxy.net/', headers=hdr)
 
-    content = urllib2.urlopen(req).read()
+    content = urllib.request.urlopen(req).read()
 
     pars = utils.HTMLParser_socks_proxy()
     content = content.split('<tbody>')[1]
@@ -44,9 +46,9 @@ def socks_server_get_from_internet():
     for n in range(0, 2048, 64):
         time.sleep(2)
         site = 'http://hideme.ru/proxy-list/?start={}#list'.format(n)
-        req = urllib2.Request(site, headers=hdr)
+        req = urllib.request.Request(site, headers=hdr)
 
-        content = urllib2.urlopen(req).read()
+        content = urllib.request.urlopen(req).read()
 
         if "<td class=tdl>" not in content:
             break
