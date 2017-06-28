@@ -53,7 +53,7 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
         block = False
 
     if block:
-        return block.decode('utf-8', )
+        return block
     else:
         block = render_to_string(template_name=template_name,
                                  context={'blocks': blocks,
