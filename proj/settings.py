@@ -42,8 +42,7 @@ CELERY_IMPORTS = ('applications.bitrix.tasks',
                   'applications.socks.tasks',
                   'applications.yml.tasks',
                   'celery',
-                  'proj.celery',
-                  )
+                  'proj.celery', )
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'

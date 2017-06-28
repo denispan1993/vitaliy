@@ -423,7 +423,10 @@ def get_mail_imap(*args, **kwargs):
                                       message_parts='(BODY.PEEK[HEADER.FIELDS (FROM SUBJECT DATE)])', )
 
             if result == 'OK':
-                parse_msg = email.message_from_string(fetch[0][1])
+                print('fetch[0][1]', type(fetch[0][1]), fetch[0][1], )
+                print('fetch[0][1]', type(fetch[0][1].decode('utf-8')), fetch[0][1].decode('utf-8'), )
+                print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
+                parse_msg = email.message_from_string(fetch[0][1].decode('utf-8'))
                 subj, error = str_conv(parse_msg['Subject'])
 
                 if error:
@@ -463,7 +466,10 @@ def get_mail_imap(*args, **kwargs):
                 u'Info fecth msg id: {0} result --> {1}'
                 .format(msg_num, result ))
             if result == 'OK':
-                parse_msg = email.message_from_string(fetch[0][1])
+                print('fetch[0][1]', type(fetch[0][1]), fetch[0][1], )
+                print('fetch[0][1]', type(fetch[0][1].decode('utf-8')), fetch[0][1].decode('utf-8'), )
+                print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
+                parse_msg = email.message_from_string(fetch[0][1].decode('utf-8'))
 
                 email_message_id = parse_msg['Message-Id']
                 email_from = parse_msg['From']
