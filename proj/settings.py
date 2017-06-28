@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# import warnings
 import os
 
 from django_jinja.builtins import DEFAULT_EXTENSIONS
@@ -41,6 +40,7 @@ CELERY_IMPORTS = ('applications.bitrix.tasks',
                   'applications.delivery2.tasks',
                   'applications.discount.tasks',
                   'applications.socks.tasks',
+                  'applications.yml.tasks',
                   'celery',
                   'proj.celery',
                   )
