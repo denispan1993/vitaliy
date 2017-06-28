@@ -103,7 +103,6 @@ class CouponGroupCreateEdit(FormView, ):
                                     start_of_the_coupon,
                                     end_of_the_coupon, )
                     print('coupon/view.py(105): ', insert, )
-                    # print insert
                     try:
                         with transaction.atomic():
                             cursor.execute(insert, )
