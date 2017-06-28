@@ -112,5 +112,9 @@ def generate_prom_ua_yml(*args, **kwargs):
     set_products(shop)
     print(" self.set_products(shop) --- %s seconds ---" % (time.time() - start_time), len(db.connection.queries))
 
+    files = [f for f in os.listdir('.')]
+    for f in files:
+        print(f)
+
     with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.xml', 'w') as f:
         f.write(etree.tostring(root))
