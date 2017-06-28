@@ -158,7 +158,7 @@ class DjangoJinjaCacheExtension(Extension):
             value = caller()
             cache.set(cache_key, force_text(value), expire_time)
 
-        else:
+#        else:
 
-            value = value.decode('utf-8', )
+#            value = value.decode('utf-8', )
         return value
