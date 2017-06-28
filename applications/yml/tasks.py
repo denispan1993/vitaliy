@@ -9,6 +9,7 @@ from celery.utils.log import get_task_logger
 from proj.celery import celery_app
 
 from applications.product.models import Product
+import os
 
 try:
     from django.utils.importlib import import_module
