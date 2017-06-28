@@ -96,7 +96,7 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
         this_one_block = False
 
     if this_one_block:
-        return this_one_block.decode('utf-8', )
+        return this_one_block
 
     else:
         template_name = u'product/templatetags/block_product.jinja2'
