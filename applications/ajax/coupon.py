@@ -7,7 +7,7 @@ except ImportError:
     # import json
 from django.http import HttpResponse
 
-from django.utils.timezone import now
+from django.utils import timezone
 
 from applications.cart.utils import get_cart_or_create
 from applications.coupon.models import Coupon
@@ -30,11 +30,11 @@ def coupon_test(request, ):
                 response.update({'help_text': u'Странный какой-то купон', }, )
 
             else:
-                if not coupon.start_of_the_coupon < now():
+                if not coupon.start_of_the_coupon < timezone.now():
                     response.update({'help_text': u'Время использования этого купона еще не настало', }, )
 
                 else:
-                    if not now() < coupon.end_of_the_coupon:
+                    if not timezone.now() < coupon.end_of_the_coupon:
                         response.update({'help_text': u'Купон просрочен', }, )
 
                     else:

@@ -6,6 +6,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.views.generic.edit import FormView, CreateView, View, ProcessFormView
+from django.utils import timezone
+
 
 from proj.settings import SERVER
 
@@ -65,28 +67,32 @@ class CouponGroupCreateEdit(FormView, ):
     coupon_group = None
 
     def form_valid(self, form, ):
-        # print form
-        # print form.cleaned_data
-        # print form.cleaned_data.get('POST_NAME', None, )
         if form.cleaned_data.get('name', None, ):
             self.coupon_group = CouponGroup.objects.create(**form.cleaned_data)
+
             how_much_coupons = form.cleaned_data.get('how_much_coupons', 0, )
-            start_of_the_coupon = form.cleaned_data.get('start_of_the_coupon', datetime.now(), )
+
+            start_of_the_coupon = form.cleaned_data.get('start_of_the_coupon', timezone.now(), )
             # start_of_the_coupon = datetime.strptime(start_of_the_coupon, '%d.%m.%Y %H:%M:%S', )
             start_of_the_coupon = start_of_the_coupon.strftime('%Y-%m-%d %H:%M:%S')
-            end_of_the_coupon = form.cleaned_data.get('end_of_the_coupon', datetime.now(), )
+
+            end_of_the_coupon = form.cleaned_data.get('end_of_the_coupon', timezone.now(), )
             # end_of_the_coupon = datetime.strptime(end_of_the_coupon, '%d.%m.%Y %H:%M:%S', )
             end_of_the_coupon = end_of_the_coupon.strftime('%Y-%m-%d %H:%M:%S')
-            cursor = connection.cursor()
+
             name = form.cleaned_data.get('name', None, )
             number_of_possible_uses = form.cleaned_data.get('number_of_possible_uses', 0, )
             percentage_discount = form.cleaned_data.get('percentage_discount', 0, )
+
             if SERVER:
                 ins = '''insert into Coupon (name, coupon_group_id, `key`, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
                          values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', NOW(), NOW())'''
             else:
                 ins = '''insert into Coupon (name, coupon_group_id, key, number_of_possible_uses, number_of_uses, percentage_discount, start_of_the_coupon, end_of_the_coupon, created_at, updated_at)
                          values ('%s', %d, '%s', %d, 0, %d, '%s', '%s', datetime('now'), datetime('now'))'''
+
+            cursor = connection.cursor()
+
             for i in range(how_much_coupons, ):
                 success = 0
                 unsuccess = 0
@@ -102,7 +108,6 @@ class CouponGroupCreateEdit(FormView, ):
                                     int(percentage_discount),
                                     start_of_the_coupon,
                                     end_of_the_coupon, )
-                    print('coupon/view.py(105): ', insert, )
                     try:
                         with transaction.atomic():
                             cursor.execute(insert, )
