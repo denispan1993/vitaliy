@@ -23,7 +23,7 @@ def datetime_now_isoformat():
 
 
 def add_months(d, x, ):
-    new_year = d.year + (((d.month - 1) + x) / 12)
+    new_year = int(d.year + (((d.month - 1) + x) / 12))
     new_month = (((d.month - 1) + x) % 12) + 1
     new_day = min(d.day, monthrange(new_year, new_month, )[1], )
     return date(new_year, new_month, new_day, ) #d.hour, d.minute, d.second, d.microsecond,
