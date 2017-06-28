@@ -102,6 +102,7 @@ class CouponGroupCreateEdit(FormView, ):
                                     int(percentage_discount),
                                     start_of_the_coupon,
                                     end_of_the_coupon, )
+                    print('coupon/view.py(105): ', insert, )
                     # print insert
                     try:
                         with transaction.atomic():
@@ -109,12 +110,12 @@ class CouponGroupCreateEdit(FormView, ):
                             # Captcha_Key.objects.create(image=image, )
                     except IntegrityError as s:
                         print('IntegrityError', ' Key: ', key, )
-                        print('coupon/views.py: ', type(s,), )
-                        print('coupon/views.py: ', s, )
+                        print('coupon/views.py(112): ', type(s,), )
+                        print('coupon/views.py(113): ', s, )
                         unsuccess += 1
                     except Exception as inst:
-                        print('coupon/views.py: ', type(inst, ), )
-                        print('coupon/views.py: ', inst, )
+                        print('coupon/views.py(116): ', type(inst, ), )
+                        print('coupon/views.py(117): ', inst, )
                         unsuccess += 1
                     else:
                         success += 1
@@ -226,7 +227,7 @@ def coupon_group_edit(request,
     error_message = u''
     coupon_group = None
     if coupon_group_id:
-        print('coupon/views.py: ', coupon_group_id, )
+        print('coupon/views.py(229): ', coupon_group_id, )
         try:
             coupon_group_id = int(coupon_group_id, )
         except ValueError:
