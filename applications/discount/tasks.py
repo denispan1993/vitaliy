@@ -13,7 +13,7 @@ logger = get_task_logger(__name__)
 std_logger = getLogger(__name__)
 
 
-@celery_app.task(name='processing_action', )
+@celery_app.task(name='discount.tasks.processing_action', )
 def processing_action():
 
     logger.info(u'message: datetime.now() {0}'.format(datetime.now()))

@@ -397,7 +397,7 @@ def processing_delivery(*args, **kwargs):
         return dict(result=result, email_class=email_class, real_email_pk=real_email.pk, )
 
 
-@celery_app.task(name='delivery.get_mail_imap')
+@celery_app.task(name='delivery.tasks.get_mail_imap')
 def get_mail_imap(*args, **kwargs):
     mail_account = get_mail_account(smtp=False, imap=True, )
 
