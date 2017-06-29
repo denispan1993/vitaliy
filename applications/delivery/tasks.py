@@ -397,7 +397,7 @@ def processing_delivery(*args, **kwargs):
         return dict(result=result, email_class=email_class, real_email_pk=real_email.pk, )
 
 
-@celery_app.task()
+@celery_app.task(name='delivery.get_mail_imap')
 def get_mail_imap(*args, **kwargs):
     mail_account = get_mail_account(smtp=False, imap=True, )
 
@@ -425,7 +425,7 @@ def get_mail_imap(*args, **kwargs):
             if result == 'OK':
                 print('fetch[0][1]', type(fetch[0][1]), fetch[0][1], )
                 print('fetch[0][1]', type(fetch[0][1].decode('utf-8')), fetch[0][1].decode('utf-8'), )
-                print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
+                #print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
                 parse_msg = email.message_from_string(fetch[0][1].decode('utf-8'))
                 subj, error = str_conv(parse_msg['Subject'])
 
@@ -468,7 +468,7 @@ def get_mail_imap(*args, **kwargs):
             if result == 'OK':
                 print('fetch[0][1]', type(fetch[0][1]), fetch[0][1], )
                 print('fetch[0][1]', type(fetch[0][1].decode('utf-8')), fetch[0][1].decode('utf-8'), )
-                print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
+                #print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
                 parse_msg = email.message_from_string(fetch[0][1].decode('utf-8'))
 
                 email_message_id = parse_msg['Message-Id']
