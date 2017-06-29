@@ -122,4 +122,4 @@ def generate_prom_ua_yml(*args, **kwargs):
         print(f)
 
     with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.xml', 'w') as f:
-        f.write(etree.tostring(root.encode('utf-8')))
+        f.write(etree.tostring(root).encode('utf-8'))
