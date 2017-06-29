@@ -18,8 +18,8 @@ def processing_action(*args, **kwargs):
 
     start = datetime.now()
     logger.info(u'Start: processing_action(*args, **kwargs)', )
-    logger.info(u'message: datetime.now() {0}'.format(start), )
-    std_logger.info(u'message: datetime.now() {0}'.format(start), )
+    logger.info(u'logger = get_task_logger(__name__): message: datetime.now() {0}'.format(start), )
+    std_logger.info(u'std_logger = getLogger(__name__): message: datetime.now() {0}'.format(start), )
 
     try:
         action_category = Category.objects.get(url=u'акции', )
@@ -111,4 +111,5 @@ def processing_action(*args, **kwargs):
 
     stop = datetime.now()
     logger.info(u'message: datetime.now() {0}'.format(stop), )
-    logger.info(u'Stop: processing_action(*args, **kwargs): ', stop - start, )
+    aaa = stop - start
+    logger.info(u'Stop: processing_action(*args, **kwargs): ', aaa, )
