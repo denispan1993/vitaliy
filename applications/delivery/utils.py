@@ -535,7 +535,7 @@ def str_conv(str, ):
             if type_.upper() == 'Q':
                 value = quopri.decodestring(code)
             elif type_.upper() == 'B':
-                value = base64.decodestring(code)
+                value = base64.b64decode(code.encode('ascii'))  # decodestring(code)
             try:
                 value = str_encode(string=value, encoding=encoding, )
             except UnicodeDecodeError:
