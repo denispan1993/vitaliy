@@ -50,7 +50,7 @@
         {% set real_product=product.product %}
         <tr>
             <td>
-                {% set i = i + 1 %}
+                {% set i = i + 1 | int %}
                 {{ '%02d' % i }}
             </td>
             <td>
