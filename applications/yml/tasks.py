@@ -88,8 +88,12 @@ def generate_prom_ua_yml(*args, **kwargs):
                 .replace('   ', ' ', )\
                 .replace('  ', ' ', )
             #etree.SubElement(offer, 'name').text = product.get_name()
-            etree.SubElement(offer, 'picture').text = 'https://keksik.com.ua{}'.format(product.main_photo.photo.url, )
+            try:
+                etree.SubElement(offer, 'picture').text = 'https://keksik.com.ua{}'.format(product.main_photo.photo.url, )
+            except AttributeError:
+                pass
 
+    """ ------------------------------------------------------------------------------------------ """
     """ Собственно сама генерация """
     root = etree.Element('yml_catalog', date=datetime.today().strftime("%Y-%m-%d %H:%M"))
     shop = etree.SubElement(root, 'shop')
