@@ -22,13 +22,10 @@
 window.dataLayer = window.dataLayer || [];
 </script>
 <script>
-function product_to_cart(data, product_pk, available_to_order, productArray) {
+function product_to_cart(data, product_pk, productArray) {
     jQuery.post("/ajax/product_to_cart/",
-            {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                product_pk: product_pk,
-                available_to_order: available_to_order
-            },
+            {csrfmiddlewaretoken: '{{ csrf_token }}',
+             product_pk: product_pk},
             function (data, textStatus, jqXHR) {
                 jQuery('#dynamic_div_showcart').html(data.html);
             },

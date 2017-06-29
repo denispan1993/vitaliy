@@ -143,17 +143,9 @@ def product_to_cart(request, ):
             # request_cookie = request.session.get(u'cookie', None, )
             # if request_cookie:
             product_pk = request.POST.get(u'product_pk', None, )
-            available_to_order = request.POST.get(u'available_to_order', False, )
             if product_pk:
-                try:
-                    product_pk = int(product_pk, )
-                except ValueError:
-                    return HttpResponse(status=400, )
-                else:
-                    # print product_pk
                     cart, product_in_cart = add_to_cart(request=request,
-                                                        int_product_pk=product_pk,
-                                                        available_to_order=available_to_order, )
+                                                        int_product_pk=product_pk, )
                     print('ajax/views.py: ', cart, )
                     print('ajax/views.py: ', product_in_cart, )
                     html = '<b>Позиций:</b> %s' \
@@ -171,10 +163,6 @@ def product_to_cart(request, ):
                     return HttpResponse(data, mimetype, )
             else:
                 return HttpResponse(status=400, )
-            # else:
-            #     return HttpResponse(status=400, )
-        elif request.method == 'GET':
-            return HttpResponse(status=400, )
         else:
             return HttpResponse(status=400, )
     else:

@@ -30,7 +30,7 @@ var productArray = {
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, false, productArray);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить товар в корзину"
                    alt="Добавить товар в корзину">
@@ -39,7 +39,7 @@ var productArray = {
             <p>Доступен под заказ.</p>
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, true, productArray);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить в корзину 50% стоимости товара"
                    alt="Добавить товар в корзину">
@@ -80,7 +80,7 @@ var productArray = {
         {% if block.is_availability == 1 %}
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, false, productArray);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить товар в корзину"
                    alt="Добавить товар в корзину">
@@ -89,7 +89,7 @@ var productArray = {
             <p>Доступен под заказ.</p>
             <input class="add_to_cart button_buy"
                    type="image"
-                   onclick="product_to_cart(this, {{ block.pk }}, true, productArray);return false;"
+                   onclick="product_to_cart(this, {{ block.pk }}, productArray);return false;"
                    src="{{ MEDIA_URL }}img/add_cart.png"
                    title="Добавить в корзину 50% стоимости товара"
                    alt="Добавить товар в корзину">

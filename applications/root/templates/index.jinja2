@@ -6,11 +6,10 @@
 {% endblock %}
 {% block content_center %}
 <h1 class="center_title">Новинки магазина Кексик</h1>
-<script>function product_to_cart(data, product_pk, available_to_order){
+<script>function product_to_cart(data, product_pk){
 $.post("/ajax/product_to_cart/",
     {csrfmiddlewaretoken:'{{ csrf_token }}',
-    product_pk:product_pk,
-    available_to_order:available_to_order},
+    product_pk:product_pk},
     function(data, textStatus, jqXHR){$('#dynamic_div_showcart').html(data.html);},
     "json");
 animate_cart(data);
