@@ -210,7 +210,7 @@ def add_to_cart(request,
     from applications.cart import models as models_cart
     try:
         """ Присутсвие конкретного продукта в корзине """
-        product_in_cart = product_cart.cart.get(product=product, )
+        product_in_cart = product_cart.cart.get(product_id=product.pk, )
     except models_cart.Product.DoesNotExist:
 
         """ Занесение продукта в корзину если его нету """
@@ -228,6 +228,7 @@ def add_to_cart(request,
                 quantity = quantity.split(',')[0]
             else:
                 quantity = 1
+
             try:
                 quantity = int(quantity, )
             except ValueError:
