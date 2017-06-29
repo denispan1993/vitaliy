@@ -25,6 +25,7 @@ from random import randrange, randint
 from datetime import datetime, timedelta
 from time import mktime, sleep
 from logging import getLogger
+from celery.utils.log import get_task_logger
 from email.utils import formataddr
 from dns.resolver import Resolver, NXDOMAIN, NoAnswer, NoNameservers
 
@@ -34,6 +35,7 @@ from .models import MailAccount, EmailForDelivery, SpamEmail
 
 __author__ = 'AlexStarov'
 
+logger = get_task_logger(__name__)
 std_logger = getLogger(__name__)
 
 number = {
@@ -534,8 +536,14 @@ def str_conv(str, ):
             encoding, type_, code = match.groups()
             if type_.upper() == 'Q':
                 value = quopri.decodestring(code)
+                print('quopri.decodestring: ', value, )
+                logger.info('quopri.decodestring: ', value, )
+
             elif type_.upper() == 'B':
                 value = base64.b64decode(code.encode('ascii'))  # decodestring(code)
+                print('base64.b64decode: ', value, )
+                logger.info('base64.b64decode: ', value, )
+
             try:
                 value = str_encode(string=value, encoding=encoding, )
             except UnicodeDecodeError:
