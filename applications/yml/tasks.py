@@ -29,6 +29,10 @@ logger = get_task_logger(__name__)
 @celery_app.task(name='yml.tasks.generate_prom_ua_yml', )
 def generate_prom_ua_yml(*args, **kwargs):
 
+    start = datetime.now()
+    logger.info(u'Start: generate_prom_ua_yml(*args, **kwargs)', )
+    logger.info(u'message: datetime.now() {0}'.format(start), )
+
     def set_categories(shop, ):
 
         class_module, class_name = YML_CONFIG['category_model'].rsplit('.', 1)
@@ -123,3 +127,7 @@ def generate_prom_ua_yml(*args, **kwargs):
 
     with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.xml', 'w') as f:
         f.write(etree.tostring(root).decode('utf-8'))
+
+    stop = datetime.now()
+    logger.info(u'message: datetime.now() {0}'.format(stop), )
+    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): ', stop - start, )

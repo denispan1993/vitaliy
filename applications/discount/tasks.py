@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from proj.celery import celery_app
-from datetime import datetime, timedelta
+from datetime import datetime
 from logging import getLogger
 from celery.utils.log import get_task_logger
 
@@ -14,10 +14,12 @@ std_logger = getLogger(__name__)
 
 
 @celery_app.task(name='discount.tasks.processing_action', )
-def processing_action():
+def processing_action(*args, **kwargs):
 
-    logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
-    std_logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
+    start = datetime.now()
+    logger.info(u'Start: processing_action(*args, **kwargs)', )
+    logger.info(u'message: datetime.now() {0}'.format(start), )
+    std_logger.info(u'message: datetime.now() {0}'.format(start), )
 
     try:
         action_category = Category.objects.get(url=u'акции', )
@@ -106,3 +108,7 @@ def processing_action():
     elif len(all_actions_products) == 0 and action_category.is_active:
         action_category.is_active = False
         action_category.save()
+
+    stop = datetime.now()
+    logger.info(u'message: datetime.now() {0}'.format(stop), )
+    logger.info(u'Stop: processing_action(*args, **kwargs): ', stop - start, )
