@@ -223,7 +223,7 @@ def send_template_sms(*args, **kwargs):
 
     template_dict = {}
 
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.items():
 
         if key.startswith('sms_'):
 
