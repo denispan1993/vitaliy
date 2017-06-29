@@ -91,15 +91,10 @@ def show_product(request,
                     except Product.DoesNotExist:
                         raise Http404
                     else:
-                        if product.is_availability == 2:
-                            available_to_order = True
-                        else:
-                            available_to_order = False
                         add_to_cart(request=request,
                                     product=product,
                                     int_product_pk=product_pk,
-                                    quantity=quantity,
-                                    available_to_order=available_to_order, )
+                                    quantity=quantity, )
 #                        if request.
 #                        try:
 #                            cart = Cart.objects.get(sessionid=, )
@@ -206,10 +201,10 @@ def get_product(pk, ):
 def add_to_cart(request,
                 product=None,
                 int_product_pk=None,
-                quantity=None,
-                available_to_order=None, ):
+                quantity=None, ):
     if not product:
         product = get_product(int_product_pk, )
+
     """ Взятие корзины, или создание если её нету """
     product_cart, created = get_cart_or_create(request, created=True, )
     from applications.cart import models as models_cart
@@ -220,22 +215,10 @@ def add_to_cart(request,
 
         """ Занесение продукта в корзину если его нету """
         if not quantity:
-            quantity = product.minimal_quantity
-
-        available_to_order = bool(available_to_order)
-
-        if available_to_order is None:
-            available_to_order = product.is_availability == 2
-        if available_to_order is True:
-            price = product.price / 2
-            percentage_of_prepaid = 50
-        else:
-            price = product.price
-            percentage_of_prepaid = 100
+            quantity = product.minimal_quantity  # Минимальное количество заказа
 
         """ Временная хрень.
-            Так как потом возможно нужно будет перейти на количество с дробной частью.
-        """
+            Так как потом возможно нужно будет перейти на количество с дробной частью. """
         try:
             quantity = int(quantity, )
         except ValueError:
@@ -251,29 +234,25 @@ def add_to_cart(request,
                 quantity = 1
 
         print('key=', product_cart,
-            'product=', product,
-            'price=', price,
-            'available_to_order=', available_to_order,
-            'available_to_order=', bool(available_to_order),
-            'percentage_of_prepaid=', percentage_of_prepaid,
-            'quantity=', quantity, )
+              'product=', product,
+              'price=', product.price / 2 if product.is_availability == 2 else product.price,
+              'percentage_of_prepaid=', 50 if product.is_availability == 2 else 100,
+              'quantity=', quantity, )
 
         product_in_cart = models_cart.Product.objects.create(
             key=product_cart,
             product=product,
-            price=price,
+            price=product.price / 2 if product.is_availability == 2 else product.price,
             # True - Товар доступен под заказ.
-            available_to_order=bool(available_to_order),
+            available_to_order=True if product.is_availability == 2 else False,
             # 50% - предоплата.
-            percentage_of_prepaid=percentage_of_prepaid,
+            percentage_of_prepaid=50 if product.is_availability == 2 else 100,
             quantity=quantity, )
     else:
         if not quantity:
-            quantity = product.quantity_of_complete
+            quantity = product.quantity_of_complete  # Количество единиц в комплекте
         product_in_cart.sum_quantity(quantity, )  # quantity += exist_cart_option.quantity
         product_in_cart.update_price_per_piece()
-    # finally:
-        # product_in_cart.update_price_per_piece()
 
     return product_cart, product_in_cart
 
