@@ -27,7 +27,7 @@ __author__ = 'AlexStarov'
 logger = get_task_logger(__name__)
 
 
-@celery_app.task(name='generate_prom_ua_yml', )
+@celery_app.task(name='yml.generate_prom_ua_yml', )
 def generate_prom_ua_yml(*args, **kwargs):
 
     def set_categories(shop, ):
