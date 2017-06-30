@@ -70,27 +70,22 @@ def generate_prom_ua_yml(*args, **kwargs):
 
         for product in Product.objects.published().only('id', 'pk', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description', 'in_action', ).prefetch_related('producttocategory_set').order_by('id'):
 
-            if product.is_availability == 1:
-                available = 'true'
-            elif product.is_availability in [2, 3]:
-                available = 'false'
-            else:
+            try:
+                category_id = str(product.producttocategory_set.published()[0].category_id, )
+            except IndexError:
                 continue
 
-            offer = etree.SubElement(offers, 'offer', id=str(product.id), available=available)
+            if product.is_availability == 1:
+                offer = etree.SubElement(offers, 'offer', id=str(product.id), available='true')
+            elif product.is_availability in [2, 3]:
+                offer = etree.SubElement(offers, 'offer', id=str(product.id), available='false')
+
+            etree.SubElement(offer, 'categoryId').text = category_id
 
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
             etree.SubElement(offer, 'price').text = str(float(product.get_price())*1.12)
             etree.SubElement(offer, 'currencyId').text = 'UAH'
 
-            try:
-                #print product._meta.get_all_field_names()
-                etree.SubElement(offer, 'categoryId').text = \
-                    str(product.producttocategory_set.all()[0].category_id, )
-                    # str(product.category.all().only('id').values_list('id', flat=True)[0])
-            except IndexError:
-                pass
-                # etree.SubElement(offer, 'picture').text = YML_CONFIG['url'] + product.head_image.url
             etree.SubElement(offer, 'delivery').text = 'true'
             etree.SubElement(offer, 'name').text = product.name
             etree.SubElement(offer, 'description').text = strip_tags(product.description)\
@@ -105,9 +100,9 @@ def generate_prom_ua_yml(*args, **kwargs):
                 .replace('    ', ' ', )\
                 .replace('   ', ' ', )\
                 .replace('  ', ' ', )
-            #etree.SubElement(offer, 'name').text = product.get_name()
             try:
-                etree.SubElement(offer, 'picture').text = 'https://keksik.com.ua{}'.format(product.main_photo.photo.url, )
+                etree.SubElement(offer, 'picture').text =\
+                    'https://keksik.com.ua{}'.format(product.main_photo.photo.url, )
             except AttributeError:
                 pass
 
