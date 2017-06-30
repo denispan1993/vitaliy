@@ -137,7 +137,7 @@ def generate_prom_ua_yml(*args, **kwargs):
 
     files = [f for f in os.listdir('.')]
     for f in files:
-        print(f)
+        logger.info(f)
 
     with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.yml', 'w') as f:
         f.write(etree.tostring(root).decode('utf-8'))

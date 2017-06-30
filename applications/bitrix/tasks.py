@@ -17,7 +17,25 @@ __author__ = 'AlexStarov'
 logger = get_task_logger(__name__)
 
 
+def decorate(func):
+    start = time.time()
+    print(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+    logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+
+    def wrapped(*args, **kwargs):
+        print(u'Вызываем обёрнутую функцию с аргументами: %s' % args, )
+        logger.info(u'Вызываем обёрнутую функцию с аргументами: %s' % args, )
+        return func(*args, **kwargs)
+
+    stop = time.time()
+    print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+
+    return wrapped
+
+
 @celery_app.task()
+@decorate
 def process_bitrix_catalog(*args, **kwargs):
 
     start = time.time()
