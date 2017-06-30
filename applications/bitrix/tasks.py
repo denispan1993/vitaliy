@@ -94,7 +94,7 @@ def get_products(products_list):
         if 'barcode' in locals():
             del(barcode)
 
-        for n in xrange(5):
+        for n in range(5):
 
             try:
                 if product_list[n].tag == u'Штрихкод':
