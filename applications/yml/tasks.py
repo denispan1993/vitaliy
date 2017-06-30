@@ -41,7 +41,7 @@ def profile(func):
 
 
 @celery_app.task(name='yml.tasks.generate_prom_ua_yml', )
-@profile
+# @profile
 def generate_prom_ua_yml(*args, **kwargs):
 
     start = time.time()
