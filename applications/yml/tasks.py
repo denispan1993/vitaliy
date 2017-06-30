@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
+import cProfile
 from lxml import etree
 from datetime import datetime
 from django import db
@@ -26,11 +27,26 @@ __author__ = 'AlexStarov'
 logger = get_task_logger(__name__)
 
 
+def profile(func):
+    """Decorator for run function profile"""
+
+    def wrapper(*args, **kwargs):
+        profile_filename = func.__name__ + '.prof'
+        profiler = cProfile.Profile()
+        result = profiler.runcall(func, *args, **kwargs)
+        profiler.dump_stats(profile_filename)
+        return result
+
+    return wrapper
+
+
 @celery_app.task(name='yml.tasks.generate_prom_ua_yml', )
+@profile
 def generate_prom_ua_yml(*args, **kwargs):
 
-    start = datetime.now()
-    logger.info(u'Start: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0}'.format(start), )
+    start = time.time()
+    start_datetime = datetime.now()
+    logger.info(u'Start: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0}'.format(start_datetime), )
 
     def set_categories(shop, ):
 
@@ -126,5 +142,8 @@ def generate_prom_ua_yml(*args, **kwargs):
     with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.yml', 'w') as f:
         f.write(etree.tostring(root).decode('utf-8'))
 
-    stop = datetime.now()
-    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0} | {1}'.format(stop, (stop - start), ), )
+    stop_datetime = datetime.now()
+    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0} | {1}'.format(stop_datetime, (stop_datetime - start_datetime), ), )
+    logger.info('Process time: {}'.format(time.time() - start, ), )
+
+    return True, datetime.now(), '__name__: {0}'.format(str(__name__, ), )

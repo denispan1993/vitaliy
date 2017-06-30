@@ -7,7 +7,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
-#from distutils.util import strtobool
 import celery
 import random
 import time
@@ -15,8 +14,6 @@ import time
 import proj.settings
 from applications.product.models import Country
 from .tasks import delivery_order, recompile_order
-#from .models import Order, Product, DeliveryCompany
-# from .views import get_cart_or_create
 from applications.sms_ussd.tasks import send_template_sms
 
 __author__ = 'AlexStarov'

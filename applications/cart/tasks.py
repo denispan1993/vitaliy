@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import MySQLdb
 from time import sleep
+from datetime import datetime
 import smtplib
 import email
 from django.template.loader import render_to_string
@@ -10,6 +11,8 @@ from django.utils.html import strip_tags
 from proj.celery import celery_app
 from django.utils import timezone
 from pytils.translit import slugify
+from celery.utils.log import get_task_logger
+
 
 import proj.settings
 
@@ -19,8 +22,10 @@ from applications.authModel.models import User, Email, Phone
 
 __author__ = 'AlexStarov'
 
+logger = get_task_logger(__name__)
 
-@celery_app.task(name='celery_task_delivery_order')
+
+@celery_app.task()
 def delivery_order(*args, **kwargs):
 
     order_pk = int(kwargs.get('order_pk'))
@@ -78,18 +83,18 @@ def delivery_order(*args, **kwargs):
             result = msg.send(fail_silently=False, )
         except smtplib.SMTPDataError as e:
             result = False
-            print('print e: cart/task.py: ', e, )
+            logger.info('print e: cart/task.py: ', e, )
 
         if (isinstance(result, int) and result == 1) or i > 100:
             i = 0
             break
 
-        print('cart.tasks.delivery_order.admin(i): ', i, ' result: ', result, )
+        logger.info('cart.tasks.delivery_order.admin(i): ', i, ' result: ', result, )
         i += 1
         sleep(15)
 
     """ Отправка благодарности клиенту. """
-    print('order.email: ', order.email,
+    logger.info('order.email: ', order.email,
           ' bool: ', order.email is 'alex.starov@keksik.com.ua',
           ' bool: ', 'keksik.com.ua' in order.email,
           ' email: ', 'alex.starov@keksik.com.ua')
@@ -99,7 +104,7 @@ def delivery_order(*args, **kwargs):
         template_name = kwargs.pop('email_template_name',
                                    proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER'], )
 
-        print('template_name: ', template_name, )
+        logger.info('template_name: ', template_name, )
 
         try:
             template = EmailTemplate.objects.get(name=template_name, )
@@ -118,7 +123,7 @@ def delivery_order(*args, **kwargs):
         html_content = render_to_string('email_successful_content.jinja2',
                                         {'order': order, })
 
-    print('html_content: ', html_content)
+    logger.info('html_content: ', html_content)
 
     msg = EmailMultiAlternatives(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.number,
@@ -137,20 +142,23 @@ def delivery_order(*args, **kwargs):
             result = msg.send(fail_silently=False, )
         except smtplib.SMTPDataError as e:
             result = False
-            print('print e cart/task.py: 123', e, )
+            logger.info('print e cart/task.py: 123', e, )
 
         if (isinstance(result, int) and result == 1) or i > 100:
             break
 
-        print('cart.tasks.delivery_order.user(i): ', i, ' result: ', result, )
+        logger.info('cart.tasks.delivery_order.user(i): ', i, ' result: ', result, )
         i += 1
         sleep(15)
 
     return True
 
 
-@celery_app.task(name='celery_task_recompile_order')
+@celery_app.task()
 def recompile_order(*args, **kwargs):
+
+    start = datetime.now()
+    logger.info(u'Start: recompile_order(*args, **kwargs): datetime.now() {0}'.format(start), )
 
     order_pk = int(kwargs.get('order_pk'))
 
@@ -165,9 +173,9 @@ def recompile_order(*args, **kwargs):
 
     username, first_name, last_name, patronymic = processing_username(order=order, )
 
-    print('UserName123: ', username, )
+    logger.info('UserName123: %s' % username, )
     sessionID = order.sessionid
-    print('sessionID321: ', sessionID, )
+    logger.info('sessionID321: %s' % sessionID, )
 
     try:
         sessionID = Session_ID.objects.get(sessionid=sessionID, )
@@ -179,19 +187,19 @@ def recompile_order(*args, **kwargs):
     if 'user' not in (locals(), globals()):
         if order.email:
             email = order.email.replace(' ', '', )
-            print('E-Mail1: 123', email, )
+            logger.info('E-Mail1: 123 | %s' % email, )
         else:
             email = None
     else:
         # email = user.email_parent_user.get()
         # print 'E-Mail 2.1: ', email
         email = user.email_parent_user.all()
-        print('E-Mail 2.2: 324', email, )
+        logger.info('E-Mail 2.2: 324 | %s' % email, )
         if not email:  # == []:
             user.delete()
         else:
             email = user.email_parent_user.all()[0]
-            print('E-Mail 2.3: 2432', email.email, )
+            logger.info('E-Mail 2.3: 2432 | %s' % email.email, )
 
     if type(email, ) != Email:
         try:
@@ -199,33 +207,33 @@ def recompile_order(*args, **kwargs):
         except Email.DoesNotExist:
             email_not_found = True
         except MySQLdb.Warning as e:
-            print('cart/tasks.py: ', e.args, )
-            print('cart/tasks.py: 654', e.message, )
+            logger.info('cart/tasks.py: | %s ' % e.args, )
+            logger.info('cart/tasks.py: 654 | %s' % e.message, )
             e_message = e.message.split(' ')[2]
-            print('cart/tasks.py: 468', e_message, )
+            logger.info('cart/tasks.py: 468 | %s' % e_message, )
             if e_message == 'DOUBLE':
                 try:
                     emails = Email.objects.filter(email=email, )
                 except:
                     pass
-                print('cart/tasks.py: 098: ', emails, )
-                print('cart/tasks.py: 23122: ', len(emails, ), )
+                logger.info('cart/tasks.py: 098: | %s' % emails, )
+                logger.info('cart/tasks.py: 23122: | %s' % len(emails, ), )
                 emails[0].delete()
                 try:
                     email = Email.objects.get(email=email, )
                 except:
                     pass
-            print('cart/tasks.py: 745: ', e.__doc__, )
+            logger.info('cart/tasks.py: 745: | %s' % e.__doc__, )
         else:
             if type(sessionID) != Session_ID:
                 user = email.user
             else:
                 if email.user == sessionID.user:
-                    print(u'Ok', u' - ', u'SessionID.user == Email.user')
+                    logger.info(u'Ok', u' - ', u'SessionID.user == Email.user')
                 else:
-                    print(u'Хреново, Email и SessionID пренадлежат разным пользователям.', )
-                    print(u'SessionID.user: ', sessionID.user, )
-                    print(u'Email.user: ', email.user, )
+                    logger.info(u'Хреново, Email и SessionID пренадлежат разным пользователям.', )
+                    logger.info(u'SessionID.user: | %s' % sessionID.user, )
+                    logger.info(u'Email.user: | %s' % email.user, )
 
     phone = r'%s' % order.phone
     phone = phone\
@@ -233,34 +241,33 @@ def recompile_order(*args, **kwargs):
         .replace('-', '', ).replace('.', '', ).replace(',', '', )\
         .replace('/', '', ).replace('|', '', ).replace('\\', '', )\
         .lstrip('+380').lstrip('380').lstrip('38').lstrip('80').lstrip('0')
-    print('phone: ', phone, )
+    logger.info('phone: ', phone, )
 
     try:
         int_phone_code = int(phone[:2])
         int_phone = int(phone[2:])
     except ValueError:
-        pass
+        int_phone_code = 0
+        int_phone = 0
 
     try:
         phone = Phone.objects.get(
-            phone='{phone_code}{phone}'\
-                .format(
-                    phone_code=str(int_phone_code, ),
-                    phone='{int_phone:07d}'.format(int_phone=int_phone, ),
-                ),
-            )
+            phone='{phone_code}{phone}'.format(
+                phone_code=str(int_phone_code, ),
+                phone='{int_phone:07d}'.format(int_phone=int_phone, ),
+            ),
+        )
     except Phone.DoesNotExist:
         phone_not_found = True
     except Phone.MultipleObjectsReturned:
         phones = Phone.objects.filter(
-            phone='{phone_code}{phone}'
-                .format(
-                    phone_code=str(int_phone_code, ),
-                    phone='{int_phone:07d}'.format(int_phone=int_phone, ),
-                ),
+            phone='{phone_code}{phone}'.format(
+                phone_code=str(int_phone_code, ),
+                phone='{int_phone:07d}'.format(int_phone=int_phone, ),
+            ),
         )
 
-        print(len(phones, ), )
+        logger.info('%d' % len(phones, ), )
         if len(phones, ) > 1:
             phones[0].delete()
             phone = phones[1]
@@ -269,14 +276,14 @@ def recompile_order(*args, **kwargs):
             user = phone.user
         else:
             if ('user' in locals() or 'user' in globals()) and user == phone.user:
-                print(u'Phone.user == User', )
+                logger.info(u'Phone.user == User', )
             else:
-                print(u'Номер телефона зарегистрирован за другим пользователем', )
+                logger.info(u'Номер телефона зарегистрирован за другим пользователем', )
                 if type(sessionID) == Session_ID:
-                    print(u'SessionID.user: ', sessionID.user, )
+                    logger.info(u'SessionID.user: %s' % sessionID.user, )
                 if type(email) == Email:
-                    print(u'Email.user: ', email.user, )
-                print(u'Phone.user: ', phone.user, )
+                    logger.info(u'Email.user: %s' % email.user, )
+                logger.info(u'Phone.user: %s' % phone.user, )
 
     if 'user' not in locals() and 'user' not in globals():
         try:
@@ -295,9 +302,9 @@ def recompile_order(*args, **kwargs):
         sessionID.save()
 
     if isinstance(email, str) or not email:  # type(email, ) == 'unicode':
-        print('email type: ', type(email, ), 'email: ', email, )
+        logger.info('email type: %s email: %s' % (type(email, ), email, ), )
     else:
-        print('email type: ', type(email, ), 'email: ', email.email, )
+        logger.info('email type: %s email: %s' % (type(email, ), email.email, ), )
 
     if email is not None:
         if type(email) != Email:
@@ -321,6 +328,9 @@ def recompile_order(*args, **kwargs):
     order.user = user
     order.recompile = True
     order.save()
+
+    stop = datetime.now()
+    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0} | {1}'.format(stop, (stop - start), ), )
 
     return order
 
@@ -362,45 +372,45 @@ def processing_username(order, ):
         patronymic = u'Отчество'
 
     if last_name:
-        print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
+        logger.info('Order.Pk: %d last_name: %s type: %s' % (order.pk, last_name, type(last_name), ), )
         if type(last_name, ) == list:
             last_name = last_name[0]  # .encode('UTF8', ),
-        print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
+        logger.info('Order.Pk: %d last_name: %s type: %s' % (order.pk, last_name, type(last_name), ), )
         last_name = last_name.lstrip('.')
         if len(last_name, ) > 30:
-            print('Order.Pk:', order.pk, ' last_name: ', last_name, ' type: ', type(last_name), )
+            logger.info('Order.Pk: %d last_name: %s type: %s' % (order.pk, last_name, type(last_name),), )
             last_name = last_name[:30]
 
     if first_name:
-        print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
+        logger.info('Order.Pk: %d first_name: %s type: %s' % (order.pk, first_name, type(first_name), ), )
         if type(first_name, ) == list:
             first_name = first_name
-        print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
+        logger.info('Order.Pk: %d first_name: %s type: %s' % (order.pk, first_name, type(first_name), ), )
         first_name = first_name.lstrip('.')
         if len(first_name, ) > 30:
-            print('Order.Pk:', order.pk, ' first_name: ', first_name, ' type: ', type(first_name), )
+            logger.info('Order.Pk: %d first_name: %s type: %s' % (order.pk, first_name, type(first_name),), )
             first_name = first_name[:30]
 
     if patronymic:
-        print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
+        logger.info('Order.Pk: %d patronymic: %s type: %s' % (order.pk, patronymic, type(patronymic), ), )
         if type(patronymic, ) == list:
             patronymic = patronymic
-        print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
+        logger.info('Order.Pk: %d patronymic: %s type: %s' % (order.pk, patronymic, type(patronymic), ), )
         patronymic = patronymic.lstrip('.')
         if len(patronymic, ) > 32:
-            print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
+            logger.info('Order.Pk: %d patronymic: %s type: %s' % (order.pk, patronymic, type(patronymic),), )
             patronymic = patronymic[:32]
-        print('Order.Pk:', order.pk, ' patronymic: ', patronymic, ' type: ', type(patronymic, ), 'len: ', len(patronymic, ), )
+        logger.info('Order.Pk: %d patronymic: %s type: %s' % (order.pk, patronymic, type(patronymic), ), )
 
     username = ''.join(['%s' % slugify(k).capitalize() for k in (last_name, first_name, patronymic)], )
-    print('Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username), )
+    logger.info('Order.Pk: %d username: %s type: %s' % (order.pk, username, type(username),), )
 
     if type(username, ) == list:
         username = str(username, )
-    print('Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username), )
+    logger.info('Order.Pk: %d username: %s type: %s' % (order.pk, username, type(username),), )
 
     if len(username, ) > 32:
-        print('Order.Pk:', order.pk, ' username: ', username, ' type: ', type(username), )
+        logger.info('Order.Pk: %d username: %s type: %s' % (order.pk, username, type(username),), )
         username = username[:32]
 
     return username, first_name, last_name, patronymic
@@ -415,9 +425,9 @@ def aaa():
 
     result = gateway.send_messages([("380952886976", "Номер Вашего заказа %d\nВаш магазин Кексик." % order.pk)])
     if result.is_success:
-        print(result.inbox, result.outbox, )
+        logger.info(result.inbox, result.outbox, )
 
     # Receive messages
     result = gateway.receive_messages()
     if result.is_sucess:
-        print(result.inbox, result.outbox, )
+        logger.info(result.inbox, result.outbox, )
