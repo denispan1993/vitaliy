@@ -18,17 +18,16 @@
 <p>Комментарий к заказу: {{ order.comment }}</p>
 <p>Дата и время созания заказа: {{ order.created_at|date("d-M-Y H:i:s") }}</p>
 <p>Дата и время обновления заказа: {{ order.updated_at|date("d-M-Y H:i:s") }}</p>
-
-{# <p>{1% set url = order.pk|int_to_string %}
-   {% set int_range = 6 - url|length %}
-   {% if int_range > 0 %}
-       {% for i in int_range|get_range %}
-           {% set url = '0' + url %}
-           {% if i == int_range - 1 %}
-               <a href="http://keksik.com.ua/админ/заказ/редактор/{{ url }}/">Заказ №: {{ url }}</a>
-           {% endif %}
-       {% endfor %}
-   {% endif %}</p> #}
+{% with coupons = order.Order_child.all() %}
+    {% if coupons != [] %}
+        {% for coupon in coupons %}
+            <p>Купон: {{ coupon.key }}</p>
+            <p>Скидка: <span style="color:red;font-weight:900;">{{ coupon.percentage_discount }}%</span></p>
+            <p>Начало действия: {{ coupon.start_of_the_coupon }}</p>
+            <p>Окончание действия: {{ coupon.end_of_the_coupon }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
 <table id="table_carts" cols="6" summary="Корзина">
     <caption>Корзина</caption>
@@ -45,13 +44,11 @@
         </tr>
     </thead>
     <tbody>
-        {% set i = 0 %}
         {% for product in order.products %}
         {% set real_product=product.product %}
         <tr>
             <td>
-                {% set i = i + 1 | int %}
-                {{ '%02d' % i }}
+                {{ '%02d' % forloop.counter1 }}
             </td>
             <td>
                 <a href="http://keksik.com.ua{{ real_product.get_absolute_url() }}">
