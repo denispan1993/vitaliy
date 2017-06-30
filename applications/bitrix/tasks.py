@@ -12,7 +12,6 @@ from proj.celery import celery_app
 
 from applications.product.models import Product, ItemID
 
-
 __author__ = 'AlexStarov'
 
 logger = get_task_logger(__name__)
@@ -77,7 +76,7 @@ def process_bitrix_catalog(*args, **kwargs):
 
     logger.info('Process time: {}'.format(time.time() - start, ), )
 
-    return True, datetime.now(), '__name__: {0}'.format(str(__name__))
+    return True, datetime.now(), '__name__: {0}'.format(str(__name__, ), )
 
 
 def get_products(products_list):
