@@ -113,13 +113,13 @@ def generate_prom_ua_yml(*args, **kwargs):
     db.reset_queries()
     start_time = time.time()
     set_categories(shop)
-    logger.info("set_categories(shop) --- %s seconds ---" % (time.time() - start_time), len(db.connection.queries))
+    logger.info("set_categories(shop) --- %s seconds --- %d" % ((time.time() - start_time), len(db.connection.queries)), )
 
 
     db.reset_queries()
     start_time = time.time()
     set_products(shop)
-    logger.info("set_products(shop) --- %s seconds ---" % (time.time() - start_time), len(db.connection.queries))
+    logger.info("set_products(shop) --- %s seconds --- %d" % ((time.time() - start_time), len(db.connection.queries)), )
 
     files = [f for f in os.listdir('.')]
     for f in files:
@@ -130,4 +130,4 @@ def generate_prom_ua_yml(*args, **kwargs):
 
     stop = datetime.now()
     logger.info(u'message: datetime.now() {0}'.format(stop), )
-    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): ', stop - start, )
+    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): %s', (stop - start), )

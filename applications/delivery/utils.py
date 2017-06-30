@@ -536,19 +536,19 @@ def str_conv(str, ):
             encoding, type_, code = match.groups()
             if type_.upper() == 'Q':
                 value = quopri.decodestring(code)
-                print('quopri.decodestring: ', value, )
-                logger.info('quopri.decodestring: ', value, )
+                print('quopri.decodestring: %s' % value, )
+                logger.info('quopri.decodestring: %s' % value, )
 
             elif type_.upper() == 'B':
                 value = base64.b64decode(code.encode('ascii'))  # decodestring(code)
-                print('base64.b64decode: ', value, )
-                logger.info('base64.b64decode: ', value, )
+                print('base64.b64decode: %s' % value, )
+                logger.info('base64.b64decode: %s' % value, )
 
-            try:
-                value = str_encode(string=value, encoding=encoding, )
-            except UnicodeDecodeError:
-                value = str_encode(string=value, encoding=encoding, errors='replace', )
-                error = True
+            #try:
+            #    value = str_encode(string=value, encoding=encoding, )
+            #except UnicodeDecodeError:
+            #    value = str_encode(string=value, encoding=encoding, errors='replace', )
+            #    error = True
             value_results.append(value)
 
     if len(value_results) > 0:
@@ -574,7 +574,7 @@ def choice_str_in_tmpl(tmpl, ):
                 nodes[pos] = value
 
     three = copy.copy(three)
-    for pos, value in nodes.iteritems():
+    for pos, value in nodes.items():
 
         three[pos] = value
 
@@ -597,7 +597,7 @@ def bbb(tmpl, context={}, ):
             nodes[key].append(pos)
     keys = nodes.keys()
     three = copy.copy(three)
-    for key, value in context.iteritems():
+    for key, value in context.items():
         if key in keys:
             for pos in nodes[key]:
                 three[pos] = value

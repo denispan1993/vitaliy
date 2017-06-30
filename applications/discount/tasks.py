@@ -112,4 +112,4 @@ def processing_action(*args, **kwargs):
     stop = datetime.now()
     logger.info(u'message: datetime.now() {0}'.format(stop), )
     aaa = stop - start
-    logger.info(u'Stop: processing_action(*args, **kwargs): ', aaa, )
+    logger.info(u'Stop: processing_action(*args, **kwargs): %s' % aaa, )
