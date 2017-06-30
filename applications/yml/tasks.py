@@ -89,7 +89,7 @@ def generate_prom_ua_yml(*args, **kwargs):
         for product in Product.objects.published().only('id', 'pk', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description', 'in_action', ).prefetch_related('producttocategory_set').order_by('id'):
 
             category = product.producttocategory_set.all().first()
-            if not category.is_active:
+            if not category.category.is_active:
                 continue
 
             if product.is_availability == 1:
