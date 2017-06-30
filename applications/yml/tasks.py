@@ -40,8 +40,26 @@ def profile(func):
     return wrapper
 
 
+def decorate(func):
+    start = time.time()
+    print(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+    logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+
+    def wrapped(*args, **kwargs):
+        print(u'Вызываем обёрнутую функцию с аргументами: %s' % args, )
+        logger.info(u'Вызываем обёрнутую функцию с аргументами: %s' % args, )
+        return func(*args, **kwargs)
+
+    stop = time.time()
+    print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+
+    return wrapped
+
+
 @celery_app.task(name='yml.tasks.generate_prom_ua_yml', )
 # @profile
+@decorate
 def generate_prom_ua_yml(*args, **kwargs):
 
     start = time.time()
