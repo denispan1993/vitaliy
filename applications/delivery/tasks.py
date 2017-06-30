@@ -490,7 +490,7 @@ def get_mail_imap(*args, **kwargs):
                 else:
                     body = parse_msg.get_payload(decode=True)
 
-                list_lines = body.split('\r\n')
+                list_lines = body.decode('utf-8').split('\r\n')
                 for line_num, line in enumerate(list_lines):
 
                     if ('host' in line and 'said:' in line) \

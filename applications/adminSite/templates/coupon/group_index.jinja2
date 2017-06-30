@@ -29,7 +29,7 @@ body{
 <body>
     <div id="flex-container">
         <div id="flexed-center">
-            <form method="POST" action="{{ url('admin_page:search') }}">
+            <form method="POST" action="{{ url('admin_page:coupon_group_index') }}">
                 {% if error_message %}<p style="color:Red;">{{ error_message }}</p>{% endif %}
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <input type="hidden" name="POST_NAME" value="coupon_group_search">

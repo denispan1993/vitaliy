@@ -42,7 +42,7 @@ def profile(func):
 
 def decorate(func):
     start = time.time()
-    print(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+    print(u'Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
     logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
 
     def wrapped(*args, **kwargs):
@@ -96,6 +96,8 @@ def generate_prom_ua_yml(*args, **kwargs):
                 offer = etree.SubElement(offers, 'offer', id=str(product.id), available='true')
             elif product.is_availability in [2, 3]:
                 offer = etree.SubElement(offers, 'offer', id=str(product.id), available='false')
+            else:
+                continue
 
             etree.SubElement(offer, 'categoryId').text = str(category.category_id, )
 

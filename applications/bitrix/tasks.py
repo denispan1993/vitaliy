@@ -19,7 +19,7 @@ logger = get_task_logger(__name__)
 
 def decorate(func):
     start = time.time()
-    print(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+    print(u'Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
     logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
 
     def wrapped(*args, **kwargs):
