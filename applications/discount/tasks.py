@@ -92,7 +92,7 @@ def processing_action(*args, **kwargs):
                         product.save()
 
     """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
-     но при этом отсутвует хоть какая то акция """
+        но при этом отсутвует хоть какая то акция """
     products = Product.objects.filter(in_action=True, action=None, ).update(in_action=False, )
     print('Товары удаленные из акции по причине вывода их из акции: ', products, )
 
