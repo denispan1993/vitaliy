@@ -30,8 +30,7 @@ logger = get_task_logger(__name__)
 def generate_prom_ua_yml(*args, **kwargs):
 
     start = datetime.now()
-    logger.info(u'Start: generate_prom_ua_yml(*args, **kwargs)', )
-    logger.info(u'message: datetime.now() {0}'.format(start), )
+    logger.info(u'Start: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0}'.format(start), )
 
     def set_categories(shop, ):
 
@@ -125,9 +124,8 @@ def generate_prom_ua_yml(*args, **kwargs):
     for f in files:
         print(f)
 
-    with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.xml', 'w') as f:
+    with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.yml', 'w') as f:
         f.write(etree.tostring(root).decode('utf-8'))
 
     stop = datetime.now()
-    logger.info(u'message: datetime.now() {0}'.format(stop), )
-    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): %s', (stop - start), )
+    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0} | {1}'.format(stop, (stop - start), ), )
