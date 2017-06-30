@@ -202,7 +202,7 @@ def Test_Server_MX_from_email(email_string=None, resolver=None, ):
 def get_email(delivery=False, email_class=False, pk=False, query=False, queryset_list=False, queryset=False, ):
 
     # print(type(email_class), email_class, Email)
-    if isinstance(email_class, (str, unicode)):
+    if isinstance(email_class, str, ):
         email_model = get_model(*email_class.split('.'))
 
     # print(Email, email_class, email_class in (Email, SpamEmail), isinstance(email_class, (Email, SpamEmail)))
@@ -552,7 +552,7 @@ def str_conv(str, ):
             value_results.append(value)
 
     if len(value_results) > 0:
-        return ''.join(value_results), error
+        return ''.join([value.decode('utf-8') for value in value_results]), error
 
     return str, error
 
