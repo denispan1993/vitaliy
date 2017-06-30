@@ -46,8 +46,8 @@ def decorate(func):
     logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
 
     def wrapped(*args, **kwargs):
-        print(u'Вызываем обёрнутую функцию с аргументами: %s' % args, )
-        logger.info(u'Вызываем обёрнутую функцию с аргументами: %s' % args, )
+        print(u'Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        logger.info(u'Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
         return func(*args, **kwargs)
 
     stop = time.time()
