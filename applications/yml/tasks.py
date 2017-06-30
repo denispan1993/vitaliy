@@ -101,6 +101,8 @@ def generate_prom_ua_yml(*args, **kwargs):
 
             if category:
                 etree.SubElement(offer, 'categoryId').text = str(category.category_id, )
+            else:
+                logger.info(u'product.pk without category: {0}'.format(product.pk, ), )
 
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
             etree.SubElement(offer, 'price').text = str(float(product.get_price())*1.12)
@@ -150,9 +152,9 @@ def generate_prom_ua_yml(*args, **kwargs):
     set_products(shop)
     logger.info(u'set_products(shop) --- {0} seconds --- {1}'.format((time.time() - start_time), len(db.connection.queries), ), )
 
-    files = [f for f in os.listdir('.')]
-    for f in files:
-        logger.info(f)
+    # files = [f for f in os.listdir('.')]
+    # for f in files:
+    #     logger.info(f)
 
     with open('/www/projs/prod.keksik_com_ua/storage/yml/prom.ua/shop.yml', 'w') as f:
         f.write(etree.tostring(root).decode('utf-8'))
