@@ -88,9 +88,8 @@ def generate_prom_ua_yml(*args, **kwargs):
 
         for product in Product.objects.published().only('id', 'pk', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description', 'in_action', ).prefetch_related('producttocategory_set').order_by('id'):
 
-            try:
-                category_id = str(product.producttocategory_set.published()[0].category_id, )
-            except IndexError:
+            category = product.producttocategory_set.all().first()
+            if not category.is_active:
                 continue
 
             if product.is_availability == 1:
@@ -98,7 +97,7 @@ def generate_prom_ua_yml(*args, **kwargs):
             elif product.is_availability in [2, 3]:
                 offer = etree.SubElement(offers, 'offer', id=str(product.id), available='false')
 
-            etree.SubElement(offer, 'categoryId').text = category_id
+            etree.SubElement(offer, 'categoryId').text = str(category.category_id, )
 
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
             etree.SubElement(offer, 'price').text = str(float(product.get_price())*1.12)
