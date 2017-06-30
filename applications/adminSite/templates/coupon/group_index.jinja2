@@ -56,7 +56,7 @@ body{
                 {% for coupon_group in coupon_groups %}
                 <tr>
                     <td>
-                        {% set url = coupon_group.pk|int_to_string %}
+                        {# {% set url = coupon_group.pk|int_to_string %}
                         {% set int_range = 6 - url|length %}
                         {% if int_range > 0 %}
                             {% for i in int_range|get_range %}
@@ -65,7 +65,8 @@ body{
                                     <a href="/админ/купон/группа/редактор/{{ url }}/">{{ coupon_group.pk }}</a>
                                 {% endif %}
                             {% endfor %}
-                        {% endif %}
+                        {% endif %} #}
+                        <a href="{{ url('admin_page:coupon_group_edit', coupon_group_id=coupon_group.pk) }}">{{ coupon_group.pk }}</a>
                         {# <a href="{1{ url('order_edit',id=order.pk) }}">{{ order.pk }}</a> #}
                         {# <a href="/админ/заказ/редактор/{{ url }}/">{{ order.pk }}</a> #}
                         {# <a href="{1{ url('order_edit', order.pk) }}">{{ order.pk }}</a> #}
