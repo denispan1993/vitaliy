@@ -75,7 +75,7 @@ def process_bitrix_catalog(*args, **kwargs):
 
                     process_of_proposal(offers_list=list(elem_second_level, ), )
 
-    print('Process time: {}'.format(time.time() - start, ), )
+    logger.info('Process time: {}'.format(time.time() - start, ), )
 
     return True, datetime.now(), '__name__: {0}'.format(str(__name__))
 
@@ -106,14 +106,14 @@ def get_products(products_list):
             except IndexError:
                 break
         else:
-            print('line 109: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            logger.info('line 109: fix !!! --> product_list[0].tag: %s '
+                        'product_list[0].text: %s' % (product_list[0].tag, product_list[0].text, ), )
             continue
 
         if 'itemid' not in locals():
-            print('line 113: fix !!! --> product_list[0].tag:  ', product_list[0].tag, ' product_list[0].text: ', product_list[0].text)
+            logger.info('line 113: fix !!! --> product_list[0].tag: %s '
+                        'product_list[0].text: %s' % (product_list[0].tag, product_list[0].text, ), )
             continue
-
-        #print(itemid, len(itemid))
 
         try:
             product = ItemID.objects.get(ItemID=itemid, ).parent  # using('real').
@@ -121,8 +121,8 @@ def get_products(products_list):
             if product.id_1c:
 
                 if product.id_1c != product_list[0].text:
-                    print('line 124: fix !!! --> product.id_1c: ', product.id_1c,
-                          ' --> product_list[0].text: ', product_list[0].text)
+                    logger.info('line 124: fix !!! --> product.id_1c: %s  --> '
+                                'product_list[0].text:  %s' % (product.id_1c, product_list[0].text, ), )
                 else:
                     if 'barcode' in locals():
                         product.barcode = barcode
@@ -133,17 +133,14 @@ def get_products(products_list):
             product.save()
 
             success += 1
-            #print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
 
         except ItemID.DoesNotExist:
             unsuccess += 1
             unsuccess_itemid_html += u'{}<br />\n'.format(itemid)
-            #print(unsuccess, ': ', u'Артикул:-->"', itemid, '"<--:Not Found', )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
             double_itemid_html += u'{}<br />\n'.format(itemid)
-            #print(double, ': ', u'Артикул:-->"', itemid, '"<--:Double', )
 
     backend = smtp.EmailBackend(
         host='smtp.yandex.ru',
@@ -213,35 +210,27 @@ def get_products(products_list):
         not_found_on_1c = len(products_ItemID)
         not_found_on_1c_html = u'<br />\n'.join(products_ItemID)
 
+        msg = EmailMultiAlternatives(
+            subject=u'Список Артикулов которые есть на сайте но нету в 1С.',
+            body=strip_tags(not_found_on_1c_html, ),
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            connection=backend, )
+        msg.attach_alternative(content=u'not_found_on_1c: {0}<br />\n{1}'.format(not_found_on_1c, not_found_on_1c_html, ),
+                               mimetype="text/html", )
+        msg.content_subtype = "html"
+        i = 0
+
+        while True:
+            result = msg.send(fail_silently=False, )
+            if (isinstance(result, int) and result == 1) or i > 100:
+                break
+            print('bitrix.tasks.process_bitrx_catalog.not_found_on_1c(i): ', i, ' result: ', result, )
+            i += 1
+            time.sleep(5)
+
     except Product.DoesNotExist:
         pass
-
-    msg = EmailMultiAlternatives(
-        subject=u'Список Артикулов которые есть на сайте но нету в 1С.',
-        body=strip_tags(not_found_on_1c_html, ),
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=u'not_found_on_1c: {0}<br />\n{1}'.format(not_found_on_1c, not_found_on_1c_html, ),
-                           mimetype="text/html", )
-
-    msg.content_subtype = "html"
-    i = 0
-    while True:
-        result = msg.send(fail_silently=False, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        print('bitrix.tasks.process_bitrx_catalog.not_found_on_1c(i): ', i, ' result: ', result,)
-        i += 1
-        time.sleep(5)
-
-    print('success: ', success)
-    print('unsuccess: ', unsuccess)
-    print('double: ', double)
-    print('not_found_on_1c: ', not_found_on_1c)
 
 
 def process_of_proposal(offers_list):
