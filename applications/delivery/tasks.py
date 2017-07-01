@@ -468,7 +468,7 @@ def get_mail_imap(*args, **kwargs):
             if result == 'OK':
                 print('fetch[0][1]', type(fetch[0][1]), fetch[0][1], )
                 print('fetch[0][1]', type(fetch[0][1].decode('utf-8')), fetch[0][1].decode('utf-8'), )
-                #print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
+                # print('fetch[0][1]', type(fetch[0][1].encode('utf-8')), fetch[0][1].encode('utf-8'), )
                 parse_msg = email.message_from_string(fetch[0][1].decode('utf-8'))
 
                 email_message_id = parse_msg['Message-Id']
@@ -504,7 +504,7 @@ def get_mail_imap(*args, **kwargs):
                             except IndexError:
                                 break
 
-                        if any((key in line and value in line) for key, value in reason550.iteritems()):
+                        if any((key in line and value in line) for key, value in reason550.items()):
 
                             email_str = line.split('>')[0].strip('<')
                             email_obj = get_email_by_str(email=email_str, )

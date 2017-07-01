@@ -41,18 +41,28 @@ def profile(func):
 
 
 def decorate(func):
-    start = time.time()
-    print(u'Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
-    logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+    # start = time.time()
+    # print(u'Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
+    # logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
 
     def wrapped(*args, **kwargs):
+        start = time.time()
+        print(u'Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
+        logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start,), )
+
         print(u'Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
         logger.info(u'Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
-        return func(*args, **kwargs)
+        result = func(*args, **kwargs)
 
-    stop = time.time()
-    print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
-    logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+        stop = time.time()
+        print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+
+        return result
+
+#    stop = time.time()
+#    print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+#    logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
 
     return wrapped
 
