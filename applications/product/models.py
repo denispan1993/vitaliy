@@ -378,6 +378,20 @@ class Product(models.Model):
                                                u'Еслю ключевое слово сосотит из двух слов'
                                                u' то между ними ставится пробел<br>'
                                                u'Общая длина ключевых слов не должна превышать 1000 символов.', )
+
+    yandex_date = models.DateTimeField(verbose_name=u'Yandex. Дата и время последней проверки',
+                                       blank=True,
+                                       null=True, )
+    in_yandex = models.NullBooleanField(verbose_name=u'Yandex. В индексе',
+                                        blank=True,
+                                        null=True, )
+    google_date = models.DateTimeField(verbose_name=u'Google. Дата и время последней проверки',
+                                       blank=True,
+                                       null=True, )
+    in_google = models.NullBooleanField(verbose_name=u'Google. В индексе',
+                                        blank=True,
+                                        null=True, )
+
     #Расширенные настройки
     template = models.CharField(verbose_name=u'Имя шаблона',
                                 max_length=70,
