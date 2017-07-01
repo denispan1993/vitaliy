@@ -552,6 +552,12 @@ def str_conv(str, ):
             value_results.append(value)
 
     if len(value_results) > 0:
+        for value in value_results:
+            logger.info(value, )
+            logger.info(value.decode('latin-1').encode("utf-8"), )
+            logger.info(value.decode('utf-8'), )
+            logger.info(value.encode('utf-8'), )
+
         return ''.join([value.decode('utf-8') for value in value_results]), error
 
     return str, error
