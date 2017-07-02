@@ -36,6 +36,7 @@ CELERY_ROUTES = {
 
 CELERY_IMPORTS = ('applications.bitrix.tasks',
                   'applications.cart.tasks',
+                  'applications.product.tasks',
                   'applications.delivery.tasks',
                   'applications.delivery2.tasks',
                   'applications.discount.tasks',
