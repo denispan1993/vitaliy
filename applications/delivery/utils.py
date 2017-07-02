@@ -553,12 +553,16 @@ def str_conv(str, ):
 
     if len(value_results) > 0:
         for value in value_results:
+            logger.info('1', )
             logger.info(value, )
+            logger.info('2', )
+            logger.info(value.decode('latin-1'), )
+            logger.info('3', )
             logger.info(value.decode('latin-1').encode("utf-8"), )
-            logger.info(value.decode('utf-8'), )
+            logger.info('4', )
             logger.info(value.encode('utf-8'), )
 
-        return ''.join([value.decode('utf-8') for value in value_results]), error
+        return ''.join([value.encode('utf-8') for value in value_results]), error
 
     return str, error
 
