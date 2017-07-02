@@ -81,7 +81,7 @@ def check_page_in_index(*args, **kwargs):
         product.in_google = False
 
     """ Yandex """
-    google = 'https://www.yandex.ru/search?'\
+    google = 'https://www.yandex.ua/search?'\
              + urlencode({'text': 'url:https://keksik.com.ua{url}'.format(url=url, ), }, )
     data = requests.get(google, headers=headers, )
     data.encoding = 'ISO-8859-1'
