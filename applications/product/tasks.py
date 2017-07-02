@@ -74,10 +74,29 @@ def check_page_in_index(*args, **kwargs):
     soup = BeautifulSoup(str(data.content), 'html.parser')
     try:
         check = soup.find(id="rso").find("div").find("div").find("h3").find("a")
-        logger.info(" is indexed!")
+        logger.info("Google is indexed!")
         product.in_google = True
     except AttributeError:
-        logger.info(" is NOT indexed!")
+        logger.info("Google is NOT indexed!")
+        product.in_google = False
+
+    """ Yandex """
+    google = 'https://www.yandex.ru/search?'\
+             + urlencode({'text': 'url:https://keksik.com.ua{url}'.format(url=url, ), }, )
+    data = requests.get(google, headers=headers, )
+    data.encoding = 'ISO-8859-1'
+
+    soup = BeautifulSoup(str(data.content), 'html.parser')
+    try:
+        check = soup\
+            .find("div", {'class': 'main__content', })\
+            .find("div", {'class': 'content__left', })\
+            .find("ul", {'class': lambda x: x and 'serplist' in x.split(), }, )
+        logger.info("Yandex is indexed!")
+        product.in_yandex = True
+    except AttributeError:
+        logger.info("Yandex is NOT indexed!")
+        product.in_yandex = False
 
     product.check_index_date = timezone.now()
     product.save()
