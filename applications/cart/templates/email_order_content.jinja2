@@ -48,7 +48,7 @@
         {% set real_product=product.product %}
         <tr>
             <td>
-                {{ '%02d' % forloop.counter1 }}
+                {{ '%02d' % loop.index }}
             </td>
             <td>
                 <a href="http://keksik.com.ua{{ real_product.get_absolute_url() }}">
