@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
+from django.utils import timezone
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -66,15 +67,20 @@ def check_page_in_index(*args, **kwargs):
 
     """ Google """
     google = 'https://www.google.com/search?'\
-             + urlencode({'q': 'info:{url}'.format(url=url, ), }, )
+             + urlencode({'q': 'info:https://keksik.com.ua{url}'.format(url=url, ), }, )
     data = requests.get(google, headers=headers, )
     data.encoding = 'ISO-8859-1'
+
     soup = BeautifulSoup(str(data.content), 'html.parser')
     try:
         check = soup.find(id="rso").find("div").find("div").find("h3").find("a")
         logger.info(" is indexed!")
+        product.in_google = True
     except AttributeError:
         logger.info(" is NOT indexed!")
+
+    product.check_index_date = timezone.now()
+    product.save()
 
     stop = datetime.now()
     logger.info(u'message: datetime.now() {0}'.format(stop, ), )

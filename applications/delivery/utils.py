@@ -559,10 +559,8 @@ def str_conv(str, ):
             logger.info(value.decode('latin-1'), )
             logger.info('3', )
             logger.info(value.decode('latin-1').encode("utf-8"), )
-            logger.info('4', )
-            logger.info(value.encode('utf-8'), )
 
-        return ''.join([value.encode('utf-8') for value in value_results]), error
+        return ''.join([value.encode('latin-1') for value in value_results]), error
 
     return str, error
 
