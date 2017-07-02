@@ -58,7 +58,7 @@ def check_page_in_index(*args, **kwargs):
     std_logger.info(u'std_logger = getLogger(__name__): message: datetime.now() {0}'.format(start), )
 
     try:
-        product = Product.objects.published().order_by('check_page_in_index').first()
+        product = Product.objects.published().order_by('check_index_date').first()
         url = product.get_absolute_url()
         logger.info(url)
     except Product.DoesNotExist:
