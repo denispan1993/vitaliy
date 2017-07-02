@@ -379,15 +379,12 @@ class Product(models.Model):
                                                u' то между ними ставится пробел<br>'
                                                u'Общая длина ключевых слов не должна превышать 1000 символов.', )
 
-    yandex_date = models.DateTimeField(verbose_name=u'Yandex. Дата и время последней проверки',
-                                       blank=True,
-                                       null=True, )
+    check_index_date = models.DateTimeField(verbose_name=u'Дата и время последней проверки индексации страницы',
+                                            blank=True,
+                                            null=True, )
     in_yandex = models.NullBooleanField(verbose_name=u'Yandex. В индексе',
                                         blank=True,
                                         null=True, )
-    google_date = models.DateTimeField(verbose_name=u'Google. Дата и время последней проверки',
-                                       blank=True,
-                                       null=True, )
     in_google = models.NullBooleanField(verbose_name=u'Google. В индексе',
                                         blank=True,
                                         null=True, )
