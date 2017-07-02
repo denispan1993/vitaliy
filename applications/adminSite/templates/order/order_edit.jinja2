@@ -120,7 +120,6 @@ function ReCalcSum(change) {
 }
 </script>
                 <tbody>
-                    {% set forloop_counters1=0 %}
                     {% for product in order.products|sort(attribute='created_at') %}
                     {% set real_product=product.product %}
 
@@ -291,8 +290,7 @@ function onChange_custom_price_{{ product.pk }}(){
 </script>
                         <tr id="tr_id_{{ product.pk }}">
                             <td style="text-align:center;">
-                                {% set forloop_counters1=forloop_counters1 + 1 %}
-                                {{ forloop_counters1 }}
+                                {{ loop.index }}
                             </td>
                             <td>
                                 <input type="hidden"
