@@ -13,6 +13,7 @@ django-suit==0.2.25
 django-suit-ckeditor==0.0.2
 django-userena==2.0.1
 django-extensions==1.7.9
+beautifulsoup4==4.6.0
 bpython==0.16
 dnspython==1.15.0
 easy-thumbnails==2.4.1
