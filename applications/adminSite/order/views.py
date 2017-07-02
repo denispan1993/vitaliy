@@ -34,7 +34,7 @@ def order_search(request,
                     error_message = u'Некорректно введен номер заказа.'
 
     #filter_datetime = datetime.now() - timedelta(days=15, )
-    orders = Order.objects.filter(created_at__gte=datetime.now() - timedelta(days=15, ), )
+    orders = Order.objects.filter(created_at__gte=datetime.now() - timedelta(days=62, ), )
     #orders = Order.objects.all()
     return render(request=request,
                   template_name=template_name,
