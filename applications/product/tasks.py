@@ -82,8 +82,7 @@ def check_page_in_index(*args, **kwargs):
         product.in_google = False
 
     """ Yandex """
-    yandex = 'https://www.yandex.ua/search/?'\
-             + urlencode({'text': 'url:https://keksik.com.ua{url}'.format(url=url, ), }, )
+    yandex = 'https://www.yandex.ua/search/?'+ urlencode({'text': 'url:https://keksik.com.ua{url}'.format(url=url, ), }, )
     data = requests.get(yandex, headers=headers, )
     data.encoding = 'ISO-8859-1'
 
@@ -92,7 +91,7 @@ def check_page_in_index(*args, **kwargs):
         check = soup\
             .find("div", {'class': 'main__content', })\
             .find("div", {'class': 'content__left', })\
-            .find("ul", {'class': lambda x: x and 'serplist' in x.split(), }, )
+            .find("ul", {'class': lambda x: x and 'serp-list' in x.split(), }, )
         logger.info(check)
         logger.info("Yandex is indexed!")
         product.in_yandex = True
