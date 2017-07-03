@@ -96,7 +96,7 @@ def check_page_in_index(*args, **kwargs):
             .find("h2", {'class': lambda x: x and 'organic__title-wrapper' in x.split(), }, )\
             .find("a", {'class': lambda x: x and 'organic__url' in x.split(), }, href=True, )
 
-        if check['href'] == 'url:https://keksik.com.ua{url}'.format(url=url, ):
+        if check['href'] == 'https://keksik.com.ua{url}'.format(url=url, ):
             logger.info("Yandex is indexed!")
             product.in_yandex = True
 
