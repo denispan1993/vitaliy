@@ -54,7 +54,7 @@ headers = {'User-Agent': user_agent, }
 def check_page_in_index(*args, **kwargs):
 
     start = datetime.now()
-    logger.info(u'Start: processing_action(*args, **kwargs)', )
+    logger.info(u'Start: {0}(*args, **kwargs)'.format(str(__name__)), )
     logger.info(u'logger = get_task_logger(__name__): message: datetime.now() {0}'.format(start), )
     std_logger.info(u'std_logger = getLogger(__name__): message: datetime.now() {0}'.format(start), )
 
@@ -109,6 +109,6 @@ def check_page_in_index(*args, **kwargs):
 
     stop = datetime.now()
     logger.info(u'message: datetime.now() {0}'.format(stop, ), )
-    logger.info(u'Stop: processing_action(*args, **kwargs): %s' % (stop - start), )
+    logger.info(u'Stop: {name}(*args, **kwargs): {time}'.format(name=str(__name__, ), time=stop - start), )
 
     return True, datetime.now(), '__name__: {0}'.format(str(__name__, ), )
