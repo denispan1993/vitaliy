@@ -121,6 +121,6 @@ class ExchangeView(View, ):
                     ext=filename.split('.')[1],
                 )
             with open('{path}{filename}'.format(path=path, filename=filename, ), 'w') as outfile:
-                outfile.write(request.body)
+                outfile.write(request.body.decode('utf-8'))
 
         return HttpResponse('success', )
