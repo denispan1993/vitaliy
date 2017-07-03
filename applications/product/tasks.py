@@ -74,7 +74,6 @@ def check_page_in_index(*args, **kwargs):
     soup = BeautifulSoup(str(data.content), 'html.parser')
     try:
         check = soup.find(id="rso").find("div").find("div").find("h3").find("a")
-        logger.info(check)
         logger.info("Google is indexed!")
         product.in_google = True
     except AttributeError:
@@ -91,10 +90,16 @@ def check_page_in_index(*args, **kwargs):
         check = soup\
             .find("div", {'class': 'main__content', })\
             .find("div", {'class': 'content__left', })\
-            .find("ul", {'class': lambda x: x and 'serp-list' in x.split(), }, )
-        logger.info(check)
-        logger.info("Yandex is indexed!")
-        product.in_yandex = True
+            .find("ul", {'class': lambda x: x and 'serp-list' in x.split(), }, )\
+            .find("li", {'class': lambda x: x and 'serp-item' in x.split(), }, )\
+            .find("div", {'class': lambda x: x and 'organic' in x.split(), }, )\
+            .find("h2", {'class': lambda x: x and 'organic__title-wrapper' in x.split(), }, )\
+            .find("a", {'class': lambda x: x and 'organic__url' in x.split(), }, href=True, )
+
+        if check['href'] == 'url:https://keksik.com.ua{url}'.format(url=url, ):
+            logger.info("Yandex is indexed!")
+            product.in_yandex = True
+
     except AttributeError:
         logger.info("Yandex is NOT indexed!")
         product.in_yandex = False
