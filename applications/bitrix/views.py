@@ -99,8 +99,7 @@ class ExchangeView(View, ):
             path = 'storage/{app}/{year}/{month:02d}/{day:02d}/'\
                 .format(
                     app='bitrix',
-                    year=date.today().year, month=date.today().month, day=date.today().day,
-                )
+                    year=date.today().year, month=date.today().month, day=date.today().day, )
 
             path_split = path.split('/', )
             path = ''
