@@ -46,7 +46,7 @@ function lazy_load() {
         {# // Сохранить адрес исходной картинки и заменить его на прозрачный GIF #}
         for (var i=0; i<im.length; i++) {
             var el=im[i];
-            if (el.style.backgroundImage) {{#
+            if (el.style.backgroundImage) { {#
                 // alert(el.style.backgroundImage);
                 // alert(el.style.backgroundImage.substring(4, el.style.backgroundImage.length-1));
  #}             el.setAttribute('lazy',el.style.backgroundImage);
