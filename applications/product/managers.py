@@ -31,27 +31,20 @@ class ManagerCategory(models.Manager):
         return self.visible(*args, **kwargs).order_by('-created_at', )
 
     def serial_number(self, *args, **kwargs):
-        from django import db
-        db.reset_queries()
-        from django.core.cache import cache
-
-        #print('self: ', self.__doc__, self.__dict__, )
-
         try:
             category_parent_pk = 'category_parent_pk_%d' % self._constructor_args[0][0].pk
         except IndexError:
             category_parent_pk = 'category_parent_pk_0'
-        #print(category_parent_pk)
         result = cache.get(key=category_parent_pk)
         if not result:
             result = self.published(*args, **kwargs).order_by('serial_number', )
-            #print('cache.set: ', result, )
             cache.set(key=category_parent_pk,
                       value=result,
                       timeout=600, )
 
+        # from django import db
+        # db.reset_queries()
         # print(len(db.connection.queries), db.connections['default'].queries[0])
-        # print('result: ', result)
         return result
 
     def basement(self, *args, **kwargs):
