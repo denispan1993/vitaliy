@@ -16,6 +16,18 @@ __author__ = 'AlexStarov'
 
 logger = get_task_logger(__name__)
 
+backend = smtp.EmailBackend(
+    host='smtp.yandex.ru',
+    port=465,
+    username='site@keksik.com.ua',
+    password='1q2w3e4r!!!@@@',
+    use_tls=False,
+    fail_silently=False,
+    use_ssl=True,
+    timeout=30,
+    ssl_keyfile=None,
+    ssl_certfile=None, )
+
 
 def decorate(func):
     # start = time.time()
@@ -113,6 +125,8 @@ def get_products(products_list):
     unsuccess_itemid_html = ''
     double = 0
     double_itemid_html = ''
+    without_id = 0
+    without_id_html = ''
 
     for product in products_list:
         product_list = list(product)
@@ -133,8 +147,21 @@ def get_products(products_list):
             except IndexError:
                 break
         else:
-            logger.info('line 109: fix !!! --> product_list[0].tag: %s '
+            """ Если цикл закончился не по break а просто вышел то тогда срабоатывает else """
+            logger.info('line 109: without Artikul fix !!! --> product_list[0].tag: %s '
                         'product_list[0].text: %s' % (product_list[0].tag, product_list[0].text, ), )
+
+            name = ''
+            for n in range(6):
+                """ Ищем 'Наименование' товара """
+                try:
+                    if product_list[n].tag == u'Наименование':
+                        name = product_list[n].text
+                        break
+                except IndexError:
+                    break
+            without_id += 1
+            without_id_html += u'{}<br />\n'.format(name if not name == '' else product_list[0].text)
             continue
 
         if 'itemid' not in locals():
@@ -169,18 +196,30 @@ def get_products(products_list):
             double += 1
             double_itemid_html += u'{}<br />\n'.format(itemid)
 
-    backend = smtp.EmailBackend(
-        host='smtp.yandex.ru',
-        port=465,
-        username='site@keksik.com.ua',
-        password='1q2w3e4r!!!@@@',
-        use_tls=False,
-        fail_silently=False,
-        use_ssl=True,
-        timeout=30,
-        ssl_keyfile=None,
-        ssl_certfile=None, )
+    """ ============================================================================ """
+    msg = EmailMultiAlternatives(
+        subject=u'Список товаров у которых нету артикулов в 1С.',
+        body=strip_tags(without_id_html, ),
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+        connection=backend, )
 
+    msg.attach_alternative(content=u'unsuccess: {0}<br>\n{1}'.format(without_id, without_id_html, ),
+                           mimetype="text/html", )
+
+    msg.content_subtype = "html"
+    i = 0
+    while True:
+        result = msg.send(fail_silently=False, )
+
+        if (isinstance(result, int) and result == 1) or i > 100:
+            break
+
+        print('bitrix.tasks.process_bitrx_catalog.unsuccess(i): ', i, ' result: ', result,)
+        i += 1
+        time.sleep(5)
+
+    """ ============================================================================ """
     msg = EmailMultiAlternatives(
         subject=u'Список Артикулов которые есть в 1С и которых нету на сайте.',
         body=strip_tags(unsuccess_itemid_html, ),
@@ -203,6 +242,7 @@ def get_products(products_list):
         i += 1
         time.sleep(5)
 
+    """ ============================================================================ """
     msg = EmailMultiAlternatives(
         subject=u'Список Артикулов которые есть в 1С и которых несколько штук на сайте.',
         body=strip_tags(double_itemid_html, ),
@@ -290,8 +330,8 @@ def process_of_proposal(offers_list):
             n += 1
 
         if 'id_1c' not in locals():
-            print('line 277: fix 1!!! --> offer_list[0].tag:  ', offer_list[0].tag,
-                  ' offer_list[0].text: ', offer_list[0].text)
+            logger.info('line 277: fix 1!!! --> offer_list[0].tag: {0} | offer_list[0].text: {1}'\
+                        .format(offer_list[0].tag, offer_list[0].text, ), )
             continue
 
         if 'quantity_of_stock' in locals():
@@ -299,20 +339,18 @@ def process_of_proposal(offers_list):
                 quantity_of_stock = int(quantity_of_stock)
 
             except ValueError:
-                print('line 286: fix 2!!! --> offer_list[0].tag:  ', offer_list[0].tag,
-                      ' offer_list[0].text: ', offer_list[0].text)
+                logger.info('line 286: fix 2!!! --> offer_list[0].tag: {0} |  offer_list[0].text: {1}'\
+                            .format(offer_list[0].tag, offer_list[0].text, ), )
                 continue
         else:
-            print('line 290: fix 3!!! --> offer_list[0].tag:  ', offer_list[0].tag,
-                  ' offer_list[0].text: ', offer_list[0].text)
+            logger.info('line 290: fix 3!!! --> offer_list[0].tag: {0} | offer_list[0].text: {1}'\
+                        .format(offer_list[0].tag, offer_list[0].text, ), )
 
         try:
             product = Product.objects.get(id_1c=id_1c, )
 
-            '''
-                Если в 1С единиц товара больше чем 0 и в базе сайта он "в наличии"
-                то просто записывеем количество товара в базу сайта
-            '''
+            ''' Если в 1С единиц товара больше чем 0 и в базе сайта он "в наличии"
+                то просто записывеем количество товара в базу сайта '''
             if quantity_of_stock > 0 and product.is_availability == 1:
                 product.quantity_of_stock = quantity_of_stock
                 product.save()
@@ -334,22 +372,12 @@ def process_of_proposal(offers_list):
         except Product.MultipleObjectsReturned:
             products = Product.objects.filter(id_1c=id_1c, )
             for product in products:
-                print('line 321: fix 4!!! -->: ', product, product.ItemID.all()[0].ItemID, product.title, )
+                logger.info('line 321: fix 4!!! -->: {0} | {1} | {2}'\
+                            .format(product, product.ItemID.all()[0].ItemID, product.title, ), )
 
-    backend = smtp.EmailBackend(
-        host='smtp.yandex.ru',
-        port=465,
-        username='site@keksik.com.ua',
-        password='1q2w3e4r!!!@@@',
-        use_tls=False,
-        fail_silently=False,
-        use_ssl=True,
-        timeout=30,
-        ssl_keyfile=None,
-        ssl_certfile=None, )
-
+    """ ============================================================================ """
     msg = EmailMultiAlternatives(
-        subject=u'Список Артикулов продукты которые есть в 1С и отсутствуют на сайте.',
+        subject=u'Список Артикулов товаров которые есть в 1С но отсутствуют на сайте.',
         body=strip_tags(there_is_in_1c_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
@@ -370,8 +398,9 @@ def process_of_proposal(offers_list):
         i += 1
         time.sleep(5)
 
+    """ ============================================================================ """
     msg = EmailMultiAlternatives(
-        subject=u'Список Артикулов продукты которые есть на сайте но отсутствуют в 1С.',
+        subject=u'Список Артикулов товаров которые есть на сайте но отсутствуют в 1С.',
         body=strip_tags(there_is_in_site_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
@@ -389,5 +418,28 @@ def process_of_proposal(offers_list):
             break
 
         print('bitrix.tasks.process_bitrx_catalog.there_is_in_site(i): ', i, ' result: ', result,)
+        i += 1
+        time.sleep(5)
+
+    """ ============================================================================ """
+    msg = EmailMultiAlternatives(
+        subject=u'Список Артикулов товаров которые есть на сайте но отсутствуют в 1С.',
+        body=strip_tags(there_is_in_site_html, ),
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Виктория', u'zakaz@keksik.com.ua'), ), ],
+        connection=backend, )
+
+    msg.attach_alternative(content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html),
+                           mimetype="text/html", )
+
+    msg.content_subtype = "html"
+    i = 0
+    while True:
+        result = msg.send(fail_silently=False, )
+
+        if (isinstance(result, int) and result == 1) or i > 100:
+            break
+
+        print('bitrix.tasks.process_bitrx_catalog.there_is_in_site(i): ', i, ' result: ', result, )
         i += 1
         time.sleep(5)
