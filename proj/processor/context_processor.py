@@ -77,7 +77,16 @@ def context(request):
 
     if not categories_basement:
         try:
-            categories_basement = Category.objects.basement()
+            categories_basement = Category.objects\
+                .basement() \
+                .defer('rght', 'mptt_level', 'tree_id', 'template', 'created_at', 'updated_at', )\
+                .select_related(
+                    'parent',
+                    'parent__parent',
+                    'parent__parent__parent',
+                    'parent__parent__parent__parent',
+                    'parent__parent__parent__parent__parent', )
+
             cache.set(
                 key='categories_basement',
                 value=categories_basement,

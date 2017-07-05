@@ -84,7 +84,6 @@ MANAGERS = ADMINS
 SERVER = os.path.isfile(path('server.key', ), )
 
 ALLOWED_HOSTS = ['*']
-DEBUG = True
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 16777216
 
