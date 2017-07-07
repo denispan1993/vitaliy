@@ -297,7 +297,7 @@ try{
                              {% if slide.alt %}alt="{{ slide.alt }}"{% endif %}
                              title="{% if slide.title %}{{ slide.title }}{% endif %}"
                              id="wows1_{{ slide.order }}">
-                    </a>{{ slide.text }}
+                    </a>{% if slide.text %}{{ slide.text }}{% endif %}
                 </li>
             {% endfor %}
             {% enddjcache %}
