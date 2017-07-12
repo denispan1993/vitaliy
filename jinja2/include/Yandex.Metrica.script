@@ -1,32 +1,30 @@
-<script>
-(function (d, w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter21943054 = new Ya.Metrika({
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" nonce="">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter21943054 = new Ya.Metrika({
                     id:21943054,
-                    webvisor:false,
                     clickmap:true,
                     trackLinks:true,
                     accurateTrackBounce:true,
                     trackHash:true,
-                    triggerEvent:true,
-                    ecommerce:"dataLayer",
-                    params:window.yaParams||{ }});
-        } catch(e) { }
-    });
+                    ecommerce:"dataLayer"
+                });
+            } catch(e) { }
+        });
 
-    var n = d.getElementsByTagName("script")[0],
-        s = d.createElement("script"),
-        f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    // s.src = "https://mc.yandex.ru/metrika/watch.js";
-    // s.src = "https://d31j93rd8oukbv.cloudfront.net/metrika/watch_ua.js";
-    s.src = "https://keksik.com.ua/media/js/yandex/metrika/watch_ua.js";
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://keksik.com.ua/media/js/yandex/metrika/watch_ua.js";
 
-    if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-    } else { f(); }
-})(document, window, "yandex_metrika_callbacks");
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/21943054" style="position:absolute; left:-9999px;" alt=""/></div></noscript>
+<noscript><div><img src="https://mc.yandex.ru/watch/21943054" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
