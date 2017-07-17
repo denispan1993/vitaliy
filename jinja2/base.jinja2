@@ -323,9 +323,9 @@ $(function(){
 {% if user.is_authenticated and user.is_staff %}
 {# <!-- LiveInternet logo --> #}{% include 'include/LiveInternet.html' %}{# <!--/LiveInternet--> #}
 {% endif %}
-{% if user.is_authenticated and user.is_staff %}
-{# <!-- Yandex.Metrika informer --> #}{% include 'include/Yandex.Metrica.html' %}{# <!-- /Yandex.Metrika --> #}
-{% endif %}
+{#% if user.is_authenticated and user.is_staff %#}
+{# <!-- Yandex.Metrika informer --> #}{#% include 'include/Yandex.Metrica.html' %#}{# <!-- /Yandex.Metrika --> #}
+{#% endif %#}
 {# {% if not user.is_staff %}
 <div style="display:none">
 {% endif %} #}

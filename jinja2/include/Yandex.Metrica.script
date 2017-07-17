@@ -4,7 +4,6 @@
             try {
                 w.yaCounter21943054 = new Ya.Metrika({
                     id:21943054,
-                    clickmap:true,
                     trackLinks:true,
                     accurateTrackBounce:true,
                     trackHash:true,
