@@ -244,15 +244,15 @@ class EmailTemplate(models.Model, ):
     def get_image_and_style_names(self):
         self.template.file.seek(0)
         html = self.template.file.read()
-        img = re.findall(r'url\([\'|\"](?P<file>[^ \s]+)[\'|\"]\)', html)
-        style = re.findall(r'src=[\'|\"](?P<file>[^ \s]+)[\'|\"]', html)
+        img = re.findall('url\([\'|\"](?P<file>[^ \s]+)[\'|\"]\)', html)
+        style = re.findall('src=[\'|\"](?P<file>[^ \s]+)[\'|\"]', html)
         return set(img + style)
 
     def get_urls(self):
         self.template.file.seek(0)
         html = self.template.file.read()
         url = re.findall(
-            r'<a\s+(?:[^>]*?\s+)?href="(?!#URL_[0-9]{6}#|#UNSUB_URL#|#OPEN_URL#|#SHOW_ONLINE_URL#|#)([^"]*)"',
+            '<a\s+(?:[^>]*?\s+)?href="(?!#URL_[0-9]{6}#|#UNSUB_URL#|#OPEN_URL#|#SHOW_ONLINE_URL#|#)([^"]*)"',
             html, )
         return set(url, )
 
