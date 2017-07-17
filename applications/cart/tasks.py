@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 import MySQLdb
-from time import sleep
 from datetime import datetime
-import smtplib
 import email
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from django.core.mail.backends import smtp
-from django.utils.html import strip_tags
 from proj.celery import celery_app
 from django.utils import timezone
 from pytils.translit import slugify
@@ -16,7 +11,6 @@ from celery.utils.log import get_task_logger
 
 import proj.settings
 
-from applications.delivery2.models import EmailTemplate
 from applications.account.models import Session_ID
 from applications.authModel.models import User, Email, Phone
 from .utils import get_and_render_template, send_email
@@ -25,46 +19,22 @@ __author__ = 'AlexStarov'
 
 logger = get_task_logger(__name__)
 
-#    backend = smtp.EmailBackend(
-#        host='192.168.1.95',
-#        port=465,
-#        username='delivery@keksik.com.ua',
-#        password='warning123',
-#        use_tls=False,
-#        fail_silently=False,
-#        use_ssl=True,
-#        timeout=30,
-#        ssl_keyfile=None,
-#        ssl_certfile=None, )
-backend = smtp.EmailBackend(
-    host='smtp.yandex.ru',
-    port=465,
-    username='site@keksik.com.ua',
-    password='1q2w3e4r!!!@@@',
-    use_tls=False,
-    fail_silently=False,
-    use_ssl=True,
-    timeout=30,
-    ssl_keyfile=None,
-    ssl_certfile=None, )
-
 
 @celery_app.task()
 def delivery_order(*args, **kwargs):
 
-    order_pk = int(kwargs.get('order_pk'))
-
     from .models import Order
     try:
-        order = Order.objects.get(pk=order_pk)
+        order = Order.objects.get(pk=kwargs.get('order_pk'))
     except Order.DoesNotExist:
         return False
 
     """ Отправка заказа мэнеджеру """
-    template_name = kwargs.pop('email_template_name',
-                               proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_TO_ADMIN'], )
-
-    html_content = get_and_render_template(order=order, template_name=template_name)
+    html_content = None
+    if 'keksik.com.ua' in order.email:
+        template_name = kwargs.pop('email_template_name',
+                                   proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_TO_ADMIN'], )
+        html_content = get_and_render_template(order=order, template_name=template_name)
 
     if not html_content:
         html_content = render_to_string('email_order_content.jinja2',
