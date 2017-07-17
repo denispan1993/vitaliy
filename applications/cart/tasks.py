@@ -19,10 +19,34 @@ import proj.settings
 from applications.delivery2.models import EmailTemplate
 from applications.account.models import Session_ID
 from applications.authModel.models import User, Email, Phone
+from .utils import get_and_render_template, send_email
 
 __author__ = 'AlexStarov'
 
 logger = get_task_logger(__name__)
+
+#    backend = smtp.EmailBackend(
+#        host='192.168.1.95',
+#        port=465,
+#        username='delivery@keksik.com.ua',
+#        password='warning123',
+#        use_tls=False,
+#        fail_silently=False,
+#        use_ssl=True,
+#        timeout=30,
+#        ssl_keyfile=None,
+#        ssl_certfile=None, )
+backend = smtp.EmailBackend(
+    host='smtp.yandex.ru',
+    port=465,
+    username='site@keksik.com.ua',
+    password='1q2w3e4r!!!@@@',
+    use_tls=False,
+    fail_silently=False,
+    use_ssl=True,
+    timeout=30,
+    ssl_keyfile=None,
+    ssl_certfile=None, )
 
 
 @celery_app.task()
@@ -37,61 +61,19 @@ def delivery_order(*args, **kwargs):
         return False
 
     """ Отправка заказа мэнеджеру """
-    html_content = render_to_string('email_order_content.jinja2',
-                                    {'order': order, })
+    template_name = kwargs.pop('email_template_name',
+                               proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_TO_ADMIN'], )
 
-#    backend = smtp.EmailBackend(
-#        host='192.168.1.95',
-#        port=465,
-#        username='delivery@keksik.com.ua',
-#        password='warning123',
-#        use_tls=False,
-#        fail_silently=False,
-#        use_ssl=True,
-#        timeout=30,
-#        ssl_keyfile=None,
-#        ssl_certfile=None,
-#        **kwargs)
-    backend = smtp.EmailBackend(
-        host='smtp.yandex.ru',
-        port=465,
-        username='site@keksik.com.ua',
-        password='1q2w3e4r!!!@@@',
-        use_tls=False,
-        fail_silently=False,
-        use_ssl=True,
-        timeout=30,
-        ssl_keyfile=None,
-        ssl_certfile=None,
-        **kwargs)
+    html_content = get_and_render_template(order=order, template_name=template_name)
 
-    msg = EmailMultiAlternatives(
-        subject=u'Заказ № %d. Кексик.' % order.number,
-        body=strip_tags(html_content, ),
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Email zakaz@ Интернет магазин Keksik', u'zakaz@keksik.com.ua')), ],
-        connection=backend, )
+    if not html_content:
+        html_content = render_to_string('email_order_content.jinja2',
+                                        {'order': order, })
 
-    msg.attach_alternative(content=html_content,
-                           mimetype="text/html", )
-
-    # msg.content_subtype = "html"
-    i = 0
-    while True:
-
-        try:
-            result = msg.send(fail_silently=False, )
-        except smtplib.SMTPDataError as e:
-            result = False
-            logger.info('print e: cart/task.py: ', e, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            i = 0
-            break
-
-        logger.info('cart.tasks.delivery_order.admin(i): ', i, ' result: ', result, )
-        i += 1
-        sleep(15)
+    send_email(subject='Заказ № %d. Кексик.' % order.number,
+               from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+               to_emails=[email.utils.formataddr((u'Email zakaz@ Интернет магазин Keksik', u'zakaz@keksik.com.ua')), ],
+               html_content=html_content, )
 
     """ Отправка благодарности клиенту. """
     logger.info('order.email: ', order.email,
@@ -99,6 +81,7 @@ def delivery_order(*args, **kwargs):
           ' bool: ', 'keksik.com.ua' in order.email,
           ' email: ', 'alex.starov@keksik.com.ua')
 
+    html_content = None
     if 'keksik.com.ua' in order.email:
 
         template_name = kwargs.pop('email_template_name',
@@ -106,50 +89,19 @@ def delivery_order(*args, **kwargs):
 
         logger.info('template_name: ', template_name, )
 
-        try:
-            template = EmailTemplate.objects.get(name=template_name, )
-            html_content = template.get_template()
-            from django.template import Context, Template
-            t = Template(html_content)
-            c = Context({'order': order, })
-            html_content = t.render(c)
-            # html_content = t
-        except EmailTemplate.DoesNotExist:
-            html_content = render_to_string('email_successful_content.jinja2',
-                                            {'order': order, })
+        html_content = get_and_render_template(order=order, template_name=template_name)
 
-    else:
-
+    if not html_content:
         html_content = render_to_string('email_successful_content.jinja2',
                                         {'order': order, })
 
     logger.info('html_content: ', html_content)
 
-    msg = EmailMultiAlternatives(
+    send_email(
         subject=u'Заказ № %d. Интернет магазин Кексик.' % order.number,
-        body=strip_tags(html_content, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((order.FIO, order.email)), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=html_content,
-                           mimetype="text/html", )
-
-    i = 0
-    while True:
-
-        try:
-            result = msg.send(fail_silently=False, )
-        except smtplib.SMTPDataError as e:
-            result = False
-            logger.info('print e cart/task.py: 123', e, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        logger.info('cart.tasks.delivery_order.user(i): ', i, ' result: ', result, )
-        i += 1
-        sleep(15)
+        to_emails=[email.utils.formataddr((order.FIO, order.email)), ],
+        html_content=html_content, )
 
     return True
 

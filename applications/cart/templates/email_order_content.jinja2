@@ -18,16 +18,12 @@
 <p>Комментарий к заказу: {{ order.comment }}</p>
 <p>Дата и время созания заказа: {{ order.created_at|date("d-M-Y H:i:s") }}</p>
 <p>Дата и время обновления заказа: {{ order.updated_at|date("d-M-Y H:i:s") }}</p>
-{% with coupons = order.Order_child.all() %}
-    {% if coupons != [] %}
-        {% for coupon in coupons %}
-            <p>Купон: {{ coupon.key }}</p>
-            <p>Скидка: <span style="color:red;font-weight:900;">{{ coupon.percentage_discount }}%</span></p>
-            <p>Начало действия: {{ coupon.start_of_the_coupon }}</p>
-            <p>Окончание действия: {{ coupon.end_of_the_coupon }}</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+{% if order.coupon %}
+    <p>Купон: {{ order.coupon.key }}</p>
+    <p>Скидка: <span style="color:red;font-weight:900;">{{ order.coupon.percentage_discount }}%</span></p>
+    <p>Начало действия: {{ order.coupon.start_of_the_coupon }}</p>
+    <p>Окончание действия: {{ order.coupon.end_of_the_coupon }}</p>
+{% endif %}
 
 <table id="table_carts" cols="6" summary="Корзина">
     <caption>Корзина</caption>
