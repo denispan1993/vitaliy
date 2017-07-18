@@ -533,13 +533,13 @@ def get_mail_imap(*args, **kwargs):
     return True, "Id's message deleted from server {0}".format(result_msg_nums, ), datetime.now()
 
 
-@celery_app.task(run_every=timedelta(seconds=1))
-def test():
-    print('All work!!!')
-    logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
+#@celery_app.task(run_every=timedelta(seconds=1))
+#def test():
+#    print('All work!!!')
+#    logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
     # std_logger.info(u'message: datetime.now() {0}'.format(datetime.now()))
     # debug_log.info(u'message: {0}, datetime: {1}'.format('All Work', datetime.now()))
-    return True, datetime.now()
+#    return True, datetime.now()
 
 
 import socket

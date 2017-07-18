@@ -16,7 +16,6 @@ from django.utils.html import strip_tags
 from celery.utils.log import get_task_logger
 
 from applications.delivery2.models import EmailTemplate
-from .models import Cart
 
 __author__ = 'AlexStarov'
 
@@ -108,6 +107,7 @@ def get_cart_or_create(request, user_object=False, created=True, ):
         else:
             user_object = None
 
+    from .models import Cart
     if created:
         cart, created = Cart.objects.get_or_create(user=user_object,
                                                    sessionid=sessionid, )

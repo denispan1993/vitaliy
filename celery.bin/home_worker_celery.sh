@@ -1,8 +1,9 @@
 #!/bin/sh
 
-cd /home/alexstarov/PycharmProjects/Shop/
+cd ..
 
-/home/alexstarov/PycharmProjects/Env/bin/celery worker --app=proj \
+./../../PyEnv/versions/3.6.1/envs/keksik/bin/celery worker --beat \
+--app=proj \
 --concurrency=1 \
 --autoreload \
 --queues=celery \
