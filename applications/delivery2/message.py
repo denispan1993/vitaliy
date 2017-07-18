@@ -9,11 +9,7 @@ from random import randrange
 from django.core.mail import EmailMultiAlternatives
 # from django.core.mail.utils import DNS_NAME
 from django.core.cache import cache
-try:
-    from django.db.models.loading import get_model
-except (ImportError, ModuleNotFoundError):
-    from django.apps import apps
-    get_model = apps.get_model
+from django.apps import apps
 
 from django.utils.html import strip_tags
 from email.utils import formataddr
@@ -25,6 +21,7 @@ from .models import Delivery, Message as modelMessage, EmailUrlTemplate, Message
 from .utils import allow_to_send
 from applications.utils.captcha.utils import key_generator
 
+get_model = apps.get_model
 
 __author__ = 'AlexStarov'
 
