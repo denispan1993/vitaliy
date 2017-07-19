@@ -1,0 +1,111 @@
+{% spaceless %}
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Номер заказа в интернет магазине "Keksik"</title>
+    <style type="text/css">
+        #outlook a{padding:0;}
+        body{width:100% !important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;margin:0;padding:0;}
+        #backgroundTable{margin:0;padding:0;width:100% !important;line-height:100% !important;}
+        img {outline:none;text-decoration:none;border:none;-ms-interpolation-mode:bicubic;}
+        a img {border:none;}
+        p {margin:0 0 !important;}
+        tr td p span{color:red;}
+        table td {border-collapse:collapse;}
+        table { border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;}
+        a {color: #9ec459;text-decoration:none!important;}
+        @media only screen and (max-width:640px){
+            a[href^="tel"], a[href^="sms"]{
+                text-decoration:none;
+                color:#9ec459;
+                pointer-events:none;
+                cursor:default;
+            }
+            .mobile_link a[href^="tel"], .mobile_link a[href^="sms"]{
+                color:#9ec459 !important;
+                pointer-events:auto;
+                cursor:default;
+            }
+            table[class=devicewidth]{width:440px!important;text-align:center!important;}
+            td[class=devicewidth]{width:440px!important;text-align:center!important;}
+            img[class=devicewidth]{width:440px!important;text-align:center!important;}
+            table[class=devicewidthinner]{width:420px!important;text-align:center!important;}
+            img[class="colimg2"]{width:420px!important;height:243px!important;}
+            table[class="emhide"]{display:none!important;}
+            img[class="logo"]{width:440px!important;height:110px!important;}
+        }
+        @media only screen and (max-width:480px){
+            a[href^="tel"], a[href^="sms"]{
+                text-decoration:none;
+                color:#9ec459;
+                pointer-events: none;
+                cursor:default;
+            }
+            .mobile_link a[href^="tel"], .mobile_link a[href^="sms"]{
+                text-decoration:default;
+                color:#9ec459 !important;
+                pointer-events:auto;
+                cursor:default;
+            }
+            table[class=devicewidth] {width: 280px!important;text-align:center!important;}
+            td[class=devicewidth] {width: 280px!important;text-align:center!important;}
+            img[class=devicewidth] {width: 280px!important;text-align:center!important;}
+            table[class=devicewidthinner] {width: 260px!important;text-align:center!important;}
+            img[class="colimg2"] {width:260px!important;height:150px!important;}
+            table[class="emhide"]{display: none!important;}
+            img[class="logo"]{width:280px!important;height:70px!important;}
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
+        <tbody>
+            <tr>
+                <td>
+                    <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                        <tbody>
+                            <tr>
+                                <td width="100%">
+                                    <table bgcolor="#ffffff" width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                                        <tbody>
+                                            <tr>
+                                                <td width="100%" height="20"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="font-family: Helvetica, arial, sans-serif; font-size: 14px; font-weight:bold; color: #333333; text-align:left;line-height: 24px;">
+                                                                    <p>Номер Вашего заказа в магазине Кексик №: {{ order.number }}</p>
+                                                                    <br />
+                                                                    {% if order.coupon %}
+                                                                        <p>Предварительная сумма заказа с учетом скидки <span style="color:red;">{{ order.coupon.percentage_discount }}%</span>: {{ order.coupon_sum}} грн.</p>
+                                                                    {% else %}
+                                                                        <p>Предварительная сумма заказа: {{ order.sum }} грн.</p>
+                                                                    {% endif %}
+                                                                    <br />
+                                                                    {% if order.checkbox2 %}
+                                                                        <p><strong>Наш менеджер свяжется с Вами в ближайщее время для уточнения заказа.</strong></p>
+                                                                        <br />
+                                                                    {% endif %}
+                                                                    <p><strong>Спасибо за Ваш заказ !!!</strong></p>
+                                                                    <p><small><strong><a href="#URL_000003#" title="Интернет магазин хороших воспоминаний">keksik.com.ua --> залог удачной выпечки!!!</a></strong></small></p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body></html>
+{% endspaceless %}
