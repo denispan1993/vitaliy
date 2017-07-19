@@ -106,15 +106,12 @@ class IFrameTemplateView(OnlyStaffMixin, View):
 
         try:
             base_text = obj.get_template()
+            print(base_text)
         except ValueError:
             base_text = 'Upload file first'
+
         template = Template(base_text)
 
-        #user_model = get_user_model()
-        #try:
-        #    user = user_model.objects.order_by('id').all()[:1][0]
-        #except user_model.DoesNotExist:
-        #    user = None
         context = Context({#'MAIN_DOMAIN': settings.MAIN_DOMAIN,
                            #'MEDIA_DOMAIN': settings.MEDIA_DOMAIN,
                            #'PROJECT_HOST': settings.PROJECT_HOST,
@@ -126,7 +123,7 @@ class IFrameTemplateView(OnlyStaffMixin, View):
                            #'user_name': user.get_full_name(),
                            #'email_hash': user.email.encode('base64'),
                            })
-        return HttpResponse(template.render(context))
+        return HttpResponse(template.render(context=context), )
 
 
 class GoView(TemplateView, ):

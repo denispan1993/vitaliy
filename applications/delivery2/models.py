@@ -244,15 +244,15 @@ class EmailTemplate(models.Model, ):
     def get_image_and_style_names(self):
         self.template.file.seek(0)
         html = self.template.file.read()
-        img = re.findall('url\([\'|\"](?P<file>[^ \s]+)[\'|\"]\)', html)
-        style = re.findall('src=[\'|\"](?P<file>[^ \s]+)[\'|\"]', html)
+        img = re.findall(b'url\([\'|\"](?P<file>[^ \s]+)[\'|\"]\)', html)
+        style = re.findall(b'src=[\'|\"](?P<file>[^ \s]+)[\'|\"]', html)
         return set(img + style)
 
     def get_urls(self):
         self.template.file.seek(0)
         html = self.template.file.read()
         url = re.findall(
-            '<a\s+(?:[^>]*?\s+)?href="(?!#URL_[0-9]{6}#|#UNSUB_URL#|#OPEN_URL#|#SHOW_ONLINE_URL#|#)([^"]*)"',
+            b'<a\s+(?:[^>]*?\s+)?href="(?!#URL_[0-9]{6}#|#UNSUB_URL#|#OPEN_URL#|#SHOW_ONLINE_URL#|#)([^"]*)"',
             html, )
         return set(url, )
 
@@ -278,7 +278,7 @@ class EmailTemplate(models.Model, ):
 
         self.template.file.seek(0)
         html = self.template.file.read()
-
+        print(type(html), html)
 #        for url in images:
 #            image = EmailImageTemplate.objects\
 #                .get(template_id=self.id,
@@ -298,11 +298,11 @@ class EmailTemplate(models.Model, ):
                 .values_list('id', flat=True)\
                 .get(template_id=self.id,
                      href=href_new, )
-            html = html.replace('href="{href}"'.format(href=href,),
-                                'href="#URL_{href_pk:06d}#"'.format(href_pk=href_pk, ), )
-
+            html = html.replace(b'href="{%s}"' % href,
+                                b'href="#URL_{href_pk:%06d}#"' % href_pk, )
+        print(type(html), html)
         with open(self.template.path, 'w') as f:
-            f.write(html, )
+            f.write(html.decode('utf8'), )
 
     def get_template(self):
         self.template.file.seek(0)
