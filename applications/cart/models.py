@@ -250,7 +250,16 @@ class Order(models.Model):
             product_in_cart.update_price_per_piece()
         return self, product_in_cart
 
+    @property
+    def order_sum_calc(self, ):
+        return self.order_sum(calc_or_show='calc', )
+
+    @property
+    def order_sum_show(self, ):
+        return self.order_sum(calc_or_show='show', )
+
     def order_sum(self, calc_or_show='show', currency=980, ):
+
         return sum(float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )
                    for product in self.products)
 
@@ -338,6 +347,14 @@ class Product(models.Model):
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
+
+    @property
+    def sum_of_quantity_calc(self, ):
+        return self.sum_of_quantity(calc_or_show='calc', )
+
+    @property
+    def sum_of_quantity_show(self, ):
+        return self.sum_of_quantity(calc_or_show='show', )
 
     def sum_of_quantity(self, request=None, calc_or_show='show', currency=980, ):
         ''' Возвращаем значение суммы количества * на цену товара в текущей валюте сайта '''
