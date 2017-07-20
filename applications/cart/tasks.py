@@ -30,11 +30,9 @@ def delivery_order(*args, **kwargs):
         return False
 
     """ Отправка заказа мэнеджеру """
-    html_content = None
-    if 'keksik.com.ua' in order.email:
-        template_name = kwargs.pop('email_template_name_to_admin',
-                                   proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_TO_ADMIN'], )
-        html_content = get_and_render_template(order=order, template_name=template_name)
+    template_name = kwargs.pop('email_template_name_to_admin',
+                               proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_TO_ADMIN'], )
+    html_content = get_and_render_template(order=order, template_name=template_name)
 
     if not html_content:
         html_content = render_to_string('email_order_content.jinja2',
@@ -51,15 +49,12 @@ def delivery_order(*args, **kwargs):
           ' bool: ', 'keksik.com.ua' in order.email,
           ' email: ', 'alex.starov@keksik.com.ua')
 
-    html_content = None
-    if 'keksik.com.ua' in order.email:
+    template_name = kwargs.pop('email_template_name_to_client',
+                               proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER'], )
 
-        template_name = kwargs.pop('email_template_name_to_client',
-                                   proj.settings.EMAIL_TEMPLATE_NAME['SEND_ORDER_NUMBER'], )
+    logger.info('template_name: ', template_name, )
 
-        logger.info('template_name: ', template_name, )
-
-        html_content = get_and_render_template(order=order, template_name=template_name)
+    html_content = get_and_render_template(order=order, template_name=template_name)
 
     if not html_content:
         html_content = render_to_string('email_successful_content.jinja2',

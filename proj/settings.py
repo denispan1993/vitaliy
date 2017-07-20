@@ -87,43 +87,6 @@ ALLOWED_HOSTS = ['*']
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 16777216
 
-#if os.path.isfile(path('server.mysql', ), ):
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#            'NAME': 'keksik_com_ua',       # Or path to database file if using sqlite3.
-#            'USER': 'keksik_com_ua',       # Not used with sqlite3.
-#            'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
-#            'HOST': '192.168.1.90',        # Set to empty string for localhost. Not used with sqlite3.
-#            'PORT': '3306',                # Set to empty string for default. Not used with sqlite3.
-#            'OPTIONS': {
-#                'charset': 'utf8',
-#                'use_unicode': True, },
-#        }
-#    }
-#elif os.path.isfile(path('production.mysql', ), ):
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#            'NAME': 'p_keksik_com_ua',    # Or path to database file if using sqlite3.
-#            'USER': 'p_keksik_com_ua',    # Not used with sqlite3.
-#            'PASSWORD': 'MbmwjhZeCyHPEX8c',        # Not used with sqlite3.
-#            'HOST': '192.168.1.12',                # Set to empty string for localhost. Not used with sqlite3.
-#            'PORT': '3306',                        # Set to empty string for default. Not used with sqlite3.
-#        }
-#    }
-#elif os.path.isfile(path('server.pgsql', ), ):
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#            'NAME': 'keksik_com_ua',       # Or path to database file if using sqlite3.
-#            'USER': 'keksik_com_ua',       # Not used with sqlite3.
-#            'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
-#            'HOST': '192.168.1.12',        # Set to empty string for localhost. Not used with sqlite3.
-#            'PORT': '5432',                # Set to empty string for default. Not used with sqlite3.
-#        }
-#    }
-#else:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -133,50 +96,7 @@ DATABASES = {
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     },
-    'real': {
-        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'keksik_com_ua',       # Or path to database file if using sqlite3.
-        'USER': 'keksik_com_ua',       # Not used with sqlite3.
-        'PASSWORD': '5ZqUcJdWzJbsc6pP',  # Not used with sqlite3.
-        'HOST': '192.168.1.90',        # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {
-            'charset': 'utf8',
-            'use_unicode': True, },
-    },
 }
-
-#from sys import platform
-#if platform == 'win32':
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#            'NAME': 'shop_mk_ua',            # Or path to database file if using sqlite3.
-#            'USER': 'shop_mk_ua',          # Not used with sqlite3.
-#            'PASSWORD': 'VTaCjL7vt69MQDfP',  # Not used with sqlite3.
-#            'HOST': '192.168.1.88',        # Set to empty string for localhost. Not used with sqlite3.
-#            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#        }
-#    }
-#elif platform == 'linux2':
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2',
-#                                             # 'mysql', 'sqlite3' or 'oracle'.
-#            'NAME': 'shop_mk_ua',            # Or path to database file if using sqlite3.
-#            'USER': 'postgres',                  # Not used with sqlite3.
-#            'PASSWORD': 'secret',            # Not used with sqlite3.
-#            'HOST': 'localhost',             # Set to empty string for localhost. Not used with sqlite3.
-#            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-
-#            'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#            'NAME': 'shop_mk_ua',            # Or path to database file if using sqlite3.
-#            'USER': 'root',                  # Not used with sqlite3.
-#            'PASSWORD': 'secret',            # Not used with sqlite3.
-#            'HOST': 'localhost',             # Set to empty string for localhost. Not used with sqlite3.
-#            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#        }
-#    }
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

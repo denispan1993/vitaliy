@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # /applications/cart/models.py
+import math
 from decimal import Decimal
 from datetime import date
 from django.db import models, OperationalError
@@ -252,20 +253,16 @@ class Order(models.Model):
 
     @property
     def order_sum_calc(self, ):
-        return self.order_sum(calc_or_show='calc', )
+        return math.ceil(self.order_sum(calc_or_show='calc', ))
 
     @property
     def order_sum_show(self, ):
-        return self.order_sum(calc_or_show='show', )
+        return math.ceil(self.order_sum())
 
     def order_sum(self, calc_or_show='show', currency=980, ):
 
         return sum(float(product.sum_of_quantity(calc_or_show=calc_or_show, currency=currency, ), )
                    for product in self.products)
-
-    @property
-    def sum(self, ):
-        return self.order_sum()
 
     @property
     def coupon(self, ):

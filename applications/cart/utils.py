@@ -73,7 +73,7 @@ def send_email(subject='Спасибо за заказ в магазине Ке�
     msg.attach_alternative(content=html_content,
                            mimetype="text/html", )
 
-    # msg.content_subtype = "html"
+    msg.content_subtype = "html"
     i = 0
     while True:
 

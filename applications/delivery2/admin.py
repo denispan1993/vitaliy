@@ -87,7 +87,7 @@ class EmailUrlInlineAdmin(admin.TabularInline, ):
 
 
 class EmailTemplateAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'delivery', 'name', 'chance', ]
+    list_display = ['pk', 'is_system', 'delivery', 'name', 'chance', ]
     list_display_links = ['pk', 'delivery', 'name', 'chance', ]
     # TODO: Показ template письма в админ панеле.
     suit_form_includes = (

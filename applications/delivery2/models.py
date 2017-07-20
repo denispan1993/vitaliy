@@ -212,6 +212,11 @@ class EmailTemplate(models.Model, ):
                                  null=True,
                                  blank=True, )
 
+    is_system = models.BooleanField(verbose_name=_(u'Системный', ),
+                                    blank=False,
+                                    null=False,
+                                    default=False, )
+
     name = models.CharField(max_length=64,
                             unique=True,
                             verbose_name=_(u'Название', ),
@@ -260,49 +265,41 @@ class EmailTemplate(models.Model, ):
              update_fields=None):
         super(EmailTemplate, self).save(force_insert, force_update, using, update_fields)
 
-        images = self.get_image_and_style_names()
+        """ Производим изменения шаблона только если он НЕ СИСТЕМНЫЙ """
+        if not self.is_system:
+            images = self.get_image_and_style_names()
 
-        for url in images:
-            if not self.images.filter(url=url, ).exists():
-                self.images.create(url=url, )
+            for url in images:
+                if not self.images.filter(url=url, ).exists():
+                    self.images.create(url=url, )
+            """ Составляем set href="адресов" со всего шаблона """
+            urls = self.get_urls()
 
-        urls = self.get_urls()
+            """ Читаем весь шаблон в память """
+            self.template.file.seek(0)
+            html = self.template.file.read()
 
-        for href in urls:
-            if href[0] is '/':
-                href = 'http://{redirect_host}{href}'.format(
-                    redirect_host=proj.settings.REDIRECT_HOST,
-                    href=href, )
-            if not self.urls.filter(href=href, ).exists():
-                self.urls.create(href=href, )
+            for href in urls:
+                if href[0] is '/':
+                    href = 'https://{redirect_host}{href}'.format(**{
+                        'redirect_host': proj.settings.REDIRECT_HOST,
+                        'href': href, }, )
+                if not self.urls.filter(href=href, ).exists():
+                    self.urls.create(href=href, )
 
-        self.template.file.seek(0)
-        html = self.template.file.read()
-        print(type(html), html)
-#        for url in images:
-#            image = EmailImageTemplate.objects\
-#                .get(template_id=self.id,
-#                     url=url, )
-##            html = html.replace(old=url,
-##                                new='#URL_{href_pk:06d}#'.format(href_pk=href_pk, ), )
+                """ Берем pk записи "НАШЕГО" href в базе """
+                href_pk = EmailUrlTemplate.objects \
+                    .values_list('id', flat=True) \
+                    .get(template_id=self.id,
+                         href=href, )
+                """ И меняем все строки вида href="https://keksik.com.ua/trali-vali/"
+                    на href="URL_0000XX" """
+                html = html.replace(b'href="{%s}"' % href,
+                                    b'href="#URL_{href_pk:%06d}#"' % href_pk, )
 
-        for href in urls:
-            if href[0] is '/':
-                href_new = 'http://{redirect_host}{href}'.format(
-                    redirect_host=proj.settings.REDIRECT_HOST,
-                    href=href, )
-            else:
-                href_new = href
-
-            href_pk = EmailUrlTemplate.objects\
-                .values_list('id', flat=True)\
-                .get(template_id=self.id,
-                     href=href_new, )
-            html = html.replace(b'href="{%s}"' % href,
-                                b'href="#URL_{href_pk:%06d}#"' % href_pk, )
-        print(type(html), html)
-        with open(self.template.path, 'w') as f:
-            f.write(html.decode('utf8'), )
+            """ Записываем измененный html файл на диск """
+            with open(self.template.path, 'w') as f:
+                f.write(html.decode('utf8'), )
 
     def get_template(self):
         self.template.file.seek(0)

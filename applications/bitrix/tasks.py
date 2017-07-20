@@ -11,6 +11,7 @@ from celery.utils.log import get_task_logger
 from proj.celery import celery_app
 
 from applications.product.models import Product, ItemID
+from applications.cart.utils import send_email
 
 __author__ = 'AlexStarov'
 
@@ -312,7 +313,7 @@ def process_of_proposal(offers_list):
         offer_list = list(offer)
 
         if 'id_1c' in locals():
-            del(id_1c)
+            del(id_1c, )
 
         n = 0
         while True:
@@ -323,6 +324,9 @@ def process_of_proposal(offers_list):
 
                 if offer_list[n].tag == u'Количество':
                     quantity_of_stock = offer_list[n].text.replace(' ', '', )
+
+                if offer_list[n].tag == u'Цены':
+                    price = get_price(prices=list(offer_list[n]))
 
             except IndexError:
                 break
@@ -376,70 +380,43 @@ def process_of_proposal(offers_list):
                             .format(product, product.ItemID.all()[0].ItemID, product.title, ), )
 
     """ ============================================================================ """
-    msg = EmailMultiAlternatives(
+    send_email(
         subject=u'Список Артикулов товаров которые есть в 1С но отсутствуют на сайте.',
-        body=strip_tags(there_is_in_1c_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=u'{0}<br />\n{1}'.format(there_is_in_1c, there_is_in_1c_html),
-                           mimetype="text/html", )
-
-    msg.content_subtype = "html"
-    i = 0
-    while True:
-        result = msg.send(fail_silently=False, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        print('bitrix.tasks.process_bitrx_catalog.there_is_in_1c(i): ', i, ' result: ', result,)
-        i += 1
-        time.sleep(5)
+        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+        html_content=u'{0}<br />\n{1}'.format(there_is_in_1c, there_is_in_1c_html), )
 
     """ ============================================================================ """
-    msg = EmailMultiAlternatives(
+    send_email(
         subject=u'Список Артикулов товаров которые есть на сайте но отсутствуют в 1С.',
-        body=strip_tags(there_is_in_site_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html),
-                           mimetype="text/html", )
-
-    msg.content_subtype = "html"
-    i = 0
-    while True:
-        result = msg.send(fail_silently=False, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        print('bitrix.tasks.process_bitrx_catalog.there_is_in_site(i): ', i, ' result: ', result,)
-        i += 1
-        time.sleep(5)
+        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+        html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
 
     """ ============================================================================ """
-    msg = EmailMultiAlternatives(
+    send_email(
         subject=u'Список Артикулов товаров которые есть на сайте но отсутствуют в 1С.',
-        body=strip_tags(there_is_in_site_html, ),
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Виктория', u'zakaz@keksik.com.ua'), ), ],
-        connection=backend, )
+        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Виктория', u'zakaz@keksik.com.ua'), ), ],
+        html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
 
-    msg.attach_alternative(content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html),
-                           mimetype="text/html", )
 
-    msg.content_subtype = "html"
+def get_price(prices):
+    found_price_1c_id = False
     i = 0
     while True:
-        result = msg.send(fail_silently=False, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        print('bitrix.tasks.process_bitrx_catalog.there_is_in_site(i): ', i, ' result: ', result, )
+        price = list(prices[i])
         i += 1
-        time.sleep(5)
+        n = 0
+        while True:
+            if price[n].tag == 'ИдТипаЦены':
+                if price[n].text.replace(' ', '', ) == 'ea0d32d8-abdf-11e5-8023-000c29aa1c5b':
+                    found_price_1c_id = True
+                else:
+                    break
+            if price[n].tag == 'ЦенаЗаЕдиницу' and found_price_1c_id:
+                return price[n].text.replace(' ', '', )
+
+            n += 1
+
+    return None
