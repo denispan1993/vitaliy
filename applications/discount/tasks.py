@@ -96,7 +96,7 @@ def processing_action(*args, **kwargs):
                         """ Удаляем категорию 'Акция' из товара """
                         if action_category:
                             ProductToCategory.objects.get(
-                                product=product, cetgory=action_category, ).delete()
+                                product=product, cetegory=action_category, ).delete()
 
     """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
         но при этом отсутвует хоть какая то акция """
