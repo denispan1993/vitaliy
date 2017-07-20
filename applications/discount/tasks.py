@@ -4,7 +4,7 @@ from datetime import datetime
 from logging import getLogger
 from celery.utils.log import get_task_logger
 
-from applications.product.models import Category, Product
+from applications.product.models import Category, Product, ProductToCategory
 from .models import Action
 
 __author__ = 'AlexStarov'
@@ -41,13 +41,16 @@ def processing_action(*args, **kwargs):
                 if len(products_of_action, ) > 0:
                     print('Product auto_end:', products_of_action, )
                     for product in products_of_action:
+
                         print('Del product from Action: ', product, )
-                        """
-                            Помечает товар как не учавствующий в акции
-                        """
+                        """ Помечает товар как не учавствующий в акции """
                         if action_category:
-                            product.category.remove(action_category, )
+                            ProductToCategory.objects.get(
+                                product=product,
+                                category=action_category, ).delete()
+
                         product.in_action = False
+
                         if action.auto_del_action_from_product:
                             if action_category:
                                 product.action.remove(action, )
@@ -75,10 +78,13 @@ def processing_action(*args, **kwargs):
                     for product in products_of_action:
                         """ Помечает товар как учавствующий в акции """
                         product.in_action = True
+                        product.save()
                         """ Добавляем категорию 'Акция' в товар """
                         if action_category:
-                            product.category.add(action_category, )
-                        product.save()
+                            ProductToCategory.objects.create(
+                                product=product,
+                                category=action_category,
+                            )
                 """ Удаляем товары учавствующие в активной акции но при этом 'отсутсвующие на складе' """
                 products_remove_from_action = action.product_in_action.exclude(is_availability__lt=4, )
                 if len(products_remove_from_action, ) > 0:
@@ -86,10 +92,11 @@ def processing_action(*args, **kwargs):
                     for product in products_remove_from_action:
                         """ Помечает товар как не учавствующий в акции """
                         product.in_action = False
+                        product.save()
                         """ Удаляем категорию 'Акция' из товара """
                         if action_category:
-                            product.category.remove(action_category, )
-                        product.save()
+                            ProductToCategory.objects.get(
+                                product=product, cetgory=action_category, ).delete()
 
     """ Убираем галочку 'участвует в акции' всем продуктам у которых она почемуто установлена,
         но при этом отсутвует хоть какая то акция """

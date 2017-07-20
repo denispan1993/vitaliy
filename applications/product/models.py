@@ -398,7 +398,7 @@ class Product(models.Model):
                                           u' "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости продукта',
                                      default=True, )
-    #Кто создал
+    # Кто создал
     # from django.contrib.auth.models import User
     user_obj = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
