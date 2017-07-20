@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from proj.celery import celery_app
 from datetime import datetime
+from django.db.utils import IntegrityError
 from logging import getLogger
+from proj.celery import celery_app
 from celery.utils.log import get_task_logger
 
 from applications.product.models import Category, Product, ProductToCategory
@@ -81,10 +82,13 @@ def processing_action(*args, **kwargs):
                         product.save()
                         """ Добавляем категорию 'Акция' в товар """
                         if action_category:
-                            ProductToCategory.objects.create(
-                                product=product,
-                                category=action_category,
-                            )
+                            try:
+                                ProductToCategory.objects.create(
+                                    product=product,
+                                    category=action_category,
+                                )
+                            except IntegrityError:
+                                pass
                 """ Удаляем товары учавствующие в активной акции но при этом 'отсутсвующие на складе' """
                 products_remove_from_action = action.product_in_action.exclude(is_availability__lt=4, )
                 if len(products_remove_from_action, ) > 0:
