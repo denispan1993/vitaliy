@@ -371,7 +371,13 @@ def process_of_proposal(offers_list):
                 there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
             ''' Сравнение цен '''  # '%.2f' % 1.234  |  "{0:.2f}".format(5)
-            price_1C = '{0:.2f}'.format(float(price.get(product.currency.currency_code_ISO_char, ), ), )
+            try:
+                price_1C = '{0:.2f}'.format(float(price.get(product.currency.currency_code_ISO_char, ), ), )
+            except TypeError:
+                logger.info('line 377: fix 4!!! --> price: {0} | id_1c: {1}' \
+                            .format(price, id_1c, ), )
+                price_1C = None
+
             price_site = '{0:.2f}'.format(product.price)
             if price_1C != price_site:
                 discrepacy_price += 1
