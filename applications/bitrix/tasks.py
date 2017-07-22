@@ -402,21 +402,41 @@ def process_of_proposal(offers_list):
 
 
 def get_price(prices):
-    found_price_1c_id = False
+    found_price_1c_id_UAH = False
+    found_price_1c_id_USD = False
+    price_dict ={}
     i = 0
     while True:
-        price = list(prices[i])
+        try:
+            price = list(prices[i])
+        except IndexError:
+            return price_dict
+
         i += 1
         n = 0
         while True:
-            if price[n].tag == 'ИдТипаЦены':
-                if price[n].text.replace(' ', '', ) == 'ea0d32d8-abdf-11e5-8023-000c29aa1c5b':
-                    found_price_1c_id = True
-                else:
-                    break
-            if price[n].tag == 'ЦенаЗаЕдиницу' and found_price_1c_id:
-                return price[n].text.replace(' ', '', )
+            try:
+                item = price[n]
+            except IndexError:
+                break
+
+            if item.tag == 'ИдТипаЦены':
+                # Отпускная цена
+                if item.text.replace(' ', '', ) == 'bd764f1d-71d5-11e2-8276-00241db631a6':
+                    found_price_1c_id_UAH = True
+                    found_price_1c_id_USD = False
+                # Отпускная цена $
+                elif item.text.replace(' ', '', ) == '4abe9dc1-6c05-11e4-ae03-525400aca16e':
+                    found_price_1c_id_USD = True
+                    found_price_1c_id_UAH = False
+
+            if price[n].tag == 'ЦенаЗаЕдиницу':
+                if found_price_1c_id_UAH:
+                    price_dict.update({'UAH': price[n].text.replace(' ', '', ), }, )
+                    found_price_1c_id_UAH = False
+
+                if found_price_1c_id_USD:
+                    price_dict.update({'USD': price[n].text.replace(' ', '', ), }, )
+                    found_price_1c_id_USD = False
 
             n += 1
-
-    return None
