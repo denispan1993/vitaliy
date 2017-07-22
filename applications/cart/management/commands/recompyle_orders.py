@@ -18,9 +18,9 @@ class Command(BaseCommand, ):
         for i, order in enumerate(start=1, iterable=orders, ):
 
             print('i:', i, 'pk:', order.pk, 'order.user:', order.user, 'order:', order, )
-            sleep(1, )
 
             if order.user:
+                sleep(0.1, )
                 continue
 
             else:
@@ -29,3 +29,5 @@ class Command(BaseCommand, ):
                     kwargs={'order_pk': order.pk, },
                     task_id='celery-task-id-recompile_order-{0}'.format(celery.utils.uuid(), ),
                 )
+
+            sleep(1, )
