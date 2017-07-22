@@ -201,25 +201,25 @@ def get_phone(order, ):
     logger.info('get_phone: phone: %s' % phone, )
 
     try:
-        int_phone_code = int(phone[:2])
+        int_code = int(phone[:2])
         int_phone = int(phone[2:])
     except ValueError:
-        int_phone_code = 0
+        int_code = 0
         int_phone = 0
 
     try:
         return Phone.objects.get(
             phone='{phone_code}{phone}'.format(
-                phone_code=str(int_phone_code, ),
+                phone_code=str(int_code, ),
                 phone='{int_phone:07d}'.format(int_phone=int_phone, ),
             ),
         )
     except Phone.DoesNotExist:
-        return Phone.objects.create(phone=phone, int_phone=int_phone, int_phone_code=int_phone_code, )
+        return Phone.objects.create(phone=phone, int_phone=int_phone, int_code=int_code, )
     except Phone.MultipleObjectsReturned:
         phones = Phone.objects.filter(
             phone='{phone_code}{phone}'.format(
-                phone_code=str(int_phone_code, ),
+                phone_code=str(int_code, ),
                 phone='{int_phone:07d}'.format(int_phone=int_phone, ),
             ),
         )
@@ -229,7 +229,7 @@ def get_phone(order, ):
         try:
             return Phone.objects.get(
                     phone='{phone_code}{phone}'.format(
-                        phone_code=str(int_phone_code, ),
+                        phone_code=str(int_code, ),
                         phone='{int_phone:07d}'.format(int_phone=int_phone, ), ),
             )
 
