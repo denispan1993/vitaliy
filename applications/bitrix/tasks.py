@@ -328,6 +328,8 @@ def process_of_proposal(offers_list):
 
                 if offer_list[n].tag == u'Цены':
                     price = get_price(prices=list(offer_list[n]))
+                    logger.info('line 331: fix 5!!! --> price: {0} | id_1c: {1}' \
+                                .format(price, id_1c, ), )
 
             except IndexError:
                 break
