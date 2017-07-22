@@ -242,14 +242,14 @@ def processing_username(order, ):
         FIO = order.FIO.split('.')
         FIO_temp = FIO
         if FIO[0][-1] == '.' and FIO[0][-3] == '.' \
-                or 'Діденко'.decode('utf-8') in FIO[0] \
-                or 'Коба'.decode('utf-8') in FIO[0] \
-                or 'Слободянюк'.decode('utf-8') in FIO[0] \
-                or 'Корягина'.decode('utf-8') in FIO[0] \
-                or 'Дуянова'.decode('utf-8') in FIO[0] \
-                or 'Тарасова'.decode('utf-8') in FIO[0] \
-                or 'Пашпадурова'.decode('utf-8') in FIO[0] \
-                or 'Розкошинская'.decode('utf-8') in FIO[0]:
+                or 'Діденко' in FIO[0] \
+                or 'Коба' in FIO[0] \
+                or 'Слободянюк' in FIO[0] \
+                or 'Корягина' in FIO[0] \
+                or 'Дуянова' in FIO[0] \
+                or 'Тарасова' in FIO[0] \
+                or 'Пашпадурова' in FIO[0] \
+                or 'Розкошинская' in FIO[0]:
             FIO = FIO[0].split()
             FIO[2] = FIO_temp[1]
         elif FIO[0][-1].isupper() and FIO[0][-2].isupper():
