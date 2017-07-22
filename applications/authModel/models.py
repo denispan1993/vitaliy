@@ -284,7 +284,9 @@ class Email(models.Model, ):
 class Phone(models.Model, ):
     user = models.ForeignKey(to=User,
                              verbose_name=_(u'Пользователь', ),
-                             related_name='phone_parent_user', )
+                             related_name='phone_parent_user',
+                             blank=True,
+                             null=True, )
     # Номер телефона
     phone = models.CharField(max_length=19,
                              verbose_name=_(u'Номер телефона'),
