@@ -46,6 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     # email = models.EmailField(verbose_name=_('email address'), blank=True, null=True, )
     # USERNAME_FIELD = 'username'
     # REQUIRED_FIELDS = ['username', ]
+
+    # День рождения
     date_of_birth = models.DateField(verbose_name=u'День рождения', blank=True, null=True, )
 
     NONE = 0
@@ -104,10 +106,7 @@ class User(AbstractBaseUser, PermissionsMixin, ):
                                                default=1,
                                                blank=True,
                                                null=True, )
-    # День рождения
-    birthday = models.DateField(verbose_name=_(u'День рождения'),
-                                blank=True,
-                                null=True, )
+
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
@@ -133,13 +132,14 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     last_name = models.CharField(_('last name'), max_length=30, blank=True, )
     # email = models.EmailField(_('email address'), blank=True)
 
-    """
-        Заглушка
-    """
+    """ Заглушки """
+    @property
+    def emails(self, ):
+        return Email.email_parent_user.all()
+
     @property
     def email(self, ):
-        emails = Email.email_parent_user.all()
-        return None
+        return Email.email_parent_user.all()[0]
 
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text=_('Designates whether the user can log into this admin '

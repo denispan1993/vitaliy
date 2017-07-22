@@ -85,80 +85,120 @@ def recompile_order(*args, **kwargs):
     except Order.DoesNotExist:
         return False
 
-    if order.recompile:
-        return order
+    #if order.recompile:
+    #    return order
 
     username, first_name, last_name, patronymic = processing_username(order=order, )
-
-    logger.info('UserName123: %s' % username, )
+    """ Сначала ищем пользователя по username """
+    try:
+        user = User.objects.get(username=username, )
+    except User.DoesNotExist:
+        user = None
+    """ Теперь ищем юзера по email """
+    email = get_email(order=order, )
+    if email is not None and user is None:
+        user = email.user if email.user else None
+    """ Затем ищем юзера по номеру телефона """
+    phone = get_phone(order=order, )
+    if phone is not None and user is None:
+        user = phone.user if phone.user is None else None
+    """ Может мы его найдем по sessionID ? """
     sessionID = order.sessionid
-    logger.info('sessionID321: %s' % sessionID, )
+    logger.info('cart/task.py/recompile_order: username -> %s | sessionID -> %s' % (username, sessionID, ), )
 
     try:
         sessionID = Session_ID.objects.get(sessionid=sessionID, )
-        if sessionID.user:
-            user = sessionID.user
     except Session_ID.DoesNotExist:
+        sessionID = Session_ID.objects.create(sessionid=sessionID, )
+
+    if user is None and sessionID is not None:
+        user = sessionID.user if sessionID.user is not None else None
+
+    """ Если все совсем плохо и мы не можем найти пользователя, то создаем его "нового" """
+    if user is None:
+        user = User.objects.create(username=username,
+                                   first_name=first_name,
+                                   last_name=last_name,
+                                   patronymic=patronymic,
+                                   last_login=timezone.now(), )
+
+    """ Не отвязываем email и номер телефона от "Прежнего" пользователя
+        если он есть !?!?!? """
+    if email is not None and email.user is None:
+        email.user = user
+        email.save()
+
+    elif email is not None and email.user is not None and email.user is not user:
+        """ Пользователь user и email.user не совпадают !!! """
+        logger.info('cart/task.py/recompile_order: email.user -> %s | user -> %s' % (email.user, user, ), )
+
+    elif email is not None and email.user is user:
+        """ Все OK. User и email.user совпали, как и должно было быть !!! """
         pass
 
-    if 'user' not in (locals(), globals()):
-        if order.email:
-            email = order.email.replace(' ', '', )
-            logger.info('E-Mail1: 123 | %s' % email, )
-        else:
-            email = None
-    else:
-        # email = user.email_parent_user.get()
-        # print 'E-Mail 2.1: ', email
-        email = user.email_parent_user.all()
-        logger.info('E-Mail 2.2: 324 | %s' % email, )
-        if not email:  # == []:
-            user.delete()
-        else:
-            email = user.email_parent_user.all()[0]
-            logger.info('E-Mail 2.3: 2432 | %s' % email.email, )
+    if phone is not None and phone.user is None:
+        phone.user = user
+        phone.save()
 
-    if type(email, ) != Email:
-        try:
-            email = Email.objects.get(email=email, )
-        except Email.DoesNotExist:
-            email_not_found = True
-        except MySQLdb.Warning as e:
-            logger.info('cart/tasks.py: | %s ' % e.args, )
-            logger.info('cart/tasks.py: 654 | %s' % e.message, )
-            e_message = e.message.split(' ')[2]
-            logger.info('cart/tasks.py: 468 | %s' % e_message, )
-            if e_message == 'DOUBLE':
-                try:
-                    emails = Email.objects.filter(email=email, )
-                except:
-                    pass
-                logger.info('cart/tasks.py: 098: | %s' % emails, )
-                logger.info('cart/tasks.py: 23122: | %s' % len(emails, ), )
-                emails[0].delete()
-                try:
-                    email = Email.objects.get(email=email, )
-                except:
-                    pass
-            logger.info('cart/tasks.py: 745: | %s' % e.__doc__, )
-        else:
-            if type(sessionID) != Session_ID:
-                user = email.user
-            else:
-                if email.user == sessionID.user:
-                    logger.info(u'Ok', u' - ', u'SessionID.user == Email.user')
-                else:
-                    logger.info(u'Хреново, Email и SessionID пренадлежат разным пользователям.', )
-                    logger.info(u'SessionID.user: | %s' % sessionID.user, )
-                    logger.info(u'Email.user: | %s' % email.user, )
+    elif phone is not None and phone.user is not None and phone.user is not user:
+        """ Пользователь user и phone.user не совпадают !!! """
+        logger.info('cart/task.py/recompile_order: phone.user -> %s | user -> %s' % (phone.user, user, ), )
 
-    phone = r'%s' % order.phone
-    phone = phone\
+    elif phone is not None and phone.user is user:
+        """ Все OK. User и phone.user совпали, как и должно было быть !!! """
+        pass
+
+    if sessionID.user is None:
+        sessionID.user = user
+        sessionID.save()
+
+    order.user = user
+    order.recompile = True
+    order.save()
+
+    stop = datetime.now()
+    logger.info(u'Stop: recompile_order(*args, **kwargs): datetime.now() {0} | {1}'.format(stop, (stop - start), ), )
+
+    return user
+
+
+def get_email(order, ):
+
+    email = order.email.replace(' ', '', )
+    logger.info('get_email: email: %s' % email, )
+
+    try:
+        return Email.objects.get(email=email, )
+
+    except Email.DoesNotExist:
+        return Email.objects.create(email=email, )
+
+    except MySQLdb.Warning as e:
+        logger.info('cart/tasks.py/get_email/e.args: %s' % e.args, )
+        logger.info('cart/tasks.py/get_email/e.message: %s' % e.message, )
+        logger.info('cart/tasks.py/get_email/__doc__: %s' % e.__doc__, )
+        e_message = e.message.split(' ')[2]
+        logger.info('cart/tasks.py/get_email/e_message/split: 468 | %s' % e_message, )
+
+        if e_message == 'DOUBLE':
+            emails = Email.objects.filter(email=email, )
+            logger.info('cart/tasks.py/get_email/DOUBLE: len(): %d | %s' % (len(emails, ), emails, ), )
+            emails[0].delete()
+            try:
+                return Email.objects.get(email=email, )
+            except Email.DoesNotExist:
+                return None
+
+
+def get_phone(order, ):
+    phone = r'%s'\
         .replace(' ', '', ).replace('(', '', ).replace(')', '', )\
         .replace('-', '', ).replace('.', '', ).replace(',', '', )\
         .replace('/', '', ).replace('|', '', ).replace('\\', '', )\
-        .lstrip('+380').lstrip('380').lstrip('38').lstrip('80').lstrip('0')
-    logger.info('phone: ', phone, )
+        .lstrip('+380').lstrip('380').lstrip('38').lstrip('80').lstrip('0')\
+            % order.phone
+
+    logger.info('get_phone: phone: %s' % phone, )
 
     try:
         int_phone_code = int(phone[:2])
@@ -168,14 +208,14 @@ def recompile_order(*args, **kwargs):
         int_phone = 0
 
     try:
-        phone = Phone.objects.get(
+        return Phone.objects.get(
             phone='{phone_code}{phone}'.format(
                 phone_code=str(int_phone_code, ),
                 phone='{int_phone:07d}'.format(int_phone=int_phone, ),
             ),
         )
     except Phone.DoesNotExist:
-        phone_not_found = True
+        return Phone.objects.create(phone=phone, int_phone=int_phone, int_phone_code=int_phone_code, )
     except Phone.MultipleObjectsReturned:
         phones = Phone.objects.filter(
             phone='{phone_code}{phone}'.format(
@@ -184,72 +224,17 @@ def recompile_order(*args, **kwargs):
             ),
         )
 
-        logger.info('%d' % len(phones, ), )
-        if len(phones, ) > 1:
-            phones[0].delete()
-            phone = phones[1]
-    else:
-        if type(sessionID) != Session_ID and type(email) != Email:
-            user = phone.user
-        else:
-            if ('user' in locals() or 'user' in globals()) and user == phone.user:
-                logger.info(u'Phone.user == User', )
-            else:
-                logger.info(u'Номер телефона зарегистрирован за другим пользователем', )
-                if type(sessionID) == Session_ID:
-                    logger.info(u'SessionID.user: %s' % sessionID.user, )
-                if type(email) == Email:
-                    logger.info(u'Email.user: %s' % email.user, )
-                logger.info(u'Phone.user: %s' % phone.user, )
-
-    if 'user' not in locals() and 'user' not in globals():
+        logger.info('cart/tasks.py/get_phone/DOUBLE: len(): %d | %s' % (len(phones, ), phones,), )
+        phones[0].delete()
         try:
-            user = User.objects.get(username=username, )
-        except User.DoesNotExist:
-            user = User.objects.create(username=username,
-                                       first_name=first_name,
-                                       last_name=last_name,
-                                       patronymic=patronymic,
-                                       last_login=timezone.now(), )
+            return Phone.objects.get(
+                    phone='{phone_code}{phone}'.format(
+                        phone_code=str(int_phone_code, ),
+                        phone='{int_phone:07d}'.format(int_phone=int_phone, ), ),
+            )
 
-    if type(sessionID) != Session_ID:
-        sessionID = Session_ID.objects.create(user=user, sessionid=sessionID, )
-    else:
-        sessionID.user = user
-        sessionID.save()
-
-    if isinstance(email, str) or not email:  # type(email, ) == 'unicode':
-        logger.info('email type: %s email: %s' % (type(email, ), email, ), )
-    else:
-        logger.info('email type: %s email: %s' % (type(email, ), email.email, ), )
-
-    if email is not None:
-        if type(email) != Email:
-            email = Email.objects.create(user=user, email=email, )
-        else:
-            email.user = user
-            email.save()
-
-    if type(phone) != Phone:
-        #if 'phone1' in locals() or 'phone1' in globals() and 'phone2' in locals() or 'phone2' in globals():
-        #    Phone.objects.create(user=user, phone=phone1, )
-        #    del phone1
-        #    Phone.objects.create(user=user, phone=phone2, )
-        #    del phone2
-        #else:
-        Phone.objects.create(user=user, phone=phone, int_phone=int_phone, int_phone_code=int_phone_code, )
-    else:
-        phone.user = user
-        phone.save()
-
-    order.user = user
-    order.recompile = True
-    order.save()
-
-    stop = datetime.now()
-    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0} | {1}'.format(stop, (stop - start), ), )
-
-    return order
+        except Phone.DoesNotExist:
+            return None
 
 
 def processing_username(order, ):
