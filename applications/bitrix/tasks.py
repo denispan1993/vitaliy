@@ -441,20 +441,22 @@ def get_price(prices):
         while True:
             try:
                 item = price[n]
+                logger.info('line 444: fix 7!!! -->: item: {0}'.format(item, ), )
             except IndexError:
                 break
 
-            if item.tag == 'ИдТипаЦены':
+            logger.info('line 447: fix 8!!! item.tag -->: type: {0} | {1}| item.text -->: type: {2} | {3}'.format(type(item.tag), item.tag, type(item.text), item.text, )
+            if item.tag == u'ИдТипаЦены':
                 # Отпускная цена
-                if item.text.replace(' ', '', ) == 'bd764f1d-71d5-11e2-8276-00241db631a6':
+                if item.text.replace(' ', '', ) == u'bd764f1d-71d5-11e2-8276-00241db631a6':
                     found_price_1c_id_UAH = True
                     found_price_1c_id_USD = False
                 # Отпускная цена $
-                elif item.text.replace(' ', '', ) == '4abe9dc1-6c05-11e4-ae03-525400aca16e':
+                elif item.text.replace(' ', '', ) == u'4abe9dc1-6c05-11e4-ae03-525400aca16e':
                     found_price_1c_id_USD = True
                     found_price_1c_id_UAH = False
 
-            if price[n].tag == 'ЦенаЗаЕдиницу':
+            if price[n].tag == u'ЦенаЗаЕдиницу':
                 if found_price_1c_id_UAH:
                     price_dict.update({'UAH': price[n].text.replace(' ', '', ), }, )
                     found_price_1c_id_UAH = False
