@@ -303,11 +303,12 @@ def get_products(products_list):
 
 def process_of_proposal(offers_list):
 
-    success = 0
     there_is_in_1c = 0
     there_is_in_1c_html = ''
     there_is_in_site = 0
     there_is_in_site_html = ''
+    discrepacy_price = 0
+    discrepacy_price_html = ''
 
     for offer in offers_list:
         offer_list = list(offer)
@@ -359,16 +360,22 @@ def process_of_proposal(offers_list):
                 product.quantity_of_stock = quantity_of_stock
                 product.save()
 
-            if quantity_of_stock > 0 and product.is_availability != 1:
+            # есть в 1С но отсутствуют на сайте
+            elif quantity_of_stock > 0 and product.is_availability != 1:
                 there_is_in_1c += 1
                 there_is_in_1c_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
-            if quantity_of_stock == 0 and product.is_availability == 1:
+            # есть на сайте но отсутствуют в 1С
+            elif quantity_of_stock == 0 and product.is_availability == 1:
                 there_is_in_site += 1
                 there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
-            success += 1
-            # print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
+            ''' Сравнение цен '''  # '%.2f' % 1.234  |  "{0:.2f}".format(5)
+            price_1C = '{0:.2f}'.format(float(price.get(product.currency.currency_code_ISO_char, ), ), )
+            price_site = '{0:.2f}'.format(product.price)
+            if price_1C != price_site:
+                discrepacy_price += 1
+                discrepacy_price_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
         except Product.DoesNotExist:
             pass
@@ -399,6 +406,13 @@ def process_of_proposal(offers_list):
         from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
         to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Виктория', u'zakaz@keksik.com.ua'), ), ],
         html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
+
+    """ ============================================================================ """
+    send_email(
+        subject=u'Список Артикулов товаров которые рас ходятся по ценам с 1С.',
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Директор Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
+        html_content=u'{0}<br />\n{1}'.format(discrepacy_price, discrepacy_price_html), )
 
 
 def get_price(prices):
