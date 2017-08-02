@@ -303,11 +303,12 @@ def get_products(products_list):
 
 def process_of_proposal(offers_list):
 
-    success = 0
     there_is_in_1c = 0
     there_is_in_1c_html = ''
     there_is_in_site = 0
     there_is_in_site_html = ''
+    discrepacy_price = 0
+    discrepacy_price_html = ''
 
     for offer in offers_list:
         offer_list = list(offer)
@@ -327,6 +328,8 @@ def process_of_proposal(offers_list):
 
                 if offer_list[n].tag == u'Цены':
                     price = get_price(prices=list(offer_list[n]))
+                    # logger.info('line 331: fix 5!!! --> price: {0} | id_1c: {1}' \
+                    #             .format(price, id_1c, ), )
 
             except IndexError:
                 break
@@ -359,16 +362,28 @@ def process_of_proposal(offers_list):
                 product.quantity_of_stock = quantity_of_stock
                 product.save()
 
-            if quantity_of_stock > 0 and product.is_availability != 1:
+            # есть в 1С но отсутствуют на сайте
+            elif quantity_of_stock > 0 and product.is_availability != 1:
                 there_is_in_1c += 1
                 there_is_in_1c_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
-            if quantity_of_stock == 0 and product.is_availability == 1:
+            # есть на сайте но отсутствуют в 1С
+            elif quantity_of_stock == 0 and product.is_availability == 1:
                 there_is_in_site += 1
                 there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
-            success += 1
-            # print(success, ': ', u'Артикул:-->"', itemid, '"<--:Found', )
+            ''' Сравнение цен '''  # '%.2f' % 1.234  |  "{0:.2f}".format(5)
+            try:
+                price_1C = '{0:.2f}'.format(float(price.get(product.currency.currency_code_ISO_char, ), ), )
+            except TypeError:
+                logger.info('line 377: fix 4!!! --> price: {0} | id_1c: {1}' \
+                            .format(price, id_1c, ), )
+                price_1C = None
+
+            price_site = '{0:.2f}'.format(product.price)
+            if price_1C != price_site:
+                discrepacy_price += 1
+                discrepacy_price_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
         except Product.DoesNotExist:
             pass
@@ -400,15 +415,24 @@ def process_of_proposal(offers_list):
         to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Виктория', u'zakaz@keksik.com.ua'), ), ],
         html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
 
+    """ ============================================================================ """
+    send_email(
+        subject=u'Список Артикулов товаров которые рас ходятся по ценам с 1С.',
+        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Директор Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
+        html_content=u'{0}<br />\n{1}'.format(discrepacy_price, discrepacy_price_html), )
+
 
 def get_price(prices):
+    logger.info('line 427: fix 6!!! -->: {0}'.format(prices, ), )
     found_price_1c_id_UAH = False
     found_price_1c_id_USD = False
-    price_dict ={}
+    price_dict = {}
     i = 0
     while True:
         try:
             price = list(prices[i])
+            logger.info('line 435: fix 7!!! -->: {0}'.format(price, ), )
         except IndexError:
             return price_dict
 
@@ -417,20 +441,23 @@ def get_price(prices):
         while True:
             try:
                 item = price[n]
+                logger.info('line 444: fix 7!!! -->: item: {0}'.format(item, ), )
             except IndexError:
                 break
 
-            if item.tag == 'ИдТипаЦены':
+            logger.info('line 447: fix 8!!! item.tag -->: type: {0} | {1} | item.text -->: type: {2} | {3}'
+                        .format(type(item.tag), item.tag, type(item.text), item.text, ), )
+            if item.tag == u'ИдТипаЦены':
                 # Отпускная цена
-                if item.text.replace(' ', '', ) == 'bd764f1d-71d5-11e2-8276-00241db631a6':
+                if item.text.replace(' ', '', ) == u'bd764f1d-71d5-11e2-8276-00241db631a6':
                     found_price_1c_id_UAH = True
                     found_price_1c_id_USD = False
                 # Отпускная цена $
-                elif item.text.replace(' ', '', ) == '4abe9dc1-6c05-11e4-ae03-525400aca16e':
+                elif item.text.replace(' ', '', ) == u'4abe9dc1-6c05-11e4-ae03-525400aca16e':
                     found_price_1c_id_USD = True
                     found_price_1c_id_UAH = False
 
-            if price[n].tag == 'ЦенаЗаЕдиницу':
+            if price[n].tag == u'ЦенаЗаЕдиницу':
                 if found_price_1c_id_UAH:
                     price_dict.update({'UAH': price[n].text.replace(' ', '', ), }, )
                     found_price_1c_id_UAH = False
