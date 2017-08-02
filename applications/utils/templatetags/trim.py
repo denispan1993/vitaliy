@@ -9,7 +9,10 @@ __author__ = 'AlexStarov'
 
 @filter(name='trim_whitespace', )
 def trim(value, ):
-    return value.strip()
+    if value:
+        return value.strip()
+    else:
+        return None
 
 
 @filter(name='spacify', )
