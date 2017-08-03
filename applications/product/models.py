@@ -771,6 +771,9 @@ class Product(models.Model):
 class ProductToCategory(models.Model):
     product = models.ForeignKey(Product, )
     category = models.ForeignKey(Category, )
+    is_main = models.BooleanField(verbose_name=_(u'Главная категория', ),
+                                  default=False, )
+
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
