@@ -201,7 +201,7 @@ def send_reminder_about_us(*args, **kwargs):
         #delivery = Delivery.objects\
         #    .get(~Q(delivery_test=True, send_test=True, send_spam=False) | \
         #         ~Q(delivery_test=False, send_test=True, send_spam=True), pk=delivery_pk, )
-        delivery = Delivery.objects.get(system_name='send_remainder_about_us', )
+        delivery = Delivery.objects.get(system_name='send_remainder_about_us', type=1, )
     except Delivery.DoesNotExist:
         return False
 
@@ -228,10 +228,10 @@ def send_reminder_about_us(*args, **kwargs):
             else:
                 message.delete()
 
-                #""" Отправка напоминания о том, что клиент давно не заходил к нам """
-        #template_name = kwargs.pop('email_template_name_send_reminder_about_us',
-        #                           proj.settings.EMAIL_TEMPLATE_NAME['SEND_REMINDER_ABOUT_US'], )
-        #logger.info('template_name: ', template_name, )
+        # """ Отправка напоминания о том, что клиент давно не заходил к нам """
+        # template_name = kwargs.pop('email_template_name_send_reminder_about_us',
+        #                            proj.settings.EMAIL_TEMPLATE_NAME['SEND_REMINDER_ABOUT_US'], )
+        # logger.info('template_name: ', template_name, )
 
         #html_content = get_and_render_template(user=user, template_name=template_name)
 

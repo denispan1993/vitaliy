@@ -74,10 +74,6 @@ class Delivery(models.Model, ):
                                    null=False,
                                    default=False, )
 
-    is_system = models.BooleanField(verbose_name=_(u'Рассылка системная', ),
-                                    blank=True,
-                                    null=False,
-                                    default=False, )
     is_active = models.BooleanField(verbose_name=_(u'Рассылка идет', ),
                                     blank=True,
                                     null=False,
