@@ -58,6 +58,11 @@ def datetime_in_iso_format():
 
 
 class Delivery(models.Model, ):
+    system_name = models.CharField(verbose_name=_(u'Имя системной рассылки', ),
+                                   max_length=128,
+                                   blank=True,
+                                   null=True,
+                                   default=datetime_in_iso_format, )
     name = models.CharField(verbose_name=_(u'Имя рассылки', ),
                             max_length=128,
                             blank=True,
@@ -69,6 +74,10 @@ class Delivery(models.Model, ):
                                    null=False,
                                    default=False, )
 
+    is_system = models.BooleanField(verbose_name=_(u'Рассылка системная', ),
+                                    blank=True,
+                                    null=False,
+                                    default=False, )
     is_active = models.BooleanField(verbose_name=_(u'Рассылка идет', ),
                                     blank=True,
                                     null=False,

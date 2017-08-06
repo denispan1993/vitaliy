@@ -135,11 +135,14 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     """ Заглушки """
     @property
     def emails(self, ):
-        return Email.email_parent_user.all()
+        return self.email_parent_user.all()
 
     @property
     def email(self, ):
-        return Email.email_parent_user.all()[0]
+        try:
+            return self.emails[0]
+        except IndexError:
+            return None
 
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text=_('Designates whether the user can log into this admin '

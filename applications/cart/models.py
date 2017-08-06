@@ -112,8 +112,12 @@ class Order(models.Model):
                                          blank=False,
                                          default=get_order_number, )
 
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+    # from applications.authModel.models import User
+    user = models.ForeignKey(  # to=User,
+                             to=settings.AUTH_USER_MODEL,
                              verbose_name=u'Пользователь',
+                             related_name='user_order',
+                             related_query_name='order_user',
                              null=True,
                              blank=True, )
     sessionid = models.CharField(verbose_name=u'SessionID',
