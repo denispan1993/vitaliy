@@ -18,7 +18,7 @@ from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderR
 import proj.settings
 
 from .models import Delivery, Message as modelMessage, EmailUrlTemplate, MessageRedirectUrl
-from .utils import allow_to_send
+from .utils import allow_to_send, choice_str_in_template
 from applications.utils.captcha.utils import key_generator
 
 get_model = apps.get_model
@@ -32,8 +32,6 @@ path = lambda base: os.path.abspath(
         PROJECT_PATH, base
     ).replace('\\', '/')
 )
-
-tokenizer_choiser = re.compile('(\[\[[\w\-\_\|\.\s]+\]\])', re.UNICODE)  # [[str1|str2]]
 
 tokenizer_replacement = re.compile('(\{\{[\w\-\_\.\s]+\}\})')  # {{url1}}
 
@@ -49,6 +47,8 @@ class Message(object):
 
         email_model = get_model(*recipient_class.split('.'))
 
+        """ Проверка: можем ли мы слать на этот домен?
+            Проверка по таймАуту от предыдущей посылки на такой же домен """
         if allow_to_send(domain=email_model.objects.get(pk=recipient_pk, ).domain, ):
             return super(Message, cls, ).__new__(cls, )
         else:
@@ -96,7 +96,7 @@ class Message(object):
         self.dict_urls['#OPEN_URL#'] = self.create_tag_url(tag_type=3, )
         self.dict_urls['#SHOW_ONLINE_URL#'] = self.create_tag_url(tag_type=4, )
 
-        self.template_body = self.get_template()
+        self.template_body = self.get_template(**kwargs)
         self.body_finished = self.template_body
 
         """ did - Delivery id """
@@ -181,7 +181,7 @@ class Message(object):
                     value=subject.chance,
                     timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-            except AttributeError:
+            except (TypeError, AttributeError, ):
                 subject_cache_value = cache.get(
                     key='subject_cache_pk_{0}'.format(subject.pk, ),
                     default=False, )
@@ -217,7 +217,7 @@ class Message(object):
                     value=template.chance,
                     timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-            except AttributeError:
+            except (TypeError, AttributeError,):
                 template_cache_value = cache.get(
                     key='template_cache_pk_{0}'.format(template.pk, ),
                     default=False, )
@@ -251,12 +251,12 @@ class Message(object):
         return message.pk, message
 
     def get_subject(self, ):
-        return self.choice_str_in_tmpl(tmpl=self.subject.subject, )
+        return choice_str_in_template(template=self.subject.subject, )
 
     def create_message_urls(self, ):
         template_body = self.template.get_template()
 
-        urls_pk = re.findall(r'<a\s+(?:[^>]*?\s+)?href="#URL_([0-9]{6})#"', template_body, )
+        urls_pk = re.findall(r'<a\s+(?:[^>]*?\s+)?href="#URL_([0-9]{6})#"', template_body.decode('utf-8'), )
         dict_urls = {}
         for url_pk in urls_pk:
             url = EmailUrlTemplate.objects.get(pk=url_pk, )
@@ -276,35 +276,36 @@ class Message(object):
 
         return message_url.get_absolute_url()
 
-    def get_template(self, ):
+    def get_template(self, **kwargs):
+        from django.template import Context, Template
         template_body = self.template.get_template()
 
-        for key, url in self.dict_urls.iteritems():
+        for key, url in self.dict_urls.items():
 
             template_body = template_body\
-                .replace(key,
-                         'http://{redirect_host}{redirect_url}'.format(
+                .replace(key.encode(),
+                         u'https://{redirect_host}{redirect_url}'.format(
                              redirect_host=proj.settings.REDIRECT_HOST,
-                             redirect_url=url, ),
+                             redirect_url=url, ).encode(),
                          )
 
         #TODO: Следующим этапом: ТЭГИ Unsub, img Open, Show online, Goggle tracking
 
         template_body = template_body \
-            .replace('</body>',
-                     '<img src="http://{REDIRECT_HOST}{redirect_url}"'
+            .replace('</body>'.encode(),
+                     '<img src="https://{redirect_host}{redirect_url}"'
                      ' width="0"'
                      ' height="0"'
                      ' border="0" />'
                      '</body>'
                      .format(
-                         REDIRECT_HOST=proj.settings.REDIRECT_HOST,
-                         redirect_url='/message/key/opened/', ),
+                         redirect_host=proj.settings.REDIRECT_HOST,
+                         redirect_url='/message/key/opened/', ).encode(),
                      )
 
         template_body = template_body \
-            .replace('</body>',
-                     '<img src="http://www.google-analytics.com/collect?v=1&'
+            .replace('</body>'.encode(),
+                     '<img src="https://www.google-analytics.com/collect?v=1&'
                      'tid={EMAIL_GA}&cid={{ email_hash }}&uid={{ user.pk }}&'
                      't=event&ec=email&ea=open&el=recipient_id&cs=delivery&cm=email&cn={{ mail_obj.reason }}"'
                      ' width="0"'
@@ -313,33 +314,14 @@ class Message(object):
                      '</body>'
                      .format(
                          EMAIL_GA=proj.settings.EMAIL_GA,
-                         redirect_url='/message/key/opened/', ),
+                         redirect_url='/message/key/opened/', ).encode(),
                      )
 
-        return template_body
-
-    def choice_str_in_tmpl(self, tmpl, ):
-        """ ccc('aaa [[bbb|111]] ccc [[ddd|222]] eee [[fff|333|444|555|666]] ggg') """
-
-        three = re.split(tokenizer_choiser, tmpl)
-
-        nodes = {}
-        for pos, block in enumerate(three):
-            if block.startswith('[[') and block.endswith(']]'):
-                keys = block.strip('[[]]').split('|')
-                """ Выборка СЛУЧАЙНОГО значения """
-                value = keys[randrange(start=0, stop=len(keys))]
-
-                if pos not in nodes:
-                    nodes[pos] = value
-
-        three = copy(three)
-
-        for pos, value in nodes.iteritems():
-
-            three[pos] = value
-
-        return ''.join(three)
+        t = Template(template_body)
+        c = Context(kwargs)
+        return t.render(c)
+        # print(template_body)
+        # return template_body
 
     def get_did(self, ):
         """ did - Delivery id """
@@ -360,7 +342,7 @@ class Message(object):
                 (u'Интернет магазин Keksik', self.get_sender_email(), ), ),
             'to': [self.recipient.email, ],
             'headers': self.headers,
-            'subject': u'test - {}'.format(self.subject_str) if self.delivery.test_send else self.subject_str,
+            'subject': u'test - {subject}'.format(subject=self.subject_str) if self.delivery.test_send else self.subject_str,
             'body': strip_tags(self.body_finished, ),
         }
 
@@ -418,11 +400,12 @@ class Message(object):
 
     def send(self, ):
         try:
+            print(self.recipient.email, self.get_sender_email())
             self.connection.sendmail(
                 from_addr=formataddr(
                     (u'Интернет магазин Keksik', self.get_sender_email(), ), ),
                 to_addrs=[self.recipient.email, ],
-                msg=self.message.as_string(), )
+                msg=self.message.as_bytes(), )
             self.connection.quit()
 
             return True

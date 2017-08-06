@@ -220,7 +220,7 @@ def send_reminder_about_us(*args, **kwargs):
             recipient_class=str('{0}.{1}'.format(Email._meta.app_label, Email._meta.model_name, ), ),
             recipient_pk=email.pk,
         )
-        mail_account = MailAccount.objects.get(pk=4, )
+        mail_account = MailAccount.objects.get(pk=36, )
 
         if message.connect(sender=mail_account, ):
             if message.send():

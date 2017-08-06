@@ -58,11 +58,18 @@ def cache_get_or_set(key,
 
 
 def get_mx_es(domain, ):
-    answers = dns.resolver.query(domain, 'MX')
-    mx_dict = {rdata.preference: rdata.exchange.to_text().rstrip('.') for rdata in answers}
+    try:
+        answers = dns.resolver.query(domain, 'MX')
+
+        mx_dict = {rdata.preference: rdata.exchange.to_text().rstrip('.') for rdata in answers}
+
+        return OrderedDict(sorted(mx_dict.items()))
+
+    except dns.resolver.NoAnswer:
+        if domain == 'keksik.com.ua':
+            return OrderedDict([(10, '192.168.1.95')])
     # for rdata in answers:
     #     print('has preference: ', rdata.preference, ' Host: ', rdata.exchange, )
-    return OrderedDict(sorted(mx_dict.items()))
 
 dict_timeouts = {
     'mail.ru': 10,
@@ -78,10 +85,13 @@ dict_timeouts = {
     'port25.com': 10,
     'mk.ua': 10,
 }
+""" Узнаем, можно или нет слать на данный домен?
+    Прошел ли уже ТаймАут (давно ли мы последний раз слали на этот домен?"""
 
 
 def allow_to_send(domain, ):
-    smtp_host = get_mx_es(domain=domain, ).items()[0][1]
+    smtp_hosts = get_mx_es(domain=domain, )  # .items()[0][1]
+    smtp_host = smtp_hosts[min(smtp_hosts.keys())]
 
     key = smtp_host.rsplit('.', 2, )[-2:]
     key = '.'.join(key, )
@@ -98,3 +108,30 @@ def allow_to_send(domain, ):
     cache.set(key='allow_to_send_{0}'.format(key, ), value=True, timeout=timeout, )
 
     return True
+
+
+""" Выборка случайной строки из списка [[aaa|bbb|ccc|444]] """
+
+
+def choice_str_in_template(template, ):
+    tokenizer_choicer = re.compile('(\[\[[\w\-\_\|\.\s]+\]\])', re.UNICODE)  # [[str1|str2]]
+    """ ccc('aaa [[bbb|111]] ccc [[ddd|222]] eee [[fff|333|444|555|666]] ggg') """
+
+    three = re.split(tokenizer_choicer, template)
+
+    nodes = {}
+    for pos, block in enumerate(three):
+        if block.startswith('[[') and block.endswith(']]'):
+            keys = block.strip('[[]]').split('|')
+            """ Выборка СЛУЧАЙНОГО значения """
+            value = keys[randrange(start=0, stop=len(keys))]
+
+            if pos not in nodes:
+                nodes[pos] = value
+
+    # three = copy(three)
+
+    for pos, value in nodes.items():
+        three[pos] = value
+
+    return ''.join(three)
