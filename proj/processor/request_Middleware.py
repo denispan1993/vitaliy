@@ -27,7 +27,7 @@ class Process_Request_Middleware(object):
 
             try:
                 view, args, kwargs = resolve(full_path, )
-                logging.debug(u'resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
+                # logging.debug(u'resolve(full_path, ): view = {0}, args = {1}, args = {2}'.format(view, args, kwargs))
             except Exception as e:
                 try:
                     logging.error(u'Error resolve(full_path, ): full_path = {0}, Exception = {1}'.format(full_path, e))
