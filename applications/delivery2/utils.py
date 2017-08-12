@@ -135,3 +135,14 @@ def choice_str_in_template(template, ):
         three[pos] = value
 
     return ''.join(three)
+
+
+def remove_style_tags(html):
+    import re
+
+    regex = r"<style((.|\\n|\\r)*?)<\/style>"
+    matches = re.finditer(regex, html)
+    for part in matches:
+        html.replace(part.groups(), '')
+
+    return html

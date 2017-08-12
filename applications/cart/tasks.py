@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from time import sleep
 from datetime import datetime
 import email as email_utils
 from django.template.loader import render_to_string
@@ -222,12 +223,15 @@ def send_reminder_about_us(*args, **kwargs):
         )
         mail_account = MailAccount.objects.get(pk=36, )
 
+        message.render_template(user=email.user, )
+        message.create_msg()
+
         if message.connect(sender=mail_account, ):
             if message.send():
                 message.save()
             else:
                 message.delete()
-
+        sleep(10)
         # """ Отправка напоминания о том, что клиент давно не заходил к нам """
         # template_name = kwargs.pop('email_template_name_send_reminder_about_us',
         #                            proj.settings.EMAIL_TEMPLATE_NAME['SEND_REMINDER_ABOUT_US'], )

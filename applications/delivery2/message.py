@@ -2,7 +2,6 @@
 import os
 import re
 import socket
-from time import mktime
 from datetime import datetime
 from copy import copy
 from random import randrange
@@ -11,7 +10,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.cache import cache
 from django.apps import apps
 
-from django.utils.html import strip_tags
 from email.utils import formataddr
 from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
@@ -60,6 +58,7 @@ class Message(object):
                  *args,
                  **kwargs):
 
+        self.kwargs = kwargs
         self.recipient = kwargs.get('recipient', False, )
         if self.recipient:
             self.recipient_class = self.get_recipient_class()
@@ -96,7 +95,7 @@ class Message(object):
         self.dict_urls['#OPEN_URL#'] = self.create_tag_url(tag_type=3, )
         self.dict_urls['#SHOW_ONLINE_URL#'] = self.create_tag_url(tag_type=4, )
 
-        self.template_body = self.get_template(**kwargs)
+        self.template_body = self.get_template()
         self.body_finished = self.template_body
 
         """ did - Delivery id """
@@ -110,8 +109,8 @@ class Message(object):
         """ X-Campaign-Id - EmailStream.ru """
         """ List-id - postoffice.yandex.ru """
         self.headers = {
-            'Return-Path': 'postmaster@keksik.com.ua',
             'Reply-To': 'postmaster@keksik.com.ua',
+            'Return-Path': 'postmaster@keksik.com.ua',
             'X-Campaign-Id': self.did,
             'X-Delivery-id': self.did,
             'X-Email-id': self.eid,
@@ -119,9 +118,8 @@ class Message(object):
             'List-Unsubscribe': self.dict_urls['#UNSUB_URL#'],
         }
 
-        self.message = self.create_msg()
-
-        self.sender, self.connection = None, None
+        self.strip_tags_body_finished, self.message, self.sender, self.connection =\
+            None, None, None, None
         # self.connection = self.connect()
 
     def get_recipient_class(self):
@@ -276,8 +274,8 @@ class Message(object):
 
         return message_url.get_absolute_url()
 
-    def get_template(self, **kwargs):
-        from django.template import Context, Template
+    def get_template(self, ):
+
         template_body = self.template.get_template()
 
         for key, url in self.dict_urls.items():
@@ -289,8 +287,7 @@ class Message(object):
                              redirect_url=url, ).encode(),
                          )
 
-        #TODO: Следующим этапом: ТЭГИ Unsub, img Open, Show online, Goggle tracking
-
+        # TODO: Следующим этапом: ТЭГИ Unsub, img Open, Show online, Goggle tracking
         template_body = template_body \
             .replace('</body>'.encode(),
                      '<img src="https://{redirect_host}{redirect_url}"'
@@ -317,15 +314,24 @@ class Message(object):
                          redirect_url='/message/key/opened/', ).encode(),
                      )
 
-        t = Template(template_body)
-        c = Context(kwargs)
-        return t.render(c)
         # print(template_body)
-        # return template_body
+        return template_body
 
     def get_did(self, ):
         """ did - Delivery id """
-        return '{0:04d}-{1:02d}'.format(self.delivery_pk, self.delivery.type, )
+        from time import mktime
+        from django.utils import timezone
+
+        if self.delivery.type == 1:
+            """ Если рассылка "Системная" то в конец добавляем
+                дату (когда рассылается рассылка) рассылки в цифоровом виде """
+            date_in_int = '{0:010d}'\
+                          .format(int(mktime(timezone.now().date().timetuple())))[0:8]
+            return '{0:04d}-{1:02d}-{2}'\
+                .format(self.delivery_pk, self.delivery.type,
+                        date_in_int)
+        else:
+            return '{0:04d}-{1:02d}'.format(self.delivery_pk, self.delivery.type, )
 
     def get_eid(self, ):
         """ eid - Email id """
@@ -333,23 +339,40 @@ class Message(object):
 
     def get_mid(self, ):
         """ mid - Message id """  # -{3:06x} - randint(0, 999999),
+        from time import mktime
         return '{0}-{1}-{2:010d}'\
             .format(self.did, self.eid, int(mktime(datetime.now().timetuple())), )
 
+    def render_template(self, **kwargs):
+
+        from django.template import Context, Template
+
+        t = Template(self.template_body)
+        c = Context(kwargs)
+
+        self.body_finished = t.render(c)
+
     def create_msg(self, ):
+        """ Формирование "Конечного" письма """
+
+        from applications.delivery2.utils import remove_style_tags
+        from django.utils.html import strip_tags
+
+        self.strip_tags_body_finished = strip_tags(remove_style_tags(html=self.body_finished))
+
         message_kwargs = {
             'from_email': formataddr(
                 (u'Интернет магазин Keksik', self.get_sender_email(), ), ),
             'to': [self.recipient.email, ],
             'headers': self.headers,
             'subject': u'test - {subject}'.format(subject=self.subject_str) if self.delivery.test_send else self.subject_str,
-            'body': strip_tags(self.body_finished, ),
+            'body': self.strip_tags_body_finished,
         }
 
         message = EmailMultiAlternatives(**message_kwargs)
         message.attach_alternative(content=self.body_finished, mimetype='text/html', )
 
-        return message.message()
+        self.message = message.message()
 
     def connect(self, sender, ):
         self.sender = sender
