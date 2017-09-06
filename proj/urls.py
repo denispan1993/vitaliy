@@ -208,7 +208,7 @@ if not isfile(path('server.key', ), ):
     elif platform == 'linux':
         urlpatterns += [url(regex=r'^media/(?P<path>.*)$', view=serve,
                             kwargs={'document_root': path('media', ),
-                                    'show_indexes': True, }, ), ]# \
+                                    'show_indexes': True, }, ), ]  # \
                        # + static(proj.settings.MEDIA_URL, document_root=proj.settings.MEDIA_ROOT)
 
     # if sys.platform.startswith('freebsd'):

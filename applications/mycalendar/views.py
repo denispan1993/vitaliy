@@ -23,9 +23,8 @@ class AllViews(View, ):
         template = get_template(template_name=self.template_name)
 
         html = template.render(request=request, context=context,)
-        response = HttpResponse(html, )
+        return HttpResponse(html, )
 
-        return response
         #return render_to_response(template_name=self.template_name,
         #                          context=context,
         #                          context_instance=RequestContext(request))
@@ -36,9 +35,8 @@ class AllViews(View, ):
             template = get_template(template_name='load/all.jinja2')
 
             html = template.render(request=request, context=context,)
-            response = HttpResponse(html, )
+            return HttpResponse(html, )
 
-            return response
         else:
             return HttpResponse('Request method POST and AJAX()', )
 

@@ -20,10 +20,10 @@ class Process_Request_Middleware(object):
 
         if full_path not in skip_url:
 
-            logging.info(u'')
-            logging.info(u'Start executions (START): {0}'.format(time.time()))
-            logging.info(u'resolve: Process_Request_Middleware')
-            logging.debug(u'full_path: {0}'.format(full_path))
+            # logging.info(u'')
+            # logging.info(u'Start executions (START): {0}'.format(time.time()))
+            # logging.info(u'resolve: Process_Request_Middleware')
+            # logging.debug(u'full_path: {0}'.format(full_path))
 
             try:
                 view, args, kwargs = resolve(full_path, )
