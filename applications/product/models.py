@@ -31,6 +31,16 @@ class Category(MPTTModel):
         null=True,
         blank=True,
         related_name='children', )
+
+    Upper_Lower = (
+        (0, _(u'Не задано', ), ),
+        (1, _(u'Верх', ), ),
+        (2, _(u'Низ', ), ),
+    )
+    location = models.PositiveSmallIntegerField(
+        verbose_name=_(u'Положение'), choices=Upper_Lower,
+        default=0, blank=False, null=False, )
+
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                                      # visibility=True,
                                                      db_index=True,

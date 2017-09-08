@@ -58,12 +58,13 @@ class CategoryAdmin(MPTTModelAdmin, ):
     search_fields = ['title', ]
     form = CategoryAdminForm
     fieldsets = [
-        (None,   {'classes': ['wide'], 'fields': ['parent', 'serial_number', 'is_active',
-                                                  'shown_colored', 'font_color',
-                                                  'shadow_color', 'shadow_px', 'shadow_blur_px',
-                                                  'shown_bold', 'shown_italic', 'font_px',
-                                                  'url', 'title',
-                                                  'item_description', 'description', 'bottom_description', ], }),
+        (None,   {'classes': ['wide'],
+                  'fields': ['parent', 'location', 'serial_number', 'is_active',
+                             'shown_colored', 'font_color',
+                             'shadow_color', 'shadow_px', 'shadow_blur_px',
+                             'shown_bold', 'shown_italic', 'font_px',
+                             'url', 'title',
+                             'item_description', 'description', 'bottom_description', ], }),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
                                                                                               'meta_keywords', ], }, ),

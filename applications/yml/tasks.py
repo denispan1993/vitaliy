@@ -60,9 +60,9 @@ def decorate(func):
 
         return result
 
-#    stop = time.time()
-#    print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
-#    logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    # stop = time.time()
+    # print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    # logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
 
     return wrapped
 
@@ -98,7 +98,16 @@ def generate_prom_ua_yml(*args, **kwargs):
 
         for product in Product.objects.published().only('id', 'pk', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description', 'in_action', ).prefetch_related('producttocategory_set').order_by('id'):
 
-            category = product.producttocategory_set.all().first()
+            """ Проверяем, стоит ли (выделена ли) у продукта "Основная" Категория """
+            category = product.producttocategory_set.filter(is_main=True)
+            if len(category) > 1:
+                logger.info(u'generate_prom_ua_yml(*args, **kwargs): Many MAIN categories in product: {0}'.format(product), )
+            elif len(category) < 1:
+                """ Если нет, то берем первую попавшуюся """
+                category = product.producttocategory_set.all()
+
+            category = category.first()
+
             if category and not category.category.is_active:
                 continue
 
