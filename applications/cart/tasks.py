@@ -177,8 +177,8 @@ def send_reminder_about_us(*args, **kwargs):
     backend = mail.backends.smtp.EmailBackend(
         host='192.168.1.95',
         port=465,
-        username='site@keksik.com.ua',
-        password='1q2w3e4r!!!@@@',
+        username=proj.settings.EMAIL_HOST_USER,
+        password=proj.settings.EMAIL_HOST_PASSWORD,
         use_tls=False,
         fail_silently=False,
         use_ssl=True,

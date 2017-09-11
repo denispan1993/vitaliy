@@ -72,12 +72,6 @@ ADMINS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'site@keksik.com.ua'
-EMAIL_HOST_PASSWORD = '1q2w3e4r!!!@@@'
-
 DEFAULT_FROM_EMAIL = 'Интернет магазин Кексик <subscribe@keksik.com.ua>'
 MANAGERS = ADMINS
 

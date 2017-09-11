@@ -10,6 +10,8 @@ from django.core.mail import EmailMultiAlternatives
 from celery.utils.log import get_task_logger
 from proj.celery import celery_app
 
+import proj.settings
+
 from applications.product.models import Product, ItemID
 from applications.cart.utils import send_email
 
@@ -20,8 +22,8 @@ logger = get_task_logger(__name__)
 backend = smtp.EmailBackend(
     host='smtp.yandex.ru',
     port=465,
-    username='site@keksik.com.ua',
-    password='1q2w3e4r!!!@@@',
+    username=proj.settings.EMAIL_HOST_USER,
+    password=proj.settings.EMAIL_HOST_PASSWORD,
     use_tls=False,
     fail_silently=False,
     use_ssl=True,

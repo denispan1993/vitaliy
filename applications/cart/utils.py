@@ -17,6 +17,8 @@ from django.utils.html import strip_tags
 from pytils.translit import slugify
 from celery.utils.log import get_task_logger
 
+import proj.settings
+
 from applications.delivery2.models import EmailTemplate
 from applications.authModel.models import Email, Phone
 
@@ -27,10 +29,10 @@ logger = get_task_logger(__name__)
 
 
 #    backend = smtp.EmailBackend(
-#        host='192.168.1.95',
+#        host='localhost',
 #        port=465,
 #        username='delivery@keksik.com.ua',
-#        password='warning123',
+#        password='',
 #        use_tls=False,
 #        fail_silently=False,
 #        use_ssl=True,
@@ -40,8 +42,8 @@ logger = get_task_logger(__name__)
 backend = smtp.EmailBackend(
     host='smtp.yandex.ru',
     port=465,
-    username='site@keksik.com.ua',
-    password='1q2w3e4r!!!@@@',
+    username=proj.settings.EMAIL_HOST_USER,
+    password=proj.settings.EMAIL_HOST_PASSWORD,
     use_tls=False,
     fail_silently=False,
     use_ssl=True,

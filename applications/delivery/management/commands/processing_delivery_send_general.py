@@ -57,7 +57,7 @@ class Command(BaseCommand, ):
                     EMAIL_HOST = 'smtp.yandex.ru'
                     EMAIL_PORT = 587
                     EMAIL_HOST_USER = 'subscribe@keksik.com.ua'
-                    EMAIL_HOST_PASSWORD = '1q2w3e4r'
+                    EMAIL_HOST_PASSWORD = ''
                     from django.core.mail import get_connection
                     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                              host=EMAIL_HOST,
