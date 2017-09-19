@@ -96,7 +96,12 @@ def generate_prom_ua_yml(*args, **kwargs):
     def set_products(shop):
         offers = etree.SubElement(shop, 'offers')
 
-        for product in Product.objects.published().only('id', 'pk', 'is_availability', 'url', 'price', 'currency_id', 'name', 'description', 'in_action', ).prefetch_related('producttocategory_set').order_by('id'):
+        for product in Product.objects \
+                .published() \
+                .only('id', 'pk', 'is_availability', 'url', 'price',
+                      'currency_id', 'name', 'description', 'in_action', ) \
+                .prefetch_related('producttocategory_set') \
+                .order_by('id'):
 
             """ Проверяем, стоит ли (выделена ли) у продукта "Основная" Категория """
             category = product.producttocategory_set.filter(is_main=True)
@@ -144,6 +149,16 @@ def generate_prom_ua_yml(*args, **kwargs):
             try:
                 etree.SubElement(offer, 'picture').text =\
                     'https://keksik.com.ua{}'.format(product.main_photo.photo.url, )
+
+                for photo_item in product.all_photos:
+
+                    if photo_item.photo.url != product.main_photo.photo.url:
+                        print(u'1321-213:Photo: %s' % photo_item.photo.url, )
+                        logger.info(u'1321-213:Photo: %s' % photo_item.photo.url, )
+
+                        etree.SubElement(offer, 'picture').text = \
+                            'https://keksik.com.ua{}'.format(photo_item.photo.url, )
+
             except AttributeError:
                 pass
 
