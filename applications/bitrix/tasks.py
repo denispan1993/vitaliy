@@ -146,6 +146,10 @@ def get_products(products_list):
                     barcode = product_list[n].text.replace(' ', '', )
                 if product_list[n].tag == u'Артикул':
                     itemid = product_list[n].text.replace(' ', '', )
+                    if product_list[n+1].tag == u'Наименование':
+                        name = product_list[n+1].text.replace(' ', '', )
+                    else:
+                        name = None
                     break
             except IndexError:
                 break
@@ -193,111 +197,57 @@ def get_products(products_list):
 
         except ItemID.DoesNotExist:
             unsuccess += 1
-            unsuccess_itemid_html += u'{}<br />\n'.format(itemid)
+            unsuccess_itemid_html += u'{0} ---> {1}<br />\n'.format(itemid, name, )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
             double_itemid_html += u'{}<br />\n'.format(itemid)
 
     """ ============================================================================ """
-    msg = EmailMultiAlternatives(
-        subject=u'Список товаров у которых нету артикулов в 1С.',
-        body=strip_tags(without_id_html, ),
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=u'unsuccess: {0}<br>\n{1}'.format(without_id, without_id_html, ),
-                           mimetype="text/html", )
-
-    msg.content_subtype = "html"
-    i = 0
-    while True:
-        result = msg.send(fail_silently=False, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        print('bitrix.tasks.process_bitrx_catalog.unsuccess(i): ', i, ' result: ', result,)
-        i += 1
-        time.sleep(5)
-
+    if without_id:
+        send_email(
+            subject=u'Список товаров у которых нету артикулов в 1С.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            html_content=u'unsuccess: {0}<br>\n{1}'.format(without_id, without_id_html, ), )
     """ ============================================================================ """
-    msg = EmailMultiAlternatives(
-        subject=u'Список Артикулов которые есть в 1С и которых нету на сайте.',
-        body=strip_tags(unsuccess_itemid_html, ),
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=u'unsuccess: {0}<br>\n{1}'.format(unsuccess, unsuccess_itemid_html, ),
-                           mimetype="text/html", )
-
-    msg.content_subtype = "html"
-    i = 0
-    while True:
-        result = msg.send(fail_silently=False, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        print('bitrix.tasks.process_bitrx_catalog.unsuccess(i): ', i, ' result: ', result,)
-        i += 1
-        time.sleep(5)
-
+    if unsuccess:
+        send_email(
+            subject=u'Список Артикулов которые есть в 1С и которых нету на сайте.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            html_content=u'unsuccess: {0}<br>\n{1}'.format(unsuccess, unsuccess_itemid_html, ), )
     """ ============================================================================ """
-    msg = EmailMultiAlternatives(
-        subject=u'Список Артикулов которые есть в 1С и которых несколько штук на сайте.',
-        body=strip_tags(double_itemid_html, ),
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        connection=backend, )
-
-    msg.attach_alternative(content=u'double: {0}<br />\n{1}'.format(double, double_itemid_html, ),
-                           mimetype="text/html", )
-
-    msg.content_subtype = "html"
-    i = 0
-    while True:
-        result = msg.send(fail_silently=False, )
-
-        if (isinstance(result, int) and result == 1) or i > 100:
-            break
-
-        print('bitrix.tasks.process_bitrx_catalog.double(i): ', i, ' result: ', result,)
-        i += 1
-        time.sleep(5)
+    if double:
+        send_email(
+            subject=u'Список Артикулов которые есть в 1С и которых несколько штук на сайте.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            html_content=u'double: {0}<br />\n{1}'.format(double, double_itemid_html, ), )
 
     '''
         Выбираем товары которые можно сравнивать с 1С (compare_with_1c=True)
         НО у которых нету связки с 1С (id_1c__isnull=True)
     '''
     try:
-        products_ItemID = Product.objects\
-            .filter(id_1c__isnull=True, compare_with_1c=True, )\
-            .values_list('ItemID__ItemID', flat=True)
+        # products_ItemID = Product.objects\
+        #     .filter(id_1c__isnull=True, compare_with_1c=True, )\
+        #     .values_list('ItemID__ItemID', flat=True)
+        products = Product.objects\
+            .filter(id_1c__isnull=True, compare_with_1c=True, )
 
-        not_found_on_1c = len(products_ItemID)
-        not_found_on_1c_html = u'<br />\n'.join(products_ItemID)
+        not_found_on_1c = len(products)
+        not_found_on_1c_html = ''
+        for i, value in enumerate(products, start=1, ):
+            not_found_on_1c_html += u'{0} ---> {1}<br />\n'.\
+                format(products.ItemID.all().first().ItemID, products.title, )
 
-        msg = EmailMultiAlternatives(
-            subject=u'Список Артикулов которые есть на сайте но нету в 1С.',
-            body=strip_tags(not_found_on_1c_html, ),
-            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-            to=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-            connection=backend, )
-        msg.attach_alternative(content=u'not_found_on_1c: {0}<br />\n{1}'.format(not_found_on_1c, not_found_on_1c_html, ),
-                               mimetype="text/html", )
-        msg.content_subtype = "html"
-        i = 0
-
-        while True:
-            result = msg.send(fail_silently=False, )
-            if (isinstance(result, int) and result == 1) or i > 100:
-                break
-            print('bitrix.tasks.process_bitrx_catalog.not_found_on_1c(i): ', i, ' result: ', result, )
-            i += 1
-            time.sleep(5)
+        if not_found_on_1c:
+            send_email(
+                subject=u'Список Артикулов которые есть на сайте но нету в 1С.',
+                from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+                to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+                html_content=u'not_found_on_1c: {0}<br />\n{1}'.format(not_found_on_1c, not_found_on_1c_html, ), )
 
     except Product.DoesNotExist:
         pass
@@ -364,13 +314,13 @@ def process_of_proposal(offers_list):
                 product.quantity_of_stock = quantity_of_stock
                 product.save()
 
-            # есть в 1С но отсутствуют на сайте
             elif quantity_of_stock > 0 and product.is_availability != 1:
+                """ Количество товара в 1С > 0 но отсутствуют на сайте. """
                 there_is_in_1c += 1
                 there_is_in_1c_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
-            # есть на сайте но отсутствуют в 1С
             elif quantity_of_stock == 0 and product.is_availability == 1:
+                """ товар "есть" на сайте но в 1С остатки < 0 """
                 there_is_in_site += 1
                 there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
@@ -397,32 +347,34 @@ def process_of_proposal(offers_list):
                             .format(product, product.ItemID.all()[0].ItemID, product.title, ), )
 
     """ ============================================================================ """
-    send_email(
-        subject=u'Список Артикулов товаров которые есть в 1С но отсутствуют на сайте.',
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        html_content=u'{0}<br />\n{1}'.format(there_is_in_1c, there_is_in_1c_html), )
+    if there_is_in_1c:
+        send_email(
+            subject=u'Список Артикулов товаров остатки которых в 1С > 0, НО на сайте значатся как отсутсвующие.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            html_content=u'{0}<br />\n{1}'.format(there_is_in_1c, there_is_in_1c_html), )
 
     """ ============================================================================ """
-    send_email(
-        subject=u'Список Артикулов товаров которые есть на сайте но отсутствуют в 1С.',
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-        html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
+    if there_is_in_site:
+        send_email(
+            subject=u'Список Артикулов товаров остатки которых есть на сайте, НО в 1С значатся как закончившиеся.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
+
+        """ ============================================================================ """
+        send_email(
+            subject=u'Список Артикулов товаров которые есть на сайте но отсутствуют в 1С.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Виктория', u'zakaz@keksik.com.ua'), ), ],
+            html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
 
     """ ============================================================================ """
-    send_email(
-        subject=u'Список Артикулов товаров которые есть на сайте но отсутствуют в 1С.',
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Виктория', u'zakaz@keksik.com.ua'), ), ],
-        html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
-
-    """ ============================================================================ """
-    send_email(
-        subject=u'Список Артикулов товаров которые рас ходятся по ценам с 1С.',
-        from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-        to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Директор Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
-        html_content=u'{0}<br />\n{1}'.format(discrepacy_price, discrepacy_price_html), )
+    # send_email(
+    #     subject=u'Список Артикулов товаров которые рас ходятся по ценам с 1С.',
+    #     from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+    #     to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Директор Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
+    #     html_content=u'{0}<br />\n{1}'.format(discrepacy_price, discrepacy_price_html), )
 
 
 def get_price(prices):
