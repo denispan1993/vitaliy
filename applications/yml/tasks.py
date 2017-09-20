@@ -82,7 +82,7 @@ def generate_prom_ua_yml(*args, **kwargs):
         mod = importlib.import_module(class_module)
         clazz = getattr(mod, class_name)
         categories_tag = etree.SubElement(shop, 'categories')
-        for category in clazz.objects.published().values('id', 'parent_id', 'title', ).order_by('id'):
+        for category in clazz.objects.published().values('id', 'parent_id', 'title', ).order_by('title'):
             if not category['parent_id']:
                 etree.SubElement(categories_tag,
                                  'category',
@@ -93,7 +93,7 @@ def generate_prom_ua_yml(*args, **kwargs):
                                  id=str(category['id']),
                                  parentId=str(category['parent_id'])).text = category['title']  # .get_name()
 
-    def set_products(shop):
+    def set_products(shop, ):
         offers = etree.SubElement(shop, 'offers')
 
         for product in Product.objects \
