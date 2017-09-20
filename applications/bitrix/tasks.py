@@ -123,6 +123,8 @@ def process_bitrix_catalog(*args, **kwargs):
 
 
 def get_products(products_list):
+    mismatch_id = 0
+    mismatch_id_html = ''
     success = 0
     unsuccess = 0
     unsuccess_itemid_html = ''
@@ -182,8 +184,15 @@ def get_products(products_list):
             if product.id_1c:
 
                 if product.id_1c != product_list[0].text:
+                    """ Не совпадение id 1C между 1C и сайтом """
+
                     logger.info('line 124: fix !!! --> product.id_1c: %s  --> '
                                 'product_list[0].text:  %s' % (product.id_1c, product_list[0].text, ), )
+
+                    mismatch_id += 1
+                    mismatch_id_html += '<br />Артикул: {2} --> {3} |Site:{0}|1C:{1}|'.\
+                        format(product.id_1c, product_list[0].text, itemid, product.title, )
+
                 else:
                     if 'barcode' in locals():
                         product.barcode = barcode
@@ -202,6 +211,15 @@ def get_products(products_list):
         except ItemID.MultipleObjectsReturned:
             double += 1
             double_itemid_html += u'{}<br />\n'.format(itemid)
+
+    """ ============================================================================ """
+    if mismatch_id:
+        send_email(
+            subject=u'Список товаров у которых при совпадении артикулов идентификатор 1C не совпадает межу сайтом и 1C.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr(
+                (u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            html_content=u'MisMatch: {0}<br>\n{1}'.format(mismatch_id, mismatch_id_html, ), )
 
     """ ============================================================================ """
     if without_id:
@@ -240,7 +258,7 @@ def get_products(products_list):
         not_found_on_1c_html = ''
         for i, value in enumerate(products, start=1, ):
             not_found_on_1c_html += u'{0} ---> {1}<br />\n'.\
-                format(products.ItemID.all().first().ItemID, products.title, )
+                format(value.ItemID.all().first().ItemID, value.title, )
 
         if not_found_on_1c:
             send_email(
