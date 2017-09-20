@@ -153,8 +153,8 @@ def generate_prom_ua_yml(*args, **kwargs):
                 for photo_item in product.all_photos:
 
                     if photo_item.photo.url != product.main_photo.photo.url:
-                        print(u'1321-213:Photo: %s' % photo_item.photo.url, )
-                        logger.info(u'1321-213:Photo: %s' % photo_item.photo.url, )
+                        # print(u'1321-213:Photo: %s' % photo_item.photo.url, )
+                        # logger.info(u'1321-213:Photo: %s' % photo_item.photo.url, )
 
                         etree.SubElement(offer, 'picture').text = \
                             'https://keksik.com.ua{}'.format(photo_item.photo.url, )

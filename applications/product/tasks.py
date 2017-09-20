@@ -53,15 +53,15 @@ headers = {'User-Agent': user_agent, }
 @celery_app.task(name='product.tasks.check_page_in_index', )
 def check_page_in_index(*args, **kwargs):
 
-    start = datetime.now()
-    logger.info(u'Start: {0}(*args, **kwargs)'.format(str(__name__)), )
-    logger.info(u'logger = get_task_logger(__name__): message: datetime.now() {0}'.format(start), )
-    std_logger.info(u'std_logger = getLogger(__name__): message: datetime.now() {0}'.format(start), )
+    # start = datetime.now()
+    # logger.info(u'Start: {0}(*args, **kwargs)'.format(str(__name__)), )
+    # logger.info(u'logger = get_task_logger(__name__): message: datetime.now() {0}'.format(start), )
+    # std_logger.info(u'std_logger = getLogger(__name__): message: datetime.now() {0}'.format(start), )
 
     try:
         product = Product.objects.published().order_by('check_index_date').first()
         url = product.get_absolute_url()
-        logger.info(url)
+        # logger.info(url)
     except Product.DoesNotExist:
         return False, datetime.now(), '__name__: {0}'.format(str(__name__, ), )
 
@@ -74,10 +74,10 @@ def check_page_in_index(*args, **kwargs):
     soup = BeautifulSoup(str(data.content), 'html.parser')
     try:
         check = soup.find(id="rso").find("div").find("div").find("h3").find("a")
-        logger.info("Google is indexed!")
+        # logger.info("Google is indexed!")
         product.in_google = True
     except AttributeError:
-        logger.info("Google is NOT indexed!")
+        # logger.info("Google is NOT indexed!")
         product.in_google = False
 
     """ Yandex """
@@ -107,8 +107,8 @@ def check_page_in_index(*args, **kwargs):
     product.check_index_date = timezone.now()
     product.save()
 
-    stop = datetime.now()
-    logger.info(u'message: datetime.now() {0}'.format(stop, ), )
-    logger.info(u'Stop: {name}(*args, **kwargs): {time}'.format(name=str(__name__, ), time=stop - start), )
+    # stop = datetime.now()
+    # logger.info(u'message: datetime.now() {0}'.format(stop, ), )
+    # logger.info(u'Stop: {name}(*args, **kwargs): {time}'.format(name=str(__name__, ), time=stop - start), )
 
     return True, datetime.now(), '__name__: {0}'.format(str(__name__, ), )
