@@ -186,12 +186,12 @@ def get_products(products_list):
                 if product.id_1c != product_list[0].text:
                     """ Не совпадение id 1C между 1C и сайтом """
 
-                    logger.info('line 124: fix !!! --> product.id_1c: %s  --> '
-                                'product_list[0].text:  %s' % (product.id_1c, product_list[0].text, ), )
+                    # logger.info('line 124: fix !!! --> product.id_1c: %s  --> '
+                    #             'product_list[0].text:  %s' % (product.id_1c, product_list[0].text, ), )
 
                     mismatch_id += 1
-                    mismatch_id_html += '<br />Артикул: {2} --> {3} |Site:{0}|1C:{1}|'.\
-                        format(product.id_1c, product_list[0].text, itemid, product.title, )
+                    mismatch_id_html += '<br />Артикул: {2} --> {3}|{4}<br />|Site:{0}|1C:{1}|'.\
+                        format(product.id_1c, product_list[0].text, itemid, product.title, name, )
 
                 else:
                     if 'barcode' in locals():
@@ -227,7 +227,7 @@ def get_products(products_list):
             subject=u'Список товаров у которых нету артикулов в 1С.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-            html_content=u'unsuccess: {0}<br>\n{1}'.format(without_id, without_id_html, ), )
+            html_content=u'without_id: {0}<br>\n{1}'.format(without_id, without_id_html, ), )
     """ ============================================================================ """
     if unsuccess:
         send_email(
