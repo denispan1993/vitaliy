@@ -285,7 +285,7 @@ def get_products(products_list):
                 subject=u'Список Артикулов которые есть на сайте но не сравниваются с 1С.',
                 from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
                 to_emails=[
-                    email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана', u'lana24680keksik.com.ua'), ), ],
+                    email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана', u'lana24680@keksik.com.ua'), ), ],
                 html_content=u'not_compare_with_1c: {0}<br />\n{1}'.format(not_compare_with_1c, not_compare_with_1c_html, ), )
 
     except Product.DoesNotExist:
