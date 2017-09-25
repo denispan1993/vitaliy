@@ -86,10 +86,12 @@ def generate_prom_ua_yml(*args, **kwargs):
             if not category['parent_id']:
                 etree.SubElement(categories_tag,
                                  'category',
+                                 portal_id='15230431',  #Дом и сад	Посуда	Кухонные принадлежности	Кондитерские инструменты и аксессуары	https://prom.ua/Konditerskie-instrumenty-i-aksessuary
                                  id=str(category['id'])).text = category['title']  # .get_name()
             else:
                 etree.SubElement(categories_tag,
                                  'category',
+                                 portal_id='15230431',  #Дом и сад	Посуда	Кухонные принадлежности	Кондитерские инструменты и аксессуары	https://prom.ua/Konditerskie-instrumenty-i-aksessuary
                                  id=str(category['id']),
                                  parentId=str(category['parent_id'])).text = category['title']  # .get_name()
 
