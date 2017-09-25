@@ -271,8 +271,8 @@ def get_products(products_list):
         pass
 
     try:
-        products = Product.objects \
-            .filter(compare_with_1c=False, )
+        products = Product.objects.published() \
+            .filter(is_availability=1, compare_with_1c=False, )
 
         not_compare_with_1c = len(products)
         not_compare_with_1c_html = ''
@@ -298,8 +298,10 @@ def process_of_proposal(offers_list):
     there_is_in_1c_html = ''
     there_is_in_site = 0
     there_is_in_site_html = ''
-    discrepacy_price = 0
-    discrepacy_price_html = ''
+    discrepancy_price = 0
+    discrepancy_price_html = ''
+    currency_discrepancy = 0
+    currency_discrepancy_html = ''
 
     for offer in offers_list:
         offer_list = list(offer)
@@ -363,18 +365,27 @@ def process_of_proposal(offers_list):
                 there_is_in_site += 1
                 there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
-            ''' Сравнение цен '''  # '%.2f' % 1.234  |  "{0:.2f}".format(5)
-            try:
-                price_1C = '{0:.2f}'.format(float(price.get(product.currency.currency_code_ISO_char, ), ), )
-            except TypeError:
-                logger.info('line 377: fix 4!!! --> price: {0} | ItemID: {1} | id_1c: {2}'.
-                            format(price, product.ItemID.all()[0].ItemID, id_1c, ), )
-                price_1C = None
+            if product.is_active \
+                    and product.visibility \
+                    and product.is_availability == 1:
 
-            price_site = '{0:.2f}'.format(product.price)
-            if price_1C != price_site:
-                discrepacy_price += 1
-                discrepacy_price_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
+                ''' Сравнение цен '''  # '%.2f' % 1.234  |  "{0:.2f}".format(5)
+                try:
+                    price_1C = '{0:.2f}'.format(float(price.get(product.currency.currency_code_ISO_char, ), ), )
+                    price_site = '{0:.2f}'.format(product.price)
+
+                    if price_1C != price_site:
+
+                        discrepancy_price += 1
+                        discrepancy_price_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, )
+
+                except TypeError:
+                    """ Если не сходятся валюта товара между сайтом и 1С. """
+                    currency_discrepancy += 1
+                    currency_discrepancy_html += u'{0}: {1} | {2}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, price, )
+
+                    # logger.info('line 377: fix 4!!! --> price: {0} | ItemID: {1} | id_1c: {2}'.
+                    #             format(price, product.ItemID.all()[0].ItemID, id_1c, ), )
 
         except Product.DoesNotExist:
             pass
@@ -409,12 +420,19 @@ def process_of_proposal(offers_list):
             html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
 
     """ ============================================================================ """
-    if discrepacy_price:
+    if currency_discrepancy:
+        send_email(
+            subject=u'Список Артикулов товаров которые расходятся по ВАЛЮТАМ с 1С.',
+            from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
+            to_emails=[email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
+            html_content=u'currency_discrepancy: {0}<br />\n{1}'.format(currency_discrepancy, currency_discrepancy_html), )
+    """ ============================================================================ """
+    if discrepancy_price:
         send_email(
             subject=u'Список Артикулов товаров которые расходятся по ценам с 1С.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
-            html_content=u'discrepacy_price: {0}<br />\n{1}'.format(discrepacy_price, discrepacy_price_html), )
+            html_content=u'discrepancy_price: {0}<br />\n{1}'.format(discrepancy_price, discrepancy_price_html), )
 
 
 def get_price(prices):
