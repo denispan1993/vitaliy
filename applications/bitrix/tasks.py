@@ -367,8 +367,8 @@ def process_of_proposal(offers_list):
             try:
                 price_1C = '{0:.2f}'.format(float(price.get(product.currency.currency_code_ISO_char, ), ), )
             except TypeError:
-                logger.info('line 377: fix 4!!! --> price: {0} | id_1c: {1}'.
-                            format(price, id_1c, ), )
+                logger.info('line 377: fix 4!!! --> price: {0} | ItemID: {1} | id_1c: {2}'.
+                            format(price, product.ItemID.all()[0].ItemID, id_1c, ), )
                 price_1C = None
 
             price_site = '{0:.2f}'.format(product.price)
