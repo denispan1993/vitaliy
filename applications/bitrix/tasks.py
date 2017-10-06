@@ -215,12 +215,10 @@ def get_products(products_list):
     """ ============================================================================ """
     if mismatch_id:
         send_email(
-            subject=u'Список товаров у которых при совпадении артикулов идентификатор 1C не совпадает межу сайтом и 1C.',
+            subject=u'Список товаров у которых при совпадении артикулов, идентификатор 1C не совпадает межу сайтом и 1C.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-            to_emails=[email.utils.formataddr(
-                (u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
             html_content=u'MisMatch: {0}<br>\n{1}'.format(mismatch_id, mismatch_id_html, ), )
-
     """ ============================================================================ """
     if without_id:
         send_email(
@@ -248,11 +246,15 @@ def get_products(products_list):
         НО у которых нету связки с 1С (id_1c__isnull=True)
     '''
     try:
+
+        from django.db.models import Q
+
         # products_ItemID = Product.objects\
         #     .filter(id_1c__isnull=True, compare_with_1c=True, )\
         #     .values_list('ItemID__ItemID', flat=True)
+        q = Q(title__icontains='вафельн') & Q(title__icontains='картинк')
         products = Product.objects\
-            .filter(id_1c__isnull=True, compare_with_1c=True, )
+            .filter(id_1c__isnull=True, compare_with_1c=True, ).exclude(q)
 
         not_found_on_1c = len(products)
         not_found_on_1c_html = ''
