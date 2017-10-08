@@ -252,9 +252,10 @@ def get_products(products_list):
         # products_ItemID = Product.objects\
         #     .filter(id_1c__isnull=True, compare_with_1c=True, )\
         #     .values_list('ItemID__ItemID', flat=True)
+        # .filter(id_1c__isnull=True, compare_with_1c=True, ).exclude(q)
         q = Q(title__icontains='вафельн') & Q(title__icontains='картинк')
         products = Product.objects\
-            .filter(id_1c__isnull=True, compare_with_1c=True, ).exclude(q)
+            .filter(compare_with_1c=False, ).exclude(q)
 
         not_found_on_1c = len(products)
         not_found_on_1c_html = ''

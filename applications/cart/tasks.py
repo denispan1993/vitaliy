@@ -169,7 +169,6 @@ def send_reminder_about_us(*args, **kwargs):
     # from datetime import timedelta
     # from django.utils import timezone
     from applications.authModel.models import Email
-    from applications.delivery2.models import Delivery
     from applications.delivery.models import SpamEmail, MailAccount
     from applications.delivery2.models import Delivery, Message as modelMessage
     from applications.delivery2.message import Message as classMessage
@@ -202,7 +201,9 @@ def send_reminder_about_us(*args, **kwargs):
         #delivery = Delivery.objects\
         #    .get(~Q(delivery_test=True, send_test=True, send_spam=False) | \
         #         ~Q(delivery_test=False, send_test=True, send_spam=True), pk=delivery_pk, )
+
         delivery = Delivery.objects.get(system_name='send_remainder_about_us', type=1, )
+
     except Delivery.DoesNotExist:
         return False
 
