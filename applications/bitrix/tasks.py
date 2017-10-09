@@ -247,15 +247,12 @@ def get_products(products_list):
     '''
     try:
 
-        from django.db.models import Q
-
         # products_ItemID = Product.objects\
         #     .filter(id_1c__isnull=True, compare_with_1c=True, )\
         #     .values_list('ItemID__ItemID', flat=True)
-        # .filter(id_1c__isnull=True, compare_with_1c=True, ).exclude(q)
-        q = Q(title__icontains='вафельн') & Q(title__icontains='картинк')
+
         products = Product.objects\
-            .filter(compare_with_1c=False, ).exclude(q)
+            .filter(id_1c__isnull=True, compare_with_1c=True, )
 
         not_found_on_1c = len(products)
         not_found_on_1c_html = ''
@@ -274,8 +271,11 @@ def get_products(products_list):
         pass
 
     try:
+        from django.db.models import Q
+
+        q = Q(title__icontains='вафельн') & Q(title__icontains='картинк')
         products = Product.objects.published() \
-            .filter(is_availability=1, compare_with_1c=False, )
+            .filter(is_availability=1, compare_with_1c=False, ).exclude(q)
 
         not_compare_with_1c = len(products)
         not_compare_with_1c_html = ''

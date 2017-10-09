@@ -80,22 +80,25 @@ def send_email(subject='Спасибо за заказ в магазине Ке�
                            mimetype="text/html", )
 
     msg.content_subtype = "html"
+    result = False
     i = 0
     while True:
 
         try:
             result = msg.send(fail_silently=False, )
+
         except smtplib.SMTPDataError as e:
-            result = False
+            logger.info('print e: cart/task.py: ', e, )
+
+        except smtplib.SMTPServerDisconnected as e:
             logger.info('print e: cart/task.py: ', e, )
 
         if (isinstance(result, int) and result == 1) or i > 100:
-            i = 0
             break
 
         logger.info('cart.tasks.delivery_order.admin(i)(utils): ', i, ' result: ', result, )
         i += 1
-        sleep(15)
+        sleep(30)
 
 
 def get_cart_or_create(request, user_object=False, created=True, ):
