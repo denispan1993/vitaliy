@@ -18,6 +18,25 @@ from proj import settings
 __author__ = 'AlexStarov'
 
 
+def set_path_image(instance, filename, ):
+    """
+    Auto generate name for File and Image fields.
+    :param instance: Instance of Model
+    :param filename: Name of uploaded file
+    :return:
+    """
+    import os
+    import time
+    import hashlib
+    filename = os.path.splitext(filename)
+
+    name = str(instance.pk or '') + filename[0] + str(time.time())
+
+    # We think that we use utf8 based OS file system
+    filename = hashlib.md5(name.encode('utf8')).hexdigest() + filename[1]
+    return os.path.join('image', filename[:2], filename[2:4], filename)
+
+
 class Category(MPTTModel):
 
     id_1c = models.CharField(verbose_name=_(u'1C Ид', ),
@@ -94,11 +113,11 @@ class Category(MPTTModel):
                                                blank=False,
                                                null=False,
                                                help_text=u'Размер шрифта категории в пикселях,', )
-#    from compat.ruslug.models import RuSlugField
-#    from applications.product.fields import ModelSlugField
+    # from compat.ruslug.models import RuSlugField
+    # from applications.product.fields import ModelSlugField
 
     url = ModelSlugField()
-    #verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
+    # verbose_name=u'URL адрес категории', max_length=255, null=True, blank=True,
     title = models.CharField(db_index=True,
                              verbose_name=u'Заголовок категории',
                              max_length=255,
@@ -111,11 +130,22 @@ class Category(MPTTModel):
     description = models.TextField(verbose_name=u'Описание категории', null=True, blank=True, )
     bottom_description = models.TextField(verbose_name=u'Нижнее описание категории', null=True, blank=True, )
 
-    #Дата создания и дата обновления новости. Устанавливаются автоматически.
+    billboard_img = models.ImageField(verbose_name=u'Биллбоард',
+                                      upload_to=set_path_image,
+                                      help_text='Сюда добавляем картинку от 1920 px ширина и от 174 px высота',
+                                      blank=True,
+                                      null=True, )
+    billboard_img_alt = models.CharField(verbose_name=u'Alt Биллбоарда',
+                                         max_length=128,
+                                         help_text='Описание Биллбоарда для поисковых систем от 6 до 10 слов',
+                                         blank=True,
+                                         null=True, )
+
+    # Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
     updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
-    #Описание и ключевые слова для поисковиков
+    # Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'Заголовок категории', max_length=190, null=True, blank=True,
                                   help_text=u'Данный заголовок читают поисковые системы для правильного расположения'
                                             u' страницы в поиске.', )
@@ -124,12 +154,12 @@ class Category(MPTTModel):
                                                   u' расположения страницы в поиске.', )
     meta_keywords = models.CharField(verbose_name=u'Клчевые слова категории', max_length=160, null=True, blank=True,
                                      help_text=u'Ключевые слова для поисковых систем.', )
-    #Расширенные настройки
+    # Расширенные настройки
     template = models.CharField(verbose_name=u'Имя шаблона', max_length=70, null=True, blank=True,
                                 help_text=u'Пример: "news/reklama.html". Если не указано, система'
                                           u' будет использовать "news/default.html".', )
     visibility = models.BooleanField(verbose_name=u'Признак видимости категории', default=True, )
-    #Кто создал
+    # Кто создал
     # from django.contrib.auth.models import User
     user_obj = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
@@ -287,7 +317,7 @@ class Product(models.Model):
                                         max_length=128, )  # null=True, blank=True, )
     description = models.TextField(verbose_name=u'Полное описание продукта',
                                    null=True, blank=True, )
-    #recommended recomendate
+    # recommended recomendate
     recommended = models.ManyToManyField('Product',
                                          related_name=u'Product',
                                          verbose_name=u'Рекомендуемые товары',
@@ -360,11 +390,11 @@ class Product(models.Model):
                                             null=False, )
     datetime_pub = models.DateTimeField(verbose_name=u'Дата публикации', null=True, blank=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
     updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
-    #Описание и ключевые слова для поисковиков
+    # Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'Заголовок продукта',
                                   max_length=190,
                                   null=True,
@@ -399,7 +429,7 @@ class Product(models.Model):
                                         blank=True,
                                         null=True, )
 
-    #Расширенные настройки
+    # Расширенные настройки
     template = models.CharField(verbose_name=u'Имя шаблона',
                                 max_length=70,
                                 null=True,
@@ -420,7 +450,7 @@ class Product(models.Model):
         to='Photo',
         content_type_field='content_type',
         object_id_field='object_id', )
-    #from applications.product.models import ItemID
+    # from applications.product.models import ItemID
     ItemID = GenericRelation(
         to='ItemID',
         content_type_field='content_type',
@@ -500,11 +530,11 @@ class Product(models.Model):
                     return inst_ItemID
 
                 if inst_ItemID.ItemID == u'%.5d' % self.pk\
-                    or (len(manufacturer) > 0\
-                        and inst_ItemID.ItemID == u'%s-%.5d' % (
-                             manufacturer[0].key.letter_to_article.upper(),
-                             self.pk, )
-                        ):
+                        or (len(manufacturer) > 0
+                            and inst_ItemID.ItemID == u'%s-%.5d' % (
+                                    manufacturer[0].key.letter_to_article.upper(),
+                                    self.pk, )
+                            ):
                     inst_ItemID.delete()
 
     @property
@@ -806,7 +836,7 @@ class ItemID(models.Model):
         null=True, )
     # slug = models.SlugField(verbose_name=u'Slug')
     # letter_to_article = models.CharField(verbose_name=u'Буква для Артикула', max_length=4, null=False, blank=False, )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(db_index=True, auto_now_add=True, )
     updated_at = models.DateTimeField(db_index=True, auto_now=True, )
 
@@ -860,7 +890,7 @@ class IntermediateModelManufacturer(models.Model):
     key = models.ForeignKey('Manufacturer',
                             verbose_name=u'Производитель',
                             null=False, blank=False, )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
@@ -904,7 +934,7 @@ class Manufacturer(models.Model):
                                          null=False,
                                          blank=False, )
     # Абсолютный путь к логотипу производителя
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
@@ -955,7 +985,7 @@ class Additional_Information(models.Model):
 #                                          blank=False,
 #                                          null=False, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
@@ -979,7 +1009,7 @@ class Information(models.Model):
                                    blank=False,
                                    max_length=255, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
@@ -999,7 +1029,7 @@ class UnitofMeasurement(models.Model):
                             default=u'шт.',
                             null=False,
                             blank=False, )
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
@@ -1032,7 +1062,7 @@ class Discount(models.Model):
                                 null=True, )
     percent = models.PositiveSmallIntegerField(verbose_name=u'Процент скидки', null=True, blank=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
@@ -1067,12 +1097,12 @@ class Photo(models.Model):
                                    blank=False,
                                    default=False, )
 
-#    from compat.ImageWithThumbs.fields import ImageWithThumbsField
+    # from compat.ImageWithThumbs.fields import ImageWithThumbsField
     photo = ImageWithThumbsField(
         verbose_name=u'Фото',
         upload_to=set_path_photo,
         sizes=((26, 26, ), (50, 50, ), (90, 95, ),
-               (205, 190, ), (210, 160, ), (345, 370, ),
+               (205, 190, ), (210, 160, ), (253, 228, ), (345, 370, ),
                (700, 500, ), ),
         blank=False,
         null=False, )
@@ -1090,10 +1120,10 @@ class Photo(models.Model):
     description = models.TextField(verbose_name=u'Описание фотографии',
                                    null=True,
                                    blank=True, )
-    #Дата создания и дата обновления новости. Устанавливаются автоматически.
+    # Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
-    #Описание и ключевые слова для поисковиков
+    # Описание и ключевые слова для поисковиков
     meta_title = models.CharField(verbose_name=u'title фотографии',
                                   max_length=190,
                                   null=True,
@@ -1361,7 +1391,7 @@ class InformationForPrice(models.Model):
                                    null=False,
                                    blank=False, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, )
     updated_at = models.DateTimeField(auto_now=True, )
 
