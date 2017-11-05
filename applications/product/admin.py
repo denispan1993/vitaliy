@@ -47,9 +47,9 @@ class CategoryAdminForm(forms.ModelForm):
 
 @admin.register(Category)
 class CategoryAdmin(MPTTModelAdmin, ):
-    #MPTT
+    # MPTT
     mptt_indent_field = 'parent'
-    #default is 10 pixels
+    # default is 10 pixels
     mptt_level_indent = 15
 
     list_display = ('pk', 'serial_number', 'is_active', 'url', 'title', 'parent', )  # 'name', ]
@@ -59,13 +59,19 @@ class CategoryAdmin(MPTTModelAdmin, ):
     form = CategoryAdminForm
     fieldsets = [
         (None,   {'classes': ['wide'],
-                  'fields': ['parent', 'location', 'serial_number', 'is_active',
+                  'fields': ['parent', 'is_active',
                              'shown_colored', 'font_color',
                              'shadow_color', 'shadow_px', 'shadow_blur_px',
                              'shown_bold', 'shown_italic', 'font_px',
                              'url', 'title',
                              'item_description', 'description', 'bottom_description',
                              'billboard_img', 'billboard_img_alt', ], }),
+        (u'Расположение категорий на сайте', {'classes': ['collapse'], 'fields': ['location', 'serial_number',
+                                                                                  'is_left_vertical_column',
+                                                                                  'serial_number_first_column',
+                                                                                  'serial_number_second_column',
+                                                                                  'serial_number_third_column',
+                                                                                  'serial_number_fourth_column', ], }, ),
         (u'Информация о категории для поисковых систем', {'classes': ['collapse'], 'fields': ['meta_title',
                                                                                               'meta_description',
                                                                                               'meta_keywords', ], }, ),
