@@ -67,7 +67,7 @@ class CategoryAdmin(MPTTModelAdmin, ):
                              'item_description', 'description', 'bottom_description',
                              'billboard_img', 'billboard_img_alt', ], }),
         (u'Расположение категорий на сайте', {'classes': ['collapse'], 'fields': ['location', 'serial_number',
-                                                                                  'is_left_vertical_column',
+                                                                                  'serial_number_left_vertical_column',
                                                                                   'serial_number_first_column',
                                                                                   'serial_number_second_column',
                                                                                   'serial_number_third_column',

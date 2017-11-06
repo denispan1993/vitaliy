@@ -63,30 +63,30 @@ class Category(MPTTModel):
     serial_number = models.PositiveSmallIntegerField(verbose_name=_(u'Порядок сортировки', ),
                                                      db_index=True, default=1, blank=True, null=True, )
 
-    is_left_vertical_column = models.BooleanField(verbose_name=_(u'Левая вертикальная колонка', ),
-                                                  default=False, blank=False, null=False,
-                                                  help_text=u'Если мы хотим чтобы категория показывалась'
-                                                            u'в левой колонке ставим данное поле в True.', )
+    serial_number_left_vertical_column = models.PositiveSmallIntegerField(verbose_name=_(u'Левая вертикальная колонка', ),
+                                                                          blank=True, null=True,
+                                                                          help_text=u'Порядковый номер в'
+                                                                                    u' левой вертикальной колонке.', )
 
     serial_number_first_column = models.PositiveSmallIntegerField(verbose_name=_(u'Первая колонка', ),
                                                                   db_index=True, blank=True, null=True,
-                                                                  help_text = u'Порядковый номер в нижней части сайта'
-                                                                              u' в первой колонке.', )
+                                                                  help_text=u'Порядковый номер в нижней части сайта'
+                                                                            u' в первой колонке.', )
 
     serial_number_second_column = models.PositiveSmallIntegerField(verbose_name=_(u'Вторая колонка', ),
                                                                    db_index=True, blank=True, null=True,
-                                                                   help_text = u'Порядковый номер в нижней части сайта'
-                                                                               u' во второй колонке.', )
+                                                                   help_text=u'Порядковый номер в нижней части сайта'
+                                                                             u' во второй колонке.', )
 
     serial_number_third_column = models.PositiveSmallIntegerField(verbose_name=_(u'Третья колонка', ),
                                                                   db_index=True, blank=True, null=True,
-                                                                  help_text = u'Порядковый номер в нижней части сайта'
-                                                                              u' в третьей колонке.', )
+                                                                  help_text=u'Порядковый номер в нижней части сайта'
+                                                                            u' в третьей колонке.', )
 
     serial_number_fourth_column = models.PositiveSmallIntegerField(verbose_name=_(u'Четвертая колонка', ),
                                                                    db_index=True, blank=True, null=True,
-                                                                   help_text = u'Порядковый номер в нижней части сайта'
-                                                                               u' в четвертой колонке.', )
+                                                                   help_text=u'Порядковый номер в нижней части сайта'
+                                                                             u' в четвертой колонке.', )
 
     is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив.', ), default=True, blank=False, null=False,
                                     help_text=u'Если мы хотим чтобы категория нигде не показывалась,'
