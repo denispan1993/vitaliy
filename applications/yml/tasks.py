@@ -118,12 +118,36 @@ def generate_prom_ua_yml(*args, **kwargs):
             if category and not category.category.is_active:
                 continue
 
+            available = ''
             if product.is_availability == 1:
-                offer = etree.SubElement(offers, 'offer', id=str(product.id), available='true')
+                available = 'true'
             elif product.is_availability in [2, 3]:
-                offer = etree.SubElement(offers, 'offer', id=str(product.id), available='false')
-            else:
-                continue
+                available = 'false'
+
+            """
+            Параметр selling_type ― это тип товара на Prom.ua. Тип_товара определяет размещение товара в каталоге по признаку оптовой продажи. Тип «Услуга» предназначен для размещения услуг, предоставляемых частным лицам или компаниям. Внимание! Данный параметр используется только на Prom.ua. Файл с данным параметром может вызывать ошибку при импорте в другие системы. Возможные значения: r, w, u, s.
+
+                r — «Товар продается только в розницу» для потребительских и промышленных товаров с розничными ценами.
+                w — «Товар продается только оптом» для потребительских и промышленных товаров, которые продаются только оптом.
+                u — «Товар продается оптом и в розницу» для товаров, которые продаются и оптом и в розницу.
+                s — услуга.
+            """
+            """
+            Параметр "available" используется для указания статуса наличия товара. Значение «склад» или «true» соответствует статусу товара «В наличии», значение «false» — статусу «Под заказ». Если в данном поле пусто — товар будет импортирован в статусе «Нет в наличии».
+            """
+            offer = etree.SubElement(offers, 'offer', id=str(product.id), available=available, selling_type="r", )
+
+            """
+            <available>Наличие</available>
+            Указание наличия для товара. Значение «склад» или «true» соответствует статусу товара «В наличии», значение «false» — статусу «Под заказ». Если в данном поле пусто — товар будет импортирован в статусе «Нет в наличии».
+            """
+            etree.SubElement(offer, 'available').text = available
+
+            """
+            <quantity_in_stock>Количество товара на складе</quantity_in_stock>
+            Используется для указания остатка товаров на складе.
+            """
+            etree.SubElement(offer, 'quantity_in_stock').text = product.quantity_of_stock
 
             if category:
                 etree.SubElement(offer, 'categoryId').text = str(category.category_id, )
@@ -148,6 +172,7 @@ def generate_prom_ua_yml(*args, **kwargs):
                 .replace('    ', ' ', )\
                 .replace('   ', ' ', )\
                 .replace('  ', ' ', )
+
             try:
                 etree.SubElement(offer, 'picture').text =\
                     'https://keksik.com.ua{}'.format(product.main_photo.photo.url, )
