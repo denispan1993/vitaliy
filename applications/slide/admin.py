@@ -63,11 +63,11 @@ class SlideAdmin(admin.ModelAdmin, ):
 
 @admin.register(Recommend)
 class RecommendAdmin(admin.ModelAdmin, ):
-    list_display = ['pk', 'type', 'img', 'created_at', 'updated_at', ]
-    list_display_links = ['pk', 'type', 'created_at', 'updated_at', ]
+    list_display = ['pk', 'type', 'img_alt', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'type', 'img_alt', 'created_at', 'updated_at', ]
 
     fieldsets = [
-        (None, {'classes': ['wide'], 'fields': ['type', 'img', ], },),
+        (None, {'classes': ['wide'], 'fields': ['type', 'img', 'img_alt', ], },),
         ('Type 1', {'classes': ['collapse'], 'fields': ['type_1_first_number', 'type_1_first_chars',
                                                         'type_1_second_number', 'type_1_third_chars',
                                                         'type_1_fourth_chars', 'type_1_fifth_slug', ], }),

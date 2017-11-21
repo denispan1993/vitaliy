@@ -178,6 +178,9 @@ class Recommend(models.Model):
                                       ' - Type 2: Высота: 169 x Ширина: 219\n'
                                       ' - Type 3: Высота: 136 x Ширина: 151\n',
                             blank=True, null=True, )
+    img_alt = models.CharField(verbose_name=u'ALT Картинки', max_length=256,
+                               help_text='Описание картинки для поисковых систем.',
+                               blank=False, null=False, default='Предложение интернет-магазина Кексик')
 
     # Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
