@@ -131,3 +131,54 @@ class Slide(models.Model):
         ordering = ['order', ]
         verbose_name = u'Слайд'
         verbose_name_plural = u'Слайды'
+
+
+TYPE_RECOMMEND = ((1, 'Type 1'), (2, 'Type 2'), (3, 'Type 3'), )
+
+
+def set_path_image(instance, filename, ):
+    """
+    Auto generate name for File and Image fields.
+    :param instance: Instance of Model
+    :param filename: Name of uploaded file
+    :return:
+    """
+    import os
+    import time
+    import hashlib
+    filename = os.path.splitext(filename)
+
+    name = str(instance.pk or '') + filename[0] + str(time.time())
+
+    # We think that we use utf8 based OS file system
+    filename = hashlib.md5(name.encode('utf8')).hexdigest() + filename[1]
+    return os.path.join('image', filename[:2], filename[2:4], filename)
+
+
+class Recommend(models.Model):
+    type = models.PositiveSmallIntegerField(verbose_name=_('Тип рекламы', ),
+                                            choices=TYPE_RECOMMEND,
+                                            blank=False, null=False, default=1, )
+
+    type_1_first_number = models.CharField(verbose_name=_('Первая линия цифры', ),
+                                           max_length=6, blank=False, null=False, default='6', )
+    type_1_first_chars = models.CharField(verbose_name=_('Первая линия буквы', ),
+                                          max_length=6, blank=False, null=False, default='ШТ', )
+    type_1_second_number = models.CharField(verbose_name=_('Вторая линия цифры', ),
+                                            max_length=6, blank=False, null=False, default='20', )
+    type_1_third_chars = models.CharField(verbose_name=_('Третья линия буквы', ),
+                                          max_length=128, blank=False, null=False, default='На стаканчики десертные', )
+    type_1_fourth_chars = models.CharField(verbose_name=_('Четвертая линия буквы', ),
+                                           max_length=128, blank=False, null=False, default='ПИРАМИДА', )
+    type_1_fifth_slug = models.CharField(verbose_name=_('Пятая линия адрес', ),
+                                         max_length=256, blank=False, null=False, default='#', )
+    img = models.ImageField(verbose_name=u'Картинка', upload_to=set_path_image,
+                            help_text='Ориентировочно:'
+                                      ' - Type 1: Высота: 147 x Ширина: 197\n'
+                                      ' - Type 2: Высота: 169 x Ширина: 219\n'
+                                      ' - Type 3: Высота: 136 x Ширина: 151\n',
+                            blank=True, null=True, )
+
+    # Дата создания и дата обновления новости. Устанавливаются автоматически.
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )

@@ -5,7 +5,7 @@ from datetime import timedelta
 from django import forms
 
 from django.contrib.contenttypes.models import ContentType
-from .models import Slide
+from .models import Slide, Recommend
 
 __author__ = 'AlexStarov'
 
@@ -58,4 +58,17 @@ class SlideAdmin(admin.ModelAdmin, ):
     fieldsets = [
         (None, {'classes': ['wide'], 'fields': ['is_active', 'order', 'url', 'opening_method', 'content_type',
                                                 'object_id', 'title', 'text', 'alt', 'slide', ], }),
+    ]
+
+
+@admin.register(Recommend)
+class RecommendAdmin(admin.ModelAdmin, ):
+    list_display = ['pk', 'type', 'img', 'created_at', 'updated_at', ]
+    list_display_links = ['pk', 'type', 'created_at', 'updated_at', ]
+
+    fieldsets = [
+        (None, {'classes': ['wide'], 'fields': ['type', 'img', ], },),
+        ('Type 1', {'classes': ['collapse'], 'fields': ['type_1_first_number', 'type_1_first_chars',
+                                                        'type_1_second_number', 'type_1_third_chars',
+                                                        'type_1_fourth_chars', 'type_1_fifth_slug', ], }),
     ]
