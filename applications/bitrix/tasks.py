@@ -320,7 +320,7 @@ def process_of_proposal(offers_list):
                     id_1c = offer_list[n].text.replace(' ', '', )
 
                 if offer_list[n].tag == u'Количество':
-                    quantity_of_stock = offer_list[n].text.replace(' ', '', )
+                    quantity_in_stock = offer_list[n].text.replace(' ', '', )
 
                 if offer_list[n].tag == u'Цены':
                     price = get_price(prices=list(offer_list[n]))
@@ -337,9 +337,9 @@ def process_of_proposal(offers_list):
                         .format(offer_list[0].tag, offer_list[0].text, ), )
             continue
 
-        if 'quantity_of_stock' in locals():
+        if 'quantity_in_stock' in locals():
             try:
-                quantity_of_stock = int(quantity_of_stock)
+                quantity_in_stock = int(quantity_in_stock)
 
             except ValueError:
                 logger.info('line 286: fix 2!!! --> offer_list[0].tag: {0} |  offer_list[0].text: {1}'\
@@ -354,16 +354,16 @@ def process_of_proposal(offers_list):
 
             ''' Если в 1С единиц товара больше чем 0 и в базе сайта он "в наличии"
                 то просто записывеем количество товара в базу сайта '''
-            if quantity_of_stock > 0 and product.is_availability == 1:
-                product.quantity_of_stock = quantity_of_stock
+            if quantity_in_stock > 0 and product.is_availability == 1:
+                product.quantity_in_stock = quantity_in_stock
                 product.save()
 
-            elif quantity_of_stock > 0 and product.is_availability != 1:
+            elif quantity_in_stock > 0 and product.is_availability != 1:
                 """ Количество товара в 1С > 0 но отсутствуют на сайте. """
                 there_is_in_1c += 1
                 there_is_in_1c_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
 
-            elif quantity_of_stock == 0 and product.is_availability == 1:
+            elif quantity_in_stock == 0 and product.is_availability == 1:
                 """ товар "есть" на сайте но в 1С остатки < 0 """
                 there_is_in_site += 1
                 there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
