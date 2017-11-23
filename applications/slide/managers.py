@@ -7,3 +7,9 @@ class ManagerSlide(models.Manager):
 
     def visible(self):
         return self.filter(is_active=True, ).order_by('order', )
+
+
+class ManagerRecommend(models.Manager):
+
+    def visible(self):
+        return self.filter(is_active=True, ).order_by('?', )

@@ -133,7 +133,7 @@ class Slide(models.Model):
         verbose_name_plural = u'Слайды'
 
 
-TYPE_RECOMMEND = ((1, 'Type 1'), (2, 'Type 2'), (3, 'Type 3'), )
+TYPE_RECOMMEND = ((1, 'Type 1'), (2, 'Type 2'), (3, 'Type 3'), (4, 'Type 4 (Banner)'), )
 
 
 def set_path_image(instance, filename, ):
@@ -160,23 +160,63 @@ class Recommend(models.Model):
                                             choices=TYPE_RECOMMEND,
                                             blank=False, null=False, default=1, )
 
-    type_1_first_number = models.CharField(verbose_name=_('Первая линия цифры', ),
-                                           max_length=6, blank=False, null=False, default='6', )
+    is_active = models.BooleanField(verbose_name=_(u'Актив. или Пасив', ),
+                                    default=True,
+                                    blank=False,
+                                    null=False,
+                                    help_text=u'Если мы хотим чтобы не показывался,'
+                                              u' ставим данное поле в False.')
+
+    # Type 1
+    type_1_first_numbers = models.CharField(verbose_name=_('Первая линия цифры', ),
+                                            max_length=6, blank=False, null=False, default='6', )
     type_1_first_chars = models.CharField(verbose_name=_('Первая линия буквы', ),
                                           max_length=6, blank=False, null=False, default='ШТ', )
-    type_1_second_number = models.CharField(verbose_name=_('Вторая линия цифры', ),
-                                            max_length=6, blank=False, null=False, default='20', )
+    type_1_second_numbers = models.CharField(verbose_name=_('Вторая линия цифры', ),
+                                             max_length=6, blank=False, null=False, default='20', )
     type_1_third_chars = models.CharField(verbose_name=_('Третья линия буквы', ),
                                           max_length=128, blank=False, null=False, default='На стаканчики десертные', )
     type_1_fourth_chars = models.CharField(verbose_name=_('Четвертая линия буквы', ),
                                            max_length=128, blank=False, null=False, default='ПИРАМИДА', )
     type_1_fifth_slug = models.CharField(verbose_name=_('Пятая линия адрес', ),
                                          max_length=256, blank=False, null=False, default='#', )
+
+    # Type 2
+    type_2_first_number = models.CharField(verbose_name=_('Первая линия цифры', ),
+                                           max_length=6, blank=False, null=False, default='65', )
+    type_2_first_chars = models.CharField(verbose_name=_('Первая линия буквы', ),
+                                          max_length=6, blank=False, null=False, default='грн.', )
+    type_2_second_chars = models.CharField(verbose_name=_('Вторая линия буквы', ),
+                                           max_length=128, blank=False, null=False, default='Мастика Criamo универсальная Розовая', )
+    type_2_third_numbers = models.CharField(verbose_name=_('Третья линия цифры', ),
+                                            max_length=6, blank=False, null=False, default='0,5', )
+    type_2_third_chars = models.CharField(verbose_name=_('Третья линия буквы', ),
+                                          max_length=6, blank=False, null=False, default='кг.', )
+    type_2_fourth_slug = models.CharField(verbose_name=_('Четвертая линия адрес', ),
+                                          max_length=256, blank=False, null=False, default='#', )
+
+    # Type 3
+    type_3_first_title = models.CharField(verbose_name=_('Первая линия буквы', ),
+                                          max_length=64, blank=False, null=False, default='Форма Сердце', )
+    type_3_second_list_first_line = models.CharField(verbose_name=_('Вторая линия, первая линия списка', ),
+                                                     max_length=32, blank=False, null=False, default='Силикон', )
+    type_3_second_list_second_line = models.CharField(verbose_name=_('Вторая линия, вторая линия списка', ),
+                                                      max_length=32, blank=False, null=False, default='18 см; высота 3 см.', )
+    type_3_third_price = models.CharField(verbose_name=_('Третья линия цифры (Цена, грн)', ),
+                                          max_length=6, blank=False, null=False, default='127', )
+    type_3_third_price_broken_money = models.CharField(verbose_name=_('Третья линия цифры (Цена, коп)', ),
+                                                       max_length=6, blank=False, null=False, default='99', )
+    type_3_third_chars = models.CharField(verbose_name=_('Третья линия буквы (еденицы измерения)', ),
+                                          max_length=6, blank=False, null=False, default='штука', )
+    type_3_quantity = models.CharField(verbose_name=_('Количество', ),
+                                       max_length=6, blank=False, null=False, default='3', )
+
     img = models.ImageField(verbose_name=u'Картинка', upload_to=set_path_image,
                             help_text='Ориентировочно:'
                                       ' - Type 1: Высота: 147 x Ширина: 197\n'
                                       ' - Type 2: Высота: 169 x Ширина: 219\n'
-                                      ' - Type 3: Высота: 136 x Ширина: 151\n',
+                                      ' - Type 3: Высота: 136 x Ширина: 151\n'
+                                      ' - Type 4 (Banner): Высота: 175 x Ширина: 962\n',
                             blank=True, null=True, )
     img_alt = models.CharField(verbose_name=u'ALT Картинки', max_length=256,
                                help_text='Описание картинки для поисковых систем.',
@@ -185,3 +225,11 @@ class Recommend(models.Model):
     # Дата создания и дата обновления новости. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, )
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, )
+
+    objects = managers.ManagerRecommend()
+
+    class Meta:
+        db_table = 'Recommend'
+        ordering = ['updated_at', ]
+        verbose_name = u'Реккомендация'
+        verbose_name_plural = u'Реккомендации'

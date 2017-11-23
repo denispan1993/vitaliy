@@ -71,4 +71,12 @@ class RecommendAdmin(admin.ModelAdmin, ):
         ('Type 1', {'classes': ['collapse'], 'fields': ['type_1_first_number', 'type_1_first_chars',
                                                         'type_1_second_number', 'type_1_third_chars',
                                                         'type_1_fourth_chars', 'type_1_fifth_slug', ], }),
+        ('Type 2', {'classes': ['collapse'], 'fields': ['type_2_first_number', 'type_2_first_chars',
+                                                        'type_2_second_chars',
+                                                        'type_2_third_numbers', 'type_2_third_chars',
+                                                        'type_2_fourth_slug', ], }),
+        ('Type 3', {'classes': ['collapse'], 'fields': ['type_3_first_title',
+                                                        'type_3_second_list_first_line', 'type_3_second_list_second_line',
+                                                        'type_3_third_price', 'type_3_third_price_broken_money', 'type_3_third_chars',
+                                                        'type_3_quantity', ], }),
     ]
