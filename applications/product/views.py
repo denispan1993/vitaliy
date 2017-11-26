@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # /apps/product/views.py
+import inspect
 from datetime import datetime
 from django.utils import timezone
 
@@ -18,6 +19,14 @@ from proj.settings import SERVER, CACHE_TIMEOUT
 from .models import Category, Product, Viewed
 
 __author__ = 'AlexStarov'
+
+
+def debug():
+    previous_frame = inspect.currentframe().f_back
+    (filename, line_number,
+     function_name, lines, index) = inspect.getframeinfo(previous_frame)
+    return 'Debug: filename: {filename} | function_name: {function_name} | line number: {line_number}'.\
+        format(filename=filename, line_number=line_number, function_name=function_name)
 
 
 def show_basement_category(request,
@@ -40,13 +49,16 @@ def show_category(request,
                   category_url,
                   id,
                   template_name=u'category/show_category.jinja2', ):
-    request.session[u'category'] = True
 
+    request.session[u'category'] = True
     try:
-        current_category = Category.objects.get(pk=id, url=category_url, )
+        current_category = get_category(pk=id)
+        # current_category = Category.objects.get(pk=id, url=category_url, )
         request.session[u'current_category'] = current_category.pk
 
     except Category.DoesNotExist:
+        print(debug())
+        print('Error: except Category.DoesNotExist: raise Http404')
         raise Http404
 
 
@@ -73,74 +85,61 @@ def show_product(request,
                  product_url,
                  id,
                  template_name=u'product/show_product.jinja2', ):
+
     current_category = request.session.get(u'current_category', None, )
+
     request.session[u'product'] = True
+
     if request.method == 'POST':
-        if request.session.get(u'cookie', False, ):
+        # if request.session.get(u'cookie', False, ):
         # if cookie:
         # if request.session.test_cookie_worked():
-            action = request.POST.get(u'action', None, )
-            if action == u'addtocard' or action == u'makeanorder':
-                if current_category:
-                    product_pk = request.POST.get(u'product_pk', None, )
-                    product_url = request.POST.get(u'product_url', None, )
-                    quantity = request.POST.get(u'quantity', None, )
-                    try:
-                        product = Product.objects.get(pk=product_pk, )
-                        # product = Product.objects.get(pk=product_pk, url=product_url, )
-                    except Product.DoesNotExist:
-                        raise Http404
-                    else:
-                        add_to_cart(request=request,
-                                    product=product,
-                                    int_product_pk=product_pk,
-                                    quantity=quantity, )
-#                        if request.
-#                        try:
-#                            cart = Cart.objects.get(sessionid=, )
-                    if action == u'makeanorder':
-                        return redirect(to='cart:show_cart', )
-                    try:
-                        current_category = Category.objects.get(pk=int(current_category, ), )
-                    except Category.DoesNotExist:
-                        raise Http404
-                    else:
-                        return HttpResponseRedirect(current_category.get_absolute_url(), )
-#            elif action == u'makeanorder':
-#                pass
-                else:
-                    raise Http404
-            else:
+
+        action = request.POST.get(u'action', None, )
+        if action == u'addtocard' or action == u'makeanorder':
+
+            product_pk = request.POST.get(u'product_pk', None, )
+            product_url = request.POST.get(u'product_url', None, )
+            quantity = request.POST.get(u'quantity', None, )
+
+            try:
+                product = get_product(pk=id, )
+                # product = Product.objects.get(pk=product_pk, url=product_url, )
+
+                add_to_cart(request=request,
+                            product=product,
+                            int_product_pk=product_pk,
+                            quantity=quantity, )
+
+            except Product.DoesNotExist:
+                print(debug())
+                print('Error: except Product.DoesNotExist: raise Http404')
                 raise Http404
+
+            if action == u'makeanorder':
+                return redirect(to='cart:show_cart', )
+
+            current_category = get_current_category(current_category=current_category,
+                                                    product=product)
+            request.session[u'current_category'] = current_category.pk
+            return HttpResponseRedirect(current_category.get_absolute_url(), )
+
         else:
+            print(debug())
+            print("Error: if action == u'addtocard' or action == u'makeanorder': raise Http404")
             raise Http404
+        # else:
+        #     raise Http404
     else:
         product = get_product(pk=id, )
 
         product.get_or_create_ItemID()
         viewed = get_or_create_Viewed(request=request, product=product, )
         # product_is_availability = product.is_availability
-        categories_of_product = product.category.all()
-        if current_category:
-            for cat in categories_of_product:
-                if int(current_category) == cat.pk:
-                    try:
-                        current_category = categories_of_product[0]
-                    except IndexError:
-                        send_error_manager(request, product=product, error_id=1, )
-                        raise Http404
-                    break
-            else:
-                try:
-                    current_category = categories_of_product[0]
-                except IndexError:
-                    send_error_manager(request, product=product, error_id=1, )
-                    raise Http404
-                else:
-                    request.session[u'current_category'] = current_category.pk
-        else:
-            current_category = categories_of_product[0]
-            request.session[u'current_category'] = current_category.pk
+
+        current_category = get_current_category(current_category=current_category, product=product)
+        request.session[u'current_category'] = current_category.pk
+
         quantity_ = product.minimal_quantity
         minimal_quantity_ = product.minimal_quantity
         quantity_of_complete_ = product.quantity_of_complete
@@ -159,11 +158,51 @@ def show_product(request,
     return response
 
 
-def get_category(pk, ):
-    try:
-        pk = int(pk, )
-    except (TypeError, ValueError, ):
+def get_current_category(current_category, product):
+    """ Вернуть "текущую" категорию """
+
+    categories_of_product = product.category.all()
+
+    categories_of_product_pk = [category.pk for category in categories_of_product]
+
+    if current_category:
+        try:
+            current_category = int(current_category)
+        except ValueError:
+            current_category = 0
+
+    if current_category in categories_of_product_pk:
+        return categories_of_product.get(pk=current_category)
+
+    main_category_of_product = categories_of_product.filter(is_main=True)
+
+    if len(main_category_of_product) == 1:
+        return main_category_of_product[0]
+
+    if len(main_category_of_product) > 1:
+        send_error_manager(product=product, error_id=1, )
+        return main_category_of_product[0]
+
+    if len(main_category_of_product) == 0:
+        send_error_manager(product=product, error_id=1, )
+        print(debug())
+        print('Error: if len(main_category_of_product) == 0: raise Http404')
         raise Http404
+
+
+def get_category(pk, ):
+    if not pk:
+        print(debug())
+        print('Error: if pk: raise Http404')
+        raise Http404
+
+    if isinstance(pk, str):
+        try:
+            pk = int(pk, )
+        except (TypeError, ValueError, ):
+            print(debug())
+            print('Error: except (TypeError, ValueError, ): raise Http404')
+            raise Http404
 
     cache_key = 'cat-%06d' % pk
     cat = cache.get(cache_key, )
@@ -171,18 +210,27 @@ def get_category(pk, ):
     if not cat:
         try:
             cat = Category.objects.get(pk=pk, )
-        except Category.DoesNotExist:
-            raise Http404
-        else:
             cache.set(cache_key, cat, CACHE_TIMEOUT, )
+        except Category.DoesNotExist:
+            print(debug())
+            print('Error: except Category.DoesNotExist: raise Http404')
+            raise Http404
+
     return cat
 
 
 def get_product(pk, ):
+    if not pk:
+        print(debug())
+        print('Error: if pk: raise Http404')
+        raise Http404
+
     if isinstance(pk, str):
         try:
             pk = int(pk, )
-        except ValueError:
+        except (TypeError, ValueError,):
+            print(debug())
+            print('Error: except (TypeError, ValueError, ): raise Http404')
             raise Http404
 
     cache_key = 'prod-%06d' % pk
@@ -191,10 +239,12 @@ def get_product(pk, ):
     if not prod:
         try:
             prod = Product.objects.get(pk=pk, )
-        except Product.DoesNotExist:
-            raise Http404
-        else:
             cache.set(cache_key, prod, CACHE_TIMEOUT, )
+        except Product.DoesNotExist:
+            print(debug())
+            print('Error: except Product.DoesNotExist: raise Http404')
+            raise Http404
+
     return prod
 
 
@@ -316,7 +366,7 @@ def get_or_create_Viewed(request,
         return None
 
 
-def send_error_manager(requset=None, product=None, error_id=None, ):
+def send_error_manager(product=None, error_id=None, ):
     """ Отправка ошибки мэнеджеру """
     subject = u'В товаре № %d ошибка' % product.pk
     html_content = render_to_string('error_email/error_email.jinja2.html',
