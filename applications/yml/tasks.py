@@ -147,7 +147,7 @@ def generate_prom_ua_yml(*args, **kwargs):
             <quantity_in_stock>Количество товара на складе</quantity_in_stock>
             Используется для указания остатка товаров на складе.
             """
-            etree.SubElement(offer, 'quantity_in_stock').text = product.quantity_in_stock
+            etree.SubElement(offer, 'quantity_in_stock').text = str(product.quantity_in_stock)
 
             if category:
                 etree.SubElement(offer, 'categoryId').text = str(category.category_id, )
