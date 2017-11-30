@@ -179,11 +179,11 @@ def get_current_category(current_category, product):
     # main_category_of_product = categories_of_product.filter(is_main=True)
 
     if len(main_category_of_product) == 1:
-        return main_category_of_product[0]
+        return main_category_of_product[0].category
 
     elif len(main_category_of_product) > 1:
         send_error_manager(product=product, error_id=1, )
-        return main_category_of_product[0]
+        return main_category_of_product[0].category
 
     elif len(main_category_of_product) == 0:
         send_error_manager(product=product, error_id=1, )
