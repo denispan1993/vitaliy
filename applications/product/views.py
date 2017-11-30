@@ -161,29 +161,31 @@ def show_product(request,
 def get_current_category(current_category, product):
     """ Вернуть "текущую" категорию """
 
-    categories_of_product = product.category.all()
-
-    categories_of_product_pk = [category.pk for category in categories_of_product]
-
     if current_category:
+        categories_of_product = product.category.all()
+
+        categories_of_product_pk = [category.pk for category in categories_of_product]
+
         try:
             current_category = int(current_category)
+
+            if current_category in categories_of_product_pk:
+                return categories_of_product.get(pk=current_category)
+
         except ValueError:
             current_category = 0
 
-    if current_category in categories_of_product_pk:
-        return categories_of_product.get(pk=current_category)
-
-    main_category_of_product = categories_of_product.filter(is_main=True)
+    main_category_of_product = product.producttocategory_set.filter(is_main=True)
+    # main_category_of_product = categories_of_product.filter(is_main=True)
 
     if len(main_category_of_product) == 1:
         return main_category_of_product[0]
 
-    if len(main_category_of_product) > 1:
+    elif len(main_category_of_product) > 1:
         send_error_manager(product=product, error_id=1, )
         return main_category_of_product[0]
 
-    if len(main_category_of_product) == 0:
+    elif len(main_category_of_product) == 0:
         send_error_manager(product=product, error_id=1, )
         print(debug())
         print('Error: if len(main_category_of_product) == 0: raise Http404')
