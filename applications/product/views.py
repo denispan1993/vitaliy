@@ -175,6 +175,7 @@ def get_current_category(current_category, product):
         except ValueError:
             current_category = 0
 
+    """ Ищем главные категории """
     main_category_of_product = product.producttocategory_set.filter(is_main=True)
     # main_category_of_product = categories_of_product.filter(is_main=True)
 
@@ -189,6 +190,24 @@ def get_current_category(current_category, product):
         send_error_manager(product=product, error_id=1, )
         print(debug())
         print('Error: if len(main_category_of_product) == 0: raise Http404')
+
+    """ Если не одна из категорий не главная """
+    all_category_of_product = product.producttocategory_set.all()
+
+    if len(all_category_of_product) == 1:
+        all_category_of_product[0].is_main = True
+        all_category_of_product[0].save()
+        return all_category_of_product[0].category
+
+    elif len(all_category_of_product) > 1:
+        send_error_manager(product=product, error_id=1, )
+        return all_category_of_product[0].category
+
+    elif len(all_category_of_product) == 0:
+        send_error_manager(product=product, error_id=1, )
+        print(debug())
+        print('Error: if len(main_category_of_product) == 0: raise Http404')
+
         raise Http404
 
 
