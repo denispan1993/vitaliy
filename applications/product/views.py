@@ -183,13 +183,13 @@ def get_current_category(current_category, product):
         return main_category_of_product[0].category
 
     elif len(main_category_of_product) > 1:
-        send_error_manager(product=product, error_id=1, )
+        # send_error_manager(product=product, error_id=1, )
         return main_category_of_product[0].category
 
     elif len(main_category_of_product) == 0:
-        send_error_manager(product=product, error_id=1, )
+        # send_error_manager(product=product, error_id=1, )
         print(debug())
-        print('Error: if len(main_category_of_product) == 0: raise Http404')
+        print('Error: if len(main_category_of_product) == 0: product id:', product.pk)
 
     """ Если не одна из категорий не назнчена главная """
     all_category_of_product = product.producttocategory_set.all()
@@ -200,13 +200,13 @@ def get_current_category(current_category, product):
         return all_category_of_product[0].category
 
     elif len(all_category_of_product) > 1:
-        send_error_manager(product=product, error_id=1, )
+        # send_error_manager(product=product, error_id=1, )
         return all_category_of_product[0].category
 
     elif len(all_category_of_product) == 0:
-        send_error_manager(product=product, error_id=1, )
+        # send_error_manager(product=product, error_id=1, )
         print(debug())
-        print('Error: if len(main_category_of_product) == 0: raise Http404')
+        print('Error: if len(all_category_of_product) == 0: raise Http404: product id:', product.pk)
 
         raise Http404
 
