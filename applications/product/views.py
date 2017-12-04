@@ -172,8 +172,8 @@ def get_current_category(current_category, product):
             if current_category in categories_of_product_pk:
                 return categories_of_product.get(pk=current_category)
 
-        except ValueError:
-            current_category = 0
+        except (TypeError, ValueError):
+            pass
 
     """ Ищем главные категории """
     main_category_of_product = product.producttocategory_set.filter(is_main=True)
@@ -191,7 +191,7 @@ def get_current_category(current_category, product):
         print(debug())
         print('Error: if len(main_category_of_product) == 0: raise Http404')
 
-    """ Если не одна из категорий не главная """
+    """ Если не одна из категорий не назнчена главная """
     all_category_of_product = product.producttocategory_set.all()
 
     if len(all_category_of_product) == 1:
