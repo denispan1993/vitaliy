@@ -1,0 +1,527 @@
+{% extends "base.jinja2" %}
+
+{% block tab_menu_mobile %}
+<div class="tab-content content_tab_menu">
+    <div class="tab-pane active" id="tab_menu1">
+        <ul class="menu_navigation">
+            {% djcache 600 'template_tab_menu_categories' %}
+                {% for cat in basement_ recursive %}
+                    {% set children = cat.children.serial_number() %}
+                    <li{# {% if children %} attribute="children_true"{% endif %} #}>
+                        <a href="{{ cat.get_absolute_url() }}"
+                           class="dropdown-toggle"
+                           data-toggle="dropdown"
+                           title="{{ cat.title }}">{{ cat.title }}</a>
+                        {% if children %}
+                            <ul class="dropdown-menu">{% djcache 4800 'template_tab_menu_categories' cat.pk %}{{ loop(children) }}{% enddjcache %}</ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            {% enddjcache %}
+        </ul>
+    </div>
+    <div class="tab-pane" id="tab_menu2">
+
+    </div>
+    <div class="tab-pane" id="tab_menu3">
+
+    </div>
+    <div class="tab-pane" id="tab_menu4">
+
+    </div>
+</div>
+{% endblock %}
+
+{% block main_header %}
+<header class="main_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="header_descop">
+                    <div class="logo_wrap">
+                        <a href="/" class="main_logo" title='Интернет магазин "Кексик"'>
+                            <img src="{{ MEDIA_URL }}img/logo.png" alt='Интернет магазин "Кексик"'>
+                        </a>
+                    </div>
+                    <div class="right_header_wrap">
+                        <ul class="list_navigation_header">
+                            {% djcache 2400 'template_static_menu' %}
+                                {% for static_page in static_pages_ %}
+                                    <li><a href="{{ static_page.get_absolute_url() }}">{{ static_page.title }}</a></li>
+                                {% endfor %}
+                            {% enddjcache %}
+                            {# <li><a href="#">О нас</a></li> #}
+                            {# <li><a href="#">Оформление</a></li> #}
+                            {# <li><a href="#" class="act_link">NEW</a></li> #}
+                            {# <li><a href="#">Распродажа</a></li> #}
+                            {# <li><a href="#">Акции</a></li> #}
+                            {# <li><a href="#">Оптовикам</a></li> #}
+                            {# <li><a href="#">Оплата и доставка</a></li> #}
+                            {# <li><a href="#">Контакты</a></li> #}
+                        </ul>
+                        <a href="#" class="search_link"><img src="{{ MEDIA_URL }}img/icon_search.png" alt="alt"></a>
+                        <div class="links_avtorization" style="display: none;">
+                            <a href="#">Вход</a>
+                            <span>/</span>
+                            <a href="#">Регистрация</a>
+                        </div>
+                        <div class="basket_wrap">
+                            <div class="basket_price">
+                                <span>315</span>
+                                <select class="main_select">
+                                    {% for key in currency_dict_ %}
+                                        {% if currency_dict_[key]['id'] == request.session.currency_pk %}
+                                            <option id="selected"
+                                                    value="{{ currency_dict_[key]['id'] }}"
+                                                    selected>{{ currency_dict_[key]['name_ru']|capfirst }}</option>
+                                        {% else %}
+                                            <option value="{{ currency_dict_[key]['id'] }}">{{ currency_dict_[key]['name_ru']|capfirst }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {# <option value="1">UAH</option> #}
+                                </select>
+                            </div>
+                            <a href="#" class="quantity_basket">3</a>
+                        </div>
+                        <div class="contacts_header_line">
+                            <div class="main_phones">
+                                <div class="phone_main"><span>093</span> 334 02 93</div>
+                                <div class="phone_main"><span>050</span> 202 24 37</div>
+                                <div class="phone_main"><span>068</span> 070 83 62</div>
+                            </div>
+                            <div class="location_main">ул. Потемкинская, д. 48, угол Лягина (напротив Церкви)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header_tablet">
+                    <div class="top_line_header_tablet">
+                        <span class="btn_nav">
+                            <span class='sandwich'>
+                                <span class='sw-topper'></span>
+                                <span class='sw-bottom'></span>
+                                <span class='sw-footer'></span>
+                            </span>
+                        </span>
+                        <div class="logo_wrap">
+                            <a href="/" class="main_logo" title='Интернет магазин "Кексик"'>
+                                <img src="{{ MEDIA_URL }}img/logo_small.png" alt='Интернет магазин "Кексик"'>
+                            </a>
+                        </div>
+                        <div class="contacts_header_line">
+                            <div class="main_phones">
+                                <div class="phone_main"><span>093</span> 334 02 93</div>
+                                <div class="phone_main"><span>050</span> 202 24 37</div>
+                                <div class="phone_main"><span>068</span> 070 83 62</div>
+                            </div>
+                            <div class="location_main">ул. Потемкинская, д. 48</div>
+                        </div>
+                        <div class="basket_wrap">
+                            <div class="basket_price">
+                                <span>315</span>
+                                <select class="main_select">
+                                    {% for key in currency_dict_ %}
+                                        {% if currency_dict_[key]['id'] == request.session.currency_pk %}
+                                            <option id="selected"
+                                                    value="{{ currency_dict_[key]['id'] }}"
+                                                    selected>{{ currency_dict_[key]['name_ru']|capfirst }}</option>
+                                        {% else %}
+                                            <option value="{{ currency_dict_[key]['id'] }}">{{ currency_dict_[key]['name_ru']|capfirst }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {# <option value="1">UAH</option> #}
+                                </select>
+                            </div>
+                            <a href="#" class="quantity_basket">3</a>
+                        </div>
+                    </div>
+                    <div class="down_line_header_tablet">
+                        <ul class="list_navigation_header">
+                            {% djcache 2400 'template_static_menu' %}
+                                {% for static_page in static_pages_ %}
+                                    <li><a href="{{ static_page.get_absolute_url() }}">{{ static_page.title }}</a></li>
+                                {% endfor %}
+                            {% enddjcache %}
+                        </ul>
+                        <div class="actions_header_tablet">
+                            <a href="#" class="search_link"><img src="{{ MEDIA_URL }}img/icon_search.png" alt="alt"></a>
+                            <div class="links_avtorization" style="display: none;">
+                                <a href="#">Вход</a>
+                                <span>/</span>
+                                <a href="#">Регистрация</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block main_top_navigation%}
+<div class="main_navigation top_navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list_navigation">
+                    {# {1% djcache 2400 'template_tab_menu_categories_top' %} #}
+                    {% for cat in basement_top_ recursive %}
+                        {% set children = cat.children.serial_number() %}
+                        <li>
+                            <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                            {% if children %}
+                                <ul class="dropdown_list">{% djcache 2400 'template_tab_menu_categories_top' cat.pk %}{{ loop(children) }}{% enddjcache %}</ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    {# {1% enddjcache %} #}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block billboard %}
+<ul class="main_billboard">
+    <li>
+        <div class="item_billboard">
+            <div class="img_billboard">
+                <img src="{{ MEDIA_URL }}img/billbord1.jpg" alt="alt">
+            </div>
+            <div class="wrap_content_billboard">
+                <div class="container">
+                    <div class="content_billboard">
+                        <div class="logo_billboard">
+                            <img src="{{ MEDIA_URL }}img/logo_min.png" alt="alt">
+                        </div>
+                        <div class="actions_billboard">
+                            <div class="billboard_action"><p>За 5 резаков -</p> <span>5 %</span></div>
+                            <div class="billboard_action"><p>За 7 резаков -</p> <span>7 %</span></div>
+                            <div class="billboard_action"><p>За 10 резаков -</p> <span>10 %</span></div>
+                            <div class="billboard_action"><p>Более 10 -</p> <span>12 % + подарок </span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="item_billboard">
+            <div class="img_billboard">
+                <img src="{{ MEDIA_URL }}img/billbord1.jpg" alt="alt">
+            </div>
+            <div class="wrap_content_billboard">
+                <div class="container">
+                    <div class="content_billboard">
+                        <div class="logo_billboard">
+                            <img src="{{ MEDIA_URL }}img/logo_min.png" alt="alt">
+                        </div>
+                        <div class="actions_billboard">
+                            <div class="billboard_action">За 5 резаков - <span>5 %</span></div>
+                            <div class="billboard_action">За 7 резаков - <span>7 %</span></div>
+                            <div class="billboard_action">За 10 резаков - <span>10 %</span></div>
+                            <div class="billboard_action">Более 10 - <span>12 % + подарок </span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="item_billboard">
+            <div class="img_billboard">
+                <img src="{{ MEDIA_URL }}img/billbord1.jpg" alt="alt">
+            </div>
+            <div class="wrap_content_billboard">
+                <div class="container">
+                    <div class="content_billboard">
+                        <div class="logo_billboard">
+                            <img src="{{ MEDIA_URL }}img/logo_min.png" alt="alt">
+                        </div>
+                        <div class="actions_billboard">
+                            <div class="billboard_action">За 5 резаков - <span>5 %</span></div>
+                            <div class="billboard_action">За 7 резаков - <span>7 %</span></div>
+                            <div class="billboard_action">За 10 резаков - <span>10 %</span></div>
+                            <div class="billboard_action">Более 10 - <span>12 % + подарок </span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="item_billboard">
+            <div class="img_billboard">
+                <img src="{{ MEDIA_URL }}img/billbord1.jpg" alt="alt">
+            </div>
+            <div class="wrap_content_billboard">
+                <div class="container">
+                    <div class="content_billboard">
+                        <div class="logo_billboard">
+                            <img src="{{ MEDIA_URL }}img/logo_min.png" alt="alt">
+                        </div>
+                        <div class="actions_billboard">
+                            <div class="billboard_action">За 5 резаков - <span>5 %</span></div>
+                            <div class="billboard_action">За 7 резаков - <span>7 %</span></div>
+                            <div class="billboard_action">За 10 резаков - <span>10 %</span></div>
+                            <div class="billboard_action">Более 10 - <span>12 % + подарок </span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="item_billboard">
+            <div class="img_billboard">
+                <img src="{{ MEDIA_URL }}img/billbord1.jpg" alt="alt">
+            </div>
+            <div class="wrap_content_billboard">
+                <div class="container">
+                    <div class="content_billboard">
+                        <div class="logo_billboard">
+                            <img src="{{ MEDIA_URL }}img/logo_min.png" alt="alt">
+                        </div>
+                        <div class="actions_billboard">
+                            <div class="billboard_action">За 5 резаков - <span>5 %</span></div>
+                            <div class="billboard_action">За 7 резаков - <span>7 %</span></div>
+                            <div class="billboard_action">За 10 резаков - <span>10 %</span></div>
+                            <div class="billboard_action">Более 10 - <span>12 % + подарок </span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
+{% endblock %}
+
+{% block main_down_navigation %}
+<div class="main_navigation down_navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list_navigation">
+                    {# {1% djcache 2400 'template_tab_menu_categories_bottom' %} #}
+                    {% for cat in basement_bottom_ recursive %}
+                        {% set children = cat.children.serial_number() %}
+                        <li>
+                            <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                            {% if children %}
+                                <ul class="dropdown_list">{% djcache 2400 'template_tab_menu_categories_bottom' cat.pk %}{{ loop(children) }}{% enddjcache %}</ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    {# {1% enddjcache %} #}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block section_recommendation %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_banner %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_novelties %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_recommended %}
+<div class="section_recommend">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="items_recommend">
+                    {% for recommend in recommended_ %}
+                        <div class="recommend_item item_recommend{{ recommend.type }}">
+                            {% if recommend.type == 3 %}
+                                <div class="left_recommend">
+                                    <img src="{{ recommend.img.url }}" alt="{{ recommend.img_alt }}">
+                                </div>
+                            {% endif %}
+                            {% if recommend.type in [1, 2] %}
+                                <div class="left_text_recommend">
+                            {% endif %}
+                            {% if recommend.type == 1 %}
+                                    <div class="special_recommend">при заказе от {{ recommend.type_1_first_numbers }} {{ recommend.type_1_first_chars }}</div>
+                                    <div class="digist">
+                                        <span>{{ recommend.type_1_second_numbers }}</span>
+                                        <div class="value_digist">%&nbsp;<div class="descr_digest">скидка</div></div>
+                                    </div>
+                                    <p>{{ recommend.type_1_third_chars }}</p>
+                                    <div class="name_category_recommend">{{ recommend.type_1_fourth_chars }}</div>
+                                    <a href="{{ recommend.type_1_fifth_slug }}" class="link_recommend">Подробнее <span>></span></a>
+                            {% elif recommend.type == 2 %}
+                                    <div class="digist fiolet_digest">
+                                        <span>{{ recommend.type_2_first_numbers }}</span>
+                                        <div class="value_digist"><div class="descr_digest">{{ recommend.type_2_first_chars }}</div></div>
+                                    </div>
+                                    <p>{{ recommend.type_2_second_chars }}</p>
+                                    <div class="name_category_recommend">{{ recommend.type_2_third_numbers }} {{ recommend.type_2_third_chars }}</div>
+                                    <a href="{{ recommend.type_2_fourth_slug }}" class="link_recommend">Подробнее <span>></span></a>
+                            {% elif recommend.type == 3 %}
+                                <div class="title_item_recommend">{{ recommend.type_3_first_title }}</div>
+                                <div class="right_recommend">
+                                    <ul class="list_recommend">
+                                        <li>{{ recommend.type_3_second_list_first_line }}</li>
+                                        <li>{{ recommend.type_3_second_list_second_line }}</li>
+                                    </ul>
+                                    <div class="digist">
+                                        <span>{{ recommend.type_3_third_price }}</span>
+                                        <div class="value_digist">{{ recommend.type_3_third_price_broken_money }}
+                                            <div class="descr_digest">{{ recommend.type_3_third_chars }}</div>
+                                        </div>
+                                        <div class="text_digist_bottom">(от {{ recommend.type_3_quantity }}-х шт)</div>
+                                    </div>
+                                    <div class="actions_product">
+                                        <a href="#" class="main_btn">в корзину</a>
+                                        <div class="input_quantity">
+                                            <input type="text" min="{{ recommend.type_3_quantity }}" value="{{ recommend.type_3_quantity }}" class="input_quant">
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if recommend.type in [1, 2] %}
+                                    <div class="right_img_recommend">
+                                        <img src="{{ recommend.img.url }}" alt="{{ recommend.img_alt }}">
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block main_footer %}
+<footer class="main_footer">
+    <div class="top_line_footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list_navigation_header">
+                        {% djcache 2400 'template_static_menu_footer' %}
+                            {% for static_page in static_pages_ %}
+                                <li><a href="{{ static_page.get_absolute_url() }}">{{ static_page.title }}</a></li>
+                            {% endfor %}
+                        {% enddjcache %}
+                    </ul>
+                    <form class="subscription_form">
+                        <input type="submit" class="subscrip_btn" value="Узнавать о акциях">
+                        <input type="text" placeholder="E-mail">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="middle_footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block_middle">
+                        <ul class="list_footer">
+                            {% djcache 2400 'template_tab_menu_categories_footer' 'first' %}
+                                {% for cat in footer_column_first_ %}
+                                    <li>
+                                        <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% enddjcache %}
+                        </ul>
+                    </div>
+                    <div class="block_middle">
+                        <ul class="list_footer">
+                            {% djcache 2400 'template_tab_menu_categories_footer' 'second' %}
+                                {% for cat in footer_column_second_ %}
+                                    <li>
+                                        <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% enddjcache %}
+                        </ul>
+                    </div>
+                    <div class="block_middle">
+                        <ul class="list_footer">
+                            {% djcache 2400 'template_tab_menu_categories_footer' 'third' %}
+                                {% for cat in footer_column_third_ %}
+                                    <li>
+                                        <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% enddjcache %}
+                        </ul>
+                    </div>
+                    <div class="block_middle">
+                        <ul class="list_footer">
+                            {% djcache 2400 'template_tab_menu_categories_footer' 'fourth' %}
+                                {% for cat in footer_column_fourth_ %}
+                                    <li>
+                                        <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% enddjcache %}
+                        </ul>
+                    </div>
+
+                    <div class="block_middle">
+                        <div class="time_footer">
+                            Мы на связи c 10<sup>00</sup> - 18<sup>00</sup>
+                        </div>
+                        <div class="phone_footer_title">Наши телефоны:</div>
+                        <ul class="list_phones">
+                            <li><span>066</span> 162-40-54</li>
+                            <li><span>098</span> 335-04-54</li>
+                            <li><span>063</span> 126-35-03</li>
+                        </ul>
+                        <div class="mail_descr">E-mail:</div>
+                        <a href="mailto:mag@keksik.com.ua" class="mail_link">mag@keksik.com.ua</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom_footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="social_list">
+                        <li>
+                            <a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="link_bank">
+                        <img src="{{ MEDIA_URL }}img/privat_bank.jpg" alt="alt">
+                    </a>
+                </div>
+                <div class="col-md-12">
+                    <div class="copy_line"><i class="fa fa-copyright" aria-hidden="true"></i> 2017 keksik.com.ua</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

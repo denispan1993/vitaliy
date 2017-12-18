@@ -1,439 +1,122 @@
 <!DOCTYPE html>
+<!--[if lt IE 7]><html lang="ru" class="lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="ru" class="lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="ru" class="lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!-->
 <html lang="ru">
-<head>{# {% compress css %} #}
-{% block block_title %}<title>{% block title %}{% endblock %}</title>{% endblock %}
-{% block block_description %}<meta name="description" content="{% block description %}{% endblock %}">{% endblock %}
-{% block block_keywords %}<meta name="keywords" content="{% block keywords %}{% endblock %}">{% endblock %}{# <base href="http://keksik.com.ua/" target="_blank"> - загрузить страницу в новой вкладке броузера #}{# <base href="http://keksik.com.ua/" target="_self"> #}
-{% block header_meta_tags %}{% endblock %}
-<link rel="icon"{#  type="image/png" #} href="{{ MEDIA_URL }}img/favicon.png"/>
-<meta charset="UTF-8">
-{% if canonical is defined %}
-<link rel="canonical" href="https://keksik.com.ua{{ canonical }}"/>
-{% endif %}
-<meta name="viewport" content="width=device-width, initial-scale=1">{# <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> #}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css?ver=0.21"/>
-{% block root_header_css %}{% endblock %}
-{% block root_page_header_css %}{% endblock %}
-{% block header_css %}{% endblock %}
-{% block header_page_css %}{% endblock %}
-{% block product_header_css %}{% endblock %}
-<script src="{{ MEDIA_URL }}js/jquery/jquery-1.9.1.min.js"></script>
-{% block root_header_js %}{% endblock %}
-{% block header_js %}{% endblock %}
-{% block header_javascript1 %}{% endblock %}
-{% block header_javascript2 %}{% endblock %}
-<script>
-function cachedScript(url,done_url,options){
-options=$.extend(options||{},{dataType:"script",cache:true});
-if(done_url){
-    return(
-            $.ajax(
-                    {
-                        url:url,
-                        dataType:"script",
-                        cache:true,
-                        async:false,
-                        success:function()
-                        {
-                            $.ajax(
-                                    {
-                                        url:done_url,
-                                        timeout:1000,
-                                        dataType:"script",
-                                        cache:true,
-                                        async:false
-                                    }
-                            )
-                        }
-                    }
-            )
-    )
-}
-else{return $.ajax($.extend(options||{},{url:url}));}}</script>
-<meta name="google-site-verification" content="AfG-ijmMtvTpHYGRQlngEgPBacTdDqI2eqcMPIOiwf0" />
+<!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+    {% block block_title %}<title>{% block title %}{% endblock %}</title>{% endblock %}
+    {% block block_description %}<meta name="description" content="{% block description %}{% endblock %}">{% endblock %}
+    {% block block_keywords %}<meta name="keywords" content="{% block keywords %}{% endblock %}">{% endblock %}
+    {# <base href="http://keksik.com.ua/" target="_blank"> - загрузить страницу в новой вкладке броузера #}{# <base href="http://keksik.com.ua/" target="_self"> #}
+	{# <title>Заголовок</title>
+	<meta name="description" content="" /> #}
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="shortcut icon" href="favicon.png" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/bootstrap/bootstrap.css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/bootstrap/bootstrap-grid-3.3.1.min.css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/font-awesome-4.2.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/fancybox/jquery.fancybox.css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/stepper/jquery.fs.stepper.css" />
+	<link href="{{ MEDIA_URL }}libs/bootstrap-star-rating-master/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="{{ MEDIA_URL }}libs/bootstrap-star-rating-master/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/countdown/jquery.countdown.css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/slick-1.5.9/slick/slick.css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}libs/slick-1.5.9/slick/slick-theme.css" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/fonts.css?ver=0.01" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/main.css?ver=0.11" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/media.css?ver=0.03" />
 </head>
 <body>
-{% if user.is_authenticated and user.is_staff %}
-<!-- Include jQuery.mmenu .css files -->
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/mmenu/all.css">
 
-<!-- Include jQuery and the jQuery.mmenu .js files -->
-<script src="{{ MEDIA_URL }}js/jquery/mmenu/all.min.js"></script>
+	<div class="wrapper">
 
-<!-- Fire the plugin onDocumentReady -->
-<script>
-    jQuery(document).ready(function( $ ) {
-        $("nav#menu").mmenu({
-            // options
-        }, {
-            // configuration
-            offCanvas: {
-                pageNodetype: "section",
-                pageSelector: "#body"
-            }
-        })
-    })
-</script>
-<nav id="menu" style="display:none;">
-    <ul>
-        {% djcache 600 'menu_categories_slider' %}
-        {% for cat in categories_basement_ recursive %}
-            {% set children = cat.children.serial_number() %}
-            <li>
-                <a href="{{ cat.get_absolute_url() }}" style="display:none;">{{ cat.title }}</a>
-                {% if children %}
-                    <ul class="submenu sub_level">{{ loop(children) }}</ul>
-                {% endif %}
-            </li>
-        {% endfor %}
-        {% enddjcache %}
-    </ul>
-</nav>
-{% endif %}
+		<div class="menu_mobile hidden-lg">
+			<div class="header_menu">
+				<div class="user_icon">
+					<img src="{{ MEDIA_URL }}img/user.png" alt="alt">
+				</div>
+				<div class="menu_avtorization" style="display:none;">
+					<a href="#" class="avtoriz_menu">Вход</a>
+					<a href="#" class="register_menu">Регистрация</a>
+				</div>
+			</div>
+			<div class="tabs_menu">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#tab_menu1" data-toggle="tab">Категории</a></li>
+					<li><a href="#tab_menu2" data-toggle="tab">Поиск</a></li>
+					<li><a href="#tab_menu3" data-toggle="tab">Меню</a></li>
+					<li><a href="#tab_menu4" data-toggle="tab">Корзина</a></li>
+				</ul>
+			</div>
 
-<section id="body" style='background:url("{{ MEDIA_URL }}img/background2_4.jpg") repeat fixed center top transparent;'>
-    <header id="header">
-        {% block header %}
-        {% endblock %}
-        {% block wowslider_html %}
-        {% endblock %}
-    </header>
-    <section id="main" class="clearFloat">
-        {% block content %}
-            {% block content_center %}
-            {% endblock %}
-        {% endblock %}
-    </section>
-    <div id="feedback-panel" style="left:-425px;height:445px;">
-        <a class="feedback-tab" href="https://keksik.com.ua/"></a>
-        <div id="feedback-banner_h1" class="feedback_banner-h1">У Вас есть замечания или пожелания по работе сайта, напишите нам.</div>
-        <div class="feedback_banner-form-row">
-            <div id="feedback_banner_content" class="feedback_banner-form">
-                <div id="feedback_name_line" class="feedback_line">
-                    <input type="text"
-                           maxlength="64"
-                           value=""
-                           id="feedback_name"
-                           placeholder="Ваше Имя"
-                           class="feedback_banner-charbox">
-                </div>
-                <div id="feedback_email_line" class="feedback_line">
-                    <input type="text"
-                           maxlength="32"
-                           value=""
-                           id="feedback_email"
-                           placeholder="Ваш E-Mail адресс"
-                           class="feedback_banner-charbox">
-                </div>
-                <div id="feedback_phone_line" class="feedback_line">
-                    <input type="text"
-                           maxlength="32"
-                           value=""
-                           id="feedback_phone"
-                           placeholder="Ваш номер телефона"
-                           class="feedback_banner-charbox">
-                </div>
-                <div id="feedback_comment_line" class="feedback_line">
-                    <input type="text"
-                           maxlength="4096"
-                           value=""
-                           id="feedback_comment"
-                           placeholder="Ваше сообщение"
-                           class="feedback_banner-textbox">
-                </div>
-                <div id="feedback_comment_line" class="feedback_line">
-                    <button id="submit_send" class="feedback_submit-button">Оставить отзыв!</button>
-    <script>
-    document.getElementById('submit_send').onclick=function(){
-        var name = document.getElementById('feedback_name').value;
-        var email = document.getElementById('feedback_email').value;
-        var phone = document.getElementById('feedback_phone').value;
-        var comment = document.getElementById('feedback_comment').value;
-        jQuery.post("/ajax/feedback/feed/send/",{
-                    csrfmiddlewaretoken:'{{ csrf_token }}',
-                    sessionid:'{{ request.session.session_key }}',
-                    userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
-                    name:name,
-                    email:email,
-                    phone:phone,
-                    comment:comment
-            },
-            function(data, textStatus, jqXHR){
-                if(data.result=='Bad'){
-                    document.getElementById('feedback-panel').style.display="none";
-                    alert('Ваши данные не принял сервер по причине: '+data.error);
-                }else{
-                    document.getElementById('feedback-panel').style.display="none";
-                    alert('Мы рассмотрим Ваше замечание/пожелание, в ближайшее время и свяжемся с Вами !!!');
-            }
-            },
-            "json");
-    };
-    </script>
-                </div>
-            </div>
-        </div>
-    </div>
-    {# <link rel="stylesheet" href="http://cdn.callbackhunter.com/widget/tracker.css"> #}
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/callback/style.css">
-    <div id="clb_div" class="callback_banner-wrapper">
-        <div id="clb_div_ban" class="callback_banner callback_closed">
-            <div id="clb_exit"
-                 class="callback_banner-exit"
-                    onClick="MouseClick_Close();"></div>
-            <div class="callback_banner-body">
-                <div id="clb_banner_h1" class="callback_banner-h1">Вы хотите что-бы мы Вам перезвонили, пожалуйста заполните поля ниже!!!</div>
-                <div class="callback_banner-form-row-1">
-                    <div id="clb_banner_content" class="callback_banner-form">
-                        <div class="callback_banner-arrow"></div>
-                        <div id="clb_name_line" class="callback_line">
-                            <input type="text" maxlength="64" value="" id="clb_name" placeholder="Enter your Name" class="callback_input-charbox">
-                        </div>
-                        <div id="clb_email_line" class="callback_line">
-                            <input type="text" maxlength="32" value="" id="clb_email" placeholder="Enter your E-Mail" class="callback_input-charbox">
-                        </div>
-                        <div id="clb_phone_line" class="callback_line">
-                            <input type="text" maxlength="32" value="" id="clb_phone" placeholder="Enter your phone number" class="callback_input-charbox">
-                            <button id="clb_send" class="callback_submit-button">Call me!</button>
-    <script>
-    document.getElementById('clb_send').onclick=function(){
-        var name = document.getElementById('clb_name').value;
-        var email = document.getElementById('clb_email').value;
-        var phone = document.getElementById('clb_phone').value;
-        $.post("/ajax/callback/call/send/",{
-                    csrfmiddlewaretoken:'{{ csrf_token }}',
-                    sessionid:'{{ request.session.session_key }}',
-                    userid:'{% if request.user %}{{ request.user.id }}{% else %}0{% endif %}',
-                    name:name,
-                    email:email,
-                    phone:phone
-            },
-            function(data, textStatus, jqXHR){
-                document.getElementById('clb_banner_bg').style.display="none";
-                document.getElementById('clb_div_ban').classList.add('callback_closed');
-                document.getElementById('header').classList.remove('callback_blur');
-                document.getElementById('main').classList.remove('callback_blur');
-                document.getElementById('footer').classList.remove('callback_blur');
-                if(data.result=='Bad'){
-                    alert('Ваши данные не принял сервер по причине:'+data.error);
-                }else{
-                    alert('Наш менеджер свяжется с Вами в ближайшее время');
-            }
-            },
-            "json");
-    };
-    </script>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="clb_banner_bg"
-             class="callback_banner_bg"
-             onclick="MouseClick_Close()"></div>
-    </div>
-    <div id="clb-phone_div"
-         class="clb-phone clb-green {# clb-show  #}clb-static"
-         onmouseover="MouseOver();"
-         onmouseout="MouseOut();"
-         onclick="MouseClick();"
-         title="Заказать обратный звонок с сайта">
-        <div class="clb-ph-circle"></div>
-        <div class="clb-ph-circle-fill"></div>
-        <div class="clb-ph-img-circle"></div>
-    </div>
-    <script>
-        {# document.getElementById('clb-phone_div').onMouseEnter=function(){
-        alert('Enter'); #}
-    function MouseOver(){
-        document.getElementById('clb-phone_div').classList.add('clb-hover');
-        document.getElementById('clb-phone_div').classList.remove('clb-static');
-    }
-        {# document.getElementById('clb-phone_div').onMouseOver=function(){
-        alert('Over'); #}
-    function MouseOut() {
-        document.getElementById('clb-phone_div').classList.remove('clb-hover');
-        document.getElementById('clb-phone_div').classList.add('clb-static');
-    }
-    function MouseClick(){
-        document.getElementById('clb_banner_bg').style.display="block";
-        document.getElementById('clb_div_ban').classList.remove('callback_closed');
-        document.getElementById('header').classList.add('callback_blur');
-        document.getElementById('main').classList.add('callback_blur');
-        document.getElementById('footer').classList.add('callback_blur');
-    }
-    function MouseClick_Close(){
-        document.getElementById('clb_banner_bg').style.display="none";
-        document.getElementById('clb_div_ban').classList.add('callback_closed');
-        document.getElementById('header').classList.remove('callback_blur');
-        document.getElementById('main').classList.remove('callback_blur');
-        document.getElementById('footer').classList.remove('callback_blur');
-    }
-    var callback=false;
-    function CallBack_Enable(){
-        document.getElementById('clb-phone_div').classList.add('clb-show');
-        //alert('40sec');
-    }
-    </script>
-    {# {% if request.session.reclame %} #}{# Реклама #}
-    {# <div id="rcl_div" class="reclama_banner-wrapper">
-        <div id="rcl_div_ban" class="reclama_banner reclama_closed">
-            <div id="rcl_exit" class="rcl_banner-exit"
-                 onClick="MouseClick_Close();"></div>
-            <div class="rcl_banner-body">
-                <div id="rcl_banner_h1" class="rcl_banner-h1">Магазин "Кексик" теперь по настоящему - угол Птемкинской и напротив церкви.</div>
-            </div>
-        </div>
-        <div id="rcl_banner_bg" class="rcl_banner_bg"
-             onclick="MouseClick_Close()"></div>
-    </div>{1
-
-    % endif %} #}
-<p id="to-top" style="display:none;">
-    <a href="#top"><span><span></span></span>{# Вверх #}</a>
-</p>
-<script>
-$(function(){
-    $(window).scroll(function(){
-        if($(this).scrollTop()>300){
-            $('p#to-top').fadeIn();
-            if(callback==false){
-                callback=true;
-                setTimeout(CallBack_Enable, 65000)
-            }
-        }else{
-            $('p#to-top').fadeOut();
-        }
-    });
-    $('p#to-top a').click(function(){
-        $('body,html').animate({
-            scrollTop:15
-        }, 2500);
-        return false;
-    });
-});
-</script>
-{# http://www.wmtoolbox.net/ <!--4fa659d3-->#}
-{# <!-- Google.Analytics --> #}{% include 'include/Google.Analytics.script' %}{# <!-- /Google.Analytics --> #}
-{# <!-- Yandex.Metrika counter --> #}{% include 'include/Yandex.Metrica.script' %}{# <!-- /Yandex.Metrika --> #}
-{# <!-- LiveInternet counter --> #}{% include 'include/LiveInternet.script' %}{# <!--/LiveInternet--> #}
-{# <!-- Mail.ru counter --> {% include 'include/Mail.ru.script' %} <!--/Mail.ru--> #}
-{# <!-- megaIndex.ru counter --> #}{% include 'include/megaIndex.ru.script.html' %}{# <!--/megaIndex.ru--> #}
-<footer id="footer">
-{% if user.is_authenticated and user.is_staff %}
-{# <!-- LiveInternet logo --> #}{% include 'include/LiveInternet.html' %}{# <!--/LiveInternet--> #}
-{% endif %}
-{#% if user.is_authenticated and user.is_staff %#}
-{# <!-- Yandex.Metrika informer --> #}{#% include 'include/Yandex.Metrica.html' %#}{# <!-- /Yandex.Metrika --> #}
-{#% endif %#}
-{# {% if not user.is_staff %}
-<div style="display:none">
-{% endif %} #}
-{# <!-- i.ua informer --> {% include 'include/i.ua.script' %} <!-- /i.ua --> #}
-{# {% if not user.is_staff %}
-</div>
-{% endif %} #}
-{# {% if user.is_authenticated and user.is_staff %} #}
-{# <!-- Mail.ru informer --> {% include 'include/Mail.ru.html' %} <!-- /Mail.ru --> #}
-{# {% endif %} #}
-{% if not user.is_staff %}
-<div style="display:none">
-{% endif %}
-{# <!-- rambler.ru informer --> #}{% include 'include/rambler.ru.script' %}{# <!-- /rambler.ru --> #}
-{% if not user.is_staff %}
-</div>
-{% endif %}
-</footer>
-{% block after_footer %}
+{% block tab_menu_mobile %}
 {% endblock %}
-</section>
-{# <script> #}{# // Shorthand for $( document ).ready() #}{# $(function(){ #}{# jQuery(window).load(function(){cachedScript("{{ MEDIA_URL }}js/animate_cart.js")})</script> #}{# <script src="{{ MEDIA_URL }}js/animate_cart.js"></script> #}
-<script>
-var Cart = new Object({initialize: function(){},toggle: function(){$('#cart').toggleClass('closed');}});
 
-function addClass_closed(){
-if($(window).width()<481){
-    $('#cart').addClass('closed');
-}}
+		</div>
 
-jQuery(window).load(function(){
-    jQuery(window).on('resize', addClass_closed());
-    jQuery("nav#menu>div.mm-panels").show();
-    jQuery("ul.mm-listview>li>a").each(function(){jQuery(this).show()})
-});
-
-function animate_cart(obj){
-    src = obj.src;
-    left_cart = Math.ceil($(obj).offset().left);
-    top_cart = Math.ceil($(obj).offset().top);
-    $('<img src="'+src+'" id="temp_cart_animate" style="z-index:1000;position:absolute;top:'+top_cart+'px;left:'+left_cart+'px;">').prependTo('body');
-    $('#temp_cart_animate').animate({top:220+$(window).scrollTop(),left:$('body').width()}, 2000,
-        function () {
-            $('#temp_cart_animate').remove();
-        }
-    );
-}</script>
-{% block ajax %}
-{% if request.session.ajax_geoip %}
-<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
-    $.post("/ajax/geoip/resolve/",{
-            csrfmiddlewaretoken:'{{ csrf_token }}'
-        }
-    );
-});</script>
-{% endif %}
-{% if request.session.ajax_timezone %}
-<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
-    var d = new Date();
-    $.post("/ajax/timezone/client/",{
-            csrfmiddlewaretoken:'{{ csrf_token }}',
-            offset:d.getTimezoneOffset()
-        }
-    );
-});</script>
-{% endif %}
-{% if request.session.ajax_resolution %}
-<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
-    var browserWindow = $(window);
-    $.post("/ajax/resolution/",{
-            csrfmiddlewaretoken:'{{ csrf_token }}',
-            width:browserWindow.width(),
-            height:browserWindow.height()
-        }
-    );
-});</script>
-{% endif %}
-{% if request.session.ajax_cookie %}
-<script>{# // Shorthand for $( document ).ready() #}jQuery(window).load(function(){
-    $.post("/ajax/cookie/",{
-            csrfmiddlewaretoken:'{{ csrf_token }}'
-        }
-    );
-});</script>
-{% endif %}
+{% block main_header %}
 {% endblock %}
-{# {% if user.is_staff %}
-<p id="debug"></p>
-<script>
-var debug_string = '';
 
-function onresize(event) {
-
-    alert('run_once_done: ' + run_once_done + ' window.innerWidth: ' + window.innerWidth);
-    console.log('run_once_done: ' + run_once_done + ' window.innerWidth: ' + window.innerWidth);
-
-    debug_string = 'Debug string: window.innerWidth: ' + window.innerWidth + 'px window.innerHeight: ' + window.innerHeight + 'px documentElement.clientWidth: ' + document.documentElement.clientWidth + 'px documentElement.clientHeight: ' + document.documentElement.clientHeight + 'px';
-    document.getElementById('debug').innerHTML = debug_string;
-}
-window.addEventListener("resize", onresize); #}
-{# window.onresize = onresize #}
-{#
-</script>
-{% endif %} #}
-{% block wowslider_js %}
-<script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.js"></script>
-<script defer src="{{ MEDIA_URL }}js/jquery/topSlider/script.js"></script>
-<script defer src="{{ MEDIA_URL }}js/jquery/topSlider/slider.mod.js"></script>
+{% block main_top_navigation %}
 {% endblock %}
+
+{% block billboard %}
+{% endblock %}
+
+{% block main_down_navigation %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block section_recommendation %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_banner %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_novelties %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_recommended %}
+{% endblock %}
+
+{% block main_footer %}
+{% endblock %}
+
+	</div>
+
+	<!--[if lt IE 9]>
+	<script src="{{ MEDIA_URL }}libs/html5shiv/es5-shim.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/html5shiv/html5shiv.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/html5shiv/html5shiv-printshiv.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/respond/respond.min.js"></script>
+	<![endif]-->
+	<script src="{{ MEDIA_URL }}libs/jquery/jquery-1.11.1.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/bootstrap/bootstrap.min.js"></script>	
+	<script src="{{ MEDIA_URL }}libs/fancybox/jquery.fancybox.pack.js"></script>
+	<script src="{{ MEDIA_URL }}libs/waypoints/waypoints-1.6.2.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/scrollto/jquery.scrollTo.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/slick-1.5.9/slick/slick.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/equalHeights/jquery.equalheights.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/scroll2id/PageScroll2id.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/stepper/jquery.fs.stepper.js"></script>
+	<script src="{{ MEDIA_URL }}libs/bootstrap-star-rating-master/js/star-rating.js" type="text/javascript"></script>
+	<script src="{{ MEDIA_URL }}libs/bootstrap-star-rating-master/krajee-svg/theme.js" type="text/javascript"></script>
+	<script src="{{ MEDIA_URL }}libs/jQueryFormStyler-master/jquery.formstyler.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/countdown/jquery.plugin.js"></script>
+	<script src="{{ MEDIA_URL }}libs/countdown/jquery.countdown.min.js"></script>
+	<script src="{{ MEDIA_URL }}libs/countdown/jquery.countdown-ru.js"></script>
+	<script src="{{ MEDIA_URL }}js/common.js"></script>
+	<!-- Yandex.Metrika counter --><!-- /Yandex.Metrika counter -->
+	<!-- Google Analytics counter --><!-- /Google Analytics counter -->
 </body>
 </html>

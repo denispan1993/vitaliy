@@ -1,0 +1,440 @@
+{% extends "index.jinja2" %}
+{% block title %}{{ get_value_variable('root_page_title', 'char') }}{% endblock %}
+{% block description %}{{ get_value_variable('root_page_description', 'char') }}{% endblock %}
+{% block keywords %}{{ get_value_variable('root_page_keywords', 'char') }}{% endblock %}
+
+{% block section_recommendation %}
+<div class="section_recommendation hidden-sm hidden-md hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title_section">
+                    <span>рекомендуем</span>
+                </div>
+                <ul class="slider_products">
+                    <li>
+                        <div class="item_product">
+                            <div class="img_product">
+                                <img src="{{ MEDIA_URL }}img/product1.jpg" alt="alt">
+                            </div>
+                            <div class="info_item_product">
+                                <div class="name_product">Молд Колокольчики</div>
+                                <div class="prices_product">
+                                    <div class="old_price">95 грн.</div>
+                                    <div class="new_price">69 грн.</div>
+                                </div>
+                                <div class="actions_product">
+                                    <a href="#" class="main_btn">в корзину</a>
+                                    <div class="input_quantity">
+                                        <input type="text" value="1" class="input_quant">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_product">
+                            <div class="img_product">
+                                <img src="{{ MEDIA_URL }}img/product2.jpg" alt="alt">
+                            </div>
+                            <div class="info_item_product">
+                                <div class="name_product">Какао порошок алкализованный 100 гр</div>
+                                <div class="prices_product">
+                                    <div class="old_price">25 грн.</div>
+                                    <div class="new_price">19 грн.</div>
+                                </div>
+                                <div class="actions_product">
+                                    <a href="#" class="main_btn">в корзину</a>
+                                    <div class="input_quantity">
+                                        <input type="text" value="1" class="input_quant">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_product">
+                            <div class="img_product">
+                                <img src="{{ MEDIA_URL }}img/product3.jpg" alt="alt">
+                            </div>
+                            <div class="info_item_product">
+                                <div class="name_product">Стаканчики десертные Конус</div>
+                                <div class="prices_product">
+                                    <div class="old_price">5 грн.</div>
+                                    <div class="new_price">4.99 грн.</div>
+                                </div>
+                                <div class="actions_product">
+                                    <a href="#" class="main_btn">в корзину</a>
+                                    <div class="input_quantity">
+                                        <input type="text" value="1" class="input_quant">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_product">
+                            <div class="img_product">
+                                <img src="{{ MEDIA_URL }}img/product4.jpg" alt="alt">
+                            </div>
+                            <div class="info_item_product">
+                                <div class="name_product">Форма силикон для муссовых пирожных Шайба</div>
+                                <div class="prices_product">
+                                    <div class="old_price">305 грн.</div>
+                                    <div class="new_price">247 грн.</div>
+                                </div>
+                                <div class="actions_product">
+                                    <a href="#" class="main_btn">в корзину</a>
+                                    <div class="input_quantity">
+                                        <input type="text" value="1" class="input_quant">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_product">
+                            <div class="img_product">
+                                <img src="{{ MEDIA_URL }}img/product5.jpg" alt="alt">
+                            </div>
+                            <div class="info_item_product">
+                                <div class="name_product">Какао тертое фасованное</div>
+                                <div class="prices_product">
+                                    <div class="old_price">40 грн.</div>
+                                    <div class="new_price">31 грн.</div>
+                                </div>
+                                <div class="actions_product">
+                                    <a href="#" class="main_btn">в корзину</a>
+                                    <div class="input_quantity">
+                                        <input type="text" value="1" class="input_quant">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_product">
+                            <div class="img_product">
+                                <img src="{{ MEDIA_URL }}img/product3.jpg" alt="alt">
+                            </div>
+                            <div class="info_item_product">
+                                <div class="name_product">Стаканчики десертные Конус</div>
+                                <div class="prices_product">
+                                    <div class="old_price">5 грн.</div>
+                                    <div class="new_price">4.99 грн.</div>
+                                </div>
+                                <div class="actions_product">
+                                    <a href="#" class="main_btn">в корзину</a>
+                                    <div class="input_quantity">
+                                        <input type="text" value="1" class="input_quant">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_product">
+                            <div class="img_product">
+                                <img src="{{ MEDIA_URL }}img/product4.jpg" alt="alt">
+                            </div>
+                            <div class="info_item_product">
+                                <div class="name_product">Форма силикон для муссовых пирожных Шайба</div>
+                                <div class="prices_product">
+                                    <div class="old_price">305 грн.</div>
+                                    <div class="new_price">247 грн.</div>
+                                </div>
+                                <div class="actions_product">
+                                    <a href="#" class="main_btn">в корзину</a>
+                                    <div class="input_quantity">
+                                        <input type="text" value="1" class="input_quant">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block section_banner %}
+<div class="section_banner hidden-md hidden-sm hidden-xs">
+    <div class="main_banner">
+        <div class="min_img_banner">
+            <img src="{{ MEDIA_URL }}img/min_img_bunner1.jpg" alt="alt">
+        </div>
+        <div class="text_banner">
+            <div class="title_banner">всё шоколадное</div>
+            <div class="big_desc_banner"><span>Ярко</span> и просто</div>
+            <div class="middle_desc_banner">Инструменты и ингридиенты</div>
+            <div class="small_desc_banner">для работы с шоколадом</div>
+            <a href="#" class="link_banner">купить сейчас ></a>
+        </div>
+        <div class="min_img_banner">
+            <img src="{{ MEDIA_URL }}img/min_img_bunner2.jpg" alt="alt">
+        </div>
+        <div class="min_img_banner">
+            <img src="{{ MEDIA_URL }}img/min_img_bunner3.jpg" alt="alt">
+        </div>
+        <div class="min_img_banner">
+            <img src="{{ MEDIA_URL }}img/min_img_bunner4.jpg" alt="alt">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block section_novelties %}
+<div class="section_novelties">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title_section">
+                    <span>Новинки магазина Кексик</span>
+                </div>
+                <div class="mobile_novelties hidden-lg">
+
+                    {% if request is defined %}
+                        {{ many_blocks_products(in_main_page|sort(attribute='serial_number')|sort(attribute='is_availability'), request)|safe }}
+                    {% endif %}
+
+                    {# <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie2.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Шоколад для фонтана</div>
+                            <div class="prices_product">
+                                <div class="old_price">301 грн.</div>
+                                <div class="new_price">209 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie3.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Резак Баночка Счастья</div>
+                            <div class="prices_product">
+                                <div class="new_price">25 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie4.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Кандурин для аэрографа Золотое сияние</div>
+                            <div class="prices_product">
+                                <div class="old_price">95 грн.</div>
+                                <div class="new_price">61 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div> #}
+                    <div class="main_banner">
+                        <div class="min_img_banner">
+                            <img src="{{ MEDIA_URL }}img/min_img_bunner1.jpg" alt="alt">
+                        </div>
+                        <div class="text_bunnner">
+                            <div class="title_banner">всё шоколадное</div>
+                            <div class="big_desc_banner"><span>Ярко</span> и просто</div>
+                            <div class="middle_desc_banner">Инструменты и ингридиенты</div>
+                            <div class="small_desc_banner">для работы с шоколадом</div>
+                            <a href="#" class="link_banner">купить сейчас ></a>
+                        </div>
+                        <div class="min_img_banner">
+                            <img src="{{ MEDIA_URL }}img/min_img_bunner2.jpg" alt="alt">
+                        </div>
+                        <div class="min_img_banner">
+                            <img src="{{ MEDIA_URL }}img/min_img_bunner3.jpg" alt="alt">
+                        </div>
+                        <div class="min_img_banner">
+                            <img src="{{ MEDIA_URL }}img/min_img_bunner4.jpg" alt="alt">
+                        </div>
+                    </div>
+                </div>
+                <div class="items_novelties">
+                    {% for product in in_main_page|sort(attribute='serial_number')|sort(attribute='is_availability') %}
+                        {% if loop.index < 5 %}
+                            <div class="main_product item_product">
+                                <div class="img_product">
+                                    <img src="{% if product.main_photo %}{{ product.main_photo.photo.url_210x160 }}{% else %}{{ MEDIA_URL }}img/NoPhoto_210x160.jpg{% endif %}" alt="{{ product.title }}">
+                                </div>
+                                <div class="info_item_product">
+                                    <div class="name_product">{{ product.title }}</div>
+                                    <div class="prices_product">
+                                        {% if product.regular_price %}
+                                            <div class="old_price">{{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</div>
+                                        {% endif %}
+                                        <div class="new_price">{{ product.get_price(request) }}&nbsp;{{ get_currency(request) }}</div>
+                                    </div>
+                                    <div class="actions_product">
+                                        <a href="#" class="main_btn">в корзину</a>
+                                        <div class="input_quantity">
+                                            <input
+                                                    type="text"
+                                                    min="{{ product.minimal_quantity }}"
+                                                    value="{{ product.minimal_quantity }}"
+                                                    max="999"
+                                                    step="{{ product.quantity_of_complete }}"
+                                                    class="input_quant">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {# <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie2.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Шоколад для фонтана</div>
+                            <div class="prices_product">
+                                <div class="old_price">301 грн.</div>
+                                <div class="new_price">209 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie3.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Резак Баночка Счастья</div>
+                            <div class="prices_product">
+                                <div class="new_price">25 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie4.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Кандурин для аэрографа Золотое сияние</div>
+                            <div class="prices_product">
+                                <div class="old_price">95 грн.</div>
+                                <div class="new_price">61 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie5.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Вензель металл</div>
+                            <div class="prices_product">
+                                <div class="old_price">120 грн.</div>
+                                <div class="new_price">99 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="2" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie6.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Краска Kroma Kolors Airbrush Colors для аэрографа Apricot</div>
+                            <div class="prices_product">
+                                <div class="old_price">201 грн.</div>
+                                <div class="new_price">109 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie7.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Молд Вензеля угловые</div>
+                            <div class="prices_product">
+                                <div class="new_price">38 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main_product item_product">
+                        <div class="img_product">
+                            <img src="{1{ MEDIA_URL }}img/noveltie8.jpg" alt="alt">
+                        </div>
+                        <div class="info_item_product">
+                            <div class="name_product">Резак Пончик</div>
+                            <div class="prices_product">
+                                <div class="old_price">68 грн.</div>
+                                <div class="new_price">51 грн.</div>
+                            </div>
+                            <div class="actions_product">
+                                <a href="#" class="main_btn">в корзину</a>
+                                <div class="input_quantity">
+                                    <input type="text" value="1" class="input_quant">
+                                </div>
+                            </div>
+                        </div>
+                    </div> #}
+                </div>
+                <div class="more_wrap hidden-lg">
+                    <a href="#" class="fiolet_btn">Показать больше</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

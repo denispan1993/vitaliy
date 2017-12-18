@@ -1,0 +1,63 @@
+
+@font-face {
+	font-family: "OpenSans";
+	src: url("/media/fonts/open/open.eot");
+	src: url("/media/fonts/open/open.eot?#iefix")format("embedded-opentype"),
+	url("/media/fonts/open/open.woff") format("woff"),
+	url("/media/fonts/open/open.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+@font-face {
+	font-family: "OpenSansLight";
+	src: url("/media/fonts/openlight/OpenSans-Light.eot");
+	src: url("/media/fonts/openlight/OpenSans-Light.eot?#iefix")format("embedded-opentype"),
+	url("/media/fonts/openlight/OpenSans-Light.woff") format("woff"),
+	url("/media/fonts/openlight/OpenSans-Light.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+@font-face {
+	font-family: "OpenSans-Regular";
+	src: url("/media/fonts/openRegular/OpenSans-Regular.eot");
+	src: url("/media/fonts/openRegular/OpenSans-Regular.eot?#iefix")format("embedded-opentype"),
+	url("/media/fonts/openRegular/OpenSans-Regular.woff") format("woff"),
+	url("/media/fonts/openRegular/OpenSans-Regular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+@font-face {
+	font-family: "OpenSans-ExtraBold";
+	src: url("/media/fonts/OpenSansExtrabol/OpenSans-ExtraBold.eot");
+	src: url("/media/fonts/OpenSansExtrabol/OpenSans-ExtraBold.eot?#iefix")format("embedded-opentype"),
+	url("/media/fonts/OpenSansExtrabol/OpenSans-ExtraBold.woff") format("woff"),
+	url("/media/fonts/OpenSansExtrabol/OpenSans-ExtraBold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+@font-face {
+    font-family: 'open_sanssemibold';
+    src: url('../fonts/openSansSemibold/opensans-semibold.eot');
+    src: url('../fonts/openSansSemibold/opensans-semibold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/openSansSemibold/opensans-semibold.woff') format('woff'),
+         url('../fonts/openSansSemibold/opensans-semibold.ttf') format('truetype'),
+         url('../fonts/openSansSemibold/opensans-semibold.svg#open_sanssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+	font-family: "drina";
+	src: url("/media/fonts/drina.otf?#iefix")format("embedded-opentype"),
+	url("/media/fonts/drina.otf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+@font-face {
+	font-family: "LatoRegular";
+	src: url("/media/fonts/LatoRegular/LatoRegular.eot");
+	src: url("/media/fonts/LatoRegular/LatoRegular.eot?#iefix")format("embedded-opentype"),
+	url("/media/fonts/LatoRegular/LatoRegular.woff") format("woff"),
+	url("/media/fonts/LatoRegular/LatoRegular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
