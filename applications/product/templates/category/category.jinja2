@@ -1,0 +1,226 @@
+{% extends 'root.jinja2' %}
+{% block title %}{% if current_category is defined %}{% if current_category.meta_title %}{{ current_category.meta_title|capfirst }}{% else %}{{ current_category.title|capfirst }}{% endif %}{% else %}Магазин Кексик{% endif %}{% endblock %}
+{% block description %}{% if current_category is defined %}{% if current_category.meta_description %}{{ current_category.meta_description }}{% else %}{{ current_category.description }}{% endif %}{% else %}Страница категории - Магазин Кексик{% endif %}{% endblock %}
+{% block keywords %}{% if current_category is defined %}{% if current_category.meta_keywords %}{{ current_category.meta_keywords }}{% else %}{{ current_category.item_description }}{% endif %}{% else %}кондитерские товары,ингредиенты,инструменты{% endif %}{% endblock %}
+
+{% block billboard %}
+<div class="billboard_page">
+    <div class="page_img_billboard">
+        <img src="{% if current_category.billboard_img %}{{ current_category.billboard_img.url }}{% else %}{{ MEDIA_URL }}img/billbord2.jpg{% endif %}" alt="{% if current_category.billboard_img_alt %}{{ current_category.billboard_img_alt }}{% else %}{{ current_category.title }}{% endif %}">
+    </div>
+    <div class="wrap_content_billboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content_billboard_page">
+                        {% if current_category.title|length > 23 %}
+                            <style>
+                                .billboard_page .wrap_content_billboard {
+                                    padding-top: 10px !important;
+                                }
+                            </style>
+                        {% endif %}
+                        <div class="title_billboard">{{ current_category.title }}</div>
+                        <ul class="breadcrumbs_list">
+                            <li><a href="/">Главная</a><span>&nbsp;/&nbsp;</span></li>
+                            {{ header_category_billboard(current_category)|safe }}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    {% block filter_page %}
+		<div class="filter_page">
+			<div class="container">
+				<div class="row"></div>
+				<div class="filter_page_wrap clearfix">
+					<div class="col-md-6 col-sm-6 col-xs-3 col_xs_pr">
+						<div class="left_filter hidden-sm hidden-xs">
+							<p>показывать товаров на странице:</p>
+							<select class="standart_select" id="show_items_on_page">
+                                {% for value in ['23', '17', '8'] %}
+                                    {% if value == request.session.items_on_page %}
+        								<option value={{ value }} selected>{{ value }}</option>
+                                    {% else %}
+        								<option value={{ value }}>{{ value }}</option>
+                                    {% endif %}
+                                {% endfor %}
+							</select>
+						</div>
+						{# <span class="btn_catalog_category">
+							<span class="sandwitch_catalog">
+								<span class="top_sw"></span>
+								<span class="middle_sw"></span>
+								<span class="footer_sw"></span>
+							</span>
+							<span>Каталог</span>
+						</span> #}
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-9">
+						<div class="right_filter">
+							<p>Сортировать:</p>
+							<select class="standart_select" id="sorting_items_on_page">
+                                {% for key, value in {'popular': 'Популярное', 'price_min_to_max': 'Цена (По возрастанию)', 'price_max_to_min': 'Цена (По убыванию)', 'novelties': 'Новинки'}.items() %}
+                                    {% if key == request.session.sorting_items_on_page %}
+        								<option value={{ key }} selected>{{ value }}</option>
+                                    {% else %}
+        								<option value={{ key }}>{{ value }}</option><!-- {{ key }}:{{ request.session.sorting_items_on_page }}-->
+                                    {% endif %}
+                                {# <option value="popular">Популярное</option>
+								<option value="price_min_to_max">Цена (По возрастанию)</option>
+								<option value="price_max_to_min">Цена (По убыванию)</option>
+								<option value="novelties">Новинки</option> #}
+                                {% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    {% endblock %}
+
+    {% block section_category %}
+		<div class="section_category">
+			<div class="container">
+				<div class="title_section hidden-lg hidden-md">
+					<span>Новинки магазина Кексик</span>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-12">
+						<ul class="category_list">
+                            {% if current_category.parent %}
+                                {% set root_ = current_category.parent %}
+                                {% if root_.parent %}
+                                    {% set root_ = root_.parent %}
+                                    {% if root_.parent %}
+                                        {% set root_ = root_.parent %}
+                                        {% if root_.parent %}
+                                            {% set root_ = root_.parent %}
+                                            {% if root_.parent %}
+                                                {% set root_ = root_.parent %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                {% set root_ = current_category %}
+                            {% endif %}
+                            {% for cat in left_vertical_column_ %}
+                                {% if cat.id == root_.id %}
+        							<li class="open">
+                                {% else %}
+        							<li>
+                                {% endif %}
+
+                                    <a href="{{ cat.get_absolute_url() }}" class="drop_category">{{ cat.title }}</a>
+                                    {% if cat.id == root_.id %}
+                                        <div class="dropdown_category">
+
+                                            {% set cats = current_category.children.all() %}
+                                            {% set cats_counts = (cats|length/2)|int %}
+
+                                            {% for cat_int in cats %}
+
+                                                {% if loop.first %}
+                                                    <ul>
+                                                {% endif %}
+
+                                                {% if loop.index0 == cats_counts %}
+                                                    </ul><ul>
+                                                {% endif %}
+
+                                                    <li><a href="{{ cat_int.get_absolute_url() }}">{{ cat_int.title }}</a></li>
+
+                                                {% if loop.last %}
+                                                    </ul>
+                                                {% endif %}
+
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+    							</li>
+                            {% endfor %}
+						</ul>
+					</div>
+                    {% if products.paginator.num_pages != 1 %}
+                        <div class="col-md-9 col-sm-12 col_md_pl">
+                            <div class="items_cetegory">
+                                {% if request is defined %}
+                                    {{ many_blocks_products(products, request)|safe }}
+                                {% endif %}
+                                {# {1% if products.paginator.num_pages != products.number %}
+                                    <a href="{% if request.META.QUERY_STRING %}&#x3F;{{ request.META.QUERY_STRING }}&amp;next=8{% else %}&#x3F;next=8{% endif %}" class="more_big">Показать еще {{ request.session.items_on_page }} товар{% if request.session.items_on_page == '23' %}а{% else %}ов{% endif %}</a>
+                                {% endif %} #}
+                            </div>
+    						<ul class="pagination_list">
+
+                                {% set page = 1 %}
+                                {% if products.number > page + 3 and products.paginator.validate_number(page + 3) %}
+                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last and loop.last > loop.first %}&{% endif %}{% if loop.last and loop.last == loop.first and key != 'page' %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                {% endif %}
+
+                                {% set page = 2 %}
+                                {% if products.number > page + 3 and products.paginator.validate_number(page) %}
+                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                {% endif %}
+
+                                {% set page = products.number|add(-6) %}
+                                {% if page > 0 and page < products.paginator.num_pages + 2 and products.paginator.validate_number(page) and products.paginator.num_pages > page - 2 %}
+                                    <li><a>...</a></li>
+                                {% endif %}
+
+                                {% for i in [-3, -2, -1, ] %}
+                                    {% set page = products.number|add(i) %}
+                                    {% if page > 0 and page < products.paginator.num_pages + 1 and products.paginator.validate_number(page) %}
+                                        <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <li class="active"><a>{{ products.number }}</a></li>
+
+                                {% for i in [1, 2, 3, ] %}
+                                    {% set page = products.number|add(i) %}
+                                    {% if page < products.paginator.num_pages - 1 and products.paginator.validate_number(page) %}
+                                        <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% set page = products.number|add(3) %}
+                                {% if page < products.paginator.num_pages - 2 and products.paginator.validate_number(page) and products.paginator.num_pages > page + 2 %}
+                                    <li><a>...</a></li>
+                                {% endif %}
+
+                                {% set page = products.paginator.num_pages|add(-1) %}
+                                {% if products.number < page and products.paginator.validate_number(page) %}
+                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                {% endif %}
+
+                                {% if products.number < products.paginator.num_pages and products.paginator.validate_number(page) %}
+                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ products.paginator.num_pages }}" title="Станица №{{ products.paginator.num_pages }}">{{ products.paginator.num_pages }}</a></li>
+                                {% endif %}
+                            </ul>
+    					</div>
+                    {% endif %}
+				</div>
+			</div>
+		</div>
+    {% endblock %}
+
+{% endblock %}
+
+{% block section_recommendation %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_banner %}
+{# root.jinja2 section #}
+{% endblock %}
+
+{% block section_novelties %}
+{# root.jinja2 section #}
+{% endblock %}

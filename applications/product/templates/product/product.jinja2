@@ -1,0 +1,232 @@
+{% extends 'index.jinja2' %}
+{% block title %}{% if product.meta_title %}{{ product.meta_title|capfirst }}{% else %}{{ product.title|capfirst }}{% endif %}{% endblock %}
+{% block description %}{{ product.meta_description }}{% endblock %}
+{% block keywords %}{{ product.meta_keywords }}{% endblock %}
+
+{% block billboard %}
+<div class="billboard_page hidden-xs">
+    <div class="page_img_billboard">
+        <img src="{% if current_category.billboard_img %}{{ current_category.billboard_img.url }}{% else %}{{ MEDIA_URL }}img/billbord2.jpg{% endif %}" alt="{% if current_category.billboard_img_alt %}{{ current_category.billboard_img_alt }}{% else %}{{ current_category.title }}{% endif %}">
+    </div>
+    <div class="wrap_content_billboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content_billboard_page">
+                        {% if current_category.title|length > 23 %}
+                            <style>
+                                .billboard_page .wrap_content_billboard {
+                                    padding-top: 10px !important;
+                                }
+                            </style>
+                        {% endif %}
+                        <div class="title_billboard">{{ current_category.title }}</div>
+                        <ul class="breadcrumbs_list">
+                            <li><a href="/">Главная</a><span>&nbsp;/&nbsp;</span></li>
+                            {{ header_category_billboard(current_category, product)|safe }}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {# billboard #}
+
+{% block content %}
+
+    {% block section_product %}
+        <div class="section_product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="left_product_block">
+                            <div class="title_product_wrap{% if product.in_main_page %} product_new{% endif %}">
+                                <div class="title_product">{{ product.title }}</div>
+                                <div class="descr_title_product">Арт. {{ product.get_ItemID }}</div>
+                            </div>
+                            {% set main_photo = product.main_photo %}
+                            {% set photos = product.all_photos %}
+                            <div class="slider_product_wrap">
+                                <ul class="slider-for">
+                                    {% djcache 600 'product_photo' product.pk%}
+                                        {% if main_photo %}
+                                            <li><img src="{{ main_photo.photo.url }}"{% if main_photo.title %} alt="{{ main_photo.title }}"{% endif %}></li>
+                                        {% endif %}
+                                        {% for photo in photos %}
+                                            {% if photo != main_photo %}
+                                                <li><img src="{{ photo.photo.url }}"{% if photo.title %} alt="{{ photo.title }}"{% endif %}></li>
+                                            {% endif %}
+                                        {% else %}
+                                            <li><img src="#" alt="Отсутсвующее фото товара на сайте Кексик"></li>
+                                        {% endfor %}
+                                    {% enddjcache %}
+                                </ul>
+                                <ul class="slider-nav">
+                                    {% djcache 600 'product_photo' product.pk%}
+                                        {% if main_photo %}
+                                            <li><img src="{{ main_photo.photo.url }}"{% if main_photo.title %} alt="{{ main_photo.title }}"{% endif %}></li>
+                                        {% endif %}
+                                        {% for photo in photos %}
+                                            {% if photo != main_photo %}
+                                                <li><img src="{{ photo.photo.url }}"{% if photo.title %} alt="{{ photo.title }}"{% endif %}></li>
+                                            {% endif %}
+                                        {% else %}
+                                            <li><img src="#" alt="Отсутсвующее фото товара на сайте Кексик"></li>
+                                        {% endfor %}
+                                    {% enddjcache %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="right_product_block">
+                            {# <div class="rattings_wrap">
+                                <input class='rating-loading' value="4">
+                            </div> #}
+                            <div class="details_product clearfix">
+                                <div class="prices_block_product">
+                                    <div class="min_title_product">Цена:</div>
+                                    {% if product.regular_price %}<div class="old_price">{{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</div>{% endif %}
+                                    <div class="new_price">{{ product.get_price(request, product.price)|replace(",", ".") }}&nbsp;{{ get_currency(request) }}</div>
+                                    <div class="actions_product">
+                                        <a href="#" class="main_btn">в корзину</a>
+                                        <div class="input_quantity">
+                                            <input type="text" class="input_quant"
+                                                   min="{{ product.minimal_quantity|int }}"
+                                                   value="{{ product.minimal_quantity|int }}"
+                                                   max="999"
+                                                   step="{{ product.quantity_of_complete|int }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if product.weight > 0 %}
+                                    <div class="weight_block_product">
+                                        <div class="min_title_product">Вес:</div>
+                                        <p>{{ product.weight }} {{ product.unit_of_measurement.name }}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="about_product"><strong>О товаре:</strong>{{ product.item_description }}</div>
+                            <div class="about_product"><strong>Способ приготовления:</strong>{{ product.description|safe }}</div>
+                            <div class="special_descr_product">Собственное производство Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                        </div>
+                        {# <div class="review_product_wrap">
+                            <div class="review_title_line">
+                                <div class="title_review">
+                                    <span>Отзывы <span class="quant_review">2</span></span>
+                                </div>
+                                <a href="#" class="main_btn">оставить отзыв</a>
+                            </div>
+                            <div class="review_product_item">
+                                <div class="top_line_review">
+                                    <div class="name_prod_review">Лена</div>
+                                    <div class="date_prod_review">(1 день)</div>
+                                    <div class="rattings_wrap">
+                                        <input class='rating-loading' value="4">
+                                    </div>
+                                </div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                            </div>
+                            <div class="review_product_item">
+                                <div class="top_line_review">
+                                    <div class="name_prod_review">Ольга</div>
+                                    <div class="date_prod_review">(2 недели)</div>
+                                    <div class="rattings_wrap">
+                                        <input class='rating-loading' value="5">
+                                    </div>
+                                </div>
+                                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </div>
+                        </div> #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %} {# section_product #}
+
+    {% block similar_section %}
+		{# <div class="similar_section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="title_section">
+							<span>с этим товаром покупают</span>
+						</div>
+						<div class="items_similar">
+							<div class="main_product item_product">
+								<div class="img_product">
+									<img src="{{ MEDIA_URL }}img/noveltie5.jpg" alt="alt">
+								</div>
+								<div class="info_item_product">
+									<div class="name_product">Вензель металл</div>
+									<div class="prices_product">
+										<div class="old_price">120 грн.</div>
+										<div class="new_price">99 грн.</div>
+									</div>
+									<div class="actions_product">
+										<a href="#" class="main_btn">в корзину</a>
+										<div class="input_quantity">
+											<input type="text" value="2" class="input_quant">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="main_product item_product">
+								<div class="img_product">
+									<img src="{{ MEDIA_URL }}img/noveltie6.jpg" alt="alt">
+								</div>
+								<div class="info_item_product">
+									<div class="name_product">Краска Kroma Kolors Airbrush Colors для аэрографа Apricot</div>
+									<div class="prices_product">
+										<div class="old_price">201 грн.</div>
+										<div class="new_price">109 грн.</div>
+									</div>
+									<div class="actions_product">
+										<a href="#" class="main_btn">в корзину</a>
+										<div class="input_quantity">
+											<input type="text" value="1" class="input_quant">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="main_product item_product">
+								<div class="img_product">
+									<img src="{{ MEDIA_URL }}img/noveltie7.jpg" alt="alt">
+								</div>
+								<div class="info_item_product">
+									<div class="name_product">Молд Вензеля угловые</div>
+									<div class="prices_product">
+										<div class="new_price">38 грн.</div>
+									</div>
+									<div class="actions_product">
+										<a href="#" class="main_btn">в корзину</a>
+										<div class="input_quantity">
+											<input type="text" value="1" class="input_quant">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="main_product item_product">
+								<div class="img_product">
+									<img src="{{ MEDIA_URL }}img/noveltie8.jpg" alt="alt">
+								</div>
+								<div class="info_item_product">
+									<div class="name_product">Резак Пончик</div>
+									<div class="prices_product">
+										<div class="old_price">68 грн.</div>
+										<div class="new_price">51 грн.</div>
+									</div>
+									<div class="actions_product">
+										<a href="#" class="main_btn">в корзину</a>
+										<div class="input_quantity">
+											<input type="text" value="1" class="input_quant">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> #}
+    {% endblock %} {# similar_section #}
+{% endblock %} {# content #}

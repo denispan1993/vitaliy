@@ -23,22 +23,28 @@ def header_category(current_category, ):
 
 
 @global_function()
-def header_category2(current_category, product=None, ):
+def header_category_billboard(current_category, product=None, ):
 
-    root_string = u'<a href="/" title="Корень сайта">Home</a>'
-    header_string = u'<a href="%s">%s</a>' % (current_category.get_absolute_url(),
-                                              current_category.title, )
+    if product:
+        _end_string = u'<li class="category"><a href="%s">%s</a></li>' % \
+                      (current_category.get_absolute_url(),
+                       current_category.title,)
+    else:
+        _end_string = u'<li class="current_category">%s</li>' % current_category.title
+
+    _intermediate_string = ''
     next_category = current_category.parent
     while next_category:
-        next_category_string = u'<a href="%s">%s</a>' % (next_category.get_absolute_url(),
-                                                         next_category.title, )
-        header_string = u'%s&nbsp;&gt;&nbsp;%s' % (next_category_string, header_string, )
+        _previous_category_string = u'<li><a href="%s">%s</a><span>&nbsp;/&nbsp;</span></li>' %\
+                                    (next_category.get_absolute_url(),
+                                     next_category.title, )
+        _intermediate_string = u'%s%s' % (_previous_category_string, _intermediate_string, )
         next_category = next_category.parent
 
-    _string = u'%s&nbsp;&gt;&nbsp;%s' % (root_string, header_string, )
+    _string = u'%s%s' % (_intermediate_string, _end_string, )
     if product:
-        product_string = u'<a href="%s" title="%s">%s</a>' % (product.get_absolute_url(),
+        product_string = u'<li class="product"><span>&nbsp;/&nbsp;</span><a href="%s" title="%s">%s</a></li>' % (product.get_absolute_url(),
                                                               product.name,
                                                               product.title, )
-        _string = u'%s&nbsp;&gt;&nbsp;%s' % (_string, product_string, )
+        _string = u'%s%s' % (_string, product_string, )
     return _string
