@@ -237,21 +237,31 @@ def process_of_proposal(offers_list):
         try:
             product = Product.objects.get(id_1c=id_1c, )
 
-            ''' Если в 1С единиц товара больше чем 0 и в базе сайта он "в наличии"
-                то просто записывеем количество товара в базу сайта '''
             if quantity_in_stock > 0 and product.is_availability == 1:
+                """ Если в 1С единиц товара больше чем 0 и в базе сайта он "в наличии" """
                 product.quantity_in_stock = quantity_in_stock
+                """ то просто записывеем количество товара в базу сайта """
                 product.save()
 
             elif quantity_in_stock > 0 and product.is_availability != 1:
                 """ Количество товара в 1С > 0 но отсутствуют на сайте. """
                 there_is_in_1c += 1
                 there_is_in_1c_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
+                """ то записывеем количество товара в базу сайта """
+                product.quantity_in_stock = quantity_in_stock
+                """ меняем товар на "в наличии" """
+                product.is_availability = 1
+                product.save()
 
             elif quantity_in_stock == 0 and product.is_availability == 1:
                 """ товар "есть" на сайте но в 1С остатки < 0 """
                 there_is_in_site += 1
                 there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
+                """ то обнуляем количество товара в базе сайта """
+                product.quantity_in_stock = 0
+                """ меняем наличие товара на "ожидается" """
+                product.is_availability = 3
+                product.save()
 
             if product.is_active \
                     and product.visibility \
@@ -308,6 +318,7 @@ def process_of_proposal(offers_list):
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
             html_content=u'currency_discrepancy: {0}<br />\n{1}'.format(currency_discrepancy, currency_discrepancy_html), )
+
     """ ============================================================================ """
     if discrepancy_price:
         send_email(
