@@ -274,37 +274,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="items_novelties">
-                    {% for product in in_main_page|sort(attribute='serial_number')|sort(attribute='is_availability') %}
-                        {% if loop.index < 5 %}
-                            <div class="main_product item_product">
-                                <div class="img_product">
-                                    <img src="{% if product.main_photo %}{{ product.main_photo.photo.url_210x160 }}{% else %}{{ MEDIA_URL }}img/NoPhoto_210x160.jpg{% endif %}" alt="{{ product.title }}">
-                                </div>
-                                <div class="info_item_product">
-                                    <div class="name_product">{{ product.title }}</div>
-                                    <div class="prices_product">
-                                        {% if product.regular_price %}
-                                            <div class="old_price">{{ product.get_price(request, product.regular_price)|replace(",", ".") }} {{ get_currency(request) }}</div>
-                                        {% endif %}
-                                        <div class="new_price">{{ product.get_price(request) }}&nbsp;{{ get_currency(request) }}</div>
-                                    </div>
-                                    <div class="actions_product">
-                                        <a href="#" class="main_btn">в корзину</a>
-                                        <div class="input_quantity">
-                                            <input
-                                                    type="text"
-                                                    min="{{ product.minimal_quantity }}"
-                                                    value="{{ product.minimal_quantity }}"
-                                                    max="999"
-                                                    step="{{ product.quantity_of_complete }}"
-                                                    class="input_quant">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                <div class="items_novelties root_page">
+                    {{ many_blocks_products(in_main_page|sort(attribute='serial_number')|sort(attribute='is_availability'), request)|safe }}
                     {# <div class="main_product item_product">
                         <div class="img_product">
                             <img src="{1{ MEDIA_URL }}img/noveltie2.jpg" alt="alt">

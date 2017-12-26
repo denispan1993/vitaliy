@@ -151,8 +151,8 @@ class DjangoJinjaCacheExtension(Extension):
         cache_key = make_template_fragment_key(fragm_name, vary_on)
 
         value = None
-        if SERVER:
-            value = cache.get(cache_key)
+        # if SERVER:
+        value = cache.get(cache_key)
 
         if value is None:
             value = caller()

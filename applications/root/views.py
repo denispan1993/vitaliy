@@ -61,7 +61,7 @@ def root_page(request, template_name=u'root.jinja2', ):
     if not in_main_page:
         from applications.product.models import Product
         try:
-            in_main_page = Product.objects.in_main_page(no_limit=True, )[:5]  # limit_on_page, )
+            in_main_page = Product.objects.in_main_page(no_limit=True, )[:4]  # limit_on_page, )
         except Product.DoesNotExist:
             in_main_page = None
         else:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import Q
 from django.core.cache import cache
 
 __author__ = 'AlexStarov'
@@ -31,16 +32,31 @@ class ManagerCategory(models.Manager):
         return self.visible(*args, **kwargs).order_by('-created_at', )
 
     def serial_number(self, *args, **kwargs):
-        try:
-            category_parent_pk = 'category_parent_pk_%d' % self._constructor_args[0][0].pk
-        except IndexError:
-            category_parent_pk = 'category_parent_pk_0'
-        result = cache.get(key=category_parent_pk)
-        if not result:
+
+        if not isinstance(kwargs.get('position', False), bool):
+            position = kwargs.pop('position')
+
+            if position == 0:
+                category_key = 'category_basement'
+            elif position == 1:
+                category_key = 'category_basement_top'
+            elif position == 2:
+                category_key = 'category_basement_bottom'
+
+        else:
+
+            try:
+                category_key = 'category_parent_pk_%d' % self._constructor_args[0][0].pk
+            except IndexError:
+                category_key = 'category_parent_pk_0'
+
+        result = cache.get(key=category_key)
+        if not isinstance(result, models.QuerySet):
+
             result = self.published(*args, **kwargs).order_by('serial_number', )
-            cache.set(key=category_parent_pk,
+            cache.set(key=category_key,
                       value=result,
-                      timeout=600, )
+                      timeout=2400, )
 
         # from django import db
         # db.reset_queries()
@@ -48,10 +64,44 @@ class ManagerCategory(models.Manager):
         return result
 
     def basement(self, *args, **kwargs):
-        return self.serial_number(*args, **kwargs).filter(parent__isnull=True, )
+        return self.serial_number(parent__isnull=True, *args, **kwargs)
 
     def not_basement(self, *args, **kwargs):
         return self.serial_number(*args, **kwargs).filter(parent__isnull=False, )
+
+    def category_column(self, q, order, *args, **kwargs):
+
+        cache_key = 'category_column_%s' % order
+        result = cache.get(key=cache_key)
+        if not result:
+
+            result = self.visible(q, *args, **kwargs).order_by(order, )
+
+            cache.set(key=cache_key,
+                      value=result,
+                      timeout=1200, )
+
+        return result
+
+    def left_vertical_column(self, *args, **kwargs):
+        return self.category_column(q=Q(serial_number_left_vertical_column__gt=0),
+                                    order='serial_number_left_vertical_column', *args, **kwargs)
+
+    def footer_column_first(self, *args, **kwargs):
+        return self.category_column(q=Q(serial_number_first_column__gt=0),
+                                    order='serial_number_first_column', *args, **kwargs)
+
+    def footer_column_second(self, *args, **kwargs):
+        return self.category_column(q=Q(serial_number_second_column__gt=0),
+                                    order='serial_number_second_column', *args, **kwargs)
+
+    def footer_column_third(self, *args, **kwargs):
+        return self.category_column(q=Q(serial_number_third_column__gt=0),
+                                    order='serial_number_third_column', *args, **kwargs)
+
+    def footer_column_fourth(self, *args, **kwargs):
+        return self.category_column(q=Q(serial_number_fourth_column__gt=0),
+                                    order='serial_number_fourth_column', *args, **kwargs)
 
 
 class ManagerProduct(models.Manager):

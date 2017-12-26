@@ -40,7 +40,7 @@ urlpatterns = [
 
 urlpatterns += [url(regex=r'^$',
                     view=root_page,
-                    kwargs={'template_name': u'index.jinja2', },
+                    kwargs={'template_name': u'root.jinja2', },
                     name='root_page', ),
                 url(regex=r'^категории/$',
                     view=show_basement_category,
@@ -48,11 +48,11 @@ urlpatterns += [url(regex=r'^$',
                     name='show_basement_category', ),
                 url(regex=r'^(?P<category_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[кc](?P<id>\d{6})/$',
                     view=show_category,
-                    kwargs={'template_name': u'category/show_category.jinja2', },
+                    kwargs={'template_name': u'category/category.jinja2', },
                     name='show_category', ),
                 url(regex=r'^(?P<product_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/[пp](?P<id>\d{6})/$',
                     view=show_product,
-                    kwargs={'template_name': u'product/show_product.jinja2', },
+                    kwargs={'template_name': u'product/product.jinja2', },
                     name='show_product', ),
                         ]
 """
@@ -109,8 +109,8 @@ urlpatterns += [url(regex=r'^оплата/',
                                  namespace='payment', ),
                     ), ]
 
-#Капча
-#urlpatterns += patterns(url(r'^captcha/', include('applications.utils.captcha.urls', ), ), )
+# Капча
+# urlpatterns += patterns(url(r'^captcha/', include('applications.utils.captcha.urls', ), ), )
 
 ''' Admin panel '''
 """ Админ панель Заказов. """
@@ -193,7 +193,7 @@ urlpatterns += [url(regex=r'^bitrix/',
                     view=include(arg='applications.bitrix.urls',
                                  namespace='bitrix', ), ), ]
 
-#!!!===================== Static media ======================
+# !!!===================== Static media ======================
 PROJECT_PATH = abspath(dirname(__name__, ), )
 path = lambda base: abspath(
     join(
@@ -220,7 +220,7 @@ if proj.settings.DEBUG:
 #    urlpatterns += patterns('',
 #                            url(r'^', include('debug_toolbar_htmltidy.urls')),
 #                            )
-#!!!===================== Django Social Auth ======================
+# !!!===================== Django Social Auth ======================
 urlpatterns += [url(regex='social/index/$', view=root_page,
                     kwargs={'template_name': u'social_index.jinja2', },
                     name='social_index_page', ),
@@ -230,10 +230,10 @@ urlpatterns += [url(regex='social/index/$', view=root_page,
                 url(regex=r'social/',
                     view=include('social.apps.django_app.urls',
                                  namespace='social', ), ), ]
-#!!!===================== Django Userena - Accounts - uMessages======================
+# !!!===================== Django Userena - Accounts - uMessages======================
 urlpatterns += [url(regex=r'^accounts/', view=include('userena.urls'), ),
                 url(regex=r'^messages/', view=include('userena.contrib.umessages.urls'), ), ]
-#!!!===================== Статические страницы ======================================
+# !!!===================== Статические страницы ======================================
 urlpatterns += [url(regex=r'^(?P<static_page_url>[а-яА-Яa-zA-ZёЁїЇіІґҐєЄ0-9_.-]+)/$',
                     view=show_static_page,
                     kwargs={'template_name': u'static_page.jinja2', },

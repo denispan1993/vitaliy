@@ -1,32 +1,19 @@
 # -*- coding: utf-8 -*-
 # /apps/product/views.py
-import inspect
 from datetime import datetime
-from django.utils import timezone
 
-from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from django.core.exceptions import MultipleObjectsReturned
-from django.core.mail import get_connection, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
-from django.template.loader import get_template, render_to_string
-from django.utils.html import strip_tags
+from django.template.loader import get_template
 
 from applications.cart.order import get_cart_or_create
 from applications.utils.datetime2rfc import datetime2rfc
 from proj.settings import SERVER, CACHE_TIMEOUT
-from .models import Category, Product, Viewed
+from .models import Category, Product
+from .utils import debug, get_ids, get_current_category, get_or_create_Viewed
 
 __author__ = 'AlexStarov'
-
-
-def debug():
-    previous_frame = inspect.currentframe().f_back
-    (filename, line_number,
-     function_name, lines, index) = inspect.getframeinfo(previous_frame)
-    return 'Debug: filename: {filename} | function_name: {function_name} | line number: {line_number}'.\
-        format(filename=filename, line_number=line_number, function_name=function_name)
 
 
 def show_basement_category(request,
@@ -48,7 +35,7 @@ def show_basement_category(request,
 def show_category(request,
                   category_url,
                   id,
-                  template_name=u'category/show_category.jinja2', ):
+                  template_name=u'category/category.jinja2', ):
 
     request.session[u'category'] = True
     try:
@@ -61,24 +48,84 @@ def show_category(request,
         print('Error: except Category.DoesNotExist: raise Http404')
         raise Http404
 
+    # Разбираемся с сортировкой элементов на странице
+    sorting_items_on_page_GET = request.GET.get('sorting', False)
+    print('sorting_items_on_page_GET:', sorting_items_on_page_GET)
+    sorting_items_on_page_session = request.session.get('sorting_items_on_page', False)
+    print('sorting_items_on_page_session:', sorting_items_on_page_session)
 
-#    context_instance = RequestContext(request, )
+    page = False
+    sorting = 'popular'
+    if not sorting_items_on_page_GET and not sorting_items_on_page_session:
+        request.session['sorting_items_on_page'] = sorting
 
-#    response = render_to_response(template_name=template_name,
-#                                  dictionary={'current_category': current_category, },
-#                                  context_instance=context_instance,
-#                                  content_type='text/html', )
-#    return response
+    elif (sorting_items_on_page_GET and not sorting_items_on_page_session)\
+            or (sorting_items_on_page_GET and sorting_items_on_page_session
+            and sorting_items_on_page_GET != sorting_items_on_page_session):
+        request.session['sorting_items_on_page'] = sorting_items_on_page_GET
+        sorting = sorting_items_on_page_GET
+        page = 1
+
+    elif not sorting_items_on_page_GET and sorting_items_on_page_session:
+        sorting = sorting_items_on_page_session
+
+    if sorting == 'popular':
+        sorting = 'price'
+    elif sorting == 'price_min_to_max':
+        sorting = 'price'
+    elif sorting == 'price_max_to_min':
+        sorting = '-price'
+    elif sorting == 'novelties':
+        sorting = 'updated_at'
+
+    # Производим выборку элементов с указаной сортировкой
+    products = Product.objects\
+        .published(category__in=get_ids(current_category=current_category))\
+        .order_by(sorting)\
+        .distinct()
+
+    # Разбираемся с количеством эллементов на странице
+    items_on_page_GET = request.GET.get('items_on_page', False)
+    items_on_page_session = request.session.get('items_on_page', False)
+
+    if items_on_page_GET and items_on_page_session and items_on_page_GET == items_on_page_session:
+        items_on_page = items_on_page_GET
+
+    elif items_on_page_GET and (items_on_page_session or not items_on_page_session) and items_on_page_GET != items_on_page_session:
+        items_on_page = items_on_page_GET
+        request.session['items_on_page'] = items_on_page_GET
+        page = 1
+
+    elif not items_on_page_GET and not items_on_page_session:
+        items_on_page = 8
+        request.session['items_on_page'] = 8
+
+    elif not items_on_page_GET and items_on_page_session:
+        items_on_page = items_on_page_session
+
+    if not page:
+        page = request.GET.get('page', 1)
+
+    # Начинаем пагинацию
+    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+    paginator = Paginator(products, items_on_page)
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        products = paginator.page(paginator.num_pages)
 
     t = get_template(template_name, )
 
-    # c = RequestContext(request, {u'current_category': current_category, }, )
+    html = t.render(request=request,
+                    context={'current_category': current_category,
+                             'products': products, },)
 
-    # html = t.render(c)
-    html = t.render(request=request, context={u'current_category': current_category, },)
-    response = HttpResponse(html, )
-
-    return response
+    return HttpResponse(html, )
 
 
 def show_product(request,
@@ -156,59 +203,6 @@ def show_product(request,
 
     response['Last-Modified'] = datetime2rfc(updated_at, )
     return response
-
-
-def get_current_category(current_category, product):
-    """ Вернуть "текущую" категорию """
-
-    if current_category:
-        categories_of_product = product.category.all()
-
-        categories_of_product_pk = [category.pk for category in categories_of_product]
-
-        try:
-            current_category = int(current_category)
-
-            if current_category in categories_of_product_pk:
-                return categories_of_product.get(pk=current_category)
-
-        except (TypeError, ValueError):
-            pass
-
-    """ Ищем главные категории """
-    main_category_of_product = product.producttocategory_set.filter(is_main=True)
-    # main_category_of_product = categories_of_product.filter(is_main=True)
-
-    if len(main_category_of_product) == 1:
-        return main_category_of_product[0].category
-
-    elif len(main_category_of_product) > 1:
-        # send_error_manager(product=product, error_id=1, )
-        return main_category_of_product[0].category
-
-    elif len(main_category_of_product) == 0:
-        # send_error_manager(product=product, error_id=1, )
-        print(debug())
-        print('Error: if len(main_category_of_product) == 0: product id:', product.pk)
-
-    """ Если не одна из категорий не назнчена главная """
-    all_category_of_product = product.producttocategory_set.all()
-
-    if len(all_category_of_product) == 1:
-        all_category_of_product[0].is_main = True
-        all_category_of_product[0].save()
-        return all_category_of_product[0].category
-
-    elif len(all_category_of_product) > 1:
-        # send_error_manager(product=product, error_id=1, )
-        return all_category_of_product[0].category
-
-    elif len(all_category_of_product) == 0:
-        # send_error_manager(product=product, error_id=1, )
-        print(debug())
-        print('Error: if len(all_category_of_product) == 0: raise Http404: product id:', product.pk)
-
-        raise Http404
 
 
 def get_category(pk, ):
@@ -327,87 +321,3 @@ def add_to_cart(request,
         product_in_cart.update_price_per_piece()
 
     return product_cart, product_in_cart
-
-
-""" Взять последние просмотренные товары """
-
-
-def get_or_create_Viewed(request,
-                         product=None,
-                         product_pk=None,
-                         user_obj=None,
-                         sessionid=None, ):
-
-    if request.user.is_authenticated()\
-            and request.user.is_active\
-            and not user_obj:
-        user_id_ = request.session.get(u'_auth_user_id', None, )
-        user_obj = get_user_model().objects.get(pk=user_id_, )
-
-    if not sessionid:
-        sessionid = request.COOKIES.get(u'sessionid', None, )
-
-    if not product and product_pk:
-        product = get_product(product_pk, )
-
-    content_type = None
-    product_pk = None
-
-    if product:
-        content_type = product.content_type
-        product_pk = product.pk
-        try:
-            viewed, created = Viewed.objects.get_or_create(content_type=content_type,
-                                                           object_id=product_pk,
-                                                           user_obj=user_obj,
-                                                           sessionid=sessionid, )
-        except MultipleObjectsReturned:
-            viewed = Viewed.objects.filter(content_type=content_type,
-                                           object_id=product_pk,
-                                           user_obj=user_obj,
-                                           sessionid=sessionid, )
-            viewed.delete()
-        else:
-            if not created and viewed is not []:
-                viewed.last_viewed = timezone.now()
-                viewed.save()
-
-    try:
-        viewed = Viewed.objects.filter(user_obj=user_obj,
-                                       sessionid=sessionid, )\
-            .order_by('-last_viewed', )\
-            .exclude(content_type=content_type, object_id=product_pk, )
-
-        if len(viewed) > 9:
-            viewed[viewed.count() - 1].delete()  # .latest('last_viewed', )
-
-        return viewed
-
-    except Viewed.DoesNotExist:
-        return None
-
-
-def send_error_manager(product=None, error_id=None, ):
-    """ Отправка ошибки мэнеджеру """
-    subject = u'В товаре № %d ошибка' % product.pk
-    html_content = render_to_string('error_email/error_email.jinja2.html',
-                                    {'product': product, 'error_id': error_id, })
-    text_content = strip_tags(html_content, )
-    from_email = u'site@keksik.com.ua'
-#                to_email = u'mamager@keksik.com.ua'
-    if SERVER:
-        to_email = u'manager@keksik.com.ua'
-    else:
-        to_email = u'alex.starov@keksik.com.ua'
-
-    backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
-                             fail_silently=False, )
-    msg = EmailMultiAlternatives(subject=subject,
-                                 body=text_content,
-                                 from_email=from_email,
-                                 to=[to_email, ],
-                                 connection=backend, )
-    msg.attach_alternative(content=html_content,
-                           mimetype="text/html", )
-    msg.send(fail_silently=False, )
-    return None

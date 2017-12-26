@@ -4,7 +4,7 @@
 <div class="tab-content content_tab_menu">
     <div class="tab-pane active" id="tab_menu1">
         <ul class="menu_navigation">
-            {% djcache 600 'template_tab_menu_categories' %}
+            {% djcache 1200 'template_tab_menu_categories' %}
                 {% for cat in basement_ recursive %}
                     {% set children = cat.children.serial_number() %}
                     <li{# {% if children %} attribute="children_true"{% endif %} #}>
@@ -164,17 +164,17 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="list_navigation">
-                    {# {1% djcache 2400 'template_tab_menu_categories_top' %} #}
-                    {% for cat in basement_top_ recursive %}
-                        {% set children = cat.children.serial_number() %}
-                        <li>
-                            <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
-                            {% if children %}
-                                <ul class="dropdown_list">{% djcache 2400 'template_tab_menu_categories_top' cat.pk %}{{ loop(children) }}{% enddjcache %}</ul>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                    {# {1% enddjcache %} #}
+                    {% djcache 2400 'template_tab_menu_categories_top' %}
+                        {% for cat in basement_top_ recursive %}
+                            {% set children = cat.children.serial_number() %}
+                            <li>
+                                <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                                {% if children %}
+                                    <ul class="dropdown_list">{% djcache 4800 'template_tab_menu_categories_top' cat.pk %}{{ loop(children) }}{% enddjcache %}</ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    {% enddjcache %}
                 </ul>
             </div>
         </div>
@@ -303,17 +303,17 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="list_navigation">
-                    {# {1% djcache 2400 'template_tab_menu_categories_bottom' %} #}
-                    {% for cat in basement_bottom_ recursive %}
-                        {% set children = cat.children.serial_number() %}
-                        <li>
-                            <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
-                            {% if children %}
-                                <ul class="dropdown_list">{% djcache 2400 'template_tab_menu_categories_bottom' cat.pk %}{{ loop(children) }}{% enddjcache %}</ul>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                    {# {1% enddjcache %} #}
+                    {% djcache 2400 'template_tab_menu_categories_bottom' %}
+                        {% for cat in basement_bottom_ recursive %}
+                            {% set children = cat.children.serial_number() %}
+                            <li>
+                                <a href="{{ cat.get_absolute_url() }}" title="{{ cat.title }}">{{ cat.title }}</a>
+                                {% if children %}
+                                    <ul class="dropdown_list">{% djcache 4800 'template_tab_menu_categories_bottom' cat.pk %}{{ loop(children) }}{% enddjcache %}</ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    {% enddjcache %}
                 </ul>
             </div>
         </div>

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import resolve, Resolver404
+from django.db.models import QuerySet, Q
 from django.core.cache import cache
 from django.forms.models import model_to_dict
 
 from applications.cart.order import get_cart_or_create
 from applications.product.models import Category, Currency
 from applications.product.views import show_category, show_product, get_product, get_category, get_or_create_Viewed
-from applications.slide.models import Slide
+from applications.slide.models import Slide, Recommend
 from applications.static.models import Static
 
 __author__ = 'AlexStarov'
@@ -15,12 +16,12 @@ __author__ = 'AlexStarov'
 
 def context(request):
 
-    return_dict = dict()
+    return_dict = {}
 
     try:
-        static_pages = Static.objects.all()
+        return_dict.update({'static_pages_': Static.objects.all(), })
     except Static.DoesNotExist:
-        static_pages = None
+        return_dict.update({'static_pages_': None, })
 
     currency = cache.get(key='currency_all', )
 
@@ -72,28 +73,25 @@ def context(request):
         except Slide.DoesNotExist:
             slides = None
 
-    """ Категории верхнего уровня """
-    categories_basement = cache.get(key='categories_basement', )
+    return_dict.update({'slides_': slides, })
 
-    if not categories_basement:
+    """ Реккомендации """
+    recommended = cache.get(key='recommended_visible', )
+
+    if not recommended:
         try:
-            categories_basement = Category.objects\
-                .basement() \
-                .defer('rght', 'mptt_level', 'tree_id', 'template', 'created_at', 'updated_at', )\
-                .select_related(
-                    'parent',
-                    'parent__parent',
-                    'parent__parent__parent',
-                    'parent__parent__parent__parent',
-                    'parent__parent__parent__parent__parent', )
-
+            recommended = Recommend.objects.all()
             cache.set(
-                key='categories_basement',
-                value=categories_basement,
+                key='recommended_visible',
+                value=recommended,
                 timeout=3600, )  # 60 sec * 60 min
-        except Category.DoesNotExist:
-            pass
 
+        except Recommend.DoesNotExist:
+            recommended = None
+
+    return_dict.update({'recommended_': recommended, })
+
+    user_object = None
     if request.user.is_authenticated() and request.user.is_active:
         user_id_ = request.session.get(u'_auth_user_id', None, )
         UserModel = get_user_model()
@@ -101,24 +99,17 @@ def context(request):
             user_id_ = int(user_id_, )
             user_object = UserModel.objects.get(pk=user_id_, )
         except ValueError:
-            user_object = None
-
-    else:
-        user_object = None
+            pass
 
     user_cart = get_cart_or_create(request, user_object=user_object, created=False, )
+    return_dict.update({'user_cart_': user_cart, })
 
+    return_dict.update({'coupon_': None, })
     if user_cart:
         coupons = user_cart.Cart_child.all()
         """ Проверяем СПИСОК [] на пустоту """
-        if coupons:
-            coupon = coupons[0]
-        else:
-            coupon = None
-
-    else:
-        coupon = None
-
+        if len(coupons) > 0:
+            return_dict.update({'coupon_': coupons[0], })
 
     #                    sessionid_carts = Carts.objects.filter(user_obj=None, sessionid=SESSIONID_SESSION_,
     #  order=None, account=None, package=None, ) #cartid=cartid,
@@ -215,112 +206,53 @@ def context(request):
     else:
         return_dict.update({'viewed': None, })
 
-    return_dict.update({'static_pages_': static_pages,
-                        'currency_': currency,
+    return_dict.update({'basement_top_': get_categories_basement(position=1),
+                        'basement_bottom_': get_categories_basement(position=2),
+                        })
+
+    return_dict.update({'currency_': currency,
                         'currency_dict_': currency_dict,
                         'current_currency_': current_currency,
                         'current_currency_dict_': current_currency_dict,
-                        'slides_': slides,
-                        'categories_basement_': categories_basement,
-                        'user_cart_': user_cart,
-                        'coupon_': coupon, })
+                        'basement_': return_dict['basement_top_'] | return_dict['basement_bottom_'],
+                        'left_vertical_column_': Category.objects.left_vertical_column(),
+                        'footer_column_first_': Category.objects.footer_column_first(),
+                        'footer_column_second_': Category.objects.footer_column_second(),
+                        'footer_column_third_': Category.objects.footer_column_third(),
+                        'footer_column_fourth_': Category.objects.footer_column_fourth(), })
     return return_dict
 
-#    # print type(full_path, )
-#    value = None
-#    if isinstance(full_path, unicode):
-#        try:
-#            value = full_path.encode('us-ascii', )
-#        except:
-#            print 'Not US-ASCII'
-#            try:
-#                value = full_path.encode('utf8')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'utf8', type(value, ), value
-#                except:
-#                    print 'utf8', type(value, ), 'print value: Error'
-#            try:
-#                value = full_path.decode('cp866').encode('utf8')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'cp866', type(value, ), value
-#                except:
-#                    print 'cp866', type(value, ), 'print value: Error'
-#            try:
-#                value = full_path.decode('cp1251').encode('utf8')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'cp1251', type(value, ), value
-#                except:
-#                    print 'cp1251', type(value, ), 'print value: Error'
-#            try:
-#                value = full_path.decode('cp1252').encode('utf8')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'cp1252 -1', type(value, ), value
-#                except:
-#                    print 'cp1252 -1', type(value, ), 'print value: Error'
-#            try:
-#                value = full_path.encode('cp1252')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'cp1252 -2', type(value, ), value
-#                except:
-#                    print 'cp1252 -2', type(value, ), 'print value: Error'
-#            #try:
-#            #    value = full_path.encode('cp1252').decode('utf8')
-#            #except:
-#            #    pass
-#            #else:
-#            #    print 'cp1252 -3', type(value, ), value
-#            try:
-#                value = full_path.encode('cp1252').encode('utf8')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'cp1252 -4', type(value, ), value
-#                except:
-#                    print 'cp1252 -4', type(value, ), 'print value: Error'
-#            #try:
-#            #    value = full_path.encode('utf8').decode('cp1252').encode('utf8')
-#            #except:
-#            #    pass
-#            #else:
-#            #    print 'cp1252 -5', type(value, ), value
-#            try:
-#                value = full_path.encode('utf8').encode('cp1252')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'cp1252 -6', type(value, ), value
-#                except:
-#                    print 'cp1252 -6', type(value, ), 'print value: Error'
-#            try:
-#                value = full_path.decode('koi8').encode('utf8')
-#            except:
-#                pass
-#            else:
-#                try:
-#                    print 'koi8', type(value, ), value
-#                except:
-#                    print 'koi8', type(value, ), 'print value: Error'
-#        else:
-#            try:
-#                print 'ascii', type(value, ), value
-#            except:
-#                print 'ascii', type(value, ), 'print value: Error'
-#
-#
+
+def get_categories_basement(position: int = 0) -> QuerySet:
+
+    positions = {0: 'basement',
+                 1: 'basement_top',
+                 2: 'basement_bottom', }
+
+    """ Категории верхнего уровня """
+    base = positions[position]
+    value = cache.get(key=base, )
+    if not value:
+        try:
+            if position == 0:
+                q = Q(location__isnull=False)
+            else:
+                q = Q(location=position)
+
+            value = Category.objects\
+                .basement(q, position=position)\
+                .defer('rght', 'mptt_level', 'tree_id', 'template', 'created_at', 'updated_at', )\
+                .select_related(
+                    'parent',
+                    'parent__parent',
+                    'parent__parent__parent',
+                    'parent__parent__parent__parent',
+                    'parent__parent__parent__parent__parent', )
+            cache.set(
+                key=base,
+                value=value,
+                timeout=1, )  # 60 sec * 5 min
+        except Category.DoesNotExist:
+            pass
+
+    return value

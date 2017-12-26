@@ -1,4 +1,4 @@
-{% extends 'root.jinja2' %}
+{% extends 'index.jinja2' %}
 {% block title %}{% if current_category is defined %}{% if current_category.meta_title %}{{ current_category.meta_title|capfirst }}{% else %}{{ current_category.title|capfirst }}{% endif %}{% else %}Магазин Кексик{% endif %}{% endblock %}
 {% block description %}{% if current_category is defined %}{% if current_category.meta_description %}{{ current_category.meta_description }}{% else %}{{ current_category.description }}{% endif %}{% else %}Страница категории - Магазин Кексик{% endif %}{% endblock %}
 {% block keywords %}{% if current_category is defined %}{% if current_category.meta_keywords %}{{ current_category.meta_keywords }}{% else %}{{ current_category.item_description }}{% endif %}{% else %}кондитерские товары,ингредиенты,инструменты{% endif %}{% endblock %}
@@ -161,12 +161,12 @@
 
                                 {% set page = 1 %}
                                 {% if products.number > page + 3 and products.paginator.validate_number(page + 3) %}
-                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last and loop.last > loop.first %}&{% endif %}{% if loop.last and loop.last == loop.first and key != 'page' %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                    <li><a href="{{ paginate_url(request.GET, page) }}" title="Станица №{{ page }}">{{ page }}</a></li>
                                 {% endif %}
 
                                 {% set page = 2 %}
                                 {% if products.number > page + 3 and products.paginator.validate_number(page) %}
-                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                    <li><a href="{{ paginate_url(request.GET, page) }}" title="Станица №{{ page }}">{{ page }}</a></li>
                                 {% endif %}
 
                                 {% set page = products.number|add(-6) %}
@@ -177,7 +177,7 @@
                                 {% for i in [-3, -2, -1, ] %}
                                     {% set page = products.number|add(i) %}
                                     {% if page > 0 and page < products.paginator.num_pages + 1 and products.paginator.validate_number(page) %}
-                                        <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                        <li><a href="{{ paginate_url(request.GET, page) }}" title="Станица №{{ page }}">{{ page }}</a></li>
                                     {% endif %}
                                 {% endfor %}
 
@@ -186,7 +186,7 @@
                                 {% for i in [1, 2, 3, ] %}
                                     {% set page = products.number|add(i) %}
                                     {% if page < products.paginator.num_pages - 1 and products.paginator.validate_number(page) %}
-                                        <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                        <li><a href="{{ paginate_url(request.GET, page) }}" title="Станица №{{ page }}">{{ page }}</a></li>
                                     {% endif %}
                                 {% endfor %}
 
@@ -197,11 +197,11 @@
 
                                 {% set page = products.paginator.num_pages|add(-1) %}
                                 {% if products.number < page and products.paginator.validate_number(page) %}
-                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ page }}" title="Станица №{{ page }}">{{ page }}</a></li>
+                                    <li><a href="{{ paginate_url(request.GET, page) }}" title="Станица №{{ page }}">{{ page }}</a></li>
                                 {% endif %}
 
                                 {% if products.number < products.paginator.num_pages and products.paginator.validate_number(page) %}
-                                    <li><a href="{% for key, value in request.GET.items() %}{% if loop.first and key == 'page'%}?{% endif %}{% if key != 'page' %}{% if loop.first %}?{% endif %}{% if not loop.first and not loop.last %}&{% endif %}{{ key }}={{ value }}{% endif %}{% if loop.last > loop.first %}&{% endif %}{% else %}?{% endfor %}page={{ products.paginator.num_pages }}" title="Станица №{{ products.paginator.num_pages }}">{{ products.paginator.num_pages }}</a></li>
+                                    <li><a href="{{ paginate_url(request.GET, page) }}" title="Станица №{{ products.paginator.num_pages }}">{{ products.paginator.num_pages }}</a></li>
                                 {% endif %}
                             </ul>
     					</div>

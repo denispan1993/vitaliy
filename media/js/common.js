@@ -182,8 +182,10 @@ $(document).ready(function() {
 		]
 	});
 
-	 // стайлер для select
-	 $('select').styler();
+	// стайлер для select
+	//$(document).ready(function(){
+		$('select').styler();
+	//});
 
 
 function getUrlParameter(sParam) {
