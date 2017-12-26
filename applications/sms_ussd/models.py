@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from celery.utils import uuid
 
 import proj.settings
-#from compat.bigint_path.bigint import BigIntegerField, BigForeignKey
+# from compat.bigint_path.bigint import BigIntegerField, BigForeignKey
 
 __author__ = 'AlexStarov'
 
@@ -158,7 +158,7 @@ class SMS(models.Model, ):
                                        blank=True,
                                        null=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
@@ -228,7 +228,7 @@ class Template(models.Model, ):
                                  null=False,
                                  default=1, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
@@ -305,7 +305,7 @@ class USSD(models.Model, ):
                                        blank=True,
                                        null=True, )
 
-    #Дата создания и дата обновления. Устанавливаются автоматически.
+    # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_(u'Дата создания', ),
                                       blank=True,
