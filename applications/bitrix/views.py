@@ -13,7 +13,6 @@ from .tasks import process_bitrix_catalog
 __author__ = 'AlexStarov'
 
 
-#@method_decorator(csrf_exempt, name='dispatch')
 class ExchangeView(View, ):
 
     @method_decorator(csrf_exempt, )
@@ -61,7 +60,8 @@ class ExchangeView(View, ):
                 if filename == 'import.xml':
                     pass
                 elif filename == 'offers.xml':
-                    task = process_bitrix_catalog\
+                    """ Запуск задачи обработки импортируемых файлов """
+                    process_bitrix_catalog\
                         .apply_async(
                             queue='celery',
                             task_id='celery-task-id-{0}'.format(uuid(), ), )

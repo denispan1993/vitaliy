@@ -260,6 +260,7 @@ def process_of_proposal(offers_list):
                 """ то обнуляем количество товара в базе сайта """
                 product.quantity_in_stock = 0
                 """ меняем наличие товара на "ожидается" """
+                # TODO: "ожидается" ли?
                 product.is_availability = 3
                 product.save()
 
@@ -316,7 +317,8 @@ def process_of_proposal(offers_list):
         send_email(
             subject=u'Список Артикулов товаров которые расходятся по ВАЛЮТАМ с 1С.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-            to_emails=[email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ),
+                       email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
             html_content=u'currency_discrepancy: {0}<br />\n{1}'.format(currency_discrepancy, currency_discrepancy_html), )
 
     """ ============================================================================ """
@@ -324,7 +326,8 @@ def process_of_proposal(offers_list):
         send_email(
             subject=u'Список Артикулов товаров которые расходятся по ценам с 1С.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
-            to_emails=[email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
+            to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ),
+                       email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
             html_content=u'discrepancy_price: {0}<br />\n{1}'.format(discrepancy_price, discrepancy_price_html), )
 
 
