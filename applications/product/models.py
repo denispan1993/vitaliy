@@ -495,17 +495,6 @@ class Product(models.Model):
         content_type_field='content_type',
         object_id_field='object_id', )
 
-#    @property
-#    def function_is_availability(self, ):
-#        Availability = (
-#            (1, _(u'Есть в наличии', ), ),
-#            (2, _(u'Ожидается', ), ),
-#            (3, _(u'Под заказ', ), ),
-#            (4, _(u'Недоступен', ), ),
-#        )
-#        return type(self.is_availability, )
-#        return get_display_on_id(self.is_availability, Availability, )
-
     @property
     def content_type(self, ):
         return ContentType.objects.get_for_model(model=self, for_concrete_model=True, )

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import email
+import re
 from celery.utils.log import get_task_logger
 
 from applications.product.models import Product, ItemID
@@ -32,11 +33,11 @@ def get_products(products_list):
         for n in range(5):
 
             try:
-                if product_list[n].tag == u'Штрихкод':
+                if product_list[n].tag == 'Штрихкод':
                     barcode = product_list[n].text.replace(' ', '', )
-                if product_list[n].tag == u'Артикул':
+                if product_list[n].tag == 'Артикул':
                     itemid = product_list[n].text.replace(' ', '', )
-                    if product_list[n+1].tag == u'Наименование':
+                    if product_list[n+1].tag == 'Наименование':
                         name = product_list[n+1].text.replace(' ', '', )
                     else:
                         name = None
@@ -52,13 +53,13 @@ def get_products(products_list):
             for n in range(6):
                 """ Ищем 'Наименование' товара """
                 try:
-                    if product_list[n].tag == u'Наименование':
+                    if product_list[n].tag == 'Наименование':
                         name = product_list[n].text
                         break
                 except IndexError:
                     break
             without_id += 1
-            without_id_html += u'{}<br />\n'.format(name if not name == '' else product_list[0].text)
+            without_id_html += '{}<br />\n'.format(name if not name == '' else product_list[0].text)
             continue
 
         if 'itemid' not in locals():
@@ -91,40 +92,40 @@ def get_products(products_list):
 
         except ItemID.DoesNotExist:
             unsuccess += 1
-            unsuccess_itemid_html += u'{0} ---> {1}<br />\n'.format(itemid, name, )
+            unsuccess_itemid_html += '{0} ---> {1}<br />\n'.format(itemid, name, )
 
         except ItemID.MultipleObjectsReturned:
             double += 1
-            double_itemid_html += u'{}<br />\n'.format(itemid)
+            double_itemid_html += '{}<br />\n'.format(itemid)
 
     """ ============================================================================ """
     if mismatch_id:
         send_email(
-            subject=u'Список товаров у которых при совпадении артикулов, идентификатор 1C не совпадает межу сайтом и 1C.',
+            subject='Список товаров у которых при совпадении артикулов, идентификатор 1C не совпадает межу сайтом и 1C.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-            html_content=u'MisMatch: {0}<br>\n{1}'.format(mismatch_id, mismatch_id_html, ), )
+            html_content='MisMatch: {0}<br>\n{1}'.format(mismatch_id, mismatch_id_html, ), )
     """ ============================================================================ """
     if without_id:
         send_email(
-            subject=u'Список товаров у которых нету артикулов в 1С.',
+            subject='Список товаров у которых нету артикулов в 1С.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-            html_content=u'without_id: {0}<br>\n{1}'.format(without_id, without_id_html, ), )
+            html_content='without_id: {0}<br>\n{1}'.format(without_id, without_id_html, ), )
     """ ============================================================================ """
     if unsuccess:
         send_email(
-            subject=u'Список Артикулов которые есть в 1С и которых нету на сайте.',
+            subject='Список Артикулов которые есть в 1С и которых нету на сайте.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-            html_content=u'unsuccess: {0}<br>\n{1}'.format(unsuccess, unsuccess_itemid_html, ), )
+            html_content='unsuccess: {0}<br>\n{1}'.format(unsuccess, unsuccess_itemid_html, ), )
     """ ============================================================================ """
     if double:
         send_email(
-            subject=u'Список Артикулов которые есть в 1С и которых несколько штук на сайте.',
+            subject='Список Артикулов которые есть в 1С и которых несколько штук на сайте.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-            html_content=u'double: {0}<br />\n{1}'.format(double, double_itemid_html, ), )
+            html_content='double: {0}<br />\n{1}'.format(double, double_itemid_html, ), )
 
     '''
         Выбираем товары которые можно сравнивать с 1С (compare_with_1c=True)
@@ -142,15 +143,15 @@ def get_products(products_list):
         not_found_on_1c = len(products)
         not_found_on_1c_html = ''
         for i, value in enumerate(products, start=1, ):
-            not_found_on_1c_html += u'{0} ---> {1}<br />\n'.\
+            not_found_on_1c_html += '{0} ---> {1}<br />\n'.\
                 format(value.ItemID.all().first().ItemID, value.title, )
 
         if not_found_on_1c:
             send_email(
-                subject=u'Список Артикулов которые есть на сайте но нету в 1С.',
+                subject='Список Артикулов которые есть на сайте но нету в 1С.',
                 from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
                 to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-                html_content=u'not_found_on_1c: {0}<br />\n{1}'.format(not_found_on_1c, not_found_on_1c_html, ), )
+                html_content='not_found_on_1c: {0}<br />\n{1}'.format(not_found_on_1c, not_found_on_1c_html, ), )
 
     except Product.DoesNotExist:
         pass
@@ -165,16 +166,16 @@ def get_products(products_list):
         not_compare_with_1c = len(products)
         not_compare_with_1c_html = ''
         for i, value in enumerate(products, start=1, ):
-            not_compare_with_1c_html += u'{0}: {1} ---> {2}<br />\n'. \
+            not_compare_with_1c_html += '{0}: {1} ---> {2}<br />\n'. \
                 format(i, value.ItemID.all().first().ItemID, value.title, )
 
         if not_compare_with_1c:
             send_email(
-                subject=u'Список Артикулов которые есть на сайте но не сравниваются с 1С.',
+                subject='Список Артикулов которые есть на сайте но не сравниваются с 1С.',
                 from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
                 to_emails=[
                     email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана', u'lana24680@keksik.com.ua'), ), ],
-                html_content=u'not_compare_with_1c: {0}<br />\n{1}'.format(not_compare_with_1c, not_compare_with_1c_html, ), )
+                html_content='not_compare_with_1c: {0}<br />\n{1}'.format(not_compare_with_1c, not_compare_with_1c_html, ), )
 
     except Product.DoesNotExist:
         pass
@@ -201,13 +202,13 @@ def process_of_proposal(offers_list):
         while True:
 
             try:
-                if offer_list[n].tag == u'Ид':
+                if offer_list[n].tag == 'Ид':
                     id_1c = offer_list[n].text.replace(' ', '', )
 
-                if offer_list[n].tag == u'Количество':
+                if offer_list[n].tag == 'Количество':
                     quantity_in_stock = offer_list[n].text.replace(' ', '', )
 
-                if offer_list[n].tag == u'Цены':
+                if offer_list[n].tag == 'Цены':
                     price = get_price(prices=list(offer_list[n]))
                     # logger.info('line 331: fix 5!!! --> price: {0} | id_1c: {1}'.
                     #             format(price, id_1c, ), )
@@ -246,7 +247,7 @@ def process_of_proposal(offers_list):
             elif quantity_in_stock > 0 and product.is_availability != 1:
                 """ Количество товара в 1С > 0 но отсутствуют на сайте. """
                 there_is_in_1c += 1
-                there_is_in_1c_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
+                there_is_in_1c_html += '{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
                 """ то записывеем количество товара в базу сайта """
                 product.quantity_in_stock = quantity_in_stock
                 """ меняем товар на "в наличии" """
@@ -256,12 +257,22 @@ def process_of_proposal(offers_list):
             elif quantity_in_stock == 0 and product.is_availability == 1:
                 """ товар "есть" на сайте но в 1С остатки < 0 """
                 there_is_in_site += 1
-                there_is_in_site_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
+                there_is_in_site_html += '{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
                 """ то обнуляем количество товара в базе сайта """
                 product.quantity_in_stock = 0
-                """ меняем наличие товара на "ожидается" """
-                # TODO: "ожидается" ли?
-                product.is_availability = 3
+
+                if 'резак' in product.title and \
+                    (product.ItemID.all()[0].ItemID.startwith('og', re.I) or
+                     product.ItemID.all()[0].ItemID.startwith('ra', re.I) or
+                     product.ItemID.all()[0].ItemID.startwith('rn', re.I)):
+
+                    product.is_availability = 2
+                else:
+
+                    # TODO: ожидается ли?
+                    """ меняем наличие товара на "ожидается" """
+                    product.is_availability = 3
+
                 product.save()
 
             if product.is_active \
@@ -276,12 +287,12 @@ def process_of_proposal(offers_list):
                     if price_1C != price_site:
 
                         discrepancy_price += 1
-                        discrepancy_price_html += u'{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, )
+                        discrepancy_price_html += '{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, )
 
                 except TypeError:
                     """ Если не сходятся валюта товара между сайтом и 1С. """
                     currency_discrepancy += 1
-                    currency_discrepancy_html += u'{0}: {1} | {2}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, price, )
+                    currency_discrepancy_html += '{0}: {1} | {2}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, price, )
 
                     # logger.info('line 377: fix 4!!! --> price: {0} | ItemID: {1} | id_1c: {2}'.
                     #             format(price, product.ItemID.all()[0].ItemID, id_1c, ), )
@@ -298,37 +309,37 @@ def process_of_proposal(offers_list):
     """ ============================================================================ """
     if there_is_in_1c:
         send_email(
-            subject=u'Список Артикулов товаров остатки которых в 1С > 0, НО на сайте значатся как отсутсвующие.',
+            subject='Список Артикулов товаров остатки которых в 1С > 0, НО на сайте значатся как отсутсвующие.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ), ],
-            html_content=u'{0}<br />\n{1}'.format(there_is_in_1c, there_is_in_1c_html), )
+            html_content='{0}<br />\n{1}'.format(there_is_in_1c, there_is_in_1c_html), )
 
     """ ============================================================================ """
     if there_is_in_site:
         send_email(
-            subject=u'Список Артикулов товаров остатки которых есть на сайте, НО в 1С значатся как закончившиеся.',
+            subject='Список Артикулов товаров остатки которых есть на сайте, НО в 1С значатся как закончившиеся.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ),
                        email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'zakaz@keksik.com.ua'), ),],
-            html_content=u'{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
+            html_content='{0}<br />\n{1}'.format(there_is_in_site, there_is_in_site_html), )
 
     """ ============================================================================ """
     if currency_discrepancy:
         send_email(
-            subject=u'Список Артикулов товаров которые расходятся по ВАЛЮТАМ с 1С.',
+            subject='Список Артикулов товаров которые расходятся по ВАЛЮТАМ с 1С.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ),
                        email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
-            html_content=u'currency_discrepancy: {0}<br />\n{1}'.format(currency_discrepancy, currency_discrepancy_html), )
+            html_content='currency_discrepancy: {0}<br />\n{1}'.format(currency_discrepancy, currency_discrepancy_html), )
 
     """ ============================================================================ """
     if discrepancy_price:
         send_email(
-            subject=u'Список Артикулов товаров которые расходятся по ценам с 1С.',
+            subject='Список Артикулов товаров которые расходятся по ценам с 1С.',
             from_email=email.utils.formataddr((u'Интернет магазин Keksik', u'site@keksik.com.ua')),
             to_emails=[email.utils.formataddr((u'Мэнеджер Интернет магазин Keksik Катерина', u'katerina@keksik.com.ua'), ),
                        email.utils.formataddr((u'Директор Интернет магазин Keksik Светлана Витальевна', u'lana24680@keksik.com.ua'), ), ],
-            html_content=u'discrepancy_price: {0}<br />\n{1}'.format(discrepancy_price, discrepancy_price_html), )
+            html_content='discrepancy_price: {0}<br />\n{1}'.format(discrepancy_price, discrepancy_price_html), )
 
 
 def get_price(prices: list) -> dict:
@@ -360,7 +371,7 @@ def get_price(prices: list) -> dict:
 
             logger.info('line 447: fix 9!!! item.tag -->: type: {0} | {1} | item.text -->: type: {2} | {3}'
                         .format(type(item.tag), item.tag, type(item.text), item.text, ), )
-            if item.tag == u'ИдТипаЦены':
+            if item.tag == 'ИдТипаЦены':
                 # Отпускная цена
                 if item.text.replace(' ', '', ) == '3cf4bfc9-dae5-11e6-aa20-d9c641a3a917':
                     found_price_1c_id_UAH = True
@@ -370,7 +381,7 @@ def get_price(prices: list) -> dict:
                     found_price_1c_id_USD = True
                     found_price_1c_id_UAH = False
 
-            if price[n].tag == u'ЦенаЗаЕдиницу':
+            if price[n].tag == 'ЦенаЗаЕдиницу':
                 if found_price_1c_id_UAH:
                     price_dict.update({'UAH': price[n].text.replace(' ', '', ), }, )
                     found_price_1c_id_UAH = False
