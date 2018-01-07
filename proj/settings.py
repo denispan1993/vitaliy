@@ -588,7 +588,7 @@ try:
 except ImportError:
     pass
 
-#warnings.filterwarnings(
-#    'error', r"DateTimeField .* received a naive datetime",
-#    RuntimeWarning, r'django\.db\.models\.fields',
-#)
+# warnings.filterwarnings(
+#     'error', r"DateTimeField .* received a naive datetime",
+#     RuntimeWarning, r'django\.db\.models\.fields',
+# )
