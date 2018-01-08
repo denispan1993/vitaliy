@@ -117,11 +117,11 @@ def import_file(request):
             # Exchange.log('import', request.user, filename)
 
             """ Запуск задачи обработки импортируемых файлов """
-            # process_bitrix_offers_xml \
-            #     .apply_async(queue='celery',
-            #                  path_and_filename=path_and_filename,
-            #                  task_id='celery-task-id-{0}'.format(uuid(), ),
-            #                  countdown=60, )
+            process_bitrix_offers_xml \
+                .apply_async(queue='celery',
+                             kwargs={'path_and_filename': path_and_filename, },
+                             task_id='celery-task-id-{0}'.format(uuid(), ),
+                             countdown=60, )
 
     return success(request)
 

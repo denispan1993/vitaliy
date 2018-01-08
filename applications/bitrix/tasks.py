@@ -6,8 +6,9 @@ import xml.etree.ElementTree as ET
 from celery.utils.log import get_task_logger
 from proj.celery import celery_app
 
-from .utils import get_products, process_of_proposal
 from proj import settings
+from .import_utils_process_import_xml import process_import_xml
+from .import_utils_process_offers_xml import process_offers_xml
 
 __author__ = 'AlexStarov'
 
@@ -48,7 +49,7 @@ def process_bitrix_import_xml(*args, **kwargs):
                         and elems_product_level[3].tag == u'Владелец'\
                         and elems_product_level[4].tag == u'Товары':
 
-                    get_products(list(elems_product_level[4], ), )
+                    process_import_xml(list(elems_product_level[4], ), )
 
     logger.info('Process time: {}'.format(time.time() - start, ), )
 
@@ -63,7 +64,7 @@ def process_bitrix_offers_xml(*args, **kwargs):
     path_and_filename = kwargs.get('path_and_filename', False)
 
     if os.path.isfile(path_and_filename, )\
-            and path_and_filename.split('.')[0] == 'offers'\
+            and path_and_filename.split('.')[0].split('/')[-1] == 'offers'\
             and path_and_filename.split('.')[-1] == 'xml':
 
         print('os.path.isfile(path_and_filename, )', os.path.isfile(path_and_filename, ),
@@ -74,7 +75,7 @@ def process_bitrix_offers_xml(*args, **kwargs):
 
             if elem_second_level.tag == u'Предложения':
 
-                process_of_proposal(offers_list=list(elem_second_level, ), )
+                process_offers_xml(offers_list=list(elem_second_level, ), )
 
     logger.info('Process time: {}'.format(time.time() - start, ), )
 

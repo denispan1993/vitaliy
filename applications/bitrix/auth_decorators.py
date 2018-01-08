@@ -5,7 +5,9 @@ import six
 import base64
 
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+# from django.contrib.auth import authenticate, login
+
+from proj import settings
 
 
 def view_or_basicauth(view, request, test_func, realm="", *args, **kwargs):
@@ -33,7 +35,7 @@ def view_or_basicauth(view, request, test_func, realm="", *args, **kwargs):
                 else:
                     uname, passwd = base64.b64decode(auth[1]).decode('utf-8').split(':')
                 print(uname, passwd)
-                if uname == 'User123' and passwd == 'password123':
+                if uname == settings.CML_BITRIX_AUTH_UNAME and passwd == settings.CML_BITRIX_AUTH_PASSWD:
                     # user = authenticate(username=uname, password=passwd)
                     # if user is not None:
                     #     if user.is_active:

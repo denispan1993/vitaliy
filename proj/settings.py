@@ -24,23 +24,24 @@ CELERY_QUEUES = (
     Queue('celery', Exchange('celery'), routing_key='celery'),
     Queue('delivery', Exchange('delivery'), routing_key='delivery'),
     Queue('delivery_send', Exchange('delivery_send'), routing_key='delivery_send'),
-    Queue('socks_server_get', Exchange('socks_server_get'), routing_key='socks_server_get'),
+    # Queue('socks_server_get', Exchange('socks_server_get'), routing_key='socks_server_get'),
 )
 
-CELERY_ROUTES = {
-        'applications.socks.tasks.socks_server_get_from_internet': {
-            'queue': 'socks_server_get',
-            'routing_key': 'socks_server_get',
-        },
-}
+# CELERY_ROUTES = {
+#         'applications.socks.tasks.socks_server_get_from_internet': {
+#             'queue': 'socks_server_get',
+#             'routing_key': 'socks_server_get',
+#         },
+# }
 
 CELERY_IMPORTS = ('applications.bitrix.tasks',
-                  'applications.cart.tasks',
                   'applications.product.tasks',
+                  'applications.cart.tasks',
+                  'applications.sms_ussd.tasks',
                   'applications.delivery.tasks',
                   'applications.delivery2.tasks',
                   'applications.discount.tasks',
-                  'applications.socks.tasks',
+                  # 'applications.socks.tasks',
                   'applications.yml.tasks',
                   'celery',
                   'proj.celery', )
@@ -49,9 +50,9 @@ CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_TASK_RESULT_EXPIRES = 3600
 
-#CELERY_ROUTES = {
-#    'mail.tasks.send_message': {'queue': 'send_message'},
-#}
+# CELERY_ROUTES = {
+#     'mail.tasks.send_message': {'queue': 'send_message'},
+# }
 
 #CELERYD_PREFETCH_MULTIPLIER = 0
 
@@ -298,9 +299,10 @@ INSTALLED_APPS = (
     'applications.feedback',
     'applications.delivery',
     'applications.delivery2',
-    'applications.socks',
+    # 'applications.socks',
     'paypal.standard.ipn',
     'applications.payment',
+    'applications.bitrix.apps.BitrixConfig',
     'applications.yml',
     # 'static_sitemaps',
 )
@@ -467,7 +469,6 @@ INSTALLED_APPS += (
     'easy_thumbnails',
     'applications.account.apps.AccountConfig',
     'applications.authModel',
-    'applications.bitrix',
 )
 AUTHENTICATION_BACKENDS += (
     'django.contrib.auth.backends.ModelBackend',

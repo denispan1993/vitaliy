@@ -49,8 +49,8 @@ def get_products(products_list):
 
         else:
             """ Если цикл закончился не по break а просто вышел то тогда срабоатывает else """
-            logger.info('line 109: without Artikul fix !!! --> product_list[0].tag: %s '
-                        'product_list[0].text: %s' % (product_list[0].tag, product_list[0].text, ), )
+            logger.info('line 109: without Artikul fix !!! --> product_list[0].tag: {tag} '
+                        'product_list[0].text: {text}'.format(tag=product_list[0].tag, text=product_list[0].text, ), )
 
             n, name = 0, ''
             while True:
