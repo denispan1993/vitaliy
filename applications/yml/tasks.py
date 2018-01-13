@@ -42,27 +42,27 @@ def profile(func):
 
 def decorate(func):
     # start = time.time()
-    # print(u'Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
-    # logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+    # print('Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
+    # logger.info('Декорируем %s... | Start: %s' % (func.__name__, start, ), )
 
     def wrapped(*args, **kwargs):
         start = time.time()
-        print(u'Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
-        logger.info(u'Декорируем %s... | Start: %s' % (func.__name__, start,), )
+        print('Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
+        logger.info('Декорируем %s... | Start: %s' % (func.__name__, start,), )
 
-        print(u'Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
-        logger.info(u'Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        print('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        logger.info('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
         result = func(*args, **kwargs)
 
         stop = time.time()
-        print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
-        logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        print('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        logger.info('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
 
         return result
 
     # stop = time.time()
-    # print(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
-    # logger.info(u'выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    # print('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    # logger.info('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
 
     return wrapped
 
@@ -74,7 +74,7 @@ def generate_prom_ua_yml(*args, **kwargs):
 
     start = time.time()
     start_datetime = datetime.now()
-    logger.info(u'Start: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0}'.format(start_datetime), )
+    logger.info('Start: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0}'.format(start_datetime), )
 
     def set_categories(shop, ):
 
@@ -108,7 +108,7 @@ def generate_prom_ua_yml(*args, **kwargs):
             """ Проверяем, стоит ли (выделена ли) у продукта "Основная" Категория """
             category = product.producttocategory_set.filter(is_main=True)
             if len(category) > 1:
-                logger.info(u'generate_prom_ua_yml(*args, **kwargs): Many MAIN categories in product: {0}'.format(product), )
+                logger.info('generate_prom_ua_yml(*args, **kwargs): Many MAIN categories in product: {0}'.format(product), )
             elif len(category) < 1:
                 """ Если нет, то берем первую попавшуюся """
                 category = product.producttocategory_set.all()
@@ -121,7 +121,7 @@ def generate_prom_ua_yml(*args, **kwargs):
             available = ''
             if product.is_availability == 1:
                 available = 'true'
-            elif product.is_availability in [2, 3]:
+            elif product.is_availability in [2, 3, 4, ]:
                 available = 'false'
 
             """
@@ -152,10 +152,13 @@ def generate_prom_ua_yml(*args, **kwargs):
             if category:
                 etree.SubElement(offer, 'categoryId').text = str(category.category_id, )
             else:
-                logger.info(u'product.pk without category: {0}'.format(product.pk, ), )
+                logger.info('product.pk without category: {0}'.format(product.pk, ), )
 
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
-            etree.SubElement(offer, 'price').text = product.get_price()
+
+            price = product.get_price()
+            etree.SubElement(offer, 'price').text = price if price > 0 else 0.001
+
             etree.SubElement(offer, 'currencyId').text = 'UAH'
 
             etree.SubElement(offer, 'delivery').text = 'true'
@@ -180,8 +183,8 @@ def generate_prom_ua_yml(*args, **kwargs):
                 for photo_item in product.all_photos:
 
                     if photo_item.photo.url != product.main_photo.photo.url:
-                        # print(u'1321-213:Photo: %s' % photo_item.photo.url, )
-                        # logger.info(u'1321-213:Photo: %s' % photo_item.photo.url, )
+                        # print('1321-213:Photo: %s' % photo_item.photo.url, )
+                        # logger.info('1321-213:Photo: %s' % photo_item.photo.url, )
 
                         etree.SubElement(offer, 'picture').text = \
                             'https://keksik.com.ua{}'.format(photo_item.photo.url, )
@@ -206,12 +209,12 @@ def generate_prom_ua_yml(*args, **kwargs):
     db.reset_queries()
     start_time = time.time()
     set_categories(shop)
-    logger.info(u'set_categories(shop) --- {0} seconds --- {1}'.format((time.time() - start_time), len(db.connection.queries), ), )
+    logger.info('set_categories(shop) --- {0} seconds --- {1}'.format((time.time() - start_time), len(db.connection.queries), ), )
 
     db.reset_queries()
     start_time = time.time()
     set_products(shop)
-    logger.info(u'set_products(shop) --- {0} seconds --- {1}'.format((time.time() - start_time), len(db.connection.queries), ), )
+    logger.info('set_products(shop) --- {0} seconds --- {1}'.format((time.time() - start_time), len(db.connection.queries), ), )
 
     # files = [f for f in os.listdir('.')]
     # for f in files:
@@ -221,7 +224,7 @@ def generate_prom_ua_yml(*args, **kwargs):
         f.write(etree.tostring(root).decode('utf-8'))
 
     stop_datetime = datetime.now()
-    logger.info(u'Stop: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0} | {1}'.format(stop_datetime, (stop_datetime - start_datetime), ), )
+    logger.info('Stop: generate_prom_ua_yml(*args, **kwargs): datetime.now() {0} | {1}'.format(stop_datetime, (stop_datetime - start_datetime), ), )
     logger.info('Process time: {}'.format(time.time() - start, ), )
 
     return True, datetime.now(), '__name__: {0}'.format(str(__name__, ), )
