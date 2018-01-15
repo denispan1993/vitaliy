@@ -157,7 +157,7 @@ def generate_prom_ua_yml(*args, **kwargs):
             etree.SubElement(offer, 'url').text = YML_CONFIG['url'] + product.get_absolute_url()
 
             price = product.get_price()
-            etree.SubElement(offer, 'price').text = price if price > 0 else 0.001
+            etree.SubElement(offer, 'price').text = price if float(price) > 0 else '0.001'
 
             etree.SubElement(offer, 'currencyId').text = 'UAH'
 
