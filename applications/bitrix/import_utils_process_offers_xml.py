@@ -65,6 +65,7 @@ def process_offers_xml(offers_list):
 
         try:
             product = Product.objects.get(id_1c=id_1c, )
+            ItemID = product.ItemID.all()[0].ItemID
 
             if quantity_in_stock > 0 and product.is_availability == 1:
                 """ Если в 1С единиц товара больше чем 0 и в базе сайта он "в наличии" """
@@ -75,7 +76,7 @@ def process_offers_xml(offers_list):
             elif quantity_in_stock > 0 and product.is_availability != 1:
                 """ Количество товара в 1С > 0 но отсутствуют на сайте. """
                 there_is_in_1c += 1
-                there_is_in_1c_html += '{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
+                there_is_in_1c_html += '{}: {}<br />\n'.format(ItemID, product.title)
                 """ то записывеем количество товара в базу сайта """
                 product.quantity_in_stock = quantity_in_stock
                 """ меняем товар на "в наличии" """
@@ -85,14 +86,14 @@ def process_offers_xml(offers_list):
             elif quantity_in_stock == 0 and product.is_availability == 1:
                 """ товар "есть" на сайте но в 1С остатки < 0 """
                 there_is_in_site += 1
-                there_is_in_site_html += '{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title)
+                there_is_in_site_html += '{}: {}<br />\n'.format(ItemID, product.title)
                 """ то обнуляем количество товара в базе сайта """
                 product.quantity_in_stock = 0
 
                 if 'резак' in product.title and \
-                    (product.ItemID.all()[0].ItemID.startwith('og', re.I) or
-                     product.ItemID.all()[0].ItemID.startwith('ra', re.I) or
-                     product.ItemID.all()[0].ItemID.startwith('rn', re.I)):
+                    (ItemID.startswith('og', re.I) or
+                     ItemID.startswith('ra', re.I) or
+                     ItemID.startswith('rn', re.I)):
 
                     product.is_availability = 2
                 else:
@@ -115,12 +116,12 @@ def process_offers_xml(offers_list):
                     if price_1C != price_site:
 
                         discrepancy_price += 1
-                        discrepancy_price_html += '{}: {}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, )
+                        discrepancy_price_html += '{}: {}<br />\n'.format(ItemID, product.title, )
 
                 except TypeError:
                     """ Если не сходятся валюта товара между сайтом и 1С. """
                     currency_discrepancy += 1
-                    currency_discrepancy_html += '{0}: {1} | {2}<br />\n'.format(product.ItemID.all()[0].ItemID, product.title, price, )
+                    currency_discrepancy_html += '{0}: {1} | {2}<br />\n'.format(ItemID, product.title, price, )
 
                     # logger.info('line 377: fix 4!!! --> price: {0} | ItemID: {1} | id_1c: {2}'.
                     #             format(price, product.ItemID.all()[0].ItemID, id_1c, ), )
