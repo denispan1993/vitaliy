@@ -299,7 +299,7 @@ INSTALLED_APPS = (
     'applications.feedback',
     'applications.delivery',
     'applications.delivery2',
-    # 'applications.socks',
+    'applications.socks',
     'paypal.standard.ipn',
     'applications.payment',
     'applications.bitrix.apps.BitrixConfig',

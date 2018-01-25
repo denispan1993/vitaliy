@@ -373,38 +373,38 @@ class Product(models.Model):
     """ Акции """
     from applications.discount.models import Action
     action = models.ManyToManyField(to=Action,
-                                    verbose_name=u'Акции',
+                                    verbose_name=_('Акции'),
                                     related_name='product_in_action',
                                     blank=True,  #  null=True,
                                     db_table='Product_to_Action', )
-    in_action = models.BooleanField(verbose_name=u'Продукт учавствует в Акции',
+    in_action = models.BooleanField(verbose_name=_('Продукт учавствует в Акции'),
                                     blank=False,
                                     null=False,
                                     default=False, )
-    regular_price = models.DecimalField(verbose_name=_(u'Обычная цена'),
+    regular_price = models.DecimalField(verbose_name=_('Обычная цена'),
                                         max_digits=8,
                                         decimal_places=2,
                                         default=0,
                                         blank=True,
                                         null=True, )
     currency = models.ForeignKey('Currency',
-                                 verbose_name=u'Валюта',
+                                 verbose_name=_('Валюта'),
                                  blank=False,
                                  null=False,
                                  default=1, )
-    price = models.DecimalField(verbose_name=_(u'Цена', ),
+    price = models.DecimalField(verbose_name=_('Цена', ),
                                 max_digits=10,
                                 decimal_places=2,
                                 default=0,
                                 blank=False,
                                 null=False, )
-    action_price = models.DecimalField(verbose_name=_(u'Акционная цена', ),
+    action_price = models.DecimalField(verbose_name=_('Акционная цена', ),
                                        max_digits=10,
                                        decimal_places=2,
                                        default=0,
                                        blank=False,
                                        null=False, )
-    price_of_quantity = models.DecimalField(verbose_name=u'Цена за сколько?',
+    price_of_quantity = models.DecimalField(verbose_name=_('Цена за сколько?'),
                                             max_digits=15,
                                             decimal_places=5,
                                             default=1,
@@ -692,13 +692,16 @@ class Product(models.Model):
                         timeout=3600, )  # 60 sec * 60 min
                 except Currency.DoesNotExist:
                     pass
-
+        print('0', price)
         if not price:
             if self.in_action:
                 price = self.action_price
+                print('1', price)
             else:
                 price = self.price
-
+                print('2.0', self.price)
+                print('2', price)
+        print('3', price)
         if 'current_currency_object' in locals():
             current_currency_pk = current_currency_object.pk
             current_currency = current_currency_object.currency
@@ -741,7 +744,7 @@ class Product(models.Model):
                 intermediate_price = price/product_currency*product_exchange_rate
                 ''' Приводим к текущей валюте сайта '''
                 price = intermediate_price*current_currency/current_exchange_rate
-
+        print(price)
         if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
             if self.is_availability == 2:  # Если товар доступен под заказ?
                 price = price/2            # Берём 50% от стоимости

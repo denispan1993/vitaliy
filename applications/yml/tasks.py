@@ -118,10 +118,14 @@ def generate_prom_ua_yml(*args, **kwargs):
             if category and not category.category.is_active:
                 continue
 
+            # product.is_availability == 4
+            # Если в данном поле пусто — товар будет импортирован в статусе «Нет в наличии».
             available = ''
             if product.is_availability == 1:
+                # Значение «склад» или «true» соответствует статусу товара «В наличии»
                 available = 'true'
-            elif product.is_availability in [2, 3, 4, ]:
+            elif product.is_availability in [2, 3, ]:
+                # Значение «false» — статусу «Под заказ»
                 available = 'false'
 
             """
