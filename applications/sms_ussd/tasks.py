@@ -67,7 +67,7 @@ def send_sms(*args, **kwargs):
 
             last_loop = len(sms_list) - 1
             for i, pdu_sms in enumerate(sms_list):
-                response = manager.command(u'dongle pdu {device} {pdu}'
+                response = manager.command('dongle pdu {device} {pdu}'
                                            .format(
                                                 device='Vodafone1',
                                                 pdu=pdu_sms.pdu,
@@ -103,7 +103,7 @@ def send_sms(*args, **kwargs):
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
 
 
-@celery_app.task(name='celery_task_send_received_sms')
+@celery_app.task(name='send_received_sms')
 def send_received_sms(*args, **kwargs):
 
     try:
@@ -122,8 +122,8 @@ def send_received_sms(*args, **kwargs):
 
         sms.message = base64.b64decode(sms.message_b64).decode('utf8')
 
-        subject = u'Направение SMS: {direction} | от аббонента: {from_phone_char} | к аббоненту: {to_phone_char} '\
-                  u'| дата и время получения сообщения: {received_at}'\
+        subject = 'Направение SMS: {direction} | от аббонента: {from_phone_char} | к аббоненту: {to_phone_char} '\
+                  '| дата и время получения сообщения: {received_at}'\
             .format(
                 direction=SMS.DIRECTION[sms.direction-1][1],
                 from_phone_char=sms.from_phone_char,
@@ -131,8 +131,8 @@ def send_received_sms(*args, **kwargs):
                 received_at=sms.received_at,
             )
 
-        message = u'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
-                  u'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
+        message = 'Направление: {direction}\nОт аббонента: {from_phone_char}\nАббоненту: {to_phone_char}\n'\
+                  'Дата и Время Получения: {received_at}\nСообщение:\n{message}'\
             .format(
                 direction=SMS.DIRECTION[sms.direction-1][1],
                 from_phone_char=sms.from_phone_char,
@@ -142,8 +142,8 @@ def send_received_sms(*args, **kwargs):
             )
 
         message_kwargs = {
-            'from_email': formataddr((u'Телефонная станция Asterisk Keksik', 'site@keksik.com.ua', ), ),
-            'to': [formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
+            'from_email': formataddr(('Телефонная станция Asterisk Keksik', 'site@keksik.com.ua', ), ),
+            'to': [formataddr(('Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
             'subject': subject,
             'body': message,
         }
@@ -174,10 +174,9 @@ def send_received_sms(*args, **kwargs):
             return False
 
         try:
-            connection.sendmail(
-                from_addr=formataddr((u'Asterisk Keksik', 'site@keksik.com.ua', ), ),
-                to_addrs=[formataddr((u'Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
-                msg=message.message().as_string(), )
+            connection.sendmail(from_addr=formataddr(('Asterisk Keksik', 'site@keksik.com.ua', ), ),
+                                to_addrs=[formataddr(('Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
+                                msg=message.message().as_string(), )
             connection.quit()
 
         except SMTPSenderRefused as e:
@@ -269,7 +268,7 @@ def send_template_sms(*args, **kwargs):
 
             last_loop = len(sms_list) - 1
             for i, pdu_sms in enumerate(sms_list):
-                response = manager.command(u'dongle pdu {device} {pdu}'
+                response = manager.command('dongle pdu {device} {pdu}'
                                            .format(
                                                 device='Vodafone1',
                                                 pdu=pdu_sms.pdu,

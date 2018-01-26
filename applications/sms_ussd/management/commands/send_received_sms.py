@@ -10,4 +10,4 @@ class Command(BaseCommand, ):
 
     def handle(self, *args, **options):
 
-        tasks.send_received_sms.apply_async(queue='delivery_send', )
+        tasks.send_received_sms.apply_async(queue='celery', )
