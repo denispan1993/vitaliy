@@ -32,7 +32,35 @@ path = lambda base: os.path.abspath(
 )
 
 
-@celery_app.task(name='celery_task_send_sms')
+def decorate(func):
+    # start = time.time()
+    # print('Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
+    # logger.info('Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+
+    def wrapped(*args, **kwargs):
+        start = time.time()
+        print('Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
+        logger.info('Декорируем %s... | Start: %s' % (func.__name__, start,), )
+
+        print('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        logger.info('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        result = func(*args, **kwargs)
+
+        stop = time.time()
+        print('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        logger.info('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+
+        return result
+
+    # stop = time.time()
+    # print('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    # logger.info('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+
+    return wrapped
+
+
+@celery_app.task(name='sms_ussd.tasks.send_sms', )
+@decorate
 def send_sms(*args, **kwargs):
     sms_pk = kwargs.get('sms_pk')
 
@@ -103,7 +131,8 @@ def send_sms(*args, **kwargs):
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
 
 
-@celery_app.task(name='send_received_sms')
+@celery_app.task(name='sms_ussd.tasks.send_received_sms', )
+@decorate
 def send_received_sms(*args, **kwargs):
 
     try:
@@ -111,7 +140,7 @@ def send_received_sms(*args, **kwargs):
     except SMS.DoesNotExist:
         return False
 
-    print(len(smses), )
+    logger.info(len(smses), )
     for sms in smses:
 
         #try:
@@ -166,27 +195,29 @@ def send_received_sms(*args, **kwargs):
                 connection.ehlo()
 
         except (SMTPException, SMTPServerDisconnected) as e:
-            print('Exception(SMTPException, SMTPServerDisconnected): ', e)
+            logger.error('Exception(SMTPException, SMTPServerDisconnected): %s' % e)
             return False
 
         except socket.error as e:
-            print('Exception(socket.error): ', e)
+            logger.info('Exception(socket.error): %s' % e)
             return False
 
         try:
+            # (Python3) msg --> convert to bytes
             connection.sendmail(from_addr=formataddr(('Asterisk Keksik', 'site@keksik.com.ua', ), ),
                                 to_addrs=[formataddr(('Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
-                                msg=message.message().as_string(), )
+                                msg=message.message().as_string().encode(), )
             connection.quit()
 
         except SMTPSenderRefused as e:
-            print('SMTPSenderRefused: ', e)
+            logger.info('SMTPSenderRefused: %s' % e)
 
         except SMTPDataError as e:
-            print('SMTPDataError: ', e, ' messages: ', e.message, ' smtp_code: ', e.smtp_code, 'smtp_error: ', e.smtp_error, ' args: ', e.args)
+            logger.info('SMTPDataError: %s| messages: %s| smtp_code: %s| smtp_error: %s| args: %s' %
+                        (e, e.message, e.smtp_code, e.smtp_error, e.args), )
 
         except Exception as e:
-            print('Exception1: ', e)
+            logger.info('Exception1: %s' % e)
 
         sms.sim_id = 255016140761290
         sms.task_id = None
@@ -197,7 +228,8 @@ def send_received_sms(*args, **kwargs):
     return True, timezone.now(), '__name__: {0}'.format(str(__name__))
 
 
-@celery_app.task(name='celery_task_send_template_sms')
+@celery_app.task(name='sms_ussd.task.send_template_sms')
+@decorate
 def send_template_sms(*args, **kwargs):
 
     phone = kwargs.pop('sms_to_phone_char', False, )
