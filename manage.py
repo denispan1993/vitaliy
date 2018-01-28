@@ -1,4 +1,4 @@
-#!./../../PyEnv/versions/3.6.1/envs/keksik/bin/python
+#!./../../PyEnv/versions/pypy3-v5.10.1-linux32/bin/pypy3
 # coding=utf-8
 
 

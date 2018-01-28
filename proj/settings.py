@@ -321,15 +321,15 @@ else:
     except ImportError:
         pass
 
-#!!!=============== Python Social Auth =========================
+# !!!=============== Python Social Auth =========================
 INSTALLED_APPS += (
     'social.apps.django_app.default',
 )
 
-#try:
-#    from proj.social_settings import *
-#except:
-#    pass
+# try:
+#     from proj.social_settings import *
+# except:
+#     pass
 
 AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.twitter.TwitterBackend',
@@ -353,7 +353,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiAppBackend',
     'social.backends.vk.VKOAuth2',
     # 'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
-    ####'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    # ###'social_auth.backends.contrib.vkontakte.VKontakteBackend',
     # 'social_auth.backends.contrib.live.LiveBackend',
     # 'social_auth.backends.contrib.skyrock.SkyrockBackend',
     # 'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
@@ -378,7 +378,7 @@ SKYROCK_CONSUMER_KEY              = ''
 SKYROCK_CONSUMER_SECRET           = ''
 ORKUT_CONSUMER_KEY                = ''
 ORKUT_CONSUMER_SECRET             = ''
-#OAuth2
+# OAuth2
 GOOGLE_OAUTH2_CLIENT_ID = '442207703537.apps.googleusercontent.com'
 GOOGLE_OAUTH2_CLIENT_SECRET = 'R6RYIo1b6w8oQvtR-duuGRPo'
 GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
@@ -388,7 +388,7 @@ SOCIAL_AUTH_FORCE_RANDOM_USERNAME = True
 SOCIAL_AUTH_DEFAULT_USERNAME = 'socialauth_user'
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 LOGIN_ERROR_URL = '/login/error/'
-#OpenAPI
+# OpenAPI
 VKONTAKTE_APP_ID = ''  # '3474809'
 VKONTAKTE_APP_SECRET = ''  # 'BapEJeIg9oRgfXRQABor'
 # Usage for applications auth: {'key': application_key, 'user_mode': 0 (default) | 1 (check) | 2 (online check) }
@@ -401,7 +401,7 @@ ODNOKLASSNIKI_OAUTH2_CLIENT_SECRET = '5E0652D81620317290DED086'
 MAILRU_OAUTH2_CLIENT_KEY   		  = ''
 MAILRU_OAUTH2_APP_KEY      		  = ''
 MAILRU_OAUTH2_CLIENT_SECRET       = ''
-#SOCIAL_AUTH_USER_MODEL           = 'app.CustomUser'
+# SOCIAL_AUTH_USER_MODEL           = 'app.CustomUser'
 SOCIAL_AUTH_ERROR_KEY             = 'socialauth_error'
 GITHUB_APP_ID                     = ''
 GITHUB_API_SECRET                 = ''
@@ -422,19 +422,19 @@ READABILITY_CONSUMER_KEY          = ''
 READABILITY_CONSUMER_SECRET       = ''
 
 # Backward compatibility
-#YANDEX_APP_ID = YANDEX_OAUTH2_CLIENT_KEY
-#YANDEX_API_SECRET = YANDEX_OAUTH2_CLIENT_SECRET
+# YANDEX_APP_ID = YANDEX_OAUTH2_CLIENT_KEY
+# YANDEX_API_SECRET = YANDEX_OAUTH2_CLIENT_SECRET
 
-#OAuth2
+# OAuth2
 VK_APP_ID = '3474809'
 VK_API_SECRET = 'BapEJeIg9oRgfXRQABor'
 VK_EXTRA_DATA = ['city', 'country', 'contacts', 'home_phone', 'mobile_phone', ]
 
-#VK_APP_ID = VKONTAKTE_APP_ID
-#VK_API_SECRET = VKONTAKTE_APP_SECRET
+# VK_APP_ID = VKONTAKTE_APP_ID
+# VK_API_SECRET = VKONTAKTE_APP_SECRET
 # VKONTAKTE_APP_AUTH={'key':'iframe_app_secret_key', 'user_mode': 2, 'id':'iframe_app_id'}
 
-#SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
+# SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
@@ -448,7 +448,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
 )
-#!!!--------------- Widget ---------------------------------
+# !!!--------------- Widget ---------------------------------
 INSTALLED_APPS += (
     'compat.social_auth_widget',
 )
@@ -460,9 +460,9 @@ SOCIAL_AUTH_PROVIDERS = [
         ('twitter', u'Login via Twitter', (0, -35), ),
     )
 ]
-#!!!=============== Django Userena =========================
+# !!!=============== Django Userena =========================
 AUTH_USER_MODEL = 'authModel.User'
-#AUTH_USER_MODEL = 'auth.User'
+# AUTH_USER_MODEL = 'auth.User'
 INSTALLED_APPS += (
     'userena',
     'guardian',
@@ -479,20 +479,20 @@ USERENA_DISABLE_PROFILE_LIST = True
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'account.UserProfileModel'
 USERENA_DEFAULT_PRIVACY = 'closed'
-#USERENA_SIGNIN_REDIRECT_URL = '/accounts/%(username)s/signin/'
+# USERENA_SIGNIN_REDIRECT_URL = '/accounts/%(username)s/signin/'
 USERENA_SIGNIN_REDIRECT_URL = '/'
-#LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+# LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
-#!!!=============== Django Userena uMessages =========================
+# !!!=============== Django Userena uMessages =========================
 INSTALLED_APPS += (
     'userena.contrib.umessages',
 )
 USERENA_USE_MESSAGES = True
 
-#!!!=============== Django ToolBar ===================================
+# !!!=============== Django ToolBar ===================================
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
@@ -521,13 +521,13 @@ DEBUG_TOOLBAR_PANELS = (
     # 'debug_toolbar.panels.timer.TimerDebugPanel',
 )
 
-#INSTALLED_APPS += (
-#    'template_timings_panel',
-#)
+# INSTALLED_APPS += (
+#     'template_timings_panel',
+# )
 
-#DEBUG_TOOLBAR_PANELS += (
-#    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
-#)
+# DEBUG_TOOLBAR_PANELS += (
+#     'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+# )
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
