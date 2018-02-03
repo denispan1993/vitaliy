@@ -79,7 +79,7 @@ class SendUSSDCreateView(CreateView, ):
 
     @method_decorator(staff_member_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(SendSMSCreateView, self).dispatch(request, *args, **kwargs)
+        return super(SendUSSDCreateView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         """

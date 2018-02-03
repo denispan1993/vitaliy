@@ -4,28 +4,27 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from celery.utils import uuid
 
-import proj.settings
-# from compat.bigint_path.bigint import BigIntegerField, BigForeignKey
+from django.conf import settings
 
 __author__ = 'AlexStarov'
 
 
 class SIM(models.Model, ):
-    name = models.CharField(verbose_name=_(u'Имя устройства', ),
+    name = models.CharField(verbose_name=_('Имя устройства', ),
                             max_length=16,
                             null=True,
                             blank=True,
                             unique=True, )
 
-    phone = models.CharField(verbose_name=_(u'Номер телефона', ),
+    phone = models.CharField(verbose_name=_('Номер телефона', ),
                              max_length=14,
                              null=True,
                              blank=True, )
-    provider = models.CharField(verbose_name=_(u'Провайдер', ),
+    provider = models.CharField(verbose_name=_('Провайдер', ),
                                 max_length=14,
                                 null=True,
                                 blank=True, )
-    imsi = models.BigIntegerField(verbose_name=_(u'IMSI', ),
+    imsi = models.BigIntegerField(verbose_name=_('IMSI', ),
                                   unique=True,
                                   primary_key=True,
                                   null=False,
@@ -33,23 +32,23 @@ class SIM(models.Model, ):
 
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_(u'Дата создания', ),
+                                      verbose_name=_('Дата создания', ),
                                       blank=True,
                                       null=True, )
     updated_at = models.DateTimeField(auto_now=True,
-                                      verbose_name=_(u'Дата обновления', ),
+                                      verbose_name=_('Дата обновления', ),
                                       blank=True,
                                       null=True, )
 
     def __str__(self):
-        return u'%s|provider: %s ==> %s|IMSI:%s: | created_at:%s|updated_at:%s' %\
+        return '%s|provider: %s ==> %s|IMSI:%s: | created_at:%s|updated_at:%s' %\
                (self.name, self.provider, self.phone, self.imsi, self.created_at, self.updated_at, )
 
     class Meta:
         db_table = 'SMS_USSD__SIM'
         ordering = ['-created_at', ]
-        verbose_name = u'SIM'
-        verbose_name_plural = u'SIM'
+        verbose_name = 'SIM'
+        verbose_name_plural = 'SIM'
 
 
 class SMS(models.Model, ):
@@ -78,93 +77,93 @@ class SMS(models.Model, ):
     )
 
     template = models.ForeignKey(to='Template',
-                                 verbose_name=_(u'Template', ),
+                                 verbose_name=_('Template', ),
                                  null=True,
                                  blank=True, )
 
     direction = models.PositiveSmallIntegerField(choices=DIRECTION,
-                                                 verbose_name=_(u'Направление', ),
+                                                 verbose_name=_('Направление', ),
                                                  null=True,
                                                  blank=True, )
 
-    user = models.ForeignKey(to=proj.settings.AUTH_USER_MODEL,
-                             verbose_name=_(u'Пользователь', ),
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                             verbose_name=_('Пользователь', ),
                              null=True,
                              blank=True, )
-    sessionid = models.CharField(verbose_name=_(u'SessionID', ),
+    sessionid = models.CharField(verbose_name=_('SessionID', ),
                                  max_length=32,
                                  null=True,
                                  blank=True, )
 
-    task_id = models.CharField(verbose_name=_(u'task id'),
+    task_id = models.CharField(verbose_name=_('task id'),
                                max_length=255,
                                blank=True,
                                null=True, )
 
-    is_send = models.BooleanField(verbose_name=_(u'Отправлено', ),
+    is_send = models.BooleanField(verbose_name=_('Отправлено', ),
                                   default=False,
                                   null=False,
                                   blank=True, )
 
     sim = models.ForeignKey(to=SIM,
-                            verbose_name=_(u'SIM', ),
+                            verbose_name=_('SIM', ),
                             null=True,
                             blank=True, )
 
-    from_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Откуда)', ),
+    from_phone_char = models.CharField(verbose_name=_('Номер телефона (Откуда)', ),
                                        max_length=64,
                                        null=True,
                                        blank=True, )
     from_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
-                                                 verbose_name=_(u'Код провайдера', ),
+                                                 verbose_name=_('Код провайдера', ),
                                                  null=True,
                                                  blank=True, )
-    from_phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
+    from_phone = models.PositiveIntegerField(verbose_name=_('Телефон', ),
                                              null=True,
                                              blank=True, )
 
-    to_phone_char = models.CharField(verbose_name=_(u'Номер телефона (Куда)', ),
+    to_phone_char = models.CharField(verbose_name=_('Номер телефона (Куда)', ),
                                      max_length=64,
                                      null=True,
                                      blank=True, )
     to_code = models.PositiveSmallIntegerField(choices=CODE_PROVIDER,
-                                               verbose_name=_(u'Код провайдера', ),
+                                               verbose_name=_('Код провайдера', ),
                                                null=True,
                                                blank=True, )
-    to_phone = models.PositiveIntegerField(verbose_name=_(u'Телефон', ),
+    to_phone = models.PositiveIntegerField(verbose_name=_('Телефон', ),
                                            null=True,
                                            blank=True, )
 
-    message = models.TextField(verbose_name=_(u'Сообщение', ),
+    message = models.TextField(verbose_name=_('Сообщение', ),
                                null=True,
                                blank=True, )
 #    >> > print aaa.message.encode('cp1252', 'replace')
 #    МТС Україна за змі�?т SMS не відповідає
 #    123456789 123456789 123456789 1
 
-    message_b64 = models.TextField(verbose_name=_(u'Сообщение base64', ),
+    message_b64 = models.TextField(verbose_name=_('Сообщение base64', ),
                                    null=True,
                                    blank=True, )
 
-    message_pdu = models.TextField(verbose_name=_(u'Сообщение pdu', ),
+    message_pdu = models.TextField(verbose_name=_('Сообщение pdu', ),
                                    null=True,
                                    blank=True, )
 
-    send_at = models.DateTimeField(verbose_name=_(u'Дата и время отправки SMS', ),
+    send_at = models.DateTimeField(verbose_name=_('Дата и время отправки SMS', ),
                                    blank=True,
                                    null=True, )
 
-    received_at = models.DateTimeField(verbose_name=_(u'Дата и время получения SMS', ),
+    received_at = models.DateTimeField(verbose_name=_('Дата и время получения SMS', ),
                                        blank=True,
                                        null=True, )
 
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_(u'Дата создания', ),
+                                      verbose_name=_('Дата создания', ),
                                       blank=True,
                                       null=True, )
     updated_at = models.DateTimeField(auto_now=True,
-                                      verbose_name=_(u'Дата обновления', ),
+                                      verbose_name=_('Дата обновления', ),
                                       blank=True,
                                       null=True, )
 
@@ -190,38 +189,38 @@ class SMS(models.Model, ):
 
     @models.permalink
     def get_absolute_url(self, ):
-        return ('admin_page:sms_ussd_send_sms', (), {}, )
+        return 'admin_page:sms_ussd_send_sms', (), {},
 
     def __str__(self):
-        return u'%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
+        return '%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
                (self.user, self.sessionid, self.direction, self.is_send, self.send_at, self.received_at)
 
     class Meta:
         db_table = 'SMS_USSD__SMS'
         ordering = ['-created_at', ]
-        verbose_name = u'SMS'
-        verbose_name_plural = u'SMS'
+        verbose_name = 'SMS'
+        verbose_name_plural = 'SMS'
 
 
 class Template(models.Model, ):
 
     name = models.CharField(max_length=64,
                             unique=True,
-                            verbose_name=_(u'Название', ),
+                            verbose_name=_('Название', ),
                             blank=True,
                             null=True,
                             default=datetime.now, )
 
-    is_system = models.BooleanField(verbose_name=_(u'Системный', ),
+    is_system = models.BooleanField(verbose_name=_('Системный', ),
                                     default=False,
                                     null=False,
                                     blank=True, )
 
-    template = models.TextField(verbose_name=_(u'Шаблон', ),
+    template = models.TextField(verbose_name=_('Шаблон', ),
                                 blank=True,
                                 null=True, )
 
-    chance = models.DecimalField(verbose_name=_(u'Вероятность', ),
+    chance = models.DecimalField(verbose_name=_('Вероятность', ),
                                  max_digits=4,
                                  decimal_places=2,
                                  blank=False,
@@ -230,22 +229,22 @@ class Template(models.Model, ):
 
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_(u'Дата создания', ),
+                                      verbose_name=_('Дата создания', ),
                                       blank=True,
                                       null=True, )
     updated_at = models.DateTimeField(auto_now=True,
-                                      verbose_name=_(u'Дата обновления', ),
+                                      verbose_name=_('Дата обновления', ),
                                       blank=True,
                                       null=True, )
 
     def __str__(self):
-        return u'%s ==> %s' % (self.name, self.is_system,)
+        return '%s ==> %s' % (self.name, self.is_system,)
 
     class Meta:
         db_table = 'SMS_USSD__Template'
         ordering = ['-created_at', ]
-        verbose_name = u'Template'
-        verbose_name_plural = u'Template'
+        verbose_name = 'Template'
+        verbose_name_plural = 'Template'
 
 
 class USSD(models.Model, ):
@@ -256,62 +255,62 @@ class USSD(models.Model, ):
     )
 
     direction = models.PositiveSmallIntegerField(choices=DIRECTION,
-                                                 verbose_name=_(u'Направление', ),
+                                                 verbose_name=_('Направление', ),
                                                  null=True,
                                                  blank=True, )
 
-    user = models.ForeignKey(to=proj.settings.AUTH_USER_MODEL,
-                             verbose_name=_(u'Пользователь', ),
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                             verbose_name=_('Пользователь', ),
                              null=True,
                              blank=True, )
-    sessionid = models.CharField(verbose_name=_(u'SessionID', ),
+    sessionid = models.CharField(verbose_name=_('SessionID', ),
                                  max_length=32,
                                  null=True,
                                  blank=True, )
 
-    task_id = models.CharField(verbose_name=_(u'task.id'),
+    task_id = models.CharField(verbose_name=_('task.id'),
                                max_length=255,
                                blank=True,
                                null=True, )
 
     sim = models.ForeignKey(to=SIM,
-                            verbose_name=_(u'SIM', ),
+                            verbose_name=_('SIM', ),
                             null=True,
                             blank=True, )
 
-    code = models.CharField(verbose_name=_(u'USSD Code', ),
+    code = models.CharField(verbose_name=_('USSD Code', ),
                             max_length=32,
                             null=True,
                             blank=True, )
 
-    message = models.TextField(verbose_name=_(u'Сообщение', ),
+    message = models.TextField(verbose_name=_('Сообщение', ),
                                null=True,
                                blank=True, )
 
-    message_b64 = models.TextField(verbose_name=_(u'Сообщение base64', ),
+    message_b64 = models.TextField(verbose_name=_('Сообщение base64', ),
                                    null=True,
                                    blank=True, )
 
-    is_send = models.BooleanField(verbose_name=_(u'Отправлено', ),
+    is_send = models.BooleanField(verbose_name=_('Отправлено', ),
                                   default=False,
                                   null=False,
                                   blank=True, )
 
-    send_at = models.DateTimeField(verbose_name=_(u'Дата и время отправки USSD', ),
+    send_at = models.DateTimeField(verbose_name=_('Дата и время отправки USSD', ),
                                    blank=True,
                                    null=True, )
 
-    received_at = models.DateTimeField(verbose_name=_(u'Дата и время получения USSD', ),
+    received_at = models.DateTimeField(verbose_name=_('Дата и время получения USSD', ),
                                        blank=True,
                                        null=True, )
 
     # Дата создания и дата обновления. Устанавливаются автоматически.
     created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_(u'Дата создания', ),
+                                      verbose_name=_('Дата создания', ),
                                       blank=True,
                                       null=True, )
     updated_at = models.DateTimeField(auto_now=True,
-                                      verbose_name=_(u'Дата обновления', ),
+                                      verbose_name=_('Дата обновления', ),
                                       blank=True,
                                       null=True, )
 
@@ -337,14 +336,14 @@ class USSD(models.Model, ):
 
     @models.permalink
     def get_absolute_url(self, ):
-        return ('admin_page:sms_ussd_send_ussd', (), {}, )
+        return 'admin_page:sms_ussd_send_ussd', (), {},
 
     def __str__(self):
-        return u'%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
+        return '%s:%s | direction: %s | is_send: %s: | sended_at: %s | received_at: %s' %\
                (self.user, self.sessionid, self.direction, self.is_send, self.send_at, self.received_at)
 
     class Meta:
         db_table = 'SMS_USSD__USSD'
         ordering = ['-created_at', ]
-        verbose_name = u'USSD'
-        verbose_name_plural = u'USSD'
+        verbose_name = 'USSD'
+        verbose_name_plural = 'USSD'

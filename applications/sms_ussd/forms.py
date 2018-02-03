@@ -14,8 +14,8 @@ class SendSMSCreateForm(forms.ModelForm, ):
     phone = forms.CharField(
         max_length=32,
         min_length=9,
-        label=_(u'Номер телефона', ),
-        help_text=_(u'Номер телефона', ),
+        label=_('Номер телефона', ),
+        help_text=_('Номер телефона', ),
     )
 
     def clean(self):

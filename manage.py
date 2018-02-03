@@ -1,4 +1,4 @@
-#!./../../PyEnv/versions/shop/bin/pypy3
+#!./../../PyEnv/versions/3.6.1/envs/keksik/bin/python
 # -*- coding: utf-8 -*-
 
 import os
