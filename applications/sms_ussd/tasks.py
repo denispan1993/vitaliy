@@ -14,7 +14,7 @@ from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderR
 
 import asterisk.manager
 
-import proj.settings
+from django.conf import settings
 
 from .models import SMS, Template
 from .utils import increase_send_sms
@@ -39,16 +39,16 @@ def decorate(func):
 
     def wrapped(*args, **kwargs):
         start = time.time()
-        print('Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
-        logger.info('Декорируем %s... | Start: %s' % (func.__name__, start,), )
+        print('print: Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
+        logger.info('logger: Декорируем %s... | Start: %s' % (func.__name__, start,), )
 
-        print('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
-        logger.info('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        print('print: Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        logger.info('logger: Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
         result = func(*args, **kwargs)
 
         stop = time.time()
-        print('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
-        logger.info('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        print('print: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        logger.info('logger: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
 
         return result
 
@@ -74,12 +74,13 @@ def send_sms(*args, **kwargs):
     try:
         # connect to the manager
         try:
-            manager.connect(proj.settings.ASTERISK_HOST)
-            manager.login(*proj.settings.ASTERISK_AUTH)
+            manager.connect(settings.ASTERISK_HOST)
+            manager.login(*settings.ASTERISK_AUTH)
 
             # get a status report
             response = manager.status()
-            print('response: ', response)
+            print('print: response: ', response)
+            logger.info('logger: response: %s' % response)
             # Success
             number = '+380{code}{phone}'\
                 .format(
@@ -89,11 +90,12 @@ def send_sms(*args, **kwargs):
 
             sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
 
-            sms_to_pdu.request_status = False
+            # Запрашиваем статус ДОСТАВКИ сообщения
+            sms_to_pdu.request_status = True
             sms_to_pdu.validity = timedelta(days=4)
             sms_list = sms_to_pdu.to_pdu()
 
-            last_loop = len(sms_list) - 1
+            # last_loop = len(sms_list) - 1
             for i, pdu_sms in enumerate(sms_list):
                 response = manager.command('dongle pdu {device} {pdu}'
                                            .format(
@@ -101,11 +103,13 @@ def send_sms(*args, **kwargs):
                                                 pdu=pdu_sms.pdu,
                                             ),
                                            )
-                print('response.data: ', response.data)
+                time.sleep(2)
+                print('print: response.data: ', response.data)
+                logger.info('logger: response.data: %s' % response.data)
                 # [Vodafone1] SMS queued for send with id 0x7f98c8004420\n--END COMMAND--\r\n
                 increase_send_sms()
-                if i != last_loop:
-                    time.sleep(1.5)
+                # if i != last_loop:
+                #     time.sleep(1.5)
 
             manager.logoff()
 
@@ -182,15 +186,15 @@ def send_received_sms(*args, **kwargs):
 
         try:
             connection = SMTP_SSL(
-                host=proj.settings.SEND_SMS_MAIL_ACCOUNT['server_smtp'],
-                port=proj.settings.SEND_SMS_MAIL_ACCOUNT['port_smtp'],
+                host=settings.SEND_SMS_MAIL_ACCOUNT['server_smtp'],
+                port=settings.SEND_SMS_MAIL_ACCOUNT['port_smtp'],
                 **connection_params)
 
-            if proj.settings.SEND_SMS_MAIL_ACCOUNT['username']\
-                    and proj.settings.SEND_SMS_MAIL_ACCOUNT['password']:
+            if settings.SEND_SMS_MAIL_ACCOUNT['username']\
+                    and settings.SEND_SMS_MAIL_ACCOUNT['password']:
                 connection.login(
-                    proj.settings.SEND_SMS_MAIL_ACCOUNT['username'],
-                    proj.settings.SEND_SMS_MAIL_ACCOUNT['password'],
+                    settings.SEND_SMS_MAIL_ACCOUNT['username'],
+                    settings.SEND_SMS_MAIL_ACCOUNT['password'],
                 )
                 connection.ehlo()
 
@@ -279,8 +283,8 @@ def send_template_sms(*args, **kwargs):
     try:
         # connect to the manager
         try:
-            manager.connect(proj.settings.ASTERISK_HOST)
-            manager.login(*proj.settings.ASTERISK_AUTH)
+            manager.connect(settings.ASTERISK_HOST)
+            manager.login(*settings.ASTERISK_AUTH)
 
             # get a status report
             response = manager.status()
