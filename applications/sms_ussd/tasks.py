@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import socket
 import base64
 import time
 from datetime import timedelta
@@ -8,6 +9,8 @@ from messaging.sms import SmsSubmit
 from django.utils import timezone
 from email.utils import formataddr
 from celery.utils.log import get_task_logger
+from django.core.mail import EmailMultiAlternatives
+from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
 import asterisk.manager
 
