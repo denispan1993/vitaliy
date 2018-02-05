@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import socket
 import base64
 import time
 from datetime import timedelta
@@ -9,15 +8,13 @@ from messaging.sms import SmsSubmit
 from django.utils import timezone
 from email.utils import formataddr
 from celery.utils.log import get_task_logger
-from django.core.mail import EmailMultiAlternatives
-from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
 import asterisk.manager
 
-import proj.settings
+from django.conf import settings
 
 from .models import SMS, Template
-from .utils import increase_send_sms
+from .utils import increase_send_sms, send_mail
 
 __author__ = 'AlexStarov'
 
@@ -39,16 +36,16 @@ def decorate(func):
 
     def wrapped(*args, **kwargs):
         start = time.time()
-        print('Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
-        logger.info('Декорируем %s... | Start: %s' % (func.__name__, start,), )
+        print('print: Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
+        logger.info('logger: Декорируем %s... | Start: %s' % (func.__name__, start,), )
 
-        print('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
-        logger.info('Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        print('print: Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
+        logger.info('logger: Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
         result = func(*args, **kwargs)
 
         stop = time.time()
-        print('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
-        logger.info('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        print('print: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        logger.info('logger: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
 
         return result
 
@@ -71,57 +68,61 @@ def send_sms(*args, **kwargs):
 
     manager = asterisk.manager.Manager()
 
+    # connect to the manager
     try:
-        # connect to the manager
-        try:
-            manager.connect(proj.settings.ASTERISK_HOST)
-            manager.login(*proj.settings.ASTERISK_AUTH)
+        manager.connect(settings.ASTERISK_HOST)
+        manager.login(*settings.ASTERISK_AUTH)
 
-            # get a status report
-            response = manager.status()
-            print('response: ', response)
-            # Success
-            number = '+380{code}{phone}'\
-                .format(
-                    code=sms_inst.to_code,
-                    phone=sms_inst.to_phone,
-                )
+        # get a status report
+        response = manager.status()
+        print('print: response: ', response)
+        logger.info('logger: response: %s' % response)
+        # Success
+        number = '+380{code}{phone}'\
+            .format(
+                code=sms_inst.to_code,
+                phone=sms_inst.to_phone,
+            )
 
-            sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
+        sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
 
-            sms_to_pdu.request_status = False
-            sms_to_pdu.validity = timedelta(days=4)
-            sms_list = sms_to_pdu.to_pdu()
+        sms_to_pdu.request_status = True
+        sms_to_pdu.validity = timedelta(days=4)
+        sms_list = sms_to_pdu.to_pdu()
 
-            last_loop = len(sms_list) - 1
-            for i, pdu_sms in enumerate(sms_list):
-                response = manager.command('dongle pdu {device} {pdu}'
-                                           .format(
-                                                device='Vodafone1',
-                                                pdu=pdu_sms.pdu,
-                                            ),
-                                           )
-                print('response.data: ', response.data)
-                # [Vodafone1] SMS queued for send with id 0x7f98c8004420\n--END COMMAND--\r\n
-                increase_send_sms()
-                if i != last_loop:
-                    time.sleep(1.5)
+        # last_loop = len(sms_list) - 1
+        for i, pdu_sms in enumerate(sms_list):
+            response = manager.command('dongle pdu {device} {pdu}'
+                                       .format(
+                                            device='Vodafone1',
+                                            pdu=pdu_sms.pdu,
+                                        ),
+                                       )
+            print('print: response.data: ', response.data)
+            logger.info('logger: response.data: %s' % response.data)
+            # [Vodafone1] SMS queued for send with id 0x7f98c8004420\n--END COMMAND--\r\n
+            sended_sms = increase_send_sms()
+            print('print: sended SMS: ', sended_sms)
+            logger.info('logger: sended SMS: %s' % sended_sms)
+            # if i != last_loop:
+            #     time.sleep(1.5)
 
-            manager.logoff()
+        manager.logoff()
 
-        except asterisk.manager.ManagerSocketException as e:
-            print("Error connecting to the manager: %s" % e, )
-        except asterisk.manager.ManagerAuthException as e:
-            print("Error logging in to the manager: %s" % e, )
-        except asterisk.manager.ManagerException as e:
-            print("Error: %s" % e, )
+    except asterisk.manager.ManagerSocketException as e:
+        print("Error connecting to the manager: %s" % e, )
+    except asterisk.manager.ManagerAuthException as e:
+        print("Error logging in to the manager: %s" % e, )
+    except asterisk.manager.ManagerException as e:
+        print("Error: %s" % e, )
 
     finally:
         # remember to clean up
         try:
             manager.close()
         except Exception as e:
-            print('sms_ussd/task.py: e: ', e)
+            print('print: sms_ussd/task.py: e: ', e)
+            logger.info('logger: sms_ussd/task.py: e: %s' % e)
 
     sms_inst.task_id = None
     sms_inst.is_send = True
@@ -141,13 +142,8 @@ def send_received_sms(*args, **kwargs):
         return False
 
     logger.info(len(smses), )
+    send_sms_successful = True
     for sms in smses:
-
-        #try:
-        #    message = sms.message.encode('cp1252', 'replace')
-        #except UnicodeDecodeError as e:
-        #    print e
-        #    message = sms.message
 
         sms.message = base64.b64decode(sms.message_b64).decode('utf8')
 
@@ -176,56 +172,22 @@ def send_received_sms(*args, **kwargs):
             'subject': subject,
             'body': message,
         }
-        message = EmailMultiAlternatives(**message_kwargs)
 
-        connection_params = {'local_hostname': 'mail-proxy.keksik.com.ua', }
+        if send_mail(**message_kwargs):
 
-        try:
-            connection = SMTP_SSL(
-                host=proj.settings.SEND_SMS_MAIL_ACCOUNT['server_smtp'],
-                port=proj.settings.SEND_SMS_MAIL_ACCOUNT['port_smtp'],
-                **connection_params)
+            sms.sim_id = 255016140761290
+            sms.task_id = None
+            sms.is_send = True
+            sms.send_at = timezone.now()
+            sms.save(skip_super_save=True, )
 
-            if proj.settings.SEND_SMS_MAIL_ACCOUNT['username']\
-                    and proj.settings.SEND_SMS_MAIL_ACCOUNT['password']:
-                connection.login(
-                    proj.settings.SEND_SMS_MAIL_ACCOUNT['username'],
-                    proj.settings.SEND_SMS_MAIL_ACCOUNT['password'],
-                )
-                connection.ehlo()
+        else:
+            send_sms_successful = False
 
-        except (SMTPException, SMTPServerDisconnected) as e:
-            logger.error('Exception(SMTPException, SMTPServerDisconnected): %s' % e)
-            return False
-
-        except socket.error as e:
-            logger.info('Exception(socket.error): %s' % e)
-            return False
-
-        try:
-            # (Python3) msg --> convert to bytes
-            connection.sendmail(from_addr=formataddr(('Asterisk Keksik', 'site@keksik.com.ua', ), ),
-                                to_addrs=[formataddr(('Менеджер магазина Keksik', 'site@keksik.com.ua', ), ), ],
-                                msg=message.message().as_string().encode(), )
-            connection.quit()
-
-        except SMTPSenderRefused as e:
-            logger.info('SMTPSenderRefused: %s' % e)
-
-        except SMTPDataError as e:
-            logger.info('SMTPDataError: %s| messages: %s| smtp_code: %s| smtp_error: %s| args: %s' %
-                        (e, e.message, e.smtp_code, e.smtp_error, e.args), )
-
-        except Exception as e:
-            logger.info('Exception1: %s' % e)
-
-        sms.sim_id = 255016140761290
-        sms.task_id = None
-        sms.is_send = True
-        sms.send_at = timezone.now()
-        sms.save(skip_super_save=True, )
-
-    return True, timezone.now(), '__name__: {0}'.format(str(__name__))
+    if send_sms_successful:
+        return True, timezone.now(), '__name__: {0}'.format(str(__name__))
+    else:
+        return False, timezone.now(), '__name__: {0}'.format(str(__name__))
 
 
 @celery_app.task(name='sms_ussd.task.send_template_sms')
@@ -276,50 +238,49 @@ def send_template_sms(*args, **kwargs):
 
     manager = asterisk.manager.Manager()
 
+    # connect to the manager
     try:
-        # connect to the manager
-        try:
-            manager.connect(proj.settings.ASTERISK_HOST)
-            manager.login(*proj.settings.ASTERISK_AUTH)
+        manager.connect(settings.ASTERISK_HOST)
+        manager.login(*settings.ASTERISK_AUTH)
 
-            # get a status report
-            response = manager.status()
-            print('response: ', response)
+        # get a status report
+        response = manager.status()
+        print('response: ', response)
 
-            number = '+380{code}{phone}'\
-                .format(
-                    code=sms_inst.to_code,
-                    phone=sms_inst.to_phone,
-                )
+        number = '+380{code}{phone}'\
+            .format(
+                code=sms_inst.to_code,
+                phone=sms_inst.to_phone,
+            )
 
-            sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
+        sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
 
-            sms_to_pdu.request_status = False
-            sms_to_pdu.validity = timedelta(days=4)
-            sms_list = sms_to_pdu.to_pdu()
+        sms_to_pdu.request_status = True
+        sms_to_pdu.validity = timedelta(days=4)
+        sms_list = sms_to_pdu.to_pdu()
 
-            last_loop = len(sms_list) - 1
-            for i, pdu_sms in enumerate(sms_list):
-                response = manager.command('dongle pdu {device} {pdu}'
-                                           .format(
-                                                device='Vodafone1',
-                                                pdu=pdu_sms.pdu,
-                                            ),
-                                           )
-                print('response.data: ', response.data)
+        last_loop = len(sms_list) - 1
+        for i, pdu_sms in enumerate(sms_list):
+            response = manager.command('dongle pdu {device} {pdu}'
+                                       .format(
+                                            device='Vodafone1',
+                                            pdu=pdu_sms.pdu,
+                                        ),
+                                       )
+            print('response.data: ', response.data)
 
-                increase_send_sms()
-                if i != last_loop:
-                    time.sleep(1.5)
+            increase_send_sms()
+            if i != last_loop:
+                time.sleep(1.5)
 
-            manager.logoff()
+        manager.logoff()
 
-        except asterisk.manager.ManagerSocketException as e:
-            print("Error connecting to the manager: %s" % e, )
-        except asterisk.manager.ManagerAuthException as e:
-            print("Error logging in to the manager: %s" % e, )
-        except asterisk.manager.ManagerException as e:
-            print("Error: %s" % e, )
+    except asterisk.manager.ManagerSocketException as e:
+        print("Error connecting to the manager: %s" % e, )
+    except asterisk.manager.ManagerAuthException as e:
+        print("Error logging in to the manager: %s" % e, )
+    except asterisk.manager.ManagerException as e:
+        print("Error: %s" % e, )
 
     finally:
         # remember to clean up
