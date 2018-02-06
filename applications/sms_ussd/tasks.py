@@ -92,6 +92,7 @@ def send_sms(*args, **kwargs):
 
         # last_loop = len(sms_list) - 1
         for i, pdu_sms in enumerate(sms_list):
+            time.sleep(0.5)
             response = manager.command('dongle pdu {device} {pdu}'
                                        .format(
                                             device='Vodafone1',
@@ -106,7 +107,7 @@ def send_sms(*args, **kwargs):
             logger.info('logger: sended SMS: %s' % sended_sms)
             # if i != last_loop:
             #     time.sleep(1.5)
-            time.sleep(2)
+            time.sleep(0.5)
 
         manager.logoff()
 
@@ -260,8 +261,9 @@ def send_template_sms(*args, **kwargs):
         sms_to_pdu.validity = timedelta(days=2)
         sms_list = sms_to_pdu.to_pdu()
 
-        last_loop = len(sms_list) - 1
+        # last_loop = len(sms_list) - 1
         for i, pdu_sms in enumerate(sms_list):
+            time.sleep(0.5)
             response = manager.command('dongle pdu {device} {pdu}'
                                        .format(
                                             device='Vodafone1',
@@ -276,7 +278,7 @@ def send_template_sms(*args, **kwargs):
             logger.info('logger: sended SMS: %s' % sended_sms)
             # if i != last_loop:
             #     time.sleep(1.5)
-            time.sleep(2)
+            time.sleep(0.5)
 
         manager.logoff()
 
