@@ -38,7 +38,8 @@ def increase_send_sms() -> int:
             value=value,
             timeout=259200, )  # 60 sec * 60 min * 24 hour * 3
 
-    print('key: ', key, ' value: ', value, )
+    print('print: key: ', key, ' value: ', value, )
+    logger.info('logger:  key: ', key, ' value: ', value, )
 
     return value
 

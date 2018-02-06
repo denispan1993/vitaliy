@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import socket
 import base64
 import time
 from datetime import timedelta
@@ -9,8 +8,6 @@ from messaging.sms import SmsSubmit
 from django.utils import timezone
 from email.utils import formataddr
 from celery.utils.log import get_task_logger
-from django.core.mail import EmailMultiAlternatives
-from smtplib import SMTP_SSL, SMTPException, SMTPServerDisconnected, SMTPSenderRefused, SMTPDataError
 
 import asterisk.manager
 
@@ -33,28 +30,28 @@ path = lambda base: os.path.abspath(
 
 
 def decorate(func):
-    # start = time.time()
-    # print('Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
-    # logger.info('Декорируем %s... | Start: %s' % (func.__name__, start, ), )
+    start = time.time()
+    print('print: Декорируем ext1 %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
+    logger.info('logger: Декорируем ext1 %s... | Start: %s' % (func.__name__, start, ), )
 
     def wrapped(*args, **kwargs):
-        start = time.time()
-        print('print: Декорируем %s(*args, **kwargs): | Start: %s' % (func.__name__, start,), )
-        logger.info('logger: Декорируем %s... | Start: %s' % (func.__name__, start,), )
+        start_int = time.time()
+        print('print: Декорируем int2 %s(*args, **kwargs): | Start: %s' % (func.__name__, start_int,), )
+        logger.info('logger: Декорируем int2 %s... | Start: %s' % (func.__name__, start_int,), )
 
         print('print: Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
         logger.info('logger: Вызываем обёрнутую функцию с аргументами: *args и **kwargs ', )
         result = func(*args, **kwargs)
 
-        stop = time.time()
-        print('print: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
-        logger.info('logger: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start,), )
+        stop_int = time.time()
+        print('print: выполнено! | Stop: %s | Running time: %s' % (stop_int, stop_int - start_int,), )
+        logger.info('logger: выполнено! | Stop: %s | Running time: %s' % (stop_int, stop_int - start_int,), )
 
         return result
 
-    # stop = time.time()
-    # print('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
-    # logger.info('выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    stop = time.time()
+    print('print: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    logger.info('logger: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
 
     return wrapped
 
@@ -90,7 +87,7 @@ def send_sms(*args, **kwargs):
         sms_to_pdu = SmsSubmit(number=number, text=sms_inst.message, )
 
         sms_to_pdu.request_status = True
-        sms_to_pdu.validity = timedelta(days=4)
+        sms_to_pdu.validity = timedelta(days=2)
         sms_list = sms_to_pdu.to_pdu()
 
         # last_loop = len(sms_list) - 1
@@ -109,6 +106,7 @@ def send_sms(*args, **kwargs):
             logger.info('logger: sended SMS: %s' % sended_sms)
             # if i != last_loop:
             #     time.sleep(1.5)
+            time.sleep(2)
 
         manager.logoff()
 
@@ -270,11 +268,15 @@ def send_template_sms(*args, **kwargs):
                                             pdu=pdu_sms.pdu,
                                         ),
                                        )
-            print('response.data: ', response.data)
-
-            increase_send_sms()
-            if i != last_loop:
-                time.sleep(1.5)
+            print('print: response.data: ', response.data)
+            logger.info('logger: response.data: %s' % response.data)
+            # [Vodafone1] SMS queued for send with id 0x7f98c8004420\n--END COMMAND--\r\n
+            sended_sms = increase_send_sms()
+            print('print: sended SMS: ', sended_sms)
+            logger.info('logger: sended SMS: %s' % sended_sms)
+            # if i != last_loop:
+            #     time.sleep(1.5)
+            time.sleep(2)
 
         manager.logoff()
 
