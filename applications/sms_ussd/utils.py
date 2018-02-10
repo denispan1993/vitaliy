@@ -17,7 +17,7 @@ __author__ = 'AlexStarov'
 logger = get_task_logger(__name__)
 
 
-def increase_send_sms() -> int:
+def increase_send_sms():
 
     # key = 'date_send_sms_{0}'.format(timezone.now().strftime('%Y_%m_%d'), ),
     key = 'date_send_sms_{0}'.format(date.today().strftime('%Y_%m_%d'), ),
@@ -44,7 +44,7 @@ def increase_send_sms() -> int:
     return value
 
 
-def send_mail(from_email: str, to: dict, subject: str, body: str, ):
+def send_mail(from_email, to, subject, body, ):
 
     message = EmailMultiAlternatives(from_email=from_email, to=to, subject=subject, body=body, )
 

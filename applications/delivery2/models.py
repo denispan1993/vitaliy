@@ -17,14 +17,14 @@ from django.utils.baseconv import base62
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-import proj.settings
+from django.conf import settings
 
 __author__ = 'AlexStarov'
 
 EMAIL_UNSUBSCRIBE_LINK = 'http://{host}/email/unsubscribe?code={code}'
 
 TAG_REPLACE = {
-    '#UNSUBSCRIBE_URL#': EMAIL_UNSUBSCRIBE_LINK.format(host=proj.settings.SENDER_DOMAIN, code='{{ email_hash }}'),
+    '#UNSUBSCRIBE_URL#': EMAIL_UNSUBSCRIBE_LINK.format(host=settings.SENDER_DOMAIN, code='{{ email_hash }}'),
     # '#SHOW_ONLINE_URL#':,
     # '#OPEN_URL#':,
     # '#GOOGLE_URL#':,
@@ -286,9 +286,9 @@ class EmailTemplate(models.Model, ):
 
             for href in urls:
                 if href[0] is '/':
-                    href = 'https://{redirect_host}{href}'.format(**{
-                        'redirect_host': proj.settings.REDIRECT_HOST,
-                        'href': href, }, )
+                    href = 'https://{redirect_host}{href}'.format(
+                        redirect_host=settings.REDIRECT_HOST,
+                        href=href, )
                 if not self.urls.filter(href=href, ).exists():
                     self.urls.create(href=href, )
 
@@ -314,7 +314,7 @@ class EmailTemplate(models.Model, ):
             if image.image.name:
                 try:
                     html = html.replace(image.url,
-                                        'http://{host}{url}'.format(host=proj.settings.IMAGE_STORE_HOST,
+                                        'http://{host}{url}'.format(host=settings.IMAGE_STORE_HOST,
                                                                     url=image.image.url, ), )
                 except Exception as e:
                     pass

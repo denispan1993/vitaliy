@@ -2,7 +2,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-import sockschain as socks
+# import sockschain as socks
 
 __author__ = 'AlexStarov'
 
@@ -79,61 +79,61 @@ class ProxyServer(models.Model, ):
                                       blank=True,
                                       null=True, )
 
-    def dec_pos(self, proxy_type=socks.PROXY_TYPE_HTTP, int_dec=1):
+    # def dec_pos(self, proxy_type=socks.PROXY_TYPE_HTTP, int_dec=1):
 
-        if proxy_type == socks.PROXY_TYPE_HTTP:
-            print('proxy_type == socks.PROXY_TYPE_HTTP')
-            try:
-                self.http_pos -= int_dec
-            except TypeError:
-                self.http_pos = -int_dec
-        elif proxy_type == socks.PROXY_TYPE_HTTPS:
-            print('proxy_type == socks.PROXY_TYPE_HTTPS')
-            try:
-                self.https_pos -= int_dec
-            except TypeError:
-                self.https_pos = -int_dec
-        elif proxy_type == socks.PROXY_TYPE_SOCKS4:
-            try:
-                self.socks4_pos -= int_dec
-            except TypeError:
-                self.socks4_pos = -int_dec
-            print('proxy_type == socks.PROXY_TYPE_SOCKS4: ', 'self.socks4_pos: ', self.socks4_pos)
-        elif proxy_type == socks.PROXY_TYPE_SOCKS5:
-            try:
-                self.socks5_pos -= int_dec
-            except TypeError:
-                self.socks5_pos = -int_dec
-            print('proxy_type == socks.PROXY_TYPE_SOCKS5: ', 'self.socks5_pos: ', self.socks5_pos)
-        self.save()
+    #     if proxy_type == socks.PROXY_TYPE_HTTP:
+    #         print('proxy_type == socks.PROXY_TYPE_HTTP')
+    #         try:
+    #             self.http_pos -= int_dec
+    #         except TypeError:
+    #             self.http_pos = -int_dec
+    #     elif proxy_type == socks.PROXY_TYPE_HTTPS:
+    #         print('proxy_type == socks.PROXY_TYPE_HTTPS')
+    #         try:
+    #             self.https_pos -= int_dec
+    #         except TypeError:
+    #             self.https_pos = -int_dec
+    #     elif proxy_type == socks.PROXY_TYPE_SOCKS4:
+    #         try:
+    #             self.socks4_pos -= int_dec
+    #         except TypeError:
+    #             self.socks4_pos = -int_dec
+    #         print('proxy_type == socks.PROXY_TYPE_SOCKS4: ', 'self.socks4_pos: ', self.socks4_pos)
+    #     elif proxy_type == socks.PROXY_TYPE_SOCKS5:
+    #         try:
+    #             self.socks5_pos -= int_dec
+    #         except TypeError:
+    #             self.socks5_pos = -int_dec
+    #         print('proxy_type == socks.PROXY_TYPE_SOCKS5: ', 'self.socks5_pos: ', self.socks5_pos)
+    #     self.save()
 
-    def inc_pos(self, proxy_type=socks.PROXY_TYPE_HTTP, int_inc=1, ):
+    # def inc_pos(self, proxy_type=socks.PROXY_TYPE_HTTP, int_inc=1, ):
 
-        if proxy_type == socks.PROXY_TYPE_HTTP:
-            print('proxy_type == socks.PROXY_TYPE_HTTP')
-            try:
-                self.http_pos += int_inc
-            except TypeError:
-                self.http_pos = int_inc
-        elif proxy_type == socks.PROXY_TYPE_HTTPS:
-            print('proxy_type == socks.PROXY_TYPE_HTTPS')
-            try:
-                self.https_pos += int_inc
-            except TypeError:
-                self.https_pos = int_inc
-        elif proxy_type == socks.PROXY_TYPE_SOCKS4:
-            try:
-                self.socks4_pos += int_inc
-            except TypeError:
-                self.socks4_pos = int_inc
-            print('proxy_type == socks.PROXY_TYPE_SOCKS4: ', 'self.socks4_pos: ', self.socks4_pos)
-        elif proxy_type == socks.PROXY_TYPE_SOCKS5:
-            try:
-                self.socks5_pos += int_inc
-            except TypeError:
-                self.socks5_pos = int_inc
-            print('proxy_type == socks.PROXY_TYPE_SOCKS5: ', 'self.socks5_pos: ', self.socks5_pos)
-        self.save()
+    #     if proxy_type == socks.PROXY_TYPE_HTTP:
+    #         print('proxy_type == socks.PROXY_TYPE_HTTP')
+    #         try:
+    #             self.http_pos += int_inc
+    #         except TypeError:
+    #             self.http_pos = int_inc
+    #     elif proxy_type == socks.PROXY_TYPE_HTTPS:
+    #         print('proxy_type == socks.PROXY_TYPE_HTTPS')
+    #         try:
+    #             self.https_pos += int_inc
+    #         except TypeError:
+    #             self.https_pos = int_inc
+    #     elif proxy_type == socks.PROXY_TYPE_SOCKS4:
+    #         try:
+    #             self.socks4_pos += int_inc
+    #         except TypeError:
+    #             self.socks4_pos = int_inc
+    #         print('proxy_type == socks.PROXY_TYPE_SOCKS4: ', 'self.socks4_pos: ', self.socks4_pos)
+    #     elif proxy_type == socks.PROXY_TYPE_SOCKS5:
+    #         try:
+    #             self.socks5_pos += int_inc
+    #         except TypeError:
+    #             self.socks5_pos = int_inc
+    #         print('proxy_type == socks.PROXY_TYPE_SOCKS5: ', 'self.socks5_pos: ', self.socks5_pos)
+    #     self.save()
 
     def __str__(self):
         return u'№ %6d --> [%s:%s] http: %s | https: %s | socks4: %s | socks5: %s'\
