@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals, print_function
 from django_jinja.library import global_function
 from django.template.loader import render_to_string
 from django.core.cache import cache
 from logging import getLogger
 import hashlib
 
-from proj.settings import SERVER
+from django.conf import settings
 
 __author__ = 'AlexStarov'
 
@@ -47,7 +48,7 @@ def many_blocks(blocks, request, category_or_product, top_border, limit_on_strin
         'prod' if category_or_product == 'product' else 'cat',
         m.hexdigest(), )
 
-    if SERVER:
+    if settings.SERVER:
         block = cache.get(key=md5_key, )
     else:
         block = False
@@ -90,7 +91,7 @@ def one_block(block, request, choice, cycle, last_loop, category_or_product, ):
 #        margin_left,
     )
 
-    if SERVER:
+    if settings.SERVER:
         this_one_block = cache.get(key=key, )
     else:
         this_one_block = False
