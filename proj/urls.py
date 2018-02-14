@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 
@@ -18,7 +19,7 @@ from applications.ajax.views import resolution, cookie, sel_country, product_to_
 from applications.static.views import show_static_page
 from applications.utils.sitemaps import CategoryViewSitemap, ProductViewSitemap, StaticViewSitemap
 
-import proj.settings
+from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -84,7 +85,6 @@ urlpatterns += [
     Раздел:
         Корзины.
 """
-
 urlpatterns += [url(regex=r'^корзина/',
                     view=include(arg='applications.cart.urls',
                                  namespace='cart', ),
@@ -109,8 +109,8 @@ urlpatterns += [url(regex=r'^оплата/',
                                  namespace='payment', ),
                     ), ]
 
-#Капча
-#urlpatterns += patterns(url(r'^captcha/', include('applications.utils.captcha.urls', ), ), )
+# Капча
+# urlpatterns += patterns(url(r'^captcha/', include('applications.utils.captcha.urls', ), ), )
 
 ''' Admin panel '''
 """ Админ панель Заказов. """
@@ -193,34 +193,34 @@ urlpatterns += [url(regex=r'^bitrix/',
                     view=include(arg='applications.bitrix.urls',
                                  namespace='bitrix', ), ), ]
 
-#!!!===================== Static media ======================
+# !!!===================== Static media ======================
 PROJECT_PATH = abspath(dirname(__name__, ), )
 path = lambda base: abspath(
     join(
         PROJECT_PATH, base,
     ).replace('\\', '/')
 )
-if not isfile(path('server.key', ), ):
-    if platform == 'win32':
-        urlpatterns += [url(regex=r'^media/(?P<path>.*)$', view=serve,
-                            kwargs={'document_root': path('media', ),
-                                    'show_indexes': True, }, ), ]
-    elif platform == 'linux':
-        urlpatterns += [url(regex=r'^media/(?P<path>.*)$', view=serve,
-                            kwargs={'document_root': path('media', ),
-                                    'show_indexes': True, }, ), ]  # \
-                       # + static(proj.settings.MEDIA_URL, document_root=proj.settings.MEDIA_ROOT)
+# if not isfile(path('server.key', ), ):
+#     if platform == 'win32':
+#         urlpatterns += [url(regex=r'^media/(?P<path>.*)$', view=serve,
+#                             kwargs={'document_root': path('media', ),
+#                                     'show_indexes': True, }, ), ]
+#     elif platform == 'linux':
+urlpatterns += [url(regex=r'^media/(?P<path>.*)$', view=serve,
+                    kwargs={'document_root': path('media', ),
+                            'show_indexes': True, }, ), ]  # \
+# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    # if sys.platform.startswith('freebsd'):
+# if sys.platform.startswith('freebsd'):
 
-if proj.settings.DEBUG:
+if settings.DEBUG:
     from debug_toolbar import urls
     urlpatterns += [url(regex=r'^__debug__/', view=include(urls), ), ]
 #    import debug_toolbar_htmltidy
 #    urlpatterns += patterns('',
 #                            url(r'^', include('debug_toolbar_htmltidy.urls')),
 #                            )
-#!!!===================== Django Social Auth ======================
+# !!!===================== Django Social Auth ======================
 urlpatterns += [url(regex='social/index/$', view=root_page,
                     kwargs={'template_name': u'social_index.jinja2', },
                     name='social_index_page', ),

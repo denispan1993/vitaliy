@@ -171,7 +171,9 @@ def process_offers_xml(offers_list):
             html_content='discrepancy_price: {0}<br />\n{1}'.format(discrepancy_price, discrepancy_price_html), )
 
 
-def get_price(prices: list) -> dict:
+def get_price(prices,  # type: list
+              ):
+    # type: (...) -> dict
     """
         return the price dictionary in the found currency positions
     :param prices: list -> XML List

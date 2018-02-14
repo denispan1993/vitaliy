@@ -2,7 +2,8 @@
 
 cd ..
 
-./../../PyEnv/versions/3.6.1/envs/keksik/bin/celery worker \
+# ./../../PyEnv/versions/3.6.1/envs/keksik/bin/celery worker \
+./../../PyEnv/versions/shop/bin/pypy ./../../PyEnv/versions/shop/bin/celery worker \
 --app=proj \
 --concurrency=4 \
 --autoreload \

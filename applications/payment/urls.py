@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import unicode_literals
 from django.conf.urls import url, include
 from .views import root
 
@@ -10,7 +10,7 @@ urlpatterns = [url(regex=r'^(?P<id>\d{6})/$',
                    view=root,
                    kwargs={'template_name': u'payment.jinja2', },
                    name='ordering_step_one_ru', ),
-                   # url(regex=ur'^paypal/$',
+                   # url(regex=r'^paypal/$',
                    #    view='ordering_step_one',
                    #    # kwargs=None,
                    #    kwargs={'template_name': u'order/step_one.jinja2', },

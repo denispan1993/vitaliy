@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import os
 import base64
 import time
@@ -30,9 +31,9 @@ path = lambda base: os.path.abspath(
 
 
 def decorate(func):
-    start = time.time()
-    print('print: Декорируем ext1 %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
-    logger.info('logger: Декорируем ext1 %s... | Start: %s' % (func.__name__, start, ), )
+    # start = time.time()
+    # print('print: Декорируем ext1 %s(*args, **kwargs): | Start: %s' % (func.__name__, start, ), )
+    # logger.info('logger: Декорируем ext1 %s... | Start: %s' % (func.__name__, start, ), )
 
     def wrapped(*args, **kwargs):
         start_int = time.time()
@@ -49,9 +50,9 @@ def decorate(func):
 
         return result
 
-    stop = time.time()
-    print('print: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
-    logger.info('logger: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    # stop = time.time()
+    # print('print: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
+    # logger.info('logger: выполнено! | Stop: %s | Running time: %s' % (stop, stop - start, ), )
 
     return wrapped
 

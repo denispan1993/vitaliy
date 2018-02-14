@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import os
 
 from django_jinja.builtins import DEFAULT_EXTENSIONS

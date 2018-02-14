@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+# Python 2 and 3:
+from __future__ import unicode_literals, print_function
+from future.utils import python_2_unicode_compatible
+
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
@@ -37,6 +42,8 @@ def set_path_image(instance, filename, ):
     return os.path.join('image', filename[:2], filename[2:4], filename)
 
 
+# Python 2 and 3:
+@python_2_unicode_compatible
 class Category(MPTTModel):
 
     id_1c = models.CharField(verbose_name=_(u'1C Ид', ),
@@ -270,6 +277,8 @@ class Category(MPTTModel):
         verbose_name_plural = u'Категории'
 
 
+# Python 2 and 3:
+@python_2_unicode_compatible
 class Product(models.Model):
     id_1c = models.CharField(
         verbose_name=_(u'1C Ид', ),
@@ -660,12 +669,12 @@ class Product(models.Model):
         elif not request and currency_ISO_number:
 
             key = 'currency_{0}'.format(currency_ISO_number, )
-            print('(get_price) key: ', key, )
+            # print('(get_price) key: ', key, )
             currency = cache.get(key=key, )
             if not currency:
                 try:
                     currency = Currency.objects.get(currency_code_ISO_number=currency_ISO_number, )
-                    print('(get_price) not key for code_ISO_number: ', currency.currency_code_ISO_number, )
+                    # print('(get_price) not key for code_ISO_number: ', currency.currency_code_ISO_number, )
                     cache.set(
                         key=key,
                         value=currency,
@@ -685,23 +694,21 @@ class Product(models.Model):
             if not current_currency_object:
                 try:
                     current_currency_object = Currency.objects.get(pk=currency_pk, )
-                    print('(get_price) not key for code_currency_pk: ', current_currency_object.pk, )
+                    # print('(get_price) not key for code_currency_pk: ', current_currency_object.pk, )
                     cache.set(
                         key='currency_pk_{0}'.format(currency_pk, ),
                         value=current_currency_object,
                         timeout=3600, )  # 60 sec * 60 min
                 except Currency.DoesNotExist:
                     pass
-        print('0', price)
+
         if not price:
             if self.in_action:
                 price = self.action_price
-                print('1', price)
+
             else:
                 price = self.price
-                print('2.0', self.price)
-                print('2', price)
-        print('3', price)
+
         if 'current_currency_object' in locals():
             current_currency_pk = current_currency_object.pk
             current_currency = current_currency_object.currency
@@ -744,7 +751,7 @@ class Product(models.Model):
                 intermediate_price = price/product_currency*product_exchange_rate
                 ''' Приводим к текущей валюте сайта '''
                 price = intermediate_price*current_currency/current_exchange_rate
-        print(price)
+
         if calc_or_show == 'calc':         # Если нас просят не просто показать, а посчитать цену товара?
             if self.is_availability == 2:  # Если товар доступен под заказ?
                 price = price/2            # Берём 50% от стоимости
@@ -822,6 +829,7 @@ class Product(models.Model):
         verbose_name_plural = u'Продукты'
 
 
+@python_2_unicode_compatible
 class ProductToCategory(models.Model):
     product = models.ForeignKey(Product, )
     category = models.ForeignKey(Category, )
@@ -836,6 +844,7 @@ class ProductToCategory(models.Model):
         db_table = 'ProductToCategory'
 
 
+@python_2_unicode_compatible
 class ItemID(models.Model):
     """ Ссылка на главную запись """
     content_type = models.ForeignKey(ContentType, related_name='related_ItemID', )
@@ -892,6 +901,7 @@ class ItemID(models.Model):
         verbose_name_plural = "Артикулы продуктов"
 
 
+@python_2_unicode_compatible
 class IntermediateModelManufacturer(models.Model):
     """ Промежуточная модель 'производитель' """
     """ Ссылка на главную запись """
@@ -930,6 +940,7 @@ class IntermediateModelManufacturer(models.Model):
         verbose_name_plural = u"Ссылки на производителей"
 
 
+@python_2_unicode_compatible
 class Manufacturer(models.Model):
     """ Модель 'производитель' """
     country = models.ForeignKey('Country',
@@ -984,6 +995,7 @@ class Manufacturer(models.Model):
 #        verbose_name_plural = "Производители"
 
 
+@python_2_unicode_compatible
 class Additional_Information(models.Model):
     product = models.ForeignKey(Product,
                                 verbose_name=_(u'Продукт'),
@@ -1013,6 +1025,7 @@ class Additional_Information(models.Model):
         verbose_name_plural = u'Дополнительная информация'
 
 
+@python_2_unicode_compatible
 class Information(models.Model):
     additional_information = models.ForeignKey(Additional_Information,
                                                verbose_name=u'Дополнительное описание',
@@ -1037,6 +1050,7 @@ class Information(models.Model):
         verbose_name_plural = u'Информационные поля'
 
 
+@python_2_unicode_compatible
 class UnitofMeasurement(models.Model):
     name = models.CharField(verbose_name=u'Единица измерения',
                             max_length=64,
@@ -1057,6 +1071,7 @@ class UnitofMeasurement(models.Model):
         verbose_name_plural = u'Единицы измерения'
 
 
+@python_2_unicode_compatible
 class Discount(models.Model):
     product = models.ForeignKey(Product, verbose_name=u'Продукт',
                                 related_name=u'discount',
@@ -1097,6 +1112,7 @@ def set_path_photo(self, filename):
         filename)
 
 
+@python_2_unicode_compatible
 class Photo(models.Model):
     content_type = models.ForeignKey(ContentType, related_name='related_Photo', )
     object_id = models.PositiveIntegerField(db_index=True, )
@@ -1164,6 +1180,7 @@ class Photo(models.Model):
         verbose_name_plural = "Фотографии"
 
 
+@python_2_unicode_compatible
 class Country(models.Model):
     name_ru = models.CharField(verbose_name=u'Название страны Russian',
                                max_length=64,
@@ -1195,6 +1212,7 @@ class Country(models.Model):
         verbose_name_plural = u'Страны'
 
 
+@python_2_unicode_compatible
 class Region(models.Model):
     country = models.ForeignKey(to=Country,
                                 verbose_name=_(u'Страна', ),
@@ -1228,6 +1246,7 @@ class Region(models.Model):
         verbose_name_plural = u'Области'
 
 
+@python_2_unicode_compatible
 class City(models.Model):
     region = models.ForeignKey(to=Region,
                                verbose_name=_(u'Область', ),
@@ -1265,6 +1284,7 @@ class City(models.Model):
         verbose_name_plural = u'Города'
 
 
+@python_2_unicode_compatible
 class Currency(models.Model):
     """
         Валюта
@@ -1316,6 +1336,7 @@ class Currency(models.Model):
         verbose_name_plural = u'Валюты'
 
 
+@python_2_unicode_compatible
 class View(models.Model):
     """
         Сколько раз просмотрели товар или категорию.
@@ -1344,6 +1365,7 @@ class View(models.Model):
         verbose_name_plural = u'Количество просмотров'
 
 
+@python_2_unicode_compatible
 class Viewed(models.Model):
     """ Какие товары посмотрел пользователь. """
     """ Ссылка на главную запись """
@@ -1390,9 +1412,9 @@ class Viewed(models.Model):
         verbose_name = u'Просмотренный'
         verbose_name_plural = u'Просмотренные'
 
+
 # Extended Price
-
-
+@python_2_unicode_compatible
 class InformationForPrice(models.Model):
     product = models.ForeignKey(
         to=Product,
@@ -1419,6 +1441,7 @@ class InformationForPrice(models.Model):
         verbose_name_plural = u'Информационные поля для прайса'
 
 
+@python_2_unicode_compatible
 class ExtendedPrice(models.Model):
     product = models.ForeignKey(
         to=Product,
@@ -1456,6 +1479,7 @@ class ExtendedPrice(models.Model):
         verbose_name_plural = u'Расширение цен'
 
 
+@python_2_unicode_compatible
 class AdditionalInformationForPrice(models.Model):
     product = models.ForeignKey(Product,
                                 verbose_name=_(u'Продукт'),

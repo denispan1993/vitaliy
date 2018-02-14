@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf.urls import url
 from applications.utils.decorators import manager_required
 
@@ -12,13 +13,13 @@ from .delivery.views import index, add_edit, start_delivery, exclude_email_from_
 __author__ = 'AlexStarov'
 
 
-# Admin panel
+""" Admin panel """
 urlpatterns = [url(regex=r'^$',
                    view=admin_panel,
                    kwargs={'template_name': u'admin_panel.html', },
                    name='index', ), ]
 
-# """ Админ панель Комментариев. """
+""" Админ панель Комментариев. """
 urlpatterns += [url(regex=r'^комментарий/поиск/$',
                     view=comment_search,
                     kwargs={'template_name': u'comment/comment_search.jinja2', },
@@ -28,7 +29,7 @@ urlpatterns += [url(regex=r'^комментарий/поиск/$',
                     kwargs={'template_name': u'comment/comment_edit.jinja2', },
                     name='comment_edit', ), ]
 
-# """ Админ панель Заказов. """
+""" Админ панель Заказов. """
 urlpatterns += [url(regex=r'^заказ/поиск/$',
                     view=order_search,
                     kwargs={'template_name': u'order/order_search.jinja2', },
@@ -42,7 +43,7 @@ urlpatterns += [url(regex=r'^заказ/поиск/$',
                     kwargs={'template_name': u'order/order_edit_product_add.jinja2', },
                     name='order_edit_product_add', ), ]
 
-# """ Админ панель Купонов. """
+""" Админ панель Купонов. """
 urlpatterns += [url(regex=r'^купон/группа/поиск/$',
                     view=coupon_group_search,
                     kwargs={'template_name': u'coupon/group_index.jinja2', },
@@ -60,7 +61,7 @@ urlpatterns += [url(regex=r'^купон/группа/поиск/$',
                     view=manager_required(CouponCreateEdit.as_view(), ),
                     name='coupon_edit', ), ]
 
-# """ Админ панель Рассылок. """
+""" Админ панель Рассылок. """
 urlpatterns += [url(regex=r'^рассылка/панель/список/$',
                     view=index,
                     kwargs={'template_name': u'delivery/index.jinja2', },
@@ -87,7 +88,7 @@ urlpatterns += [url(regex=r'^рассылка/панель/список/$',
                     kwargs={'template_name': None, },
                     name='exclude_email_from_delivery', ), ]
 
-# """ Админ панель SMS USSD. """
+""" Админ панель SMS USSD. """
 urlpatterns += [url(regex=r'^sms_ussd/$',
                     view=SMS_USSDPanelView.as_view(),
                     name='sms_ussd_panel', ), ]

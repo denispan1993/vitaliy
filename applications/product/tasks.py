@@ -7,7 +7,12 @@ from datetime import datetime
 from proj.celery import celery_app
 from logging import getLogger
 from celery.utils.log import get_task_logger
-from urllib.parse import urlencode
+
+# Python 2 and 3:
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 from .models import Product
 

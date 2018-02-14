@@ -8,6 +8,7 @@ except ImportError:
     from json import dumps
     # import json
 
+from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
 
 
@@ -68,8 +69,6 @@ def feedback_data_send(request, ):
                     from django.core.mail import get_connection
                     backend = get_connection(backend='django.core.mail.backends.smtp.EmailBackend',
                                              fail_silently=False, )
-                    from django.core.mail import EmailMultiAlternatives
-                    from proj.settings import Email_MANAGER
                     msg = EmailMultiAlternatives(subject=subject,
                                                  body=text_content,
                                                  from_email=from_email,

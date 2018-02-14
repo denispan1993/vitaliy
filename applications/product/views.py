@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 # /apps/product/views.py
+
+# Python 2 and 3:
+from __future__ import unicode_literals, print_function
+from six import string_types
+
+# Debug
 import inspect
+
 from datetime import datetime
 from django.utils import timezone
 
@@ -217,7 +224,8 @@ def get_category(pk, ):
         print('Error: if pk: raise Http404')
         raise Http404
 
-    if isinstance(pk, str):
+    # Python 2 and 3:
+    if isinstance(pk, string_types):
         try:
             pk = int(pk, )
         except (TypeError, ValueError, ):
@@ -246,7 +254,8 @@ def get_product(pk, ):
         print('Error: if pk: raise Http404')
         raise Http404
 
-    if isinstance(pk, str):
+    # Python 2 and 3:
+    if isinstance(pk, string_types):
         try:
             pk = int(pk, )
         except (TypeError, ValueError,):

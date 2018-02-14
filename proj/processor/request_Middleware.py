@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-import time
+from __future__ import unicode_literals
 from django.core.urlresolvers import resolve, Resolver404
 from django.shortcuts import redirect, HttpResponsePermanentRedirect
 from logging import getLogger

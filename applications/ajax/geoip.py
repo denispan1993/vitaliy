@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals, print_function
 
 try:
     from django.utils.simplejson import dumps
@@ -19,8 +20,8 @@ def resolve_client_geolocation(request, ):
         if request.method == 'POST':
             response = {'result': 'Ok', }
             # request.session[u'ajax_timezone'] = True
-            #ajax_timezone_offset = request.session.get(u'ajax_timezone_offset', False, )
-            #request.session[u'ajax_timezone_offset'] = ajax_timezone_offset
+            # ajax_timezone_offset = request.session.get(u'ajax_timezone_offset', False, )
+            # request.session[u'ajax_timezone_offset'] = ajax_timezone_offset
             x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 
             ip = x_forwarded_for.split(',')[-1].strip() if x_forwarded_for else request.META.get('REMOTE_ADDR')
@@ -29,8 +30,8 @@ def resolve_client_geolocation(request, ):
                 # r = get(url='http://ipgeobase.ru:7020/geo', params=param, )
                 r = get(url='http://194.85.91.253:7020/geo', params={'ip': ip, }, )
                 e = cElementTree.XML(r.text.encode('cp1251', errors='replace', ), )
-                #d = etree_to_dict(e, )
-                #print d
+                # d = etree_to_dict(e, )
+                # print d
                 try:
                     # city = d['ip-answer']['ip']['city']
                     string = 'e[0][2]'

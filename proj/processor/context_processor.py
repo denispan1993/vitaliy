@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals, print_function
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import resolve, Resolver404
 from django.core.cache import cache
@@ -160,7 +161,7 @@ def context(request):
                 # print 'LANGUAGE: ', request.META.get('LANGUAGE', None, )
                 # print 'PYTHONIOENCODING: ', request.META.get('PYTHONIOENCODING', None, )
                 # print 'REQUEST_METHOD: ', request.META.get('REQUEST_METHOD', None, )
-                print('context_processor.py: 153: ', 'resolve:', )
+                # print('context_processor.py: 153: ', 'resolve:', )
                 view, args, kwargs = resolve(full_path, )
 
             except UnicodeDecodeError:
@@ -201,12 +202,12 @@ def context(request):
     #            print 'Not print Not error: UniceodeEncodeError'
 
             if 'view' in locals() and view == show_product:
-                print('context_processor.py: 195: ', kwargs[u'id'], kwargs[u'product_url'], )
+                # print('context_processor.py: 195: ', kwargs[u'id'], kwargs[u'product_url'], )
                 """ Убираем НАХРЕН проверку именования товара product_url """
                 # product = get_product(product_pk=product_pk, product_url=kwargs[u'product_url'], )
                 return_dict.update({'canonical': get_product(pk=kwargs[u'id'], ).get_absolute_url(), })
             elif 'view' in locals() and view == show_category:
-                print('context_processor.py: 200: ', kwargs[u'id'], kwargs[u'category_url'], )
+                # print('context_processor.py: 200: ', kwargs[u'id'], kwargs[u'category_url'], )
                 return_dict.update({'canonical': get_category(pk=kwargs[u'id'], ).get_absolute_url(), })
 
     sessionid = request.COOKIES.get(u'sessionid', None, )
