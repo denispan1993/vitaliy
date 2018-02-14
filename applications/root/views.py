@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AlexStarov'
+from __future__ import unicode_literals, print_function
 
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
+
+__author__ = 'AlexStarov'
 
 
 def root_page(request, template_name=u'index.jinja2', ):
